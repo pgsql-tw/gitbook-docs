@@ -945,7 +945,7 @@
     * [54.4. Streaming Replication Protocol #](internals/protocol/protocol-replication.md)
     * [54.5. 邏輯串流複寫協定 #](internals/protocol/protocol-logical-replication.md)
     * [54.6. Message Data Types #](internals/protocol/protocol-message-types.md)
-    * [54.7. Message Formats #](internals/protocol/protocol-message-formats.md)
+    * [54.7. 訊息格式 #](internals/protocol/protocol-message-formats.md)
     * [54.8. Error and Notice Message Fields #](internals/protocol/protocol-error-fields.md)
     * [54.9. 邏輯複寫訊息格式 #](internals/protocol/protocol-logicalrep-message-formats.md)
     * [54.10. Summary of Changes since Protocol 2.0 #](internals/protocol/protocol-changes.md)

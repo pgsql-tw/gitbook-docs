@@ -1,992 +1,771 @@
-## 54.7. Message Formats [#](#PROTOCOL-MESSAGE-FORMATS)
+<a id="PROTOCOL-MESSAGE-FORMATS"></a>
 
-This section describes the detailed format of each message. Each is marked to
-indicate that it can be sent by a frontend (F), a backend (B), or both
-(F & B).
-Notice that although each message includes a byte count at the beginning,
-most messages are defined so that the message end can be found without
-reference to the byte count. This is for historical reasons, as the
-original, now-obsolete protocol version 2 did not have an explicit length
-field. It also aids validity checking though.
+## 54.7. 訊息格式 [#](#PROTOCOL-MESSAGE-FORMATS)
+
+本節說明每種訊息的詳細格式。每種訊息都有標示，指出它可由前端 (F)、後端 (B) 或兩者 (F & B) 傳送。請注意，雖然每則訊息的開頭都包含位元組計數，但大多數訊息的定義方式，都讓人不必參考該位元組計數就能找到訊息結尾。這是出於歷史因素：原本、如今已淘汰的協定第 2 版並沒有明確的長度欄位。不過，這也有助於有效性檢查。
 
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONOK"></a>
 
 AuthenticationOk (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONOK)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(0)
-    :   Specifies that the authentication was successful.
+    :   指定驗證已成功。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONKERBEROSV5"></a>
 
 AuthenticationKerberosV5 (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONKERBEROSV5)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(2)
-    :   Specifies that Kerberos V5 authentication is required.
+    :   指定需要 Kerberos V5 驗證。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONCLEARTEXTPASSWORD"></a>
 
 AuthenticationCleartextPassword (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONCLEARTEXTPASSWORD)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(3)
-    :   Specifies that a clear-text password is required.
+    :   指定需要明文密碼。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONMD5PASSWORD"></a>
 
 AuthenticationMD5Password (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONMD5PASSWORD)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32(12)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(5)
-    :   Specifies that an MD5-encrypted password is required.
+    :   指定需要以 MD5 加密的密碼。
 
     Byte4
-    :   The salt to use when encrypting the password.
+    :   加密密碼時所使用的鹽值（salt）。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONGSS"></a>
 
 AuthenticationGSS (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONGSS)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(7)
-    :   Specifies that GSSAPI authentication is required.
+    :   指定需要 GSSAPI 驗證。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONGSSCONTINUE"></a>
 
 AuthenticationGSSContinue (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONGSSCONTINUE)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(8)
-    :   Specifies that this message contains GSSAPI or SSPI data.
+    :   指定此訊息包含 GSSAPI 或 SSPI 資料。
 
     Byte*`n`*
-    :   GSSAPI or SSPI authentication data.
+    :   GSSAPI 或 SSPI 驗證資料。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSSPI"></a>
 
 AuthenticationSSPI (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSSPI)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(9)
-    :   Specifies that SSPI authentication is required.
+    :   指定需要 SSPI 驗證。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSASL"></a>
 
 AuthenticationSASL (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSASL)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(10)
-    :   Specifies that SASL authentication is required.
+    :   指定需要 SASL 驗證。
 
-    The message body is a list of SASL authentication mechanisms, in the
-    server's order of preference. A zero byte is required as terminator after
-    the last authentication mechanism name. For each mechanism, there is the
-    following:
+    訊息本體是 SASL 驗證機制的清單，依伺服器的偏好順序排列。最後一個驗證機制名稱之後必須有一個零位元組作為結束符。每個機制各有以下內容：
 
     String
-    :   Name of a SASL authentication mechanism.
+    :   SASL 驗證機制的名稱。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSASLCONTINUE"></a>
 
 AuthenticationSASLContinue (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSASLCONTINUE)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(11)
-    :   Specifies that this message contains a SASL challenge.
+    :   指定此訊息包含 SASL 挑戰（challenge）。
 
     Byte*`n`*
-    :   SASL data, specific to the SASL mechanism being used.
+    :   SASL 資料，依所使用的 SASL 機制而定。
 <a id="PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSASLFINAL"></a>
 
 AuthenticationSASLFinal (B) [#](#PROTOCOL-MESSAGE-FORMATS-AUTHENTICATIONSASLFINAL)
 :   Byte1('R')
-    :   Identifies the message as an authentication request.
+    :   將此訊息識別為驗證請求。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(12)
-    :   Specifies that SASL authentication has completed.
+    :   指定 SASL 驗證已完成。
 
     Byte*`n`*
-    :   SASL outcome "additional data", specific to the SASL mechanism
-        being used.
+    :   SASL 結果的「附加資料」（additional data），依所使用的 SASL 機制而定。
 <a id="PROTOCOL-MESSAGE-FORMATS-BACKENDKEYDATA"></a>
 
 BackendKeyData (B) [#](#PROTOCOL-MESSAGE-FORMATS-BACKENDKEYDATA)
 :   Byte1('K')
-    :   Identifies the message as cancellation key data.
-        The frontend must save these values if it wishes to be
-        able to issue CancelRequest messages later.
+    :   將此訊息識別為取消金鑰資料。若前端希望之後能夠發出 CancelRequest 訊息，就必須保存這些值。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32
-    :   The process ID of this backend.
+    :   此後端的程序 ID。
 
     Byte*`n`*
-    :   The secret key of this backend. This field extends to the end of the
-        message, indicated by the length field.
+    :   此後端的祕密金鑰。此欄位延伸至訊息結尾，其範圍由長度欄位指示。
 
-        The minimum and maximum key length are 4 and 256 bytes, respectively. The
-        PostgreSQL server only sends keys up to
-        32 bytes, but the larger maximum size allows for future server
-        versions, as well as connection poolers and other middleware, to use
-        longer keys. One possible use case is augmenting the server's key
-        with extra information. Middleware is therefore also encouraged to
-        not use up all of the bytes, in case multiple middleware
-        applications are layered on top of each other, each of which may
-        wrap the key with extra data.
+        金鑰長度的最小值與最大值分別為 4 與 256 位元組。PostgreSQL 伺服器只會傳送最多 32 位元組的金鑰，但較大的上限讓未來的伺服器版本，以及連線池與其他中介軟體，都能使用更長的金鑰。一種可能的用途是以額外資訊擴增伺服器的金鑰。因此也鼓勵中介軟體不要用盡所有位元組，以因應多個中介軟體應用程式彼此層層疊加的情況，其中每一層都可能以額外資料包裝金鑰。
 
-    Before protocol version 3.2, the secret key was always 4 bytes long.
+    在協定版本 3.2 之前，祕密金鑰的長度一律為 4 位元組。
 <a id="PROTOCOL-MESSAGE-FORMATS-BIND"></a>
 
 Bind (F) [#](#PROTOCOL-MESSAGE-FORMATS-BIND)
 :   Byte1('B')
-    :   Identifies the message as a Bind command.
+    :   將此訊息識別為 Bind 命令。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The name of the destination portal
-        (an empty string selects the unnamed portal).
+    :   目的 portal 的名稱（空字串表示選擇未命名的 portal）。
 
     String
-    :   The name of the source prepared statement
-        (an empty string selects the unnamed prepared statement).
+    :   來源預備陳述式的名稱（空字串表示選擇未命名的預備陳述式）。
 
     Int16
-    :   The number of parameter format codes that follow
-        (denoted *`C`* below).
-        This can be zero to indicate that there are no parameters
-        or that the parameters all use the default format (text);
-        or one, in which case the specified format code is applied
-        to all parameters; or it can equal the actual number of
-        parameters.
+    :   接下來的參數格式代碼數量（以下記為 *`C`*）。此值可以為零，表示沒有參數，或所有參數都使用預設格式（文字）；也可以為一，此時所指定的格式代碼會套用至所有參數；或者可以等於實際的參數數量。
 
     Int16[*`C`*]
-    :   The parameter format codes. Each must presently be
-        zero (text) or one (binary).
+    :   參數格式代碼。目前每個代碼都必須為零（文字）或一（二進位）。
 
     Int16
-    :   The number of parameter values that follow (possibly zero).
-        This must match the number of parameters needed by the query.
+    :   接下來的參數值數量（可能為零）。此數量必須與查詢所需的參數數量相符。
 
-    Next, the following pair of fields appear for each parameter:
+    接著，每個參數各會出現下列一對欄位：
 
     Int32
-    :   The length of the parameter value, in bytes (this count
-        does not include itself). Can be zero.
-        As a special case, -1 indicates a NULL parameter value.
-        No value bytes follow in the NULL case.
+    :   參數值的長度，以位元組計（此計數不包含其本身）。可以為零。特殊情況下，-1 表示 NULL 參數值。在 NULL 的情況下，其後不會有值的位元組。
 
     Byte*`n`*
-    :   The value of the parameter, in the format indicated by the
-        associated format code.
-        *`n`* is the above length.
+    :   參數的值，格式由對應的格式代碼指示。*`n`* 為上述長度。
 
-    After the last parameter, the following fields appear:
+    在最後一個參數之後，會出現下列欄位：
 
     Int16
-    :   The number of result-column format codes that follow
-        (denoted *`R`* below).
-        This can be zero to indicate that there are no result columns
-        or that the result columns should all use the default format
-        (text);
-        or one, in which case the specified format code is applied
-        to all result columns (if any); or it can equal the actual
-        number of result columns of the query.
+    :   接下來的結果欄位格式代碼數量（以下記為 *`R`*）。此值可以為零，表示沒有結果欄位，或所有結果欄位都應使用預設格式（文字）；也可以為一，此時所指定的格式代碼會套用至所有結果欄位（若有的話）；或者可以等於查詢實際的結果欄位數量。
 
     Int16[*`R`*]
-    :   The result-column format codes. Each must presently be
-        zero (text) or one (binary).
+    :   結果欄位格式代碼。目前每個代碼都必須為零（文字）或一（二進位）。
 <a id="PROTOCOL-MESSAGE-FORMATS-BINDCOMPLETE"></a>
 
 BindComplete (B) [#](#PROTOCOL-MESSAGE-FORMATS-BINDCOMPLETE)
 :   Byte1('2')
-    :   Identifies the message as a Bind-complete indicator.
+    :   將此訊息識別為 Bind 完成指示。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-CANCELREQUEST"></a>
 
 CancelRequest (F) [#](#PROTOCOL-MESSAGE-FORMATS-CANCELREQUEST)
 :   Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(80877102)
-    :   The cancel request code. The value is chosen to contain
-        `1234` in the most significant 16 bits, and `5678` in the
-        least significant 16 bits. (To avoid confusion, this code
-        must not be the same as any protocol version number.)
+    :   取消請求代碼。此值經過選定，使最高有效 16 位元包含 `1234`，最低有效 16 位元包含 `5678`。（為避免混淆，此代碼不得與任何協定版本號碼相同。）
 
     Int32
-    :   The process ID of the target backend.
+    :   目標後端的程序 ID。
 
     Byte*`n`*
-    :   The secret key for the target backend. This field extends to the end of the
-        message, indicated by the length field. The maximum key length is 256 bytes.
+    :   目標後端的祕密金鑰。此欄位延伸至訊息結尾，其範圍由長度欄位指示。金鑰長度上限為 256 位元組。
 
-    Before protocol version 3.2, the secret key was always 4 bytes long.
+    在協定版本 3.2 之前，祕密金鑰的長度一律為 4 位元組。
 <a id="PROTOCOL-MESSAGE-FORMATS-CLOSE"></a>
 
 Close (F) [#](#PROTOCOL-MESSAGE-FORMATS-CLOSE)
 :   Byte1('C')
-    :   Identifies the message as a Close command.
+    :   將此訊息識別為 Close 命令。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Byte1
-    :   '`S`' to close a prepared statement; or
-        '`P`' to close a portal.
+    :   '`S`' 表示關閉預備陳述式；'`P`' 表示關閉 portal。
 
     String
-    :   The name of the prepared statement or portal to close
-        (an empty string selects the unnamed prepared statement
-        or portal).
+    :   要關閉的預備陳述式或 portal 的名稱（空字串表示選擇未命名的預備陳述式或 portal）。
 <a id="PROTOCOL-MESSAGE-FORMATS-CLOSECOMPLETE"></a>
 
 CloseComplete (B) [#](#PROTOCOL-MESSAGE-FORMATS-CLOSECOMPLETE)
 :   Byte1('3')
-    :   Identifies the message as a Close-complete indicator.
+    :   將此訊息識別為 Close 完成指示。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-COMMANDCOMPLETE"></a>
 
 CommandComplete (B) [#](#PROTOCOL-MESSAGE-FORMATS-COMMANDCOMPLETE)
 :   Byte1('C')
-    :   Identifies the message as a command-completed response.
+    :   將此訊息識別為命令完成回應。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The command tag. This is usually a single
-        word that identifies which SQL command was completed.
+    :   命令標籤。通常是單一個字，用以識別完成的是哪一個 SQL 命令。
 
-        For an `INSERT` command, the tag is
-        `INSERT oid
-        rows`, where
-        *`rows`* is the number of rows
-        inserted. *`oid`* used to be the object ID
-        of the inserted row if *`rows`* was 1
-        and the target table had OIDs, but OIDs system columns are
-        not supported anymore; therefore *`oid`*
-        is always 0.
+        對於 `INSERT` 命令，標籤為 `INSERT oid
+        rows`，其中 *`rows`* 為插入的資料列數。過去在 *`rows`* 為 1 且目標資料表具有 OID 時，*`oid`* 是所插入資料列的物件 ID；但 OID 系統欄位已不再受支援，因此 *`oid`* 一律為 0。
 
-        For a `DELETE` command, the tag is
-        `DELETE rows` where
-        *`rows`* is the number of rows deleted.
+        對於 `DELETE` 命令，標籤為 `DELETE rows`，其中 *`rows`* 為刪除的資料列數。
 
-        For an `UPDATE` command, the tag is
-        `UPDATE rows` where
-        *`rows`* is the number of rows updated.
+        對於 `UPDATE` 命令，標籤為 `UPDATE rows`，其中 *`rows`* 為更新的資料列數。
 
-        For a `MERGE` command, the tag is
-        `MERGE rows` where
-        *`rows`* is the number of rows inserted,
-        updated, or deleted.
+        對於 `MERGE` 命令，標籤為 `MERGE rows`，其中 *`rows`* 為插入、更新或刪除的資料列數。
 
-        For a `SELECT` or `CREATE TABLE AS`
-        command, the tag is `SELECT rows`
-        where *`rows`* is the number of rows retrieved.
+        對於 `SELECT` 或 `CREATE TABLE AS` 命令，標籤為 `SELECT rows`，其中 *`rows`* 為擷取的資料列數。
 
-        For a `MOVE` command, the tag is
-        `MOVE rows` where
-        *`rows`* is the number of rows the
-        cursor's position has been changed by.
+        對於 `MOVE` 命令，標籤為 `MOVE rows`，其中 *`rows`* 為游標位置所移動的資料列數。
 
-        For a `FETCH` command, the tag is
-        `FETCH rows` where
-        *`rows`* is the number of rows that
-        have been retrieved from the cursor.
+        對於 `FETCH` 命令，標籤為 `FETCH rows`，其中 *`rows`* 為從游標擷取的資料列數。
 
-        For a `COPY` command, the tag is
-        `COPY rows` where
-        *`rows`* is the number of rows copied.
-        (Note: the row count appears only in
-        PostgreSQL 8.2 and later.)
+        對於 `COPY` 命令，標籤為 `COPY rows`，其中 *`rows`* 為複製的資料列數。（注意：資料列計數只出現在 PostgreSQL 8.2 及之後的版本。）
 <a id="PROTOCOL-MESSAGE-FORMATS-COPYDATA"></a>
 
 CopyData (F & B) [#](#PROTOCOL-MESSAGE-FORMATS-COPYDATA)
 :   Byte1('d')
-    :   Identifies the message as `COPY` data.
+    :   將此訊息識別為 `COPY` 資料。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Byte*`n`*
-    :   Data that forms part of a `COPY` data stream. Messages sent
-        from the backend will always correspond to single data rows,
-        but messages sent by frontends might divide the data stream
-        arbitrarily.
+    :   構成 `COPY` 資料串流一部分的資料。後端傳送的訊息一律對應單一資料列，但前端傳送的訊息可能以任意方式切分資料串流。
 <a id="PROTOCOL-MESSAGE-FORMATS-COPYDONE"></a>
 
 CopyDone (F & B) [#](#PROTOCOL-MESSAGE-FORMATS-COPYDONE)
 :   Byte1('c')
-    :   Identifies the message as a `COPY`-complete indicator.
+    :   將此訊息識別為 `COPY` 完成指示。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-COPYFAIL"></a>
 
 CopyFail (F) [#](#PROTOCOL-MESSAGE-FORMATS-COPYFAIL)
 :   Byte1('f')
-    :   Identifies the message as a `COPY`-failure indicator.
+    :   將此訊息識別為 `COPY` 失敗指示。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   An error message to report as the cause of failure.
+    :   要回報為失敗原因的錯誤訊息。
 <a id="PROTOCOL-MESSAGE-FORMATS-COPYINRESPONSE"></a>
 
 CopyInResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-COPYINRESPONSE)
 :   Byte1('G')
-    :   Identifies the message as a Start Copy In response.
-        The frontend must now send copy-in data (if not
-        prepared to do so, send a CopyFail message).
+    :   將此訊息識別為 Start Copy In 回應。前端此時必須傳送複製輸入（copy-in）資料（若尚未準備好，則傳送 CopyFail 訊息）。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int8
-    :   0 indicates the overall `COPY` format is textual (rows
-        separated by newlines, columns separated by separator
-        characters, etc.).
-        1 indicates the overall copy format is binary (similar
-        to DataRow format).
-        See [COPY](../../reference/sql-commands/sql-copy.md)
-        for more information.
+    :   0 表示整體 `COPY` 格式為文字格式（資料列以換行字元分隔、欄位以分隔字元分隔等）。1 表示整體複製格式為二進位格式（類似 DataRow 格式）。詳細資訊請參閱 [COPY](../../reference/sql-commands/sql-copy.md)。
 
     Int16
-    :   The number of columns in the data to be copied
-        (denoted *`N`* below).
+    :   要複製之資料中的欄位數（以下記為 *`N`*）。
 
     Int16[*`N`*]
-    :   The format codes to be used for each column.
-        Each must presently be zero (text) or one (binary).
-        All must be zero if the overall copy format is textual.
+    :   每個欄位要使用的格式代碼。目前每個代碼都必須為零（文字）或一（二進位）。若整體複製格式為文字格式，則全部都必須為零。
 <a id="PROTOCOL-MESSAGE-FORMATS-COPYOUTRESPONSE"></a>
 
 CopyOutResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-COPYOUTRESPONSE)
 :   Byte1('H')
-    :   Identifies the message as a Start Copy Out response.
-        This message will be followed by copy-out data.
+    :   將此訊息識別為 Start Copy Out 回應。此訊息之後會接著複製輸出（copy-out）資料。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int8
-    :   0 indicates the overall `COPY` format
-        is textual (rows separated by newlines, columns
-        separated by separator characters, etc.). 1 indicates
-        the overall copy format is binary (similar to DataRow
-        format). See [COPY](../../reference/sql-commands/sql-copy.md) for more information.
+    :   0 表示整體 `COPY` 格式為文字格式（資料列以換行字元分隔、欄位以分隔字元分隔等）。1 表示整體複製格式為二進位格式（類似 DataRow 格式）。詳細資訊請參閱 [COPY](../../reference/sql-commands/sql-copy.md)。
 
     Int16
-    :   The number of columns in the data to be copied
-        (denoted *`N`* below).
+    :   要複製之資料中的欄位數（以下記為 *`N`*）。
 
     Int16[*`N`*]
-    :   The format codes to be used for each column.
-        Each must presently be zero (text) or one (binary).
-        All must be zero if the overall copy format is textual.
+    :   每個欄位要使用的格式代碼。目前每個代碼都必須為零（文字）或一（二進位）。若整體複製格式為文字格式，則全部都必須為零。
 <a id="PROTOCOL-MESSAGE-FORMATS-COPYBOTHRESPONSE"></a>
 
 CopyBothResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-COPYBOTHRESPONSE)
 :   Byte1('W')
-    :   Identifies the message as a Start Copy Both response.
-        This message is used only for Streaming Replication.
+    :   將此訊息識別為 Start Copy Both 回應。此訊息僅用於串流複寫。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int8
-    :   0 indicates the overall `COPY` format
-        is textual (rows separated by newlines, columns
-        separated by separator characters, etc.). 1 indicates
-        the overall copy format is binary (similar to DataRow
-        format). See [COPY](../../reference/sql-commands/sql-copy.md) for more information.
+    :   0 表示整體 `COPY` 格式為文字格式（資料列以換行字元分隔、欄位以分隔字元分隔等）。1 表示整體複製格式為二進位格式（類似 DataRow 格式）。詳細資訊請參閱 [COPY](../../reference/sql-commands/sql-copy.md)。
 
     Int16
-    :   The number of columns in the data to be copied
-        (denoted *`N`* below).
+    :   要複製之資料中的欄位數（以下記為 *`N`*）。
 
     Int16[*`N`*]
-    :   The format codes to be used for each column.
-        Each must presently be zero (text) or one (binary).
-        All must be zero if the overall copy format is textual.
+    :   每個欄位要使用的格式代碼。目前每個代碼都必須為零（文字）或一（二進位）。若整體複製格式為文字格式，則全部都必須為零。
 <a id="PROTOCOL-MESSAGE-FORMATS-DATAROW"></a>
 
 DataRow (B) [#](#PROTOCOL-MESSAGE-FORMATS-DATAROW)
 :   Byte1('D')
-    :   Identifies the message as a data row.
+    :   將此訊息識別為一筆資料列。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int16
-    :   The number of column values that follow (possibly zero).
+    :   接下來的欄位值數量（可能為零）。
 
-    Next, the following pair of fields appear for each column:
+    接著，每個欄位各會出現下列一對欄位：
 
     Int32
-    :   The length of the column value, in bytes (this count
-        does not include itself). Can be zero.
-        As a special case, -1 indicates a NULL column value.
-        No value bytes follow in the NULL case.
+    :   欄位值的長度，以位元組計（此計數不包含其本身）。可以為零。特殊情況下，-1 表示 NULL 欄位值。在 NULL 的情況下，其後不會有值的位元組。
 
     Byte*`n`*
-    :   The value of the column, in the format indicated by the
-        associated format code.
-        *`n`* is the above length.
+    :   欄位的值，格式由對應的格式代碼指示。*`n`* 為上述長度。
 <a id="PROTOCOL-MESSAGE-FORMATS-DESCRIBE"></a>
 
 Describe (F) [#](#PROTOCOL-MESSAGE-FORMATS-DESCRIBE)
 :   Byte1('D')
-    :   Identifies the message as a Describe command.
+    :   將此訊息識別為 Describe 命令。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Byte1
-    :   '`S`' to describe a prepared statement; or
-        '`P`' to describe a portal.
+    :   '`S`' 表示描述預備陳述式；'`P`' 表示描述 portal。
 
     String
-    :   The name of the prepared statement or portal to describe
-        (an empty string selects the unnamed prepared statement
-        or portal).
+    :   要描述的預備陳述式或 portal 的名稱（空字串表示選擇未命名的預備陳述式或 portal）。
 <a id="PROTOCOL-MESSAGE-FORMATS-EMPTYQUERYRESPONSE"></a>
 
 EmptyQueryResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-EMPTYQUERYRESPONSE)
 :   Byte1('I')
-    :   Identifies the message as a response to an empty query string.
-        (This substitutes for CommandComplete.)
+    :   將此訊息識別為對空查詢字串的回應。（此訊息取代 CommandComplete。）
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-ERRORRESPONSE"></a>
 
 ErrorResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-ERRORRESPONSE)
 :   Byte1('E')
-    :   Identifies the message as an error.
+    :   將此訊息識別為錯誤。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
-    The message body consists of one or more identified fields,
-    followed by a zero byte as a terminator. Fields can appear in
-    any order. For each field there is the following:
+    訊息本體由一個或多個已識別的欄位組成，之後接著一個零位元組作為結束符。欄位可以依任意順序出現。每個欄位各有以下內容：
 
     Byte1
-    :   A code identifying the field type; if zero, this is
-        the message terminator and no string follows.
-        The presently defined field types are listed in
-        [Section 54.8](protocol-error-fields.md).
-        Since more field types might be added in future,
-        frontends should silently ignore fields of unrecognized
-        type.
+    :   識別欄位類型的代碼；若為零，表示這是訊息結束符，其後不接字串。目前已定義的欄位類型列於[第 54.8 節](protocol-error-fields.md)。由於未來可能新增更多欄位類型，前端應該默默忽略無法辨識類型的欄位。
 
     String
-    :   The field value.
+    :   欄位值。
 <a id="PROTOCOL-MESSAGE-FORMATS-EXECUTE"></a>
 
 Execute (F) [#](#PROTOCOL-MESSAGE-FORMATS-EXECUTE)
 :   Byte1('E')
-    :   Identifies the message as an Execute command.
+    :   將此訊息識別為 Execute 命令。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The name of the portal to execute
-        (an empty string selects the unnamed portal).
+    :   要執行的 portal 名稱（空字串表示選擇未命名的 portal）。
 
     Int32
-    :   Maximum number of rows to return, if portal contains
-        a query that returns rows (ignored otherwise). Zero
-        denotes “no limit”.
+    :   若 portal 包含會傳回資料列的查詢，此為要傳回的資料列數上限（否則忽略）。零表示「無限制」。
 <a id="PROTOCOL-MESSAGE-FORMATS-FLUSH"></a>
 
 Flush (F) [#](#PROTOCOL-MESSAGE-FORMATS-FLUSH)
 :   Byte1('H')
-    :   Identifies the message as a Flush command.
+    :   將此訊息識別為 Flush 命令。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-FUNCTIONCALL"></a>
 
 FunctionCall (F) [#](#PROTOCOL-MESSAGE-FORMATS-FUNCTIONCALL)
 :   Byte1('F')
-    :   Identifies the message as a function call.
+    :   將此訊息識別為函式呼叫。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32
-    :   Specifies the object ID of the function to call.
+    :   指定要呼叫之函式的物件 ID。
 
     Int16
-    :   The number of argument format codes that follow
-        (denoted *`C`* below).
-        This can be zero to indicate that there are no arguments
-        or that the arguments all use the default format (text);
-        or one, in which case the specified format code is applied
-        to all arguments; or it can equal the actual number of
-        arguments.
+    :   接下來的引數格式代碼數量（以下記為 *`C`*）。此值可以為零，表示沒有引數，或所有引數都使用預設格式（文字）；也可以為一，此時所指定的格式代碼會套用至所有引數；或者可以等於實際的引數數量。
 
     Int16[*`C`*]
-    :   The argument format codes. Each must presently be
-        zero (text) or one (binary).
+    :   引數格式代碼。目前每個代碼都必須為零（文字）或一（二進位）。
 
     Int16
-    :   Specifies the number of arguments being supplied to the
-        function.
+    :   指定提供給函式的引數數量。
 
-    Next, the following pair of fields appear for each argument:
+    接著，每個引數各會出現下列一對欄位：
 
     Int32
-    :   The length of the argument value, in bytes (this count
-        does not include itself). Can be zero.
-        As a special case, -1 indicates a NULL argument value.
-        No value bytes follow in the NULL case.
+    :   引數值的長度，以位元組計（此計數不包含其本身）。可以為零。特殊情況下，-1 表示 NULL 引數值。在 NULL 的情況下，其後不會有值的位元組。
 
     Byte*`n`*
-    :   The value of the argument, in the format indicated by the
-        associated format code.
-        *`n`* is the above length.
+    :   引數的值，格式由對應的格式代碼指示。*`n`* 為上述長度。
 
-    After the last argument, the following field appears:
+    在最後一個引數之後，會出現下列欄位：
 
     Int16
-    :   The format code for the function result. Must presently be
-        zero (text) or one (binary).
+    :   函式結果的格式代碼。目前必須為零（文字）或一（二進位）。
 <a id="PROTOCOL-MESSAGE-FORMATS-FUNCTIONCALLRESPONSE"></a>
 
 FunctionCallResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-FUNCTIONCALLRESPONSE)
 :   Byte1('V')
-    :   Identifies the message as a function call result.
+    :   將此訊息識別為函式呼叫結果。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32
-    :   The length of the function result value, in bytes (this count
-        does not include itself). Can be zero.
-        As a special case, -1 indicates a NULL function result.
-        No value bytes follow in the NULL case.
+    :   函式結果值的長度，以位元組計（此計數不包含其本身）。可以為零。特殊情況下，-1 表示 NULL 函式結果。在 NULL 的情況下，其後不會有值的位元組。
 
     Byte*`n`*
-    :   The value of the function result, in the format indicated by
-        the associated format code.
-        *`n`* is the above length.
+    :   函式結果的值，格式由對應的格式代碼指示。*`n`* 為上述長度。
 <a id="PROTOCOL-MESSAGE-FORMATS-GSSENCREQUEST"></a>
 
 GSSENCRequest (F) [#](#PROTOCOL-MESSAGE-FORMATS-GSSENCREQUEST)
 :   Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(80877104)
-    :   The GSSAPI Encryption request code. The value is chosen to contain
-        `1234` in the most significant 16 bits, and `5680` in the
-        least significant 16 bits. (To avoid confusion, this code
-        must not be the same as any protocol version number.)
+    :   GSSAPI 加密請求代碼。此值經過選定，使最高有效 16 位元包含 `1234`，最低有效 16 位元包含 `5680`。（為避免混淆，此代碼不得與任何協定版本號碼相同。）
 <a id="PROTOCOL-MESSAGE-FORMATS-GSSRESPONSE"></a>
 
 GSSResponse (F) [#](#PROTOCOL-MESSAGE-FORMATS-GSSRESPONSE)
 :   Byte1('p')
-    :   Identifies the message as a GSSAPI or SSPI response. Note that
-        this is also used for SASL and password response messages.
-        The exact message type can be deduced from the context.
+    :   將此訊息識別為 GSSAPI 或 SSPI 回應。請注意，這也用於 SASL 與密碼回應訊息。確切的訊息類型可由上下文推斷。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Byte*`n`*
-    :   GSSAPI/SSPI specific message data.
+    :   GSSAPI/SSPI 特定的訊息資料。
 <a id="PROTOCOL-MESSAGE-FORMATS-NEGOTIATEPROTOCOLVERSION"></a>
 
 NegotiateProtocolVersion (B) [#](#PROTOCOL-MESSAGE-FORMATS-NEGOTIATEPROTOCOLVERSION)
 :   Byte1('v')
-    :   Identifies the message as a protocol version negotiation
-        message.
+    :   將此訊息識別為協定版本協商訊息。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32
-    :   Newest minor protocol version supported by the server
-        for the major protocol version requested by the client.
+    :   對於用戶端所請求的主要協定版本，伺服器所支援的最新次要協定版本。
 
     Int32
-    :   Number of protocol options not recognized by the server.
+    :   伺服器無法辨識的協定選項數量。
 
-    Then, for protocol option not recognized by the server, there
-    is the following:
+    接著，對於伺服器無法辨識的每個協定選項，各有以下內容：
 
     String
-    :   The option name.
+    :   選項名稱。
 <a id="PROTOCOL-MESSAGE-FORMATS-NODATA"></a>
 
 NoData (B) [#](#PROTOCOL-MESSAGE-FORMATS-NODATA)
 :   Byte1('n')
-    :   Identifies the message as a no-data indicator.
+    :   將此訊息識別為無資料指示。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-NOTICERESPONSE"></a>
 
 NoticeResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-NOTICERESPONSE)
 :   Byte1('N')
-    :   Identifies the message as a notice.
+    :   將此訊息識別為提醒訊息（notice）。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
-    The message body consists of one or more identified fields,
-    followed by a zero byte as a terminator. Fields can appear in
-    any order. For each field there is the following:
+    訊息本體由一個或多個已識別的欄位組成，之後接著一個零位元組作為結束符。欄位可以依任意順序出現。每個欄位各有以下內容：
 
     Byte1
-    :   A code identifying the field type; if zero, this is
-        the message terminator and no string follows.
-        The presently defined field types are listed in
-        [Section 54.8](protocol-error-fields.md).
-        Since more field types might be added in future,
-        frontends should silently ignore fields of unrecognized
-        type.
+    :   識別欄位類型的代碼；若為零，表示這是訊息結束符，其後不接字串。目前已定義的欄位類型列於[第 54.8 節](protocol-error-fields.md)。由於未來可能新增更多欄位類型，前端應該默默忽略無法辨識類型的欄位。
 
     String
-    :   The field value.
+    :   欄位值。
 <a id="PROTOCOL-MESSAGE-FORMATS-NOTIFICATIONRESPONSE"></a>
 
 NotificationResponse (B) [#](#PROTOCOL-MESSAGE-FORMATS-NOTIFICATIONRESPONSE)
 :   Byte1('A')
-    :   Identifies the message as a notification response.
+    :   將此訊息識別為通知回應。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32
-    :   The process ID of the notifying backend process.
+    :   發出通知之後端程序的程序 ID。
 
     String
-    :   The name of the channel that the notify has been raised on.
+    :   引發通知的頻道名稱。
 
     String
-    :   The “payload” string passed from the notifying process.
+    :   由發出通知的程序所傳遞的「payload」字串。
 <a id="PROTOCOL-MESSAGE-FORMATS-PARAMETERDESCRIPTION"></a>
 
 ParameterDescription (B) [#](#PROTOCOL-MESSAGE-FORMATS-PARAMETERDESCRIPTION)
 :   Byte1('t')
-    :   Identifies the message as a parameter description.
+    :   將此訊息識別為參數描述。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int16
-    :   The number of parameters used by the statement
-        (can be zero).
+    :   陳述式所使用的參數數量（可以為零）。
 
-    Then, for each parameter, there is the following:
+    接著，每個參數各有以下內容：
 
     Int32
-    :   Specifies the object ID of the parameter data type.
+    :   指定參數資料型別的物件 ID。
 <a id="PROTOCOL-MESSAGE-FORMATS-PARAMETERSTATUS"></a>
 
 ParameterStatus (B) [#](#PROTOCOL-MESSAGE-FORMATS-PARAMETERSTATUS)
 :   Byte1('S')
-    :   Identifies the message as a run-time parameter status report.
+    :   將此訊息識別為執行期參數狀態報告。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The name of the run-time parameter being reported.
+    :   所回報之執行期參數的名稱。
 
     String
-    :   The current value of the parameter.
+    :   參數的目前值。
 <a id="PROTOCOL-MESSAGE-FORMATS-PARSE"></a>
 
 Parse (F) [#](#PROTOCOL-MESSAGE-FORMATS-PARSE)
 :   Byte1('P')
-    :   Identifies the message as a Parse command.
+    :   將此訊息識別為 Parse 命令。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The name of the destination prepared statement
-        (an empty string selects the unnamed prepared statement).
+    :   目的預備陳述式的名稱（空字串表示選擇未命名的預備陳述式）。
 
     String
-    :   The query string to be parsed.
+    :   要剖析的查詢字串。
 
     Int16
-    :   The number of parameter data types specified
-        (can be zero). Note that this is not an indication of
-        the number of parameters that might appear in the
-        query string, only the number that the frontend wants to
-        prespecify types for.
+    :   指定的參數資料型別數量（可以為零）。請注意，這並不表示查詢字串中可能出現的參數數量，而只是前端想要預先指定型別的參數數量。
 
-    Then, for each parameter, there is the following:
+    接著，每個參數各有以下內容：
 
     Int32
-    :   Specifies the object ID of the parameter data type.
-        Placing a zero here is equivalent to leaving the type
-        unspecified.
+    :   指定參數資料型別的物件 ID。在此放置零，等同於不指定型別。
 <a id="PROTOCOL-MESSAGE-FORMATS-PARSECOMPLETE"></a>
 
 ParseComplete (B) [#](#PROTOCOL-MESSAGE-FORMATS-PARSECOMPLETE)
 :   Byte1('1')
-    :   Identifies the message as a Parse-complete indicator.
+    :   將此訊息識別為 Parse 完成指示。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-PASSWORDMESSAGE"></a>
 
 PasswordMessage (F) [#](#PROTOCOL-MESSAGE-FORMATS-PASSWORDMESSAGE)
 :   Byte1('p')
-    :   Identifies the message as a password response. Note that
-        this is also used for GSSAPI, SSPI and SASL response messages.
-        The exact message type can be deduced from the context.
+    :   將此訊息識別為密碼回應。請注意，這也用於 GSSAPI、SSPI 與 SASL 回應訊息。確切的訊息類型可由上下文推斷。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The password (encrypted, if requested).
+    :   密碼（若有要求，則經過加密）。
 <a id="PROTOCOL-MESSAGE-FORMATS-PORTALSUSPENDED"></a>
 
 PortalSuspended (B) [#](#PROTOCOL-MESSAGE-FORMATS-PORTALSUSPENDED)
 :   Byte1('s')
-    :   Identifies the message as a portal-suspended indicator.
-        Note this only appears if an Execute message's row-count limit
-        was reached.
+    :   將此訊息識別為 portal 暫停指示。請注意，只有在達到 Execute 訊息的資料列數限制時，才會出現此訊息。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-QUERY"></a>
 
 Query (F) [#](#PROTOCOL-MESSAGE-FORMATS-QUERY)
 :   Byte1('Q')
-    :   Identifies the message as a simple query.
+    :   將此訊息識別為簡單查詢。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   The query string itself.
+    :   查詢字串本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-READYFORQUERY"></a>
 
 ReadyForQuery (B) [#](#PROTOCOL-MESSAGE-FORMATS-READYFORQUERY)
 :   Byte1('Z')
-    :   Identifies the message type. ReadyForQuery is sent
-        whenever the backend is ready for a new query cycle.
+    :   識別訊息類型。每當後端準備好進入新的查詢週期時，就會傳送 ReadyForQuery。
 
     Int32(5)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Byte1
-    :   Current backend transaction status indicator.
-        Possible values are '`I`' if idle (not in
-        a transaction block); '`T`' if in a transaction
-        block; or '`E`' if in a failed transaction
-        block (queries will be rejected until block is ended).
+    :   目前後端的交易狀態指示。可能的值為：閒置（不在交易區塊中）時為 '`I`'；在交易區塊中時為 '`T`'；在失敗的交易區塊中時為 '`E`'（在區塊結束之前，查詢都會被拒絕）。
 <a id="PROTOCOL-MESSAGE-FORMATS-ROWDESCRIPTION"></a>
 
 RowDescription (B) [#](#PROTOCOL-MESSAGE-FORMATS-ROWDESCRIPTION)
 :   Byte1('T')
-    :   Identifies the message as a row description.
+    :   將此訊息識別為資料列描述。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int16
-    :   Specifies the number of fields in a row (can be zero).
+    :   指定一筆資料列中的欄位數（可以為零）。
 
-    Then, for each field, there is the following:
+    接著，每個欄位各有以下內容：
 
     String
-    :   The field name.
+    :   欄位名稱。
 
     Int32
-    :   If the field can be identified as a column of a specific
-        table, the object ID of the table; otherwise zero.
+    :   若該欄位可識別為特定資料表的欄位，則為該資料表的物件 ID；否則為零。
 
     Int16
-    :   If the field can be identified as a column of a specific
-        table, the attribute number of the column; otherwise zero.
+    :   若該欄位可識別為特定資料表的欄位，則為該欄位的屬性編號；否則為零。
 
     Int32
-    :   The object ID of the field's data type.
+    :   該欄位資料型別的物件 ID。
 
     Int16
-    :   The data type size (see `pg_type.typlen`).
-        Note that negative values denote variable-width types.
+    :   資料型別的大小（請參閱 `pg_type.typlen`）。請注意，負值表示變動寬度的型別。
 
     Int32
-    :   The type modifier (see `pg_attribute.atttypmod`).
-        The meaning of the modifier is type-specific.
+    :   型別修飾詞（請參閱 `pg_attribute.atttypmod`）。修飾詞的意義依型別而定。
 
     Int16
-    :   The format code being used for the field. Currently will
-        be zero (text) or one (binary). In a RowDescription
-        returned from the statement variant of Describe, the
-        format code is not yet known and will always be zero.
+    :   該欄位所使用的格式代碼。目前會是零（文字）或一（二進位）。在由 Describe 的陳述式變體所傳回的 RowDescription 中，格式代碼尚未得知，且一律為零。
 <a id="PROTOCOL-MESSAGE-FORMATS-SASLINITIALRESPONSE"></a>
 
 SASLInitialResponse (F) [#](#PROTOCOL-MESSAGE-FORMATS-SASLINITIALRESPONSE)
 :   Byte1('p')
-    :   Identifies the message as an initial SASL response. Note that
-        this is also used for GSSAPI, SSPI and password response messages.
-        The exact message type is deduced from the context.
+    :   將此訊息識別為初始 SASL 回應。請注意，這也用於 GSSAPI、SSPI 與密碼回應訊息。確切的訊息類型由上下文推斷。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     String
-    :   Name of the SASL authentication mechanism that the client
-        selected.
+    :   用戶端所選擇之 SASL 驗證機制的名稱。
 
     Int32
-    :   Length of SASL mechanism specific "Initial Client Response" that
-        follows, or -1 if there is no Initial Response.
+    :   其後 SASL 機制特定之 "Initial Client Response"（初始用戶端回應）的長度；若沒有 Initial Response，則為 -1。
 
     Byte*`n`*
-    :   SASL mechanism specific "Initial Response".
+    :   SASL 機制特定的 "Initial Response"（初始回應）。
 <a id="PROTOCOL-MESSAGE-FORMATS-SASLRESPONSE"></a>
 
 SASLResponse (F) [#](#PROTOCOL-MESSAGE-FORMATS-SASLRESPONSE)
 :   Byte1('p')
-    :   Identifies the message as a SASL response. Note that
-        this is also used for GSSAPI, SSPI and password response messages.
-        The exact message type can be deduced from the context.
+    :   將此訊息識別為 SASL 回應。請注意，這也用於 GSSAPI、SSPI 與密碼回應訊息。確切的訊息類型可由上下文推斷。
 
     Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Byte*`n`*
-    :   SASL mechanism specific message data.
+    :   SASL 機制特定的訊息資料。
 <a id="PROTOCOL-MESSAGE-FORMATS-SSLREQUEST"></a>
 
 SSLRequest (F) [#](#PROTOCOL-MESSAGE-FORMATS-SSLREQUEST)
 :   Int32(8)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(80877103)
-    :   The SSL request code. The value is chosen to contain
-        `1234` in the most significant 16 bits, and `5679` in the
-        least significant 16 bits. (To avoid confusion, this code
-        must not be the same as any protocol version number.)
+    :   SSL 請求代碼。此值經過選定，使最高有效 16 位元包含 `1234`，最低有效 16 位元包含 `5679`。（為避免混淆，此代碼不得與任何協定版本號碼相同。）
 <a id="PROTOCOL-MESSAGE-FORMATS-STARTUPMESSAGE"></a>
 
 StartupMessage (F) [#](#PROTOCOL-MESSAGE-FORMATS-STARTUPMESSAGE)
 :   Int32
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
     Int32(196610)
-    :   The protocol version number. The most significant 16 bits are
-        the major version number (3 for the protocol described here).
-        The least significant 16 bits are the minor version number
-        (2 for the protocol described here).
+    :   協定版本號碼。最高有效 16 位元為主要版本號碼（此處所述的協定為 3）。最低有效 16 位元為次要版本號碼（此處所述的協定為 2）。
 
-    The protocol version number is followed by one or more pairs of
-    parameter name and value strings. A zero byte is required as a
-    terminator after the last name/value pair.
-    Parameters can appear in any
-    order. `user` is required, others are optional.
-    Each parameter is specified as:
+    協定版本號碼之後接著一對或多對參數名稱與值字串。最後一對名稱／值之後必須有一個零位元組作為結束符。參數可以依任意順序出現。`user` 為必要參數，其他則為選擇性。每個參數的指定方式如下：
 
     String
-    :   The parameter name. Currently recognized names are:
+    :   參數名稱。目前可辨識的名稱有：
 
         `user`
-        :   The database user name to connect as. Required;
-            there is no default.
+        :   用以連線的資料庫使用者名稱。此參數為必要；沒有預設值。
 
         `database`
-        :   The database to connect to. Defaults to the user name.
+        :   要連線的資料庫。預設為使用者名稱。
 
         `options`
-        :   Command-line arguments for the backend. (This is
-            deprecated in favor of setting individual run-time
-            parameters.) Spaces within this string are
-            considered to separate arguments, unless escaped with
-            a backslash (`\`); write `\\` to
-            represent a literal backslash.
+        :   後端的命令列引數。（此方式已棄用，建議改為設定個別的執行期參數。）此字串中的空白會被視為引數分隔，除非以反斜線（`\`）跳脫；寫成 `\\` 可表示字面上的反斜線。
 
         `replication`
-        :   Used to connect in streaming replication mode, where
-            a small set of replication commands can be issued
-            instead of SQL statements. Value can be
-            `true`, `false`, or
-            `database`, and the default is
-            `false`. See
-            [Section 54.4](protocol-replication.md) for details.
+        :   用於以串流複寫模式連線，在此模式下可以發出一小組複寫命令，而非 SQL 陳述式。值可以是 `true`、`false` 或 `database`，預設為 `false`。詳細資訊請參閱[第 54.4 節](protocol-replication.md)。
 
-        In addition to the above, other parameters may be listed.
-        Parameter names beginning with `_pq_.` are
-        reserved for use as protocol extensions, while others are
-        treated as run-time parameters to be set at backend start
-        time. Such settings will be applied during backend start
-        (after parsing the command-line arguments if any) and will
-        act as session defaults.
+        除了上述參數之外，也可以列出其他參數。以 `_pq_.` 開頭的參數名稱保留供協定擴充使用，其他參數則會被視為在後端啟動時要設定的執行期參數。這些設定會在後端啟動期間套用（若有命令列引數，則在剖析命令列引數之後），並作為工作階段的預設值。
 
     String
-    :   The parameter value.
+    :   參數值。
 <a id="PROTOCOL-MESSAGE-FORMATS-SYNC"></a>
 
 Sync (F) [#](#PROTOCOL-MESSAGE-FORMATS-SYNC)
 :   Byte1('S')
-    :   Identifies the message as a Sync command.
+    :   將此訊息識別為 Sync 命令。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 <a id="PROTOCOL-MESSAGE-FORMATS-TERMINATE"></a>
 
 Terminate (F) [#](#PROTOCOL-MESSAGE-FORMATS-TERMINATE)
 :   Byte1('X')
-    :   Identifies the message as a termination.
+    :   將此訊息識別為終止訊息。
 
     Int32(4)
-    :   Length of message contents in bytes, including self.
+    :   訊息內容的長度，以位元組計，包含此欄位本身。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol-message-formats.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol-message-formats.html)（原文版本：18.6；核對日期：2026-10-12）
