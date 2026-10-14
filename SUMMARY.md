@@ -943,7 +943,7 @@
     * [54.2. Message Flow #](internals/protocol/protocol-flow.md)
     * [54.3. SASL Authentication #](internals/protocol/sasl-authentication.md)
     * [54.4. Streaming Replication Protocol #](internals/protocol/protocol-replication.md)
-    * [54.5. Logical Streaming Replication Protocol #](internals/protocol/protocol-logical-replication.md)
+    * [54.5. 邏輯串流複寫協定 #](internals/protocol/protocol-logical-replication.md)
     * [54.6. Message Data Types #](internals/protocol/protocol-message-types.md)
     * [54.7. Message Formats #](internals/protocol/protocol-message-formats.md)
     * [54.8. Error and Notice Message Fields #](internals/protocol/protocol-error-fields.md)

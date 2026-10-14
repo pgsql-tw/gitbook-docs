@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：318 頁。
+待譯頁面：317 頁。
 
 ## 根目錄
 
@@ -400,7 +400,7 @@
 - [ ] `internals/protocol/protocol-changes.md` — 54.10. Summary of Changes since Protocol 2.0 #
 - [ ] `internals/protocol/protocol-error-fields.md` — 54.8. Error and Notice Message Fields #
 - [ ] `internals/protocol/protocol-flow.md` — 54.2. Message Flow #
-- [ ] `internals/protocol/protocol-logical-replication.md` — 54.5. Logical Streaming Replication Protocol #
+- [x] `internals/protocol/protocol-logical-replication.md` — 54.5. 邏輯串流複寫協定 #
 - [ ] `internals/protocol/protocol-logicalrep-message-formats.md` — 54.9. Logical Replication Message Formats #
 - [ ] `internals/protocol/protocol-message-formats.md` — 54.7. Message Formats #
 - [ ] `internals/protocol/protocol-message-types.md` — 54.6. Message Data Types #
