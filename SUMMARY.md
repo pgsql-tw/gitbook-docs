@@ -994,7 +994,7 @@
     * [65.5. BRIN Indexes #](internals/indextypes/brin.md)
     * [65.6. Hash Indexes #](internals/indextypes/hash-index.md)
   * [第 66 章 資料庫實體儲存](internals/storage/README.md)
-    * [66.1. Database File Layout #](internals/storage/storage-file-layout.md)
+    * [66.1. 資料庫檔案配置 #](internals/storage/storage-file-layout.md)
     * [66.2. TOAST #](internals/storage/storage-toast.md)
     * [66.3. Free Space Map #](internals/storage/storage-fsm.md)
     * [66.4. Visibility Map #](internals/storage/storage-vm.md)

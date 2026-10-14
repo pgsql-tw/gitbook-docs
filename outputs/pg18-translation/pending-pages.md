@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：305 頁。
+待譯頁面：304 頁。
 
 ## 根目錄
 
@@ -413,7 +413,7 @@
 - [ ] `internals/source/source-conventions.md` — 55.4. Miscellaneous Coding Conventions #
 - [ ] `internals/source/source-format.md` — 55.1. Formatting #
 - [x] `internals/storage/README.md` — 第 66 章 資料庫實體儲存
-- [ ] `internals/storage/storage-file-layout.md` — 66.1. Database File Layout #
+- [x] `internals/storage/storage-file-layout.md` — 66.1. 資料庫檔案配置 #
 - [x] `internals/storage/storage-fsm.md` — 66.3. 可用空間對應表
 - [ ] `internals/storage/storage-hot.md` — 66.7. Heap-Only Tuples ( HOT ) #
 - [x] `internals/storage/storage-init.md` — 66.5. 初始化分支檔案
