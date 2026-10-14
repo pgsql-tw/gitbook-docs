@@ -1,235 +1,63 @@
-## 66.2. TOAST [#](#STORAGE-TOAST)
+<a id="STORAGE-TOAST"></a>
 
-[66.2.1. Out-of-Line, On-Disk TOAST Storage](storage-toast.md#STORAGE-TOAST-ONDISK)
+## 66.2. TOAST [#](#STORAGE-TOAST)
 
-[66.2.2. Out-of-Line, In-Memory TOAST Storage](storage-toast.md#STORAGE-TOAST-INMEMORY)
+[66.2.1. 資料列外的磁碟 TOAST 儲存](storage-toast.md#STORAGE-TOAST-ONDISK)
+
+[66.2.2. 資料列外的記憶體 TOAST 儲存](storage-toast.md#STORAGE-TOAST-INMEMORY)
 
 <a id="id-1.10.18.4.2"></a><a id="id-1.10.18.4.3"></a>
 
-This section provides an overview of TOAST (The
-Oversized-Attribute Storage Technique).
+本節概述 TOAST（The Oversized-Attribute Storage Technique，超大屬性儲存技術）。
 
-PostgreSQL uses a fixed page size (commonly
-8 kB), and does not allow tuples to span multiple pages. Therefore, it is
-not possible to store very large field values directly. To overcome
-this limitation, large field values are compressed and/or broken up into
-multiple physical rows. This happens transparently to the user, with only
-small impact on most of the backend code. The technique is affectionately
-known as TOAST (or “the best thing since sliced bread”).
-The TOAST infrastructure is also used to improve handling of
-large data values in-memory.
+PostgreSQL 使用固定的頁面大小（通常為 8 kB），而且不允許一筆 tuple 跨越多個頁面。因此，無法直接儲存非常大的欄位值。為了克服這項限制，大型欄位值會被壓縮以及／或拆分成多筆實體資料列。這個過程對使用者而言是透明的，對大部分後端程式碼也只有很小的影響。這項技術被親切地稱為 TOAST（或「切片麵包問世以來最棒的東西」）。TOAST 基礎架構也用來改善記憶體中大型資料值的處理。
 
-Only certain data types support TOAST — there is no need to
-impose the overhead on data types that cannot produce large field values.
-To support TOAST, a data type must have a variable-length
-(*varlena*) representation, in which, ordinarily, the first
-four-byte word of any stored value contains the total length of the value in
-bytes (including itself). TOAST does not constrain the rest
-of the data type's representation. The special representations collectively
-called *TOASTed values* work by modifying or
-reinterpreting this initial length word. Therefore, the C-level functions
-supporting a TOAST-able data type must be careful about how they
-handle potentially TOASTed input values: an input might not
-actually consist of a four-byte length word and contents until after it's
-been *detoasted*. (This is normally done by invoking
-`PG_DETOAST_DATUM` before doing anything with an input value,
-but in some cases more efficient approaches are possible.
-See [Section 36.13.1](../../server-programming/extend/xtypes.md#XTYPES-TOAST) for more detail.)
+只有某些資料型別支援 TOAST——對於不可能產生大型欄位值的資料型別，沒有必要讓它們承擔這項額外負擔。若要支援 TOAST，資料型別必須具有可變長度（*varlena*）的表示法，在這種表示法中，任何已儲存之值的第一個四位元組字組通常包含該值以位元組計的總長度（包括這個字組本身）。TOAST 不會限制該資料型別表示法的其餘部分。統稱為 *TOAST 化的值（TOASTed values）*的特殊表示法，是藉由修改或重新解讀這個起始長度字組來運作的。因此，支援可 TOAST 化資料型別的 C 層級函式，必須小心處理可能已 TOAST 化的輸入值：輸入在被*解除 TOAST（detoast）*之前，實際上可能並不是由一個四位元組長度字組加上內容所組成。（這通常是在對輸入值做任何處理之前先呼叫 `PG_DETOAST_DATUM` 來完成，但在某些情況下可以採用更有效率的做法。詳細內容請參閱[第 36.13.1 節](../../server-programming/extend/xtypes.md#XTYPES-TOAST)。）
 
-TOAST usurps two bits of the varlena length word (the high-order
-bits on big-endian machines, the low-order bits on little-endian machines),
-thereby limiting the logical size of any value of a TOAST-able
-data type to 1 GB (230 - 1 bytes). When both bits are zero,
-the value is an ordinary un-TOASTed value of the data type, and
-the remaining bits of the length word give the total datum size (including
-length word) in bytes. When the highest-order or lowest-order bit is set,
-the value has only a single-byte header instead of the normal four-byte
-header, and the remaining bits of that byte give the total datum size
-(including length byte) in bytes. This alternative supports space-efficient
-storage of values shorter than 127 bytes, while still allowing the data type
-to grow to 1 GB at need. Values with single-byte headers aren't aligned on
-any particular boundary, whereas values with four-byte headers are aligned on
-at least a four-byte boundary; this omission of alignment padding provides
-additional space savings that is significant compared to short values.
-As a special case, if the remaining bits of a single-byte header are all
-zero (which would be impossible for a self-inclusive length), the value is
-a pointer to out-of-line data, with several possible alternatives as
-described below. The type and size of such a *TOAST pointer*
-are determined by a code stored in the second byte of the datum.
-Lastly, when the highest-order or lowest-order bit is clear but the adjacent
-bit is set, the content of the datum has been compressed and must be
-decompressed before use. In this case the remaining bits of the four-byte
-length word give the total size of the compressed datum, not the
-original data. Note that compression is also possible for out-of-line data
-but the varlena header does not tell whether it has occurred —
-the content of the TOAST pointer tells that, instead.
+TOAST 佔用了 varlena 長度字組中的兩個位元（在 big-endian 機器上是最高位的位元，在 little-endian 機器上是最低位的位元），因此將任何可 TOAST 化資料型別之值的邏輯大小限制為 1 GB（2³⁰ - 1 位元組）。當這兩個位元都為零時，該值就是此資料型別一般的、未經 TOAST 化的值，而長度字組的其餘位元會以位元組為單位提供 datum 的總大小（包括長度字組）。當最高位或最低位的位元被設定時，該值只有單一位元組的標頭，而非一般的四位元組標頭，而該位元組的其餘位元會以位元組為單位提供 datum 的總大小（包括長度位元組）。這種替代方式可以節省空間地儲存短於 127 位元組的值，同時仍允許該資料型別在需要時成長到 1 GB。具有單一位元組標頭的值不會對齊任何特定邊界，而具有四位元組標頭的值至少會對齊四位元組邊界；省略對齊填補所額外節省的空間，相對於短值而言相當可觀。有一個特殊情況：若單一位元組標頭的其餘位元全都為零（對於包含自身的長度而言這是不可能的），該值就是指向資料列外（out-of-line）資料的指標，並有數種可能的變化，如下文所述。這類 *TOAST 指標*的類型與大小，由儲存在 datum 第二個位元組中的代碼決定。最後，當最高位或最低位的位元未設定、但相鄰的位元已設定時，表示 datum 的內容已經過壓縮，使用前必須先解壓縮。在這種情況下，四位元組長度字組的其餘位元提供的是壓縮後 datum 的總大小，而不是原始資料的大小。請注意，資料列外的資料也可以壓縮，但 varlena 標頭並不會指出是否已壓縮——而是由 TOAST 指標的內容來指出。
 
-The compression technique used for either in-line or out-of-line compressed
-data can be selected for each column by setting
-the `COMPRESSION` column option in `CREATE
-TABLE` or `ALTER TABLE`. The default for columns
-with no explicit setting is to consult the
-[default_toast_compression](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TOAST-COMPRESSION) parameter at the time data is
-inserted.
+對於內嵌（in-line）或資料列外的壓縮資料，所使用的壓縮技術可以針對每個欄位，透過在 `CREATE
+TABLE` 或 `ALTER TABLE` 中設定 `COMPRESSION` 欄位選項來選擇。未明確設定的欄位，預設會在插入資料時參考 [default_toast_compression](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TOAST-COMPRESSION) 參數。
 
-As mentioned, there are multiple types of TOAST pointer datums.
-The oldest and most common type is a pointer to out-of-line data stored in
-a *TOAST table* that is separate from, but
-associated with, the table containing the TOAST pointer datum
-itself. These *on-disk* pointer datums are created by the
-TOAST management code (in `access/common/toast_internals.c`)
-when a tuple to be stored on disk is too large to be stored as-is.
-Further details appear in [Section 66.2.1](storage-toast.md#STORAGE-TOAST-ONDISK).
-Alternatively, a TOAST pointer datum can contain a pointer to
-out-of-line data that appears elsewhere in memory. Such datums are
-necessarily short-lived, and will never appear on-disk, but they are very
-useful for avoiding copying and redundant processing of large data values.
-Further details appear in [Section 66.2.2](storage-toast.md#STORAGE-TOAST-INMEMORY).
+如前所述，TOAST 指標 datum 有多種類型。最古老也最常見的類型，是指向儲存在 *TOAST 資料表*中之資料列外資料的指標，該 TOAST 資料表與包含 TOAST 指標 datum 本身的資料表是分開的，但彼此相關聯。這些*磁碟上（on-disk）*的指標 datum，是在要儲存到磁碟的 tuple 太大而無法原樣儲存時，由 TOAST 管理程式碼（位於 `access/common/toast_internals.c`）所建立。更多細節請見[第 66.2.1 節](storage-toast.md#STORAGE-TOAST-ONDISK)。另外，TOAST 指標 datum 也可以包含一個指向記憶體中其他位置之資料列外資料的指標。這類 datum 必然是短暫存在的，也永遠不會出現在磁碟上，但對於避免大型資料值的複製與重複處理非常有用。更多細節請見[第 66.2.2 節](storage-toast.md#STORAGE-TOAST-INMEMORY)。
 
 <a id="STORAGE-TOAST-ONDISK"></a>
 
-### 66.2.1. Out-of-Line, On-Disk TOAST Storage [#](#STORAGE-TOAST-ONDISK)
+### 66.2.1. 資料列外的磁碟 TOAST 儲存 [#](#STORAGE-TOAST-ONDISK)
 
-If any of the columns of a table are TOAST-able, the table will
-have an associated TOAST table, whose OID is stored in the table's
-`pg_class`.`reltoastrelid` entry. On-disk
-TOASTed values are kept in the TOAST table, as
-described in more detail below.
+若資料表中有任何欄位是可 TOAST 化的，該資料表就會有一個相關聯的 TOAST 資料表，其 OID 儲存在該資料表的 `pg_class`.`reltoastrelid` 項目中。磁碟上已 TOAST 化的值會保存在 TOAST 資料表中，詳細說明如下。
 
-Out-of-line values are divided (after compression if used) into chunks of at
-most `TOAST_MAX_CHUNK_SIZE` bytes (by default this value is chosen
-so that four chunk rows will fit on a page, making it about 2000 bytes).
-Each chunk is stored as a separate row in the TOAST table
-belonging to the owning table. Every
-TOAST table has the columns `chunk_id` (an OID
-identifying the particular TOASTed value),
-`chunk_seq` (a sequence number for the chunk within its value),
-and `chunk_data` (the actual data of the chunk). A unique index
-on `chunk_id` and `chunk_seq` provides fast
-retrieval of the values. A pointer datum representing an out-of-line on-disk
-TOASTed value therefore needs to store the OID of the
-TOAST table in which to look and the OID of the specific value
-(its `chunk_id`). For convenience, pointer datums also store the
-logical datum size (original uncompressed data length), physical stored size
-(different if compression was applied), and the compression method used, if
-any. Allowing for the varlena header bytes,
-the total size of an on-disk TOAST pointer datum is therefore 18
-bytes regardless of the actual size of the represented value.
+資料列外的值會被分割（若有使用壓縮，則在壓縮之後）成最多 `TOAST_MAX_CHUNK_SIZE` 位元組的區塊（chunk）（預設會選擇這個值，使一個頁面可以容納四筆區塊資料列，因此約為 2000 位元組）。每個區塊都會以個別資料列的形式，儲存在所屬資料表的 TOAST 資料表中。每個 TOAST 資料表都有欄位 `chunk_id`（識別特定已 TOAST 化之值的 OID）、`chunk_seq`（該區塊在其值內的序號）以及 `chunk_data`（該區塊的實際資料）。建立在 `chunk_id` 與 `chunk_seq` 上的唯一值索引，能夠快速取得這些值。因此，代表磁碟上資料列外已 TOAST 化之值的指標 datum，需要儲存要查找的 TOAST 資料表 OID，以及該特定值的 OID（即其 `chunk_id`）。為了方便起見，指標 datum 也會儲存邏輯 datum 大小（原始未壓縮資料的長度）、實際儲存的大小（若有套用壓縮則會不同），以及所使用的壓縮方法（若有的話）。再加上 varlena 標頭的位元組，磁碟上 TOAST 指標 datum 的總大小因此為 18 位元組，與所代表之值的實際大小無關。
 
-The TOAST management code is triggered only
-when a row value to be stored in a table is wider than
-`TOAST_TUPLE_THRESHOLD` bytes (normally 2 kB).
-The TOAST code will compress and/or move
-field values out-of-line until the row value is shorter than
-`TOAST_TUPLE_TARGET` bytes (also normally 2 kB, adjustable)
-or no more gains can be had. During an UPDATE
-operation, values of unchanged fields are normally preserved as-is; so an
-UPDATE of a row with out-of-line values incurs no TOAST costs if
-none of the out-of-line values change.
+只有當要儲存到資料表中的資料列值寬度超過 `TOAST_TUPLE_THRESHOLD` 位元組（通常為 2 kB）時，才會觸發 TOAST 管理程式碼。TOAST 程式碼會壓縮以及／或將欄位值移到資料列外，直到資料列值短於 `TOAST_TUPLE_TARGET` 位元組（通常也是 2 kB，可調整），或無法再獲得任何改善為止。在 UPDATE 操作期間，未變更欄位的值通常會原樣保留；因此，若資料列外的值都沒有變更，對含有資料列外值的資料列進行 UPDATE 就不會產生任何 TOAST 成本。
 
-The TOAST management code recognizes four different strategies
-for storing TOAST-able columns on disk:
+TOAST 管理程式碼可識別四種在磁碟上儲存可 TOAST 化欄位的策略：
 
-* `PLAIN` prevents either compression or
-  out-of-line storage. This is the only possible strategy for
-  columns of non-TOAST-able data types.
-* `EXTENDED` allows both compression and out-of-line
-  storage. This is the default for most TOAST-able data types.
-  Compression will be attempted first, then out-of-line storage if
-  the row is still too big.
-* `EXTERNAL` allows out-of-line storage but not
-  compression. Use of `EXTERNAL` will
-  make substring operations on wide `text` and
-  `bytea` columns faster (at the penalty of increased storage
-  space) because these operations are optimized to fetch only the
-  required parts of the out-of-line value when it is not compressed.
-* `MAIN` allows compression but not out-of-line
-  storage. (Actually, out-of-line storage will still be performed
-  for such columns, but only as a last resort when there is no other
-  way to make the row small enough to fit on a page.)
+* `PLAIN` 會禁止壓縮與資料列外儲存。對於不可 TOAST 化之資料型別的欄位，這是唯一可行的策略。
+* `EXTENDED` 允許壓縮與資料列外儲存。這是大多數可 TOAST 化資料型別的預設值。會先嘗試壓縮，若資料列仍然太大，再進行資料列外儲存。
+* `EXTERNAL` 允許資料列外儲存，但不允許壓縮。使用 `EXTERNAL` 會讓對寬的 `text` 與 `bytea` 欄位所做的子字串操作更快（代價是儲存空間增加），因為這些操作經過最佳化，在資料列外的值未壓縮時，只會擷取所需的部分。
+* `MAIN` 允許壓縮，但不允許資料列外儲存。（實際上，這類欄位仍然會進行資料列外儲存，但只會在沒有其他方法能讓資料列小到足以放進一個頁面時，作為最後手段。）
 
-Each TOAST-able data type specifies a default strategy for columns
-of that data type, but the strategy for a given table column can be altered
-with [`ALTER TABLE ... SET STORAGE`](../../reference/sql-commands/sql-altertable.md).
+每個可 TOAST 化的資料型別都會為該資料型別的欄位指定預設策略，但特定資料表欄位的策略可以使用 [`ALTER TABLE ... SET STORAGE`](../../reference/sql-commands/sql-altertable.md) 變更。
 
-`TOAST_TUPLE_TARGET` can be adjusted for each table using
-[`ALTER TABLE ... SET (toast_tuple_target = N)`](../../reference/sql-commands/sql-altertable.md)
+`TOAST_TUPLE_TARGET` 可以使用 [`ALTER TABLE ... SET (toast_tuple_target = N)`](../../reference/sql-commands/sql-altertable.md) 針對每個資料表調整。
 
-This scheme has a number of advantages compared to a more straightforward
-approach such as allowing row values to span pages. Assuming that queries are
-usually qualified by comparisons against relatively small key values, most of
-the work of the executor will be done using the main row entry. The big values
-of TOASTed attributes will only be pulled out (if selected at all)
-at the time the result set is sent to the client. Thus, the main table is much
-smaller and more of its rows fit in the shared buffer cache than would be the
-case without any out-of-line storage. Sort sets shrink also, and sorts will
-more often be done entirely in memory. A little test showed that a table
-containing typical HTML pages and their URLs was stored in about half of the
-raw data size including the TOAST table, and that the main table
-contained only about 10% of the entire data (the URLs and some small HTML
-pages). There was no run time difference compared to an un-TOASTed
-comparison table, in which all the HTML pages were cut down to 7 kB to fit.
+與較直接的做法（例如允許資料列值跨越頁面）相比，這種機制有許多優點。假設查詢通常是以與相對較小之鍵值的比較作為限定條件，執行器大部分的工作都會使用主要的資料列項目來完成。已 TOAST 化屬性的大型值，只有在將結果集合傳送給用戶端時才會被取出（如果真的有被選取的話）。因此，主資料表會小得多，而且能放進共享緩衝區快取的資料列，也比完全沒有資料列外儲存時多。排序集合也會縮小，排序也更常能完全在記憶體中完成。一項小型測試顯示，一個包含典型 HTML 頁面及其 URL 的資料表，連同 TOAST 資料表在內，所需的儲存空間約為原始資料大小的一半，而主資料表只包含整體資料的約 10%（URL 與一些小型 HTML 頁面）。與一個未經 TOAST 化的對照資料表（其中所有 HTML 頁面都被截短到 7 kB 以便放入）相比，執行時間沒有差異。
 
 <a id="STORAGE-TOAST-INMEMORY"></a>
 
-### 66.2.2. Out-of-Line, In-Memory TOAST Storage [#](#STORAGE-TOAST-INMEMORY)
+### 66.2.2. 資料列外的記憶體 TOAST 儲存 [#](#STORAGE-TOAST-INMEMORY)
 
-TOAST pointers can point to data that is not on disk, but is
-elsewhere in the memory of the current server process. Such pointers
-obviously cannot be long-lived, but they are nonetheless useful. There
-are currently two sub-cases:
-pointers to *indirect* data and
-pointers to *expanded* data.
+TOAST 指標可以指向不在磁碟上、而是在目前伺服器程序記憶體中其他位置的資料。這類指標顯然不能長期存在，但它們仍然很有用。目前有兩種子情況：指向*間接（indirect）*資料的指標，以及指向*展開（expanded）*資料的指標。
 
-Indirect TOAST pointers simply point at a non-indirect varlena
-value stored somewhere in memory. This case was originally created merely
-as a proof of concept, but it is currently used during logical decoding to
-avoid possibly having to create physical tuples exceeding 1 GB (as pulling
-all out-of-line field values into the tuple might do). The case is of
-limited use since the creator of the pointer datum is entirely responsible
-that the referenced data survives for as long as the pointer could exist,
-and there is no infrastructure to help with this.
+間接 TOAST 指標只是指向儲存在記憶體中某處的非間接 varlena 值。這種情況最初只是作為概念驗證而建立的，但目前在邏輯解碼期間會用到它，以避免可能必須建立超過 1 GB 的實體 tuple（若將所有資料列外的欄位值都拉進 tuple 中，就可能發生這種情況）。這種情況的用途有限，因為指標 datum 的建立者必須完全負責確保被參照的資料在指標可能存在的期間內一直存在，而且沒有任何基礎架構可以協助處理這件事。
 
-Expanded TOAST pointers are useful for complex data types
-whose on-disk representation is not especially suited for computational
-purposes. As an example, the standard varlena representation of a
-PostgreSQL array includes dimensionality information, a
-nulls bitmap if there are any null elements, then the values of all the
-elements in order. When the element type itself is variable-length, the
-only way to find the *`N`*'th element is to scan through all the
-preceding elements. This representation is appropriate for on-disk storage
-because of its compactness, but for computations with the array it's much
-nicer to have an “expanded” or “deconstructed”
-representation in which all the element starting locations have been
-identified. The TOAST pointer mechanism supports this need by
-allowing a pass-by-reference Datum to point to either a standard varlena
-value (the on-disk representation) or a TOAST pointer that
-points to an expanded representation somewhere in memory. The details of
-this expanded representation are up to the data type, though it must have
-a standard header and meet the other API requirements given
-in `src/include/utils/expandeddatum.h`. C-level functions
-working with the data type can choose to handle either representation.
-Functions that do not know about the expanded representation, but simply
-apply `PG_DETOAST_DATUM` to their inputs, will automatically
-receive the traditional varlena representation; so support for an expanded
-representation can be introduced incrementally, one function at a time.
+展開 TOAST 指標適用於磁碟上表示法不太適合運算用途的複雜資料型別。舉例來說，PostgreSQL 陣列的標準 varlena 表示法包含維度資訊、若有任何 null 元素時的 null 點陣圖，接著依序是所有元素的值。當元素型別本身是可變長度時，要找出第 *`N`* 個元素的唯一方法，就是掃描所有之前的元素。這種表示法因為精簡而適合磁碟儲存，但對陣列進行運算時，若能有一種已找出所有元素起始位置的「展開」或「解構」表示法，就方便得多。TOAST 指標機制支援這項需求的方式，是允許以傳參考方式傳遞的 Datum 指向標準的 varlena 值（磁碟上的表示法），或指向一個 TOAST 指標，而該指標指向記憶體中某處的展開表示法。這種展開表示法的細節由資料型別決定，但它必須具有標準標頭，並符合 `src/include/utils/expandeddatum.h` 中所列的其他 API 要求。處理該資料型別的 C 層級函式可以選擇處理任一種表示法。不了解展開表示法、只是對其輸入套用 `PG_DETOAST_DATUM` 的函式，會自動收到傳統的 varlena 表示法；因此對展開表示法的支援可以逐步導入，一次一個函式。
 
-TOAST pointers to expanded values are further broken down
-into *read-write* and *read-only* pointers.
-The pointed-to representation is the same either way, but a function that
-receives a read-write pointer is allowed to modify the referenced value
-in-place, whereas one that receives a read-only pointer must not; it must
-first create a copy if it wants to make a modified version of the value.
-This distinction and some associated conventions make it possible to avoid
-unnecessary copying of expanded values during query execution.
+指向展開值的 TOAST 指標，又可進一步區分為*可讀寫（read-write）*與*唯讀（read-only）*指標。兩者所指向的表示法相同，但收到可讀寫指標的函式可以就地修改被參照的值，而收到唯讀指標的函式則不可以；若它想要建立該值的修改版本，就必須先建立一份複本。這項區分以及一些相關的慣例，使查詢執行期間得以避免不必要地複製展開值。
 
-For all types of in-memory TOAST pointer, the TOAST
-management code ensures that no such pointer datum can accidentally get
-stored on disk. In-memory TOAST pointers are automatically
-expanded to normal in-line varlena values before storage — and then
-possibly converted to on-disk TOAST pointers, if the containing
-tuple would otherwise be too big.
+對於所有類型的記憶體內 TOAST 指標，TOAST 管理程式碼都會確保這類指標 datum 不會意外地被儲存到磁碟上。記憶體內 TOAST 指標在儲存之前，會自動展開為一般的內嵌 varlena 值——接著，若包含它的 tuple 否則會太大，就可能再轉換成磁碟上的 TOAST 指標。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/storage-toast.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/storage-toast.html)（原文版本：18.6；核對日期：2026-10-12）
