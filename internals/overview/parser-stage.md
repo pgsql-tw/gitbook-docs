@@ -1,103 +1,44 @@
-## 51.3. The Parser Stage [#](#PARSER-STAGE)
+<a id="PARSER-STAGE"></a>
 
-[51.3.1. Parser](parser-stage.md#PARSER-STAGE-PARSER)
+## 51.3. 剖析器階段 [#](#PARSER-STAGE)
 
-[51.3.2. Transformation Process](parser-stage.md#PARSER-STAGE-TRANSFORMATION-PROCESS)
+[51.3.1. 剖析器](parser-stage.md#PARSER-STAGE-PARSER)
 
-The *parser stage* consists of two parts:
+[51.3.2. 轉換程序](parser-stage.md#PARSER-STAGE-TRANSFORMATION-PROCESS)
 
-* The *parser* defined in
-  `gram.y` and `scan.l` is
-  built using the Unix tools bison
-  and flex.
-* The *transformation process* does
-  modifications and augmentations to the data structures returned by the parser.
+*剖析器階段*由兩個部分組成：
+
+* 定義在 `gram.y` 與 `scan.l` 中的*剖析器*，是使用 Unix 工具 bison 與 flex 建置而成。
+* *轉換程序*會對剖析器傳回的資料結構進行修改與擴充。
 
 <a id="PARSER-STAGE-PARSER"></a>
 
-### 51.3.1. Parser [#](#PARSER-STAGE-PARSER)
+### 51.3.1. 剖析器 [#](#PARSER-STAGE-PARSER)
 
-The parser has to check the query string (which arrives as plain
-text) for valid syntax. If the syntax is correct a
-*parse tree* is built up and handed back;
-otherwise an error is returned. The parser and lexer are
-implemented using the well-known Unix tools bison
-and flex.
+剖析器必須檢查查詢字串（以純文字形式傳入）的語法是否有效。若語法正確，就會建構一棵*剖析樹*並將其傳回；否則會傳回錯誤。剖析器與詞法分析器是使用知名的 Unix 工具 bison 與 flex 實作的。
 
-The *lexer* is defined in the file
-`scan.l` and is responsible
-for recognizing *identifiers*,
-the *SQL key words* etc. For
-every key word or identifier that is found, a *token*
-is generated and handed to the parser.
+*詞法分析器*定義在檔案 `scan.l` 中，負責辨識*識別字*、*SQL 關鍵字*等。每找到一個關鍵字或識別字，就會產生一個*語彙單元（token）*並交給剖析器。
 
-The parser is defined in the file `gram.y` and
-consists of a set of *grammar rules* and
-*actions* that are executed whenever a rule
-is fired. The code of the actions (which is actually C code) is
-used to build up the parse tree.
+剖析器定義在檔案 `gram.y` 中，由一組*文法規則*與每當規則被觸發時所執行的*動作*組成。這些動作的程式碼（實際上是 C 程式碼）用來建構剖析樹。
 
-The file `scan.l` is transformed to the C
-source file `scan.c` using the program
-flex and `gram.y` is
-transformed to `gram.c` using
-bison. After these transformations
-have taken place a normal C compiler can be used to create the
-parser. Never make any changes to the generated C files as they
-will be overwritten the next time flex
-or bison is called.
+檔案 `scan.l` 會使用程式 flex 轉換成 C 原始檔 `scan.c`，而 `gram.y` 則會使用 bison 轉換成 `gram.c`。完成這些轉換之後，就可以使用一般的 C 編譯器來建立剖析器。絕對不要修改產生出來的 C 檔案，因為下一次呼叫 flex 或 bison 時，它們會被覆寫。
 
-### Note
+### 注意
 
-The mentioned transformations and compilations are normally done
-automatically using the *makefiles*
-shipped with the PostgreSQL
-source distribution.
+上述的轉換與編譯通常會使用 PostgreSQL 原始碼發行版本所附的 *makefile* 自動完成。
 
-A detailed description of bison or
-the grammar rules given in `gram.y` would be
-beyond the scope of this manual. There are many books and
-documents dealing with flex and
-bison. You should be familiar with
-bison before you start to study the
-grammar given in `gram.y` otherwise you won't
-understand what happens there.
+詳細說明 bison 或 `gram.y` 中的文法規則，已超出本手冊的範圍。有許多書籍與文件探討 flex 與 bison。在開始研究 `gram.y` 中的文法之前，你應該先熟悉 bison，否則你將無法理解其中發生了什麼事。
 
 <a id="PARSER-STAGE-TRANSFORMATION-PROCESS"></a>
 
-### 51.3.2. Transformation Process [#](#PARSER-STAGE-TRANSFORMATION-PROCESS)
+### 51.3.2. 轉換程序 [#](#PARSER-STAGE-TRANSFORMATION-PROCESS)
 
-The parser stage creates a parse tree using only fixed rules about
-the syntactic structure of SQL. It does not make any lookups in the
-system catalogs, so there is no possibility to understand the detailed
-semantics of the requested operations. After the parser completes,
-the *transformation process* takes the tree handed
-back by the parser as input and does the semantic interpretation needed
-to understand which tables, functions, and operators are referenced by
-the query. The data structure that is built to represent this
-information is called the *query tree*.
+剖析器階段只使用關於 SQL 語法結構的固定規則來建立剖析樹。它不會在系統目錄中進行任何查找，因此不可能理解所要求之操作的詳細語意。剖析器完成之後，*轉換程序*會以剖析器傳回的樹作為輸入，並進行必要的語意解讀，以了解查詢參照了哪些資料表、函式與運算子。為了表示這些資訊而建構的資料結構稱為*查詢樹*。
 
-The reason for separating raw parsing from semantic analysis is that
-system catalog lookups can only be done within a transaction, and we
-do not wish to start a transaction immediately upon receiving a query
-string. The raw parsing stage is sufficient to identify the transaction
-control commands (`BEGIN`, `ROLLBACK`, etc.), and
-these can then be correctly executed without any further analysis.
-Once we know that we are dealing with an actual query (such as
-`SELECT` or `UPDATE`), it is okay to
-start a transaction if we're not already in one. Only then can the
-transformation process be invoked.
+將原始剖析與語意分析分開的原因是，系統目錄的查找只能在交易內進行，而我們不希望在收到查詢字串時就立即開始一個交易。原始剖析階段已足以識別交易控制命令（`BEGIN`、`ROLLBACK` 等），而這些命令隨後不需任何進一步分析就能正確執行。一旦確定要處理的是實際的查詢（例如 `SELECT` 或 `UPDATE`），若尚未處於交易中，就可以開始一個交易。只有到了這個時候，才能呼叫轉換程序。
 
-The query tree created by the transformation process is structurally
-similar to the raw parse tree in most places, but it has many differences
-in detail. For example, a `FuncCall` node in the
-parse tree represents something that looks syntactically like a function
-call. This might be transformed to either a `FuncExpr`
-or `Aggref` node depending on whether the referenced
-name turns out to be an ordinary function or an aggregate function.
-Also, information about the actual data types of columns and expression
-results is added to the query tree.
+轉換程序所建立的查詢樹，在大部分地方的結構都與原始剖析樹類似，但在細節上有許多差異。例如，剖析樹中的 `FuncCall` 節點代表語法上看起來像函式呼叫的東西。視所參照的名稱最後是一般函式還是彙總函式而定，它可能會被轉換成 `FuncExpr` 或 `Aggref` 節點。此外，欄位與運算式結果的實際資料型別資訊也會加入查詢樹中。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/parser-stage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/parser-stage.html)（原文版本：18.6；核對日期：2026-10-12）
