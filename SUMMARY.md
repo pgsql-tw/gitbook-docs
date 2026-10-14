@@ -950,7 +950,7 @@
     * [54.9. 邏輯複寫訊息格式 #](internals/protocol/protocol-logicalrep-message-formats.md)
     * [54.10. 自協定 2.0 以來的變更摘要 #](internals/protocol/protocol-changes.md)
   * [第 55 章 PostgreSQL 程式碼撰寫慣例](internals/source/README.md)
-    * [55.1. Formatting #](internals/source/source-format.md)
+    * [55.1. 格式 #](internals/source/source-format.md)
     * [55.2. Reporting Errors Within the Server #](internals/source/error-message-reporting.md)
     * [55.3. Error Message Style Guide #](internals/source/error-style-guide.md)
     * [55.4. 其他程式碼撰寫慣例 #](internals/source/source-conventions.md)
