@@ -1,54 +1,21 @@
-## 51.1. The Path of a Query [#](#QUERY-PATH)
+<a id="QUERY-PATH"></a>
 
-Here we give a short overview of the stages a query has to pass
-to obtain a result.
+## 51.1. 查詢的路徑 [#](#QUERY-PATH)
 
-1. A connection from an application program to the PostgreSQL
-   server has to be established. The application program transmits a
-   query to the server and waits to receive the results sent back by the
-   server.
-2. The *parser stage* checks the query
-   transmitted by the application
-   program for correct syntax and creates
-   a *query tree*.
-3. The *rewrite system* takes
-   the query tree created by the parser stage and looks for
-   any *rules* (stored in the
-   *system catalogs*) to apply to
-   the query tree. It performs the
-   transformations given in the *rule bodies*.
+這裡簡短概述一個查詢為了取得結果所必須經過的各個階段。
 
-   One application of the rewrite system is in the realization of
-   *views*.
-   Whenever a query against a view
-   (i.e., a *virtual table*) is made,
-   the rewrite system rewrites the user's query to
-   a query that accesses the *base tables* given in
-   the *view definition* instead.
-4. The *planner/optimizer* takes
-   the (rewritten) query tree and creates a
-   *query plan* that will be the input to the
-   *executor*.
+1. 必須先建立從應用程式到 PostgreSQL 伺服器的連線。應用程式將查詢傳送到伺服器，並等待接收伺服器傳回的結果。
+2. *剖析器階段*會檢查應用程式所傳送之查詢的語法是否正確，並建立一棵*查詢樹*。
+3. *重寫系統*會取得剖析器階段所建立的查詢樹，並尋找任何要套用到該查詢樹的*規則*（儲存在*系統目錄*中），然後執行*規則主體*中所指定的轉換。
 
-   It does so by first creating all possible *paths*
-   leading to the same result. For example if there is an index on a
-   relation to be scanned, there are two paths for the
-   scan. One possibility is a simple sequential scan and the other
-   possibility is to use the index. Next the cost for the execution of
-   each path is estimated and the cheapest path is chosen. The cheapest
-   path is expanded into a complete plan that the executor can use.
-5. The executor recursively steps through
-   the *plan tree* and
-   retrieves rows in the way represented by the plan.
-   The executor makes use of the
-   *storage system* while scanning
-   relations, performs *sorts* and *joins*,
-   evaluates *qualifications* and finally hands back the rows derived.
+   重寫系統的應用之一是實現*檢視表*。每當對檢視表（也就是*虛擬資料表*）發出查詢時，重寫系統會將使用者的查詢改寫成一個改為存取*檢視表定義*中所指定之*基底資料表*的查詢。
+4. *規劃器／最佳化器*會取得（經過重寫的）查詢樹，並建立一個*查詢計畫*，作為*執行器*的輸入。
 
-In the following sections we will cover each of the above listed items
-in more detail to give a better understanding of PostgreSQL's internal
-control and data structures.
+   它的做法是先建立所有能得到相同結果的可能*路徑*。例如，若要掃描的關聯上有索引，該掃描就有兩條路徑：一種可能是單純的循序掃描，另一種可能是使用索引。接著會估算執行每條路徑的成本，並選出成本最低的路徑。成本最低的路徑會被展開成執行器可以使用的完整計畫。
+5. 執行器會遞迴地逐步走訪*計畫樹*，並以計畫所表示的方式取得資料列。執行器在掃描關聯時會使用*儲存系統*，執行*排序*與*連接*、評估*限定條件*，最後傳回推導出的資料列。
+
+在接下來的各節中，我們會更詳細地說明上面列出的每一項，讓你更了解 PostgreSQL 的內部控制與資料結構。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/query-path.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/query-path.html)（原文版本：18.6；核對日期：2026-10-12）

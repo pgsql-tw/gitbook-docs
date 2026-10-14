@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：307 頁。
+待譯頁面：306 頁。
 
 ## 根目錄
 
@@ -389,7 +389,7 @@
 - [ ] `internals/overview/executor.md` — 51.6. Executor #
 - [x] `internals/overview/parser-stage.md` — 51.3. 剖析器階段 #
 - [ ] `internals/overview/planner-optimizer.md` — 51.5. Planner/Optimizer #
-- [ ] `internals/overview/query-path.md` — 51.1. The Path of a Query #
+- [x] `internals/overview/query-path.md` — 51.1. 查詢的路徑 #
 - [x] `internals/overview/rule-system.md` — 51.4. PostgreSQL 規則系統
 - [x] `internals/planner-stats-details/README.md` — 第 69 章 規劃器如何使用統計資訊
 - [ ] `internals/planner-stats-details/multivariate-statistics-examples.md` — 69.2. Multivariate Statistics Examples #
