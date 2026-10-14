@@ -1,81 +1,21 @@
-## 51.6. Executor [#](#EXECUTOR)
+<a id="EXECUTOR"></a>
 
-The *executor* takes the plan created by the
-planner/optimizer and recursively processes it to extract the required set
-of rows. This is essentially a demand-pull pipeline mechanism.
-Each time a plan node is called, it must deliver one more row, or
-report that it is done delivering rows.
+## 51.6. 執行器 [#](#EXECUTOR)
 
-To provide a concrete example, assume that the top
-node is a `MergeJoin` node.
-Before any merge can be done two rows have to be fetched (one from
-each subplan). So the executor recursively calls itself to
-process the subplans (it starts with the subplan attached to
-`lefttree`). The new top node (the top node of the left
-subplan) is, let's say, a
-`Sort` node and again recursion is needed to obtain
-an input row. The child node of the `Sort` might
-be a `SeqScan` node, representing actual reading of a table.
-Execution of this node causes the executor to fetch a row from the
-table and return it up to the calling node. The `Sort`
-node will repeatedly call its child to obtain all the rows to be sorted.
-When the input is exhausted (as indicated by the child node returning
-a NULL instead of a row), the `Sort` code performs
-the sort, and finally is able to return its first output row, namely
-the first one in sorted order. It keeps the remaining rows stored so
-that it can deliver them in sorted order in response to later demands.
+*執行器*會取得規劃器／最佳化器所建立的計畫，並遞迴地處理它，以取出所需的資料列集合。這本質上是一種依需求拉取（demand-pull）的管線機制。每次呼叫一個計畫節點時，它都必須再交出一筆資料列，或回報它已經交出所有資料列。
 
-The `MergeJoin` node similarly demands the first row
-from its right subplan. Then it compares the two rows to see if they
-can be joined; if so, it returns a join row to its caller. On the next
-call, or immediately if it cannot join the current pair of inputs,
-it advances to the next row of one table
-or the other (depending on how the comparison came out), and again
-checks for a match. Eventually, one subplan or the other is exhausted,
-and the `MergeJoin` node returns NULL to indicate that
-no more join rows can be formed.
+舉個具體的例子，假設最上層節點是 `MergeJoin` 節點。在進行任何合併之前，必須先取得兩筆資料列（每個子計畫各一筆）。因此執行器會遞迴地呼叫自己來處理子計畫（它從附加在 `lefttree` 上的子計畫開始）。新的最上層節點（左側子計畫的最上層節點）假設是一個 `Sort` 節點，同樣需要遞迴才能取得一筆輸入資料列。`Sort` 的子節點可能是一個 `SeqScan` 節點，代表實際讀取資料表。執行這個節點會使執行器從資料表取出一筆資料列，並將它往上傳回給呼叫它的節點。`Sort` 節點會反覆呼叫其子節點，以取得所有要排序的資料列。當輸入耗盡時（由子節點傳回 NULL 而非資料列來表示），`Sort` 的程式碼就會執行排序，最後終於能夠傳回它的第一筆輸出資料列，也就是排序順序中的第一筆。它會將其餘的資料列保存起來，以便在之後的請求中依排序順序交出它們。
 
-Complex queries can involve many levels of plan nodes, but the general
-approach is the same: each node computes and returns its next output
-row each time it is called. Each node is also responsible for applying
-any selection or projection expressions that were assigned to it by
-the planner.
+`MergeJoin` 節點同樣會向其右側子計畫請求第一筆資料列。接著它會比較這兩筆資料列，看看它們是否可以連接；若可以，就將一筆連接後的資料列傳回給呼叫者。在下一次呼叫時（或者，若目前這一對輸入無法連接，則立即），它會前進到其中一個資料表或另一個資料表的下一筆資料列（取決於比較的結果），並再次檢查是否相符。最後，其中一個子計畫會耗盡，此時 `MergeJoin` 節點會傳回 NULL，表示無法再組成更多連接後的資料列。
 
-The executor mechanism is used to evaluate all five basic SQL query
-types: `SELECT`, `INSERT`,
-`UPDATE`, `DELETE`, and
-`MERGE`.
-For `SELECT`, the top-level executor code
-only needs to send each row returned by the query plan tree
-off to the client. `INSERT ... SELECT`,
-`UPDATE`, `DELETE`, and
-`MERGE`
-are effectively `SELECT`s under a special
-top-level plan node called `ModifyTable`.
+複雜的查詢可能涉及許多層計畫節點，但一般做法都相同：每個節點在每次被呼叫時，都會計算並傳回它的下一筆輸出資料列。每個節點也負責套用規劃器指派給它的任何選擇或投影運算式。
 
-`INSERT ... SELECT` feeds the rows up
-to `ModifyTable` for insertion. For
-`UPDATE`, the planner arranges that each
-computed row includes all the updated column values, plus the
-*TID* (tuple ID, or row ID) of the original
-target row; this data is fed up to the `ModifyTable`
-node, which uses the information to create a new updated row and
-mark the old row deleted. For `DELETE`, the only
-column that is actually returned by the plan is the TID, and the
-`ModifyTable` node simply uses the TID to visit each
-target row and mark it deleted. For `MERGE`, the
-planner joins the source and target relations, and includes all
-column values required by any of the `WHEN` clauses,
-plus the TID of the target row; this data is fed up to the
-`ModifyTable` node, which uses the information to
-work out which `WHEN` clause to execute, and then
-inserts, updates or deletes the target row, as required.
+執行器機制用來評估全部五種基本 SQL 查詢類型：`SELECT`、`INSERT`、`UPDATE`、`DELETE` 與 `MERGE`。對於 `SELECT`，最上層的執行器程式碼只需要將查詢計畫樹傳回的每一筆資料列送給用戶端。`INSERT ... SELECT`、`UPDATE`、`DELETE` 與 `MERGE` 實際上都是位於一個稱為 `ModifyTable` 的特殊最上層計畫節點之下的 `SELECT`。
 
-A simple `INSERT ... VALUES` command creates a
-trivial plan tree consisting of a single `Result`
-node, which computes just one result row, feeding that up
-to `ModifyTable` to perform the insertion.
+`INSERT ... SELECT` 會將資料列往上傳給 `ModifyTable` 以進行插入。對於 `UPDATE`，規劃器會安排讓每一筆計算出的資料列都包含所有更新後的欄位值，再加上原始目標資料列的 *TID*（tuple ID，即資料列 ID）；這些資料會往上傳給 `ModifyTable` 節點，該節點使用這些資訊建立一筆新的更新後資料列，並將舊資料列標記為已刪除。對於 `DELETE`，計畫實際傳回的唯一欄位是 TID，而 `ModifyTable` 節點只是使用 TID 造訪每一筆目標資料列並將它標記為已刪除。對於 `MERGE`，規劃器會連接來源關聯與目標關聯，並包含任何 `WHEN` 子句所需的所有欄位值，再加上目標資料列的 TID；這些資料會往上傳給 `ModifyTable` 節點，該節點使用這些資訊判斷要執行哪一個 `WHEN` 子句，然後視需要插入、更新或刪除目標資料列。
+
+簡單的 `INSERT ... VALUES` 命令會建立一棵只由單一 `Result` 節點組成的簡單計畫樹，該節點只計算一筆結果資料列，並將它往上傳給 `ModifyTable` 以執行插入。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/executor.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/executor.html)（原文版本：18.6；核對日期：2026-10-12）
