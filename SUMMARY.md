@@ -944,7 +944,7 @@
     * [54.3. SASL Authentication #](internals/protocol/sasl-authentication.md)
     * [54.4. Streaming Replication Protocol #](internals/protocol/protocol-replication.md)
     * [54.5. 邏輯串流複寫協定 #](internals/protocol/protocol-logical-replication.md)
-    * [54.6. Message Data Types #](internals/protocol/protocol-message-types.md)
+    * [54.6. 訊息資料型別 #](internals/protocol/protocol-message-types.md)
     * [54.7. 訊息格式 #](internals/protocol/protocol-message-formats.md)
     * [54.8. 錯誤與通知訊息欄位 #](internals/protocol/protocol-error-fields.md)
     * [54.9. 邏輯複寫訊息格式 #](internals/protocol/protocol-logicalrep-message-formats.md)
