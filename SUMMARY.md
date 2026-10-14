@@ -938,7 +938,7 @@
     * [53.36. `pg_user_mappings` #](internals/views/view-pg-user-mappings.md)
     * [53.37. `pg_views` #](internals/views/view-pg-views.md)
     * [53.38. pg_wait_events](internals/views/view-pg-wait-events.md)
-  * [Chapter 54. Frontend/Backend Protocol](internals/protocol/README.md)
+  * [第 54 章 前端／後端協定](internals/protocol/README.md)
     * [54.1. 概觀 #](internals/protocol/protocol-overview.md)
     * [54.2. 訊息流程 #](internals/protocol/protocol-flow.md)
     * [54.3. SASL Authentication #](internals/protocol/sasl-authentication.md)

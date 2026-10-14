@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：310 頁。
+待譯頁面：309 頁。
 
 ## 根目錄
 
@@ -396,7 +396,7 @@
 - [ ] `internals/planner-stats-details/planner-stats-security.md` — 69.3. Planner Statistics and Security #
 - [ ] `internals/planner-stats-details/row-estimation-examples.md` — 69.1. Row Estimation Examples #
 - [ ] `internals/plhandler/README.md` — Chapter 57. Writing a Procedural Language Handler
-- [ ] `internals/protocol/README.md` — Chapter 54. Frontend/Backend Protocol
+- [x] `internals/protocol/README.md` — 第 54 章 前端／後端協定
 - [x] `internals/protocol/protocol-changes.md` — 54.10. 自協定 2.0 以來的變更摘要 #
 - [x] `internals/protocol/protocol-error-fields.md` — 54.8. 錯誤與通知訊息欄位 #
 - [x] `internals/protocol/protocol-flow.md` — 54.2. 訊息流程 #

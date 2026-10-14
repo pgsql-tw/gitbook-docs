@@ -1,86 +1,73 @@
-## Chapter 54. Frontend/Backend Protocol
+<a id="PROTOCOL"></a>
 
-**Table of Contents**
+## 第 54 章 前端／後端協定
 
-[54.1. Overview](protocol-overview.md)
-:   [54.1.1. Messaging Overview](protocol-overview.md#PROTOCOL-MESSAGE-CONCEPTS)
+**目錄**
 
-    [54.1.2. Extended Query Overview](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
+[54.1. 概觀](protocol-overview.md)
+:   [54.1.1. 訊息傳遞概觀](protocol-overview.md#PROTOCOL-MESSAGE-CONCEPTS)
 
-    [54.1.3. Formats and Format Codes](protocol-overview.md#PROTOCOL-FORMAT-CODES)
+    [54.1.2. 延伸查詢概觀](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
 
-    [54.1.4. Protocol Versions](protocol-overview.md#PROTOCOL-VERSIONS)
+    [54.1.3. 格式與格式代碼](protocol-overview.md#PROTOCOL-FORMAT-CODES)
 
-[54.2. Message Flow](protocol-flow.md)
-:   [54.2.1. Start-up](protocol-flow.md#PROTOCOL-FLOW-START-UP)
+    [54.1.4. 協定版本](protocol-overview.md#PROTOCOL-VERSIONS)
 
-    [54.2.2. Simple Query](protocol-flow.md#PROTOCOL-FLOW-SIMPLE-QUERY)
+[54.2. 訊息流程](protocol-flow.md)
+:   [54.2.1. 啟動](protocol-flow.md#PROTOCOL-FLOW-START-UP)
 
-    [54.2.3. Extended Query](protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+    [54.2.2. 簡單查詢](protocol-flow.md#PROTOCOL-FLOW-SIMPLE-QUERY)
 
-    [54.2.4. Pipelining](protocol-flow.md#PROTOCOL-FLOW-PIPELINING)
+    [54.2.3. 延伸查詢](protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
 
-    [54.2.5. Function Call](protocol-flow.md#PROTOCOL-FLOW-FUNCTION-CALL)
+    [54.2.4. 管線化](protocol-flow.md#PROTOCOL-FLOW-PIPELINING)
 
-    [54.2.6. COPY Operations](protocol-flow.md#PROTOCOL-COPY)
+    [54.2.5. 函式呼叫](protocol-flow.md#PROTOCOL-FLOW-FUNCTION-CALL)
 
-    [54.2.7. Asynchronous Operations](protocol-flow.md#PROTOCOL-ASYNC)
+    [54.2.6. COPY 操作](protocol-flow.md#PROTOCOL-COPY)
 
-    [54.2.8. Canceling Requests in Progress](protocol-flow.md#PROTOCOL-FLOW-CANCELING-REQUESTS)
+    [54.2.7. 非同步操作](protocol-flow.md#PROTOCOL-ASYNC)
 
-    [54.2.9. Termination](protocol-flow.md#PROTOCOL-FLOW-TERMINATION)
+    [54.2.8. 取消進行中的請求](protocol-flow.md#PROTOCOL-FLOW-CANCELING-REQUESTS)
 
-    [54.2.10. SSL Session Encryption](protocol-flow.md#PROTOCOL-FLOW-SSL)
+    [54.2.9. 終止](protocol-flow.md#PROTOCOL-FLOW-TERMINATION)
 
-    [54.2.11. GSSAPI Session Encryption](protocol-flow.md#PROTOCOL-FLOW-GSSAPI)
+    [54.2.10. SSL 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-SSL)
 
-[54.3. SASL Authentication](sasl-authentication.md)
-:   [54.3.1. SCRAM-SHA-256 Authentication](sasl-authentication.md#SASL-SCRAM-SHA-256)
+    [54.2.11. GSSAPI 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-GSSAPI)
 
-    [54.3.2. OAUTHBEARER Authentication](sasl-authentication.md#SASL-OAUTHBEARER)
+[54.3. SASL 認證](sasl-authentication.md)
+:   [54.3.1. SCRAM-SHA-256 認證](sasl-authentication.md#SASL-SCRAM-SHA-256)
 
-[54.4. Streaming Replication Protocol](protocol-replication.md)
+    [54.3.2. OAUTHBEARER 認證](sasl-authentication.md#SASL-OAUTHBEARER)
 
-[54.5. Logical Streaming Replication Protocol](protocol-logical-replication.md)
-:   [54.5.1. Logical Streaming Replication Parameters](protocol-logical-replication.md#PROTOCOL-LOGICAL-REPLICATION-PARAMS)
+[54.4. 串流複寫協定](protocol-replication.md)
 
-    [54.5.2. Logical Replication Protocol Messages](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES)
+[54.5. 邏輯串流複寫協定](protocol-logical-replication.md)
+:   [54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#PROTOCOL-LOGICAL-REPLICATION-PARAMS)
 
-    [54.5.3. Logical Replication Protocol Message Flow](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES-FLOW)
+    [54.5.2. 邏輯複寫協定訊息](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES)
 
-[54.6. Message Data Types](protocol-message-types.md)
+    [54.5.3. 邏輯複寫協定訊息流程](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES-FLOW)
 
-[54.7. Message Formats](protocol-message-formats.md)
+[54.6. 訊息資料型別](protocol-message-types.md)
 
-[54.8. Error and Notice Message Fields](protocol-error-fields.md)
+[54.7. 訊息格式](protocol-message-formats.md)
 
-[54.9. Logical Replication Message Formats](protocol-logicalrep-message-formats.md)
+[54.8. 錯誤與通知訊息欄位](protocol-error-fields.md)
 
-[54.10. Summary of Changes since Protocol 2.0](protocol-changes.md)
+[54.9. 邏輯複寫訊息格式](protocol-logicalrep-message-formats.md)
+
+[54.10. 自協定 2.0 以來的變更摘要](protocol-changes.md)
 
 <a id="id-1.10.6.2"></a>
 
-PostgreSQL uses a message-based protocol
-for communication between frontends and backends (clients and servers).
-The protocol is supported over TCP/IP and also over
-Unix-domain sockets. Port number 5432 has been registered with IANA as
-the customary TCP port number for servers supporting this protocol, but
-in practice any non-privileged port number can be used.
+PostgreSQL 使用以訊息為基礎的協定，在前端與後端（用戶端與伺服器）之間進行通訊。此協定可透過 TCP/IP 使用，也可透過 Unix 網域通訊端使用。連接埠號碼 5432 已向 IANA 註冊，作為支援此協定之伺服器的慣用 TCP 連接埠號碼，但實務上可以使用任何非特權連接埠號碼。
 
-This document describes version 3.2 of the protocol, introduced in
-PostgreSQL version 18. The server and the libpq
-client library are backwards compatible with protocol version 3.0,
-implemented in PostgreSQL 7.4 and later.
+本文件說明此協定的 3.2 版，此版本於 PostgreSQL 18 版引入。伺服器與 libpq 用戶端函式庫向後相容於協定 3.0 版，後者實作於 PostgreSQL 7.4 及之後的版本。
 
-In order to serve multiple clients efficiently, the server launches
-a new “backend” process for each client.
-In the current implementation, a new child
-process is created immediately after an incoming connection is detected.
-This is transparent to the protocol, however. For purposes of the
-protocol, the terms “backend” and “server” are
-interchangeable; likewise “frontend” and “client”
-are interchangeable.
+為了有效率地服務多個用戶端，伺服器會為每個用戶端啟動一個新的「後端」程序。在目前的實作中，偵測到有連入的連線後，就會立即建立一個新的子程序。不過，這對協定而言是透明的。就協定而言，「後端」與「伺服器」這兩個詞可以互換；同樣地，「前端」與「用戶端」也可以互換。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol.html)（原文版本：18.6；核對日期：2026-10-12）
