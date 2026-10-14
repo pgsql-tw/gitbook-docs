@@ -1,475 +1,423 @@
-## 54.9. Logical Replication Message Formats [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS)
+<a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS"></a>
 
-This section describes the detailed format of each logical replication
-message. These messages are either returned by the replication slot SQL
-interface or are sent by a walsender. In the case of a walsender, they are
-encapsulated inside replication protocol WAL messages as described in
-[Section 54.4](protocol-replication.md), and generally obey the same message
-flow as physical replication.
+## 54.9. 邏輯複寫訊息格式 [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS)
+
+本節說明每種邏輯複寫訊息的詳細格式。這些訊息由複寫插槽的 SQL 介面傳回，或由 walsender 傳送。若由 walsender 傳送，這些訊息會封裝在[第 54.4 節](protocol-replication.md)所述的複寫協定 WAL 訊息之中，且大致遵循與實體複寫相同的訊息流程。
 
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-BEGIN"></a>
 
 Begin [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-BEGIN)
 :   Byte1('B')
-    :   Identifies the message as a begin message.
+    :   將此訊息識別為 Begin 訊息。
 
     Int64 (XLogRecPtr)
-    :   The final LSN of the transaction.
+    :   交易的最終 LSN。
 
     Int64 (TimestampTz)
-    :   Commit timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的提交時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-MESSAGE"></a>
 
 Message [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-MESSAGE)
 :   Byte1('M')
-    :   Identifies the message as a logical decoding message.
+    :   將此訊息識別為邏輯解碼訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int8
-    :   Flags; Either 0 for no flags or 1 if the logical decoding
-        message is transactional.
+    :   旗標；0 表示沒有旗標，1 表示該邏輯解碼訊息具交易性。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the logical decoding message.
+    :   邏輯解碼訊息的 LSN。
 
     String
-    :   The prefix of the logical decoding message.
+    :   邏輯解碼訊息的前綴。
 
     Int32
-    :   Length of the content.
+    :   內容的長度。
 
     Byte*`n`*
-    :   The content of the logical decoding message.
+    :   邏輯解碼訊息的內容。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-COMMIT"></a>
 
 Commit [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-COMMIT)
 :   Byte1('C')
-    :   Identifies the message as a commit message.
+    :   將此訊息識別為 Commit 訊息。
 
     Int8(0)
-    :   Flags; currently unused.
+    :   旗標；目前未使用。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the commit.
+    :   提交的 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the transaction.
+    :   交易的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Commit timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的提交時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-ORIGIN"></a>
 
 Origin [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-ORIGIN)
 :   Byte1('O')
-    :   Identifies the message as an origin message.
+    :   將此訊息識別為 Origin 訊息。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the commit on the origin server.
+    :   來源伺服器上提交的 LSN。
 
     String
-    :   Name of the origin.
+    :   來源的名稱。
 
-    Note that there can be multiple Origin messages inside a single transaction.
+    請注意，單一交易內可能有多個 Origin 訊息。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-RELATION"></a>
 
 Relation [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-RELATION)
 :   Byte1('R')
-    :   Identifies the message as a relation message.
+    :   將此訊息識別為 Relation 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int32 (Oid)
-    :   OID of the relation.
+    :   關聯的 OID。
 
     String
-    :   Namespace (empty string for `pg_catalog`).
+    :   命名空間（`pg_catalog` 為空字串）。
 
     String
-    :   Relation name.
+    :   關聯名稱。
 
     Int8
-    :   Replica identity setting for the relation (same as
-        `relreplident` in `pg_class`).
+    :   該關聯的複本識別設定（與 `pg_class` 中的 `relreplident` 相同）。
 
     Int16
-    :   Number of columns.
+    :   欄位數。
 
-    Next, the following message part appears for each column included in
-    the publication:
+    接著，發佈中所包含的每個欄位各會出現下列訊息部分：
 
     Int8
-    :   Flags for the column. Currently can be either 0 for no flags
-        or 1 which marks the column as part of the key.
+    :   欄位的旗標。目前可以是 0，表示沒有旗標；或 1，將該欄位標示為鍵的一部分。
 
     String
-    :   Name of the column.
+    :   欄位名稱。
 
     Int32 (Oid)
-    :   OID of the column's data type.
+    :   欄位資料型別的 OID。
 
     Int32
-    :   Type modifier of the column (`atttypmod`).
+    :   欄位的型別修飾詞（`atttypmod`）。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-TYPE"></a>
 
 Type [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-TYPE)
 :   Byte1('Y')
-    :   Identifies the message as a type message.
+    :   將此訊息識別為 Type 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int32 (Oid)
-    :   OID of the data type.
+    :   資料型別的 OID。
 
     String
-    :   Namespace (empty string for `pg_catalog`).
+    :   命名空間（`pg_catalog` 為空字串）。
 
     String
-    :   Name of the data type.
+    :   資料型別的名稱。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-INSERT"></a>
 
 Insert [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-INSERT)
 :   Byte1('I')
-    :   Identifies the message as an insert message.
+    :   將此訊息識別為 Insert 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int32 (Oid)
-    :   OID of the relation corresponding to the ID in the relation
-        message.
+    :   對應於 Relation 訊息中 ID 的關聯 OID。
 
     Byte1('N')
-    :   Identifies the following TupleData message as a new tuple.
+    :   將其後的 TupleData 訊息識別為新元組。
 
     TupleData
-    :   TupleData message part representing the contents of new tuple.
+    :   表示新元組內容的 TupleData 訊息部分。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-UPDATE"></a>
 
 Update [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-UPDATE)
 :   Byte1('U')
-    :   Identifies the message as an update message.
+    :   將此訊息識別為 Update 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int32 (Oid)
-    :   OID of the relation corresponding to the ID in the relation
-        message.
+    :   對應於 Relation 訊息中 ID 的關聯 OID。
 
     Byte1('K')
-    :   Identifies the following TupleData submessage as a key.
-        This field is optional and is only present if
-        the update changed data in any of the column(s) that are
-        part of the REPLICA IDENTITY index.
+    :   將其後的 TupleData 子訊息識別為鍵。此欄位為選擇性，只有在更新變更了屬於 REPLICA IDENTITY 索引之任一欄位的資料時才會出現。
 
     Byte1('O')
-    :   Identifies the following TupleData submessage as an old tuple.
-        This field is optional and is only present if table in which
-        the update happened has REPLICA IDENTITY set to FULL.
+    :   將其後的 TupleData 子訊息識別為舊元組。此欄位為選擇性，只有在發生更新的資料表將 REPLICA IDENTITY 設為 FULL 時才會出現。
 
     TupleData
-    :   TupleData message part representing the contents of the old tuple
-        or primary key. Only present if the previous 'O' or 'K' part
-        is present.
+    :   表示舊元組或主鍵內容的 TupleData 訊息部分。只有在前面出現 'O' 或 'K' 部分時才會出現。
 
     Byte1('N')
-    :   Identifies the following TupleData message as a new tuple.
+    :   將其後的 TupleData 訊息識別為新元組。
 
     TupleData
-    :   TupleData message part representing the contents of a new tuple.
+    :   表示新元組內容的 TupleData 訊息部分。
 
-    The Update message may contain either a 'K' message part or an 'O' message part
-    or neither of them, but never both of them.
+    Update 訊息可能包含 'K' 訊息部分或 'O' 訊息部分，或兩者皆無，但絕不會同時包含兩者。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-DELETE"></a>
 
 Delete [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-DELETE)
 :   Byte1('D')
-    :   Identifies the message as a delete message.
+    :   將此訊息識別為 Delete 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int32 (Oid)
-    :   OID of the relation corresponding to the ID in the relation
-        message.
+    :   對應於 Relation 訊息中 ID 的關聯 OID。
 
     Byte1('K')
-    :   Identifies the following TupleData submessage as a key.
-        This field is present if the table in which the delete has
-        happened uses an index as REPLICA IDENTITY.
+    :   將其後的 TupleData 子訊息識別為鍵。若發生刪除的資料表使用索引作為 REPLICA IDENTITY，就會出現此欄位。
 
     Byte1('O')
-    :   Identifies the following TupleData message as an old tuple.
-        This field is present if the table in which the delete
-        happened has REPLICA IDENTITY set to FULL.
+    :   將其後的 TupleData 訊息識別為舊元組。若發生刪除的資料表將 REPLICA IDENTITY 設為 FULL，就會出現此欄位。
 
     TupleData
-    :   TupleData message part representing the contents of the old tuple
-        or primary key, depending on the previous field.
+    :   表示舊元組或主鍵內容的 TupleData 訊息部分，取決於前一個欄位。
 
-    The Delete message may contain either a 'K' message part or an 'O' message part,
-    but never both of them.
+    Delete 訊息可能包含 'K' 訊息部分或 'O' 訊息部分，但絕不會同時包含兩者。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-TRUNCATE"></a>
 
 Truncate [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-TRUNCATE)
 :   Byte1('T')
-    :   Identifies the message as a truncate message.
+    :   將此訊息識別為 Truncate 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction (only present for streamed transactions).
-        This field is available since protocol version 2.
+    :   交易的 Xid（僅出現於串流傳送的交易）。此欄位自協定版本 2 起提供。
 
     Int32
-    :   Number of relations
+    :   關聯數
 
     Int8
-    :   Option bits for `TRUNCATE`:
-        1 for `CASCADE`, 2 for `RESTART IDENTITY`
+    :   `TRUNCATE` 的選項位元：1 表示 `CASCADE`，2 表示 `RESTART IDENTITY`
 
     Int32 (Oid)
-    :   OID of the relation corresponding to the ID in the relation
-        message. This field is repeated for each relation.
+    :   對應於 Relation 訊息中 ID 的關聯 OID。每個關聯都會重複此欄位。
 
-The following messages (Stream Start, Stream Stop, Stream Commit, and
-Stream Abort) are available since protocol version 2.
+下列訊息（Stream Start、Stream Stop、Stream Commit 與 Stream Abort）自協定版本 2 起提供。
 
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-START"></a>
 
 Stream Start [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-START)
 :   Byte1('S')
-    :   Identifies the message as a stream start message.
+    :   將此訊息識別為 Stream Start 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     Int8
-    :   A value of 1 indicates this is the first stream segment for
-        this XID, 0 for any other stream segment.
+    :   值為 1 表示這是此 XID 的第一個串流區段，其他任何串流區段則為 0。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-STOP"></a>
 
 Stream Stop [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-STOP)
 :   Byte1('E')
-    :   Identifies the message as a stream stop message.
+    :   將此訊息識別為 Stream Stop 訊息。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-COMMIT"></a>
 
 Stream Commit [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-COMMIT)
 :   Byte1('c')
-    :   Identifies the message as a stream commit message.
+    :   將此訊息識別為 Stream Commit 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     Int8(0)
-    :   Flags; currently unused.
+    :   旗標；目前未使用。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the commit.
+    :   提交的 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the transaction.
+    :   交易的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Commit timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的提交時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-ABORT"></a>
 
 Stream Abort [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-ABORT)
 :   Byte1('A')
-    :   Identifies the message as a stream abort message.
+    :   將此訊息識別為 Stream Abort 訊息。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     Int32 (TransactionId)
-    :   Xid of the subtransaction (will be same as xid of the transaction for top-level
-        transactions).
+    :   子交易的 Xid（對於最上層交易，會與該交易的 xid 相同）。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the abort operation, present only when streaming is set to parallel.
-        This field is available since protocol version 4.
+    :   中止操作的 LSN，只有在串流模式（streaming）設為平行（parallel）時才會出現。此欄位自協定版本 4 起提供。
 
     Int64 (TimestampTz)
-    :   Abort timestamp of the transaction, present only when streaming is set to
-        parallel. The value is in number of microseconds since PostgreSQL epoch (2000-01-01).
-        This field is available since protocol version 4.
+    :   交易的中止時間戳記，只有在串流模式（streaming）設為平行（parallel）時才會出現。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。此欄位自協定版本 4 起提供。
 
-The following messages (Begin Prepare, Prepare, Commit Prepared, Rollback Prepared, Stream Prepare)
-are available since protocol version 3.
+下列訊息（Begin Prepare、Prepare、Commit Prepared、Rollback Prepared、Stream Prepare）自協定版本 3 起提供。
 
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-BEGIN-PREPARE"></a>
 
 Begin Prepare [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-BEGIN-PREPARE)
 :   Byte1('b')
-    :   Identifies the message as the beginning of a prepared transaction message.
+    :   將此訊息識別為預備交易的開始訊息。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the prepare.
+    :   準備作業（prepare）的 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the prepared transaction.
+    :   預備交易的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Prepare timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的準備時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     String
-    :   The user defined GID of the prepared transaction.
+    :   使用者為預備交易定義的 GID。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-PREPARE"></a>
 
 Prepare [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-PREPARE)
 :   Byte1('P')
-    :   Identifies the message as a prepared transaction message.
+    :   將此訊息識別為預備交易訊息。
 
     Int8(0)
-    :   Flags; currently unused.
+    :   旗標；目前未使用。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the prepare.
+    :   準備作業（prepare）的 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the prepared transaction.
+    :   預備交易的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Prepare timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的準備時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     String
-    :   The user defined GID of the prepared transaction.
+    :   使用者為預備交易定義的 GID。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-COMMIT-PREPARED"></a>
 
 Commit Prepared [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-COMMIT-PREPARED)
 :   Byte1('K')
-    :   Identifies the message as the commit of a prepared transaction message.
+    :   將此訊息識別為預備交易的提交訊息。
 
     Int8(0)
-    :   Flags; currently unused.
+    :   旗標；目前未使用。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the commit of the prepared transaction.
+    :   預備交易之提交的 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the commit of the prepared transaction.
+    :   預備交易之提交的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Commit timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的提交時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     String
-    :   The user defined GID of the prepared transaction.
+    :   使用者為預備交易定義的 GID。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-ROLLBACK-PREPARED"></a>
 
 Rollback Prepared [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-ROLLBACK-PREPARED)
 :   Byte1('r')
-    :   Identifies the message as the rollback of a prepared transaction message.
+    :   將此訊息識別為預備交易的復原訊息。
 
     Int8(0)
-    :   Flags; currently unused.
+    :   旗標；目前未使用。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the prepared transaction.
+    :   預備交易的結束 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the rollback of the prepared transaction.
+    :   預備交易之復原的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Prepare timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的準備時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int64 (TimestampTz)
-    :   Rollback timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的復原時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     String
-    :   The user defined GID of the prepared transaction.
+    :   使用者為預備交易定義的 GID。
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-PREPARE"></a>
 
 Stream Prepare [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-STREAM-PREPARE)
 :   Byte1('p')
-    :   Identifies the message as a stream prepared transaction message.
+    :   將此訊息識別為串流預備交易訊息。
 
     Int8(0)
-    :   Flags; currently unused.
+    :   旗標；目前未使用。
 
     Int64 (XLogRecPtr)
-    :   The LSN of the prepare.
+    :   準備作業（prepare）的 LSN。
 
     Int64 (XLogRecPtr)
-    :   The end LSN of the prepared transaction.
+    :   預備交易的結束 LSN。
 
     Int64 (TimestampTz)
-    :   Prepare timestamp of the transaction. The value is in number
-        of microseconds since PostgreSQL epoch (2000-01-01).
+    :   交易的準備時間戳記。此值為自 PostgreSQL 紀元（2000-01-01）起算的微秒數。
 
     Int32 (TransactionId)
-    :   Xid of the transaction.
+    :   交易的 Xid。
 
     String
-    :   The user defined GID of the prepared transaction.
+    :   使用者為預備交易定義的 GID。
 
-The following message parts are shared by the above messages.
+下列訊息部分由上述訊息共用。
 
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS-TUPLEDATA"></a>
 
 TupleData [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS-TUPLEDATA)
 :   Int16
-    :   Number of columns.
+    :   欄位數。
 
-    Next, one of the following submessages appears for each published column:
+    接著，每個已發佈的欄位各會出現下列其中一個子訊息：
 
     Byte1('n')
-    :   Identifies the data as NULL value.
+    :   將此資料識別為 NULL 值。
 
-    Or
+    或
 
     Byte1('u')
-    :   Identifies unchanged TOASTed value (the actual value is not
-        sent).
+    :   識別未變更的 TOAST 值（不會傳送實際的值）。
 
-    Or
+    或
 
     Byte1('t')
-    :   Identifies the data as text formatted value.
+    :   將此資料識別為文字格式的值。
 
-    Or
+    或
 
     Byte1('b')
-    :   Identifies the data as binary formatted value.
+    :   將此資料識別為二進位格式的值。
 
     Int32
-    :   Length of the column value.
+    :   欄位值的長度。
 
     Byte*`n`*
-    :   The value of the column, either in binary or in text format.
-        (As specified in the preceding format byte).
-        *`n`* is the above length.
+    :   欄位的值，採二進位或文字格式（依前面的格式位元組所指定）。*`n`* 為上述長度。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol-logicalrep-message-formats.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol-logicalrep-message-formats.html)（原文版本：18.6；核對日期：2026-10-12）

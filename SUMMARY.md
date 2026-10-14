@@ -947,7 +947,7 @@
     * [54.6. Message Data Types #](internals/protocol/protocol-message-types.md)
     * [54.7. Message Formats #](internals/protocol/protocol-message-formats.md)
     * [54.8. Error and Notice Message Fields #](internals/protocol/protocol-error-fields.md)
-    * [54.9. Logical Replication Message Formats #](internals/protocol/protocol-logicalrep-message-formats.md)
+    * [54.9. 邏輯複寫訊息格式 #](internals/protocol/protocol-logicalrep-message-formats.md)
     * [54.10. Summary of Changes since Protocol 2.0 #](internals/protocol/protocol-changes.md)
   * [第 55 章 PostgreSQL 程式碼撰寫慣例](internals/source/README.md)
     * [55.1. Formatting #](internals/source/source-format.md)
