@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：309 頁。
+待譯頁面：308 頁。
 
 ## 根目錄
 
@@ -385,7 +385,7 @@
 - [ ] `internals/nls/nls-programmer.md` — 56.2. For the Programmer #
 - [ ] `internals/nls/nls-translator.md` — 56.1. For the Translator #
 - [x] `internals/overview/README.md` — 第 51 章 PostgreSQL 內部機制概觀
-- [ ] `internals/overview/connect-estab.md` — 51.2. How Connections Are Established #
+- [x] `internals/overview/connect-estab.md` — 51.2. 如何建立連線 #
 - [ ] `internals/overview/executor.md` — 51.6. Executor #
 - [ ] `internals/overview/parser-stage.md` — 51.3. The Parser Stage #
 - [ ] `internals/overview/planner-optimizer.md` — 51.5. Planner/Optimizer #

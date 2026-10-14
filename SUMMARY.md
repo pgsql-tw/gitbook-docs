@@ -828,7 +828,7 @@
 * [Part VII. Internals](internals/README.md)
   * [第 51 章 PostgreSQL 內部機制概觀](internals/overview/README.md)
     * [51.1. The Path of a Query #](internals/overview/query-path.md)
-    * [51.2. How Connections Are Established #](internals/overview/connect-estab.md)
+    * [51.2. 如何建立連線 #](internals/overview/connect-estab.md)
     * [51.3. The Parser Stage #](internals/overview/parser-stage.md)
     * [51.4. PostgreSQL 規則系統](internals/overview/rule-system.md)
     * [51.5. Planner/Optimizer #](internals/overview/planner-optimizer.md)
