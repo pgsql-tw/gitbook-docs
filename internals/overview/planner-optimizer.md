@@ -1,118 +1,37 @@
-## 51.5. Planner/Optimizer [#](#PLANNER-OPTIMIZER)
+<a id="PLANNER-OPTIMIZER"></a>
 
-[51.5.1. Generating Possible Plans](planner-optimizer.md#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
+## 51.5. 規劃器／最佳化器 [#](#PLANNER-OPTIMIZER)
 
-The task of the *planner/optimizer* is to
-create an optimal execution plan. A given SQL query (and hence, a
-query tree) can be actually executed in a wide variety of
-different ways, each of which will produce the same set of
-results. If it is computationally feasible, the query optimizer
-will examine each of these possible execution plans, ultimately
-selecting the execution plan that is expected to run the fastest.
+[51.5.1. 產生可能的計畫](planner-optimizer.md#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
 
-### Note
+*規劃器／最佳化器*的任務是建立最佳的執行計畫。一個給定的 SQL 查詢（因而也是一棵查詢樹）實際上可以用許多不同的方式執行，而每一種方式都會產生相同的結果集合。若在計算上可行，查詢最佳化器會檢查每一個可能的執行計畫，最終選出預期執行最快的執行計畫。
 
-In some situations, examining each possible way in which a query
-can be executed would take an excessive amount of time and memory.
-In particular, this occurs when executing queries
-involving large numbers of join operations. In order to determine
-a reasonable (not necessarily optimal) query plan in a reasonable amount
-of time, PostgreSQL uses a *Genetic
-Query Optimizer* (see [Chapter 61](../geqo/README.md)) when the number of joins
-exceeds a threshold (see [geqo_threshold](../../server-administration/runtime-config/runtime-config-query.md#GUC-GEQO-THRESHOLD)).
+### 注意
 
-The planner's search procedure actually works with data structures
-called *paths*, which are simply cut-down representations of
-plans containing only as much information as the planner needs to make
-its decisions. After the cheapest path is determined, a full-fledged
-*plan tree* is built to pass to the executor. This represents
-the desired execution plan in sufficient detail for the executor to run it.
-In the rest of this section we'll ignore the distinction between paths
-and plans.
+在某些情況下，檢查查詢所有可能的執行方式會耗費過多的時間與記憶體。特別是在執行涉及大量連接操作的查詢時，就會發生這種情況。為了在合理的時間內決定一個合理的（不一定是最佳的）查詢計畫，當連接的數量超過某個門檻（請參閱 [geqo_threshold](../../server-administration/runtime-config/runtime-config-query.md#GUC-GEQO-THRESHOLD)）時，PostgreSQL 會使用*遺傳式查詢最佳化器*（請參閱[第 61 章](../geqo/README.md)）。
+
+規劃器的搜尋程序實際上是以稱為*路徑*的資料結構運作，路徑只是計畫的精簡表示，只包含規劃器做決策所需的資訊。決定成本最低的路徑之後，就會建構一棵完整的*計畫樹*傳給執行器。這棵計畫樹以足夠的細節表示所需的執行計畫，讓執行器得以執行。在本節其餘部分，我們將忽略路徑與計畫之間的區別。
 
 <a id="PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS"></a>
 
-### 51.5.1. Generating Possible Plans [#](#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
+### 51.5.1. 產生可能的計畫 [#](#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
 
-The planner/optimizer starts by generating plans for scanning each
-individual relation (table) used in the query. The possible plans
-are determined by the available indexes on each relation.
-There is always the possibility of performing a
-sequential scan on a relation, so a sequential scan plan is always
-created. Assume an index is defined on a
-relation (for example a B-tree index) and a query contains the
-restriction
-`relation.attribute OPR constant`. If
-`relation.attribute` happens to match the key of the B-tree
-index and `OPR` is one of the operators listed in
-the index's *operator class*, another plan is created using
-the B-tree index to scan the relation. If there are further indexes
-present and the restrictions in the query happen to match a key of an
-index, further plans will be considered. Index scan plans are also
-generated for indexes that have a sort ordering that can match the
-query's `ORDER BY` clause (if any), or a sort ordering that
-might be useful for merge joining (see below).
+規劃器／最佳化器首先會為查詢中使用的每一個個別關聯（資料表）產生掃描計畫。可能的計畫取決於每個關聯上可用的索引。對關聯執行循序掃描永遠是可行的，因此一定會建立一個循序掃描計畫。假設某個關聯上定義了一個索引（例如 B-tree 索引），而查詢包含限制條件 `relation.attribute OPR constant`。若 `relation.attribute` 剛好符合該 B-tree 索引的鍵，且 `OPR` 是該索引的*運算子類別*中所列的運算子之一，就會再建立一個使用該 B-tree 索引掃描此關聯的計畫。若還有其他索引存在，且查詢中的限制條件剛好符合某個索引的鍵，就會考慮更多計畫。對於排序順序能符合查詢之 `ORDER BY` 子句（若有的話）的索引，或排序順序可能有助於合併連接（見下文）的索引，也會產生索引掃描計畫。
 
-If the query requires joining two or more relations,
-plans for joining relations are considered
-after all feasible plans have been found for scanning single relations.
-The three available join strategies are:
+若查詢需要連接兩個或更多個關聯，則在找出掃描單一關聯的所有可行計畫之後，才會考慮連接關聯的計畫。可用的三種連接策略如下：
 
-* *nested loop join*: The right relation is scanned
-  once for every row found in the left relation. This strategy
-  is easy to implement but can be very time consuming. (However,
-  if the right relation can be scanned with an index scan, this can
-  be a good strategy. It is possible to use values from the current
-  row of the left relation as keys for the index scan of the right.)
-* *merge join*: Each relation is sorted on the join
-  attributes before the join starts. Then the two relations are
-  scanned in parallel, and matching rows are combined to form
-  join rows. This kind of join is
-  attractive because each relation has to be scanned only once.
-  The required sorting might be achieved either by an explicit sort
-  step, or by scanning the relation in the proper order using an
-  index on the join key.
-* *hash join*: the right relation is first scanned
-  and loaded into a hash table, using its join attributes as hash keys.
-  Next the left relation is scanned and the
-  appropriate values of every row found are used as hash keys to
-  locate the matching rows in the table.
+* *巢狀迴圈連接（nested loop join）*：對左側關聯中找到的每一筆資料列，都掃描一次右側關聯。這種策略容易實作，但可能非常耗時。（不過，若右側關聯可以用索引掃描來掃描，這可能是個好策略。可以使用左側關聯目前資料列中的值，作為右側索引掃描的鍵。）
+* *合併連接（merge join）*：在連接開始之前，先依連接屬性對每個關聯進行排序。接著平行掃描這兩個關聯，並將相符的資料列組合成連接後的資料列。這種連接很有吸引力，因為每個關聯只需要掃描一次。所需的排序可以透過明確的排序步驟達成，也可以使用連接鍵上的索引，以適當的順序掃描關聯來達成。
+* *雜湊連接（hash join）*：先掃描右側關聯，並以其連接屬性作為雜湊鍵，將它載入雜湊表。接著掃描左側關聯，並使用找到的每一筆資料列中的適當值作為雜湊鍵，在雜湊表中找出相符的資料列。
 
-When the query involves more than two relations, the final result
-must be built up by a tree of join steps, each with two inputs.
-The planner examines different possible join sequences to find the
-cheapest one.
+當查詢涉及超過兩個關聯時，最終結果必須由一棵連接步驟樹建構而成，其中每個連接步驟都有兩個輸入。規劃器會檢查各種可能的連接順序，以找出成本最低的那一個。
 
-If the query uses fewer than [geqo_threshold](../../server-administration/runtime-config/runtime-config-query.md#GUC-GEQO-THRESHOLD)
-relations, a near-exhaustive search is conducted to find the best
-join sequence. The planner preferentially considers joins between any
-two relations for which there exists a corresponding join clause in the
-`WHERE` qualification (i.e., for
-which a restriction like `where rel1.attr1=rel2.attr2`
-exists). Join pairs with no join clause are considered only when there
-is no other choice, that is, a particular relation has no available
-join clauses to any other relation. All possible plans are generated for
-every join pair considered by the planner, and the one that is
-(estimated to be) the cheapest is chosen.
+若查詢使用的關聯少於 [geqo_threshold](../../server-administration/runtime-config/runtime-config-query.md#GUC-GEQO-THRESHOLD) 個，就會進行近乎窮舉的搜尋，以找出最佳的連接順序。規劃器會優先考慮在 `WHERE` 限定條件中存在對應連接子句的任意兩個關聯之間的連接（也就是存在像 `where rel1.attr1=rel2.attr2` 這類限制條件的關聯）。沒有連接子句的連接配對只有在別無選擇時才會考慮，也就是某個特定關聯與任何其他關聯之間都沒有可用的連接子句時。規劃器會為所考慮的每一個連接配對產生所有可能的計畫，並選出（估計）成本最低的那一個。
 
-When `geqo_threshold` is exceeded, the join
-sequences considered are determined by heuristics, as described
-in [Chapter 61](../geqo/README.md). Otherwise the process is the same.
+超過 `geqo_threshold` 時，所考慮的連接順序會由啟發式方法決定，如[第 61 章](../geqo/README.md)所述。除此之外，處理過程都相同。
 
-The finished plan tree consists of sequential or index scans of
-the base relations, plus nested-loop, merge, or hash join nodes as
-needed, plus any auxiliary steps needed, such as sort nodes or
-aggregate-function calculation nodes. Most of these plan node
-types have the additional ability to do *selection*
-(discarding rows that do not meet a specified Boolean condition)
-and *projection* (computation of a derived column set
-based on given column values, that is, evaluation of scalar
-expressions where needed). One of the responsibilities of the
-planner is to attach selection conditions from the
-`WHERE` clause and computation of required
-output expressions to the most appropriate nodes of the plan
-tree.
+完成的計畫樹由基底關聯的循序掃描或索引掃描，加上視需要而定的巢狀迴圈、合併或雜湊連接節點，以及任何所需的輔助步驟（例如排序節點或彙總函式計算節點）組成。這些計畫節點類型大多還具備額外的能力，可以進行*選擇*（捨棄不符合指定布林條件的資料列）與*投影*（根據給定的欄位值計算衍生的欄位集合，也就是在需要時評估純量運算式）。規劃器的職責之一，就是將來自 `WHERE` 子句的選擇條件以及所需輸出運算式的計算，附加到計畫樹中最適當的節點上。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/planner-optimizer.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/planner-optimizer.html)（原文版本：18.6；核對日期：2026-10-12）
