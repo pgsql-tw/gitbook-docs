@@ -1,183 +1,77 @@
-## 54.1. Overview [#](#PROTOCOL-OVERVIEW)
+<a id="PROTOCOL-OVERVIEW"></a>
 
-[54.1.1. Messaging Overview](protocol-overview.md#PROTOCOL-MESSAGE-CONCEPTS)
+## 54.1. 概觀 [#](#PROTOCOL-OVERVIEW)
 
-[54.1.2. Extended Query Overview](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
+[54.1.1. 訊息傳遞概觀](protocol-overview.md#PROTOCOL-MESSAGE-CONCEPTS)
 
-[54.1.3. Formats and Format Codes](protocol-overview.md#PROTOCOL-FORMAT-CODES)
+[54.1.2. 延伸查詢概觀](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
 
-[54.1.4. Protocol Versions](protocol-overview.md#PROTOCOL-VERSIONS)
+[54.1.3. 格式與格式代碼](protocol-overview.md#PROTOCOL-FORMAT-CODES)
 
-The protocol has separate phases for startup and normal operation.
-In the startup phase, the frontend opens a connection to the server
-and authenticates itself to the satisfaction of the server. (This might
-involve a single message, or multiple messages depending on the
-authentication method being used.) If all goes well, the server then sends
-status information to the frontend, and finally enters normal operation.
-Except for the initial startup-request message, this part of the
-protocol is driven by the server.
+[54.1.4. 協定版本](protocol-overview.md#PROTOCOL-VERSIONS)
 
-During normal operation, the frontend sends queries and
-other commands to the backend, and the backend sends back query results
-and other responses. There are a few cases (such as `NOTIFY`)
-wherein the
-backend will send unsolicited messages, but for the most part this portion
-of a session is driven by frontend requests.
+此協定在啟動與正常運作時有不同的階段。在啟動階段，前端開啟與伺服器的連線，並以伺服器滿意的方式驗明自己的身分。（依所使用的認證方法而定，這可能只涉及單一訊息，也可能涉及多個訊息。）若一切順利，伺服器接著會將狀態資訊傳送給前端，最後進入正常運作。除了最初的啟動請求訊息之外，協定的這個部分是由伺服器主導的。
 
-Termination of the session is normally by frontend choice, but can be
-forced by the backend in certain cases. In any case, when the backend
-closes the connection, it will roll back any open (incomplete) transaction
-before exiting.
+在正常運作期間，前端會將查詢與其他命令傳送給後端，而後端會傳回查詢結果與其他回應。在少數情況下（例如 `NOTIFY`），後端會傳送未經請求的訊息，但工作階段的這個部分大多是由前端的請求所主導。
 
-Within normal operation, SQL commands can be executed through either of
-two sub-protocols. In the “simple query” protocol, the frontend
-just sends a textual query string, which is parsed and immediately
-executed by the backend. In the “extended query” protocol,
-processing of queries is separated into multiple steps: parsing,
-binding of parameter values, and execution. This offers flexibility
-and performance benefits, at the cost of extra complexity.
+工作階段的終止通常由前端決定，但在某些情況下也可能由後端強制終止。無論如何，當後端關閉連線時，它都會在結束前復原任何未結束（未完成）的交易。
 
-Normal operation has additional sub-protocols for special operations
-such as `COPY`.
+在正常運作中，SQL 命令可以透過兩種子協定之一執行。在「簡單查詢」協定中，前端只傳送一個文字查詢字串，後端會將其剖析並立即執行。在「延伸查詢」協定中，查詢的處理被拆成多個步驟：剖析、參數值的繫結，以及執行。這以額外的複雜度為代價，提供了彈性與效能上的好處。
+
+正常運作還有針對特殊操作（例如 `COPY`）的其他子協定。
 
 <a id="PROTOCOL-MESSAGE-CONCEPTS"></a>
 
-### 54.1.1. Messaging Overview [#](#PROTOCOL-MESSAGE-CONCEPTS)
+### 54.1.1. 訊息傳遞概觀 [#](#PROTOCOL-MESSAGE-CONCEPTS)
 
-All communication is through a stream of messages. The first byte of a
-message identifies the message type, and the next four bytes specify the
-length of the rest of the message (this length count includes itself, but
-not the message-type byte). The remaining contents of the message are
-determined by the message type. For historical reasons, the very first
-message sent by the client (the startup message) has no initial
-message-type byte.
+所有的通訊都是透過訊息串流進行。訊息的第一個位元組標識訊息類型，接下來的四個位元組指定訊息其餘部分的長度（此長度計數包含它自己，但不包含訊息類型位元組）。訊息的其餘內容由訊息類型決定。基於歷史因素，用戶端傳送的第一則訊息（啟動訊息）沒有開頭的訊息類型位元組。
 
-To avoid losing synchronization with the message stream, both servers and
-clients typically read an entire message into a buffer (using the byte
-count) before attempting to process its contents. This allows easy
-recovery if an error is detected while processing the contents. In
-extreme situations (such as not having enough memory to buffer the
-message), the receiver can use the byte count to determine how much
-input to skip before it resumes reading messages.
+為了避免與訊息串流失去同步，伺服器與用戶端通常都會先（使用位元組計數）將整則訊息讀入緩衝區，再嘗試處理其內容。這使得在處理內容時偵測到錯誤的情況下能夠輕易復原。在極端情況下（例如沒有足夠的記憶體來緩衝訊息），接收端可以使用位元組計數來判斷在恢復讀取訊息之前要略過多少輸入。
 
-Conversely, both servers and clients must take care never to send an
-incomplete message. This is commonly done by marshaling the entire message
-in a buffer before beginning to send it. If a communications failure
-occurs partway through sending or receiving a message, the only sensible
-response is to abandon the connection, since there is little hope of
-recovering message-boundary synchronization.
+反過來說，伺服器與用戶端都必須注意，絕對不要傳送不完整的訊息。這通常是藉由在開始傳送之前，先將整則訊息整理到緩衝區中來達成。若在傳送或接收訊息的中途發生通訊失敗，唯一合理的回應就是放棄該連線，因為幾乎沒有希望恢復訊息邊界的同步。
 
 <a id="PROTOCOL-QUERY-CONCEPTS"></a>
 
-### 54.1.2. Extended Query Overview [#](#PROTOCOL-QUERY-CONCEPTS)
+### 54.1.2. 延伸查詢概觀 [#](#PROTOCOL-QUERY-CONCEPTS)
 
-In the extended-query protocol, execution of SQL commands is divided
-into multiple steps. The state retained between steps is represented
-by two types of objects: *prepared statements* and
-*portals*. A prepared statement represents the result of
-parsing and semantic analysis of a textual query string.
-A prepared statement is not in itself ready to execute, because it might
-lack specific values for *parameters*. A portal represents
-a ready-to-execute or already-partially-executed statement, with any
-missing parameter values filled in. (For `SELECT` statements,
-a portal is equivalent to an open cursor, but we choose to use a different
-term since cursors don't handle non-`SELECT` statements.)
+在延伸查詢協定中，SQL 命令的執行被分成多個步驟。步驟之間保留的狀態由兩種物件表示：*預備陳述式*與 *portal*。預備陳述式代表剖析文字查詢字串並進行語意分析的結果。預備陳述式本身尚未準備好執行，因為它可能缺少*參數*的具體值。portal 代表一個已準備好執行或已部分執行的陳述式，其中所有缺少的參數值都已填入。（對於 `SELECT` 陳述式，portal 相當於一個已開啟的游標，但我們選擇使用不同的術語，因為游標無法處理非 `SELECT` 的陳述式。）
 
-The overall execution cycle consists of a *parse* step,
-which creates a prepared statement from a textual query string; a
-*bind* step, which creates a portal given a prepared
-statement and values for any needed parameters; and an
-*execute* step that runs a portal's query. In the case of
-a query that returns rows (`SELECT`, `SHOW`, etc.),
-the execute step can be told to fetch only
-a limited number of rows, so that multiple execute steps might be needed
-to complete the operation.
+整個執行循環包含：*剖析*（parse）步驟，從文字查詢字串建立預備陳述式；*繫結*（bind）步驟，根據預備陳述式以及所需參數的值建立 portal；以及*執行*（execute）步驟，執行 portal 的查詢。對於會傳回資料列的查詢（`SELECT`、`SHOW` 等），可以要求執行步驟只擷取有限數量的資料列，因此可能需要多個執行步驟才能完成該操作。
 
-The backend can keep track of multiple prepared statements and portals
-(but note that these exist only within a session, and are never shared
-across sessions). Existing prepared statements and portals are
-referenced by names assigned when they were created. In addition,
-an “unnamed” prepared statement and portal exist. Although these
-behave largely the same as named objects, operations on them are optimized
-for the case of executing a query only once and then discarding it,
-whereas operations on named objects are optimized on the expectation
-of multiple uses.
+後端可以追蹤多個預備陳述式與 portal（但請注意，它們只存在於一個工作階段之內，絕不會在工作階段之間共用）。現有的預備陳述式與 portal 是以建立時所指定的名稱來參照。此外，還存在一個「未命名」的預備陳述式與 portal。雖然它們的行為與具名物件大致相同，但對它們的操作是針對只執行一次查詢就丟棄的情況最佳化，而對具名物件的操作則是以預期會多次使用為前提來最佳化。
 
 <a id="PROTOCOL-FORMAT-CODES"></a>
 
-### 54.1.3. Formats and Format Codes [#](#PROTOCOL-FORMAT-CODES)
+### 54.1.3. 格式與格式代碼 [#](#PROTOCOL-FORMAT-CODES)
 
-Data of a particular data type might be transmitted in any of several
-different *formats*. As of PostgreSQL 7.4
-the only supported formats are “text” and “binary”,
-but the protocol makes provision for future extensions. The desired
-format for any value is specified by a *format code*.
-Clients can specify a format code for each transmitted parameter value
-and for each column of a query result. Text has format code zero,
-binary has format code one, and all other format codes are reserved
-for future definition.
+特定資料型別的資料可能以數種不同*格式*中的任何一種傳輸。截至 PostgreSQL 7.4，僅支援「文字」與「二進位」兩種格式，但協定為未來的擴充預留了空間。任何值所需的格式由*格式代碼*指定。用戶端可以為每個傳輸的參數值以及查詢結果的每個欄位指定格式代碼。文字的格式代碼為零，二進位的格式代碼為一，所有其他格式代碼都保留供未來定義。
 
-The text representation of values is whatever strings are produced
-and accepted by the input/output conversion functions for the
-particular data type. In the transmitted representation, there is
-no trailing null character; the frontend must add one to received
-values if it wants to process them as C strings.
-(The text format does not allow embedded nulls, by the way.)
+值的文字表示方式，就是該特定資料型別的輸入／輸出轉換函式所產生與接受的字串。在傳輸的表示方式中，沒有結尾的 null 字元；若前端想將接收到的值當作 C 字串處理，必須自行加上一個。（順帶一提，文字格式不允許內嵌 null。）
 
-Binary representations for integers use network byte order (most
-significant byte first). For other data types consult the documentation
-or source code to learn about the binary representation. Keep in mind
-that binary representations for complex data types might change across
-server versions; the text format is usually the more portable choice.
+整數的二進位表示方式使用網路位元組順序（最高有效位元組在前）。對於其他資料型別，請查閱文件或原始碼以了解其二進位表示方式。請記住，複雜資料型別的二進位表示方式可能會隨伺服器版本而改變；文字格式通常是較具可攜性的選擇。
 
 <a id="PROTOCOL-VERSIONS"></a>
 
-### 54.1.4. Protocol Versions [#](#PROTOCOL-VERSIONS)
+### 54.1.4. 協定版本 [#](#PROTOCOL-VERSIONS)
 
-The current, latest version of the protocol is version 3.2. However, for
-backwards compatibility with old server versions and middleware that don't
-support the version negotiation yet, libpq still uses protocol version 3.0
-by default.
+協定目前最新的版本是 3.2 版。然而，為了與尚未支援版本協商的舊版伺服器及中介軟體保持向後相容，libpq 預設仍使用協定 3.0 版。
 
-A single server can support multiple protocol versions. The initial
-startup-request message tells the server which protocol version the client
-is attempting to use. If the major version requested by the client is not
-supported by the server, the connection will be rejected (for example,
-this would occur if the client requested protocol version 4.0, which does
-not exist as of this writing). If the minor version requested by the
-client is not supported by the server (e.g., the client requests version
-3.2, but the server supports only 3.0), the server may either reject the
-connection or may respond with a NegotiateProtocolVersion message
-containing the highest minor protocol version which it supports. The
-client may then choose either to continue with the connection using the
-specified protocol version or to abort the connection.
+單一伺服器可以支援多個協定版本。最初的啟動請求訊息會告訴伺服器用戶端正嘗試使用哪個協定版本。若伺服器不支援用戶端所請求的主要版本，連線就會被拒絕（例如，若用戶端請求協定 4.0 版就會發生這種情況，在撰寫本文時該版本並不存在）。若伺服器不支援用戶端所請求的次要版本（例如，用戶端請求 3.2 版，但伺服器只支援 3.0 版），伺服器可以拒絕連線，也可以回應一則 NegotiateProtocolVersion 訊息，其中包含它所支援的最高次要協定版本。接著，用戶端可以選擇使用所指定的協定版本繼續連線，或是中止連線。
 
-The protocol negotiation was introduced in
-PostgreSQL version 9.3.21. Earlier versions
-would reject the connection if the client requested a minor version that
-was not supported by the server.
+協定協商是在 PostgreSQL 9.3.21 版引入的。較早的版本在用戶端請求伺服器不支援的次要版本時，會拒絕連線。
 
-[Table 54.1](protocol-overview.md#PROTOCOL-VERSIONS-TABLE) shows the currently supported
-protocol versions.
+[表 54.1](protocol-overview.md#PROTOCOL-VERSIONS-TABLE) 列出目前支援的協定版本。
 
 <a id="PROTOCOL-VERSIONS-TABLE"></a>
 
-**Table 54.1. Protocol Versions**
+**表 54.1. 協定版本**
 
-<table border="1" class="table" summary="Protocol Versions"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Version</th><th>Supported by</th><th>Description</th></tr></thead><tbody><tr><td>3.2</td><td>PostgreSQL 18 and later</td><td>Current latest version. The secret key used in query
-        cancellation was enlarged from 4 bytes to a variable length field. The
-        BackendKeyData message was changed to accommodate that, and the CancelRequest
-        message was redefined to have a variable length payload.
-      </td></tr><tr><td>3.1</td><td>-</td><td>Reserved. Version 3.1 has not been used by any PostgreSQL
-        version, but it was skipped because old versions of the popular
-        pgbouncer application had a bug in the protocol negotiation which made
-        it incorrectly claim that it supported version 3.1.
-      </td></tr><tr><td>3.0</td><td>PostgreSQL 7.4 and later</td><td class="auto-generated"> </td></tr><tr><td>2.0</td><td>up to PostgreSQL 13</td><td>See previous releases of
-      the <span class="productname">PostgreSQL</span> documentation for
-      details</td></tr></tbody></table>
+<table border="1" class="table" summary="協定版本"><colgroup><col/><col/><col/></colgroup><thead><tr><th>版本</th><th>支援版本</th><th>說明</th></tr></thead><tbody><tr><td>3.2</td><td>PostgreSQL 18 及之後版本</td><td>目前最新的版本。查詢取消所使用的祕密金鑰已從 4 位元組擴大為可變長度的欄位。BackendKeyData 訊息已隨之修改，CancelRequest 訊息也已重新定義為具有可變長度的酬載。
+      </td></tr><tr><td>3.1</td><td>-</td><td>保留。3.1 版從未被任何 PostgreSQL 版本使用；之所以跳過它，是因為熱門的 pgbouncer 應用程式的舊版本在協定協商中有一個錯誤，會錯誤地宣稱它支援 3.1 版。
+      </td></tr><tr><td>3.0</td><td>PostgreSQL 7.4 及之後版本</td><td class="auto-generated"> </td></tr><tr><td>2.0</td><td>至 PostgreSQL 13 為止</td><td>詳細資訊請參閱 <span class="productname">PostgreSQL</span> 文件的先前版本</td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol-overview.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/protocol-overview.html)（原文版本：18.6；核對日期：2026-10-12）
