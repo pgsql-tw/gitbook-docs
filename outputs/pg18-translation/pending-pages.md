@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：302 頁。
+待譯頁面：301 頁。
 
 ## 根目錄
 
@@ -410,7 +410,7 @@
 - [x] `internals/source/README.md` — 第 55 章 PostgreSQL 程式碼撰寫慣例
 - [ ] `internals/source/error-message-reporting.md` — 55.2. Reporting Errors Within the Server #
 - [ ] `internals/source/error-style-guide.md` — 55.3. Error Message Style Guide #
-- [ ] `internals/source/source-conventions.md` — 55.4. Miscellaneous Coding Conventions #
+- [x] `internals/source/source-conventions.md` — 55.4. 其他程式碼撰寫慣例 #
 - [ ] `internals/source/source-format.md` — 55.1. Formatting #
 - [x] `internals/storage/README.md` — 第 66 章 資料庫實體儲存
 - [x] `internals/storage/storage-file-layout.md` — 66.1. 資料庫檔案配置 #

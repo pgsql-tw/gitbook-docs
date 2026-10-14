@@ -953,7 +953,7 @@
     * [55.1. Formatting #](internals/source/source-format.md)
     * [55.2. Reporting Errors Within the Server #](internals/source/error-message-reporting.md)
     * [55.3. Error Message Style Guide #](internals/source/error-style-guide.md)
-    * [55.4. Miscellaneous Coding Conventions #](internals/source/source-conventions.md)
+    * [55.4. 其他程式碼撰寫慣例 #](internals/source/source-conventions.md)
   * [第 56 章 母語支援](internals/nls/README.md)
     * [56.1. For the Translator #](internals/nls/nls-translator.md)
     * [56.2. For the Programmer #](internals/nls/nls-programmer.md)

@@ -1,54 +1,33 @@
-## 55.4. Miscellaneous Coding Conventions [#](#SOURCE-CONVENTIONS)
+<a id="SOURCE-CONVENTIONS"></a>
+
+## 55.4. 其他程式碼撰寫慣例 [#](#SOURCE-CONVENTIONS)
 
 <a id="SOURCE-CONVENTIONS-C-STANDARD"></a>
 
-### C Standard [#](#SOURCE-CONVENTIONS-C-STANDARD)
+### C 標準 [#](#SOURCE-CONVENTIONS-C-STANDARD)
 
-Code in PostgreSQL should only rely on language
-features available in the C99 standard. That means a conforming
-C99 compiler has to be able to compile postgres, at least aside
-from a few platform dependent pieces.
+PostgreSQL 中的程式碼應該只依賴 C99 標準中提供的語言功能。也就是說，符合 C99 標準的編譯器必須能夠編譯 postgres，至少除了少數與平台相關的部分之外是如此。
 
-A few features included in the C99 standard are, at this time, not
-permitted to be used in core PostgreSQL
-code. This currently includes variable length arrays, intermingled
-declarations and code, `//` comments, universal
-character names. Reasons for that include portability and historical
-practices.
+C99 標準中包含的少數功能，目前不允許在 PostgreSQL 核心程式碼中使用。目前這包括可變長度陣列、宣告與程式碼交錯、`//` 註解、通用字元名稱（universal character names）。原因包括可攜性與歷史慣例。
 
-Features from later revisions of the C standard or compiler specific
-features can be used, if a fallback is provided.
+C 標準較新修訂版的功能或編譯器特有的功能，若有提供替代方案（fallback），就可以使用。
 
-For example `_Static_assert()` and
-`__builtin_constant_p` are currently used, even though
-they are from newer revisions of the C standard and a
-GCC extension respectively. If not available
-we respectively fall back to using a C99 compatible replacement that
-performs the same checks, but emits rather cryptic messages and do not
-use `__builtin_constant_p`.
+例如，目前有使用 `_Static_assert()` 與 `__builtin_constant_p`，儘管它們分別來自 C 標準較新的修訂版與 GCC 擴充功能。若無法使用，我們分別會退而使用一個執行相同檢查、但會發出相當晦澀訊息的 C99 相容替代實作，以及不使用 `__builtin_constant_p`。
 
 <a id="SOURCE-CONVENTIONS-MACROS-INLINE"></a>
 
-### Function-Like Macros and Inline Functions [#](#SOURCE-CONVENTIONS-MACROS-INLINE)
+### 類函式巨集與行內函式 [#](#SOURCE-CONVENTIONS-MACROS-INLINE)
 
-Both macros with arguments and `static inline`
-functions may be used. The latter are preferable if there are
-multiple-evaluation hazards when written as a macro, as e.g., the
-case with
+帶有參數的巨集與 `static inline` 函式都可以使用。如果寫成巨集會有多次求值的風險，則以後者為佳，例如下面這種情況：
 
 ```
 
 #define Max(x, y)       ((x) > (y) ? (x) : (y))
 ```
 
-or when the macro would be very long. In other cases it's only
-possible to use macros, or at least easier. For example because
-expressions of various types need to be passed to the macro.
+或者巨集會非常長的時候。在其他情況下，只能使用巨集，或者至少使用巨集比較容易。例如因為需要把各種不同型別的運算式傳給巨集。
 
-When the definition of an inline function references symbols
-(i.e., variables, functions) that are only available as part of the
-backend, the function may not be visible when included from frontend
-code.
+當行內函式的定義參照了只在後端中才有的符號（即變數、函式）時，從前端程式碼引入（include）時，該函式可能是不可見的。
 
 ```
 
@@ -64,34 +43,17 @@ MemoryContextSwitchTo(MemoryContext context)
 #endif   /* FRONTEND */
 ```
 
-In this example `CurrentMemoryContext`, which is only
-available in the backend, is referenced and the function thus
-hidden with a `#ifndef FRONTEND`. This rule
-exists because some compilers emit references to symbols
-contained in inline functions even if the function is not used.
+在這個範例中，參照了只在後端中才有的 `CurrentMemoryContext`，因此該函式以 `#ifndef FRONTEND` 隱藏起來。之所以有這條規則，是因為有些編譯器即使函式未被使用，也會發出對行內函式中所含符號的參照。
 
 <a id="SOURCE-CONVENTIONS-SIGNAL-HANDLERS"></a>
 
-### Writing Signal Handlers [#](#SOURCE-CONVENTIONS-SIGNAL-HANDLERS)
+### 撰寫訊號處理常式 [#](#SOURCE-CONVENTIONS-SIGNAL-HANDLERS)
 
-To be suitable to run inside a signal handler code has to be
-written very carefully. The fundamental problem is that, unless
-blocked, a signal handler can interrupt code at any time. If code
-inside the signal handler uses the same state as code outside
-chaos may ensue. As an example consider what happens if a signal
-handler tries to acquire a lock that's already held in the
-interrupted code.
+要適合在訊號處理常式中執行，程式碼必須寫得非常小心。根本問題在於，除非訊號被阻擋，否則訊號處理常式可能在任何時刻中斷程式碼。如果訊號處理常式內的程式碼與外部程式碼使用相同的狀態，就可能造成混亂。舉例來說，想想看如果訊號處理常式試圖取得一個被中斷的程式碼已經持有的鎖定，會發生什麼事。
 
-Barring special arrangements code in signal handlers may only
-call async-signal safe functions (as defined in POSIX) and access
-variables of type `volatile sig_atomic_t`. A few
-functions in `postgres` are also deemed signal safe, importantly
-`SetLatch()`.
+除非有特別的安排，訊號處理常式中的程式碼只可以呼叫非同步訊號安全（async-signal safe）的函式（依 POSIX 定義），並存取型別為 `volatile sig_atomic_t` 的變數。`postgres` 中也有少數函式被視為訊號安全，其中重要的是 `SetLatch()`。
 
-In most cases signal handlers should do nothing more than note
-that a signal has arrived, and wake up code running outside of
-the handler using a latch. An example of such a handler is the
-following:
+在大多數情況下，訊號處理常式應該只記下訊號已經到達，並使用閂鎖（latch）喚醒在處理常式之外執行的程式碼，除此之外不做任何事。這種處理常式的範例如下：
 
 ```
 
@@ -105,20 +67,16 @@ handle_sighup(SIGNAL_ARGS)
 
 <a id="SOURCE-CONVENTIONS-FUNCTION-POINTERS"></a>
 
-### Calling Function Pointers [#](#SOURCE-CONVENTIONS-FUNCTION-POINTERS)
+### 呼叫函式指標 [#](#SOURCE-CONVENTIONS-FUNCTION-POINTERS)
 
-For clarity, it is preferred to explicitly dereference a function pointer
-when calling the pointed-to function if the pointer is a simple variable,
-for example:
+為了清楚起見，如果指標是一個單純的變數，在呼叫其所指向的函式時，建議明確地對函式指標取值（dereference），例如：
 
 ```
 
 (*emit_log_hook) (edata);
 ```
 
-(even though `emit_log_hook(edata)` would also work).
-When the function pointer is part of a structure, then the extra
-punctuation can and usually should be omitted, for example:
+（儘管 `emit_log_hook(edata)` 也能運作。）當函式指標是某個結構的一部分時，額外的標點符號可以省略，而且通常應該省略，例如：
 
 ```
 
@@ -127,4 +85,4 @@ paramInfo->paramFetch(paramInfo, paramId);
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/source-conventions.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/source-conventions.html)（原文版本：18.6；核對日期：2026-10-12）
