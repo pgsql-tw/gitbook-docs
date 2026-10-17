@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：209 頁。
+待譯頁面：208 頁。
 
 ## 根目錄
 
@@ -288,7 +288,7 @@
 - [ ] `internals/bki/system-catalog-initial-data.md` — 68.2. System Catalog Initial Data #
 - [ ] `internals/catalogs/README.md` — Chapter 52. System Catalogs
 - [ ] `internals/catalogs/catalog-pg-aggregate.md` — 52.2. pg_aggregate #
-- [ ] `internals/catalogs/catalog-pg-am.md` — 52.3. pg_am #
+- [x] `internals/catalogs/catalog-pg-am.md` — 52.3. `pg_am` #
 - [ ] `internals/catalogs/catalog-pg-amop.md` — 52.4. pg_amop #
 - [ ] `internals/catalogs/catalog-pg-amproc.md` — 52.5. pg_amproc #
 - [ ] `internals/catalogs/catalog-pg-attrdef.md` — 52.6. pg_attrdef #
