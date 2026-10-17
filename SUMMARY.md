@@ -825,7 +825,7 @@
     * [UPDATE](reference/sql-commands/sql-update.md)
     * [VACUUM](reference/sql-commands/sql-vacuum.md)
     * [VALUES](reference/sql-commands/sql-values.md)
-* [Part VII. Internals](internals/README.md)
+* [第七部分：內部機制](internals/README.md)
   * [第 51 章 PostgreSQL 內部機制概觀](internals/overview/README.md)
     * [51.1. 查詢的路徑 #](internals/overview/query-path.md)
     * [51.2. 如何建立連線 #](internals/overview/connect-estab.md)

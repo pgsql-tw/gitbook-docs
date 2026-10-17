@@ -1,27 +1,28 @@
-# Part VII. Internals
+<a id="INTERNALS"></a>
+
+# 第七部分：內部機制
 
 <a id="id-1.10.2"></a>
 
-This part contains assorted information that might be of use to
-PostgreSQL developers.
+本部分收錄各種可能對 PostgreSQL 開發者有用的資訊。
 
-**Table of Contents**
+**目錄**
 
-[51. Overview of PostgreSQL Internals](overview/README.md)
-:   [51.1. The Path of a Query](overview/query-path.md)
+[51. PostgreSQL 內部機制概觀](overview/README.md)
+:   [51.1. 查詢的路徑](overview/query-path.md)
 
-    [51.2. How Connections Are Established](overview/connect-estab.md)
+    [51.2. 如何建立連線](overview/connect-estab.md)
 
-    [51.3. The Parser Stage](overview/parser-stage.md)
+    [51.3. 剖析器階段](overview/parser-stage.md)
 
-    [51.4. The PostgreSQL Rule System](overview/rule-system.md)
+    [51.4. PostgreSQL 規則系統](overview/rule-system.md)
 
-    [51.5. Planner/Optimizer](overview/planner-optimizer.md)
+    [51.5. 規劃器／最佳化器](overview/planner-optimizer.md)
 
-    [51.6. Executor](overview/executor.md)
+    [51.6. 執行器](overview/executor.md)
 
-[52. System Catalogs](catalogs/README.md)
-:   [52.1. Overview](catalogs/catalogs-overview.md)
+[52. 系統目錄](catalogs/README.md)
+:   [52.1. 概觀](catalogs/catalogs-overview.md)
 
     [52.2. `pg_aggregate`](catalogs/catalog-pg-aggregate.md)
 
@@ -151,8 +152,8 @@ PostgreSQL developers.
 
     [52.65. `pg_user_mapping`](catalogs/catalog-pg-user-mapping.md)
 
-[53. System Views](views/README.md)
-:   [53.1. Overview](views/views-overview.md)
+[53. 系統檢視表](views/README.md)
+:   [53.1. 概觀](views/views-overview.md)
 
     [53.2. `pg_aios`](views/view-pg-aios.md)
 
@@ -228,157 +229,157 @@ PostgreSQL developers.
 
     [53.38. `pg_wait_events`](views/view-pg-wait-events.md)
 
-[54. Frontend/Backend Protocol](protocol/README.md)
-:   [54.1. Overview](protocol/protocol-overview.md)
+[54. 前端／後端協定](protocol/README.md)
+:   [54.1. 概觀](protocol/protocol-overview.md)
 
-    [54.2. Message Flow](protocol/protocol-flow.md)
+    [54.2. 訊息流程](protocol/protocol-flow.md)
 
-    [54.3. SASL Authentication](protocol/sasl-authentication.md)
+    [54.3. SASL 認證](protocol/sasl-authentication.md)
 
-    [54.4. Streaming Replication Protocol](protocol/protocol-replication.md)
+    [54.4. 串流複寫協定](protocol/protocol-replication.md)
 
-    [54.5. Logical Streaming Replication Protocol](protocol/protocol-logical-replication.md)
+    [54.5. 邏輯串流複寫協定](protocol/protocol-logical-replication.md)
 
-    [54.6. Message Data Types](protocol/protocol-message-types.md)
+    [54.6. 訊息資料型別](protocol/protocol-message-types.md)
 
-    [54.7. Message Formats](protocol/protocol-message-formats.md)
+    [54.7. 訊息格式](protocol/protocol-message-formats.md)
 
-    [54.8. Error and Notice Message Fields](protocol/protocol-error-fields.md)
+    [54.8. 錯誤與通知訊息欄位](protocol/protocol-error-fields.md)
 
-    [54.9. Logical Replication Message Formats](protocol/protocol-logicalrep-message-formats.md)
+    [54.9. 邏輯複寫訊息格式](protocol/protocol-logicalrep-message-formats.md)
 
-    [54.10. Summary of Changes since Protocol 2.0](protocol/protocol-changes.md)
+    [54.10. 自協定 2.0 以來的變更摘要](protocol/protocol-changes.md)
 
-[55. PostgreSQL Coding Conventions](source/README.md)
-:   [55.1. Formatting](source/source-format.md)
+[55. PostgreSQL 程式碼撰寫慣例](source/README.md)
+:   [55.1. 格式](source/source-format.md)
 
-    [55.2. Reporting Errors Within the Server](source/error-message-reporting.md)
+    [55.2. 在伺服器內回報錯誤](source/error-message-reporting.md)
 
-    [55.3. Error Message Style Guide](source/error-style-guide.md)
+    [55.3. 錯誤訊息風格指南](source/error-style-guide.md)
 
-    [55.4. Miscellaneous Coding Conventions](source/source-conventions.md)
+    [55.4. 其他程式碼撰寫慣例](source/source-conventions.md)
 
-[56. Native Language Support](nls/README.md)
-:   [56.1. For the Translator](nls/nls-translator.md)
+[56. 母語支援](nls/README.md)
+:   [56.1. 給翻譯者](nls/nls-translator.md)
 
-    [56.2. For the Programmer](nls/nls-programmer.md)
+    [56.2. 給程式設計者](nls/nls-programmer.md)
 
-[57. Writing a Procedural Language Handler](plhandler/README.md)
+[57. 撰寫程序語言處理常式](plhandler/README.md)
 
-[58. Writing a Foreign Data Wrapper](fdwhandler/README.md)
-:   [58.1. Foreign Data Wrapper Functions](fdwhandler/fdw-functions.md)
+[58. 撰寫外部資料包裝器](fdwhandler/README.md)
+:   [58.1. 外部資料包裝器函式](fdwhandler/fdw-functions.md)
 
-    [58.2. Foreign Data Wrapper Callback Routines](fdwhandler/fdw-callbacks.md)
+    [58.2. 外部資料包裝器回呼常式](fdwhandler/fdw-callbacks.md)
 
-    [58.3. Foreign Data Wrapper Helper Functions](fdwhandler/fdw-helpers.md)
+    [58.3. 外部資料包裝器輔助函式](fdwhandler/fdw-helpers.md)
 
-    [58.4. Foreign Data Wrapper Query Planning](fdwhandler/fdw-planning.md)
+    [58.4. 外部資料包裝器查詢規劃](fdwhandler/fdw-planning.md)
 
-    [58.5. Row Locking in Foreign Data Wrappers](fdwhandler/fdw-row-locking.md)
+    [58.5. 外部資料包裝器中的資料列鎖定](fdwhandler/fdw-row-locking.md)
 
-[59. Writing a Table Sampling Method](tablesample-method/README.md)
-:   [59.1. Sampling Method Support Functions](tablesample-method/tablesample-support-functions.md)
+[59. 撰寫資料表取樣方法](tablesample-method/README.md)
+:   [59.1. 取樣方法支援函式](tablesample-method/tablesample-support-functions.md)
 
-[60. Writing a Custom Scan Provider](custom-scan/README.md)
-:   [60.1. Creating Custom Scan Paths](custom-scan/custom-scan-path.md)
+[60. 撰寫自訂掃描提供者](custom-scan/README.md)
+:   [60.1. 建立自訂掃描路徑](custom-scan/custom-scan-path.md)
 
-    [60.2. Creating Custom Scan Plans](custom-scan/custom-scan-plan.md)
+    [60.2. 建立自訂掃描計畫](custom-scan/custom-scan-plan.md)
 
-    [60.3. Executing Custom Scans](custom-scan/custom-scan-execution.md)
+    [60.3. 執行自訂掃描](custom-scan/custom-scan-execution.md)
 
-[61. Genetic Query Optimizer](geqo/README.md)
-:   [61.1. Query Handling as a Complex Optimization Problem](geqo/geqo-intro.md)
+[61. 遺傳式查詢最佳化器](geqo/README.md)
+:   [61.1. 將查詢處理視為複雜最佳化問題](geqo/geqo-intro.md)
 
-    [61.2. Genetic Algorithms](geqo/geqo-intro2.md)
+    [61.2. 遺傳演算法](geqo/geqo-intro2.md)
 
-    [61.3. Genetic Query Optimization (GEQO) in PostgreSQL](geqo/geqo-pg-intro.md)
+    [61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO）](geqo/geqo-pg-intro.md)
 
-    [61.4. Further Reading](geqo/geqo-biblio.md)
+    [61.4. 延伸閱讀](geqo/geqo-biblio.md)
 
-[62. Table Access Method Interface Definition](tableam/README.md)
+[62. 資料表存取方法介面定義](tableam/README.md)
 
-[63. Index Access Method Interface Definition](indexam/README.md)
-:   [63.1. Basic API Structure for Indexes](indexam/index-api.md)
+[63. 索引存取方法介面定義](indexam/README.md)
+:   [63.1. 索引的基本 API 結構](indexam/index-api.md)
 
-    [63.2. Index Access Method Functions](indexam/index-functions.md)
+    [63.2. 索引存取方法函式](indexam/index-functions.md)
 
-    [63.3. Index Scanning](indexam/index-scanning.md)
+    [63.3. 索引掃描](indexam/index-scanning.md)
 
-    [63.4. Index Locking Considerations](indexam/index-locking.md)
+    [63.4. 索引鎖定的考量](indexam/index-locking.md)
 
-    [63.5. Index Uniqueness Checks](indexam/index-unique-checks.md)
+    [63.5. 索引唯一性檢查](indexam/index-unique-checks.md)
 
-    [63.6. Index Cost Estimation Functions](indexam/index-cost-estimation.md)
+    [63.6. 索引成本估算函式](indexam/index-cost-estimation.md)
 
-[64. Write Ahead Logging for Extensions](wal-for-extensions/README.md)
-:   [64.1. Generic WAL Records](wal-for-extensions/generic-wal.md)
+[64. 擴充套件的預寫式日誌](wal-for-extensions/README.md)
+:   [64.1. 通用 WAL 記錄](wal-for-extensions/generic-wal.md)
 
-    [64.2. Custom WAL Resource Managers](wal-for-extensions/custom-rmgr.md)
+    [64.2. 自訂 WAL 資源管理器](wal-for-extensions/custom-rmgr.md)
 
-[65. Built-in Index Access Methods](indextypes/README.md)
-:   [65.1. B-Tree Indexes](indextypes/btree.md)
+[65. 內建索引存取方法](indextypes/README.md)
+:   [65.1. B-Tree 索引](indextypes/btree.md)
 
-    [65.2. GiST Indexes](indextypes/gist.md)
+    [65.2. GiST 索引](indextypes/gist.md)
 
-    [65.3. SP-GiST Indexes](indextypes/spgist.md)
+    [65.3. SP-GiST 索引](indextypes/spgist.md)
 
-    [65.4. GIN Indexes](indextypes/gin.md)
+    [65.4. GIN 索引](indextypes/gin.md)
 
-    [65.5. BRIN Indexes](indextypes/brin.md)
+    [65.5. BRIN 索引](indextypes/brin.md)
 
-    [65.6. Hash Indexes](indextypes/hash-index.md)
+    [65.6. 雜湊索引](indextypes/hash-index.md)
 
-[66. Database Physical Storage](storage/README.md)
-:   [66.1. Database File Layout](storage/storage-file-layout.md)
+[66. 資料庫實體儲存](storage/README.md)
+:   [66.1. 資料庫檔案配置](storage/storage-file-layout.md)
 
     [66.2. TOAST](storage/storage-toast.md)
 
-    [66.3. Free Space Map](storage/storage-fsm.md)
+    [66.3. 可用空間對照表](storage/storage-fsm.md)
 
-    [66.4. Visibility Map](storage/storage-vm.md)
+    [66.4. 可見性對應表](storage/storage-vm.md)
 
-    [66.5. The Initialization Fork](storage/storage-init.md)
+    [66.5. 初始化分支檔案](storage/storage-init.md)
 
-    [66.6. Database Page Layout](storage/storage-page-layout.md)
+    [66.6. 資料庫頁面配置](storage/storage-page-layout.md)
 
-    [66.7. Heap-Only Tuples (HOT)](storage/storage-hot.md)
+    [66.7. 僅存於堆積的資料列（HOT）](storage/storage-hot.md)
 
-[67. Transaction Processing](transactions/README.md)
-:   [67.1. Transactions and Identifiers](transactions/transaction-id.md)
+[67. 交易處理](transactions/README.md)
+:   [67.1. 交易與識別碼](transactions/transaction-id.md)
 
-    [67.2. Transactions and Locking](transactions/xact-locking.md)
+    [67.2. 交易與鎖定](transactions/xact-locking.md)
 
-    [67.3. Subtransactions](transactions/subxacts.md)
+    [67.3. 子交易](transactions/subxacts.md)
 
-    [67.4. Two-Phase Transactions](transactions/two-phase.md)
+    [67.4. 兩階段交易](transactions/two-phase.md)
 
-[68. System Catalog Declarations and Initial Contents](bki/README.md)
-:   [68.1. System Catalog Declaration Rules](bki/system-catalog-declarations.md)
+[68. 系統目錄宣告與初始內容](bki/README.md)
+:   [68.1. 系統目錄宣告規則](bki/system-catalog-declarations.md)
 
-    [68.2. System Catalog Initial Data](bki/system-catalog-initial-data.md)
+    [68.2. 系統目錄初始資料](bki/system-catalog-initial-data.md)
 
-    [68.3. BKI File Format](bki/bki-format.md)
+    [68.3. BKI 檔案格式](bki/bki-format.md)
 
-    [68.4. BKI Commands](bki/bki-commands.md)
+    [68.4. BKI 命令](bki/bki-commands.md)
 
-    [68.5. Structure of the Bootstrap BKI File](bki/bki-structure.md)
+    [68.5. 初始建置 BKI 檔案的結構](bki/bki-structure.md)
 
-    [68.6. BKI Example](bki/bki-example.md)
+    [68.6. BKI 範例](bki/bki-example.md)
 
-[69. How the Planner Uses Statistics](planner-stats-details/README.md)
-:   [69.1. Row Estimation Examples](planner-stats-details/row-estimation-examples.md)
+[69. 規劃器如何使用統計資訊](planner-stats-details/README.md)
+:   [69.1. 資料列估計範例](planner-stats-details/row-estimation-examples.md)
 
-    [69.2. Multivariate Statistics Examples](planner-stats-details/multivariate-statistics-examples.md)
+    [69.2. 多變量統計資訊範例](planner-stats-details/multivariate-statistics-examples.md)
 
-    [69.3. Planner Statistics and Security](planner-stats-details/planner-stats-security.md)
+    [69.3. 規劃器統計資訊與安全性](planner-stats-details/planner-stats-security.md)
 
-[70. Backup Manifest Format](backup-manifest-format/README.md)
-:   [70.1. Backup Manifest Top-level Object](backup-manifest-format/backup-manifest-toplevel.md)
+[70. 備份清單格式](backup-manifest-format/README.md)
+:   [70.1. 備份清單頂層物件](backup-manifest-format/backup-manifest-toplevel.md)
 
-    [70.2. Backup Manifest File Object](backup-manifest-format/backup-manifest-files.md)
+    [70.2. 備份清單檔案物件](backup-manifest-format/backup-manifest-files.md)
 
-    [70.3. Backup Manifest WAL Range Object](backup-manifest-format/backup-manifest-wal-ranges.md)
+    [70.3. 備份清單 WAL 範圍物件](backup-manifest-format/backup-manifest-wal-ranges.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/internals.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/internals.html)（原文版本：18.6；核對日期：2026-10-17）
