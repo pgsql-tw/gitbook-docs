@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：248 頁。
+待譯頁面：247 頁。
 
 ## 根目錄
 
@@ -319,7 +319,7 @@
 - [ ] `internals/catalogs/catalog-pg-largeobject.md` — 52.30. pg_largeobject #
 - [ ] `internals/catalogs/catalog-pg-namespace.md` — 52.32. pg_namespace #
 - [ ] `internals/catalogs/catalog-pg-opclass.md` — 52.33. pg_opclass #
-- [ ] `internals/catalogs/catalog-pg-operator.md` — 52.34. pg_operator #
+- [x] `internals/catalogs/catalog-pg-operator.md` — 52.34. `pg_operator` #
 - [ ] `internals/catalogs/catalog-pg-opfamily.md` — 52.35. pg_opfamily #
 - [ ] `internals/catalogs/catalog-pg-parameter-acl.md` — 52.36. pg_parameter_acl #
 - [ ] `internals/catalogs/catalog-pg-partitioned-table.md` — 52.37. pg_partitioned_table #
