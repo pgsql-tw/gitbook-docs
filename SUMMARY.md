@@ -960,7 +960,7 @@
   * [第 57 章 撰寫程序語言處理常式](internals/plhandler/README.md)
   * [第 58 章 撰寫外部資料包裝器](internals/fdwhandler/README.md)
     * [58.1. 外部資料包裝器函式 #](internals/fdwhandler/fdw-functions.md)
-    * [58.2. Foreign Data Wrapper Callback Routines #](internals/fdwhandler/fdw-callbacks.md)
+    * [58.2. 外部資料包裝器回呼函式 #](internals/fdwhandler/fdw-callbacks.md)
     * [58.3. 外部資料包裝器輔助函式 #](internals/fdwhandler/fdw-helpers.md)
     * [58.4. 外部資料包裝器查詢規劃 #](internals/fdwhandler/fdw-planning.md)
     * [58.5. 外部資料包裝器中的資料列鎖定 #](internals/fdwhandler/fdw-row-locking.md)

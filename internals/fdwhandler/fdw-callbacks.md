@@ -1,40 +1,38 @@
-## 58.2. Foreign Data Wrapper Callback Routines [#](#FDW-CALLBACKS)
+<a id="FDW-CALLBACKS"></a>
 
-[58.2.1. FDW Routines for Scanning Foreign Tables](fdw-callbacks.md#FDW-CALLBACKS-SCAN)
+## 58.2. 外部資料包裝器回呼函式 [#](#FDW-CALLBACKS)
 
-[58.2.2. FDW Routines for Scanning Foreign Joins](fdw-callbacks.md#FDW-CALLBACKS-JOIN-SCAN)
+[58.2.1. 掃描外部資料表的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-SCAN)
 
-[58.2.3. FDW Routines for Planning Post-Scan/Join Processing](fdw-callbacks.md#FDW-CALLBACKS-UPPER-PLANNING)
+[58.2.2. 掃描外部資料表連接的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-JOIN-SCAN)
 
-[58.2.4. FDW Routines for Updating Foreign Tables](fdw-callbacks.md#FDW-CALLBACKS-UPDATE)
+[58.2.3. 規劃掃描／連接後處理的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-UPPER-PLANNING)
 
-[58.2.5. FDW Routines for `TRUNCATE`](fdw-callbacks.md#FDW-CALLBACKS-TRUNCATE)
+[58.2.4. 更新外部資料表的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-UPDATE)
 
-[58.2.6. FDW Routines for Row Locking](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)
+[58.2.5. `TRUNCATE` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-TRUNCATE)
 
-[58.2.7. FDW Routines for `EXPLAIN`](fdw-callbacks.md#FDW-CALLBACKS-EXPLAIN)
+[58.2.6. 資料列鎖定的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)
 
-[58.2.8. FDW Routines for `ANALYZE`](fdw-callbacks.md#FDW-CALLBACKS-ANALYZE)
+[58.2.7. `EXPLAIN` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-EXPLAIN)
 
-[58.2.9. FDW Routines for `IMPORT FOREIGN SCHEMA`](fdw-callbacks.md#FDW-CALLBACKS-IMPORT)
+[58.2.8. `ANALYZE` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-ANALYZE)
 
-[58.2.10. FDW Routines for Parallel Execution](fdw-callbacks.md#FDW-CALLBACKS-PARALLEL)
+[58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-IMPORT)
 
-[58.2.11. FDW Routines for Asynchronous Execution](fdw-callbacks.md#FDW-CALLBACKS-ASYNC)
+[58.2.10. 平行執行的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-PARALLEL)
 
-[58.2.12. FDW Routines for Reparameterization of Paths](fdw-callbacks.md#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
+[58.2.11. 非同步執行的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-ASYNC)
 
-The FDW handler function returns a palloc'd `FdwRoutine`
-struct containing pointers to the callback functions described below.
-The scan-related functions are required, the rest are optional.
+[58.2.12. 路徑重新參數化的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
 
-The `FdwRoutine` struct type is declared in
-`src/include/foreign/fdwapi.h`, which see for additional
-details.
+FDW 處理函式會回傳一個以 palloc 配置的 `FdwRoutine` 結構，其中包含指向下文所述各回呼函式的指標。與掃描相關的函式是必要的，其餘則可選擇性提供。
+
+`FdwRoutine` 結構型別宣告於 `src/include/foreign/fdwapi.h`，更多細節請參閱該檔案。
 
 <a id="FDW-CALLBACKS-SCAN"></a>
 
-### 58.2.1. FDW Routines for Scanning Foreign Tables [#](#FDW-CALLBACKS-SCAN)
+### 58.2.1. 掃描外部資料表的 FDW 函式 [#](#FDW-CALLBACKS-SCAN)
 
 ```
 
@@ -44,32 +42,11 @@ GetForeignRelSize(PlannerInfo *root,
                   Oid foreigntableid);
 ```
 
-Obtain relation size estimates for a foreign table. This is called
-at the beginning of planning for a query that scans a foreign table.
-`root` is the planner's global information about the query;
-`baserel` is the planner's information about this table; and
-`foreigntableid` is the `pg_class` OID of the
-foreign table. (`foreigntableid` could be obtained from the
-planner data structures, but it's passed explicitly to save effort.)
+取得外部資料表的關聯大小估計值。這會在規劃掃描外部資料表的查詢之初被呼叫。`root` 是規劃器關於該查詢的全域資訊；`baserel` 是規劃器關於此資料表的資訊；`foreigntableid` 則是該外部資料表在 `pg_class` 中的 OID。（`foreigntableid` 其實可以從規劃器的資料結構中取得，但為了省事而明確傳入。）
 
-This function should update `baserel->rows` to be the
-expected number of rows returned by the table scan, after accounting for
-the filtering done by the restriction quals. The initial value of
-`baserel->rows` is just a constant default estimate, which
-should be replaced if at all possible. The function may also choose to
-update `baserel->width` if it can compute a better estimate
-of the average result row width.
-(The initial value is based on column data types and on column
-average-width values measured by the last `ANALYZE`.)
-Also, this function may update `baserel->tuples` if
-it can compute a better estimate of the foreign table's total row count.
-(The initial value is
-from `pg_class`.`reltuples`
-which represents the total row count seen by the
-last `ANALYZE`; it will be `-1` if
-no `ANALYZE` has been done on this foreign table.)
+此函式應該將 `baserel->rows` 更新為資料表掃描預期回傳的資料列數，並將限制性條件（restriction quals）所做的過濾納入考量。`baserel->rows` 的初始值只是一個固定的預設估計值，應該盡可能加以取代。若此函式能計算出更好的平均結果資料列寬度估計值，也可以選擇更新 `baserel->width`。（其初始值是根據欄位的資料型別，以及最近一次 `ANALYZE` 所量測的欄位平均寬度值。）此外，若此函式能計算出更好的外部資料表總資料列數估計值，也可以更新 `baserel->tuples`。（其初始值取自 `pg_class`.`reltuples`，代表最近一次 `ANALYZE` 所看到的總資料列數；若此外部資料表從未執行過 `ANALYZE`，則為 `-1`。）
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
 ```
 
@@ -79,23 +56,11 @@ GetForeignPaths(PlannerInfo *root,
                 Oid foreigntableid);
 ```
 
-Create possible access paths for a scan on a foreign table.
-This is called during query planning.
-The parameters are the same as for `GetForeignRelSize`,
-which has already been called.
+為外部資料表上的掃描建立可能的存取路徑。這會在查詢規劃期間被呼叫。參數與 `GetForeignRelSize` 相同，而後者此時已被呼叫過。
 
-This function must generate at least one access path
-(`ForeignPath` node) for a scan on the foreign table and
-must call `add_path` to add each such path to
-`baserel->pathlist`. It's recommended to use
-`create_foreignscan_path` to build the
-`ForeignPath` nodes. The function can generate multiple
-access paths, e.g., a path which has valid `pathkeys` to
-represent a pre-sorted result. Each access path must contain cost
-estimates, and can contain any FDW-private information that is needed to
-identify the specific scan method intended.
+此函式必須為外部資料表上的掃描產生至少一個存取路徑（`ForeignPath` 節點），並且必須呼叫 `add_path` 將每個這樣的路徑加入 `baserel->pathlist`。建議使用 `create_foreignscan_path` 來建構 `ForeignPath` 節點。此函式可以產生多個存取路徑，例如一個具有有效 `pathkeys` 的路徑，用以表示預先排序的結果。每個存取路徑都必須包含成本估計值，並且可以包含識別所要採用的特定掃描方法所需的任何 FDW 私有資訊。
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
 ```
 
@@ -109,24 +74,11 @@ GetForeignPlan(PlannerInfo *root,
                Plan *outer_plan);
 ```
 
-Create a `ForeignScan` plan node from the selected foreign
-access path. This is called at the end of query planning.
-The parameters are as for `GetForeignRelSize`, plus
-the selected `ForeignPath` (previously produced by
-`GetForeignPaths`, `GetForeignJoinPaths`,
-or `GetForeignUpperPaths`),
-the target list to be emitted by the plan node,
-the restriction clauses to be enforced by the plan node,
-and the outer subplan of the `ForeignScan`,
-which is used for rechecks performed by `RecheckForeignScan`.
-(If the path is for a join rather than a base
-relation, `foreigntableid` is `InvalidOid`.)
+從選定的外部存取路徑建立 `ForeignScan` 計畫節點。這會在查詢規劃的最後被呼叫。參數與 `GetForeignRelSize` 相同，另外加上：選定的 `ForeignPath`（先前由 `GetForeignPaths`、`GetForeignJoinPaths` 或 `GetForeignUpperPaths` 產生）、計畫節點要輸出的目標清單、計畫節點要強制套用的限制子句，以及 `ForeignScan` 的外層子計畫（用於 `RecheckForeignScan` 所執行的重新檢查）。（若該路徑是針對連接而非基礎關聯，則 `foreigntableid` 為 `InvalidOid`。）
 
-This function must create and return a `ForeignScan` plan
-node; it's recommended to use `make_foreignscan` to build the
-`ForeignScan` node.
+此函式必須建立並回傳一個 `ForeignScan` 計畫節點；建議使用 `make_foreignscan` 來建構 `ForeignScan` 節點。
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
 ```
 
@@ -135,23 +87,9 @@ BeginForeignScan(ForeignScanState *node,
                  int eflags);
 ```
 
-Begin executing a foreign scan. This is called during executor startup.
-It should perform any initialization needed before the scan can start,
-but not start executing the actual scan (that should be done upon the
-first call to `IterateForeignScan`).
-The `ForeignScanState` node has already been created, but
-its `fdw_state` field is still NULL. Information about
-the table to scan is accessible through the
-`ForeignScanState` node (in particular, from the underlying
-`ForeignScan` plan node, which contains any FDW-private
-information provided by `GetForeignPlan`).
-`eflags` contains flag bits describing the executor's
-operating mode for this plan node.
+開始執行外部掃描。這會在執行器啟動期間被呼叫。它應該執行掃描開始前所需的任何初始化，但不要開始執行實際的掃描（那應該在第一次呼叫 `IterateForeignScan` 時進行）。`ForeignScanState` 節點已經建立，但其 `fdw_state` 欄位仍為 NULL。要掃描的資料表的相關資訊可以透過 `ForeignScanState` 節點取得（特別是從底層的 `ForeignScan` 計畫節點，其中包含 `GetForeignPlan` 所提供的任何 FDW 私有資訊）。`eflags` 包含描述執行器對此計畫節點之運作模式的旗標位元。
 
-Note that when `(eflags & EXEC_FLAG_EXPLAIN_ONLY)` is
-true, this function should not perform any externally-visible actions;
-it should only do the minimum required to make the node state valid
-for `ExplainForeignScan` and `EndForeignScan`.
+請注意，當 `(eflags & EXEC_FLAG_EXPLAIN_ONLY)` 為真時，此函式不應執行任何外部可見的動作；它只應做到讓節點狀態對 `ExplainForeignScan` 與 `EndForeignScan` 有效所需的最低限度工作。
 
 ```
 
@@ -159,31 +97,11 @@ TupleTableSlot *
 IterateForeignScan(ForeignScanState *node);
 ```
 
-Fetch one row from the foreign source, returning it in a tuple table slot
-(the node's `ScanTupleSlot` should be used for this
-purpose). Return NULL if no more rows are available. The tuple table
-slot infrastructure allows either a physical or virtual tuple to be
-returned; in most cases the latter choice is preferable from a
-performance standpoint. Note that this is called in a short-lived memory
-context that will be reset between invocations. Create a memory context
-in `BeginForeignScan` if you need longer-lived storage, or use
-the `es_query_cxt` of the node's `EState`.
+從外部來源擷取一個資料列，並以元組表槽（tuple table slot）回傳（應該使用節點的 `ScanTupleSlot` 來達成此目的）。若沒有更多資料列可用，則回傳 NULL。元組表槽基礎架構允許回傳實體元組或虛擬元組；在大多數情況下，從效能的角度來看後者較為理想。請注意，此函式是在一個短生命週期的記憶體上下文中被呼叫，該上下文會在每次呼叫之間重設。若需要生命週期較長的儲存空間，請在 `BeginForeignScan` 中建立一個記憶體上下文，或使用節點之 `EState` 的 `es_query_cxt`。
 
-The rows returned must match the `fdw_scan_tlist` target
-list if one was supplied, otherwise they must match the row type of the
-foreign table being scanned. If you choose to optimize away fetching
-columns that are not needed, you should insert nulls in those column
-positions, or else generate a `fdw_scan_tlist` list with
-those columns omitted.
+若有提供 `fdw_scan_tlist` 目標清單，回傳的資料列必須與其相符；否則必須與被掃描之外部資料表的資料列型別相符。若你選擇以最佳化省略擷取不需要的欄位，應該在那些欄位位置填入 null，或者產生一個省略那些欄位的 `fdw_scan_tlist` 清單。
 
-Note that PostgreSQL's executor doesn't care
-whether the rows returned violate any constraints that were defined on
-the foreign table — but the planner does care, and may optimize
-queries incorrectly if there are rows visible in the foreign table that
-do not satisfy a declared constraint. If a constraint is violated when
-the user has declared that the constraint should hold true, it may be
-appropriate to raise an error (just as you would need to do in the case
-of a data type mismatch).
+請注意，PostgreSQL 的執行器並不在意回傳的資料列是否違反外部資料表上定義的任何限制條件——但規劃器在意，若外部資料表中有可見的資料列不符合已宣告的限制條件，規劃器可能會錯誤地最佳化查詢。若在使用者已宣告某限制條件應該成立的情況下該限制條件遭到違反，擲出錯誤可能是恰當的（就像在資料型別不相符時你需要做的一樣）。
 
 ```
 
@@ -191,9 +109,7 @@ void
 ReScanForeignScan(ForeignScanState *node);
 ```
 
-Restart the scan from the beginning. Note that any parameters the
-scan depends on may have changed value, so the new scan does not
-necessarily return exactly the same rows.
+從頭重新開始掃描。請注意，掃描所依賴的任何參數的值都可能已經改變，因此新的掃描不一定會回傳完全相同的資料列。
 
 ```
 
@@ -201,17 +117,13 @@ void
 EndForeignScan(ForeignScanState *node);
 ```
 
-End the scan and release resources. It is normally not important
-to release palloc'd memory, but for example open files and connections
-to remote servers should be cleaned up.
+結束掃描並釋放資源。釋放以 palloc 配置的記憶體通常並不重要，但像是開啟的檔案以及與遠端伺服器的連線等，則應該加以清理。
 
 <a id="FDW-CALLBACKS-JOIN-SCAN"></a>
 
-### 58.2.2. FDW Routines for Scanning Foreign Joins [#](#FDW-CALLBACKS-JOIN-SCAN)
+### 58.2.2. 掃描外部資料表連接的 FDW 函式 [#](#FDW-CALLBACKS-JOIN-SCAN)
 
-If an FDW supports performing foreign joins remotely (rather than
-by fetching both tables' data and doing the join locally), it should
-provide this callback function:
+若 FDW 支援在遠端執行外部資料表之間的連接（而不是擷取兩個資料表的資料後在本地端進行連接），它應該提供這個回呼函式：
 
 ```
 
@@ -224,65 +136,25 @@ GetForeignJoinPaths(PlannerInfo *root,
                     JoinPathExtraData *extra);
 ```
 
-Create possible access paths for a join of two (or more) foreign tables
-that all belong to the same foreign server. This optional
-function is called during query planning. As
-with `GetForeignPaths`, this function should
-generate `ForeignPath` path(s) for the
-supplied `joinrel`
-(use `create_foreign_join_path` to build them),
-and call `add_path` to add these
-paths to the set of paths considered for the join. But unlike
-`GetForeignPaths`, it is not necessary that this function
-succeed in creating at least one path, since paths involving local
-joining are always possible.
+為兩個（或更多）全都屬於同一外部伺服器的外部資料表之連接，建立可能的存取路徑。這個選擇性函式會在查詢規劃期間被呼叫。與 `GetForeignPaths` 一樣，此函式應該為所提供的 `joinrel` 產生 `ForeignPath` 路徑（使用 `create_foreign_join_path` 來建構），並呼叫 `add_path` 將這些路徑加入此連接所考慮的路徑集合。但與 `GetForeignPaths` 不同的是，此函式不一定要成功建立至少一個路徑，因為涉及本地端連接的路徑總是可行的。
 
-Note that this function will be invoked repeatedly for the same join
-relation, with different combinations of inner and outer relations; it is
-the responsibility of the FDW to minimize duplicated work.
+請注意，對於同一個連接關聯，此函式會以不同的內層與外層關聯組合被重複呼叫；將重複工作減到最少是 FDW 的責任。
 
-Note also that the set of join clauses to apply to the join,
-which is passed as `extra->restrictlist`, varies
-depending on the combination of inner and outer relations. A
-`ForeignPath` path generated for the
-`joinrel` must contain the set of join clauses it uses,
-which will be used by the planner to convert the
-`ForeignPath` path into a plan, if it is selected
-by the planner as the best path for the `joinrel`.
+另請注意，要套用於該連接的連接子句集合（以 `extra->restrictlist` 傳入）會依內層與外層關聯的組合而不同。為 `joinrel` 產生的 `ForeignPath` 路徑必須包含它所使用的連接子句集合；若規劃器選擇該路徑作為 `joinrel` 的最佳路徑，規劃器會用這些子句將該 `ForeignPath` 路徑轉換為計畫。
 
-If a `ForeignPath` path is chosen for the join, it will
-represent the entire join process; paths generated for the component
-tables and subsidiary joins will not be used. Subsequent processing of
-the join path proceeds much as it does for a path scanning a single
-foreign table. One difference is that the `scanrelid` of
-the resulting `ForeignScan` plan node should be set to zero,
-since there is no single relation that it represents; instead,
-the `fs_relids` field of the `ForeignScan`
-node represents the set of relations that were joined. (The latter field
-is set up automatically by the core planner code, and need not be filled
-by the FDW.) Another difference is that, because the column list for a
-remote join cannot be found from the system catalogs, the FDW must
-fill `fdw_scan_tlist` with an appropriate list
-of `TargetEntry` nodes, representing the set of columns
-it will supply at run time in the tuples it returns.
+若某個連接選擇了 `ForeignPath` 路徑，它將代表整個連接處理過程；為組成資料表及附屬連接所產生的路徑將不會被使用。此連接路徑的後續處理，大致與掃描單一外部資料表之路徑的處理相同。差異之一是，所產生的 `ForeignScan` 計畫節點的 `scanrelid` 應該設為零，因為它並不代表單一關聯；取而代之的是，`ForeignScan` 節點的 `fs_relids` 欄位代表被連接的關聯集合。（後者欄位由核心規劃器程式碼自動設定，FDW 不需要填寫。）另一個差異是，由於遠端連接的欄位清單無法從系統目錄中找到，FDW 必須在 `fdw_scan_tlist` 中填入適當的 `TargetEntry` 節點清單，代表它在執行時期所回傳的元組中會提供的欄位集合。
 
-### Note
+### 注意
 
-Beginning with PostgreSQL 16,
-`fs_relids` includes the rangetable indexes
-of outer joins, if any were involved in this join. The new field
-`fs_base_relids` includes only base
-relation indexes, and thus
-mimics `fs_relids`'s old semantics.
+從 PostgreSQL 16 開始，若此連接涉及外部連接（outer join），`fs_relids` 會包含這些外部連接的範圍表（rangetable）索引。新的欄位 `fs_base_relids` 只包含基礎關聯的索引，因此模擬了 `fs_relids` 原本的語意。
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
 <a id="FDW-CALLBACKS-UPPER-PLANNING"></a>
 
-### 58.2.3. FDW Routines for Planning Post-Scan/Join Processing [#](#FDW-CALLBACKS-UPPER-PLANNING)
+### 58.2.3. 規劃掃描／連接後處理的 FDW 函式 [#](#FDW-CALLBACKS-UPPER-PLANNING)
 
-If an FDW supports performing remote post-scan/join processing, such as
-remote aggregation, it should provide this callback function:
+若 FDW 支援在遠端執行掃描／連接後的處理（例如遠端彙總），它應該提供這個回呼函式：
 
 ```
 
@@ -294,46 +166,17 @@ GetForeignUpperPaths(PlannerInfo *root,
                      void *extra);
 ```
 
-Create possible access paths for *upper relation* processing,
-which is the planner's term for all post-scan/join query processing, such
-as aggregation, window functions, sorting, and table updates. This
-optional function is called during query planning. Currently, it is
-called only if all base relation(s) involved in the query belong to the
-same FDW. This function should generate `ForeignPath`
-path(s) for any post-scan/join processing that the FDW knows how to
-perform remotely
-(use `create_foreign_upper_path` to build them),
-and call `add_path` to add these paths to
-the indicated upper relation. As with `GetForeignJoinPaths`,
-it is not necessary that this function succeed in creating any paths,
-since paths involving local processing are always possible.
+為*上層關聯*（upper relation）處理建立可能的存取路徑；上層關聯是規劃器用來指稱所有掃描／連接後查詢處理的術語，例如彙總、視窗函式、排序以及資料表更新。這個選擇性函式會在查詢規劃期間被呼叫。目前，只有在查詢所涉及的所有基礎關聯都屬於同一個 FDW 時才會呼叫它。此函式應該為 FDW 知道如何在遠端執行的任何掃描／連接後處理產生 `ForeignPath` 路徑（使用 `create_foreign_upper_path` 來建構），並呼叫 `add_path` 將這些路徑加入指定的上層關聯。與 `GetForeignJoinPaths` 一樣，此函式不一定要成功建立任何路徑，因為涉及本地端處理的路徑總是可行的。
 
-The `stage` parameter identifies which post-scan/join step is
-currently being considered. `output_rel` is the upper relation
-that should receive paths representing computation of this step,
-and `input_rel` is the relation representing the input to this
-step. The `extra` parameter provides additional details,
-currently, it is set only for `UPPERREL_PARTIAL_GROUP_AGG`
-or `UPPERREL_GROUP_AGG`, in which case it points to a
-`GroupPathExtraData` structure;
-or for `UPPERREL_FINAL`, in which case it points to a
-`FinalPathExtraData` structure.
-(Note that `ForeignPath` paths added
-to `output_rel` would typically not have any direct dependency
-on paths of the `input_rel`, since their processing is expected
-to be done externally. However, examining paths previously generated for
-the previous processing step can be useful to avoid redundant planning
-work.)
+`stage` 參數指出目前正在考慮的是哪一個掃描／連接後步驟。`output_rel` 是應該接收代表此步驟計算之路徑的上層關聯，而 `input_rel` 是代表此步驟輸入的關聯。`extra` 參數提供額外的細節；目前它只會在 `UPPERREL_PARTIAL_GROUP_AGG` 或 `UPPERREL_GROUP_AGG` 時設定，此時它指向一個 `GroupPathExtraData` 結構；或在 `UPPERREL_FINAL` 時設定，此時它指向一個 `FinalPathExtraData` 結構。（請注意，加入 `output_rel` 的 `ForeignPath` 路徑通常不會直接相依於 `input_rel` 的路徑，因為它們的處理預期會在外部完成。不過，檢視先前為前一個處理步驟所產生的路徑，有助於避免重複的規劃工作。）
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
 <a id="FDW-CALLBACKS-UPDATE"></a>
 
-### 58.2.4. FDW Routines for Updating Foreign Tables [#](#FDW-CALLBACKS-UPDATE)
+### 58.2.4. 更新外部資料表的 FDW 函式 [#](#FDW-CALLBACKS-UPDATE)
 
-If an FDW supports writable foreign tables, it should provide
-some or all of the following callback functions depending on
-the needs and capabilities of the FDW:
+若 FDW 支援可寫入的外部資料表，它應該依 FDW 的需求與能力，提供下列部分或全部的回呼函式：
 
 ```
 
@@ -344,46 +187,11 @@ AddForeignUpdateTargets(PlannerInfo *root,
                         Relation target_relation);
 ```
 
-`UPDATE` and `DELETE` operations are performed
-against rows previously fetched by the table-scanning functions. The
-FDW may need extra information, such as a row ID or the values of
-primary-key columns, to ensure that it can identify the exact row to
-update or delete. To support that, this function can add extra hidden,
-or “junk”, target columns to the list of columns that are to be
-retrieved from the foreign table during an `UPDATE` or
-`DELETE`.
+`UPDATE` 與 `DELETE` 操作是針對先前由資料表掃描函式所擷取的資料列執行的。FDW 可能需要額外的資訊（例如資料列 ID 或主鍵欄位的值），以確保它能識別出要更新或刪除的確切資料列。為了支援這一點，此函式可以在 `UPDATE` 或 `DELETE` 期間要從外部資料表取回的欄位清單中，加入額外的隱藏（或稱「垃圾」（junk））目標欄位。
 
-To do that, construct a `Var` representing
-an extra value you need, and pass it
-to `add_row_identity_var`, along with a name for
-the junk column. (You can do this more than once if several columns
-are needed.) You must choose a distinct junk column name for each
-different `Var` you need, except
-that `Var`s that are identical except for
-the `varno` field can and should share a
-column name.
-The core system uses the junk column names
-`tableoid` for a
-table's `tableoid` column,
-`ctid`
-or `ctidN`
-for `ctid`,
-`wholerow`
-for a whole-row `Var` marked with
-`vartype` = `RECORD`,
-and `wholerowN`
-for a whole-row `Var` with
-`vartype` equal to the table's declared row type.
-Re-use these names when you can (the planner will combine duplicate
-requests for identical junk columns). If you need another kind of
-junk column besides these, it might be wise to choose a name prefixed
-with your extension name, to avoid conflicts against other FDWs.
+做法是建構一個代表你所需額外值的 `Var`，並將它連同垃圾欄位的名稱一起傳給 `add_row_identity_var`。（若需要多個欄位，可以這樣做超過一次。）你所需要的每個不同的 `Var` 都必須選用不同的垃圾欄位名稱，但除了 `varno` 欄位之外完全相同的那些 `Var` 可以、也應該共用同一個欄位名稱。核心系統使用的垃圾欄位名稱如下：資料表的 `tableoid` 欄位使用 `tableoid`；`ctid` 使用 `ctid` 或 `ctidN`；標記為 `vartype` = `RECORD` 的整列 `Var` 使用 `wholerow`；`vartype` 等於資料表所宣告之資料列型別的整列 `Var` 則使用 `wholerowN`。可以的話請重複使用這些名稱（規劃器會合併對相同垃圾欄位的重複請求）。若除此之外還需要其他種類的垃圾欄位，明智的做法可能是選用以你的擴充功能名稱為前綴的名稱，以避免與其他 FDW 衝突。
 
-If the `AddForeignUpdateTargets` pointer is set to
-`NULL`, no extra target expressions are added.
-(This will make it impossible to implement `DELETE`
-operations, though `UPDATE` may still be feasible if the FDW
-relies on an unchanging primary key to identify rows.)
+若 `AddForeignUpdateTargets` 指標設為 `NULL`，則不會加入任何額外的目標運算式。（這會使 `DELETE` 操作無法實作；不過若 FDW 依賴不會變動的主鍵來識別資料列，`UPDATE` 仍可能可行。）
 
 ```
 
@@ -394,28 +202,13 @@ PlanForeignModify(PlannerInfo *root,
                   int subplan_index);
 ```
 
-Perform any additional planning actions needed for an insert, update, or
-delete on a foreign table. This function generates the FDW-private
-information that will be attached to the `ModifyTable` plan
-node that performs the update action. This private information must
-have the form of a `List`, and will be delivered to
-`BeginForeignModify` during the execution stage.
+執行外部資料表上的插入、更新或刪除所需的任何額外規劃動作。此函式會產生 FDW 私有資訊，這些資訊將附加到執行更新動作的 `ModifyTable` 計畫節點上。此私有資訊必須採用 `List` 的形式，並會在執行階段傳遞給 `BeginForeignModify`。
 
-`root` is the planner's global information about the query.
-`plan` is the `ModifyTable` plan node, which is
-complete except for the `fdwPrivLists` field.
-`resultRelation` identifies the target foreign table by its
-range table index. `subplan_index` identifies which target of
-the `ModifyTable` plan node this is, counting from zero;
-use this if you want to index into per-target-relation substructures of the
-`plan` node.
+`root` 是規劃器關於該查詢的全域資訊。`plan` 是 `ModifyTable` 計畫節點，除了 `fdwPrivLists` 欄位之外均已完整。`resultRelation` 以範圍表（range table）索引識別目標外部資料表。`subplan_index` 從零開始計數，指出這是 `ModifyTable` 計畫節點的哪一個目標；若你想要索引 `plan` 節點中各目標關聯專屬的子結構，請使用它。
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
-If the `PlanForeignModify` pointer is set to
-`NULL`, no additional plan-time actions are taken, and the
-`fdw_private` list delivered to
-`BeginForeignModify` will be NIL.
+若 `PlanForeignModify` 指標設為 `NULL`，則不會執行任何額外的規劃時期動作，而傳遞給 `BeginForeignModify` 的 `fdw_private` 清單將會是 NIL。
 
 ```
 
@@ -427,35 +220,13 @@ BeginForeignModify(ModifyTableState *mtstate,
                    int eflags);
 ```
 
-Begin executing a foreign table modification operation. This routine is
-called during executor startup. It should perform any initialization
-needed prior to the actual table modifications. Subsequently,
-`ExecForeignInsert/ExecForeignBatchInsert`,
-`ExecForeignUpdate` or
-`ExecForeignDelete` will be called for tuple(s) to be
-inserted, updated, or deleted.
+開始執行外部資料表的修改操作。此函式會在執行器啟動期間被呼叫。它應該執行實際修改資料表之前所需的任何初始化。之後，對於要插入、更新或刪除的元組，會呼叫 `ExecForeignInsert/ExecForeignBatchInsert`、`ExecForeignUpdate` 或 `ExecForeignDelete`。
 
-`mtstate` is the overall state of the
-`ModifyTable` plan node being executed; global data about
-the plan and execution state is available via this structure.
-`rinfo` is the `ResultRelInfo` struct describing
-the target foreign table. (The `ri_FdwState` field of
-`ResultRelInfo` is available for the FDW to store any
-private state it needs for this operation.)
-`fdw_private` contains the private data generated by
-`PlanForeignModify`, if any.
-`subplan_index` identifies which target of
-the `ModifyTable` plan node this is.
-`eflags` contains flag bits describing the executor's
-operating mode for this plan node.
+`mtstate` 是正在執行的 `ModifyTable` 計畫節點的整體狀態；關於計畫與執行狀態的全域資料可以透過此結構取得。`rinfo` 是描述目標外部資料表的 `ResultRelInfo` 結構。（`ResultRelInfo` 的 `ri_FdwState` 欄位可供 FDW 存放此操作所需的任何私有狀態。）`fdw_private` 包含 `PlanForeignModify` 所產生的私有資料（若有的話）。`subplan_index` 指出這是 `ModifyTable` 計畫節點的哪一個目標。`eflags` 包含描述執行器對此計畫節點之運作模式的旗標位元。
 
-Note that when `(eflags & EXEC_FLAG_EXPLAIN_ONLY)` is
-true, this function should not perform any externally-visible actions;
-it should only do the minimum required to make the node state valid
-for `ExplainForeignModify` and `EndForeignModify`.
+請注意，當 `(eflags & EXEC_FLAG_EXPLAIN_ONLY)` 為真時，此函式不應執行任何外部可見的動作；它只應做到讓節點狀態對 `ExplainForeignModify` 與 `EndForeignModify` 有效所需的最低限度工作。
 
-If the `BeginForeignModify` pointer is set to
-`NULL`, no action is taken during executor startup.
+若 `BeginForeignModify` 指標設為 `NULL`，則在執行器啟動期間不會執行任何動作。
 
 ```
 
@@ -466,43 +237,15 @@ ExecForeignInsert(EState *estate,
                   TupleTableSlot *planSlot);
 ```
 
-Insert one tuple into the foreign table.
-`estate` is global execution state for the query.
-`rinfo` is the `ResultRelInfo` struct describing
-the target foreign table.
-`slot` contains the tuple to be inserted; it will match the
-row-type definition of the foreign table.
-`planSlot` contains the tuple that was generated by the
-`ModifyTable` plan node's subplan; it differs from
-`slot` in possibly containing additional “junk”
-columns. (The `planSlot` is typically of little interest
-for `INSERT` cases, but is provided for completeness.)
+將一個元組插入外部資料表。`estate` 是該查詢的全域執行狀態。`rinfo` 是描述目標外部資料表的 `ResultRelInfo` 結構。`slot` 包含要插入的元組；它會符合外部資料表的資料列型別定義。`planSlot` 包含由 `ModifyTable` 計畫節點的子計畫所產生的元組；它與 `slot` 的差別在於可能包含額外的「垃圾」欄位。（對於 `INSERT` 的情況，`planSlot` 通常沒有太大用處，但為了完整起見仍會提供。）
 
-The return value is either a slot containing the data that was actually
-inserted (this might differ from the data supplied, for example as a
-result of trigger actions), or NULL if no row was actually inserted
-(again, typically as a result of triggers). The passed-in
-`slot` can be re-used for this purpose.
+回傳值是一個包含實際插入之資料的槽（這可能與所提供的資料不同，例如因觸發程序動作的結果），或者在實際上沒有插入任何資料列時回傳 NULL（同樣地，通常是觸發程序造成的結果）。傳入的 `slot` 可以重複用於此目的。
 
-The data in the returned slot is used only if the `INSERT`
-statement has a `RETURNING` clause or involves a view
-`WITH CHECK OPTION`; or if the foreign table has
-an `AFTER ROW` trigger. Triggers require all columns,
-but the FDW could choose to optimize away returning some or all columns
-depending on the contents of the `RETURNING` clause or
-`WITH CHECK OPTION` constraints. Regardless, some slot
-must be returned to indicate success, or the query's reported row count
-will be wrong.
+只有在 `INSERT` 陳述式具有 `RETURNING` 子句、或涉及帶有 `WITH CHECK OPTION` 的檢視表，或者外部資料表具有 `AFTER ROW` 觸發程序時，才會使用回傳之槽中的資料。觸發程序需要所有欄位，但 FDW 可以依 `RETURNING` 子句或 `WITH CHECK OPTION` 限制條件的內容，選擇以最佳化省略回傳部分或全部欄位。無論如何，都必須回傳某個槽以表示成功，否則查詢所回報的資料列數將會錯誤。
 
-If the `ExecForeignInsert` pointer is set to
-`NULL`, attempts to insert into the foreign table will fail
-with an error message.
+若 `ExecForeignInsert` 指標設為 `NULL`，嘗試插入外部資料表時將會失敗並產生錯誤訊息。
 
-Note that this function is also called when inserting routed tuples into
-a foreign-table partition or executing `COPY FROM` on
-a foreign table, in which case it is called in a different way than it
-is in the `INSERT` case. See the callback functions
-described below that allow the FDW to support that.
+請注意，在將路由過來的元組插入外部資料表分割區，或對外部資料表執行 `COPY FROM` 時，也會呼叫此函式，此時它的呼叫方式與 `INSERT` 的情況不同。請參閱下文所述、讓 FDW 能夠支援這些情況的回呼函式。
 
 ```
 
@@ -514,39 +257,15 @@ ExecForeignBatchInsert(EState *estate,
                        int *numSlots);
 ```
 
-Insert multiple tuples in bulk into the foreign table.
-The parameters are the same for `ExecForeignInsert`
-except `slots` and `planSlots` contain
-multiple tuples and `*numSlots` specifies the number of
-tuples in those arrays.
+將多個元組批次插入外部資料表。參數與 `ExecForeignInsert` 相同，差別在於 `slots` 與 `planSlots` 包含多個元組，而 `*numSlots` 指定這些陣列中的元組數量。
 
-The return value is an array of slots containing the data that was
-actually inserted (this might differ from the data supplied, for
-example as a result of trigger actions.)
-The passed-in `slots` can be re-used for this purpose.
-The number of successfully inserted tuples is returned in
-`*numSlots`.
+回傳值是一個槽陣列，包含實際插入的資料（這可能與所提供的資料不同，例如因觸發程序動作的結果）。傳入的 `slots` 可以重複用於此目的。成功插入的元組數量會透過 `*numSlots` 回傳。
 
-The data in the returned slot is used only if the `INSERT`
-statement involves a view
-`WITH CHECK OPTION`; or if the foreign table has
-an `AFTER ROW` trigger. Triggers require all columns,
-but the FDW could choose to optimize away returning some or all columns
-depending on the contents of the
-`WITH CHECK OPTION` constraints.
+只有在 `INSERT` 陳述式涉及帶有 `WITH CHECK OPTION` 的檢視表，或者外部資料表具有 `AFTER ROW` 觸發程序時，才會使用回傳之槽中的資料。觸發程序需要所有欄位，但 FDW 可以依 `WITH CHECK OPTION` 限制條件的內容，選擇以最佳化省略回傳部分或全部欄位。
 
-If the `ExecForeignBatchInsert` or
-`GetForeignModifyBatchSize` pointer is set to
-`NULL`, attempts to insert into the foreign table will
-use `ExecForeignInsert`.
-This function is not used if the `INSERT` has the
-`RETURNING` clause.
+若 `ExecForeignBatchInsert` 或 `GetForeignModifyBatchSize` 指標設為 `NULL`，嘗試插入外部資料表時將會使用 `ExecForeignInsert`。若 `INSERT` 帶有 `RETURNING` 子句，則不會使用此函式。
 
-Note that this function is also called when inserting routed tuples into
-a foreign-table partition or executing `COPY FROM` on
-a foreign table, in which case it is called in a different way than it
-is in the `INSERT` case. See the callback functions
-described below that allow the FDW to support that.
+請注意，在將路由過來的元組插入外部資料表分割區，或對外部資料表執行 `COPY FROM` 時，也會呼叫此函式，此時它的呼叫方式與 `INSERT` 的情況不同。請參閱下文所述、讓 FDW 能夠支援這些情況的回呼函式。
 
 ```
 
@@ -554,19 +273,9 @@ int
 GetForeignModifyBatchSize(ResultRelInfo *rinfo);
 ```
 
-Report the maximum number of tuples that a single
-`ExecForeignBatchInsert` call can handle for
-the specified foreign table. The executor passes at most
-the given number of tuples to `ExecForeignBatchInsert`.
-`rinfo` is the `ResultRelInfo` struct describing
-the target foreign table.
-The FDW is expected to provide a foreign server and/or foreign
-table option for the user to set this value, or some hard-coded value.
+回報對於指定的外部資料表，單次 `ExecForeignBatchInsert` 呼叫所能處理的最大元組數量。執行器傳給 `ExecForeignBatchInsert` 的元組數量最多就是這個數量。`rinfo` 是描述目標外部資料表的 `ResultRelInfo` 結構。FDW 預期會提供外部伺服器選項及（或）外部資料表選項讓使用者設定此值，或者使用某個寫死的值。
 
-If the `ExecForeignBatchInsert` or
-`GetForeignModifyBatchSize` pointer is set to
-`NULL`, attempts to insert into the foreign table will
-use `ExecForeignInsert`.
+若 `ExecForeignBatchInsert` 或 `GetForeignModifyBatchSize` 指標設為 `NULL`，嘗試插入外部資料表時將會使用 `ExecForeignInsert`。
 
 ```
 
@@ -577,41 +286,13 @@ ExecForeignUpdate(EState *estate,
                   TupleTableSlot *planSlot);
 ```
 
-Update one tuple in the foreign table.
-`estate` is global execution state for the query.
-`rinfo` is the `ResultRelInfo` struct describing
-the target foreign table.
-`slot` contains the new data for the tuple; it will match the
-row-type definition of the foreign table.
-`planSlot` contains the tuple that was generated by the
-`ModifyTable` plan node's subplan. Unlike
-`slot`, this tuple contains only the new values for
-columns changed by the query, so do not rely on attribute numbers of the
-foreign table to index into `planSlot`.
-Also, `planSlot` typically contains
-additional “junk” columns. In particular, any junk columns
-that were requested by `AddForeignUpdateTargets` will
-be available from this slot.
+更新外部資料表中的一個元組。`estate` 是該查詢的全域執行狀態。`rinfo` 是描述目標外部資料表的 `ResultRelInfo` 結構。`slot` 包含該元組的新資料；它會符合外部資料表的資料列型別定義。`planSlot` 包含由 `ModifyTable` 計畫節點的子計畫所產生的元組。與 `slot` 不同，此元組只包含被查詢變更之欄位的新值，因此不要依賴外部資料表的屬性編號來索引 `planSlot`。此外，`planSlot` 通常包含額外的「垃圾」欄位。特別是，`AddForeignUpdateTargets` 所請求的任何垃圾欄位都可以從此槽取得。
 
-The return value is either a slot containing the row as it was actually
-updated (this might differ from the data supplied, for example as a
-result of trigger actions), or NULL if no row was actually updated
-(again, typically as a result of triggers). The passed-in
-`slot` can be re-used for this purpose.
+回傳值是一個包含實際更新後之資料列的槽（這可能與所提供的資料不同，例如因觸發程序動作的結果），或者在實際上沒有更新任何資料列時回傳 NULL（同樣地，通常是觸發程序造成的結果）。傳入的 `slot` 可以重複用於此目的。
 
-The data in the returned slot is used only if the `UPDATE`
-statement has a `RETURNING` clause or involves a view
-`WITH CHECK OPTION`; or if the foreign table has
-an `AFTER ROW` trigger. Triggers require all columns,
-but the FDW could choose to optimize away returning some or all columns
-depending on the contents of the `RETURNING` clause or
-`WITH CHECK OPTION` constraints. Regardless, some slot
-must be returned to indicate success, or the query's reported row count
-will be wrong.
+只有在 `UPDATE` 陳述式具有 `RETURNING` 子句、或涉及帶有 `WITH CHECK OPTION` 的檢視表，或者外部資料表具有 `AFTER ROW` 觸發程序時，才會使用回傳之槽中的資料。觸發程序需要所有欄位，但 FDW 可以依 `RETURNING` 子句或 `WITH CHECK OPTION` 限制條件的內容，選擇以最佳化省略回傳部分或全部欄位。無論如何，都必須回傳某個槽以表示成功，否則查詢所回報的資料列數將會錯誤。
 
-If the `ExecForeignUpdate` pointer is set to
-`NULL`, attempts to update the foreign table will fail
-with an error message.
+若 `ExecForeignUpdate` 指標設為 `NULL`，嘗試更新外部資料表時將會失敗並產生錯誤訊息。
 
 ```
 
@@ -622,33 +303,13 @@ ExecForeignDelete(EState *estate,
                   TupleTableSlot *planSlot);
 ```
 
-Delete one tuple from the foreign table.
-`estate` is global execution state for the query.
-`rinfo` is the `ResultRelInfo` struct describing
-the target foreign table.
-`slot` contains nothing useful upon call, but can be used to
-hold the returned tuple.
-`planSlot` contains the tuple that was generated by the
-`ModifyTable` plan node's subplan; in particular, it will
-carry any junk columns that were requested by
-`AddForeignUpdateTargets`. The junk column(s) must be used
-to identify the tuple to be deleted.
+從外部資料表刪除一個元組。`estate` 是該查詢的全域執行狀態。`rinfo` 是描述目標外部資料表的 `ResultRelInfo` 結構。`slot` 在呼叫時不包含任何有用的內容，但可以用來存放要回傳的元組。`planSlot` 包含由 `ModifyTable` 計畫節點的子計畫所產生的元組；特別是，它會帶有 `AddForeignUpdateTargets` 所請求的任何垃圾欄位。必須使用這些垃圾欄位來識別要刪除的元組。
 
-The return value is either a slot containing the row that was deleted,
-or NULL if no row was deleted (typically as a result of triggers). The
-passed-in `slot` can be used to hold the tuple to be returned.
+回傳值是一個包含被刪除之資料列的槽，或者在沒有刪除任何資料列時回傳 NULL（通常是觸發程序造成的結果）。傳入的 `slot` 可以用來存放要回傳的元組。
 
-The data in the returned slot is used only if the `DELETE`
-query has a `RETURNING` clause or the foreign table has
-an `AFTER ROW` trigger. Triggers require all columns, but the
-FDW could choose to optimize away returning some or all columns depending
-on the contents of the `RETURNING` clause. Regardless, some
-slot must be returned to indicate success, or the query's reported row
-count will be wrong.
+只有在 `DELETE` 查詢具有 `RETURNING` 子句，或者外部資料表具有 `AFTER ROW` 觸發程序時，才會使用回傳之槽中的資料。觸發程序需要所有欄位，但 FDW 可以依 `RETURNING` 子句的內容，選擇以最佳化省略回傳部分或全部欄位。無論如何，都必須回傳某個槽以表示成功，否則查詢所回報的資料列數將會錯誤。
 
-If the `ExecForeignDelete` pointer is set to
-`NULL`, attempts to delete from the foreign table will fail
-with an error message.
+若 `ExecForeignDelete` 指標設為 `NULL`，嘗試從外部資料表刪除時將會失敗並產生錯誤訊息。
 
 ```
 
@@ -657,18 +318,11 @@ EndForeignModify(EState *estate,
                  ResultRelInfo *rinfo);
 ```
 
-End the table update and release resources. It is normally not important
-to release palloc'd memory, but for example open files and connections
-to remote servers should be cleaned up.
+結束資料表更新並釋放資源。釋放以 palloc 配置的記憶體通常並不重要，但像是開啟的檔案以及與遠端伺服器的連線等，則應該加以清理。
 
-If the `EndForeignModify` pointer is set to
-`NULL`, no action is taken during executor shutdown.
+若 `EndForeignModify` 指標設為 `NULL`，則在執行器關閉期間不會執行任何動作。
 
-Tuples inserted into a partitioned table by `INSERT` or
-`COPY FROM` are routed to partitions. If an FDW
-supports routable foreign-table partitions, it should also provide the
-following callback functions. These functions are also called when
-`COPY FROM` is executed on a foreign table.
+由 `INSERT` 或 `COPY FROM` 插入分割資料表的元組會被路由到各分割區。若 FDW 支援可路由的外部資料表分割區，它也應該提供下列回呼函式。對外部資料表執行 `COPY FROM` 時，也會呼叫這些函式。
 
 ```
 
@@ -677,38 +331,15 @@ BeginForeignInsert(ModifyTableState *mtstate,
                    ResultRelInfo *rinfo);
 ```
 
-Begin executing an insert operation on a foreign table. This routine is
-called right before the first tuple is inserted into the foreign table
-in both cases when it is the partition chosen for tuple routing and the
-target specified in a `COPY FROM` command. It should
-perform any initialization needed prior to the actual insertion.
-Subsequently, `ExecForeignInsert` or
-`ExecForeignBatchInsert` will be called for
-tuple(s) to be inserted into the foreign table.
+開始執行外部資料表上的插入操作。無論該外部資料表是被選為元組路由目的地的分割區，或是 `COPY FROM` 命令中指定的目標，此函式都會在第一個元組插入該外部資料表之前被呼叫。它應該執行實際插入之前所需的任何初始化。之後，對於要插入外部資料表的元組，會呼叫 `ExecForeignInsert` 或 `ExecForeignBatchInsert`。
 
-`mtstate` is the overall state of the
-`ModifyTable` plan node being executed; global data about
-the plan and execution state is available via this structure.
-`rinfo` is the `ResultRelInfo` struct describing
-the target foreign table. (The `ri_FdwState` field of
-`ResultRelInfo` is available for the FDW to store any
-private state it needs for this operation.)
+`mtstate` 是正在執行的 `ModifyTable` 計畫節點的整體狀態；關於計畫與執行狀態的全域資料可以透過此結構取得。`rinfo` 是描述目標外部資料表的 `ResultRelInfo` 結構。（`ResultRelInfo` 的 `ri_FdwState` 欄位可供 FDW 存放此操作所需的任何私有狀態。）
 
-When this is called by a `COPY FROM` command, the
-plan-related global data in `mtstate` is not provided
-and the `planSlot` parameter of
-`ExecForeignInsert` subsequently called for each
-inserted tuple is `NULL`, whether the foreign table is
-the partition chosen for tuple routing or the target specified in the
-command.
+當此函式由 `COPY FROM` 命令呼叫時，不會提供 `mtstate` 中與計畫相關的全域資料，而且之後為每個插入的元組所呼叫的 `ExecForeignInsert`，其 `planSlot` 參數會是 `NULL`；無論該外部資料表是被選為元組路由目的地的分割區，或是命令中指定的目標，都是如此。
 
-If the `BeginForeignInsert` pointer is set to
-`NULL`, no action is taken for the initialization.
+若 `BeginForeignInsert` 指標設為 `NULL`，則不會執行任何初始化動作。
 
-Note that if the FDW does not support routable foreign-table partitions
-and/or executing `COPY FROM` on foreign tables, this
-function or `ExecForeignInsert/ExecForeignBatchInsert`
-subsequently called must throw error as needed.
+請注意，若 FDW 不支援可路由的外部資料表分割區，及（或）不支援對外部資料表執行 `COPY FROM`，則此函式或之後被呼叫的 `ExecForeignInsert/ExecForeignBatchInsert` 必須視需要擲出錯誤。
 
 ```
 
@@ -717,12 +348,9 @@ EndForeignInsert(EState *estate,
                  ResultRelInfo *rinfo);
 ```
 
-End the insert operation and release resources. It is normally not important
-to release palloc'd memory, but for example open files and connections
-to remote servers should be cleaned up.
+結束插入操作並釋放資源。釋放以 palloc 配置的記憶體通常並不重要，但像是開啟的檔案以及與遠端伺服器的連線等，則應該加以清理。
 
-If the `EndForeignInsert` pointer is set to
-`NULL`, no action is taken for the termination.
+若 `EndForeignInsert` 指標設為 `NULL`，則不會執行任何結束動作。
 
 ```
 
@@ -730,36 +358,11 @@ int
 IsForeignRelUpdatable(Relation rel);
 ```
 
-Report which update operations the specified foreign table supports.
-The return value should be a bit mask of rule event numbers indicating
-which operations are supported by the foreign table, using the
-`CmdType` enumeration; that is,
-`(1 << CMD_UPDATE) = 4` for `UPDATE`,
-`(1 << CMD_INSERT) = 8` for `INSERT`, and
-`(1 << CMD_DELETE) = 16` for `DELETE`.
+回報指定的外部資料表支援哪些更新操作。回傳值應該是一個規則事件編號的位元遮罩，使用 `CmdType` 列舉表示外部資料表支援哪些操作；也就是說，`UPDATE` 為 `(1 << CMD_UPDATE) = 4`，`INSERT` 為 `(1 << CMD_INSERT) = 8`，`DELETE` 為 `(1 << CMD_DELETE) = 16`。
 
-If the `IsForeignRelUpdatable` pointer is set to
-`NULL`, foreign tables are assumed to be insertable, updatable,
-or deletable if the FDW provides `ExecForeignInsert`,
-`ExecForeignUpdate`, or `ExecForeignDelete`
-respectively. This function is only needed if the FDW supports some
-tables that are updatable and some that are not. (Even then, it's
-permissible to throw an error in the execution routine instead of
-checking in this function. However, this function is used to determine
-updatability for display in the `information_schema` views.)
+若 `IsForeignRelUpdatable` 指標設為 `NULL`，則當 FDW 分別提供了 `ExecForeignInsert`、`ExecForeignUpdate` 或 `ExecForeignDelete` 時，外部資料表會分別被視為可插入、可更新或可刪除。只有在 FDW 支援的資料表中有些可更新、有些不可更新時，才需要此函式。（即使如此，也允許在執行函式中擲出錯誤，而不是在此函式中檢查。不過，此函式會用來判斷在 `information_schema` 檢視表中所顯示的可更新性。）
 
-Some inserts, updates, and deletes to foreign tables can be optimized
-by implementing an alternative set of interfaces. The ordinary
-interfaces for inserts, updates, and deletes fetch rows from the remote
-server and then modify those rows one at a time. In some cases, this
-row-by-row approach is necessary, but it can be inefficient. If it is
-possible for the foreign server to determine which rows should be
-modified without actually retrieving them, and if there are no local
-structures which would affect the operation (row-level local triggers,
-stored generated columns, or `WITH CHECK OPTION`
-constraints from parent views), then it is possible to arrange things
-so that the entire operation is performed on the remote server. The
-interfaces described below make this possible.
+對外部資料表的某些插入、更新與刪除，可以透過實作另一組替代介面來最佳化。一般的插入、更新與刪除介面會從遠端伺服器擷取資料列，然後一次修改一個資料列。在某些情況下，這種逐列處理的方式是必要的，但可能效率不彰。若外部伺服器能夠在不實際取回資料列的情況下判斷哪些資料列應該被修改，而且沒有會影響該操作的本地端結構（資料列層級的本地端觸發程序、儲存的產生欄位，或來自上層檢視表的 `WITH CHECK OPTION` 限制條件），那麼就可以將整個操作安排在遠端伺服器上執行。下文所述的介面讓這件事成為可能。
 
 ```
 
@@ -770,35 +373,13 @@ PlanDirectModify(PlannerInfo *root,
                  int subplan_index);
 ```
 
-Decide whether it is safe to execute a direct modification
-on the remote server. If so, return `true` after performing
-planning actions needed for that. Otherwise, return `false`.
-This optional function is called during query planning.
-If this function succeeds, `BeginDirectModify`,
-`IterateDirectModify` and `EndDirectModify` will
-be called at the execution stage, instead. Otherwise, the table
-modification will be executed using the table-updating functions
-described above.
-The parameters are the same as for `PlanForeignModify`.
+判斷在遠端伺服器上執行直接修改是否安全。若安全，則在執行所需的規劃動作後回傳 `true`；否則回傳 `false`。這個選擇性函式會在查詢規劃期間被呼叫。若此函式成功，在執行階段將改為呼叫 `BeginDirectModify`、`IterateDirectModify` 與 `EndDirectModify`；否則，資料表的修改將使用上文所述的資料表更新函式來執行。參數與 `PlanForeignModify` 相同。
 
-To execute the direct modification on the remote server, this function
-must rewrite the target subplan with a `ForeignScan` plan
-node that executes the direct modification on the remote server. The
-`operation` and `resultRelation` fields
-of the `ForeignScan` must be set appropriately.
-`operation` must be set to the `CmdType`
-enumeration corresponding to the statement kind (that is,
-`CMD_UPDATE` for `UPDATE`,
-`CMD_INSERT` for `INSERT`, and
-`CMD_DELETE` for `DELETE`), and the
-`resultRelation` argument must be copied to the
-`resultRelation` field.
+為了在遠端伺服器上執行直接修改，此函式必須將目標子計畫改寫為一個在遠端伺服器上執行直接修改的 `ForeignScan` 計畫節點。`ForeignScan` 的 `operation` 與 `resultRelation` 欄位必須適當設定。`operation` 必須設為與陳述式種類相對應的 `CmdType` 列舉值（也就是說，`UPDATE` 為 `CMD_UPDATE`，`INSERT` 為 `CMD_INSERT`，`DELETE` 為 `CMD_DELETE`），而 `resultRelation` 引數必須複製到 `resultRelation` 欄位。
 
-See [Section 58.4](fdw-planning.md) for additional information.
+更多資訊請參閱[第 58.4 節](fdw-planning.md)。
 
-If the `PlanDirectModify` pointer is set to
-`NULL`, no attempts to execute a direct modification on the
-remote server are taken.
+若 `PlanDirectModify` 指標設為 `NULL`，則不會嘗試在遠端伺服器上執行直接修改。
 
 ```
 
@@ -807,27 +388,11 @@ BeginDirectModify(ForeignScanState *node,
                   int eflags);
 ```
 
-Prepare to execute a direct modification on the remote server.
-This is called during executor startup. It should perform any
-initialization needed prior to the direct modification (that should be
-done upon the first call to `IterateDirectModify`).
-The `ForeignScanState` node has already been created, but
-its `fdw_state` field is still NULL. Information about
-the table to modify is accessible through the
-`ForeignScanState` node (in particular, from the underlying
-`ForeignScan` plan node, which contains any FDW-private
-information provided by `PlanDirectModify`).
-`eflags` contains flag bits describing the executor's
-operating mode for this plan node.
+準備在遠端伺服器上執行直接修改。這會在執行器啟動期間被呼叫。它應該執行直接修改之前所需的任何初始化（直接修改本身應該在第一次呼叫 `IterateDirectModify` 時才進行）。`ForeignScanState` 節點已經建立，但其 `fdw_state` 欄位仍為 NULL。要修改的資料表的相關資訊可以透過 `ForeignScanState` 節點取得（特別是從底層的 `ForeignScan` 計畫節點，其中包含 `PlanDirectModify` 所提供的任何 FDW 私有資訊）。`eflags` 包含描述執行器對此計畫節點之運作模式的旗標位元。
 
-Note that when `(eflags & EXEC_FLAG_EXPLAIN_ONLY)` is
-true, this function should not perform any externally-visible actions;
-it should only do the minimum required to make the node state valid
-for `ExplainDirectModify` and `EndDirectModify`.
+請注意，當 `(eflags & EXEC_FLAG_EXPLAIN_ONLY)` 為真時，此函式不應執行任何外部可見的動作；它只應做到讓節點狀態對 `ExplainDirectModify` 與 `EndDirectModify` 有效所需的最低限度工作。
 
-If the `BeginDirectModify` pointer is set to
-`NULL`, no attempts to execute a direct modification on the
-remote server are taken.
+若 `BeginDirectModify` 指標設為 `NULL`，則不會嘗試在遠端伺服器上執行直接修改。
 
 ```
 
@@ -835,37 +400,13 @@ TupleTableSlot *
 IterateDirectModify(ForeignScanState *node);
 ```
 
-When the `INSERT`, `UPDATE` or `DELETE`
-query doesn't have a `RETURNING` clause, just return NULL
-after a direct modification on the remote server.
-When the query has the clause, fetch one result containing the data
-needed for the `RETURNING` calculation, returning it in a
-tuple table slot (the node's `ScanTupleSlot` should be
-used for this purpose). The data that was actually inserted, updated
-or deleted must be stored in
-`node->resultRelInfo->ri_projectReturning->pi_exprContext->ecxt_scantuple`.
-Return NULL if no more rows are available.
-Note that this is called in a short-lived memory context that will be
-reset between invocations. Create a memory context in
-`BeginDirectModify` if you need longer-lived storage, or use
-the `es_query_cxt` of the node's `EState`.
+當 `INSERT`、`UPDATE` 或 `DELETE` 查詢沒有 `RETURNING` 子句時，在遠端伺服器上完成直接修改後只需回傳 NULL。當查詢具有該子句時，擷取一筆包含 `RETURNING` 計算所需資料的結果，並以元組表槽回傳（應該使用節點的 `ScanTupleSlot` 來達成此目的）。實際插入、更新或刪除的資料必須存放在 `node->resultRelInfo->ri_projectReturning->pi_exprContext->ecxt_scantuple` 中。若沒有更多資料列可用，則回傳 NULL。請注意，此函式是在一個短生命週期的記憶體上下文中被呼叫，該上下文會在每次呼叫之間重設。若需要生命週期較長的儲存空間，請在 `BeginDirectModify` 中建立一個記憶體上下文，或使用節點之 `EState` 的 `es_query_cxt`。
 
-The rows returned must match the `fdw_scan_tlist` target
-list if one was supplied, otherwise they must match the row type of the
-foreign table being updated. If you choose to optimize away fetching
-columns that are not needed for the `RETURNING` calculation,
-you should insert nulls in those column positions, or else generate a
-`fdw_scan_tlist` list with those columns omitted.
+若有提供 `fdw_scan_tlist` 目標清單，回傳的資料列必須與其相符；否則必須與被更新之外部資料表的資料列型別相符。若你選擇以最佳化省略擷取 `RETURNING` 計算不需要的欄位，應該在那些欄位位置填入 null，或者產生一個省略那些欄位的 `fdw_scan_tlist` 清單。
 
-Whether the query has the clause or not, the query's reported row count
-must be incremented by the FDW itself. When the query doesn't have the
-clause, the FDW must also increment the row count for the
-`ForeignScanState` node in the `EXPLAIN ANALYZE`
-case.
+無論查詢是否具有該子句，查詢所回報的資料列數都必須由 FDW 自行遞增。當查詢沒有該子句時，在 `EXPLAIN ANALYZE` 的情況下，FDW 也必須遞增 `ForeignScanState` 節點的資料列數。
 
-If the `IterateDirectModify` pointer is set to
-`NULL`, no attempts to execute a direct modification on the
-remote server are taken.
+若 `IterateDirectModify` 指標設為 `NULL`，則不會嘗試在遠端伺服器上執行直接修改。
 
 ```
 
@@ -873,17 +414,13 @@ void
 EndDirectModify(ForeignScanState *node);
 ```
 
-Clean up following a direct modification on the remote server. It is
-normally not important to release palloc'd memory, but for example open
-files and connections to the remote server should be cleaned up.
+在遠端伺服器上完成直接修改後進行清理。釋放以 palloc 配置的記憶體通常並不重要，但像是開啟的檔案以及與遠端伺服器的連線等，則應該加以清理。
 
-If the `EndDirectModify` pointer is set to
-`NULL`, no attempts to execute a direct modification on the
-remote server are taken.
+若 `EndDirectModify` 指標設為 `NULL`，則不會嘗試在遠端伺服器上執行直接修改。
 
 <a id="FDW-CALLBACKS-TRUNCATE"></a>
 
-### 58.2.5. FDW Routines for `TRUNCATE` [#](#FDW-CALLBACKS-TRUNCATE)
+### 58.2.5. `TRUNCATE` 的 FDW 函式 [#](#FDW-CALLBACKS-TRUNCATE)
 
 ```
 
@@ -893,45 +430,23 @@ ExecForeignTruncate(List *rels,
                     bool restart_seqs);
 ```
 
-Truncate foreign tables. This function is called when
-[TRUNCATE](../../reference/sql-commands/sql-truncate.md) is executed on a foreign table.
-`rels` is a list of `Relation`
-data structures of foreign tables to truncate.
+清空外部資料表。對外部資料表執行 [TRUNCATE](../../reference/sql-commands/sql-truncate.md) 時會呼叫此函式。`rels` 是要清空之外部資料表的 `Relation` 資料結構清單。
 
-`behavior` is either `DROP_RESTRICT`
-or `DROP_CASCADE` indicating that the
-`RESTRICT` or `CASCADE` option was
-requested in the original `TRUNCATE` command,
-respectively.
+`behavior` 為 `DROP_RESTRICT` 或 `DROP_CASCADE`，分別表示原本的 `TRUNCATE` 命令要求了 `RESTRICT` 或 `CASCADE` 選項。
 
-If `restart_seqs` is `true`,
-the original `TRUNCATE` command requested the
-`RESTART IDENTITY` behavior, otherwise the
-`CONTINUE IDENTITY` behavior was requested.
+若 `restart_seqs` 為 `true`，表示原本的 `TRUNCATE` 命令要求了 `RESTART IDENTITY` 行為；否則表示要求的是 `CONTINUE IDENTITY` 行為。
 
-Note that the `ONLY` options specified
-in the original `TRUNCATE` command are not passed to
-`ExecForeignTruncate`. This behavior is similar to
-the callback functions of `SELECT`,
-`UPDATE` and `DELETE` on
-a foreign table.
+請注意，原本的 `TRUNCATE` 命令中指定的 `ONLY` 選項不會傳給 `ExecForeignTruncate`。這個行為與外部資料表上 `SELECT`、`UPDATE` 與 `DELETE` 的回呼函式類似。
 
-`ExecForeignTruncate` is invoked once per
-foreign server for which foreign tables are to be truncated.
-This means that all foreign tables included in `rels`
-must belong to the same server.
+對於每個有外部資料表要被清空的外部伺服器，`ExecForeignTruncate` 都會被呼叫一次。這表示 `rels` 中包含的所有外部資料表都必須屬於同一個伺服器。
 
-If the `ExecForeignTruncate` pointer is set to
-`NULL`, attempts to truncate foreign tables will
-fail with an error message.
+若 `ExecForeignTruncate` 指標設為 `NULL`，嘗試清空外部資料表時將會失敗並產生錯誤訊息。
 
 <a id="FDW-CALLBACKS-ROW-LOCKING"></a>
 
-### 58.2.6. FDW Routines for Row Locking [#](#FDW-CALLBACKS-ROW-LOCKING)
+### 58.2.6. 資料列鎖定的 FDW 函式 [#](#FDW-CALLBACKS-ROW-LOCKING)
 
-If an FDW wishes to support *late row locking* (as described
-in [Section 58.5](fdw-row-locking.md)), it must provide the following
-callback functions:
+若 FDW 希望支援*延遲資料列鎖定*（late row locking，如[第 58.5 節](fdw-row-locking.md)所述），它必須提供下列回呼函式：
 
 ```
 
@@ -940,23 +455,14 @@ GetForeignRowMarkType(RangeTblEntry *rte,
                       LockClauseStrength strength);
 ```
 
-Report which row-marking option to use for a foreign table.
-`rte` is the `RangeTblEntry` node for the table
-and `strength` describes the lock strength requested by the
-relevant `FOR UPDATE/SHARE` clause, if any. The result must be
-a member of the `RowMarkType` enum type.
+回報外部資料表要使用哪一種資料列標記選項。`rte` 是該資料表的 `RangeTblEntry` 節點，而 `strength` 描述相關的 `FOR UPDATE/SHARE` 子句（若有的話）所要求的鎖定強度。結果必須是 `RowMarkType` 列舉型別的成員之一。
 
-This function is called during query planning for each foreign table that
-appears in an `UPDATE`, `DELETE`, or `SELECT
-FOR UPDATE/SHARE` query and is not the target of `UPDATE`
-or `DELETE`.
+在查詢規劃期間，對於每個出現在 `UPDATE`、`DELETE` 或 `SELECT
+FOR UPDATE/SHARE` 查詢中、且不是 `UPDATE` 或 `DELETE` 目標的外部資料表，都會呼叫此函式。
 
-If the `GetForeignRowMarkType` pointer is set to
-`NULL`, the `ROW_MARK_COPY` option is always used.
-(This implies that `RefetchForeignRow` will never be called,
-so it need not be provided either.)
+若 `GetForeignRowMarkType` 指標設為 `NULL`，則一律使用 `ROW_MARK_COPY` 選項。（這意味著 `RefetchForeignRow` 永遠不會被呼叫，因此也不需要提供它。）
 
-See [Section 58.5](fdw-row-locking.md) for more information.
+更多資訊請參閱[第 58.5 節](fdw-row-locking.md)。
 
 ```
 
@@ -968,43 +474,19 @@ RefetchForeignRow(EState *estate,
                   bool *updated);
 ```
 
-Re-fetch one tuple slot from the foreign table, after locking it if required.
-`estate` is global execution state for the query.
-`erm` is the `ExecRowMark` struct describing
-the target foreign table and the row lock type (if any) to acquire.
-`rowid` identifies the tuple to be fetched.
-`slot` contains nothing useful upon call, but can be used to
-hold the returned tuple. `updated` is an output parameter.
+從外部資料表重新擷取一個元組槽，若有需要則先將其鎖定。`estate` 是該查詢的全域執行狀態。`erm` 是 `ExecRowMark` 結構，描述目標外部資料表以及要取得的資料列鎖定類型（若有的話）。`rowid` 識別要擷取的元組。`slot` 在呼叫時不包含任何有用的內容，但可以用來存放回傳的元組。`updated` 是一個輸出參數。
 
-This function should store the tuple into the provided slot, or clear it if
-the row lock couldn't be obtained. The row lock type to acquire is
-defined by `erm->markType`, which is the value
-previously returned by `GetForeignRowMarkType`.
-(`ROW_MARK_REFERENCE` means to just re-fetch the tuple
-without acquiring any lock, and `ROW_MARK_COPY` will
-never be seen by this routine.)
+此函式應該將元組存入所提供的槽中，若無法取得資料列鎖定則將槽清空。要取得的資料列鎖定類型由 `erm->markType` 定義，其值為先前由 `GetForeignRowMarkType` 回傳的值。（`ROW_MARK_REFERENCE` 表示只重新擷取元組而不取得任何鎖定，而此函式永遠不會看到 `ROW_MARK_COPY`。）
 
-In addition, `*updated` should be set to `true`
-if what was fetched was an updated version of the tuple rather than
-the same version previously obtained. (If the FDW cannot be sure about
-this, always returning `true` is recommended.)
+此外，若所擷取的是該元組的更新後版本，而不是先前取得的同一版本，則應該將 `*updated` 設為 `true`。（若 FDW 無法確定這一點，建議一律回傳 `true`。）
 
-Note that by default, failure to acquire a row lock should result in
-raising an error; returning with an empty slot is only appropriate if
-the `SKIP LOCKED` option is specified
-by `erm->waitPolicy`.
+請注意，預設情況下，無法取得資料列鎖定時應該擲出錯誤；只有在 `erm->waitPolicy` 指定了 `SKIP LOCKED` 選項時，以空的槽回傳才是恰當的。
 
-The `rowid` is the `ctid` value previously read
-for the row to be re-fetched. Although the `rowid` value is
-passed as a `Datum`, it can currently only be a `tid`. The
-function API is chosen in hopes that it may be possible to allow other
-data types for row IDs in future.
+`rowid` 是先前為要重新擷取的資料列所讀取的 `ctid` 值。雖然 `rowid` 值是以 `Datum` 傳遞，但目前它只能是 `tid`。之所以選擇這樣的函式 API，是希望將來或許能允許資料列 ID 使用其他資料型別。
 
-If the `RefetchForeignRow` pointer is set to
-`NULL`, attempts to re-fetch rows will fail
-with an error message.
+若 `RefetchForeignRow` 指標設為 `NULL`，嘗試重新擷取資料列時將會失敗並產生錯誤訊息。
 
-See [Section 58.5](fdw-row-locking.md) for more information.
+更多資訊請參閱[第 58.5 節](fdw-row-locking.md)。
 
 ```
 
@@ -1013,38 +495,13 @@ RecheckForeignScan(ForeignScanState *node,
                    TupleTableSlot *slot);
 ```
 
-Recheck that a previously-returned tuple still matches the relevant
-scan and join qualifiers, and possibly provide a modified version of
-the tuple. For foreign data wrappers which do not perform join pushdown,
-it will typically be more convenient to set this to `NULL` and
-instead set `fdw_recheck_quals` appropriately.
-When outer joins are pushed down, however, it isn't sufficient to
-reapply the checks relevant to all the base tables to the result tuple,
-even if all needed attributes are present, because failure to match some
-qualifier might result in some attributes going to NULL, rather than in
-no tuple being returned. `RecheckForeignScan` can recheck
-qualifiers and return true if they are still satisfied and false
-otherwise, but it can also store a replacement tuple into the supplied
-slot.
+重新檢查先前回傳的元組是否仍然符合相關的掃描與連接條件（qualifiers），並可能提供該元組的修改版本。對於不執行連接下推（join pushdown）的外部資料包裝器，通常較方便的做法是將此指標設為 `NULL`，改為適當設定 `fdw_recheck_quals`。然而，當外部連接被下推時，即使所有需要的屬性都存在，僅對結果元組重新套用與所有基礎資料表相關的檢查並不足夠，因為某些條件不符合時，可能導致某些屬性變成 NULL，而不是不回傳任何元組。`RecheckForeignScan` 可以重新檢查條件，若仍然滿足則回傳 true，否則回傳 false；但它也可以將替代元組存入所提供的槽中。
 
-To implement join pushdown, a foreign data wrapper will typically
-construct an alternative local join plan which is used only for
-rechecks; this will become the outer subplan of the
-`ForeignScan`. When a recheck is required, this subplan
-can be executed and the resulting tuple can be stored in the slot.
-This plan need not be efficient since no base table will return more
-than one row; for example, it may implement all joins as nested loops.
-The function `GetExistingLocalJoinPath` may be used to search
-existing paths for a suitable local join path, which can be used as the
-alternative local join plan. `GetExistingLocalJoinPath`
-searches for an unparameterized path in the path list of the specified
-join relation. (If it does not find such a path, it returns NULL, in
-which case a foreign data wrapper may build the local path by itself or
-may choose not to create access paths for that join.)
+為了實作連接下推，外部資料包裝器通常會建構一個只用於重新檢查的替代本地端連接計畫；它將成為 `ForeignScan` 的外層子計畫。需要重新檢查時，可以執行此子計畫，並將產生的元組存入槽中。此計畫不需要有效率，因為沒有任何基礎資料表會回傳超過一個資料列；例如，它可以將所有連接都實作為巢狀迴圈。函式 `GetExistingLocalJoinPath` 可用於在既有路徑中搜尋合適的本地端連接路徑，作為替代的本地端連接計畫。`GetExistingLocalJoinPath` 會在指定之連接關聯的路徑清單中搜尋未參數化的路徑。（若找不到這樣的路徑，它會回傳 NULL；此時外部資料包裝器可以自行建構本地端路徑，也可以選擇不為該連接建立存取路徑。）
 
 <a id="FDW-CALLBACKS-EXPLAIN"></a>
 
-### 58.2.7. FDW Routines for `EXPLAIN` [#](#FDW-CALLBACKS-EXPLAIN)
+### 58.2.7. `EXPLAIN` 的 FDW 函式 [#](#FDW-CALLBACKS-EXPLAIN)
 
 ```
 
@@ -1053,17 +510,10 @@ ExplainForeignScan(ForeignScanState *node,
                    ExplainState *es);
 ```
 
-Print additional `EXPLAIN` output for a foreign table scan.
-This function can call `ExplainPropertyText` and
-related functions to add fields to the `EXPLAIN` output.
-The flag fields in `es` can be used to determine what to
-print, and the state of the `ForeignScanState` node
-can be inspected to provide run-time statistics in the `EXPLAIN
-ANALYZE` case.
+為外部資料表掃描輸出額外的 `EXPLAIN` 輸出內容。此函式可以呼叫 `ExplainPropertyText` 及相關函式，在 `EXPLAIN` 輸出中加入欄位。`es` 中的旗標欄位可用來決定要輸出什麼，而在 `EXPLAIN
+ANALYZE` 的情況下，可以檢視 `ForeignScanState` 節點的狀態以提供執行時期統計資訊。
 
-If the `ExplainForeignScan` pointer is set to
-`NULL`, no additional information is printed during
-`EXPLAIN`.
+若 `ExplainForeignScan` 指標設為 `NULL`，則在 `EXPLAIN` 期間不會輸出任何額外資訊。
 
 ```
 
@@ -1075,18 +525,10 @@ ExplainForeignModify(ModifyTableState *mtstate,
                      struct ExplainState *es);
 ```
 
-Print additional `EXPLAIN` output for a foreign table update.
-This function can call `ExplainPropertyText` and
-related functions to add fields to the `EXPLAIN` output.
-The flag fields in `es` can be used to determine what to
-print, and the state of the `ModifyTableState` node
-can be inspected to provide run-time statistics in the `EXPLAIN
-ANALYZE` case. The first four arguments are the same as for
-`BeginForeignModify`.
+為外部資料表更新輸出額外的 `EXPLAIN` 輸出內容。此函式可以呼叫 `ExplainPropertyText` 及相關函式，在 `EXPLAIN` 輸出中加入欄位。`es` 中的旗標欄位可用來決定要輸出什麼，而在 `EXPLAIN
+ANALYZE` 的情況下，可以檢視 `ModifyTableState` 節點的狀態以提供執行時期統計資訊。前四個引數與 `BeginForeignModify` 相同。
 
-If the `ExplainForeignModify` pointer is set to
-`NULL`, no additional information is printed during
-`EXPLAIN`.
+若 `ExplainForeignModify` 指標設為 `NULL`，則在 `EXPLAIN` 期間不會輸出任何額外資訊。
 
 ```
 
@@ -1095,22 +537,14 @@ ExplainDirectModify(ForeignScanState *node,
                     ExplainState *es);
 ```
 
-Print additional `EXPLAIN` output for a direct modification
-on the remote server.
-This function can call `ExplainPropertyText` and
-related functions to add fields to the `EXPLAIN` output.
-The flag fields in `es` can be used to determine what to
-print, and the state of the `ForeignScanState` node
-can be inspected to provide run-time statistics in the `EXPLAIN
-ANALYZE` case.
+為遠端伺服器上的直接修改輸出額外的 `EXPLAIN` 輸出內容。此函式可以呼叫 `ExplainPropertyText` 及相關函式，在 `EXPLAIN` 輸出中加入欄位。`es` 中的旗標欄位可用來決定要輸出什麼，而在 `EXPLAIN
+ANALYZE` 的情況下，可以檢視 `ForeignScanState` 節點的狀態以提供執行時期統計資訊。
 
-If the `ExplainDirectModify` pointer is set to
-`NULL`, no additional information is printed during
-`EXPLAIN`.
+若 `ExplainDirectModify` 指標設為 `NULL`，則在 `EXPLAIN` 期間不會輸出任何額外資訊。
 
 <a id="FDW-CALLBACKS-ANALYZE"></a>
 
-### 58.2.8. FDW Routines for `ANALYZE` [#](#FDW-CALLBACKS-ANALYZE)
+### 58.2.8. `ANALYZE` 的 FDW 函式 [#](#FDW-CALLBACKS-ANALYZE)
 
 ```
 
@@ -1120,17 +554,11 @@ AnalyzeForeignTable(Relation relation,
                     BlockNumber *totalpages);
 ```
 
-This function is called when [ANALYZE](../../reference/sql-commands/sql-analyze.md) is executed on
-a foreign table. If the FDW can collect statistics for this
-foreign table, it should return `true`, and provide a pointer
-to a function that will collect sample rows from the table in
-*`func`*, plus the estimated size of the table in pages in
-*`totalpages`*. Otherwise, return `false`.
+對外部資料表執行 [ANALYZE](../../reference/sql-commands/sql-analyze.md) 時會呼叫此函式。若 FDW 能夠為此外部資料表收集統計資訊，它應該回傳 `true`，並在 *`func`* 中提供一個指向從該資料表收集樣本資料列之函式的指標，以及在 *`totalpages`* 中提供以頁數計的資料表估計大小。否則，回傳 `false`。
 
-If the FDW does not support collecting statistics for any tables, the
-`AnalyzeForeignTable` pointer can be set to `NULL`.
+若 FDW 不支援為任何資料表收集統計資訊，可以將 `AnalyzeForeignTable` 指標設為 `NULL`。
 
-If provided, the sample collection function must have the signature
+若有提供，樣本收集函式必須具有下列簽章：
 
 ```
 
@@ -1143,17 +571,11 @@ AcquireSampleRowsFunc(Relation relation,
                       double *totaldeadrows);
 ```
 
-A random sample of up to *`targrows`* rows should be collected
-from the table and stored into the caller-provided *`rows`*
-array. The actual number of rows collected must be returned. In
-addition, store estimates of the total numbers of live and dead rows in
-the table into the output parameters *`totalrows`* and
-*`totaldeadrows`*. (Set *`totaldeadrows`* to zero
-if the FDW does not have any concept of dead rows.)
+應該從資料表收集最多 *`targrows`* 個資料列的隨機樣本，並存入呼叫端所提供的 *`rows`* 陣列。必須回傳實際收集到的資料列數。此外，請將資料表中存活資料列與死亡資料列總數的估計值，分別存入輸出參數 *`totalrows`* 與 *`totaldeadrows`*。（若 FDW 沒有死亡資料列的概念，請將 *`totaldeadrows`* 設為零。）
 
 <a id="FDW-CALLBACKS-IMPORT"></a>
 
-### 58.2.9. FDW Routines for `IMPORT FOREIGN SCHEMA` [#](#FDW-CALLBACKS-IMPORT)
+### 58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 函式 [#](#FDW-CALLBACKS-IMPORT)
 
 ```
 
@@ -1161,58 +583,22 @@ List *
 ImportForeignSchema(ImportForeignSchemaStmt *stmt, Oid serverOid);
 ```
 
-Obtain a list of foreign table creation commands. This function is
-called when executing [IMPORT FOREIGN SCHEMA](../../reference/sql-commands/sql-importforeignschema.md), and is
-passed the parse tree for that statement, as well as the OID of the
-foreign server to use. It should return a list of C strings, each of
-which must contain a [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md) command.
-These strings will be parsed and executed by the core server.
+取得外部資料表建立命令的清單。此函式會在執行 [IMPORT FOREIGN SCHEMA](../../reference/sql-commands/sql-importforeignschema.md) 時被呼叫，並傳入該陳述式的剖析樹，以及要使用的外部伺服器的 OID。它應該回傳一個 C 字串清單，其中每個字串都必須包含一個 [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md) 命令。這些字串將由核心伺服器剖析並執行。
 
-Within the `ImportForeignSchemaStmt` struct,
-`remote_schema` is the name of the remote schema from
-which tables are to be imported.
-`list_type` identifies how to filter table names:
-`FDW_IMPORT_SCHEMA_ALL` means that all tables in the remote
-schema should be imported (in this case `table_list` is
-empty), `FDW_IMPORT_SCHEMA_LIMIT_TO` means to include only
-tables listed in `table_list`,
-and `FDW_IMPORT_SCHEMA_EXCEPT` means to exclude the tables
-listed in `table_list`.
-`options` is a list of options used for the import process.
-The meanings of the options are up to the FDW.
-For example, an FDW could use an option to define whether the
-`NOT NULL` attributes of columns should be imported.
-These options need not have anything to do with those supported by the
-FDW as database object options.
+在 `ImportForeignSchemaStmt` 結構中，`remote_schema` 是要從中匯入資料表的遠端綱要名稱。`list_type` 指出如何過濾資料表名稱：`FDW_IMPORT_SCHEMA_ALL` 表示應匯入遠端綱要中的所有資料表（此時 `table_list` 為空），`FDW_IMPORT_SCHEMA_LIMIT_TO` 表示只納入 `table_list` 中列出的資料表，而 `FDW_IMPORT_SCHEMA_EXCEPT` 表示排除 `table_list` 中列出的資料表。`options` 是匯入過程所使用的選項清單。這些選項的意義由 FDW 決定。例如，FDW 可以用某個選項來決定是否應匯入欄位的 `NOT NULL` 屬性。這些選項不必與 FDW 作為資料庫物件選項所支援的那些選項有任何關聯。
 
-The FDW may ignore the `local_schema` field of
-the `ImportForeignSchemaStmt`, because the core server
-will automatically insert that name into the parsed `CREATE
-FOREIGN TABLE` commands.
+FDW 可以忽略 `ImportForeignSchemaStmt` 的 `local_schema` 欄位，因為核心伺服器會自動將該名稱插入剖析後的 `CREATE
+FOREIGN TABLE` 命令中。
 
-The FDW does not have to concern itself with implementing the filtering
-specified by `list_type` and `table_list`,
-either, as the core server will automatically skip any returned commands
-for tables excluded according to those options. However, it's often
-useful to avoid the work of creating commands for excluded tables in the
-first place. The function `IsImportableForeignTable()` may be
-useful to test whether a given foreign-table name will pass the filter.
+FDW 也不必自行實作 `list_type` 與 `table_list` 所指定的過濾，因為核心伺服器會自動略過依這些選項而被排除之資料表的任何回傳命令。不過，一開始就避免為被排除的資料表建立命令，通常是有用的。函式 `IsImportableForeignTable()` 可用來測試給定的外部資料表名稱是否會通過過濾。
 
-If the FDW does not support importing table definitions, the
-`ImportForeignSchema` pointer can be set to `NULL`.
+若 FDW 不支援匯入資料表定義，可以將 `ImportForeignSchema` 指標設為 `NULL`。
 
 <a id="FDW-CALLBACKS-PARALLEL"></a>
 
-### 58.2.10. FDW Routines for Parallel Execution [#](#FDW-CALLBACKS-PARALLEL)
+### 58.2.10. 平行執行的 FDW 函式 [#](#FDW-CALLBACKS-PARALLEL)
 
-A `ForeignScan` node can, optionally, support parallel
-execution. A parallel `ForeignScan` will be executed
-in multiple processes and must return each row exactly once across
-all cooperating processes. To do this, processes can coordinate through
-fixed-size chunks of dynamic shared memory. This shared memory is not
-guaranteed to be mapped at the same address in every process, so it
-must not contain pointers. The following functions are all optional,
-but most are required if parallel execution is to be supported.
+`ForeignScan` 節點可以選擇性地支援平行執行。平行的 `ForeignScan` 會在多個程序中執行，並且必須在所有協同運作的程序之間，讓每個資料列恰好只回傳一次。為此，各程序可以透過固定大小的動態共享記憶體區塊來協調。此共享記憶體不保證在每個程序中都對應到相同的位址，因此其中不得包含指標。下列函式全都是選擇性的，但若要支援平行執行，其中大部分都是必要的。
 
 ```
 
@@ -1221,19 +607,9 @@ IsForeignScanParallelSafe(PlannerInfo *root, RelOptInfo *rel,
                           RangeTblEntry *rte);
 ```
 
-Test whether a scan can be performed within a parallel worker. This
-function will only be called when the planner believes that a parallel
-plan might be possible, and should return true if it is safe for that scan
-to run within a parallel worker. This will generally not be the case if
-the remote data source has transaction semantics, unless the worker's
-connection to the data can somehow be made to share the same transaction
-context as the leader.
+測試掃描是否可以在平行工作程序中執行。只有在規劃器認為平行計畫可能可行時才會呼叫此函式；若該掃描在平行工作程序中執行是安全的，此函式應該回傳 true。若遠端資料來源具有交易語意，通常就不是這種情況，除非能以某種方式讓工作程序對資料的連線與領導程序共享相同的交易上下文。
 
-If this function is not defined, it is assumed that the scan must take
-place within the parallel leader. Note that returning true does not mean
-that the scan itself can be done in parallel, only that the scan can be
-performed within a parallel worker. Therefore, it can be useful to define
-this method even when parallel execution is not supported.
+若未定義此函式，則會假設掃描必須在平行領導程序中進行。請注意，回傳 true 並不表示掃描本身可以平行進行，只表示掃描可以在平行工作程序中執行。因此，即使不支援平行執行，定義此方法也可能是有用的。
 
 ```
 
@@ -1241,12 +617,7 @@ Size
 EstimateDSMForeignScan(ForeignScanState *node, ParallelContext *pcxt);
 ```
 
-Estimate the amount of dynamic shared memory that will be required
-for parallel operation. This may be higher than the amount that will
-actually be used, but it must not be lower. The return value is in bytes.
-This function is optional, and can be omitted if not needed; but if it
-is omitted, the next three functions must be omitted as well, because
-no shared memory will be allocated for the FDW's use.
+估計平行操作所需的動態共享記憶體量。此值可以高於實際使用的量，但不得低於實際使用的量。回傳值以位元組為單位。此函式是選擇性的，不需要時可以省略；但若省略此函式，接下來的三個函式也必須一併省略，因為不會配置任何共享記憶體供 FDW 使用。
 
 ```
 
@@ -1255,10 +626,7 @@ InitializeDSMForeignScan(ForeignScanState *node, ParallelContext *pcxt,
                          void *coordinate);
 ```
 
-Initialize the dynamic shared memory that will be required for parallel
-operation. `coordinate` points to a shared memory area of
-size equal to the return value of `EstimateDSMForeignScan`.
-This function is optional, and can be omitted if not needed.
+初始化平行操作所需的動態共享記憶體。`coordinate` 指向一塊共享記憶體區域，其大小等於 `EstimateDSMForeignScan` 的回傳值。此函式是選擇性的，不需要時可以省略。
 
 ```
 
@@ -1267,14 +635,7 @@ ReInitializeDSMForeignScan(ForeignScanState *node, ParallelContext *pcxt,
                            void *coordinate);
 ```
 
-Re-initialize the dynamic shared memory required for parallel operation
-when the foreign-scan plan node is about to be re-scanned.
-This function is optional, and can be omitted if not needed.
-Recommended practice is that this function reset only shared state,
-while the `ReScanForeignScan` function resets only local
-state. Currently, this function will be called
-before `ReScanForeignScan`, but it's best not to rely on
-that ordering.
+當外部掃描計畫節點即將被重新掃描時，重新初始化平行操作所需的動態共享記憶體。此函式是選擇性的，不需要時可以省略。建議的做法是讓此函式只重設共享狀態，而 `ReScanForeignScan` 函式只重設本地端狀態。目前，此函式會在 `ReScanForeignScan` 之前被呼叫，但最好不要依賴這個順序。
 
 ```
 
@@ -1283,9 +644,7 @@ InitializeWorkerForeignScan(ForeignScanState *node, shm_toc *toc,
                             void *coordinate);
 ```
 
-Initialize a parallel worker's local state based on the shared state
-set up by the leader during `InitializeDSMForeignScan`.
-This function is optional, and can be omitted if not needed.
+根據領導程序在 `InitializeDSMForeignScan` 期間所設定的共享狀態，初始化平行工作程序的本地端狀態。此函式是選擇性的，不需要時可以省略。
 
 ```
 
@@ -1293,23 +652,13 @@ void
 ShutdownForeignScan(ForeignScanState *node);
 ```
 
-Release resources when it is anticipated the node will not be executed
-to completion. This is not called in all cases; sometimes,
-`EndForeignScan` may be called without this function having
-been called first. Since the DSM segment used by parallel query is
-destroyed just after this callback is invoked, foreign data wrappers that
-wish to take some action before the DSM segment goes away should implement
-this method.
+當預期節點不會被執行到完成時釋放資源。並非所有情況下都會呼叫此函式；有時候，可能在未先呼叫此函式的情況下就呼叫 `EndForeignScan`。由於平行查詢所使用的 DSM 區段會在此回呼函式被呼叫後隨即被銷毀，希望在 DSM 區段消失之前採取某些動作的外部資料包裝器應該實作此方法。
 
 <a id="FDW-CALLBACKS-ASYNC"></a>
 
-### 58.2.11. FDW Routines for Asynchronous Execution [#](#FDW-CALLBACKS-ASYNC)
+### 58.2.11. 非同步執行的 FDW 函式 [#](#FDW-CALLBACKS-ASYNC)
 
-A `ForeignScan` node can, optionally, support
-asynchronous execution as described in
-`src/backend/executor/README`. The following
-functions are all optional, but are all required if asynchronous
-execution is to be supported.
+`ForeignScan` 節點可以選擇性地支援非同步執行，如 `src/backend/executor/README` 中所述。下列函式全都是選擇性的，但若要支援非同步執行，則全部都是必要的。
 
 ```
 
@@ -1317,18 +666,9 @@ bool
 IsForeignPathAsyncCapable(ForeignPath *path);
 ```
 
-Test whether a given `ForeignPath` path can scan
-the underlying foreign relation asynchronously.
-This function will only be called at the end of query planning when the
-given path is a direct child of an `AppendPath`
-path and when the planner believes that asynchronous execution improves
-performance, and should return true if the given path is able to scan the
-foreign relation asynchronously.
+測試給定的 `ForeignPath` 路徑是否能以非同步方式掃描底層的外部關聯。只有在查詢規劃的最後，當給定路徑是某個 `AppendPath` 路徑的直接子路徑，且規劃器認為非同步執行能提升效能時，才會呼叫此函式；若給定路徑能夠以非同步方式掃描外部關聯，此函式應該回傳 true。
 
-If this function is not defined, it is assumed that the given path scans
-the foreign relation using `IterateForeignScan`.
-(This implies that the callback functions described below will never be
-called, so they need not be provided either.)
+若未定義此函式，則會假設給定路徑使用 `IterateForeignScan` 掃描外部關聯。（這意味著下文所述的回呼函式永遠不會被呼叫，因此也不需要提供它們。）
 
 ```
 
@@ -1336,26 +676,7 @@ void
 ForeignAsyncRequest(AsyncRequest *areq);
 ```
 
-Produce one tuple asynchronously from the
-`ForeignScan` node. `areq` is
-the `AsyncRequest` struct describing the
-`ForeignScan` node and the parent
-`Append` node that requested the tuple from it.
-This function should store the tuple into the slot specified by
-`areq->result`, and set
-`areq->request_complete` to `true`;
-or if it needs to wait on an event external to the core server such as
-network I/O, and cannot produce any tuple immediately, set the flag to
-`false`, and set
-`areq->callback_pending` to `true`
-for the `ForeignScan` node to get a callback from
-the callback functions described below. If no more tuples are available,
-set the slot to NULL or an empty slot, and the
-`areq->request_complete` flag to
-`true`. It's recommended to use
-`ExecAsyncRequestDone` or
-`ExecAsyncRequestPending` to set the output parameters
-in the `areq`.
+以非同步方式從 `ForeignScan` 節點產生一個元組。`areq` 是 `AsyncRequest` 結構，描述該 `ForeignScan` 節點以及向它請求元組的上層 `Append` 節點。此函式應該將元組存入 `areq->result` 所指定的槽中，並將 `areq->request_complete` 設為 `true`；或者，若它需要等待核心伺服器外部的事件（例如網路 I/O）而無法立即產生任何元組，則將該旗標設為 `false`，並將 `areq->callback_pending` 設為 `true`，讓 `ForeignScan` 節點能從下文所述的回呼函式獲得回呼。若沒有更多元組可用，則將槽設為 NULL 或空的槽，並將 `areq->request_complete` 旗標設為 `true`。建議使用 `ExecAsyncRequestDone` 或 `ExecAsyncRequestPending` 來設定 `areq` 中的輸出參數。
 
 ```
 
@@ -1363,18 +684,7 @@ void
 ForeignAsyncConfigureWait(AsyncRequest *areq);
 ```
 
-Configure a file descriptor event for which the
-`ForeignScan` node wishes to wait.
-This function will only be called when the
-`ForeignScan` node has the
-`areq->callback_pending` flag set, and should add
-the event to the `as_eventset` of the parent
-`Append` node described by the
-`areq`. See the comments for
-`ExecAsyncConfigureWait` in
-`src/backend/executor/execAsync.c` for additional
-information. When the file descriptor event occurs,
-`ForeignAsyncNotify` will be called.
+設定 `ForeignScan` 節點希望等待的檔案描述子事件。只有在 `ForeignScan` 節點設定了 `areq->callback_pending` 旗標時才會呼叫此函式，而此函式應該將該事件加入 `areq` 所描述之上層 `Append` 節點的 `as_eventset` 中。更多資訊請參閱 `src/backend/executor/execAsync.c` 中 `ExecAsyncConfigureWait` 的註解。當檔案描述子事件發生時，將會呼叫 `ForeignAsyncNotify`。
 
 ```
 
@@ -1382,15 +692,11 @@ void
 ForeignAsyncNotify(AsyncRequest *areq);
 ```
 
-Process a relevant event that has occurred, then produce one tuple
-asynchronously from the `ForeignScan` node.
-This function should set the output parameters in the
-`areq` in the same way as
-`ForeignAsyncRequest`.
+處理已發生的相關事件，然後以非同步方式從 `ForeignScan` 節點產生一個元組。此函式應該以與 `ForeignAsyncRequest` 相同的方式設定 `areq` 中的輸出參數。
 
 <a id="FDW-CALLBACKS-REPARAMETERIZE-PATHS"></a>
 
-### 58.2.12. FDW Routines for Reparameterization of Paths [#](#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
+### 58.2.12. 路徑重新參數化的 FDW 函式 [#](#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
 
 ```
 
@@ -1399,15 +705,8 @@ ReparameterizeForeignPathByChild(PlannerInfo *root, List *fdw_private,
                                  RelOptInfo *child_rel);
 ```
 
-This function is called while converting a path parameterized by the
-top-most parent of the given child relation `child_rel` to be
-parameterized by the child relation. The function is used to reparameterize
-any paths or translate any expression nodes saved in the given
-`fdw_private` member of a `ForeignPath`. The
-callback may use `reparameterize_path_by_child`,
-`adjust_appendrel_attrs` or
-`adjust_appendrel_attrs_multilevel` as required.
+當要把一個以給定子關聯 `child_rel` 的最上層父關聯參數化的路徑，轉換為以該子關聯參數化時，會呼叫此函式。此函式用於將 `ForeignPath` 的給定 `fdw_private` 成員中所保存的任何路徑重新參數化，或轉譯其中的任何運算式節點。此回呼函式可以視需要使用 `reparameterize_path_by_child`、`adjust_appendrel_attrs` 或 `adjust_appendrel_attrs_multilevel`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/fdw-callbacks.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/fdw-callbacks.html)（原文版本：18.6；核對日期：2026-10-17）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：219 頁。
+待譯頁面：218 頁。
 
 ## 根目錄
 
@@ -357,7 +357,7 @@
 - [x] `internals/custom-scan/custom-scan-path.md` — 60.1. 建立自訂掃描路徑 #
 - [x] `internals/custom-scan/custom-scan-plan.md` — 60.2. 建立自訂掃描計畫 #
 - [x] `internals/fdwhandler/README.md` — 第 58 章 撰寫外部資料包裝器
-- [ ] `internals/fdwhandler/fdw-callbacks.md` — 58.2. Foreign Data Wrapper Callback Routines #
+- [x] `internals/fdwhandler/fdw-callbacks.md` — 58.2. 外部資料包裝器回呼函式 #
 - [x] `internals/fdwhandler/fdw-functions.md` — 58.1. 外部資料包裝器函式 #
 - [x] `internals/fdwhandler/fdw-helpers.md` — 58.3. 外部資料包裝器輔助函式 #
 - [x] `internals/fdwhandler/fdw-planning.md` — 58.4. 外部資料包裝器查詢規劃 #
