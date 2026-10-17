@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：193 頁。
+待譯頁面：192 頁。
 
 ## 根目錄
 
@@ -303,7 +303,7 @@
 - [x] `internals/catalogs/catalog-pg-database.md` — 52.15. `pg_database` #
 - [x] `internals/catalogs/catalog-pg-db-role-setting.md` — 52.16. `pg_db_role_setting` #
 - [x] `internals/catalogs/catalog-pg-default-acl.md` — 52.17. `pg_default_acl` #
-- [ ] `internals/catalogs/catalog-pg-depend.md` — 52.18. pg_depend #
+- [x] `internals/catalogs/catalog-pg-depend.md` — 52.18. `pg_depend` #
 - [x] `internals/catalogs/catalog-pg-description.md` — 52.19. `pg_description` #
 - [x] `internals/catalogs/catalog-pg-enum.md` — 52.20. `pg_enum` #
 - [x] `internals/catalogs/catalog-pg-event-trigger.md` — 52.21. `pg_event_trigger` #
