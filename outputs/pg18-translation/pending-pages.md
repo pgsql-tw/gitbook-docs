@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：206 頁。
+待譯頁面：205 頁。
 
 ## 根目錄
 
@@ -291,7 +291,7 @@
 - [x] `internals/catalogs/catalog-pg-am.md` — 52.3. `pg_am` #
 - [x] `internals/catalogs/catalog-pg-amop.md` — 52.4. `pg_amop` #
 - [x] `internals/catalogs/catalog-pg-amproc.md` — 52.5. `pg_amproc` #
-- [ ] `internals/catalogs/catalog-pg-attrdef.md` — 52.6. pg_attrdef #
+- [x] `internals/catalogs/catalog-pg-attrdef.md` — 52.6. `pg_attrdef` #
 - [ ] `internals/catalogs/catalog-pg-attribute.md` — 52.7. pg_attribute #
 - [ ] `internals/catalogs/catalog-pg-auth-members.md` — 52.9. pg_auth_members #
 - [ ] `internals/catalogs/catalog-pg-authid.md` — 52.8. pg_authid #

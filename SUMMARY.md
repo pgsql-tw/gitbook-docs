@@ -839,7 +839,7 @@
     * [52.3. `pg_am` #](internals/catalogs/catalog-pg-am.md)
     * [52.4. `pg_amop` #](internals/catalogs/catalog-pg-amop.md)
     * [52.5. `pg_amproc` #](internals/catalogs/catalog-pg-amproc.md)
-    * [52.6. pg_attrdef #](internals/catalogs/catalog-pg-attrdef.md)
+    * [52.6. `pg_attrdef` #](internals/catalogs/catalog-pg-attrdef.md)
     * [52.7. pg_attribute #](internals/catalogs/catalog-pg-attribute.md)
     * [52.8. pg_authid #](internals/catalogs/catalog-pg-authid.md)
     * [52.9. pg_auth_members #](internals/catalogs/catalog-pg-auth-members.md)
