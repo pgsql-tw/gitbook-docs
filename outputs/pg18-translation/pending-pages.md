@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：175 頁。
+待譯頁面：174 頁。
 
 ## 根目錄
 
@@ -269,7 +269,7 @@
 - [ ] `client-interfaces/libpq/libpq-pipeline-mode.md` — 32.5. Pipeline Mode #
 - [x] `client-interfaces/libpq/libpq-single-row-mode.md` — 32.6. 分塊取得查詢結果 #
 - [x] `client-interfaces/libpq/libpq-ssl.md` — 32.19. SSL 支援 #
-- [ ] `client-interfaces/libpq/libpq-status.md` — 32.2. Connection Status Functions #
+- [x] `client-interfaces/libpq/libpq-status.md` — 32.2. 連線狀態函式 #
 - [ ] `client-interfaces/libpq/libpq-threading.md` — 32.21. Behavior in Threaded Programs #
 
 ## internals

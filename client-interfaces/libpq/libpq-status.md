@@ -1,30 +1,21 @@
-## 32.2. Connection Status Functions [#](#LIBPQ-STATUS)
+<a id="LIBPQ-STATUS"></a>
 
-These functions can be used to interrogate the status
-of an existing database connection object.
+## 32.2. 連線狀態函式 [#](#LIBPQ-STATUS)
 
-### Tip
+這些函式可用來查詢現有資料庫連線物件的狀態。
+
+### 提示
 
 <a id="id-1.7.3.9.3.1.1"></a>
 <a id="id-1.7.3.9.3.1.2"></a>
-libpq application programmers should be careful to
-maintain the `PGconn` abstraction. Use the accessor
-functions described below to get at the contents of `PGconn`.
-Reference to internal `PGconn` fields using
-`libpq-int.h` is not recommended because they are subject to change
-in the future.
+libpq 應用程式的程式設計者應該小心維持 `PGconn` 的抽象性。請使用下面所述的存取函式來取得 `PGconn` 的內容。不建議透過 `libpq-int.h` 參照 `PGconn` 的內部欄位，因為這些欄位未來可能會變更。
 
-The following functions return parameter values established at connection.
-These values are fixed for the life of the connection. If a multi-host
-connection string is used, the values of [`PQhost`](libpq-status.md#LIBPQ-PQHOST),
-[`PQport`](libpq-status.md#LIBPQ-PQPORT), and [`PQpass`](libpq-status.md#LIBPQ-PQPASS) can change if a new connection
-is established using the same `PGconn` object. Other values
-are fixed for the lifetime of the `PGconn` object.
+下列函式傳回連線時所建立的參數值。這些值在連線存續期間固定不變。如果使用多主機連線字串，那麼在使用同一個 `PGconn` 物件建立新連線時，[`PQhost`](libpq-status.md#LIBPQ-PQHOST)、[`PQport`](libpq-status.md#LIBPQ-PQPORT) 與 [`PQpass`](libpq-status.md#LIBPQ-PQPASS) 的值可能會改變。其他值則在 `PGconn` 物件的存續期間固定不變。
 
 <a id="LIBPQ-PQDB"></a>
 
 `PQdb`<a id="id-1.7.3.9.4.6.1.1.2"></a> [#](#LIBPQ-PQDB)
-:   Returns the database name of the connection.
+:   傳回連線的資料庫名稱。
 
     ```
 
@@ -33,7 +24,7 @@ are fixed for the lifetime of the `PGconn` object.
 <a id="LIBPQ-PQUSER"></a>
 
 `PQuser`<a id="id-1.7.3.9.4.6.2.1.2"></a> [#](#LIBPQ-PQUSER)
-:   Returns the user name of the connection.
+:   傳回連線的使用者名稱。
 
     ```
 
@@ -42,100 +33,59 @@ are fixed for the lifetime of the `PGconn` object.
 <a id="LIBPQ-PQPASS"></a>
 
 `PQpass`<a id="id-1.7.3.9.4.6.3.1.2"></a> [#](#LIBPQ-PQPASS)
-:   Returns the password of the connection.
+:   傳回連線的密碼。
 
     ```
 
     char *PQpass(const PGconn *conn);
     ```
 
-    [`PQpass`](libpq-status.md#LIBPQ-PQPASS) will return either the password specified
-    in the connection parameters, or if there was none and the password
-    was obtained from the [password
-    file](libpq-pgpass.md), it will return that. In the latter case,
-    if multiple hosts were specified in the connection parameters, it is
-    not possible to rely on the result of [`PQpass`](libpq-status.md#LIBPQ-PQPASS) until
-    the connection is established. The status of the connection can be
-    checked using the function [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS).
+    [`PQpass`](libpq-status.md#LIBPQ-PQPASS) 會傳回連線參數中指定的密碼；若連線參數中沒有指定密碼，而密碼是從[密碼檔](libpq-pgpass.md)取得的，則傳回該密碼。在後者的情況下，如果連線參數中指定了多個主機，那麼在連線建立之前，不能依賴 [`PQpass`](libpq-status.md#LIBPQ-PQPASS) 的結果。連線的狀態可以使用函式 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 檢查。
 <a id="LIBPQ-PQHOST"></a>
 
 `PQhost`<a id="id-1.7.3.9.4.6.4.1.2"></a> [#](#LIBPQ-PQHOST)
-:   Returns the server host name of the active connection.
-    This can be a host name, an IP address, or a directory path if the
-    connection is via Unix socket. (The path case can be distinguished
-    because it will always be an absolute path, beginning
-    with `/`.)
+:   傳回目前作用中連線的伺服器主機名稱。這可能是主機名稱、IP 位址，或者在透過 Unix 網域通訊端連線時是目錄路徑。（路徑的情況可以區分出來，因為它一律是以 `/` 開頭的絕對路徑。）
 
     ```
 
     char *PQhost(const PGconn *conn);
     ```
 
-    If the connection parameters specified both `host` and
-    `hostaddr`, then [`PQhost`](libpq-status.md#LIBPQ-PQHOST) will
-    return the `host` information. If only
-    `hostaddr` was specified, then that is returned.
-    If multiple hosts were specified in the connection parameters,
-    [`PQhost`](libpq-status.md#LIBPQ-PQHOST) returns the host actually connected to.
+    如果連線參數同時指定了 `host` 與 `hostaddr`，那麼 [`PQhost`](libpq-status.md#LIBPQ-PQHOST) 會傳回 `host` 的資訊。如果只指定了 `hostaddr`，則傳回它。如果連線參數中指定了多個主機，[`PQhost`](libpq-status.md#LIBPQ-PQHOST) 會傳回實際連上的主機。
 
-    [`PQhost`](libpq-status.md#LIBPQ-PQHOST) returns `NULL` if the
-    *`conn`* argument is `NULL`.
-    Otherwise, if there is an error producing the host information (perhaps
-    if the connection has not been fully established or there was an
-    error), it returns an empty string.
+    若 *`conn`* 引數為 `NULL`，[`PQhost`](libpq-status.md#LIBPQ-PQHOST) 會傳回 `NULL`。否則，若產生主機資訊時發生錯誤（可能是連線尚未完全建立或發生了錯誤），則傳回空字串。
 
-    If multiple hosts were specified in the connection parameters, it is
-    not possible to rely on the result of [`PQhost`](libpq-status.md#LIBPQ-PQHOST) until
-    the connection is established. The status of the connection can be
-    checked using the function [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS).
+    如果連線參數中指定了多個主機，那麼在連線建立之前，不能依賴 [`PQhost`](libpq-status.md#LIBPQ-PQHOST) 的結果。連線的狀態可以使用函式 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 檢查。
 <a id="LIBPQ-PQHOSTADDR"></a>
 
 `PQhostaddr`<a id="id-1.7.3.9.4.6.5.1.2"></a> [#](#LIBPQ-PQHOSTADDR)
-:   Returns the server IP address of the active connection.
-    This can be the address that a host name resolved to,
-    or an IP address provided through the `hostaddr`
-    parameter.
+:   傳回目前作用中連線的伺服器 IP 位址。這可能是主機名稱解析所得的位址，或是透過 `hostaddr` 參數提供的 IP 位址。
 
     ```
 
     char *PQhostaddr(const PGconn *conn);
     ```
 
-    [`PQhostaddr`](libpq-status.md#LIBPQ-PQHOSTADDR) returns `NULL` if the
-    *`conn`* argument is `NULL`.
-    Otherwise, if there is an error producing the host information
-    (perhaps if the connection has not been fully established or
-    there was an error), it returns an empty string.
+    若 *`conn`* 引數為 `NULL`，[`PQhostaddr`](libpq-status.md#LIBPQ-PQHOSTADDR) 會傳回 `NULL`。否則，若產生主機資訊時發生錯誤（可能是連線尚未完全建立或發生了錯誤），則傳回空字串。
 <a id="LIBPQ-PQPORT"></a>
 
 `PQport`<a id="id-1.7.3.9.4.6.6.1.2"></a> [#](#LIBPQ-PQPORT)
-:   Returns the port of the active connection.
+:   傳回目前作用中連線的連接埠。
 
     ```
 
     char *PQport(const PGconn *conn);
     ```
 
-    If multiple ports were specified in the connection parameters,
-    [`PQport`](libpq-status.md#LIBPQ-PQPORT) returns the port actually connected to.
+    如果連線參數中指定了多個連接埠，[`PQport`](libpq-status.md#LIBPQ-PQPORT) 會傳回實際連上的連接埠。
 
-    [`PQport`](libpq-status.md#LIBPQ-PQPORT) returns `NULL` if the
-    *`conn`* argument is `NULL`.
-    Otherwise, if there is an error producing the port information (perhaps
-    if the connection has not been fully established or there was an
-    error), it returns an empty string.
+    若 *`conn`* 引數為 `NULL`，[`PQport`](libpq-status.md#LIBPQ-PQPORT) 會傳回 `NULL`。否則，若產生連接埠資訊時發生錯誤（可能是連線尚未完全建立或發生了錯誤），則傳回空字串。
 
-    If multiple ports were specified in the connection parameters, it is
-    not possible to rely on the result of [`PQport`](libpq-status.md#LIBPQ-PQPORT) until
-    the connection is established. The status of the connection can be
-    checked using the function [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS).
+    如果連線參數中指定了多個連接埠，那麼在連線建立之前，不能依賴 [`PQport`](libpq-status.md#LIBPQ-PQPORT) 的結果。連線的狀態可以使用函式 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 檢查。
 <a id="LIBPQ-PQTTY"></a>
 
 `PQtty`<a id="id-1.7.3.9.4.6.7.1.2"></a> [#](#LIBPQ-PQTTY)
-:   This function no longer does anything, but it remains for backwards
-    compatibility. The function always return an empty string, or
-    `NULL` if the *`conn`* argument is
-    `NULL`.
+:   此函式已不再執行任何動作，保留它只是為了向後相容性。此函式一律傳回空字串；若 *`conn`* 引數為 `NULL`，則傳回 `NULL`。
 
     ```
 
@@ -144,192 +94,114 @@ are fixed for the lifetime of the `PGconn` object.
 <a id="LIBPQ-PQOPTIONS"></a>
 
 `PQoptions`<a id="id-1.7.3.9.4.6.8.1.2"></a> [#](#LIBPQ-PQOPTIONS)
-:   Returns the command-line options passed in the connection request.
+:   傳回在連線要求中傳遞的命令列選項。
 
     ```
 
     char *PQoptions(const PGconn *conn);
     ```
 
-The following functions return status data that can change as operations
-are executed on the `PGconn` object.
+下列函式傳回的狀態資料，可能會隨著對 `PGconn` 物件執行的操作而改變。
 
 <a id="LIBPQ-PQSTATUS"></a>
 
 `PQstatus`<a id="id-1.7.3.9.5.2.1.1.2"></a> [#](#LIBPQ-PQSTATUS)
-:   Returns the status of the connection.
+:   傳回連線的狀態。
 
     ```
 
     ConnStatusType PQstatus(const PGconn *conn);
     ```
 
-    The status can be one of a number of values. However, only two of
-    these are seen outside of an asynchronous connection procedure:
-    `CONNECTION_OK` and
-    `CONNECTION_BAD`. A good connection to the database
-    has the status `CONNECTION_OK`. A failed
-    connection attempt is signaled by status
-    `CONNECTION_BAD`. Ordinarily, an OK status will
-    remain so until [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH), but a communications
-    failure might result in the status changing to
-    `CONNECTION_BAD` prematurely. In that case the
-    application could try to recover by calling
-    [`PQreset`](libpq-connect.md#LIBPQ-PQRESET).
+    狀態可以是多個值中的一個。不過，在非同步連線程序之外只會看到其中兩個：`CONNECTION_OK` 與 `CONNECTION_BAD`。與資料庫的良好連線狀態為 `CONNECTION_OK`。連線嘗試失敗則以狀態 `CONNECTION_BAD` 表示。通常，OK 狀態會一直維持到 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 為止，但通訊失敗可能會導致狀態提早變為 `CONNECTION_BAD`。在這種情況下，應用程式可以呼叫 [`PQreset`](libpq-connect.md#LIBPQ-PQRESET) 嘗試復原。
 
-    See the entry for [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS), `PQconnectStart`
-    and `PQconnectPoll` with regards to other status codes that
-    might be returned.
+    關於可能傳回的其他狀態碼，請參閱 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)、`PQconnectStart` 與 `PQconnectPoll` 的說明項目。
 <a id="LIBPQ-PQTRANSACTIONSTATUS"></a>
 
 `PQtransactionStatus`<a id="id-1.7.3.9.5.2.2.1.2"></a> [#](#LIBPQ-PQTRANSACTIONSTATUS)
-:   Returns the current in-transaction status of the server.
+:   傳回伺服器目前的交易內狀態。
 
     ```
 
     PGTransactionStatusType PQtransactionStatus(const PGconn *conn);
     ```
 
-    The status can be `PQTRANS_IDLE` (currently idle),
-    `PQTRANS_ACTIVE` (a command is in progress),
-    `PQTRANS_INTRANS` (idle, in a valid transaction block),
-    or `PQTRANS_INERROR` (idle, in a failed transaction block).
-    `PQTRANS_UNKNOWN` is reported if the connection is bad.
-    `PQTRANS_ACTIVE` is reported only when a query
-    has been sent to the server and not yet completed.
+    狀態可以是 `PQTRANS_IDLE`（目前閒置）、`PQTRANS_ACTIVE`（有命令正在執行中）、`PQTRANS_INTRANS`（閒置，位於有效的交易區塊中），或 `PQTRANS_INERROR`（閒置，位於失敗的交易區塊中）。若連線狀態不良，則回報 `PQTRANS_UNKNOWN`。只有在查詢已送至伺服器但尚未完成時，才會回報 `PQTRANS_ACTIVE`。
 <a id="LIBPQ-PQPARAMETERSTATUS"></a>
 
 `PQparameterStatus`<a id="id-1.7.3.9.5.2.3.1.2"></a> [#](#LIBPQ-PQPARAMETERSTATUS)
-:   Looks up a current parameter setting of the server.
+:   查詢伺服器目前的某項參數設定。
 
     ```
 
     const char *PQparameterStatus(const PGconn *conn, const char *paramName);
     ```
 
-    Certain parameter values are reported by the server automatically at
-    connection startup or whenever their values change.
-    [`PQparameterStatus`](libpq-status.md#LIBPQ-PQPARAMETERSTATUS) can be used to interrogate these settings.
-    It returns the current value of a parameter if known, or `NULL`
-    if the parameter is not known.
+    某些參數值會在連線啟動時，或在其值改變時，由伺服器自動回報。[`PQparameterStatus`](libpq-status.md#LIBPQ-PQPARAMETERSTATUS) 可用來查詢這些設定。若已知參數的目前值，則傳回該值；若參數未知，則傳回 `NULL`。
 
-    Parameters reported as of the current release include:
+    截至目前的版本，會回報的參數包括：
 
     <table border="0" class="simplelist" summary="Simple list"><tr><td><code class="varname">application_name</code></td><td><code class="varname">scram_iterations</code></td></tr><tr><td><code class="varname">client_encoding</code></td><td><code class="varname">search_path</code></td></tr><tr><td><code class="varname">DateStyle</code></td><td><code class="varname">server_encoding</code></td></tr><tr><td><code class="varname">default_transaction_read_only</code></td><td><code class="varname">server_version</code></td></tr><tr><td><code class="varname">in_hot_standby</code></td><td><code class="varname">session_authorization</code></td></tr><tr><td><code class="varname">integer_datetimes</code></td><td><code class="varname">standard_conforming_strings</code></td></tr><tr><td><code class="varname">IntervalStyle</code></td><td><code class="varname">TimeZone</code></td></tr><tr><td><code class="varname">is_superuser</code></td><td> </td></tr></table>
 
-    (`default_transaction_read_only` and
-    `in_hot_standby` were not reported by releases before
-    14; `scram_iterations` was not reported by releases
-    before 16; `search_path` was not reported by releases
-    before 18.)
-    Note that
-    `server_version`,
-    `server_encoding` and
-    `integer_datetimes`
-    cannot change after startup.
+    （14 之前的版本不會回報 `default_transaction_read_only` 與 `in_hot_standby`；16 之前的版本不會回報 `scram_iterations`；18 之前的版本不會回報 `search_path`。）請注意，`server_version`、`server_encoding` 與 `integer_datetimes` 在啟動之後無法改變。
 
-    If no value for `standard_conforming_strings` is reported,
-    applications can assume it is `off`, that is, backslashes
-    are treated as escapes in string literals. Also, the presence of
-    this parameter can be taken as an indication that the escape string
-    syntax (`E'...'`) is accepted.
+    如果沒有回報 `standard_conforming_strings` 的值，應用程式可以假定其為 `off`，也就是反斜線在字串常數中會被視為跳脫字元。此外，此參數的存在可以視為跳脫字串語法（`E'...'`）可被接受的跡象。
 
-    Although the returned pointer is declared `const`, it in fact
-    points to mutable storage associated with the `PGconn` structure.
-    It is unwise to assume the pointer will remain valid across queries.
+    雖然傳回的指標宣告為 `const`，但它實際上指向與 `PGconn` 結構相關聯的可變儲存空間。假定此指標在多次查詢之間仍保持有效，並不明智。
 <a id="LIBPQ-PQFULLPROTOCOLVERSION"></a>
 
 `PQfullProtocolVersion`<a id="id-1.7.3.9.5.2.4.1.2"></a> [#](#LIBPQ-PQFULLPROTOCOLVERSION)
-:   Interrogates the frontend/backend protocol being used.
+:   查詢目前使用的前端／後端協定。
 
     ```
 
     int PQfullProtocolVersion(const PGconn *conn);
     ```
 
-    Applications might wish to use this function to determine whether certain
-    features are supported. The result is formed by multiplying the server's
-    major version number by 10000 and adding the minor version number. For
-    example, version 3.2 would be returned as 30002, and version 4.0 would
-    be returned as 40000. Zero is returned if the connection is bad. The 3.0
-    protocol is supported by PostgreSQL server
-    versions 7.4 and above.
+    應用程式可能會想使用此函式來判斷是否支援某些功能。結果的計算方式是將伺服器的主要版本號乘以 10000，再加上次要版本號（原文此處寫作「伺服器的」主要版本號；依後文範例，實際上是所使用協定的主要與次要版本號）。例如，版本 3.2 會傳回 30002，版本 4.0 會傳回 40000。若連線狀態不良，則傳回零。PostgreSQL 伺服器 7.4 以上的版本支援 3.0 協定。
 
-    The protocol version will not change after connection startup is
-    complete, but it could theoretically change during a connection reset.
+    協定版本在連線啟動完成之後不會改變，但理論上可能在連線重設期間改變。
 <a id="LIBPQ-PQPROTOCOLVERSION"></a>
 
 `PQprotocolVersion`<a id="id-1.7.3.9.5.2.5.1.2"></a> [#](#LIBPQ-PQPROTOCOLVERSION)
-:   Interrogates the frontend/backend protocol major version.
+:   查詢前端／後端協定的主要版本。
 
     ```
 
     int PQprotocolVersion(const PGconn *conn);
     ```
 
-    Unlike [`PQfullProtocolVersion`](libpq-status.md#LIBPQ-PQFULLPROTOCOLVERSION), this returns only
-    the major protocol version in use, but it is supported by a wider range
-    of libpq releases back to version 7.4. Currently, the possible values are
-    3 (3.0 protocol), or zero (connection bad). Prior to release version
-    14.0, libpq could additionally return 2 (2.0 protocol).
+    與 [`PQfullProtocolVersion`](libpq-status.md#LIBPQ-PQFULLPROTOCOLVERSION) 不同，此函式只傳回使用中的主要協定版本，但支援它的 libpq 版本範圍更廣，可回溯至版本 7.4。目前可能的值為 3（3.0 協定）或零（連線狀態不良）。在 14.0 版之前，libpq 另外還可能傳回 2（2.0 協定）。
 <a id="LIBPQ-PQSERVERVERSION"></a>
 
 `PQserverVersion`<a id="id-1.7.3.9.5.2.6.1.2"></a> [#](#LIBPQ-PQSERVERVERSION)
-:   Returns an integer representing the server version.
+:   傳回代表伺服器版本的整數。
 
     ```
 
     int PQserverVersion(const PGconn *conn);
     ```
 
-    Applications might use this function to determine the version of the
-    database server they are connected to. The result is formed by
-    multiplying the server's major version number by 10000 and adding
-    the minor version number. For example, version 10.1 will be
-    returned as 100001, and version 11.0 will be returned as 110000.
-    Zero is returned if the connection is bad.
+    應用程式可以使用此函式來判斷所連線的資料庫伺服器版本。結果的計算方式是將伺服器的主要版本號乘以 10000，再加上次要版本號。例如，版本 10.1 會傳回 100001，版本 11.0 會傳回 110000。若連線狀態不良，則傳回零。
 
-    Prior to major version 10, PostgreSQL used
-    three-part version numbers in which the first two parts together
-    represented the major version. For those
-    versions, [`PQserverVersion`](libpq-status.md#LIBPQ-PQSERVERVERSION) uses two digits for each
-    part; for example version 9.1.5 will be returned as 90105, and
-    version 9.2.0 will be returned as 90200.
+    在主要版本 10 之前，PostgreSQL 使用由三部分組成的版本號，其中前兩部分合起來代表主要版本。對於這些版本，[`PQserverVersion`](libpq-status.md#LIBPQ-PQSERVERVERSION) 每個部分各使用兩位數字；例如版本 9.1.5 會傳回 90105，版本 9.2.0 會傳回 90200。
 
-    Therefore, for purposes of determining feature compatibility,
-    applications should divide the result of [`PQserverVersion`](libpq-status.md#LIBPQ-PQSERVERVERSION)
-    by 100 not 10000 to determine a logical major version number.
-    In all release series, only the last two digits differ between
-    minor releases (bug-fix releases).
+    因此，為了判斷功能相容性，應用程式應該將 [`PQserverVersion`](libpq-status.md#LIBPQ-PQSERVERVERSION) 的結果除以 100（而非 10000），以求得邏輯上的主要版本號。在所有發行系列中，次要版本（錯誤修正版本）之間只有最後兩位數字不同。
 <a id="LIBPQ-PQERRORMESSAGE"></a>
 
 `PQerrorMessage`<a id="id-1.7.3.9.5.2.7.1.2"></a> <a id="id-1.7.3.9.5.2.7.1.3"></a> [#](#LIBPQ-PQERRORMESSAGE)
-:   Returns the error message most recently generated by
-    an operation on the connection.
+:   傳回該連線上的操作最近一次產生的錯誤訊息。
 
     ```
 
     char *PQerrorMessage(const PGconn *conn);
     ```
 
-    Nearly all libpq functions will set a message for
-    [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) if they fail. Note that by
-    libpq convention, a nonempty
-    [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) result can consist of multiple lines,
-    and will include a trailing newline. The caller should not free
-    the result directly. It will be freed when the associated
-    `PGconn` handle is passed to
-    [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH). The result string should not be
-    expected to remain the same across operations on the
-    `PGconn` structure.
+    幾乎所有 libpq 函式在失敗時都會為 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 設定訊息。請注意，依照 libpq 的慣例，非空的 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 結果可能由多行組成，並且會包含結尾的換行字元。呼叫端不應直接釋放此結果。當相關聯的 `PGconn` 代號（handle）傳給 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 時，它會被釋放。不應預期此結果字串在對 `PGconn` 結構進行多次操作之間保持不變。
 <a id="LIBPQ-PQSOCKET"></a>
 
 `PQsocket`<a id="id-1.7.3.9.5.2.8.1.2"></a> [#](#LIBPQ-PQSOCKET)
-:   Obtains the file descriptor number of the connection socket to
-    the server. A valid descriptor will be greater than or equal
-    to 0; a result of -1 indicates that no server connection is
-    currently open. (This will not change during normal operation,
-    but could change during connection setup or reset.)
+:   取得連往伺服器的連線通訊端的檔案描述子編號。有效的描述子會大於或等於 0；結果為 -1 表示目前沒有開啟的伺服器連線。（此值在正常運作期間不會改變，但可能在連線設定或重設期間改變。）
 
     ```
 
@@ -338,68 +210,54 @@ are executed on the `PGconn` object.
 <a id="LIBPQ-PQBACKENDPID"></a>
 
 `PQbackendPID`<a id="id-1.7.3.9.5.2.9.1.2"></a> [#](#LIBPQ-PQBACKENDPID)
-:   Returns the process ID (PID)<a id="id-1.7.3.9.5.2.9.2.1.2"></a>
-    of the backend process handling this connection.
+:   傳回處理此連線之後端程序的程序 ID（PID）<a id="id-1.7.3.9.5.2.9.2.1.2"></a>。
 
     ```
 
     int PQbackendPID(const PGconn *conn);
     ```
 
-    The backend PID is useful for debugging
-    purposes and for comparison to `NOTIFY`
-    messages (which include the PID of the
-    notifying backend process). Note that the
-    PID belongs to a process executing on the
-    database server host, not the local host!
+    後端 PID 可用於除錯，以及與 `NOTIFY` 訊息（其中包含發出通知之後端程序的 PID）進行比對。請注意，此 PID 屬於在資料庫伺服器主機上執行的程序，而不是本機上的程序！
 <a id="LIBPQ-PQCONNECTIONNEEDSPASSWORD"></a>
 
 `PQconnectionNeedsPassword`<a id="id-1.7.3.9.5.2.10.1.2"></a> [#](#LIBPQ-PQCONNECTIONNEEDSPASSWORD)
-:   Returns true (1) if the connection authentication method
-    required a password, but none was available.
-    Returns false (0) if not.
+:   若連線的認證方法需要密碼，但沒有可用的密碼，則傳回 true（1）。否則傳回 false（0）。
 
     ```
 
     int PQconnectionNeedsPassword(const PGconn *conn);
     ```
 
-    This function can be applied after a failed connection attempt
-    to decide whether to prompt the user for a password.
+    此函式可在連線嘗試失敗後使用，以決定是否提示使用者輸入密碼。
 <a id="LIBPQ-PQCONNECTIONUSEDPASSWORD"></a>
 
 `PQconnectionUsedPassword`<a id="id-1.7.3.9.5.2.11.1.2"></a> [#](#LIBPQ-PQCONNECTIONUSEDPASSWORD)
-:   Returns true (1) if the connection authentication method
-    used a password. Returns false (0) if not.
+:   若連線的認證方法使用了密碼，則傳回 true（1）。否則傳回 false（0）。
 
     ```
 
     int PQconnectionUsedPassword(const PGconn *conn);
     ```
 
-    This function can be applied after either a failed or successful
-    connection attempt to detect whether the server demanded a password.
+    此函式可在連線嘗試失敗或成功後使用，以偵測伺服器是否要求了密碼。
 <a id="LIBPQ-PQCONNECTIONUSEDGSSAPI"></a>
 
 `PQconnectionUsedGSSAPI`<a id="id-1.7.3.9.5.2.12.1.2"></a> [#](#LIBPQ-PQCONNECTIONUSEDGSSAPI)
-:   Returns true (1) if the connection authentication method
-    used GSSAPI. Returns false (0) if not.
+:   若連線的認證方法使用了 GSSAPI，則傳回 true（1）。否則傳回 false（0）。
 
     ```
 
     int PQconnectionUsedGSSAPI(const PGconn *conn);
     ```
 
-    This function can be applied to detect whether the connection was
-    authenticated with GSSAPI.
+    此函式可用來偵測連線是否以 GSSAPI 進行認證。
 
-The following functions return information related to SSL. This information
-usually doesn't change after a connection is established.
+下列函式傳回與 SSL 相關的資訊。這些資訊在連線建立之後通常不會改變。
 
 <a id="LIBPQ-PQSSLINUSE"></a>
 
 `PQsslInUse`<a id="id-1.7.3.9.6.1.1.1.2"></a> [#](#LIBPQ-PQSSLINUSE)
-:   Returns true (1) if the connection uses SSL, false (0) if not.
+:   若連線使用 SSL，則傳回 true（1）；否則傳回 false（0）。
 
     ```
 
@@ -408,95 +266,58 @@ usually doesn't change after a connection is established.
 <a id="LIBPQ-PQSSLATTRIBUTE"></a>
 
 `PQsslAttribute`<a id="id-1.7.3.9.6.1.2.1.2"></a> [#](#LIBPQ-PQSSLATTRIBUTE)
-:   Returns SSL-related information about the connection.
+:   傳回關於連線的 SSL 相關資訊。
 
     ```
 
     const char *PQsslAttribute(const PGconn *conn, const char *attribute_name);
     ```
 
-    The list of available attributes varies depending on the SSL library
-    being used and the type of connection. Returns NULL if the connection
-    does not use SSL or the specified attribute name is not defined for the
-    library in use.
+    可用屬性的清單會因所使用的 SSL 函式庫與連線類型而異。若連線未使用 SSL，或所指定的屬性名稱對使用中的函式庫未定義，則傳回 NULL。
 
-    The following attributes are commonly available:
+    下列屬性通常可以使用：
 
     `library`
-    :   Name of the SSL implementation in use. (Currently, only
-        `"OpenSSL"` is implemented)
+    :   使用中的 SSL 實作名稱。（目前只實作了 `"OpenSSL"`）
 
     `protocol`
-    :   SSL/TLS version in use. Common values
-        are `"TLSv1"`, `"TLSv1.1"`
-        and `"TLSv1.2"`, but an implementation may
-        return other strings if some other protocol is used.
+    :   使用中的 SSL/TLS 版本。常見的值有 `"TLSv1"`、`"TLSv1.1"` 與 `"TLSv1.2"`，但若使用其他協定，實作可能會傳回其他字串。
 
     `key_bits`
-    :   Number of key bits used by the encryption algorithm.
+    :   加密演算法所使用的金鑰位元數。
 
     `cipher`
-    :   A short name of the ciphersuite used, e.g.,
-        `"DHE-RSA-DES-CBC3-SHA"`. The names are specific
-        to each SSL implementation.
+    :   所使用密碼套件的簡短名稱，例如 `"DHE-RSA-DES-CBC3-SHA"`。這些名稱因各個 SSL 實作而異。
 
     `compression`
-    :   Returns "on" if SSL compression is in use, else it returns "off".
+    :   若使用 SSL 壓縮，則傳回 "on"，否則傳回 "off"。
 
     `alpn`
-    :   Application protocol selected by the TLS Application-Layer
-        Protocol Negotiation (ALPN) extension. The only protocol
-        supported by libpq is `postgresql`, so this is
-        mainly useful for checking whether the server supported ALPN or
-        not. Empty string if ALPN was not used.
+    :   由 TLS 應用層協定協商（ALPN）擴充所選定的應用協定。libpq 唯一支援的協定是 `postgresql`，因此這主要用於檢查伺服器是否支援 ALPN。若未使用 ALPN，則為空字串。
 
-    As a special case, the `library` attribute may be
-    queried without a connection by passing NULL as
-    the `conn` argument. The result will be the default
-    SSL library name, or NULL if libpq was
-    compiled without any SSL support. (Prior
-    to PostgreSQL version 15, passing NULL as
-    the `conn` argument always resulted in NULL.
-    Client programs needing to differentiate between the newer and older
-    implementations of this case may check the
-    `LIBPQ_HAS_SSL_LIBRARY_DETECTION` feature macro.)
+    作為特殊情況，可以將 NULL 作為 `conn` 引數傳入，在沒有連線的情況下查詢 `library` 屬性。結果會是預設的 SSL 函式庫名稱；若 libpq 編譯時未包含任何 SSL 支援，則為 NULL。（在 PostgreSQL 15 版之前，將 NULL 作為 `conn` 引數傳入一律會得到 NULL。需要區分此情況新舊實作的用戶端程式，可以檢查 `LIBPQ_HAS_SSL_LIBRARY_DETECTION` 功能巨集。）
 <a id="LIBPQ-PQSSLATTRIBUTENAMES"></a>
 
 `PQsslAttributeNames`<a id="id-1.7.3.9.6.1.3.1.2"></a> [#](#LIBPQ-PQSSLATTRIBUTENAMES)
-:   Returns an array of SSL attribute names that can be used
-    in `PQsslAttribute()`.
-    The array is terminated by a NULL pointer.
+:   傳回可用於 `PQsslAttribute()` 的 SSL 屬性名稱陣列。此陣列以 NULL 指標結尾。
 
     ```
 
     const char * const * PQsslAttributeNames(const PGconn *conn);
     ```
 
-    If `conn` is NULL, the attributes available for the
-    default SSL library are returned, or an empty list
-    if libpq was compiled without any SSL
-    support. If `conn` is not NULL, the attributes
-    available for the SSL library in use for the connection are returned,
-    or an empty list if the connection is not encrypted.
+    若 `conn` 為 NULL，則傳回預設 SSL 函式庫可用的屬性；若 libpq 編譯時未包含任何 SSL 支援，則傳回空清單。若 `conn` 不為 NULL，則傳回該連線所使用之 SSL 函式庫可用的屬性；若連線未加密，則傳回空清單。
 <a id="LIBPQ-PQSSLSTRUCT"></a>
 
 `PQsslStruct`<a id="id-1.7.3.9.6.1.4.1.2"></a> [#](#LIBPQ-PQSSLSTRUCT)
-:   Returns a pointer to an SSL-implementation-specific object describing
-    the connection. Returns NULL if the connection is not encrypted
-    or the requested type of object is not available from the connection's
-    SSL implementation.
+:   傳回指向描述此連線、特定於 SSL 實作之物件的指標。若連線未加密，或無法從該連線的 SSL 實作取得所要求類型的物件，則傳回 NULL。
 
     ```
 
     void *PQsslStruct(const PGconn *conn, const char *struct_name);
     ```
 
-    The struct(s) available depend on the SSL implementation in use.
-    For OpenSSL, there is one struct,
-    available under the name `OpenSSL`,
-    and it returns a pointer to
-    OpenSSL's `SSL` struct.
-    To use this function, code along the following lines could be used:
+    可用的結構取決於使用中的 SSL 實作。對 OpenSSL 而言，只有一個結構，可透過名稱 `OpenSSL` 取得，它會傳回指向 OpenSSL 的 `SSL` 結構的指標。要使用此函式，可以使用類似下列的程式碼：
 
     ```
 
@@ -517,29 +338,20 @@ usually doesn't change after a connection is established.
         }
     ```
 
-    This structure can be used to verify encryption levels, check server
-    certificates, and more. Refer to the OpenSSL
-    documentation for information about this structure.
+    此結構可用來驗證加密等級、檢查伺服器憑證等。關於此結構的資訊，請參閱 OpenSSL 的文件。
 <a id="LIBPQ-PQGETSSL"></a>
 
 `PQgetssl`<a id="id-1.7.3.9.6.1.5.1.2"></a> [#](#LIBPQ-PQGETSSL)
 :   <a id="id-1.7.3.9.6.1.5.2.1.1"></a>
-    Returns the SSL structure used in the connection, or NULL
-    if SSL is not in use.
+    傳回連線中使用的 SSL 結構；若未使用 SSL，則傳回 NULL。
 
     ```
 
     void *PQgetssl(const PGconn *conn);
     ```
 
-    This function is equivalent to `PQsslStruct(conn, "OpenSSL")`. It should
-    not be used in new applications, because the returned struct is
-    specific to OpenSSL and will not be
-    available if another SSL implementation is used.
-    To check if a connection uses SSL, call
-    [`PQsslInUse`](libpq-status.md#LIBPQ-PQSSLINUSE) instead, and for more details about the
-    connection, use [`PQsslAttribute`](libpq-status.md#LIBPQ-PQSSLATTRIBUTE).
+    此函式等同於 `PQsslStruct(conn, "OpenSSL")`。新的應用程式不應使用它，因為傳回的結構特定於 OpenSSL，在使用其他 SSL 實作時將無法取得。若要檢查連線是否使用 SSL，請改為呼叫 [`PQsslInUse`](libpq-status.md#LIBPQ-PQSSLINUSE)；若要取得關於連線的更多細節，請使用 [`PQsslAttribute`](libpq-status.md#LIBPQ-PQSSLATTRIBUTE)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-status.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-status.html)（原文版本：18.6；核對日期：2026-10-17）
