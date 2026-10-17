@@ -1,82 +1,42 @@
-## Chapter 68. System Catalog Declarations and Initial Contents
+<a id="BKI"></a>
 
-**Table of Contents**
+## 第 68 章 系統目錄宣告與初始內容
 
-[68.1. System Catalog Declaration Rules](system-catalog-declarations.md)
+**目錄**
 
-[68.2. System Catalog Initial Data](system-catalog-initial-data.md)
-:   [68.2.1. Data File Format](system-catalog-initial-data.md#SYSTEM-CATALOG-INITIAL-DATA-FORMAT)
+[68.1. 系統目錄宣告規則](system-catalog-declarations.md)
 
-    [68.2.2. OID Assignment](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
+[68.2. 系統目錄初始資料](system-catalog-initial-data.md)
+:   [68.2.1. 資料檔格式](system-catalog-initial-data.md#SYSTEM-CATALOG-INITIAL-DATA-FORMAT)
 
-    [68.2.3. OID Reference Lookup](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)
+    [68.2.2. OID 指派](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
 
-    [68.2.4. Automatic Creation of Array Types](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
+    [68.2.3. OID 參照查找](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)
 
-    [68.2.5. Recipes for Editing Data Files](system-catalog-initial-data.md#SYSTEM-CATALOG-RECIPES)
+    [68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
 
-[68.3. BKI File Format](bki-format.md)
+    [68.2.5. 編輯資料檔的作法](system-catalog-initial-data.md#SYSTEM-CATALOG-RECIPES)
 
-[68.4. BKI Commands](bki-commands.md)
+[68.3. BKI 檔案格式](bki-format.md)
 
-[68.5. Structure of the Bootstrap BKI File](bki-structure.md)
+[68.4. BKI 命令](bki-commands.md)
 
-[68.6. BKI Example](bki-example.md)
+[68.5. 初始建置 BKI 檔案的結構](bki-structure.md)
 
-PostgreSQL uses many different system catalogs
-to keep track of the existence and properties of database objects, such as
-tables and functions. Physically there is no difference between a system
-catalog and a plain user table, but the backend C code knows the structure
-and properties of each catalog, and can manipulate it directly at a low
-level. Thus, for example, it is inadvisable to attempt to alter the
-structure of a catalog on-the-fly; that would break assumptions built into
-the C code about how rows of the catalog are laid out. But the structure
-of the catalogs can change between major versions.
+[68.6. BKI 範例](bki-example.md)
 
-The structures of the catalogs are declared in specially formatted C
-header files in the `src/include/catalog/` directory of
-the source tree. For each catalog there is a header file
-named after the catalog (e.g., `pg_class.h`
-for `pg_class`), which defines the set of columns
-the catalog has, as well as some other basic properties such as its OID.
+PostgreSQL 使用許多不同的系統目錄來追蹤資料庫物件（例如資料表與函式）的存在與屬性。實體上，系統目錄與一般使用者資料表並無差異，但後端的 C 程式碼知道每個系統目錄的結構與屬性，並且可以在低階層直接操作它。因此，舉例來說，不建議嘗試在執行中即時變更系統目錄的結構；這樣做會破壞 C 程式碼中對系統目錄資料列配置方式所內建的假設。不過，系統目錄的結構可能會在主要版本之間改變。
 
-Many of the catalogs have initial data that must be loaded into them
-during the “bootstrap” phase
-of initdb, to bring the system up to a point
-where it is capable of executing SQL commands. (For
-example, `pg_class.h` must contain an entry for itself,
-as well as one for each other system catalog and index.) This
-initial data is kept in editable form in data files that are also stored
-in the `src/include/catalog/` directory. For example,
-`pg_proc.dat` describes all the initial rows that must
-be inserted into the `pg_proc` catalog.
+系統目錄的結構宣告在原始碼樹 `src/include/catalog/` 目錄中特殊格式的 C 標頭檔裡。每個系統目錄都有一個以該系統目錄命名的標頭檔（例如 `pg_class` 對應 `pg_class.h`），其中定義該系統目錄擁有的欄位集合，以及其 OID 等其他一些基本屬性。
 
-To create the catalog files and load this initial data into them, a
-backend running in bootstrap mode reads a BKI
-(Backend Interface) file containing commands and initial data.
-The `postgres.bki` file used in this mode is prepared
-from the aforementioned header and data files, while building
-a PostgreSQL distribution, by a Perl script
-named `genbki.pl`.
-Although it's specific to a particular PostgreSQL
-release, `postgres.bki` is platform-independent and is
-installed in the `share` subdirectory of the
-installation tree.
+許多系統目錄都有初始資料，必須在 initdb 的「初始建置」（bootstrap）階段載入，讓系統達到能夠執行 SQL 命令的狀態。（例如，`pg_class.h` 必須包含一筆描述它自身的項目，以及每個其他系統目錄與索引各一筆項目。）這些初始資料以可編輯的形式保存在資料檔中，這些資料檔同樣存放在 `src/include/catalog/` 目錄。例如，`pg_proc.dat` 描述了所有必須插入 `pg_proc` 系統目錄的初始資料列。
 
-`genbki.pl` also produces a derived header file for
-each catalog, for example `pg_class_d.h` for
-the `pg_class` catalog. This file contains
-automatically-generated macro definitions, and may contain other macros,
-enum declarations, and so on that can be useful for client C code that
-reads a particular catalog.
+為了建立系統目錄檔並將這些初始資料載入其中，以初始建置模式執行的後端會讀取一個包含命令與初始資料的 BKI（Backend Interface，後端介面）檔案。此模式所使用的 `postgres.bki` 檔案，是在建置 PostgreSQL 發行版時，由一支名為 `genbki.pl` 的 Perl 腳本根據前述的標頭檔與資料檔產生的。雖然 `postgres.bki` 專屬於特定的 PostgreSQL 版本，但它與平台無關，並安裝在安裝樹的 `share` 子目錄中。
 
-Most PostgreSQL developers don't need to be directly concerned with
-the BKI file, but almost any nontrivial feature
-addition in the backend will require modifying the catalog header files
-and/or initial data files. The rest of this chapter gives some
-information about that, and for completeness describes
-the BKI file format.
+`genbki.pl` 也會為每個系統目錄產生一個衍生的標頭檔，例如為 `pg_class` 系統目錄產生 `pg_class_d.h`。此檔案包含自動產生的巨集定義，並且可能包含其他巨集、列舉宣告等，這些內容對於讀取特定系統目錄的用戶端 C 程式碼可能很有用。
+
+大多數 PostgreSQL 開發者不需要直接處理 BKI 檔案，但幾乎任何在後端新增的非瑣碎功能，都需要修改系統目錄標頭檔和／或初始資料檔。本章其餘部分提供這方面的一些資訊，並且為了完整起見，說明 BKI 檔案格式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki.html)（原文版本：18.6；核對日期：2026-10-17）
