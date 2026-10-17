@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：241 頁。
+待譯頁面：240 頁。
 
 ## 根目錄
 
@@ -359,7 +359,7 @@
 - [x] `internals/fdwhandler/README.md` — 第 58 章 撰寫外部資料包裝器
 - [ ] `internals/fdwhandler/fdw-callbacks.md` — 58.2. Foreign Data Wrapper Callback Routines #
 - [x] `internals/fdwhandler/fdw-functions.md` — 58.1. 外部資料包裝器函式 #
-- [ ] `internals/fdwhandler/fdw-helpers.md` — 58.3. Foreign Data Wrapper Helper Functions #
+- [x] `internals/fdwhandler/fdw-helpers.md` — 58.3. 外部資料包裝器輔助函式 #
 - [ ] `internals/fdwhandler/fdw-planning.md` — 58.4. Foreign Data Wrapper Query Planning #
 - [ ] `internals/fdwhandler/fdw-row-locking.md` — 58.5. Row Locking in Foreign Data Wrappers #
 - [x] `internals/geqo/README.md` — Chapter 61. Genetic Query Optimizer

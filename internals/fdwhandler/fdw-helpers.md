@@ -1,12 +1,14 @@
-## 58.3. Foreign Data Wrapper Helper Functions [#](#FDW-HELPERS)
+<a id="FDW-HELPERS"></a>
 
-Several helper functions are exported from the core server so that
-authors of foreign data wrappers can get easy access to attributes of
-FDW-related objects, such as FDW options.
-To use any of these functions, you need to include the header file
-`foreign/foreign.h` in your source file.
-That header also defines the struct types that are returned by
-these functions.
+## 58.3. 外部資料包裝器輔助函式 [#](#FDW-HELPERS)
+
+核心伺服器匯出了數個輔助函式，讓
+外部資料包裝器的作者可以輕鬆存取
+FDW 相關物件的屬性，例如 FDW 選項。
+要使用其中任何一個函式，你需要在原始檔中引入標頭檔
+`foreign/foreign.h`。
+該標頭檔也定義了這些函式所傳回的
+結構型別。
 
 ```
 
@@ -14,15 +16,15 @@ ForeignDataWrapper *
 GetForeignDataWrapperExtended(Oid fdwid, bits16 flags);
 ```
 
-This function returns a `ForeignDataWrapper`
-object for the foreign-data wrapper with the given OID. A
-`ForeignDataWrapper` object contains properties
-of the FDW (see `foreign/foreign.h` for details).
-`flags` is a bitwise-or'd bit mask indicating
-an extra set of options. It can take the value
-`FDW_MISSING_OK`, in which case a `NULL`
-result is returned to the caller instead of an error for an undefined
-object.
+此函式傳回具有給定 OID 之外部資料包裝器的 `ForeignDataWrapper`
+物件。
+`ForeignDataWrapper` 物件包含該 FDW 的屬性
+（詳情請參閱 `foreign/foreign.h`）。
+`flags` 是以位元 OR 組合而成的位元遮罩，表示
+一組額外的選項。它可以取值
+`FDW_MISSING_OK`，此時對於未定義的物件，
+會向呼叫者傳回 `NULL`
+結果，而不是擲出錯誤。
 
 ```
 
@@ -30,10 +32,10 @@ ForeignDataWrapper *
 GetForeignDataWrapper(Oid fdwid);
 ```
 
-This function returns a `ForeignDataWrapper`
-object for the foreign-data wrapper with the given OID. A
-`ForeignDataWrapper` object contains properties
-of the FDW (see `foreign/foreign.h` for details).
+此函式傳回具有給定 OID 之外部資料包裝器的 `ForeignDataWrapper`
+物件。
+`ForeignDataWrapper` 物件包含該 FDW 的屬性
+（詳情請參閱 `foreign/foreign.h`）。
 
 ```
 
@@ -41,15 +43,14 @@ ForeignServer *
 GetForeignServerExtended(Oid serverid, bits16 flags);
 ```
 
-This function returns a `ForeignServer` object
-for the foreign server with the given OID. A
-`ForeignServer` object contains properties
-of the server (see `foreign/foreign.h` for details).
-`flags` is a bitwise-or'd bit mask indicating
-an extra set of options. It can take the value
-`FSV_MISSING_OK`, in which case a `NULL`
-result is returned to the caller instead of an error for an undefined
-object.
+此函式傳回具有給定 OID 之外部伺服器的 `ForeignServer` 物件。
+`ForeignServer` 物件包含該伺服器的屬性
+（詳情請參閱 `foreign/foreign.h`）。
+`flags` 是以位元 OR 組合而成的位元遮罩，表示
+一組額外的選項。它可以取值
+`FSV_MISSING_OK`，此時對於未定義的物件，
+會向呼叫者傳回 `NULL`
+結果，而不是擲出錯誤。
 
 ```
 
@@ -57,10 +58,9 @@ ForeignServer *
 GetForeignServer(Oid serverid);
 ```
 
-This function returns a `ForeignServer` object
-for the foreign server with the given OID. A
-`ForeignServer` object contains properties
-of the server (see `foreign/foreign.h` for details).
+此函式傳回具有給定 OID 之外部伺服器的 `ForeignServer` 物件。
+`ForeignServer` 物件包含該伺服器的屬性
+（詳情請參閱 `foreign/foreign.h`）。
 
 ```
 
@@ -68,12 +68,11 @@ UserMapping *
 GetUserMapping(Oid userid, Oid serverid);
 ```
 
-This function returns a `UserMapping` object for
-the user mapping of the given role on the given server. (If there is no
-mapping for the specific user, it will return the mapping for
-`PUBLIC`, or throw error if there is none.) A
-`UserMapping` object contains properties of the
-user mapping (see `foreign/foreign.h` for details).
+此函式傳回給定角色在給定伺服器上之使用者對應的 `UserMapping` 物件。
+（若該特定使用者沒有對應，它會傳回
+`PUBLIC` 的對應；若連該對應也不存在，則擲出錯誤。）
+`UserMapping` 物件包含該使用者對應的屬性
+（詳情請參閱 `foreign/foreign.h`）。
 
 ```
 
@@ -81,10 +80,9 @@ ForeignTable *
 GetForeignTable(Oid relid);
 ```
 
-This function returns a `ForeignTable` object for
-the foreign table with the given OID. A
-`ForeignTable` object contains properties of the
-foreign table (see `foreign/foreign.h` for details).
+此函式傳回具有給定 OID 之外部資料表的 `ForeignTable` 物件。
+`ForeignTable` 物件包含該外部資料表的屬性
+（詳情請參閱 `foreign/foreign.h`）。
 
 ```
 
@@ -92,13 +90,11 @@ List *
 GetForeignColumnOptions(Oid relid, AttrNumber attnum);
 ```
 
-This function returns the per-column FDW options for the column with the
-given foreign table OID and attribute number, in the form of a list of
-`DefElem`. NIL is returned if the column has no
-options.
+此函式傳回由給定外部資料表 OID 與屬性編號所指定之欄位的逐欄 FDW 選項，
+形式為 `DefElem` 的串列。若該欄位沒有
+選項，則傳回 NIL。
 
-Some object types have name-based lookup functions in addition to the
-OID-based ones:
+除了以 OID 為基礎的查詢函式之外，某些物件類型還有以名稱為基礎的查詢函式：
 
 ```
 
@@ -106,10 +102,10 @@ ForeignDataWrapper *
 GetForeignDataWrapperByName(const char *name, bool missing_ok);
 ```
 
-This function returns a `ForeignDataWrapper`
-object for the foreign-data wrapper with the given name. If the wrapper
-is not found, return NULL if missing_ok is true, otherwise raise an
-error.
+此函式傳回具有給定名稱之外部資料包裝器的 `ForeignDataWrapper`
+物件。若找不到該包裝器，
+則在 missing_ok 為 true 時傳回 NULL，否則擲出
+錯誤。
 
 ```
 
@@ -117,10 +113,10 @@ ForeignServer *
 GetForeignServerByName(const char *name, bool missing_ok);
 ```
 
-This function returns a `ForeignServer` object
-for the foreign server with the given name. If the server is not found,
-return NULL if missing_ok is true, otherwise raise an error.
+此函式傳回具有給定名稱之外部伺服器的 `ForeignServer` 物件。
+若找不到該伺服器，
+則在 missing_ok 為 true 時傳回 NULL，否則擲出錯誤。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/fdw-helpers.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/fdw-helpers.html)（原文版本：18.6；核對日期：2026-10-17）

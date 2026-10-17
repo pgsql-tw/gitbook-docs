@@ -961,7 +961,7 @@
   * [第 58 章 撰寫外部資料包裝器](internals/fdwhandler/README.md)
     * [58.1. 外部資料包裝器函式 #](internals/fdwhandler/fdw-functions.md)
     * [58.2. Foreign Data Wrapper Callback Routines #](internals/fdwhandler/fdw-callbacks.md)
-    * [58.3. Foreign Data Wrapper Helper Functions #](internals/fdwhandler/fdw-helpers.md)
+    * [58.3. 外部資料包裝器輔助函式 #](internals/fdwhandler/fdw-helpers.md)
     * [58.4. Foreign Data Wrapper Query Planning #](internals/fdwhandler/fdw-planning.md)
     * [58.5. Row Locking in Foreign Data Wrappers #](internals/fdwhandler/fdw-row-locking.md)
   * [第 59 章 撰寫資料表取樣方法](internals/tablesample-method/README.md)
