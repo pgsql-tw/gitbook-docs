@@ -1,51 +1,48 @@
+<a id="CATALOG-PG-TS-CONFIG-MAP"></a>
+
 ## 52.60. `pg_ts_config_map` [#](#CATALOG-PG-TS-CONFIG-MAP)
 
 <a id="id-1.10.4.62.2"></a>
 
-The `pg_ts_config_map` catalog contains entries
-showing which text search dictionaries should be consulted, and in
-what order, for each output token type of each text search configuration's
-parser.
+目錄 `pg_ts_config_map` 包含的項目指出：對於每個文字搜尋設定之剖析器的每一種輸出語彙單元類型，應該查詢哪些文字搜尋字典，以及查詢的順序。
 
-PostgreSQL's text search features are
-described at length in [Chapter 12](../../the-sql-language/textsearch/README.md).
+PostgreSQL 的文字搜尋功能在[第 12 章](../../the-sql-language/textsearch/README.md)中有詳細說明。
 
 <a id="id-1.10.4.62.5"></a>
 
-**Table 52.60. `pg_ts_config_map` Columns**
+**表 52.60. `pg_ts_config_map` 欄位**
 
-<table border="1" class="table" summary="pg_ts_config_map Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.60. pg_ts_config_map 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">mapcfg</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-ts-config.md"><code class="structname">pg_ts_config</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-ts-config.md"><code class="structname">pg_ts_config</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the <a class="link" href="catalog-pg-ts-config.md"><code class="structname">pg_ts_config</code></a> entry owning this map entry
+       擁有此對應項目之 <a class="link" href="catalog-pg-ts-config.md"><code class="structname">pg_ts_config</code></a> 項目的 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">maptokentype</code> <code class="type">int4</code>
 </p>
 <p>
-       A token type emitted by the configuration's parser
+       該設定之剖析器所產生的語彙單元類型
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">mapseqno</code> <code class="type">int4</code>
 </p>
 <p>
-       Order in which to consult this entry (lower
-       <code class="structfield">mapseqno</code>s first)
+       查詢此項目的順序（<code class="structfield">mapseqno</code> 較小者優先）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">mapdict</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-ts-dict.md"><code class="structname">pg_ts_dict</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-ts-dict.md"><code class="structname">pg_ts_dict</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the text search dictionary to consult
+       要查詢之文字搜尋字典的 OID
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-ts-config-map.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-ts-config-map.html)（原文版本：18.6；核對日期：2026-10-17）

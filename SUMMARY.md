@@ -893,7 +893,7 @@
     * [52.57. `pg_transform` #](internals/catalogs/catalog-pg-transform.md)
     * [52.58. `pg_trigger` #](internals/catalogs/catalog-pg-trigger.md)
     * [52.59. pg_ts_config #](internals/catalogs/catalog-pg-ts-config.md)
-    * [52.60. pg_ts_config_map #](internals/catalogs/catalog-pg-ts-config-map.md)
+    * [52.60. `pg_ts_config_map` #](internals/catalogs/catalog-pg-ts-config-map.md)
     * [52.61. pg_ts_dict #](internals/catalogs/catalog-pg-ts-dict.md)
     * [52.62. pg_ts_parser #](internals/catalogs/catalog-pg-ts-parser.md)
     * [52.63. pg_ts_template #](internals/catalogs/catalog-pg-ts-template.md)
