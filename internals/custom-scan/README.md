@@ -1,37 +1,24 @@
-## Chapter 60. Writing a Custom Scan Provider
+<a id="CUSTOM-SCAN"></a>
 
-**Table of Contents**
+## 第 60 章 撰寫自訂掃描提供者
 
-[60.1. Creating Custom Scan Paths](custom-scan-path.md)
-:   [60.1.1. Custom Scan Path Callbacks](custom-scan-path.md#CUSTOM-SCAN-PATH-CALLBACKS)
+**目錄**
 
-[60.2. Creating Custom Scan Plans](custom-scan-plan.md)
-:   [60.2.1. Custom Scan Plan Callbacks](custom-scan-plan.md#CUSTOM-SCAN-PLAN-CALLBACKS)
+[60.1. 建立自訂掃描路徑](custom-scan-path.md)
+:   [60.1.1. 自訂掃描路徑回呼函式](custom-scan-path.md#CUSTOM-SCAN-PATH-CALLBACKS)
 
-[60.3. Executing Custom Scans](custom-scan-execution.md)
-:   [60.3.1. Custom Scan Execution Callbacks](custom-scan-execution.md#CUSTOM-SCAN-EXECUTION-CALLBACKS)
+[60.2. 建立自訂掃描計畫](custom-scan-plan.md)
+:   [60.2.1. 自訂掃描計畫回呼函式](custom-scan-plan.md#CUSTOM-SCAN-PLAN-CALLBACKS)
+
+[60.3. 執行自訂掃描](custom-scan-execution.md)
+:   [60.3.1. 自訂掃描執行回呼函式](custom-scan-execution.md#CUSTOM-SCAN-EXECUTION-CALLBACKS)
 
 <a id="id-1.10.12.2"></a>
 
-PostgreSQL supports a set of experimental facilities which
-are intended to allow extension modules to add new scan types to the system.
-Unlike a [foreign data wrapper](../fdwhandler/README.md), which is only
-responsible for knowing how to scan its own foreign tables, a custom scan
-provider can provide an alternative method of scanning any relation in the
-system. Typically, the motivation for writing a custom scan provider will
-be to allow the use of some optimization not supported by the core
-system, such as caching or some form of hardware acceleration. This chapter
-outlines how to write a new custom scan provider.
+PostgreSQL 支援一組實驗性的功能，目的是讓擴充模組能夠在系統中加入新的掃描類型。[外部資料包裝器](../fdwhandler/README.md)只負責知道如何掃描它自己的外部資料表；與之不同，自訂掃描提供者可以提供另一種方法來掃描系統中的任何關聯。撰寫自訂掃描提供者的動機，通常是為了使用核心系統不支援的某些最佳化，例如快取或某種形式的硬體加速。本章概述如何撰寫新的自訂掃描提供者。
 
-Implementing a new type of custom scan is a three-step process. First,
-during planning, it is necessary to generate access paths representing a
-scan using the proposed strategy. Second, if one of those access paths
-is selected by the planner as the optimal strategy for scanning a
-particular relation, the access path must be converted to a plan.
-Finally, it must be possible to execute the plan and generate the same
-results that would have been generated for any other access path targeting
-the same relation.
+實作新類型的自訂掃描分為三個步驟。首先，在規劃期間，必須產生代表以所提議策略進行掃描的存取路徑。其次，如果規劃器選中其中一條存取路徑，作為掃描特定關聯的最佳策略，就必須將該存取路徑轉換為計畫。最後，必須能夠執行該計畫，並產生與以同一關聯為目標的任何其他存取路徑所會產生的相同結果。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/custom-scan.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/custom-scan.html)（原文版本：18.6；核對日期：2026-10-17）

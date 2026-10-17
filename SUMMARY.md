@@ -966,7 +966,7 @@
     * [58.5. Row Locking in Foreign Data Wrappers #](internals/fdwhandler/fdw-row-locking.md)
   * [第 59 章 撰寫資料表取樣方法](internals/tablesample-method/README.md)
     * [59.1. 取樣方法支援函式 #](internals/tablesample-method/tablesample-support-functions.md)
-  * [Chapter 60. Writing a Custom Scan Provider](internals/custom-scan/README.md)
+  * [第 60 章 撰寫自訂掃描提供者](internals/custom-scan/README.md)
     * [60.1. 建立自訂掃描路徑 #](internals/custom-scan/custom-scan-path.md)
     * [60.2. 建立自訂掃描計畫 #](internals/custom-scan/custom-scan-plan.md)
     * [60.3. 執行自訂掃描 #](internals/custom-scan/custom-scan-execution.md)
