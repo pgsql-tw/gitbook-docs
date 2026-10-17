@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：290 頁。
+待譯頁面：289 頁。
 
 ## 根目錄
 
@@ -421,7 +421,7 @@
 - [x] `internals/storage/storage-toast.md` — 66.2. TOAST #
 - [ ] `internals/storage/storage-vm.md` — 66.4. Visibility Map #
 - [x] `internals/tableam/README.md` — 第 62 章 資料表存取方法介面定義
-- [ ] `internals/tablesample-method/README.md` — Chapter 59. Writing a Table Sampling Method
+- [x] `internals/tablesample-method/README.md` — 第 59 章 撰寫資料表取樣方法
 - [ ] `internals/tablesample-method/tablesample-support-functions.md` — 59.1. Sampling Method Support Functions #
 - [x] `internals/transactions/README.md` — 第 67 章 交易處理
 - [ ] `internals/transactions/subxacts.md` — 67.3. Subtransactions #
