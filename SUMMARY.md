@@ -977,7 +977,7 @@
     * [61.4. 延伸閱讀](internals/geqo/geqo-biblio.md)
   * [第 62 章 資料表存取方法介面定義](internals/tableam/README.md)
   * [第 63 章：索引存取方法介面定義](internals/indexam/README.md)
-    * [63.1. Basic API Structure for Indexes #](internals/indexam/index-api.md)
+    * [63.1. 索引的基本 API 結構 #](internals/indexam/index-api.md)
     * [63.2. 索引存取方法函式 #](internals/indexam/index-functions.md)
     * [63.3. 索引掃描 #](internals/indexam/index-scanning.md)
     * [63.4. 索引鎖定的考量 #](internals/indexam/index-locking.md)
