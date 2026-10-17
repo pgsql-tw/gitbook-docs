@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：281 頁。
+待譯頁面：280 頁。
 
 ## 根目錄
 
@@ -419,7 +419,7 @@
 - [x] `internals/storage/storage-init.md` — 66.5. 初始化分支檔案
 - [ ] `internals/storage/storage-page-layout.md` — 66.6. Database Page Layout #
 - [x] `internals/storage/storage-toast.md` — 66.2. TOAST #
-- [ ] `internals/storage/storage-vm.md` — 66.4. Visibility Map #
+- [x] `internals/storage/storage-vm.md` — 66.4. 可見性對應表 #
 - [x] `internals/tableam/README.md` — 第 62 章 資料表存取方法介面定義
 - [x] `internals/tablesample-method/README.md` — 第 59 章 撰寫資料表取樣方法
 - [x] `internals/tablesample-method/tablesample-support-functions.md` — 59.1. 取樣方法支援函式 #

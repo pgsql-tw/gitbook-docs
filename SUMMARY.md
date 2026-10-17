@@ -997,7 +997,7 @@
     * [66.1. 資料庫檔案配置 #](internals/storage/storage-file-layout.md)
     * [66.2. TOAST #](internals/storage/storage-toast.md)
     * [66.3. Free Space Map #](internals/storage/storage-fsm.md)
-    * [66.4. Visibility Map #](internals/storage/storage-vm.md)
+    * [66.4. 可見性對應表 #](internals/storage/storage-vm.md)
     * [66.5. 初始化分支檔案](internals/storage/storage-init.md)
     * [66.6. Database Page Layout #](internals/storage/storage-page-layout.md)
     * [66.7. 僅堆積元組（HOT） #](internals/storage/storage-hot.md)
