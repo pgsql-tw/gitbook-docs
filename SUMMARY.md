@@ -965,7 +965,7 @@
     * [58.4. Foreign Data Wrapper Query Planning #](internals/fdwhandler/fdw-planning.md)
     * [58.5. Row Locking in Foreign Data Wrappers #](internals/fdwhandler/fdw-row-locking.md)
   * [第 59 章 撰寫資料表取樣方法](internals/tablesample-method/README.md)
-    * [59.1. Sampling Method Support Functions #](internals/tablesample-method/tablesample-support-functions.md)
+    * [59.1. 取樣方法支援函式 #](internals/tablesample-method/tablesample-support-functions.md)
   * [Chapter 60. Writing a Custom Scan Provider](internals/custom-scan/README.md)
     * [60.1. Creating Custom Scan Paths #](internals/custom-scan/custom-scan-path.md)
     * [60.2. Creating Custom Scan Plans #](internals/custom-scan/custom-scan-plan.md)
