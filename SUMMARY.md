@@ -873,7 +873,7 @@
     * [52.37. `pg_partitioned_table` #](internals/catalogs/catalog-pg-partitioned-table.md)
     * [52.38. `pg_policy` #](internals/catalogs/catalog-pg-policy.md)
     * [52.39. `pg_proc` #](internals/catalogs/catalog-pg-proc.md)
-    * [52.40. pg_publication #](internals/catalogs/catalog-pg-publication.md)
+    * [52.40. `pg_publication` #](internals/catalogs/catalog-pg-publication.md)
     * [52.41. `pg_publication_namespace` #](internals/catalogs/catalog-pg-publication-namespace.md)
     * [52.42. `pg_publication_rel` #](internals/catalogs/catalog-pg-publication-rel.md)
     * [52.43. pg_range #](internals/catalogs/catalog-pg-range.md)
