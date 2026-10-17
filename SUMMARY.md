@@ -878,7 +878,7 @@
     * [52.42. `pg_publication_rel` #](internals/catalogs/catalog-pg-publication-rel.md)
     * [52.43. `pg_range` #](internals/catalogs/catalog-pg-range.md)
     * [52.44. `pg_replication_origin` #](internals/catalogs/catalog-pg-replication-origin.md)
-    * [52.45. pg_rewrite #](internals/catalogs/catalog-pg-rewrite.md)
+    * [52.45. `pg_rewrite` #](internals/catalogs/catalog-pg-rewrite.md)
     * [52.46. pg_seclabel #](internals/catalogs/catalog-pg-seclabel.md)
     * [52.47. `pg_sequence` #](internals/catalogs/catalog-pg-sequence.md)
     * [52.48. pg_shdepend #](internals/catalogs/catalog-pg-shdepend.md)

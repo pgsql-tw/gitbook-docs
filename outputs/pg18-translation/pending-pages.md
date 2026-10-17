@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：231 頁。
+待譯頁面：230 頁。
 
 ## 根目錄
 
@@ -330,7 +330,7 @@
 - [x] `internals/catalogs/catalog-pg-publication.md` — 52.40. `pg_publication` #
 - [x] `internals/catalogs/catalog-pg-range.md` — 52.43. `pg_range` #
 - [x] `internals/catalogs/catalog-pg-replication-origin.md` — 52.44. `pg_replication_origin` #
-- [ ] `internals/catalogs/catalog-pg-rewrite.md` — 52.45. pg_rewrite #
+- [x] `internals/catalogs/catalog-pg-rewrite.md` — 52.45. `pg_rewrite` #
 - [ ] `internals/catalogs/catalog-pg-seclabel.md` — 52.46. pg_seclabel #
 - [x] `internals/catalogs/catalog-pg-sequence.md` — 52.47. pg_sequence #
 - [ ] `internals/catalogs/catalog-pg-shdepend.md` — 52.48. pg_shdepend #
