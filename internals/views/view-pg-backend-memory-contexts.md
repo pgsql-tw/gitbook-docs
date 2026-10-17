@@ -1,92 +1,81 @@
-## 53.5. `pg_backend_memory_contexts` [#](#VIEW-PG-BACKEND-MEMORY-CONTEXTS)
+<a id="VIEW-PG-BACKEND-MEMORY-CONTEXTS"></a>
+
+## 53.5. `pg_backend_memory_contexts` [#](#VIEW-PG-BACKEND-MEMORY-CONTEXTS)
 
 <a id="id-1.10.5.9.2"></a>
 
-The view `pg_backend_memory_contexts` displays all
-the memory contexts of the server process attached to the current session.
+檢視表 `pg_backend_memory_contexts` 顯示目前工作階段所連接之伺服器程序的所有記憶體上下文。
 
-`pg_backend_memory_contexts` contains one row
-for each memory context.
+`pg_backend_memory_contexts` 中，每個記憶體上下文各占一筆資料列。
 
 <a id="id-1.10.5.9.5"></a>
 
-**Table 53.5. `pg_backend_memory_contexts` Columns**
+**表 53.5. `pg_backend_memory_contexts` 欄位**
 
-<table border="1" class="table" summary="pg_backend_memory_contexts Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 53.5. pg_backend_memory_contexts 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">name</code> <code class="type">text</code>
 </p>
 <p>
-       Name of the memory context
+       記憶體上下文的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">ident</code> <code class="type">text</code>
 </p>
 <p>
-       Identification information of the memory context. This field is truncated at 1024 bytes
+       記憶體上下文的識別資訊。此欄位會截斷在 1024 位元組
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">type</code> <code class="type">text</code>
 </p>
 <p>
-       Type of the memory context
+       記憶體上下文的類型
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">level</code> <code class="type">int4</code>
 </p>
 <p>
-       The 1-based level of the context in the memory context hierarchy. The
-       level of a context also shows the position of that context in the
-       <code class="structfield">path</code> column.
+       此上下文在記憶體上下文階層中的層級（從 1 起算）。上下文的層級也代表該上下文在
+       <code class="structfield">path</code> 欄位中的位置。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">path</code> <code class="type">int4[]</code>
 </p>
 <p>
-       Array of transient numerical identifiers to describe the memory
-       context hierarchy. The first element is for
-       <code class="literal">TopMemoryContext</code>, subsequent elements contain
-       intermediate parents and the final element contains the identifier for
-       the current context.
+       由暫時性數字識別碼組成的陣列，用以描述記憶體上下文階層。第一個元素對應
+       <code class="literal">TopMemoryContext</code>，後續元素包含中間層的父上下文，最後一個元素則包含目前上下文的識別碼。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">total_bytes</code> <code class="type">int8</code>
 </p>
 <p>
-       Total bytes allocated for this memory context
+       為此記憶體上下文配置的總位元組數
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">total_nblocks</code> <code class="type">int8</code>
 </p>
 <p>
-       Total number of blocks allocated for this memory context
+       為此記憶體上下文配置的區塊總數
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">free_bytes</code> <code class="type">int8</code>
 </p>
 <p>
-       Free space in bytes
+       可用空間（位元組）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">free_chunks</code> <code class="type">int8</code>
 </p>
 <p>
-       Total number of free chunks
+       可用區塊片段（chunk）的總數
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">used_bytes</code> <code class="type">int8</code>
 </p>
 <p>
-       Used space in bytes
+       已使用空間（位元組）
       </p></td></tr></tbody></table>
 
 <br>
 
-By default, the `pg_backend_memory_contexts` view can be
-read only by superusers or roles with the privileges of the
-`pg_read_all_stats` role.
+預設情況下，只有超級使用者或具有 `pg_read_all_stats` 角色權限的角色可以讀取 `pg_backend_memory_contexts` 檢視表。
 
-Since memory contexts are created and destroyed during the running of a
-query, the identifiers stored in the `path` column
-can be unstable between multiple invocations of the view in the same query.
-The example below demonstrates an effective usage of this column and
-calculates the total number of bytes used by
-`CacheMemoryContext` and all of its children:
+由於記憶體上下文會在查詢執行期間建立與銷毀，因此在同一個查詢中多次叫用此檢視表時，`path` 欄位中儲存的識別碼可能不一致。下面的範例示範如何有效使用此欄位，計算 `CacheMemoryContext` 及其所有子上下文所使用的總位元組數：
 
 ```
 
@@ -99,10 +88,8 @@ WHERE c2.name = 'CacheMemoryContext'
 AND c1.path[c2.level] = c2.path[c2.level];
 ```
 
-The [Common Table Expression](../../the-sql-language/queries/queries-with.md) is used
-to ensure the context IDs in the `path` column
-match between both evaluations of the view.
+此處使用[通用資料表運算式](../../the-sql-language/queries/queries-with.md)，以確保 `path` 欄位中的上下文 ID 在兩次評估此檢視表時一致。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-backend-memory-contexts.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/view-pg-backend-memory-contexts.html)（原文版本：18.6；核對日期：2026-10-12）
