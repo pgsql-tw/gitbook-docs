@@ -1,90 +1,25 @@
-## 63.4. Index Locking Considerations [#](#INDEX-LOCKING)
+<a id="INDEX-LOCKING"></a>
 
-Index access methods must handle concurrent updates
-of the index by multiple processes.
-The core PostgreSQL system obtains
-`AccessShareLock` on the index during an index scan, and
-`RowExclusiveLock` when updating the index (including plain
-`VACUUM`). Since these lock types do not conflict, the access
-method is responsible for handling any fine-grained locking it might need.
-An `ACCESS EXCLUSIVE` lock on the index as a whole will be
-taken only during index creation, destruction, or `REINDEX`
-(`SHARE UPDATE EXCLUSIVE` is taken instead with
-`CONCURRENTLY`).
+## 63.4. 索引鎖定的考量 [#](#INDEX-LOCKING)
 
-Building an index type that supports concurrent updates usually requires
-extensive and subtle analysis of the required behavior. For the b-tree
-and hash index types, you can read about the design decisions involved in
-`src/backend/access/nbtree/README` and
-`src/backend/access/hash/README`.
+索引存取方法必須處理多個程序對索引的並行更新。PostgreSQL 核心系統在索引掃描期間會對索引取得 `AccessShareLock`，在更新索引時（包括一般的 `VACUUM`）則取得 `RowExclusiveLock`。由於這些鎖定類型彼此不衝突，存取方法要負責處理它可能需要的任何細粒度鎖定。只有在建立、移除索引或執行 `REINDEX` 時，才會對整個索引取得 `ACCESS EXCLUSIVE` 鎖定（使用 `CONCURRENTLY` 時則改為取得 `SHARE UPDATE EXCLUSIVE`）。
 
-Aside from the index's own internal consistency requirements, concurrent
-updates create issues about consistency between the parent table (the
-*heap*) and the index. Because
-PostgreSQL separates accesses
-and updates of the heap from those of the index, there are windows in
-which the index might be inconsistent with the heap. We handle this problem
-with the following rules:
+建構支援並行更新的索引類型，通常需要對所需行為進行廣泛而細緻的分析。關於 b-tree 與雜湊索引類型所涉及的設計決策，你可以閱讀 `src/backend/access/nbtree/README` 與 `src/backend/access/hash/README`。
 
-* A new heap entry is made before making its index entries. (Therefore
-  a concurrent index scan is likely to fail to see the heap entry.
-  This is okay because the index reader would be uninterested in an
-  uncommitted row anyway. But see [Section 63.5](index-unique-checks.md).)
-* When a heap entry is to be deleted (by `VACUUM`), all its
-  index entries must be removed first.
-* An index scan must maintain a pin
-  on the index page holding the item last returned by
-  `amgettuple`, and `ambulkdelete` cannot delete
-  entries from pages that are pinned by other backends. The need
-  for this rule is explained below.
+除了索引本身的內部一致性要求之外，並行更新也會造成父資料表（*堆積*）與索引之間的一致性問題。由於 PostgreSQL 將堆積的存取與更新和索引的存取與更新分開進行，因此會有一些時間窗口，在其中索引可能與堆積不一致。我們以下列規則處理這個問題：
 
-Without the third rule, it is possible for an index reader to
-see an index entry just before it is removed by `VACUUM`, and
-then to arrive at the corresponding heap entry after that was removed by
-`VACUUM`.
-This creates no serious problems if that item
-number is still unused when the reader reaches it, since an empty
-item slot will be ignored by `heap_fetch()`. But what if a
-third backend has already re-used the item slot for something else?
-When using an MVCC-compliant snapshot, there is no problem because
-the new occupant of the slot is certain to be too new to pass the
-snapshot test. However, with a non-MVCC-compliant snapshot (such as
-`SnapshotAny`), it would be possible to accept and return
-a row that does not in fact match the scan keys. We could defend
-against this scenario by requiring the scan keys to be rechecked
-against the heap row in all cases, but that is too expensive. Instead,
-we use a pin on an index page as a proxy to indicate that the reader
-might still be “in flight” from the index entry to the matching
-heap entry. Making `ambulkdelete` block on such a pin ensures
-that `VACUUM` cannot delete the heap entry before the reader
-is done with it. This solution costs little in run time, and adds blocking
-overhead only in the rare cases where there actually is a conflict.
+* 新的堆積項目會在建立其索引項目之前建立。（因此並行的索引掃描很可能看不到該堆積項目。這沒有問題，因為索引讀取者本來就不會關心未提交的資料列。但請參閱[第 63.5 節](index-unique-checks.md)。）
+* 當某個堆積項目要被刪除（由 `VACUUM`）時，必須先移除它所有的索引項目。
+* 索引掃描必須對存放 `amgettuple` 最後傳回之項目的索引頁面維持釘住（pin），而 `ambulkdelete` 不能從被其他後端釘住的頁面中刪除項目。這條規則的必要性將在下文說明。
 
-This solution requires that index scans be “synchronous”: we have
-to fetch each heap tuple immediately after scanning the corresponding index
-entry. This is expensive for a number of reasons. An
-“asynchronous” scan in which we collect many TIDs from the index,
-and only visit the heap tuples sometime later, requires much less index
-locking overhead and can allow a more efficient heap access pattern.
-Per the above analysis, we must use the synchronous approach for
-non-MVCC-compliant snapshots, but an asynchronous scan is workable
-for a query using an MVCC snapshot.
+若沒有第三條規則，索引讀取者就可能在某個索引項目被 `VACUUM` 移除之前看到它，然後在對應的堆積項目被 `VACUUM` 移除之後才到達該堆積項目。如果讀取者到達時該項目編號仍未被使用，這不會造成嚴重問題，因為 `heap_fetch()` 會忽略空的項目槽。但如果第三個後端已經把該項目槽重新用於其他東西呢？使用符合 MVCC 的快照時不會有問題，因為該槽的新佔用者一定太新而無法通過快照測試。然而，若使用不符合 MVCC 的快照（例如 `SnapshotAny`），就可能接受並傳回一個實際上並不符合掃描鍵的資料列。我們可以藉由要求在所有情況下都對堆積資料列重新檢查掃描鍵來防範這種情境，但這樣代價太高。因此，我們改用索引頁面上的釘住作為代理指標，表示讀取者可能仍處於從索引項目前往對應堆積項目的「途中」。讓 `ambulkdelete` 因這種釘住而阻塞，就能確保 `VACUUM` 無法在讀取者處理完該堆積項目之前將其刪除。這個解法的執行時期成本很低，而且只有在真的發生衝突的少數情況下才會增加阻塞的額外負擔。
 
-In an `amgetbitmap` index scan, the access method does not
-keep an index pin on any of the returned tuples. Therefore
-it is only safe to use such scans with MVCC-compliant snapshots.
+這個解法要求索引掃描必須是「同步」的：我們必須在掃描對應的索引項目後，立即擷取每一個堆積元組。基於許多原因，這樣做的代價很高。「非同步」掃描是先從索引收集許多 TID，稍後才去存取堆積元組；這種掃描所需的索引鎖定負擔小得多，而且可以採用更有效率的堆積存取模式。依據上述分析，對於不符合 MVCC 的快照，我們必須使用同步的方式，但對於使用 MVCC 快照的查詢，非同步掃描是可行的。
 
-When the `ampredlocks` flag is not set, any scan using that
-index access method within a serializable transaction will acquire a
-nonblocking predicate lock on the full index. This will generate a
-read-write conflict with the insert of any tuple into that index by a
-concurrent serializable transaction. If certain patterns of read-write
-conflicts are detected among a set of concurrent serializable
-transactions, one of those transactions may be canceled to protect data
-integrity. When the flag is set, it indicates that the index access
-method implements finer-grained predicate locking, which will tend to
-reduce the frequency of such transaction cancellations.
+在 `amgetbitmap` 索引掃描中，存取方法不會對任何傳回的元組保留索引釘住。因此，只有搭配符合 MVCC 的快照時，使用這種掃描才是安全的。
+
+若未設定 `ampredlocks` 旗標，則在可序列化交易中使用該索引存取方法的任何掃描，都會對整個索引取得非阻塞的謂詞鎖。這會與並行的可序列化交易將任何元組插入該索引的動作產生讀寫衝突。如果在一組並行的可序列化交易之間偵測到特定模式的讀寫衝突，可能會取消其中一個交易以保護資料完整性。設定此旗標時，表示該索引存取方法實作了更細粒度的謂詞鎖定，這往往會降低此類交易被取消的頻率。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-locking.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-locking.html)（原文版本：18.6；核對日期：2026-10-17）

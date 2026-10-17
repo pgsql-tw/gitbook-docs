@@ -980,7 +980,7 @@
     * [63.1. Basic API Structure for Indexes #](internals/indexam/index-api.md)
     * [63.2. 索引存取方法函式 #](internals/indexam/index-functions.md)
     * [63.3. 索引掃描 #](internals/indexam/index-scanning.md)
-    * [63.4. Index Locking Considerations #](internals/indexam/index-locking.md)
+    * [63.4. 索引鎖定的考量 #](internals/indexam/index-locking.md)
     * [63.5. 索引唯一性檢查 #](internals/indexam/index-unique-checks.md)
     * [63.6. 索引成本估算函式 #](internals/indexam/index-cost-estimation.md)
   * [第 64 章 擴充套件的預寫式日誌](internals/wal-for-extensions/README.md)
