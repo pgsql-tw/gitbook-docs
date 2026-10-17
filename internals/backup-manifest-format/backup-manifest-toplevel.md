@@ -1,41 +1,24 @@
-## 70.1. Backup Manifest Top-level Object [#](#BACKUP-MANIFEST-TOPLEVEL)
+<a id="BACKUP-MANIFEST-TOPLEVEL"></a>
 
-The backup manifest JSON document contains the following keys.
+## 70.1. 備份清單頂層物件 [#](#BACKUP-MANIFEST-TOPLEVEL)
+
+備份清單的 JSON 文件包含下列鍵。
 
 `PostgreSQL-Backup-Manifest-Version`
-:   The associated value is an integer. Beginning in
-    PostgreSQL `17`,
-    it is `2`; in older versions, it is `1`.
+:   對應的值是整數。從 PostgreSQL `17` 開始，其值為 `2`；在較舊的版本中則為 `1`。
 
 `System-Identifier`
-:   The database system identifier of the
-    PostgreSQL instance where the backup was
-    taken. This field is present only when
-    `PostgreSQL-Backup-Manifest-Version` is
-    `2`.
+:   取得備份的 PostgreSQL 執行個體的資料庫系統識別碼。只有當 `PostgreSQL-Backup-Manifest-Version` 為 `2` 時，才會有此欄位。
 
 `Files`
-:   The associated value is always a list of objects, each describing one
-    file that is present in the backup. No entries are present in this
-    list for the WAL files that are needed in order to use the backup,
-    or for the backup manifest itself. The structure of each object in the
-    list is described in [Section 70.2](backup-manifest-files.md).
+:   對應的值一律是物件清單，每個物件描述備份中存在的一個檔案。使用此備份所需的 WAL 檔案，以及備份清單本身，都不會在此清單中有項目。清單中每個物件的結構說明於[第 70.2 節](backup-manifest-files.md)。
 
 `WAL-Ranges`
-:   The associated value is always a list of objects, each describing a
-    range of WAL records that must be readable from a particular timeline
-    in order to make use of the backup. The structure of these objects is
-    further described in [Section 70.3](backup-manifest-wal-ranges.md).
+:   對應的值一律是物件清單，每個物件描述一段 WAL 記錄範圍；為了使用此備份，這段範圍必須能從特定時間軸讀取。這些物件的結構進一步說明於[第 70.3 節](backup-manifest-wal-ranges.md)。
 
 `Manifest-Checksum`
-:   This key is always present on the last line of the backup manifest file.
-    The associated value is a SHA-256 checksum of all the preceding lines.
-    We use a fixed checksum method here to make it possible for clients
-    to do incremental parsing of the manifest. While a SHA-256 checksum
-    is significantly more expensive than a CRC-32C checksum, the manifest
-    should normally be small enough that the extra computation won't matter
-    very much.
+:   此鍵一律出現在備份清單檔案的最後一行。對應的值是前面所有行的 SHA-256 檢查碼。我們在這裡使用固定的檢查碼方法，讓用戶端可以逐步剖析備份清單。雖然 SHA-256 檢查碼的計算成本明顯高於 CRC-32C 檢查碼，但備份清單通常應該夠小，額外的計算不會造成太大影響。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-manifest-toplevel.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-manifest-toplevel.html)（原文版本：18.6；核對日期：2026-10-17）

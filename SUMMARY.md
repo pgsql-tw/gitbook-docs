@@ -1018,7 +1018,7 @@
     * [69.2. 多變量統計資訊範例 #](internals/planner-stats-details/multivariate-statistics-examples.md)
     * [69.3. 規劃器統計資訊與安全性 #](internals/planner-stats-details/planner-stats-security.md)
   * [第 70 章 備份清單格式](internals/backup-manifest-format/README.md)
-    * [70.1. Backup Manifest Top-level Object #](internals/backup-manifest-format/backup-manifest-toplevel.md)
+    * [70.1. 備份清單頂層物件 #](internals/backup-manifest-format/backup-manifest-toplevel.md)
     * [70.2. 備份清單檔案物件 #](internals/backup-manifest-format/backup-manifest-files.md)
     * [70.3. 備份清單的 WAL 範圍物件](internals/backup-manifest-format/backup-manifest-wal-ranges.md)
 * [第八部分：附錄](appendixes/README.md)
