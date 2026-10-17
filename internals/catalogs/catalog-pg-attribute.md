@@ -1,219 +1,208 @@
+<a id="CATALOG-PG-ATTRIBUTE"></a>
+
 ## 52.7. `pg_attribute` [#](#CATALOG-PG-ATTRIBUTE)
 
 <a id="id-1.10.4.9.2"></a>
 
-The catalog `pg_attribute` stores information about
-table columns. There will be exactly one
-`pg_attribute` row for every column in every
-table in the database. (There will also be attribute entries for
-indexes, and indeed all objects that have
+系統目錄 `pg_attribute` 存放資料表欄位的相關資訊。資料庫中每個資料表的
+每個欄位，在 `pg_attribute` 中都恰好有一筆資料列。
+（索引也會有屬性項目，事實上所有在
 [`pg_class`](catalog-pg-class.md)
-entries.)
+中有項目的物件都會有。）
 
-The term attribute is equivalent to column and is used for
-historical reasons.
+「屬性」（attribute）一詞等同於欄位，是基於歷史因素而沿用的。
 
 <a id="id-1.10.4.9.5"></a>
 
-**Table 52.7. `pg_attribute` Columns**
+**表 52.7. `pg_attribute` 欄位**
 
-<table border="1" class="table" summary="pg_attribute Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.7. pg_attribute 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attrelid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The table this column belongs to
+       此欄位所屬的資料表
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attname</code> <code class="type">name</code>
 </p>
 <p>
-       The column name
+       欄位名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">atttypid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-type.md"><code class="structname">pg_type</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-type.md"><code class="structname">pg_type</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The data type of this column (zero for a dropped column)
+       此欄位的資料型別（已移除的欄位為零）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attlen</code> <code class="type">int2</code>
 </p>
 <p>
-       A copy of <code class="literal">pg_type.typlen</code> of this column's
-       type
+       此欄位型別之 <code class="literal">pg_type.typlen</code> 的副本
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attnum</code> <code class="type">int2</code>
 </p>
 <p>
-       The number of the column.  Ordinary columns are numbered from 1
-       up.  System columns, such as <code class="structfield">ctid</code>,
-       have (arbitrary) negative numbers.
+       欄位的編號。一般欄位從 1 開始
+       往上編號。系統欄位（例如 <code class="structfield">ctid</code>）
+       具有（任意的）負數編號。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">atttypmod</code> <code class="type">int4</code>
 </p>
 <p>
-<code class="structfield">atttypmod</code> records type-specific data
-       supplied at table creation time (for example, the maximum
-       length of a <code class="type">varchar</code> column).  It is passed to
-       type-specific input functions and length coercion functions.
-       The value will generally be -1 for types that do not need <code class="structfield">atttypmod</code>.
+<code class="structfield">atttypmod</code> 記錄在建立資料表時提供的型別專屬資料（例如
+       <code class="type">varchar</code> 欄位的最大長度）。它會被傳遞給
+       型別專屬的輸入函式與長度強制轉換函式。
+       對於不需要 <code class="structfield">atttypmod</code> 的型別，其值通常為 -1。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attndims</code> <code class="type">int2</code>
 </p>
 <p>
-       Number of dimensions, if the column is an array type; otherwise 0.
-       (Presently, the number of dimensions of an array is not enforced,
-       so any nonzero value effectively means <span class="quote">“<span class="quote">it's an array</span>”</span>.)
+       若此欄位是陣列型別，則為維度數；否則為 0。
+       （目前並不強制檢查陣列的維度數，
+       因此任何非零值實際上都表示<span class="quote">“<span class="quote">這是陣列</span>”</span>。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attbyval</code> <code class="type">bool</code>
 </p>
 <p>
-       A copy of <code class="literal">pg_type.typbyval</code> of this column's type
+       此欄位型別之 <code class="literal">pg_type.typbyval</code> 的副本
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attalign</code> <code class="type">char</code>
 </p>
 <p>
-       A copy of <code class="literal">pg_type.typalign</code> of this column's type
+       此欄位型別之 <code class="literal">pg_type.typalign</code> 的副本
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attstorage</code> <code class="type">char</code>
 </p>
 <p>
-       Normally a copy of <code class="literal">pg_type.typstorage</code> of this
-       column's type.  For TOAST-able data types, this can be altered
-       after column creation to control storage policy.
+       通常是此欄位型別之 <code class="literal">pg_type.typstorage</code> 的副本。
+       對於可 TOAST 的資料型別，可以在建立欄位之後變更此值，
+       以控制儲存策略。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attcompression</code> <code class="type">char</code>
 </p>
 <p>
-       The current compression method of the column.  Typically this is
-       <code class="literal">'\0'</code> to specify use of the current default setting
-       (see <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TOAST-COMPRESSION">default_toast_compression</a>).  Otherwise,
-       <code class="literal">'p'</code> selects pglz compression, while
-       <code class="literal">'l'</code> selects <span class="productname">LZ4</span>
-       compression.  However, this field is ignored
-       whenever <code class="structfield">attstorage</code> does not allow
-       compression.
+       此欄位目前的壓縮方法。通常為
+       <code class="literal">'\0'</code>，表示使用目前的預設設定
+       （請參閱 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TOAST-COMPRESSION">default_toast_compression</a>）。否則，
+       <code class="literal">'p'</code> 選擇 pglz 壓縮，而
+       <code class="literal">'l'</code> 選擇 <span class="productname">LZ4</span>
+       壓縮。不過，只要 <code class="structfield">attstorage</code> 不允許
+       壓縮，此欄位就會被忽略。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attnotnull</code> <code class="type">bool</code>
 </p>
 <p>
-       This column has a (possibly invalid) not-null constraint.
+       此欄位具有（可能無效的）非空值限制條件。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">atthasdef</code> <code class="type">bool</code>
 </p>
 <p>
-       This column has a default expression or generation expression, in which
-       case there will be a corresponding entry in the
-       <a class="link" href="catalog-pg-attrdef.md"><code class="structname">pg_attrdef</code></a> catalog that actually defines the
-       expression.  (Check <code class="structfield">attgenerated</code> to
-       determine whether this is a default or a generation expression.)
+       此欄位具有預設值運算式或產生運算式；在這種情況下，
+       <a class="link" href="catalog-pg-attrdef.md"><code class="structname">pg_attrdef</code></a> 系統目錄中會有一筆對應的項目，
+       實際定義該運算式。（請檢查 <code class="structfield">attgenerated</code>，
+       以判斷這是預設值運算式還是產生運算式。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">atthasmissing</code> <code class="type">bool</code>
 </p>
 <p>
-       This column has a value which is used where the column is entirely
-       missing from the row, as happens when a column is added with a
-       non-volatile <code class="literal">DEFAULT</code> value after the row is created.
-       The actual value used is stored in the
-       <code class="structfield">attmissingval</code> column.
+       此欄位有一個值，用於資料列中完全缺少該欄位的情況；
+       在資料列建立之後，以非揮發性的 <code class="literal">DEFAULT</code> 值新增欄位時，就會發生這種情況。
+       實際使用的值存放在
+       <code class="structfield">attmissingval</code> 欄位中。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attidentity</code> <code class="type">char</code>
 </p>
 <p>
-       If a zero byte (<code class="literal">''</code>), then not an identity column.
-       Otherwise, <code class="literal">a</code> = generated
-       always, <code class="literal">d</code> = generated by default.
+       若為零位元組（<code class="literal">''</code>），則不是識別欄位。
+       否則，<code class="literal">a</code> = 一律產生（GENERATED ALWAYS），
+       <code class="literal">d</code> = 預設產生（GENERATED BY DEFAULT）。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attgenerated</code> <code class="type">char</code>
 </p>
 <p>
-       If a zero byte (<code class="literal">''</code>), then not a generated column.
-       Otherwise, <code class="literal">s</code> = stored, <code class="literal">v</code> =
-       virtual.  A stored generated column is physically stored like a normal
-       column.  A virtual generated column is physically stored as a null
-       value, with the actual value being computed at run time.
+       若為零位元組（<code class="literal">''</code>），則不是產生欄位。
+       否則，<code class="literal">s</code> = 儲存式（stored），<code class="literal">v</code> =
+       虛擬（virtual）。儲存式產生欄位會像一般欄位一樣實體存放。
+       虛擬產生欄位在實體上存放為 null 值，
+       實際值則在執行時期計算。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attisdropped</code> <code class="type">bool</code>
 </p>
 <p>
-       This column has been dropped and is no longer valid.  A dropped
-       column is still physically present in the table, but is
-       ignored by the parser and so cannot be accessed via SQL.
+       此欄位已被移除，不再有效。已移除的欄位
+       在實體上仍存在於資料表中，但會被剖析器忽略，
+       因此無法透過 SQL 存取。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attislocal</code> <code class="type">bool</code>
 </p>
 <p>
-       This column is defined locally in the relation.  Note that a column can
-       be locally defined and inherited simultaneously.
+       此欄位是在該關聯中本地定義的。請注意，一個欄位可以
+       同時是本地定義的與繼承而來的。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attinhcount</code> <code class="type">int2</code>
 </p>
 <p>
-       The number of direct ancestors this column has.  A column with a
-       nonzero number of ancestors cannot be dropped nor renamed.
+       此欄位擁有的直接祖先數量。祖先數量不為零的欄位
+       既不能被移除，也不能被重新命名。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attcollation</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-collation.md"><code class="structname">pg_collation</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-collation.md"><code class="structname">pg_collation</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The defined collation of the column, or zero if the column is
-       not of a collatable data type
+       此欄位所定義的定序；若此欄位
+       不是可定序的資料型別，則為零
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attstattarget</code> <code class="type">int2</code>
 </p>
 <p>
-<code class="structfield">attstattarget</code> controls the level of detail
-       of statistics accumulated for this column by
-       <a class="link" href="../../reference/sql-commands/sql-analyze.md"><code class="command">ANALYZE</code></a>.
-       A zero value indicates that no statistics should be collected.
-       A null value says to use the system default statistics target.
-       The exact meaning of positive values is data type-dependent.
-       For scalar data types, <code class="structfield">attstattarget</code>
-       is both the target number of <span class="quote">“<span class="quote">most common values</span>”</span>
-       to collect, and the target number of histogram bins to create.
+<code class="structfield">attstattarget</code> 控制
+       <a class="link" href="../../reference/sql-commands/sql-analyze.md"><code class="command">ANALYZE</code></a>
+       為此欄位所累積之統計資訊的詳細程度。
+       零值表示不應收集任何統計資訊。
+       null 值表示使用系統預設的統計目標。
+       正值的確切意義取決於資料型別。
+       對於純量資料型別，<code class="structfield">attstattarget</code>
+       既是要收集的<span class="quote">“<span class="quote">最常見值</span>”</span>的目標數量，也是要建立的直方圖區間的目標數量。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attacl</code> <code class="type">aclitem[]</code>
 </p>
 <p>
-       Column-level access privileges, if any have been granted specifically
-       on this column
+       欄位層級的存取權限（若有專門針對此欄位授予的權限）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attoptions</code> <code class="type">text[]</code>
 </p>
 <p>
-       Attribute-level options, as <span class="quote">“<span class="quote">keyword=value</span>”</span> strings
+       屬性層級選項，以<span class="quote">“<span class="quote">keyword=value</span>”</span>字串表示
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attfdwoptions</code> <code class="type">text[]</code>
 </p>
 <p>
-       Attribute-level foreign data wrapper options, as <span class="quote">“<span class="quote">keyword=value</span>”</span> strings
+       屬性層級的外部資料包裝器選項，以<span class="quote">“<span class="quote">keyword=value</span>”</span>字串表示
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">attmissingval</code> <code class="type">anyarray</code>
 </p>
 <p>
-       This column has a one element array containing the value used when the
-       column is entirely missing from the row, as happens when the column is
-       added with a non-volatile <code class="literal">DEFAULT</code> value after the
-       row is created.  The value is only used when
-       <code class="structfield">atthasmissing</code> is true.  If there is no value
-       the column is null.
+       此欄位含有一個單元素陣列，其中包含資料列中完全缺少該欄位時所使用的值；
+       在資料列建立之後，以非揮發性的 <code class="literal">DEFAULT</code> 值新增該欄位時，
+       就會發生這種情況。只有在
+       <code class="structfield">atthasmissing</code> 為 true 時才會使用此值。
+       若沒有值，此欄位為 null。
       </p></td></tr></tbody></table>
 
 <br>
 
-In a dropped column's `pg_attribute` entry,
-`atttypid` is reset to zero, but
-`attlen` and the other fields copied from
-[`pg_type`](catalog-pg-type.md) are still valid. This arrangement is needed
-to cope with the situation where the dropped column's data type was
-later dropped, and so there is no `pg_type` row anymore.
-`attlen` and the other fields can be used
-to interpret the contents of a row of the table.
+在已移除欄位的 `pg_attribute` 項目中，
+`atttypid` 會被重設為零，但
+`attlen` 以及其他從
+[`pg_type`](catalog-pg-type.md) 複製而來的欄位仍然有效。之所以需要這樣的安排，
+是為了應付已移除欄位的資料型別後來也被移除、因而 `pg_type` 中已不再有對應資料列的情況。
+`attlen` 與其他欄位可用來解讀資料表中資料列的內容。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-attribute.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-attribute.html)（原文版本：18.6；核對日期：2026-10-17）
