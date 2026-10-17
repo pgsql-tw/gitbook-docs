@@ -1,84 +1,79 @@
+<a id="CATALOG-PG-PARTITIONED-TABLE"></a>
+
 ## 52.37. `pg_partitioned_table` [#](#CATALOG-PG-PARTITIONED-TABLE)
 
 <a id="id-1.10.4.39.2"></a>
 
-The catalog `pg_partitioned_table` stores
-information about how tables are partitioned.
+目錄 `pg_partitioned_table` 儲存資料表如何分割的相關資訊。
 
 <a id="id-1.10.4.39.4"></a>
 
-**Table 52.37. `pg_partitioned_table` Columns**
+**表 52.37. `pg_partitioned_table` 欄位**
 
-<table border="1" class="table" summary="pg_partitioned_table Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.37. pg_partitioned_table 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partrelid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a> entry for this partitioned table
+       此分割資料表在 <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a> 中之項目的 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partstrat</code> <code class="type">char</code>
 </p>
 <p>
-       Partitioning strategy; <code class="literal">h</code> = hash partitioned table,
-       <code class="literal">l</code> = list partitioned table, <code class="literal">r</code> = range partitioned table
+       分割策略；<code class="literal">h</code> = 雜湊分割資料表，
+       <code class="literal">l</code> = 清單分割資料表，<code class="literal">r</code> = 範圍分割資料表
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partnatts</code> <code class="type">int2</code>
 </p>
 <p>
-       The number of columns in the partition key
+       分割鍵中的欄位數
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partdefid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a> entry for the default partition
-       of this partitioned table, or zero if this partitioned table does not
-       have a default partition
+       此分割資料表之預設分割區在 <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a> 中之項目的 OID；
+       若此分割資料表沒有預設分割區，則為零
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partattrs</code> <code class="type">int2vector</code>
-       (references <a class="link" href="catalog-pg-attribute.md"><code class="structname">pg_attribute</code></a>.<code class="structfield">attnum</code>)
+       （參照 <a class="link" href="catalog-pg-attribute.md"><code class="structname">pg_attribute</code></a>.<code class="structfield">attnum</code>）
       </p>
 <p>
-       This is an array of <code class="structfield">partnatts</code> values that
-       indicate which table columns are part of the partition key.  For
-       example, a value of <code class="literal">1 3</code> would mean that the first
-       and the third table columns make up the partition key.  A zero in this
-       array indicates that the corresponding partition key column is an
-       expression, rather than a simple column reference.
+       這是一個含有 <code class="structfield">partnatts</code> 個值的陣列，
+       指出哪些資料表欄位屬於分割鍵。例如，值 <code class="literal">1 3</code> 表示由資料表的第一個
+       與第三個欄位構成分割鍵。此陣列中的零表示對應的分割鍵欄位是
+       運算式，而不是單純的欄位參照。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partclass</code> <code class="type">oidvector</code>
-       (references <a class="link" href="catalog-pg-opclass.md"><code class="structname">pg_opclass</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-opclass.md"><code class="structname">pg_opclass</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       For each column in the partition key, this contains the OID of the
-       operator class to use.  See
-       <a class="link" href="catalog-pg-opclass.md"><code class="structname">pg_opclass</code></a> for details.
+       對分割鍵中的每個欄位，此欄位記錄要使用之運算子類別的 OID。詳細資訊請參閱
+       <a class="link" href="catalog-pg-opclass.md"><code class="structname">pg_opclass</code></a>。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partcollation</code> <code class="type">oidvector</code>
-       (references <a class="link" href="catalog-pg-collation.md"><code class="structname">pg_collation</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-collation.md"><code class="structname">pg_collation</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       For each column in the partition key, this contains the OID of the
-       collation to use for partitioning, or zero if the column is not
-       of a collatable data type.
+       對分割鍵中的每個欄位，此欄位記錄分割時要使用之定序的 OID；
+       若該欄位不是可定序的資料型別，則為零。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">partexprs</code> <code class="type">pg_node_tree</code>
 </p>
 <p>
-       Expression trees (in <code class="function">nodeToString()</code>
-       representation) for partition key columns that are not simple column
-       references.  This is a list with one element for each zero
-       entry in <code class="structfield">partattrs</code>.  Null if all partition key columns
-       are simple references.
+       非單純欄位參照之分割鍵欄位的運算式樹（以 <code class="function">nodeToString()</code>
+       表示法呈現）。這是一個串列，
+       <code class="structfield">partattrs</code> 中的每個零項目各對應一個元素。若所有分割鍵欄位
+       都是單純參照，則為 null。
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-partitioned-table.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-partitioned-table.html)（原文版本：18.6；核對日期：2026-10-17）
