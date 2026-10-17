@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：185 頁。
+待譯頁面：184 頁。
 
 ## 根目錄
 
@@ -313,7 +313,7 @@
 - [x] `internals/catalogs/catalog-pg-foreign-table.md` — 52.25. `pg_foreign_table` #
 - [x] `internals/catalogs/catalog-pg-index.md` — 52.26. `pg_index` #
 - [x] `internals/catalogs/catalog-pg-inherits.md` — 52.27. `pg_inherits` #
-- [ ] `internals/catalogs/catalog-pg-init-privs.md` — 52.28. pg_init_privs #
+- [x] `internals/catalogs/catalog-pg-init-privs.md` — 52.28. `pg_init_privs` #
 - [ ] `internals/catalogs/catalog-pg-language.md` — 52.29. pg_language #
 - [ ] `internals/catalogs/catalog-pg-largeobject-metadata.md` — 52.31. pg_largeobject_metadata #
 - [ ] `internals/catalogs/catalog-pg-largeobject.md` — 52.30. pg_largeobject #
