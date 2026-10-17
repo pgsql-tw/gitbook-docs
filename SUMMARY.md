@@ -322,7 +322,7 @@
     * [32.17. The Connection Service File #](client-interfaces/libpq/libpq-pgservice.md)
     * [32.18. LDAP Lookup of Connection Parameters #](client-interfaces/libpq/libpq-ldap.md)
     * [32.19. SSL Support #](client-interfaces/libpq/libpq-ssl.md)
-    * [32.20. OAuth Support #](client-interfaces/libpq/libpq-oauth.md)
+    * [32.20. OAuth 支援 #](client-interfaces/libpq/libpq-oauth.md)
     * [32.21. Behavior in Threaded Programs #](client-interfaces/libpq/libpq-threading.md)
     * [32.22. Building libpq Programs #](client-interfaces/libpq/libpq-build.md)
     * [32.23. Example Programs #](client-interfaces/libpq/libpq-example.md)
