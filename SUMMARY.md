@@ -856,7 +856,7 @@
     * [52.20. `pg_enum` #](internals/catalogs/catalog-pg-enum.md)
     * [52.21. `pg_event_trigger` #](internals/catalogs/catalog-pg-event-trigger.md)
     * [52.22. `pg_extension` #](internals/catalogs/catalog-pg-extension.md)
-    * [52.23. pg_foreign_data_wrapper #](internals/catalogs/catalog-pg-foreign-data-wrapper.md)
+    * [52.23. `pg_foreign_data_wrapper` #](internals/catalogs/catalog-pg-foreign-data-wrapper.md)
     * [52.24. pg_foreign_server #](internals/catalogs/catalog-pg-foreign-server.md)
     * [52.25. pg_foreign_table #](internals/catalogs/catalog-pg-foreign-table.md)
     * [52.26. pg_index #](internals/catalogs/catalog-pg-index.md)
