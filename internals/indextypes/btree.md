@@ -1,205 +1,207 @@
-## 65.1. B-Tree Indexes [#](#BTREE)
+<a id="BTREE"></a>
 
-[65.1.1. Introduction](btree.md#BTREE-INTRO)
+## 65.1. B-Tree 索引 [#](#BTREE)
 
-[65.1.2. Behavior of B-Tree Operator Classes](btree.md#BTREE-BEHAVIOR)
+[65.1.1. 簡介](btree.md#BTREE-INTRO)
 
-[65.1.3. B-Tree Support Functions](btree.md#BTREE-SUPPORT-FUNCS)
+[65.1.2. B-Tree 運算子類別的行為](btree.md#BTREE-BEHAVIOR)
 
-[65.1.4. Implementation](btree.md#BTREE-IMPLEMENTATION)
+[65.1.3. B-Tree 支援函式](btree.md#BTREE-SUPPORT-FUNCS)
 
-<a id="id-1.10.17.2.2"></a><a id="BTREE-INTRO"></a>
+[65.1.4. 實作](btree.md#BTREE-IMPLEMENTATION)
 
-### 65.1.1. Introduction [#](#BTREE-INTRO)
+<a id="id-1.10.17.2.2"></a>
 
-PostgreSQL includes an implementation of the
-standard btree (multi-way balanced tree) index data
-structure. Any data type that can be sorted into a well-defined linear
-order can be indexed by a btree index. The only limitation is that an
-index entry cannot exceed approximately one-third of a page (after TOAST
-compression, if applicable).
+<a id="BTREE-INTRO"></a>
 
-Because each btree operator class imposes a sort order on its data type,
-btree operator classes (or, really, operator families) have come to be
-used as PostgreSQL's general representation
-and understanding of sorting semantics. Therefore, they've acquired
-some features that go beyond what would be needed just to support btree
-indexes, and parts of the system that are quite distant from the
-btree AM make use of them.
+### 65.1.1. 簡介 [#](#BTREE-INTRO)
+
+PostgreSQL 包含標準
+btree（多路平衡樹）索引資料結構的
+實作。任何可以排序成明確定義之線性
+順序的資料型別，都可以用 btree 索引建立索引。唯一的限制是，
+一個索引項目不能超過大約三分之一個頁面（若適用，則以 TOAST
+壓縮之後的大小計）。
+
+由於每個 btree 運算子類別都會對其資料型別施加一種排序順序，
+btree 運算子類別（或者說，實際上是運算子家族）逐漸被
+當作 PostgreSQL 對排序語意的通用表示
+與理解方式。因此，它們具備了
+一些超出單純支援 btree
+索引所需的功能，而且系統中與
+btree 存取方法（AM）相距甚遠的部分也會使用它們。
 
 <a id="BTREE-BEHAVIOR"></a>
 
-### 65.1.2. Behavior of B-Tree Operator Classes [#](#BTREE-BEHAVIOR)
+### 65.1.2. B-Tree 運算子類別的行為 [#](#BTREE-BEHAVIOR)
 
-As shown in [Table 36.3](../../server-programming/extend/xindex.md#XINDEX-BTREE-STRAT-TABLE), a btree operator
-class must provide five comparison operators,
-`<`,
-`<=`,
-`=`,
-`>=` and
-`>`.
-One might expect that `<>` should also be part of
-the operator class, but it is not, because it would almost never be
-useful to use a `<>` WHERE clause in an index
-search. (For some purposes, the planner treats `<>`
-as associated with a btree operator class; but it finds that operator via
-the `=` operator's negator link, rather than
-from `pg_amop`.)
+如[表 36.3](../../server-programming/extend/xindex.md#XINDEX-BTREE-STRAT-TABLE) 所示，btree 運算子
+類別必須提供五個比較運算子：
+`<`、
+`<=`、
+`=`、
+`>=` 與
+`>`。
+你也許會預期 `<>` 也應該是
+運算子類別的一部分，但它並不是，因為在索引搜尋中
+使用 `<>` WHERE 子句幾乎永遠
+沒有用處。（基於某些目的，規劃器會將 `<>`
+視為與某個 btree 運算子類別相關聯；但它是透過
+`=` 運算子的否定子（negator）連結找到該運算子，而不是
+從 `pg_amop` 中找到。）
 
-When several data types share near-identical sorting semantics, their
-operator classes can be grouped into an operator family. Doing so is
-advantageous because it allows the planner to make deductions about
-cross-type comparisons. Each operator class within the family should
-contain the single-type operators (and associated support functions)
-for its input data type, while cross-type comparison operators and
-support functions are “loose” in the family. It is
-recommendable that a complete set of cross-type operators be included
-in the family, thus ensuring that the planner can represent any
-comparison conditions that it deduces from transitivity.
+當數種資料型別具有幾乎相同的排序語意時，它們的
+運算子類別可以組成一個運算子家族。這樣做
+有好處，因為它讓規劃器能夠對
+跨型別比較進行推論。家族中的每個運算子類別，都應該
+包含其輸入資料型別的單一型別運算子（以及相關的支援函式），
+而跨型別比較運算子與
+支援函式則「鬆散地」存在於家族中。
+建議在家族中納入一整組完整的跨型別運算子，
+以確保規劃器能夠表示
+它從遞移性推導出的任何比較條件。
 
-There are some basic assumptions that a btree operator family must
-satisfy:
+btree 運算子家族必須滿足一些基本
+假設：
 
-* An `=` operator must be an equivalence relation; that
-  is, for all non-null values *`A`*,
-  *`B`*, *`C`* of the
-  data type:
+* `=` 運算子必須是等價關係；也就是說，
+  對於該資料型別所有非 null 的值 *`A`*、
+  *`B`*、*`C`*：
 
   * *`A`* `=`
-    *`A`* is true
-    (*reflexive law*)
-  * if *`A`* `=`
-    *`B`*,
-    then *`B`* `=`
+    *`A`* 為真
+    （*反身律*）
+  * 若 *`A`* `=`
+    *`B`*，
+    則 *`B`* `=`
     *`A`*
-    (*symmetric law*)
-  * if *`A`* `=`
-    *`B`* and *`B`*
-    `=` *`C`*,
-    then *`A`* `=`
+    （*對稱律*）
+  * 若 *`A`* `=`
+    *`B`* 且 *`B`*
+    `=` *`C`*，
+    則 *`A`* `=`
     *`C`*
-    (*transitive law*)
-* A `<` operator must be a strong ordering relation;
-  that is, for all non-null values *`A`*,
-  *`B`*, *`C`*:
+    （*遞移律*）
+* `<` 運算子必須是強順序關係（strong ordering relation）；
+  也就是說，對於所有非 null 的值 *`A`*、
+  *`B`*、*`C`*：
 
   * *`A`* `<`
-    *`A`* is false
-    (*irreflexive law*)
-  * if *`A`* `<`
+    *`A`* 為假
+    （*非反身律*）
+  * 若 *`A`* `<`
     *`B`*
-    and *`B`* `<`
-    *`C`*,
-    then *`A`* `<`
+    且 *`B`* `<`
+    *`C`*，
+    則 *`A`* `<`
     *`C`*
-    (*transitive law*)
-* Furthermore, the ordering is total; that is, for all non-null
-  values *`A`*, *`B`*:
+    （*遞移律*）
+* 此外，此順序是全序；也就是說，對於所有非 null 的
+  值 *`A`*、*`B`*：
 
-  * exactly one of *`A`* `<`
-    *`B`*, *`A`*
-    `=` *`B`*, and
+  * *`A`* `<`
+    *`B`*、*`A`*
+    `=` *`B`* 與
     *`B`* `<`
-    *`A`* is true
-    (*trichotomy law*)
+    *`A`* 之中恰好有一個為真
+    （*三一律*）
 
-  (The trichotomy law justifies the definition of the comparison support
-  function, of course.)
+  （當然，三一律正是比較支援函式之定義的
+  依據。）
 
-The other three operators are defined in terms of `=`
-and `<` in the obvious way, and must act consistently
-with them.
+其他三個運算子是以顯而易見的方式，根據 `=`
+與 `<` 來定義的，而且其行為必須與
+它們一致。
 
-For an operator family supporting multiple data types, the above laws must
-hold when *`A`*, *`B`*,
-*`C`* are taken from any data types in the family.
-The transitive laws are the trickiest to ensure, as in cross-type
-situations they represent statements that the behaviors of two or three
-different operators are consistent.
-As an example, it would not work to put `float8`
-and `numeric` into the same operator family, at least not with
-the current semantics that `numeric` values are converted
-to `float8` for comparison to a `float8`. Because
-of the limited accuracy of `float8`, this means there are
-distinct `numeric` values that will compare equal to the
-same `float8` value, and thus the transitive law would fail.
+對於支援多種資料型別的運算子家族，當 *`A`*、*`B`*、
+*`C`* 取自家族中的任何資料型別時，上述定律都必須
+成立。
+遞移律是最難確保的，因為在跨型別的
+情況下，它們代表的是兩個或三個
+不同運算子的行為彼此一致這樣的陳述。
+舉例來說，把 `float8`
+與 `numeric` 放進同一個運算子家族是行不通的，至少在
+目前 `numeric` 值與 `float8` 比較時會被轉換
+為 `float8` 的語意下是如此。由於
+`float8` 的精確度有限，這表示會有
+相異的 `numeric` 值與同一個
+`float8` 值比較時相等，因此遞移律將不成立。
 
-Another requirement for a multiple-data-type family is that any implicit
-or binary-coercion casts that are defined between data types included in
-the operator family must not change the associated sort ordering.
+對多資料型別家族的另一項要求是，在
+運算子家族所含資料型別之間定義的任何隱含轉型
+或二進位強制轉型，都不得改變相關的排序順序。
 
-It should be fairly clear why a btree index requires these laws to hold
-within a single data type: without them there is no ordering to arrange
-the keys with. Also, index searches using a comparison key of a
-different data type require comparisons to behave sanely across two
-data types. The extensions to three or more data types within a family
-are not strictly required by the btree index mechanism itself, but the
-planner relies on them for optimization purposes.
+為什麼 btree 索引要求這些定律在
+單一資料型別內成立，應該相當清楚：沒有它們，就沒有可以用來排列
+鍵值的順序。此外，使用不同資料型別之比較鍵的
+索引搜尋，需要比較在兩種
+資料型別之間也表現得合理。家族內延伸到三種或更多資料型別的情形，
+btree 索引機制本身並未嚴格要求，但
+規劃器會為了最佳化目的而依賴它們。
 
 <a id="BTREE-SUPPORT-FUNCS"></a>
 
-### 65.1.3. B-Tree Support Functions [#](#BTREE-SUPPORT-FUNCS)
+### 65.1.3. B-Tree 支援函式 [#](#BTREE-SUPPORT-FUNCS)
 
-As shown in [Table 36.9](../../server-programming/extend/xindex.md#XINDEX-BTREE-SUPPORT-TABLE), btree defines
-one required and five optional support functions. The six
-user-defined methods are:
+如[表 36.9](../../server-programming/extend/xindex.md#XINDEX-BTREE-SUPPORT-TABLE) 所示，btree 定義了
+一個必要的支援函式與五個選用的支援函式。這六個
+使用者定義的方法是：
 
 `order`
-:   For each combination of data types that a btree operator family
-    provides comparison operators for, it must provide a comparison
-    support function, registered in
-    `pg_amproc` with support function number 1
-    and
+:   對於 btree 運算子家族提供比較運算子的
+    每一種資料型別組合，它都必須提供一個比較
+    支援函式，該函式在
+    `pg_amproc` 中以支援函式編號 1 登錄，
+    且
     `amproclefttype`/`amprocrighttype`
-    equal to the left and right data types for the comparison (i.e.,
-    the same data types that the matching operators are registered
-    with in `pg_amop`). The comparison
-    function must take two non-null values
-    *`A`* and *`B`* and
-    return an `int32` value that is
-    `<` `0`,
-    `0`, or `>`
-    `0` when *`A`*
-    `<` *`B`*,
+    等於比較的左側與右側資料型別（也就是
+    與相對應的運算子在 `pg_amop` 中登錄時
+    所用的相同資料型別）。比較
+    函式必須接受兩個非 null 的值
+    *`A`* 與 *`B`*，並且
+    當 *`A`*
+    `<` *`B`*、
     *`A`* `=`
-    *`B`*, or *`A`*
-    `>` *`B`*,
-    respectively. A null result is disallowed: all values of the
-    data type must be comparable. See
-    `src/backend/access/nbtree/nbtcompare.c` for
-    examples.
+    *`B`* 或 *`A`*
+    `>` *`B`* 時，分別
+    傳回 `<` `0`、
+    `0` 或 `>`
+    `0` 的 `int32` 值。
+    不允許 null 結果：該
+    資料型別的所有值都必須是可比較的。範例請參閱
+    `src/backend/access/nbtree/nbtcompare.c`。
 
-    If the compared values are of a collatable data type, the
-    appropriate collation OID will be passed to the comparison
-    support function, using the standard
-    `PG_GET_COLLATION()` mechanism.
+    如果被比較的值屬於可定序的資料型別，
+    就會使用標準的
+    `PG_GET_COLLATION()` 機制，將適當的定序 OID 傳給比較
+    支援函式。
 
 `sortsupport`
-:   Optionally, a btree operator family may provide *sort
-    support* function(s), registered under support
-    function number 2. These functions allow implementing
-    comparisons for sorting purposes in a more efficient way than
-    naively calling the comparison support function. The APIs
-    involved in this are defined in
-    `src/include/utils/sortsupport.h`.
+:   btree 運算子家族可以選擇性地提供*排序
+    支援*函式，以支援
+    函式編號 2 登錄。這些函式能以比
+    單純呼叫比較支援函式更有效率的方式，實作
+    以排序為目的之比較。相關的
+    API 定義在
+    `src/include/utils/sortsupport.h` 中。
 
 `in_range`
 :   <a id="id-1.10.17.2.5.3.3.2.1"></a><a id="id-1.10.17.2.5.3.3.2.2"></a>
 
-    Optionally, a btree operator family may provide
-    *in_range* support function(s), registered
-    under support function number 3. These are not used during btree
-    index operations; rather, they extend the semantics of the
-    operator family so that it can support window clauses containing
-    the `RANGE` *`offset`*
-    `PRECEDING` and `RANGE`
+    btree 運算子家族可以選擇性地提供
+    *in_range* 支援函式，以支援
+    函式編號 3 登錄。這些函式不會在 btree
+    索引操作期間使用；而是用來擴充
+    運算子家族的語意，使其能夠支援包含
+    `RANGE` *`offset`*
+    `PRECEDING` 與 `RANGE`
     *`offset`* `FOLLOWING`
-    frame bound types (see [Section 4.2.8](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)). Fundamentally, the extra
-    information provided is how to add or subtract an
-    *`offset`* value in a way that is
-    compatible with the family's data ordering.
+    框架邊界類型的視窗子句（請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)）。基本上，所提供的額外
+    資訊，就是如何以與家族資料順序
+    相容的方式，加上或減去一個
+    *`offset`* 值。
 
-    An `in_range` function must have the signature
+    `in_range` 函式必須具有以下簽章
 
     ```
 
@@ -207,525 +209,518 @@ user-defined methods are:
     returns bool
     ```
 
-    *`val`* and
-    *`base`* must be of the same type, which
-    is one of the types supported by the operator family (i.e., a
-    type for which it provides an ordering). However,
-    *`offset`* could be of a different type,
-    which might be one otherwise unsupported by the family. An
-    example is that the built-in `time_ops` family
-    provides an `in_range` function that has
-    *`offset`* of type `interval`.
-    A family can provide `in_range` functions for
-    any of its supported types and one or more
-    *`offset`* types. Each
-    `in_range` function should be entered in
-    `pg_amproc` with
-    `amproclefttype` equal to
-    `type1` and `amprocrighttype`
-    equal to `type2`.
+    *`val`* 與
+    *`base`* 必須屬於相同的型別，該型別
+    是運算子家族所支援的型別之一（也就是
+    家族為其提供順序的型別）。然而，
+    *`offset`* 可以是不同的型別，
+    也可能是家族在其他方面並不支援的型別。
+    例如，內建的 `time_ops` 家族
+    提供了一個 `in_range` 函式，其
+    *`offset`* 的型別為 `interval`。
+    一個家族可以為
+    它所支援的任何型別，以及一個或多個
+    *`offset`* 型別提供 `in_range` 函式。每個
+    `in_range` 函式都應該登錄在
+    `pg_amproc` 中，其
+    `amproclefttype` 等於
+    `type1`，`amprocrighttype`
+    等於 `type2`。
 
-    The essential semantics of an `in_range`
-    function depend on the two Boolean flag parameters. It should
-    add or subtract *`base`* and
-    *`offset`*, then compare
-    *`val`* to the result, as follows:
+    `in_range`
+    函式的基本語意取決於兩個布林旗標參數。它應該
+    將 *`base`* 與
+    *`offset`* 相加或相減，然後將
+    *`val`* 與結果比較，如下所示：
 
-    * if `!`*`sub`* and
-      `!`*`less`*, return
+    * 若 `!`*`sub`* 且
+      `!`*`less`*，傳回
       *`val`* `>=`
       (*`base`* `+`
       *`offset`*)
-    * if `!`*`sub`* and
-      *`less`*, return
+    * 若 `!`*`sub`* 且
+      *`less`*，傳回
       *`val`* `<=`
       (*`base`* `+`
       *`offset`*)
-    * if *`sub`* and
-      `!`*`less`*, return
+    * 若 *`sub`* 且
+      `!`*`less`*，傳回
       *`val`* `>=`
       (*`base`* `-`
       *`offset`*)
-    * if *`sub`* and
-      *`less`*, return
+    * 若 *`sub`* 且
+      *`less`*，傳回
       *`val`* `<=`
       (*`base`* `-`
       *`offset`*)
 
-    Before doing so, the function should check the sign of
-    *`offset`*: if it is less than zero, raise
-    error
+    在這麼做之前，函式應該檢查
+    *`offset`* 的正負號：如果它小於零，就擲出
+    錯誤
     `ERRCODE_INVALID_PRECEDING_OR_FOLLOWING_SIZE`
-    (22013) with error text like “invalid preceding or
-    following size in window function”. (This is required by
-    the SQL standard, although nonstandard operator families might
-    perhaps choose to ignore this restriction, since there seems to
-    be little semantic necessity for it.) This requirement is
-    delegated to the `in_range` function so that
-    the core code needn't understand what “less than
-    zero” means for a particular data type.
+    (22013)，錯誤訊息類似「invalid preceding or
+    following size in window function」。（這是
+    SQL 標準所要求的，不過非標準的運算子家族
+    或許可以選擇忽略此限制，因為它看起來
+    在語意上沒有什麼必要性。）這項要求
+    交由 `in_range` 函式處理，如此
+    核心程式碼就不需要理解對某個特定資料型別而言，「小於
+    零」是什麼意思。
 
-    An additional expectation is that `in_range`
-    functions should, if practical, avoid throwing an error if
+    另一項期望是，如果可行的話，`in_range`
+    函式在
     *`base`* `+`
-    *`offset`* or
+    *`offset`* 或
     *`base`* `-`
-    *`offset`* would overflow. The correct
-    comparison result can be determined even if that value would be
-    out of the data type's range. Note that if the data type
-    includes concepts such as “infinity” or
-    “NaN”, extra care may be needed to ensure that
-    `in_range`'s results agree with the normal
-    sort order of the operator family.
+    *`offset`* 會溢位時，應該避免擲出錯誤。即使該值
+    超出資料型別的範圍，仍然可以判斷出正確的
+    比較結果。請注意，如果資料型別
+    包含「infinity」或
+    「NaN」之類的概念，可能需要格外小心，以確保
+    `in_range` 的結果與運算子家族的一般
+    排序順序一致。
 
-    The results of the `in_range` function must be
-    consistent with the sort ordering imposed by the operator family.
-    To be precise, given any fixed values of
-    *`offset`* and
-    *`sub`*, then:
+    `in_range` 函式的結果必須與
+    運算子家族所施加的排序順序一致。
+    精確地說，給定任何固定的
+    *`offset`* 與
+    *`sub`* 值，則：
 
-    * If `in_range` with
-      *`less`* = true is true for some
-      *`val1`* and
-      *`base`*, it must be true for every
+    * 如果對於某個
+      *`val1`* 與
+      *`base`*，*`less`* = true 的
+      `in_range` 為真，那麼對於具有相同
+      *`base`* 的每一個
       *`val2`* `<=`
-      *`val1`* with the same
-      *`base`*.
-    * If `in_range` with
-      *`less`* = true is false for some
-      *`val1`* and
-      *`base`*, it must be false for every
+      *`val1`*，它都必須為真。
+    * 如果對於某個
+      *`val1`* 與
+      *`base`*，*`less`* = true 的
+      `in_range` 為假，那麼對於具有相同
+      *`base`* 的每一個
       *`val2`* `>=`
-      *`val1`* with the same
-      *`base`*.
-    * If `in_range` with
-      *`less`* = true is true for some
-      *`val`* and
-      *`base1`*, it must be true for every
+      *`val1`*，它都必須為假。
+    * 如果對於某個
+      *`val`* 與
+      *`base1`*，*`less`* = true 的
+      `in_range` 為真，那麼對於具有相同
+      *`val`* 的每一個
       *`base2`* `>=`
-      *`base1`* with the same
-      *`val`*.
-    * If `in_range` with
-      *`less`* = true is false for some
-      *`val`* and
-      *`base1`*, it must be false for every
+      *`base1`*，它都必須為真。
+    * 如果對於某個
+      *`val`* 與
+      *`base1`*，*`less`* = true 的
+      `in_range` 為假，那麼對於具有相同
+      *`val`* 的每一個
       *`base2`* `<=`
-      *`base1`* with the same
-      *`val`*.
+      *`base1`*，它都必須為假。
 
-    Analogous statements with inverted conditions hold when
-    *`less`* = false.
+    當 *`less`* = false 時，條件反轉的
+    類似陳述同樣成立。
 
-    If the type being ordered (`type1`) is collatable, the
-    appropriate collation OID will be passed to the
-    `in_range` function, using the standard
-    PG_GET_COLLATION() mechanism.
+    如果被排序的型別（`type1`）是可定序的，
+    就會使用標準的 PG_GET_COLLATION() 機制，將
+    適當的定序 OID 傳給
+    `in_range` 函式。
 
-    `in_range` functions need not handle NULL
-    inputs, and typically will be marked strict.
+    `in_range` 函式不需要處理 NULL
+    輸入，通常會被標記為 strict（嚴格）。
 
 `equalimage`
-:   Optionally, a btree operator family may provide
-    `equalimage` (“equality implies image
-    equality”) support functions, registered under support
-    function number 4. These functions allow the core code to
-    determine when it is safe to apply the btree deduplication
-    optimization. Currently, `equalimage`
-    functions are only called when building or rebuilding an index.
+:   btree 運算子家族可以選擇性地提供
+    `equalimage`（「相等即表示映像
+    相等」，equality implies image equality）支援函式，以支援
+    函式編號 4 登錄。這些函式讓核心程式碼能夠
+    判斷何時可以安全地套用 btree 去重複
+    最佳化。目前，`equalimage`
+    函式只會在建立或重建索引時被呼叫。
 
-    An `equalimage` function must have the
-    signature
+    `equalimage` 函式必須具有以下
+    簽章
 
     ```
 
     equalimage(opcintype oid) returns bool
     ```
 
-    The return value is static information about an operator class
-    and collation. Returning `true` indicates that
-    the `order` function for the operator class is
-    guaranteed to only return `0` (“arguments
-    are equal”) when its *`A`* and
-    *`B`* arguments are also interchangeable
-    without any loss of semantic information. Not registering an
-    `equalimage` function or returning
-    `false` indicates that this condition cannot be
-    assumed to hold.
+    傳回值是關於某個運算子類別
+    與定序的靜態資訊。傳回 `true` 表示，
+    該運算子類別的 `order` 函式
+    保證只有在其 *`A`* 與
+    *`B`* 引數也可以互換、且不會遺失任何語意資訊時，
+    才會傳回 `0`（「引數
+    相等」）。沒有登錄
+    `equalimage` 函式或傳回
+    `false`，表示不能
+    假設此條件成立。
 
-    The *`opcintype`* argument is the
-    `pg_type.oid` of the
-    data type that the operator class indexes. This is a convenience
-    that allows reuse of the same underlying
-    `equalimage` function across operator classes.
-    If *`opcintype`* is a collatable data
-    type, the appropriate collation OID will be passed to the
-    `equalimage` function, using the standard
-    `PG_GET_COLLATION()` mechanism.
+    *`opcintype`* 引數是
+    運算子類別所索引之資料型別的
+    `pg_type.oid`。這是一項便利設計，
+    讓同一個底層的
+    `equalimage` 函式可以在多個運算子類別之間重複使用。
+    如果 *`opcintype`* 是可定序的資料
+    型別，就會使用標準的
+    `PG_GET_COLLATION()` 機制，將適當的定序 OID 傳給
+    `equalimage` 函式。
 
-    As far as the operator class is concerned, returning
-    `true` indicates that deduplication is safe (or
-    safe for the collation whose OID was passed to its
-    `equalimage` function). However, the core
-    code will only deem deduplication safe for an index when
-    *every* indexed column uses an operator class
-    that registers an `equalimage` function, and
-    each function actually returns `true` when
-    called.
+    就運算子類別而言，傳回
+    `true` 表示去重複是安全的（或者
+    對於傳給其
+    `equalimage` 函式之 OID 所代表的定序而言是安全的）。然而，核心
+    程式碼只有在
+    *每一個*索引欄位使用的運算子類別
+    都有登錄 `equalimage` 函式，而且
+    每個函式在被呼叫時實際上都傳回 `true` 時，
+    才會認定該索引可以安全地去重複。
 
-    Image equality is *almost* the same condition
-    as simple bitwise equality. There is one subtle difference: When
-    indexing a varlena data type, the on-disk representation of two
-    image equal datums may not be bitwise equal due to inconsistent
-    application of TOAST compression on input.
-    Formally, when an operator class's
-    `equalimage` function returns
-    `true`, it is safe to assume that the
-    `datum_image_eq()` C function will always agree
-    with the operator class's `order` function
-    (provided that the same collation OID is passed to both the
-    `equalimage` and `order`
-    functions).
+    映像相等*幾乎*與單純的位元相等是
+    相同的條件。兩者有一個細微的差異：在
+    為 varlena 資料型別建立索引時，兩個
+    映像相等之 datum 的磁碟上表示法，可能因為
+    輸入時 TOAST 壓縮的套用不一致而不是位元相等的。
+    正式地說，當某個運算子類別的
+    `equalimage` 函式傳回
+    `true` 時，就可以安全地假設
+    `datum_image_eq()` C 函式的結果永遠會
+    與該運算子類別的 `order` 函式一致
+    （前提是傳給
+    `equalimage` 與 `order`
+    函式的是相同的定序 OID）。
 
-    The core code is fundamentally unable to deduce anything about
-    the “equality implies image equality” status of an
-    operator class within a multiple-data-type family based on
-    details from other operator classes in the same family. Also, it
-    is not sensible for an operator family to register a cross-type
-    `equalimage` function, and attempting to do so
-    will result in an error. This is because “equality implies
-    image equality” status does not just depend on
-    sorting/equality semantics, which are more or less defined at the
-    operator family level. In general, the semantics that one
-    particular data type implements must be considered separately.
+    核心程式碼基本上無法根據同一家族中其他運算子類別的
+    細節，推導出多資料型別家族內某個運算子類別
+    「相等即表示映像相等」的狀態。此外，
+    運算子家族登錄跨型別的
+    `equalimage` 函式是沒有意義的，嘗試這麼做
+    會導致錯誤。這是因為「相等即表示
+    映像相等」的狀態不只取決於
+    排序／相等語意，而這些語意或多或少是在
+    運算子家族層級定義的。一般而言，某個
+    特定資料型別所實作的語意，必須個別考量。
 
-    The convention followed by the operator classes included with the
-    core PostgreSQL distribution is to
-    register a stock, generic `equalimage`
-    function. Most operator classes register
-    `btequalimage()`, which indicates that
-    deduplication is safe unconditionally. Operator classes for
-    collatable data types such as `text` register
-    `btvarstrequalimage()`, which indicates that
-    deduplication is safe with deterministic collations. Best
-    practice for third-party extensions is to register their own
-    custom function to retain control.
+    核心 PostgreSQL 發行版所附運算子類別
+    遵循的慣例，是
+    登錄一個現成的通用 `equalimage`
+    函式。大多數運算子類別都登錄
+    `btequalimage()`，表示
+    去重複無條件是安全的。可定序資料型別
+    （例如 `text`）的運算子類別則登錄
+    `btvarstrequalimage()`，表示
+    在使用決定性定序時去重複是安全的。對第三方擴充功能而言，
+    最佳做法是登錄自己的
+    自訂函式，以保有控制權。
 
 `options`
-:   Optionally, a B-tree operator family may provide
-    `options` (“operator class specific
-    options”) support functions, registered under support
-    function number 5. These functions define a set of user-visible
-    parameters that control operator class behavior.
+:   B-tree 運算子家族可以選擇性地提供
+    `options`（「運算子類別專屬
+    選項」）支援函式，以支援
+    函式編號 5 登錄。這些函式定義一組使用者可見的
+    參數，用來控制運算子類別的行為。
 
-    An `options` support function must have the
-    signature
+    `options` 支援函式必須具有以下
+    簽章
 
     ```
 
     options(relopts local_relopts *) returns void
     ```
 
-    The function is passed a pointer to a `local_relopts`
-    struct, which needs to be filled with a set of operator class
-    specific options. The options can be accessed from other support
-    functions using the `PG_HAS_OPCLASS_OPTIONS()` and
-    `PG_GET_OPCLASS_OPTIONS()` macros.
+    此函式會收到一個指向 `local_relopts`
+    結構的指標，該結構需要填入一組運算子類別
+    專屬的選項。其他支援函式可以使用
+    `PG_HAS_OPCLASS_OPTIONS()` 與
+    `PG_GET_OPCLASS_OPTIONS()` 巨集存取這些選項。
 
-    Currently, no B-Tree operator class has an `options`
-    support function. B-tree doesn't allow flexible representation of keys
-    like GiST, SP-GiST, GIN and BRIN do. So, `options`
-    probably doesn't have much application in the current B-tree index
-    access method. Nevertheless, this support function was added to B-tree
-    for uniformity, and will probably find uses during further
-    evolution of B-tree in PostgreSQL.
+    目前，沒有任何 B-Tree 運算子類別具有 `options`
+    支援函式。B-tree 不像 GiST、SP-GiST、GIN 與 BRIN 那樣，
+    允許彈性的鍵值表示法。因此，`options`
+    在目前的 B-tree 索引
+    存取方法中，可能沒有太多用途。儘管如此，為了一致性，B-tree 仍加入了
+    這個支援函式，而且在 PostgreSQL 中 B-tree 的後續
+    演進過程中，它可能會找到用途。
 
 `skipsupport`
-:   Optionally, a btree operator family may provide a *skip
-    support* function, registered under support function number 6.
-    These functions give the B-tree code a way to iterate through every
-    possible value that can be represented by an operator class's underlying
-    input type, in key space order. This is used by the core code when it
-    applies the skip scan optimization. The APIs involved in this are
-    defined in `src/include/utils/skipsupport.h`.
+:   btree 運算子家族可以選擇性地提供*跳躍
+    支援*（skip support）函式，以支援函式編號 6 登錄。
+    這些函式讓 B-tree 程式碼能夠依鍵空間順序，逐一走訪
+    運算子類別之底層輸入型別所能表示的每一個
+    可能值。核心程式碼在
+    套用跳躍掃描（skip scan）最佳化時會使用它。相關的
+    API 定義在 `src/include/utils/skipsupport.h` 中。
 
-    Operator classes that do not provide a skip support function are still
-    eligible to use skip scan. The core code can still use its fallback
-    strategy, though that might be suboptimal for some discrete types. It
-    usually doesn't make sense (and may not even be feasible) for operator
-    classes on continuous types to provide a skip support function.
+    未提供跳躍支援函式的運算子類別，仍然
+    可以使用跳躍掃描。核心程式碼仍可使用其備援
+    策略，不過對某些離散型別而言，這可能不是最佳的。對於
+    連續型別上的運算子類別，提供跳躍支援函式
+    通常沒有意義（甚至可能根本不可行）。
 
-    It is not sensible for an operator family to register a cross-type
-    `skipsupport` function, and attempting to do so will
-    result in an error. This is because determining the next indexable value
-    must happen by incrementing a value copied from an index tuple. The
-    values generated must all be of the same underlying data type (the
-    “skipped” index column's opclass input type).
+    運算子家族登錄跨型別的
+    `skipsupport` 函式是沒有意義的，嘗試這麼做會
+    導致錯誤。這是因為判斷下一個可索引的值
+    必須透過遞增從索引 tuple 複製而來的值來進行。所
+    產生的值必須全都屬於相同的底層資料型別（也就是
+    「被跳過」之索引欄位的運算子類別輸入型別）。
 
 <a id="BTREE-IMPLEMENTATION"></a>
 
-### 65.1.4. Implementation [#](#BTREE-IMPLEMENTATION)
+### 65.1.4. 實作 [#](#BTREE-IMPLEMENTATION)
 
-This section covers B-Tree index implementation details that may be
-of use to advanced users. See
-`src/backend/access/nbtree/README` in the source
-distribution for a much more detailed, internals-focused description
-of the B-Tree implementation.
+本節涵蓋 B-Tree 索引的實作細節，這些細節可能
+對進階使用者有用。關於 B-Tree 實作更詳細、
+著重於內部機制的說明，請參閱原始碼發行版中的
+`src/backend/access/nbtree/README`。
 
 <a id="BTREE-STRUCTURE"></a>
 
-#### 65.1.4.1. B-Tree Structure [#](#BTREE-STRUCTURE)
+#### 65.1.4.1. B-Tree 結構 [#](#BTREE-STRUCTURE)
 
-PostgreSQL B-Tree indexes are
-multi-level tree structures, where each level of the tree can be
-used as a doubly-linked list of pages. A single metapage is stored
-in a fixed position at the start of the first segment file of the
-index. All other pages are either leaf pages or internal pages.
-Leaf pages are the pages on the lowest level of the tree. All
-other levels consist of internal pages. Each leaf page contains
-tuples that point to table rows. Each internal page contains
-tuples that point to the next level down in the tree. Typically,
-over 99% of all pages are leaf pages. Both internal pages and leaf
-pages use the standard page format described in [Section 66.6](../storage/storage-page-layout.md).
+PostgreSQL 的 B-Tree 索引是
+多層的樹狀結構，樹的每一層都可以
+當作頁面的雙向鏈結串列使用。單一的 metapage 儲存
+在索引第一個區段檔案開頭的固定位置。
+其他所有頁面不是葉頁面，就是內部頁面。
+葉頁面是位於樹最底層的頁面。其他所有
+層級都由內部頁面組成。每個葉頁面包含
+指向資料表資料列的 tuple。每個內部頁面包含
+指向樹中下一層的 tuple。通常，
+所有頁面中超過 99% 是葉頁面。內部頁面與葉
+頁面都使用[第 66.6 節](../storage/storage-page-layout.md)所述的標準頁面格式。
 
-New leaf pages are added to a B-Tree index when an existing leaf
-page cannot fit an incoming tuple. A *page
-split* operation makes room for items that originally
-belonged on the overflowing page by moving a portion of the items
-to a new page. Page splits must also insert a new
-*downlink* to the new page in the parent page,
-which may cause the parent to split in turn. Page splits
-“cascade upwards” in a recursive fashion. When the
-root page finally cannot fit a new downlink, a *root page
-split* operation takes place. This adds a new level to
-the tree structure by creating a new root page that is one level
-above the original root page.
+當現有的葉頁面無法容納新進的 tuple 時，
+就會在 B-Tree 索引中加入新的葉頁面。*頁面
+分裂*操作會將一部分項目移到新頁面，
+為原本屬於溢出頁面的項目騰出空間。頁面分裂
+也必須在父頁面中插入一個指向新頁面的新
+*下行連結*（downlink），
+這可能進而導致父頁面也分裂。頁面分裂
+會以遞迴的方式「向上連鎖」。當
+根頁面最終無法容納新的下行連結時，就會進行*根頁面
+分裂*操作。這會建立一個比原本根頁面
+高一層的新根頁面，從而為
+樹狀結構增加一個新層級。
 
 <a id="BTREE-DELETION"></a>
 
-#### 65.1.4.2. Bottom-up Index Deletion [#](#BTREE-DELETION)
+#### 65.1.4.2. 由下而上索引刪除 [#](#BTREE-DELETION)
 
-B-Tree indexes are not directly aware that under MVCC, there might
-be multiple extant versions of the same logical table row; to an
-index, each tuple is an independent object that needs its own index
-entry. “Version churn” tuples may sometimes
-accumulate and adversely affect query latency and throughput. This
-typically occurs with `UPDATE`-heavy workloads
-where most individual updates cannot apply the
-[HOT optimization.](../storage/storage-hot.md)
-Changing the value of only
-one column covered by one index during an `UPDATE`
-*always* necessitates a new set of index tuples
-— one for *each and every* index on the
-table. Note in particular that this includes indexes that were not
-“logically modified” by the `UPDATE`.
-All indexes will need a successor physical index tuple that points
-to the latest version in the table. Each new tuple within each
-index will generally need to coexist with the original
-“updated” tuple for a short period of time (typically
-until shortly after the `UPDATE` transaction
-commits).
+B-Tree 索引並不會直接察覺到，在 MVCC 之下，同一個邏輯資料表資料列
+可能有多個現存版本；對
+索引而言，每個 tuple 都是需要自己的索引
+項目的獨立物件。「版本變動」（version churn）tuple 有時
+可能會累積，並對查詢延遲與吞吐量造成不利影響。這
+通常發生在 `UPDATE` 頻繁的工作負載中，
+其中大多數個別更新都無法套用
+[HOT 最佳化。](../storage/storage-hot.md)
+在 `UPDATE` 期間，只要變更
+某個索引所涵蓋的一個欄位的值，就*一定*
+需要一組新的索引 tuple
+——資料表上的*每一個*索引
+各一個。請特別注意，這也包括
+未被該 `UPDATE`「邏輯修改」的索引。
+所有索引都需要一個指向
+資料表中最新版本的後繼實體索引 tuple。每個
+索引中的每個新 tuple，通常都需要與原本
+「已更新」的 tuple 共存一小段時間（通常
+直到 `UPDATE` 交易
+提交後不久為止）。
 
-B-Tree indexes incrementally delete version churn index tuples by
-performing *bottom-up index deletion* passes.
-Each deletion pass is triggered in reaction to an anticipated
-“version churn page split”. This only happens with
-indexes that are not logically modified by
-`UPDATE` statements, where concentrated build up
-of obsolete versions in particular pages would occur otherwise. A
-page split will usually be avoided, though it's possible that
-certain implementation-level heuristics will fail to identify and
-delete even one garbage index tuple (in which case a page split or
-deduplication pass resolves the issue of an incoming new tuple not
-fitting on a leaf page). The worst-case number of versions that
-any index scan must traverse (for any single logical row) is an
-important contributor to overall system responsiveness and
-throughput. A bottom-up index deletion pass targets suspected
-garbage tuples in a single leaf page based on
-*qualitative* distinctions involving logical
-rows and versions. This contrasts with the “top-down”
-index cleanup performed by autovacuum workers, which is triggered
-when certain *quantitative* table-level
-thresholds are exceeded (see [Section 24.1.6](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)).
+B-Tree 索引會藉由執行*由下而上索引刪除*作業，
+逐步刪除版本變動的索引 tuple。
+每次刪除作業，都是為了因應預期中的
+「版本變動頁面分裂」而觸發。這只會發生在
+未被 `UPDATE` 陳述式邏輯修改的
+索引上，否則過時版本就會在特定頁面中
+集中累積。通常可以
+避免頁面分裂，不過某些實作層級的啟發式方法，
+也可能連一個垃圾索引 tuple 都無法識別並
+刪除（在這種情況下，由頁面分裂或
+去重複作業來解決新進 tuple 無法
+放入葉頁面的問題）。任何索引掃描（對任何單一邏輯資料列）
+在最壞情況下必須走訪的版本數，
+是影響整體系統回應能力與
+吞吐量的重要因素。由下而上索引刪除作業會根據
+涉及邏輯資料列與版本的*質性*差異，
+鎖定單一葉頁面中疑似
+垃圾的 tuple。這與 autovacuum 背景工作程序所執行的「由上而下」
+索引清理形成對比，後者是在
+超過某些*量化*的資料表層級
+門檻時觸發（請參閱[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)）。
 
-### Note
+### 注意
 
-Not all deletion operations that are performed within B-Tree
-indexes are bottom-up deletion operations. There is a distinct
-category of index tuple deletion: *simple index tuple
-deletion*. This is a deferred maintenance operation
-that deletes index tuples that are known to be safe to delete
-(those whose item identifier's `LP_DEAD` bit is
-already set). Like bottom-up index deletion, simple index
-deletion takes place at the point that a page split is anticipated
-as a way of avoiding the split.
+並非所有在 B-Tree
+索引中執行的刪除操作都是由下而上刪除操作。另有一個獨立的
+索引 tuple 刪除類別：*簡單索引 tuple
+刪除*。這是一種延後執行的維護操作，
+它會刪除已知可以安全刪除的索引 tuple
+（也就是項目識別碼的 `LP_DEAD` 位元
+已經設定的那些）。與由下而上索引刪除一樣，簡單索引
+刪除也是在預期會發生頁面分裂的時間點進行，
+作為避免分裂的一種方式。
 
-Simple deletion is opportunistic in the sense that it can only
-take place when recent index scans set the
-`LP_DEAD` bits of affected items in passing.
-Prior to PostgreSQL 14, the only
-category of B-Tree deletion was simple deletion. The main
-differences between it and bottom-up deletion are that only the
-former is opportunistically driven by the activity of passing
-index scans, while only the latter specifically targets version
-churn from `UPDATE`s that do not logically modify
-indexed columns.
+簡單刪除是伺機而動的，意思是它只能
+在最近的索引掃描順帶設定了
+受影響項目的 `LP_DEAD` 位元時才會進行。
+在 PostgreSQL 14 之前，唯一的
+B-Tree 刪除類別就是簡單刪除。它與
+由下而上刪除的主要差異在於：只有
+前者是由經過的索引掃描活動伺機驅動，
+而只有後者專門鎖定由未邏輯修改
+索引欄位之 `UPDATE` 所造成的版本
+變動。
 
-Bottom-up index deletion performs the vast majority of all garbage
-index tuple cleanup for particular indexes with certain workloads.
-This is expected with any B-Tree index that is subject to
-significant version churn from `UPDATE`s that
-rarely or never logically modify the columns that the index covers.
-The average and worst-case number of versions per logical row can
-be kept low purely through targeted incremental deletion passes.
-It's quite possible that the on-disk size of certain indexes will
-never increase by even one single page/block despite
-*constant* version churn from
-`UPDATE`s. Even then, an exhaustive “clean
-sweep” by a `VACUUM` operation (typically
-run in an autovacuum worker process) will eventually be required as
-a part of *collective* cleanup of the table and
-each of its indexes.
+對於特定工作負載下的特定索引，由下而上索引刪除負責了
+絕大部分的垃圾索引 tuple 清理工作。
+任何 B-Tree 索引，只要承受來自
+很少或從不邏輯修改索引所涵蓋欄位之 `UPDATE` 的
+大量版本變動，都預期會是如此。
+單純透過有針對性的漸進式刪除作業，就可以
+將每個邏輯資料列的平均與最壞情況版本數維持在低水準。
+即使 `UPDATE` 造成*持續不斷*的版本變動，
+某些索引的磁碟上大小也很有可能
+連一個頁面／區塊都不會增加。即便如此，最終仍然需要由
+`VACUUM` 操作（通常
+在 autovacuum 背景工作程序中執行）進行徹底的「全面
+清掃」，作為對資料表及
+其每個索引進行*集體*清理的一部分。
 
-Unlike `VACUUM`, bottom-up index deletion does not
-provide any strong guarantees about how old the oldest garbage
-index tuple may be. No index can be permitted to retain
-“floating garbage” index tuples that became dead prior
-to a conservative cutoff point shared by the table and all of its
-indexes collectively. This fundamental table-level invariant makes
-it safe to recycle table TIDs. This is how it
-is possible for distinct logical rows to reuse the same table
-TID over time (though this can never happen with
-two logical rows whose lifetimes span the same
-`VACUUM` cycle).
+與 `VACUUM` 不同，由下而上索引刪除
+對於最舊的垃圾索引 tuple 可能有多舊，
+並不提供任何強力的保證。任何索引都不能
+保留在資料表及其所有
+索引共同使用之保守截止點之前就已失效的
+「浮動垃圾」索引 tuple。這項基本的資料表層級不變條件，
+使得回收資料表 TID 是安全的。這就是
+不同的邏輯資料列能夠隨著時間重複使用同一個資料表
+TID 的方式（不過對於生命週期跨越同一個
+`VACUUM` 週期的
+兩個邏輯資料列，這種情況永遠不會發生）。
 
 <a id="BTREE-DEDUPLICATION"></a>
 
-#### 65.1.4.3. Deduplication [#](#BTREE-DEDUPLICATION)
+#### 65.1.4.3. 去重複 [#](#BTREE-DEDUPLICATION)
 
-A duplicate is a leaf page tuple (a tuple that points to a table
-row) where *all* indexed key columns have values
-that match corresponding column values from at least one other leaf
-page tuple in the same index. Duplicate tuples are quite common in
-practice. B-Tree indexes can use a special, space-efficient
-representation for duplicates when an optional technique is
-enabled: *deduplication*.
+重複項目是一個葉頁面 tuple（指向資料表
+資料列的 tuple），其*所有*索引鍵欄位的值，
+都與同一索引中至少一個其他葉
+頁面 tuple 的相對應欄位值相符。重複的 tuple 在
+實務上相當常見。啟用一項選用技術時，
+B-Tree 索引可以對重複項目使用一種特殊且節省空間的
+表示法：*去重複*（deduplication）。
 
-Deduplication works by periodically merging groups of duplicate
-tuples together, forming a single *posting list* tuple for each
-group. The column key value(s) only appear once in this
-representation. This is followed by a sorted array of
-TIDs that point to rows in the table. This
-significantly reduces the storage size of indexes where each value
-(or each distinct combination of column values) appears several
-times on average. The latency of queries can be reduced
-significantly. Overall query throughput may increase
-significantly. The overhead of routine index vacuuming may also be
-reduced significantly.
+去重複的運作方式，是定期將多組重複的
+tuple 合併在一起，為每一組形成單一的 *posting list* tuple。
+在這種表示法中，欄位鍵值只會出現一次。
+其後接著一個經過排序、指向資料表中資料列的
+TID 陣列。對於每個值
+（或每種相異的欄位值組合）平均出現數次的索引，
+這可以大幅減少其儲存大小。查詢延遲可以
+大幅降低。整體查詢吞吐量可能
+大幅提升。例行索引清理的額外負擔也可能
+大幅減少。
 
-### Note
+### 注意
 
-B-Tree deduplication is just as effective with
-“duplicates” that contain a NULL value, even though
-NULL values are never equal to each other according to the
-`=` member of any B-Tree operator class. As far
-as any part of the implementation that understands the on-disk
-B-Tree structure is concerned, NULL is just another value from the
-domain of indexed values.
+即使根據任何 B-Tree 運算子類別的
+`=` 成員，NULL 值永遠不會彼此相等，
+B-Tree 去重複對於包含 NULL 值的「重複項目」
+同樣有效。就實作中任何理解磁碟上
+B-Tree 結構的部分而言，NULL 只是
+索引值值域中的另一個值。
 
-The deduplication process occurs lazily, when a new item is
-inserted that cannot fit on an existing leaf page, though only when
-index tuple deletion could not free sufficient space for the new
-item (typically deletion is briefly considered and then skipped
-over). Unlike GIN posting list tuples, B-Tree posting list tuples
-do not need to expand every time a new duplicate is inserted; they
-are merely an alternative physical representation of the original
-logical contents of the leaf page. This design prioritizes
-consistent performance with mixed read-write workloads. Most
-client applications will at least see a moderate performance
-benefit from using deduplication. Deduplication is enabled by
-default.
+去重複程序是延遲進行的：當插入一個
+無法放入現有葉頁面的新項目時才會發生，而且只有在
+索引 tuple 刪除無法為新項目釋出足夠空間時才會進行
+（通常會先短暫考慮刪除，然後就略過）。與 GIN 的 posting list tuple 不同，B-Tree 的 posting list tuple
+不需要在每次插入新的重複項目時擴充；它們
+只是葉頁面原有邏輯內容的另一種
+實體表示法。這項設計優先考量
+混合讀寫工作負載下的穩定效能。大多數
+用戶端應用程式至少都會從使用去重複中得到適度的效能
+好處。去重複預設為
+啟用。
 
-`CREATE INDEX` and `REINDEX`
-apply deduplication to create posting list tuples, though the
-strategy they use is slightly different. Each group of duplicate
-ordinary tuples encountered in the sorted input taken from the
-table is merged into a posting list tuple
-*before* being added to the current pending leaf
-page. Individual posting list tuples are packed with as many
-TIDs as possible. Leaf pages are written out in
-the usual way, without any separate deduplication pass. This
-strategy is well-suited to `CREATE INDEX` and
-`REINDEX` because they are once-off batch
-operations.
+`CREATE INDEX` 與 `REINDEX`
+會套用去重複來建立 posting list tuple，不過它們
+使用的策略略有不同。從資料表取得的已排序輸入中，
+遇到的每一組重複的
+一般 tuple，都會在加入目前待寫入的葉
+頁面*之前*，先合併成一個 posting list tuple。
+每個 posting list tuple 都會盡可能裝入最多的
+TID。葉頁面會以
+一般方式寫出，不需要任何個別的去重複作業。這項
+策略非常適合 `CREATE INDEX` 與
+`REINDEX`，因為它們是一次性的批次
+操作。
 
-Write-heavy workloads that don't benefit from deduplication due to
-having few or no duplicate values in indexes will incur a small,
-fixed performance penalty (unless deduplication is explicitly
-disabled). The `deduplicate_items` storage
-parameter can be used to disable deduplication within individual
-indexes. There is never any performance penalty with read-only
-workloads, since reading posting list tuples is at least as
-efficient as reading the standard tuple representation. Disabling
-deduplication isn't usually helpful.
+由於索引中重複值很少或沒有重複值，而無法從去重複中受益的
+大量寫入工作負載，將會承受少量、
+固定的效能損失（除非明確
+停用去重複）。`deduplicate_items` 儲存
+參數可以用來在個別索引中停用去重複。
+唯讀工作負載永遠不會有任何效能損失，
+因為讀取 posting list tuple 至少與
+讀取標準 tuple 表示法一樣有效率。停用
+去重複通常沒有幫助。
 
-It is sometimes possible for unique indexes (as well as unique
-constraints) to use deduplication. This allows leaf pages to
-temporarily “absorb” extra version churn duplicates.
-Deduplication in unique indexes augments bottom-up index deletion,
-especially in cases where a long-running transaction holds a
-snapshot that blocks garbage collection. The goal is to buy time
-for the bottom-up index deletion strategy to become effective
-again. Delaying page splits until a single long-running
-transaction naturally goes away can allow a bottom-up deletion pass
-to succeed where an earlier deletion pass failed.
+唯一值索引（以及唯一
+限制條件）有時可以使用去重複。這讓葉頁面能夠
+暫時「吸收」額外的版本變動重複項目。
+唯一值索引中的去重複可以增強由下而上索引刪除，
+特別是在長時間執行的交易持有
+阻擋垃圾回收之快照的情況下。其目標是為
+由下而上索引刪除策略爭取時間，讓它再次
+發揮效果。將頁面分裂延後到單一長時間執行的
+交易自然結束，可以讓由下而上刪除作業
+在先前的刪除作業失敗之處成功。
 
-### Tip
+### 提示
 
-A special heuristic is applied to determine whether a
-deduplication pass in a unique index should take place. It can
-often skip straight to splitting a leaf page, avoiding a
-performance penalty from wasting cycles on unhelpful deduplication
-passes. If you're concerned about the overhead of deduplication,
-consider setting `deduplicate_items = off`
-selectively. Leaving deduplication enabled in unique indexes has
-little downside.
+系統會套用一種特殊的啟發式方法，來判斷是否應該
+在唯一值索引中進行去重複作業。它
+通常可以直接跳到分裂葉頁面，避免
+在沒有幫助的去重複作業上浪費運算週期而造成的效能損失。
+如果你擔心去重複的額外負擔，
+可以考慮選擇性地設定 `deduplicate_items = off`。
+在唯一值索引中保持啟用去重複，
+幾乎沒有什麼缺點。
 
-Deduplication cannot be used in all cases due to
-implementation-level restrictions. Deduplication safety is
-determined when `CREATE INDEX` or
-`REINDEX` is run.
+由於實作層級的限制，並非所有情況都能使用去重複。
+去重複是否安全，是在
+執行 `CREATE INDEX` 或
+`REINDEX` 時判定的。
 
-Note that deduplication is deemed unsafe and cannot be used in the
-following cases involving semantically significant differences
-among equal datums:
+請注意，在下列涉及相等 datum 之間
+具有語意上重要差異的情況中，去重複會被認定為不安全而無法使用：
 
-* `text`, `varchar`, and `char`
-  cannot use deduplication when a
-  *nondeterministic* collation is used. Case
-  and accent differences must be preserved among equal datums.
-* `numeric` cannot use deduplication. Numeric display
-  scale must be preserved among equal datums.
-* `jsonb` cannot use deduplication, since the
-  `jsonb` B-Tree operator class uses
-  `numeric` internally.
-* `float4` and `float8` cannot use
-  deduplication. These types have distinct representations for
-  `-0` and `0`, which are
-  nevertheless considered equal. This difference must be
-  preserved.
+* 使用
+  *非決定性*定序時，`text`、`varchar` 與 `char`
+  無法使用去重複。相等的 datum 之間
+  必須保留大小寫與重音的差異。
+* `numeric` 無法使用去重複。相等的 datum 之間
+  必須保留數值的顯示小數位數（display scale）。
+* `jsonb` 無法使用去重複，因為
+  `jsonb` 的 B-Tree 運算子類別在內部使用
+  `numeric`。
+* `float4` 與 `float8` 無法使用
+  去重複。這些型別對
+  `-0` 與 `0` 有不同的表示法，但它們
+  仍被視為相等。這項差異必須
+  保留。
 
-There is one further implementation-level restriction that may be
-lifted in a future version of
-PostgreSQL:
+另有一項實作層級的限制，可能會
+在未來版本的
+PostgreSQL 中解除：
 
-* Container types (such as composite types, arrays, or range
-  types) cannot use deduplication.
+* 容器型別（例如複合型別、陣列或範圍
+  型別）無法使用去重複。
 
-There is one further implementation-level restriction that applies
-regardless of the operator class or collation used:
+另有一項實作層級的限制，無論
+使用哪一種運算子類別或定序都適用：
 
-* `INCLUDE` indexes can never use deduplication.
+* `INCLUDE` 索引永遠無法使用去重複。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/btree.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/btree.html)（原文版本：18.6；核對日期：2026-10-12）
