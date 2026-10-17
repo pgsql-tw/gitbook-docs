@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：279 頁。
+待譯頁面：278 頁。
 
 ## 根目錄
 
@@ -383,7 +383,7 @@
 - [ ] `internals/indextypes/spgist.md` — 65.3. SP-GiST Indexes #
 - [x] `internals/nls/README.md` — 第 56 章 母語支援
 - [ ] `internals/nls/nls-programmer.md` — 56.2. For the Programmer #
-- [ ] `internals/nls/nls-translator.md` — 56.1. For the Translator #
+- [x] `internals/nls/nls-translator.md` — 56.1. 給翻譯者 #
 - [x] `internals/overview/README.md` — 第 51 章 PostgreSQL 內部機制概觀
 - [x] `internals/overview/connect-estab.md` — 51.2. 如何建立連線 #
 - [x] `internals/overview/executor.md` — 51.6. 執行器 #

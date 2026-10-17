@@ -955,7 +955,7 @@
     * [55.3. 錯誤訊息風格指南 #](internals/source/error-style-guide.md)
     * [55.4. 其他程式碼撰寫慣例 #](internals/source/source-conventions.md)
   * [第 56 章 母語支援](internals/nls/README.md)
-    * [56.1. For the Translator #](internals/nls/nls-translator.md)
+    * [56.1. 給翻譯者 #](internals/nls/nls-translator.md)
     * [56.2. For the Programmer #](internals/nls/nls-programmer.md)
   * [第 57 章 撰寫程序語言處理常式](internals/plhandler/README.md)
   * [Chapter 58. Writing a Foreign Data Wrapper](internals/fdwhandler/README.md)
