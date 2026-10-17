@@ -864,7 +864,7 @@
     * [52.28. `pg_init_privs` #](internals/catalogs/catalog-pg-init-privs.md)
     * [52.29. `pg_language` #](internals/catalogs/catalog-pg-language.md)
     * [52.30. pg_largeobject #](internals/catalogs/catalog-pg-largeobject.md)
-    * [52.31. pg_largeobject_metadata #](internals/catalogs/catalog-pg-largeobject-metadata.md)
+    * [52.31. `pg_largeobject_metadata` #](internals/catalogs/catalog-pg-largeobject-metadata.md)
     * [52.32. pg_namespace #](internals/catalogs/catalog-pg-namespace.md)
     * [52.33. pg_opclass #](internals/catalogs/catalog-pg-opclass.md)
     * [52.34. `pg_operator` #](internals/catalogs/catalog-pg-operator.md)
