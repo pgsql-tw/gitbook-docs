@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：171 頁。
+待譯頁面：170 頁。
 
 ## 根目錄
 
@@ -280,7 +280,7 @@
 - [x] `internals/backup-manifest-format/backup-manifest-toplevel.md` — 70.1. 備份清單頂層物件 #
 - [x] `internals/backup-manifest-format/backup-manifest-wal-ranges.md` — 70.3. 備份清單的 WAL 範圍物件
 - [x] `internals/bki/README.md` — 第 68 章 系統目錄宣告與初始內容
-- [ ] `internals/bki/bki-commands.md` — 68.4. BKI Commands #
+- [x] `internals/bki/bki-commands.md` — 68.4. BKI 命令 #
 - [x] `internals/bki/bki-example.md` — 68.6. BKI 範例
 - [x] `internals/bki/bki-format.md` — 68.3. BKI 檔案格式
 - [x] `internals/bki/bki-structure.md` — 68.5. 啟動初始化 BKI 檔案的結構

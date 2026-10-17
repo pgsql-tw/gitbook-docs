@@ -1,87 +1,74 @@
-## 68.4. BKI Commands [#](#BKI-COMMANDS)
+<a id="BKI-COMMANDS"></a>
+
+## 68.4. BKI 命令 [#](#BKI-COMMANDS)
 
 `create` *`tablename`* *`tableoid`* [`bootstrap`] [`shared_relation`] [`rowtype_oid` *`oid`*] (*`name1`* = *`type1`* [`FORCE NOT NULL` | `FORCE NULL` ] [, *`name2`* = *`type2`* [`FORCE NOT NULL` | `FORCE NULL` ], ...])
-:   Create a table named *`tablename`*, and having the OID
-    *`tableoid`*,
-    with the columns given in parentheses.
+:   建立名為 *`tablename`* 的資料表，其 OID 為
+    *`tableoid`*，
+    並具有括號中所列的欄位。
 
-    The following column types are supported directly by
-    `bootstrap.c`: `bool`,
-    `bytea`, `char` (1 byte),
-    `name`, `int2`,
-    `int4`, `regproc`, `regclass`,
-    `regtype`, `text`,
-    `oid`, `tid`, `xid`,
-    `cid`, `int2vector`, `oidvector`,
-    `_int4` (array), `_text` (array),
-    `_oid` (array), `_char` (array),
-    `_aclitem` (array). Although it is possible to create
-    tables containing columns of other types, this cannot be done until
-    after `pg_type` has been created and filled with
-    appropriate entries. (That effectively means that only these
-    column types can be used in bootstrap catalogs, but non-bootstrap
-    catalogs can contain any built-in type.)
+    `bootstrap.c` 直接支援下列欄位型別：`bool`、
+    `bytea`、`char`（1 位元組）、
+    `name`、`int2`、
+    `int4`、`regproc`、`regclass`、
+    `regtype`、`text`、
+    `oid`、`tid`、`xid`、
+    `cid`、`int2vector`、`oidvector`、
+    `_int4`（陣列）、`_text`（陣列）、
+    `_oid`（陣列）、`_char`（陣列）、
+    `_aclitem`（陣列）。雖然可以建立含有其他型別欄位的資料表，
+    但必須等到 `pg_type` 已建立並填入適當的項目之後才能這麼做。
+    （這實際上表示初始建置（bootstrap）目錄中只能使用這些欄位型別，
+    而非初始建置目錄則可以包含任何內建型別。）
 
-    When `bootstrap` is specified,
-    the table will only be created on disk; nothing is entered into
-    `pg_class`,
-    `pg_attribute`, etc., for it. Thus the
-    table will not be accessible by ordinary SQL operations until
-    such entries are made the hard way (with `insert`
-    commands). This option is used for creating
-    `pg_class` etc. themselves.
+    指定 `bootstrap` 時，資料表只會建立在磁碟上；
+    不會為它在 `pg_class`、`pg_attribute` 等目錄中寫入任何內容。
+    因此，在以費力的方式（使用 `insert` 命令）建立這些項目之前，
+    一般的 SQL 操作將無法存取該資料表。此選項用於建立
+    `pg_class` 等目錄本身。
 
-    The table is created as shared if `shared_relation` is
-    specified.
-    The table's row type OID (`pg_type` OID) can optionally
-    be specified via the `rowtype_oid` clause; if not specified,
-    an OID is automatically generated for it. (The `rowtype_oid`
-    clause is useless if `bootstrap` is specified, but it can be
-    provided anyway for documentation.)
+    若指定了 `shared_relation`，資料表會以共享方式建立。
+    資料表的資料列型別 OID（`pg_type` OID）可以選擇性地
+    透過 `rowtype_oid` 子句指定；若未指定，會自動為它產生一個 OID。
+    （若指定了 `bootstrap`，`rowtype_oid` 子句就沒有作用，
+    但仍可為了文件記錄而提供。）
 
 `open` *`tablename`*
-:   Open the table named
+:   開啟名為
     *`tablename`*
-    for insertion of data. Any currently open table is closed.
+    的資料表以插入資料。任何目前已開啟的資料表都會被關閉。
 
 `close` *`tablename`*
-:   Close the open table. The name of the table must be given as a
-    cross-check.
+:   關閉已開啟的資料表。必須提供資料表名稱作為交叉核對。
 
 `insert` `(` [*`oid_value`*] *`value1`* *`value2`* ... `)`
-:   Insert a new row into the open table using *`value1`*, *`value2`*, etc., for its column
-    values.
+:   使用 *`value1`*、*`value2`* 等作為欄位值，
+    在已開啟的資料表中插入一筆新的資料列。
 
-    NULL values can be specified using the special key word
-    `_null_`. Values that do not look like
-    identifiers or digit strings must be single-quoted.
-    (To include a single quote in a value, write it twice.
-    Escape-string-style backslash escapes are allowed in the string, too.)
+    NULL 值可以使用特殊關鍵字 `_null_` 指定。
+    看起來不像識別字或數字字串的值必須以單引號括住。
+    （要在值中包含單引號，請將它寫兩次。
+    字串中也允許使用跳脫字串風格的反斜線跳脫。）
 
 `declare` [`unique`] `index` *`indexname`* *`indexoid`* `on` *`tablename`* `using` *`amname`* `(` *`opclass1`* *`name1`* [, ...] `)`
-:   Create an index named *`indexname`*, having OID
-    *`indexoid`*,
-    on the table named
-    *`tablename`*, using the
-    *`amname`* access
-    method. The fields to index are called *`name1`*, *`name2`* etc., and the operator
-    classes to use are *`opclass1`*, *`opclass2`* etc., respectively.
-    The index file is created and appropriate catalog entries are
-    made for it, but the index contents are not initialized by this command.
+:   在名為 *`tablename`* 的資料表上，使用
+    *`amname`* 存取方法，建立名為 *`indexname`*、OID 為
+    *`indexoid`* 的索引。要建立索引的欄位稱為 *`name1`*、*`name2`* 等，
+    所使用的運算子類別則分別為 *`opclass1`*、*`opclass2`* 等。
+    此命令會建立索引檔並為它建立適當的目錄項目，但不會初始化索引內容。
 
 `declare toast` *`toasttableoid`* *`toastindexoid`* `on` *`tablename`*
-:   Create a TOAST table for the table named
-    *`tablename`*.
-    The TOAST table is assigned OID
-    *`toasttableoid`*
-    and its index is assigned OID
-    *`toastindexoid`*.
-    As with `declare index`, filling of the index
-    is postponed.
+:   為名為
+    *`tablename`*
+    的資料表建立 TOAST 資料表。TOAST 資料表被指派的 OID 為
+    *`toasttableoid`*，
+    其索引被指派的 OID 為
+    *`toastindexoid`*。
+    與 `declare index` 相同，索引的填入會延後進行。
 
 `build indices`
-:   Fill in the indices that have previously been declared.
+:   填入先前已宣告的索引。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki-commands.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/bki-commands.html)（原文版本：18.6；核對日期：2026-10-17）
