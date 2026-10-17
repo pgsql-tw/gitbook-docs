@@ -1,133 +1,131 @@
+<a id="CATALOG-PG-AUTHID"></a>
+
 ## 52.8. `pg_authid` [#](#CATALOG-PG-AUTHID)
 
 <a id="id-1.10.4.10.2"></a>
 
-The catalog `pg_authid` contains information about
-database authorization identifiers (roles). A role subsumes the concepts
-of “users” and “groups”. A user is essentially just a
-role with the `rolcanlogin` flag set. Any role (with or
-without `rolcanlogin`) can have other roles as members; see
-[`pg_auth_members`](catalog-pg-auth-members.md).
+系統目錄 `pg_authid` 包含資料庫授權識別碼（角色）的相關資訊。
+角色涵蓋了「使用者」與「群組」的概念。使用者本質上就只是
+設定了 `rolcanlogin` 旗標的角色。任何角色（無論是否設定
+`rolcanlogin`）都可以有其他角色作為成員；請參閱
+[`pg_auth_members`](catalog-pg-auth-members.md)。
 
-Since this catalog contains passwords, it must not be publicly readable.
+由於此系統目錄包含密碼，它不得開放公開讀取。
 [`pg_roles`](../views/view-pg-roles.md)
-is a publicly readable view on
-`pg_authid` that blanks out the password field.
+是建立在 `pg_authid` 上、可公開讀取的檢視表，
+它會將密碼欄位遮蔽為空白。
 
-[Chapter 21](../../server-administration/user-manag/README.md) contains detailed information about user and
-privilege management.
+[第 21 章](../../server-administration/user-manag/README.md)包含使用者與
+權限管理的詳細資訊。
 
-Because user identities are cluster-wide,
+由於使用者身分是整個叢集通用的，
 `pg_authid`
-is shared across all databases of a cluster: there is only one
-copy of `pg_authid` per cluster, not
-one per database.
+由叢集中的所有資料庫共用：每個叢集只有一份
+`pg_authid`，而不是每個資料庫各一份。
 
 <a id="id-1.10.4.10.7"></a>
 
-**Table 52.8. `pg_authid` Columns**
+**表 52.8. `pg_authid` 欄位**
 
-<table border="1" class="table" summary="pg_authid Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.8. pg_authid 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">oid</code> <code class="type">oid</code>
 </p>
 <p>
-       Row identifier
+       資料列識別碼
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolname</code> <code class="type">name</code>
 </p>
 <p>
-       Role name
+       角色名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolsuper</code> <code class="type">bool</code>
 </p>
 <p>
-       Role has superuser privileges
+       角色具有超級使用者權限
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolinherit</code> <code class="type">bool</code>
 </p>
 <p>
-       Role automatically inherits privileges of roles it is a
-       member of
+       角色自動繼承它身為成員之各角色的權限
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolcreaterole</code> <code class="type">bool</code>
 </p>
 <p>
-       Role can create more roles
+       角色可以建立更多角色
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolcreatedb</code> <code class="type">bool</code>
 </p>
 <p>
-       Role can create databases
+       角色可以建立資料庫
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolcanlogin</code> <code class="type">bool</code>
 </p>
 <p>
-       Role can log in. That is, this role can be given as the initial
-       session authorization identifier.
+       角色可以登入。也就是說，此角色可以作為初始的工作階段
+       授權識別碼。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolreplication</code> <code class="type">bool</code>
 </p>
 <p>
-       Role is a replication role. A replication role can initiate replication
-       connections and create and drop replication slots.
+       角色是複寫角色。複寫角色可以發起複寫連線，
+       並建立及移除複寫插槽。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolbypassrls</code> <code class="type">bool</code>
 </p>
 <p>
-       Role bypasses every row-level security policy, see
-       <a class="xref" href="../../the-sql-language/ddl/ddl-rowsecurity.md">Section 5.9</a> for more information.
+       角色會略過所有資料列層級安全性政策，詳細資訊請參閱
+       <a class="xref" href="../../the-sql-language/ddl/ddl-rowsecurity.md">第 5.9 節</a>。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolconnlimit</code> <code class="type">int4</code>
 </p>
 <p>
-       For roles that can log in, this sets maximum number of concurrent
-       connections this role can make.  -1 means no limit.
+       對於可以登入的角色，此值設定此角色可建立的最大同時
+       連線數。-1 表示沒有限制。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolpassword</code> <code class="type">text</code>
 </p>
 <p>
-       Encrypted password; null if none. The format depends
-       on the form of encryption used.
+       加密後的密碼；若無則為 null。其格式取決於
+       所使用的加密形式。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">rolvaliduntil</code> <code class="type">timestamptz</code>
 </p>
 <p>
-       Password expiry time (only used for password authentication);
-       null if no expiration
+       密碼到期時間（僅用於密碼認證）；
+       若不會到期則為 null
       </p></td></tr></tbody></table>
 
 <br>
 
-For an MD5 encrypted password, `rolpassword`
-column will begin with the string `md5` followed by a
-32-character hexadecimal MD5 hash. The MD5 hash will be of the user's
-password concatenated to their user name. For example, if user
-`joe` has password `xyzzy`, PostgreSQL
-will store the md5 hash of `xyzzyjoe`.
+對於 MD5 加密的密碼，`rolpassword`
+欄位會以字串 `md5` 開頭，後接
+32 個字元的十六進位 MD5 雜湊值。此 MD5 雜湊值是對使用者的
+密碼串接其使用者名稱後計算而得。例如，若使用者
+`joe` 的密碼是 `xyzzy`，PostgreSQL
+會存放 `xyzzyjoe` 的 MD5 雜湊值。
 
-### Warning
+### 警告
 
-Support for MD5-encrypted passwords is deprecated and will be removed in a
-future release of PostgreSQL. Refer to
-[Section 20.5](../../server-administration/client-authentication/auth-password.md) for details about migrating to another
-password type.
+MD5 加密密碼的支援已被棄用，並將在 PostgreSQL 的未來版本中移除。
+關於遷移到其他密碼類型的詳細資訊，請參閱
+[第 20.5 節](../../server-administration/client-authentication/auth-password.md)。
 
-If the password is encrypted with SCRAM-SHA-256, it has the format:
+若密碼以 SCRAM-SHA-256 加密，其格式為：
 
 ```
 
 SCRAM-SHA-256$<iteration count>:<salt>$<StoredKey>:<ServerKey>
 ```
 
-where *`salt`*, *`StoredKey`* and
-*`ServerKey`* are in Base64 encoded format. This format is
-the same as that specified by [RFC 5803](https://datatracker.ietf.org/doc/html/rfc5803).
+其中 *`salt`*、*`StoredKey`* 與
+*`ServerKey`* 採用 Base64 編碼格式。此格式
+與 [RFC 5803](https://datatracker.ietf.org/doc/html/rfc5803) 所規定的格式相同。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-authid.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-authid.html)（原文版本：18.6；核對日期：2026-10-17）
