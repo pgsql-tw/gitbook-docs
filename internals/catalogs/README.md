@@ -1,8 +1,10 @@
-## Chapter 52. System Catalogs
+<a id="CATALOGS"></a>
 
-**Table of Contents**
+## 第 52 章 系統目錄
 
-[52.1. Overview](catalogs-overview.md)
+**目錄**
+
+[52.1. 概觀](catalogs-overview.md)
 
 [52.2. `pg_aggregate`](catalog-pg-aggregate.md)
 
@@ -132,21 +134,14 @@
 
 [52.65. `pg_user_mapping`](catalog-pg-user-mapping.md)
 
-The system catalogs are the place where a relational database
-management system stores schema metadata, such as information about
-tables and columns, and internal bookkeeping information.
-PostgreSQL's system catalogs are regular
-tables. You can drop and recreate the tables, add columns, insert
-and update values, and severely mess up your system that way.
-Normally, one should not change the system catalogs by hand, there
-are normally SQL commands to do that. (For example, `CREATE
-DATABASE` inserts a row into the
-`pg_database` catalog — and actually
-creates the database on disk.) There are some exceptions for
-particularly esoteric operations, but many of those have been made
-available as SQL commands over time, and so the need for direct manipulation
-of the system catalogs is ever decreasing.
+系統目錄是關聯式資料庫管理系統存放綱要中繼資料（例如資料表與欄位的相關資訊）以及內部記錄資訊的地方。
+PostgreSQL 的系統目錄就是一般的資料表。你可以移除並重新建立這些資料表、新增欄位、插入與更新值，
+而這樣做可能嚴重地搞亂你的系統。
+一般而言，不應該手動變更系統目錄，通常都有 SQL 命令可以完成這些事。（例如，`CREATE
+DATABASE` 會在
+`pg_database` 目錄中插入一筆資料列——而且實際在磁碟上建立該資料庫。）對於某些特別冷僻的操作有一些例外，
+但其中許多操作隨著時間推移已經以 SQL 命令的形式提供，因此直接操作系統目錄的需求正在逐漸減少。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalogs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalogs.html)（原文版本：18.6；核對日期：2026-10-17）

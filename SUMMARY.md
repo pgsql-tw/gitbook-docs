@@ -833,7 +833,7 @@
     * [51.4. PostgreSQL 規則系統](internals/overview/rule-system.md)
     * [51.5. 規劃器／最佳化器 #](internals/overview/planner-optimizer.md)
     * [51.6. 執行器 #](internals/overview/executor.md)
-  * [Chapter 52. System Catalogs](internals/catalogs/README.md)
+  * [第 52 章 系統目錄](internals/catalogs/README.md)
     * [52.1. 概觀 #](internals/catalogs/catalogs-overview.md)
     * [52.2. `pg_aggregate` #](internals/catalogs/catalog-pg-aggregate.md)
     * [52.3. `pg_am` #](internals/catalogs/catalog-pg-am.md)

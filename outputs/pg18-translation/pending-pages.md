@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：172 頁。
+待譯頁面：171 頁。
 
 ## 根目錄
 
@@ -286,7 +286,7 @@
 - [x] `internals/bki/bki-structure.md` — 68.5. 啟動初始化 BKI 檔案的結構
 - [ ] `internals/bki/system-catalog-declarations.md` — 68.1. System Catalog Declaration Rules #
 - [ ] `internals/bki/system-catalog-initial-data.md` — 68.2. System Catalog Initial Data #
-- [ ] `internals/catalogs/README.md` — Chapter 52. System Catalogs
+- [x] `internals/catalogs/README.md` — 第 52 章 系統目錄
 - [x] `internals/catalogs/catalog-pg-aggregate.md` — 52.2. `pg_aggregate` #
 - [x] `internals/catalogs/catalog-pg-am.md` — 52.3. `pg_am` #
 - [x] `internals/catalogs/catalog-pg-amop.md` — 52.4. `pg_amop` #
