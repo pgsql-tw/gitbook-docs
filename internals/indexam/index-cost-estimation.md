@@ -1,17 +1,10 @@
-## 63.6. Index Cost Estimation Functions [#](#INDEX-COST-ESTIMATION)
+<a id="INDEX-COST-ESTIMATION"></a>
 
-The `amcostestimate` function is given information describing
-a possible index scan, including lists of WHERE and ORDER BY clauses that
-have been determined to be usable with the index. It must return estimates
-of the cost of accessing the index and the selectivity of the WHERE
-clauses (that is, the fraction of parent-table rows that will be
-retrieved during the index scan). For simple cases, nearly all the
-work of the cost estimator can be done by calling standard routines
-in the optimizer; the point of having an `amcostestimate` function is
-to allow index access methods to provide index-type-specific knowledge,
-in case it is possible to improve on the standard estimates.
+## 63.6. 索引成本估算函式 [#](#INDEX-COST-ESTIMATION)
 
-Each `amcostestimate` function must have the signature:
+`amcostestimate` 函式會收到描述某個可能之索引掃描的資訊，包括已判定可搭配該索引使用的 WHERE 與 ORDER BY 子句清單。它必須傳回存取該索引之成本的估計值，以及 WHERE 子句的選擇率（也就是在索引掃描期間將被擷取的父資料表資料列所佔的比例）。在簡單的情況下，成本估算器幾乎所有的工作都可以藉由呼叫最佳化器中的標準常式來完成；提供 `amcostestimate` 函式的用意，是讓索引存取方法能夠提供索引類型特有的知識，以便在有可能改進標準估計時加以改進。
+
+每個 `amcostestimate` 函式都必須具有以下簽章：
 
 ```
 
@@ -26,88 +19,57 @@ amcostestimate (PlannerInfo *root,
                 double *indexPages);
 ```
 
-The first three parameters are inputs:
+前三個參數是輸入：
 
 *`root`*
-:   The planner's information about the query being processed.
+:   規劃器關於正在處理之查詢的資訊。
 
 *`path`*
-:   The index access path being considered. All fields except cost and
-    selectivity values are valid.
+:   正在考慮的索引存取路徑。除了成本與選擇率的值以外，所有欄位都是有效的。
 
 *`loop_count`*
-:   The number of repetitions of the index scan that should be factored
-    into the cost estimates. This will typically be greater than one when
-    considering a parameterized scan for use in the inside of a nestloop
-    join. Note that the cost estimates should still be for just one scan;
-    a larger *`loop_count`* means that it may be appropriate
-    to allow for some caching effects across multiple scans.
+:   應納入成本估計的索引掃描重複次數。在考慮於巢狀迴圈連接的內側使用參數化掃描時，這個值通常會大於一。請注意，成本估計仍應只針對單次掃描；較大的 *`loop_count`* 表示可能適合將多次掃描之間的某些快取效應納入考量。
 
-The last five parameters are pass-by-reference outputs:
+後五個參數是以傳址方式傳遞的輸出：
 
 *`*indexStartupCost`*
-:   Set to cost of index start-up processing
+:   設為索引啟動處理的成本
 
 *`*indexTotalCost`*
-:   Set to total cost of index processing
+:   設為索引處理的總成本
 
 *`*indexSelectivity`*
-:   Set to index selectivity
+:   設為索引選擇率
 
 *`*indexCorrelation`*
-:   Set to correlation coefficient between index scan order and
-    underlying table's order
+:   設為索引掃描順序與底層資料表順序之間的相關係數
 
 *`*indexPages`*
-:   Set to number of index leaf pages
+:   設為索引葉頁面的數量
 
-Note that cost estimate functions must be written in C, not in SQL or
-any available procedural language, because they must access internal
-data structures of the planner/optimizer.
+請注意，成本估算函式必須以 C 撰寫，而不是用 SQL 或任何可用的程序語言撰寫，因為它們必須存取規劃器／最佳化器的內部資料結構。
 
-The index access costs should be computed using the parameters used by
-`src/backend/optimizer/path/costsize.c`: a sequential
-disk block fetch has cost `seq_page_cost`, a nonsequential fetch
-has cost `random_page_cost`, and the cost of processing one index
-row should usually be taken as `cpu_index_tuple_cost`. In
-addition, an appropriate multiple of `cpu_operator_cost` should
-be charged for any comparison operators invoked during index processing
-(especially evaluation of the indexquals themselves).
+索引存取成本應該使用 `src/backend/optimizer/path/costsize.c` 所使用的參數來計算：循序擷取一個磁碟區塊的成本為 `seq_page_cost`，非循序擷取的成本為 `random_page_cost`，而處理一個索引資料列的成本通常應取 `cpu_index_tuple_cost`。此外，對於索引處理期間所呼叫的任何比較運算子（特別是索引條件（indexquals）本身的求值），都應該計入 `cpu_operator_cost` 的適當倍數。
 
-The access costs should include all disk and CPU costs associated with
-scanning the index itself, but *not* the costs of retrieving or
-processing the parent-table rows that are identified by the index.
+存取成本應該包含與掃描索引本身相關的所有磁碟與 CPU 成本，但*不*包含擷取或處理由索引所識別之父資料表資料列的成本。
 
-The “start-up cost” is the part of the total scan cost that
-must be expended before we can begin to fetch the first row. For most
-indexes this can be taken as zero, but an index type with a high start-up
-cost might want to set it nonzero.
+「啟動成本」是總掃描成本中，在我們能夠開始擷取第一個資料列之前就必須花費的部分。對大多數索引而言，這可以視為零，但啟動成本高的索引類型可能會想將它設為非零值。
 
-The *`indexSelectivity`* should be set to the estimated fraction of the parent
-table rows that will be retrieved during the index scan. In the case
-of a lossy query, this will typically be higher than the fraction of
-rows that actually pass the given qual conditions.
+*`indexSelectivity`* 應設為在索引掃描期間將被擷取之父資料表資料列的估計比例。在有損查詢的情況下，這個值通常會高於實際通過給定條件之資料列的比例。
 
-The *`indexCorrelation`* should be set to the correlation (ranging between
--1.0 and 1.0) between the index order and the table order. This is used
-to adjust the estimate for the cost of fetching rows from the parent
-table.
+*`indexCorrelation`* 應設為索引順序與資料表順序之間的相關性（範圍介於 -1.0 與 1.0 之間）。這用來調整從父資料表擷取資料列之成本的估計。
 
-The *`indexPages`* should be set to the number of leaf pages.
-This is used to estimate the number of workers for parallel index scan.
+*`indexPages`* 應設為葉頁面的數量。這用來估計平行索引掃描的工作程序數量。
 
-When *`loop_count`* is greater than one, the returned numbers
-should be averages expected for any one scan of the index.
+當 *`loop_count`* 大於一時，傳回的數字應該是對索引進行任何一次掃描時預期的平均值。
 
 <a id="id-1.10.15.12.13"></a>
 
-**Cost Estimation**
+**成本估算**
 
-A typical cost estimator will proceed as follows:
+典型的成本估算器會依下列步驟進行：
 
-1. Estimate and return the fraction of parent-table rows that will be visited
-   based on the given qual conditions. In the absence of any index-type-specific
-   knowledge, use the standard optimizer function `clauselist_selectivity()`:
+1. 根據給定的條件，估計並傳回將被存取之父資料表資料列的比例。在沒有任何索引類型特有知識的情況下，使用標準的最佳化器函式 `clauselist_selectivity()`：
 
    ```
 
@@ -115,14 +77,9 @@ A typical cost estimator will proceed as follows:
                                               path->indexinfo->rel->relid,
                                               JOIN_INNER, NULL);
    ```
-2. Estimate the number of index rows that will be visited during the
-   scan. For many index types this is the same as *`indexSelectivity`* times
-   the number of rows in the index, but it might be more. (Note that the
-   index's size in pages and rows is available from the
-   `path->indexinfo` struct.)
-3. Estimate the number of index pages that will be retrieved during the scan.
-   This might be just *`indexSelectivity`* times the index's size in pages.
-4. Compute the index access cost. A generic estimator might do this:
+2. 估計掃描期間將被存取的索引資料列數量。對許多索引類型而言，這等於 *`indexSelectivity`* 乘以索引中的資料列數，但也可能更多。（請注意，索引以頁面與資料列計的大小可以從 `path->indexinfo` 結構取得。）
+3. 估計掃描期間將被擷取的索引頁面數量。這可能就是 *`indexSelectivity`* 乘以索引以頁面計的大小。
+4. 計算索引存取成本。通用的估算器可能會這樣做：
 
    ```
 
@@ -138,15 +95,11 @@ A typical cost estimator will proceed as follows:
        (cpu_index_tuple_cost + index_qual_cost.per_tuple) * numIndexTuples;
    ```
 
-   However, the above does not account for amortization of index reads
-   across repeated index scans.
-5. Estimate the index correlation. For a simple ordered index on a single
-   field, this can be retrieved from pg_statistic. If the correlation
-   is not known, the conservative estimate is zero (no correlation).
+   不過，上述做法並未考慮到索引讀取在重複索引掃描之間的攤提效果。
+5. 估計索引相關性。對於單一欄位上的簡單有序索引，這可以從 pg_statistic 取得。若相關性未知，保守的估計值為零（無相關性）。
 
-Examples of cost estimator functions can be found in
-`src/backend/utils/adt/selfuncs.c`.
+成本估算函式的範例可以在 `src/backend/utils/adt/selfuncs.c` 中找到。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-cost-estimation.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-cost-estimation.html)（原文版本：18.6；核對日期：2026-10-17）
