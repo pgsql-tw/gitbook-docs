@@ -1,8 +1,10 @@
-## Chapter 53. System Views
+<a id="VIEWS"></a>
 
-**Table of Contents**
+## 第 53 章 系統檢視表
 
-[53.1. Overview](views-overview.md)
+**目錄**
+
+[53.1. 概觀](views-overview.md)
 
 [53.2. `pg_aios`](view-pg-aios.md)
 
@@ -78,24 +80,13 @@
 
 [53.38. `pg_wait_events`](view-pg-wait-events.md)
 
-In addition to the system catalogs, PostgreSQL
-provides a number of built-in views. Some system views provide convenient
-access to some commonly used queries on the system catalogs. Other views
-provide access to internal server state.
+除了系統目錄之外，PostgreSQL 還提供了一些內建的檢視表。有些系統檢視表讓你能方便地取用一些對系統目錄常用的查詢；其他檢視表則提供對伺服器內部狀態的存取。
 
-The information schema ([Chapter 35](../../client-interfaces/information-schema/README.md)) provides
-an alternative set of views which overlap the functionality of the system
-views. Since the information schema is SQL-standard whereas the views
-described here are PostgreSQL-specific,
-it's usually better to use the information schema if it provides all
-the information you need.
+資訊綱要（[第 35 章](../../client-interfaces/information-schema/README.md)）提供了另一組檢視表，其功能與系統檢視表有所重疊。由於資訊綱要屬於 SQL 標準，而此處描述的檢視表是 PostgreSQL 特有的，因此如果資訊綱要能提供你所需的全部資訊，通常最好使用資訊綱要。
 
-[Table 53.1](views-overview.md#VIEW-TABLE) lists the system views described here.
-More detailed documentation of each view follows below.
-There are some additional views that provide access to accumulated
-statistics; they are described in
-[Table 27.2](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-VIEWS-TABLE).
+[表 53.1](views-overview.md#VIEW-TABLE) 列出此處描述的系統檢視表。後文接著提供每個檢視表更詳細的說明。另外還有一些提供累積統計資訊存取的檢視表，它們描述於
+[表 27.2](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-VIEWS-TABLE)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/views.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/views.html)（原文版本：18.6；核對日期：2026-10-12）
