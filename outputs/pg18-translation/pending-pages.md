@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：295 頁。
+待譯頁面：294 頁。
 
 ## 根目錄
 
@@ -430,7 +430,7 @@
 - [x] `internals/transactions/xact-locking.md` — 67.2. Transactions and Locking #
 - [x] `internals/views/README.md` — 第 53 章 系統檢視表
 - [x] `internals/views/view-pg-aios.md` — 53.2. `pg_aios` #
-- [ ] `internals/views/view-pg-available-extension-versions.md` — 53.4. pg_available_extension_versions #
+- [x] `internals/views/view-pg-available-extension-versions.md` — 53.4. `pg_available_extension_versions` #
 - [ ] `internals/views/view-pg-available-extensions.md` — 53.3. pg_available_extensions #
 - [ ] `internals/views/view-pg-backend-memory-contexts.md` — 53.5. pg_backend_memory_contexts #
 - [x] `internals/views/view-pg-config.md` — 53.6. `pg_config`
