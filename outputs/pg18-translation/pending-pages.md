@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：238 頁。
+待譯頁面：237 頁。
 
 ## 根目錄
 
@@ -364,7 +364,7 @@
 - [x] `internals/fdwhandler/fdw-row-locking.md` — 58.5. 外部資料包裝器中的資料列鎖定 #
 - [x] `internals/geqo/README.md` — Chapter 61. Genetic Query Optimizer
 - [x] `internals/geqo/geqo-biblio.md` — 61.4. 延伸閱讀
-- [ ] `internals/geqo/geqo-intro.md` — 61.1. Query Handling as a Complex Optimization Problem #
+- [x] `internals/geqo/geqo-intro.md` — 61.1. 將查詢處理視為複雜最佳化問題 #
 - [x] `internals/geqo/geqo-intro2.md` — 61.2. 遺傳演算法
 - [ ] `internals/geqo/geqo-pg-intro.md` — 61.3. Genetic Query Optimization ( GEQO ) in PostgreSQL #
 - [ ] `internals/indexam/README.md` — Chapter 63. Index Access Method Interface Definition

@@ -1,39 +1,36 @@
-## 61.1. Query Handling as a Complex Optimization Problem [#](#GEQO-INTRO)
+<a id="GEQO-INTRO"></a>
 
-Among all relational operators the most difficult one to process
-and optimize is the *join*. The number of
-possible query plans grows exponentially with the
-number of joins in the query. Further optimization effort is
-caused by the support of a variety of *join
-methods* (e.g., nested loop, hash join, merge join in
-PostgreSQL) to process individual joins
-and a diversity of *indexes* (e.g.,
-B-tree, hash, GiST and GIN in PostgreSQL) as
-access paths for relations.
+## 61.1. 將查詢處理視為複雜最佳化問題 [#](#GEQO-INTRO)
 
-The normal PostgreSQL query optimizer
-performs a *near-exhaustive search* over the
-space of alternative strategies. This algorithm, first introduced
-in IBM's System R database, produces a near-optimal join order,
-but can take an enormous amount of time and memory space when the
-number of joins in the query grows large. This makes the ordinary
-PostgreSQL query optimizer
-inappropriate for queries that join a large number of tables.
+在所有關聯運算子中，最難處理與最佳化的是
+*連接*（join）。可能的查詢計畫數量會隨著
+查詢中連接的數量呈指數成長。此外，由於支援多種*連接
+方法*（例如 PostgreSQL 中的巢狀迴圈、雜湊連接、合併連接）
+來處理個別連接，以及多種*索引*（例如
+PostgreSQL 中的 B-tree、hash、GiST 與 GIN）作為
+關聯的存取路徑，也帶來了更多的最佳化負擔。
 
-The Institute of Automatic Control at the University of Mining and
-Technology, in Freiberg, Germany, encountered some problems when
-it wanted to use PostgreSQL as the
-backend for a decision support knowledge based system for the
-maintenance of an electrical power grid. The DBMS needed to handle
-large join queries for the inference machine of the knowledge
-based system. The number of joins in these queries made using the
-normal query optimizer infeasible.
+一般的 PostgreSQL 查詢最佳化器
+會在替代策略空間中執行*近乎窮舉的搜尋*。此演算法最早
+出現在 IBM 的 System R 資料庫中，能產生近乎最佳的連接順序，
+但當查詢中的連接數量變多時，可能耗費極大量的時間與記憶體空間。
+這使得一般的
+PostgreSQL 查詢最佳化器
+不適合用於連接大量資料表的查詢。
 
-In the following we describe the implementation of a
-*genetic algorithm* to solve the join
-ordering problem in a manner that is efficient for queries
-involving large numbers of joins.
+德國弗賴貝格工業大學（Freiberg）的自動控制研究所，
+在想要使用 PostgreSQL 作為
+電網維護用決策支援知識庫系統的
+後端時，遇到了一些問題。該 DBMS 需要為
+知識庫系統的推論機處理
+大型連接查詢。這些查詢中的連接數量使得
+使用一般查詢最佳化器變得不可行。
+
+以下我們說明一種
+*遺傳演算法*的實作，它能以對
+涉及大量連接的查詢而言有效率的方式，解決連接
+順序問題。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/geqo-intro.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/geqo-intro.html)（原文版本：18.6；核對日期：2026-10-17）
