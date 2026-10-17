@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：189 頁。
+待譯頁面：188 頁。
 
 ## 根目錄
 
@@ -309,7 +309,7 @@
 - [x] `internals/catalogs/catalog-pg-event-trigger.md` — 52.21. `pg_event_trigger` #
 - [x] `internals/catalogs/catalog-pg-extension.md` — 52.22. `pg_extension` #
 - [x] `internals/catalogs/catalog-pg-foreign-data-wrapper.md` — 52.23. `pg_foreign_data_wrapper` #
-- [ ] `internals/catalogs/catalog-pg-foreign-server.md` — 52.24. pg_foreign_server #
+- [x] `internals/catalogs/catalog-pg-foreign-server.md` — 52.24. `pg_foreign_server` #
 - [ ] `internals/catalogs/catalog-pg-foreign-table.md` — 52.25. pg_foreign_table #
 - [ ] `internals/catalogs/catalog-pg-index.md` — 52.26. pg_index #
 - [ ] `internals/catalogs/catalog-pg-inherits.md` — 52.27. pg_inherits #
