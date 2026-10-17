@@ -901,7 +901,7 @@
     * [52.65. pg_user_mapping #](internals/catalogs/catalog-pg-user-mapping.md)
   * [第 53 章 系統檢視表](internals/views/README.md)
     * [53.1. 概觀 #](internals/views/views-overview.md)
-    * [53.2. pg_aios #](internals/views/view-pg-aios.md)
+    * [53.2. `pg_aios` #](internals/views/view-pg-aios.md)
     * [53.3. pg_available_extensions #](internals/views/view-pg-available-extensions.md)
     * [53.4. pg_available_extension_versions #](internals/views/view-pg-available-extension-versions.md)
     * [53.5. pg_backend_memory_contexts #](internals/views/view-pg-backend-memory-contexts.md)
