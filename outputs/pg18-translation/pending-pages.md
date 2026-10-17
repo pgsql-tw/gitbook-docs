@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：220 頁。
+待譯頁面：219 頁。
 
 ## 根目錄
 
@@ -349,7 +349,7 @@
 - [x] `internals/catalogs/catalog-pg-ts-dict.md` — 52.61. `pg_ts_dict` #
 - [x] `internals/catalogs/catalog-pg-ts-parser.md` — 52.62. `pg_ts_parser` #
 - [x] `internals/catalogs/catalog-pg-ts-template.md` — 52.63. `pg_ts_template` #
-- [ ] `internals/catalogs/catalog-pg-type.md` — 52.64. pg_type #
+- [x] `internals/catalogs/catalog-pg-type.md` — 52.64. `pg_type` #
 - [x] `internals/catalogs/catalog-pg-user-mapping.md` — 52.65. `pg_user_mapping` #
 - [x] `internals/catalogs/catalogs-overview.md` — 52.1. 概觀 #
 - [x] `internals/custom-scan/README.md` — 第 60 章 撰寫自訂掃描提供者

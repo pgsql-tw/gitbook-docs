@@ -897,7 +897,7 @@
     * [52.61. `pg_ts_dict` #](internals/catalogs/catalog-pg-ts-dict.md)
     * [52.62. `pg_ts_parser` #](internals/catalogs/catalog-pg-ts-parser.md)
     * [52.63. `pg_ts_template` #](internals/catalogs/catalog-pg-ts-template.md)
-    * [52.64. pg_type #](internals/catalogs/catalog-pg-type.md)
+    * [52.64. `pg_type` #](internals/catalogs/catalog-pg-type.md)
     * [52.65. `pg_user_mapping` #](internals/catalogs/catalog-pg-user-mapping.md)
   * [第 53 章 系統檢視表](internals/views/README.md)
     * [53.1. 概觀 #](internals/views/views-overview.md)
