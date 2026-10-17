@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：300 頁。
+待譯頁面：299 頁。
 
 ## 根目錄
 
@@ -408,7 +408,7 @@
 - [ ] `internals/protocol/protocol-replication.md` — 54.4. Streaming Replication Protocol #
 - [ ] `internals/protocol/sasl-authentication.md` — 54.3. SASL Authentication #
 - [x] `internals/source/README.md` — 第 55 章 PostgreSQL 程式碼撰寫慣例
-- [ ] `internals/source/error-message-reporting.md` — 55.2. Reporting Errors Within the Server #
+- [x] `internals/source/error-message-reporting.md` — 55.2. 在伺服器內回報錯誤 #
 - [ ] `internals/source/error-style-guide.md` — 55.3. Error Message Style Guide #
 - [x] `internals/source/source-conventions.md` — 55.4. 其他程式碼撰寫慣例 #
 - [x] `internals/source/source-format.md` — 55.1. 格式 #
