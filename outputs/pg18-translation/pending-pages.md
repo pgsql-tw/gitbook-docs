@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：276 頁。
+待譯頁面：275 頁。
 
 ## 根目錄
 
@@ -394,7 +394,7 @@
 - [x] `internals/planner-stats-details/README.md` — 第 69 章 規劃器如何使用統計資訊
 - [x] `internals/planner-stats-details/multivariate-statistics-examples.md` — 69.2. 多變量統計資訊範例 #
 - [x] `internals/planner-stats-details/planner-stats-security.md` — 69.3. 規劃器統計資訊與安全性 #
-- [ ] `internals/planner-stats-details/row-estimation-examples.md` — 69.1. Row Estimation Examples #
+- [x] `internals/planner-stats-details/row-estimation-examples.md` — 69.1. 資料列估計範例 #
 - [x] `internals/plhandler/README.md` — 第 57 章 撰寫程序語言處理常式
 - [x] `internals/protocol/README.md` — 第 54 章 前端／後端協定
 - [x] `internals/protocol/protocol-changes.md` — 54.10. 自協定 2.0 以來的變更摘要 #

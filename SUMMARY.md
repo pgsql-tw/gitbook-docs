@@ -1014,7 +1014,7 @@
     * [68.5. 啟動初始化 BKI 檔案的結構](internals/bki/bki-structure.md)
     * [68.6. BKI 範例](internals/bki/bki-example.md)
   * [Chapter 69. How the Planner Uses Statistics](internals/planner-stats-details/README.md)
-    * [69.1. Row Estimation Examples #](internals/planner-stats-details/row-estimation-examples.md)
+    * [69.1. 資料列估計範例 #](internals/planner-stats-details/row-estimation-examples.md)
     * [69.2. 多變量統計資訊範例 #](internals/planner-stats-details/multivariate-statistics-examples.md)
     * [69.3. 規劃器統計資訊與安全性 #](internals/planner-stats-details/planner-stats-security.md)
   * [第 70 章 備份清單格式](internals/backup-manifest-format/README.md)
