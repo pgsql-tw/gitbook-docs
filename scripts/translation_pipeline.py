@@ -27,6 +27,7 @@ BASE = 'outputs/pg18-translation'
 RUNTIME = BASE + '/pipeline-runtime'
 PENDING = BASE + '/pending-pages.md'
 STATUS = BASE + '/continuation-state.md'
+REVIEW_RULES_VERSION = 'user-review-rules-20261017-v2'
 SKILL = Path('C:/Users/ycku/.codex/skills/postgresql-tw-translation')
 CANARIES = ['appendixes/contrib/passwordcheck.md', 'appendixes/contrib/pgbuffercache.md',
             'appendixes/contrib/pageinspect.md']
@@ -658,7 +659,7 @@ class Queue:
         errors = structural_errors(state['baseline'], current, page)
         if errors:
             return structural_details(state['baseline'], current, page, errors)
-        context_hash = digest('user-review-rules-20261005-v1' + PACKET_VERSION + state['baseline'] + current + state['source']['sha256'] + state['policy_hash'] +
+        context_hash = digest(REVIEW_RULES_VERSION + PACKET_VERSION + state['baseline'] + current + state['source']['sha256'] + state['policy_hash'] +
                               json.dumps(state.get('submission_provenance', {}), sort_keys=True))
         saved_reviews = ({r['section']: r for r in state.get('reviews', [])}
                          if state.get('review_context_hash') == context_hash else {})
@@ -695,6 +696,14 @@ class Queue:
                 'The current preservation policy protects entire code fences, including comments. '
                 'Do not reject unchanged English comments inside those fences merely as untranslated prose; '
                 'still report actual technical inaccuracies in examples for explicit resolution. '
+                'User-approved source-code errata rule (2026-10-17): preserve ALL original code verbatim, '
+                'including erroneous punctuation, comments and strings. Disclose verified source defects '
+                'in an accurate adjacent Traditional Chinese translator note OUTSIDE the code fence. '
+                'When that note clearly identifies the source defect and correct usage, do not demand '
+                'a code change or reject solely for the disclosed source defect. Missing, incorrect, '
+                'or unsupported notes and other translation errors must still be reported. '
+                'Specifically, nls-programmer.md must retain the colon ending the printf plural example; '
+                'accept an outside note explaining that a C statement should end with a semicolon. '
                 'User-approved rules (2026-10-05): for sql-createpolicy.md, preserve the protected '
                 'HTML code table headers (policy, USING expression, WITH CHECK expression) and accept '
                 'an adjacent Traditional Chinese explanation mapping policy to 政策 and expression to 運算式. '

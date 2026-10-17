@@ -63,6 +63,13 @@ class Tests(unittest.TestCase):
         b = TARGET + '\n```\nSELECT 2;\n```\n'
         self.assertIn('changed protected fences', structural_errors(a, b, PAGE))
 
+    def test_source_code_erratum_allows_outside_note_not_code_edit(self):
+        original = SOURCE + '\n```c\nprintf("copied %d files", n):\n```\n'
+        annotated = TARGET + '\n```c\nprintf("copied %d files", n):\n```\n\n譯註：原文冒號應為分號，程式碼仍逐字保留。\n'
+        self.assertEqual(structural_errors(original, annotated, PAGE), [])
+        corrected_code = annotated.replace('files", n):', 'files", n);')
+        self.assertIn('changed protected fences', structural_errors(original, corrected_code, PAGE))
+
     def test_structural_details_name_the_changed_spans(self):
         broken = TARGET.replace('`identifier`', '`identifiers` 與 `extra`')
         errors = structural_errors(SOURCE, broken, PAGE)
@@ -181,6 +188,21 @@ class Tests(unittest.TestCase):
         write_text(draft / PAGE, TARGET)
         state['source'] = dict(sha256=digest(html), url='https://www.postgresql.org/docs/18/test.html')
         return state
+
+    def test_source_errata_rule_in_prompt_and_version_invalidates_cache(self):
+        state = self.review_state()
+        response = dict(reviews=[dict(passed=True, section=i, issues=[], evidence='fixture') for i in range(2)])
+        with patch.object(self.q, 'immutable'), patch.object(self.q, 'call', return_value=response) as call:
+            self.assertEqual(self.q.review(PAGE, state, TARGET), [])
+            prompt = call.call_args.args[2]
+            self.assertIn('User-approved source-code errata rule (2026-10-17)', prompt)
+            self.assertIn('OUTSIDE the code fence', prompt)
+            self.assertIn('retain the colon', prompt)
+        previous_hash = state['review_context_hash']
+        with patch('translation_pipeline.REVIEW_RULES_VERSION', 'future-rule-version'), patch.object(self.q, 'immutable'), patch.object(self.q, 'call', return_value=response) as call:
+            self.assertEqual(self.q.review(PAGE, state, TARGET), [])
+            self.assertEqual(call.call_count, 1)
+            self.assertNotEqual(previous_hash, state['review_context_hash'])
 
     def test_group_review_requires_every_section(self):
         state = self.review_state()
