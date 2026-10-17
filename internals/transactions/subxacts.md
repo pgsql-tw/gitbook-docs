@@ -1,53 +1,28 @@
-## 67.3. Subtransactions [#](#SUBXACTS)
+<a id="SUBXACTS"></a>
 
-Subtransactions are started inside transactions, allowing large
-transactions to be broken into smaller units. Subtransactions can
-commit or abort without affecting their parent transactions, allowing
-parent transactions to continue. This allows errors to be handled
-more easily, which is a common application development pattern.
-The word subtransaction is often abbreviated as
-*subxact*.
+## 67.3. 子交易 [#](#SUBXACTS)
 
-Subtransactions can be started explicitly using the
-`SAVEPOINT` command, but can also be started in
-other ways, such as PL/pgSQL's `EXCEPTION` clause.
-PL/Python and PL/Tcl also support explicit subtransactions.
-Subtransactions can also be started from other subtransactions.
-The top-level transaction and its child subtransactions form a
-hierarchy or tree, which is why we refer to the main transaction as
-the top-level transaction.
+子交易是在交易內部開始的，讓大型交易可以拆分成較小的單位。子交易可以提交或中止，而不影響其父交易，讓父交易得以繼續進行。這使錯誤更容易處理，而這是一種常見的應用程式開發模式。subtransaction（子交易）一詞經常縮寫為
+*subxact*。
 
-If a subtransaction is assigned a non-virtual transaction ID,
-its transaction ID is referred to as a “subxid”.
-Read-only subtransactions are not assigned subxids, but once they
-attempt to write, they will be assigned one. This also causes all of
-a subxid's parents, up to and including the top-level transaction,
-to be assigned non-virtual transaction ids. We ensure that a parent
-xid is always lower than any of its child subxids.
+子交易可以使用
+`SAVEPOINT` 命令明確開始，也可以透過其他方式開始，例如 PL/pgSQL 的 `EXCEPTION` 子句。
+PL/Python 與 PL/Tcl 也支援明確的子交易。子交易也可以從其他子交易中開始。最上層交易及其子交易構成一個階層或樹狀結構，這就是我們把主交易稱為最上層交易的原因。
 
-The immediate parent xid of each subxid is recorded in the
-`pg_subtrans` directory. No entry is made for
-top-level xids since they do not have a parent, nor is an entry made
-for read-only subtransactions.
+如果子交易被分配了非虛擬交易 ID，
+它的交易 ID 就稱為「subxid」。
+唯讀子交易不會被分配 subxid，但一旦它們嘗試寫入，就會被分配一個。這也會使該 subxid 的所有上層交易（直到並包括最上層交易）都被分配非虛擬交易 ID。我們確保父 xid 一定小於它任何子 subxid。
 
-When a subtransaction commits, all of its committed child
-subtransactions with subxids will also be considered subcommitted
-in that transaction. When a subtransaction aborts, all of its child
-subtransactions will also be considered aborted.
+每個 subxid 的直接父 xid 都記錄在
+`pg_subtrans` 目錄中。最上層 xid 因為沒有父交易，所以不會為它們建立項目；唯讀子交易也不會建立項目。
 
-When a top-level transaction with an xid commits, all of its
-subcommitted child subtransactions are also persistently recorded
-as committed in the `pg_xact` subdirectory. If the
-top-level transaction aborts, all its subtransactions are also aborted,
-even if they were subcommitted.
+當子交易提交時，它所有具有 subxid 且已提交的子交易，在該交易中也會被視為已子提交（subcommitted）。當子交易中止時，它所有的子交易也都會被視為已中止。
 
-The more subtransactions each transaction keeps open (not
-rolled back or released), the greater the transaction management
-overhead. Up to 64 open subxids are cached in shared memory for
-each backend; after that point, the storage I/O overhead increases
-significantly due to additional lookups of subxid entries in
-`pg_subtrans`.
+當具有 xid 的最上層交易提交時，它所有已子提交的子交易也會在 `pg_xact` 子目錄中被永久記錄為已提交。如果最上層交易中止，它所有的子交易也都會中止，即使它們已經子提交。
+
+每個交易保持開啟（未回復也未釋放）的子交易越多，交易管理的額外負擔就越大。每個後端最多會在共享記憶體中快取 64 個開啟中的 subxid；超過之後，由於需要在
+`pg_subtrans` 中額外查找 subxid 項目，儲存 I/O 的額外負擔會顯著增加。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/subxacts.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/subxacts.html)（原文版本：18.6；核對日期：2026-10-12）

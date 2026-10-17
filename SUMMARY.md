@@ -1004,7 +1004,7 @@
   * [第 67 章 交易處理](internals/transactions/README.md)
     * [67.1. Transactions and Identifiers #](internals/transactions/transaction-id.md)
     * [67.2. Transactions and Locking #](internals/transactions/xact-locking.md)
-    * [67.3. Subtransactions #](internals/transactions/subxacts.md)
+    * [67.3. 子交易 #](internals/transactions/subxacts.md)
     * [67.4. 兩階段交易](internals/transactions/two-phase.md)
   * [Chapter 68. System Catalog Declarations and Initial Contents](internals/bki/README.md)
     * [68.1. System Catalog Declaration Rules #](internals/bki/system-catalog-declarations.md)

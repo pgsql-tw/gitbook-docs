@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：288 頁。
+待譯頁面：287 頁。
 
 ## 根目錄
 
@@ -424,7 +424,7 @@
 - [x] `internals/tablesample-method/README.md` — 第 59 章 撰寫資料表取樣方法
 - [x] `internals/tablesample-method/tablesample-support-functions.md` — 59.1. 取樣方法支援函式 #
 - [x] `internals/transactions/README.md` — 第 67 章 交易處理
-- [ ] `internals/transactions/subxacts.md` — 67.3. Subtransactions #
+- [x] `internals/transactions/subxacts.md` — 67.3. 子交易 #
 - [ ] `internals/transactions/transaction-id.md` — 67.1. Transactions and Identifiers #
 - [x] `internals/transactions/two-phase.md` — 67.4. 兩階段交易
 - [x] `internals/transactions/xact-locking.md` — 67.2. Transactions and Locking #
