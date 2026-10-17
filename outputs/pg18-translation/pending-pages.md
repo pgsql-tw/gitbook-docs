@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：210 頁。
+待譯頁面：209 頁。
 
 ## 根目錄
 
@@ -265,7 +265,7 @@
 - [x] `client-interfaces/libpq/libpq-notify.md` — 32.9. 非同步通知 #
 - [x] `client-interfaces/libpq/libpq-oauth.md` — 32.20. OAuth 支援 #
 - [x] `client-interfaces/libpq/libpq-pgpass.md` — 32.16. 密碼檔 #
-- [ ] `client-interfaces/libpq/libpq-pgservice.md` — 32.17. The Connection Service File #
+- [x] `client-interfaces/libpq/libpq-pgservice.md` — 32.17. 連線服務檔 #
 - [ ] `client-interfaces/libpq/libpq-pipeline-mode.md` — 32.5. Pipeline Mode #
 - [ ] `client-interfaces/libpq/libpq-single-row-mode.md` — 32.6. Retrieving Query Results in Chunks #
 - [ ] `client-interfaces/libpq/libpq-ssl.md` — 32.19. SSL Support #

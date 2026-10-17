@@ -319,7 +319,7 @@
     * [32.14. Event System #](client-interfaces/libpq/libpq-events.md)
     * [32.15. Environment Variables #](client-interfaces/libpq/libpq-envars.md)
     * [32.16. 密碼檔 #](client-interfaces/libpq/libpq-pgpass.md)
-    * [32.17. The Connection Service File #](client-interfaces/libpq/libpq-pgservice.md)
+    * [32.17. 連線服務檔 #](client-interfaces/libpq/libpq-pgservice.md)
     * [32.18. LDAP Lookup of Connection Parameters #](client-interfaces/libpq/libpq-ldap.md)
     * [32.19. SSL Support #](client-interfaces/libpq/libpq-ssl.md)
     * [32.20. OAuth 支援 #](client-interfaces/libpq/libpq-oauth.md)

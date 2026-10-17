@@ -1,37 +1,33 @@
-## 32.17. The Connection Service File [#](#LIBPQ-PGSERVICE)
+<a id="LIBPQ-PGSERVICE"></a>
+
+## 32.17. 連線服務檔 [#](#LIBPQ-PGSERVICE)
 
 <a id="id-1.7.3.24.2"></a><a id="id-1.7.3.24.3"></a><a id="id-1.7.3.24.4"></a>
 
-The connection service file allows libpq connection parameters to be
-associated with a single service name. That service name can then be
-specified using the `service` key word
-in a libpq connection string, and the associated settings will be
-used. This allows connection parameters to be modified without requiring
-a recompile of the libpq-using application. The service name can also be
-specified using the `PGSERVICE` environment variable.
+連線服務檔讓 libpq 連線參數可以與單一服務名稱建立關聯。之後即可在
+libpq 連線字串中使用 `service` 關鍵字
+指定該服務名稱，並套用與其關聯的設定。如此一來，修改連線參數時
+不需要重新編譯使用 libpq 的應用程式。服務名稱也可以
+透過 `PGSERVICE` 環境變數指定。
 
-Service names can be defined in either a per-user service file or a
-system-wide file. If the same service name exists in both the user
-and the system file, the user file takes precedence.
-By default, the per-user service file is named
-`~/.pg_service.conf`.
-On Microsoft Windows, it is named
-`%APPDATA%\postgresql\.pg_service.conf` (where
-`%APPDATA%` refers to the Application Data subdirectory
-in the user's profile). A different file name can be specified by
-setting the environment variable `PGSERVICEFILE`.
-The system-wide file is named `pg_service.conf`.
-By default it is sought in the `etc` directory
-of the PostgreSQL installation
-(use `pg_config --sysconfdir` to identify this
-directory precisely). Another directory, but not a different file
-name, can be specified by setting the environment variable
-`PGSYSCONFDIR`.
+服務名稱可以定義在個別使用者的服務檔或全系統的服務檔中。
+若同一個服務名稱同時存在於使用者服務檔與系統服務檔中，以使用者服務檔為優先。
+預設情況下，個別使用者的服務檔名為
+`~/.pg_service.conf`。
+在 Microsoft Windows 上，其名稱為
+`%APPDATA%\postgresql\.pg_service.conf`（其中
+`%APPDATA%` 指的是使用者設定檔中的 Application Data 子目錄）。
+可以透過設定環境變數 `PGSERVICEFILE` 指定不同的檔名。
+全系統的服務檔名為 `pg_service.conf`。
+預設會在 PostgreSQL 安裝目錄的
+`etc` 目錄中尋找此檔
+（可使用 `pg_config --sysconfdir` 精確找出此
+目錄）。可以透過設定環境變數
+`PGSYSCONFDIR` 指定另一個目錄，但無法指定不同的檔名。
 
-Either service file uses an “INI file” format where the section
-name is the service name and the parameters are connection
-parameters; see [Section 32.1.2](libpq-connect.md#LIBPQ-PARAMKEYWORDS) for a list. For
-example:
+兩種服務檔都使用「INI 檔」格式，其中區段名稱為服務名稱，
+參數則為連線參數；參數清單請參閱[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)。
+例如：
 
 ```
 
@@ -42,20 +38,18 @@ port=5433
 user=admin
 ```
 
-An example file is provided in
-the PostgreSQL installation at
-`share/pg_service.conf.sample`.
+PostgreSQL 安裝目錄中提供了一個範例檔：
+`share/pg_service.conf.sample`。
 
-Connection parameters obtained from a service file are combined with
-parameters obtained from other sources. A service file setting
-overrides the corresponding environment variable, and in turn can be
-overridden by a value given directly in the connection string.
-For example, using the above service file, a connection string
-`service=mydb port=5434` will use
-host `somehost`, port `5434`,
-user `admin`, and other parameters as set by
-environment variables or built-in defaults.
+從服務檔取得的連線參數會與從其他來源取得的參數合併。
+服務檔中的設定會覆寫對應的環境變數，而服務檔的設定又可以
+被連線字串中直接給定的值覆寫。
+例如，使用上述服務檔時，連線字串
+`service=mydb port=5434` 會使用
+主機 `somehost`、連接埠 `5434`、
+使用者 `admin`，其他參數則依
+環境變數或內建預設值設定。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-pgservice.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-pgservice.html)（原文版本：18.6；核對日期：2026-10-17）
