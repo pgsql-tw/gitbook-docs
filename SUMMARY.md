@@ -843,7 +843,7 @@
     * [52.7. `pg_attribute` #](internals/catalogs/catalog-pg-attribute.md)
     * [52.8. `pg_authid` #](internals/catalogs/catalog-pg-authid.md)
     * [52.9. `pg_auth_members` #](internals/catalogs/catalog-pg-auth-members.md)
-    * [52.10. pg_cast #](internals/catalogs/catalog-pg-cast.md)
+    * [52.10. `pg_cast` #](internals/catalogs/catalog-pg-cast.md)
     * [52.11. `pg_class` #](internals/catalogs/catalog-pg-class.md)
     * [52.12. `pg_collation` #](internals/catalogs/catalog-pg-collation.md)
     * [52.13. `pg_constraint` #](internals/catalogs/catalog-pg-constraint.md)
