@@ -1007,7 +1007,7 @@
     * [67.3. 子交易 #](internals/transactions/subxacts.md)
     * [67.4. 兩階段交易](internals/transactions/two-phase.md)
   * [第 68 章 系統目錄宣告與初始內容](internals/bki/README.md)
-    * [68.1. System Catalog Declaration Rules #](internals/bki/system-catalog-declarations.md)
+    * [68.1. 系統目錄宣告規則 #](internals/bki/system-catalog-declarations.md)
     * [68.2. System Catalog Initial Data #](internals/bki/system-catalog-initial-data.md)
     * [68.3. BKI 檔案格式](internals/bki/bki-format.md)
     * [68.4. BKI 命令 #](internals/bki/bki-commands.md)
