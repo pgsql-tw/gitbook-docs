@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：267 頁。
+待譯頁面：266 頁。
 
 ## 根目錄
 
@@ -372,7 +372,7 @@
 - [ ] `internals/indexam/index-cost-estimation.md` — 63.6. Index Cost Estimation Functions #
 - [ ] `internals/indexam/index-functions.md` — 63.2. Index Access Method Functions #
 - [ ] `internals/indexam/index-locking.md` — 63.4. Index Locking Considerations #
-- [ ] `internals/indexam/index-scanning.md` — 63.3. Index Scanning #
+- [x] `internals/indexam/index-scanning.md` — 63.3. 索引掃描 #
 - [x] `internals/indexam/index-unique-checks.md` — 63.5. 索引唯一性檢查 #
 - [x] `internals/indextypes/README.md` — 第 65 章 內建索引存取方法
 - [x] `internals/indextypes/brin.md` — 65.5. BRIN 索引 #

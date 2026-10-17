@@ -1,123 +1,38 @@
-## 63.3. Index Scanning [#](#INDEX-SCANNING)
+<a id="INDEX-SCANNING"></a>
 
-In an index scan, the index access method is responsible for regurgitating
-the TIDs of all the tuples it has been told about that match the
-*scan keys*. The access method is *not* involved in
-actually fetching those tuples from the index's parent table, nor in
-determining whether they pass the scan's visibility test or other
-conditions.
+## 63.3. 索引掃描 [#](#INDEX-SCANNING)
 
-A scan key is the internal representation of a `WHERE` clause of
-the form *`index_key`* *`operator`*
-*`constant`*, where the index key is one of the columns of the
-index and the operator is one of the members of the operator family
-associated with that index column. An index scan has zero or more scan
-keys, which are implicitly ANDed — the returned tuples are expected
-to satisfy all the indicated conditions.
+在索引掃描中，索引存取方法負責吐回它被告知的所有元組（tuple）中，符合*掃描鍵*（scan key）者的 TID。存取方法*不*參與實際從索引的父資料表擷取這些元組，也不參與判斷這些元組是否通過掃描的可見性測試或其他條件。
 
-The access method can report that the index is *lossy*, or
-requires rechecks, for a particular query. This implies that the index
-scan will return all the entries that pass the scan key, plus possibly
-additional entries that do not. The core system's index-scan machinery
-will then apply the index conditions again to the heap tuple to verify
-whether or not it really should be selected. If the recheck option is not
-specified, the index scan must return exactly the set of matching entries.
+掃描鍵是 `WHERE` 子句的內部表示形式，其格式為 *`index_key`* *`operator`*
+*`constant`*，其中索引鍵是該索引的某個欄位，而運算子是與該索引欄位相關聯之運算子家族的成員之一。一次索引掃描有零個或多個掃描鍵，這些掃描鍵隱含地以 AND 結合——傳回的元組預期要滿足所有指定的條件。
 
-Note that it is entirely up to the access method to ensure that it
-correctly finds all and only the entries passing all the given scan keys.
-Also, the core system will simply hand off all the `WHERE`
-clauses that match the index keys and operator families, without any
-semantic analysis to determine whether they are redundant or
-contradictory. As an example, given
-`WHERE x > 4 AND x > 14` where `x` is a b-tree
-indexed column, it is left to the b-tree `amrescan` function
-to realize that the first scan key is redundant and can be discarded.
-The extent of preprocessing needed during `amrescan` will
-depend on the extent to which the index access method needs to reduce
-the scan keys to a “normalized” form.
+存取方法可以針對特定查詢回報該索引是*有損的*（lossy），或者說需要重新檢查。這表示索引掃描會傳回所有通過掃描鍵的項目，另外可能還有未通過的其他項目。核心系統的索引掃描機制接著會對堆積元組再次套用索引條件，以確認它是否真的應該被選取。若未指定重新檢查選項，索引掃描就必須精確地傳回符合的項目集合。
 
-Some access methods return index entries in a well-defined order, others
-do not. There are actually two different ways that an access method can
-support sorted output:
+請注意，確保正確找出所有、且只有通過全部給定掃描鍵的項目，完全是存取方法的責任。此外，核心系統只會把所有符合索引鍵與運算子家族的 `WHERE` 子句直接交出去，不做任何語意分析來判斷它們是否多餘或互相矛盾。舉例來說，給定 `WHERE x > 4 AND x > 14`，其中 `x` 是建有 b-tree 索引的欄位，就要由 b-tree 的 `amrescan` 函式自行察覺第一個掃描鍵是多餘的、可以捨棄。`amrescan` 期間所需的前置處理程度，取決於索引存取方法需要將掃描鍵化簡為「正規化」形式的程度。
 
-* Access methods that always return entries in the natural ordering
-  of their data (such as btree) should set
-  `amcanorder` to true.
-  Currently, such access methods must use btree-compatible strategy
-  numbers for their equality and ordering operators.
-* Access methods that support ordering operators should set
-  `amcanorderbyop` to true.
-  This indicates that the index is capable of returning entries in
-  an order satisfying `ORDER BY` *`index_key`*
-  *`operator`* *`constant`*. Scan modifiers
-  of that form can be passed to `amrescan` as described
-  previously.
+有些存取方法會以明確定義的順序傳回索引項目，有些則不會。存取方法實際上有兩種不同的方式可以支援排序後的輸出：
 
-The `amgettuple` function has a `direction` argument,
-which can be either `ForwardScanDirection` (the normal case)
-or `BackwardScanDirection`. If the first call after
-`amrescan` specifies `BackwardScanDirection`, then the
-set of matching index entries is to be scanned back-to-front rather than in
-the normal front-to-back direction, so `amgettuple` must return
-the last matching tuple in the index, rather than the first one as it
-normally would. (This will only occur for access
-methods that set `amcanorder` to true.) After the
-first call, `amgettuple` must be prepared to advance the scan in
-either direction from the most recently returned entry. (But if
-`amcanbackward` is false, all subsequent
-calls will have the same direction as the first one.)
+* 總是以其資料的自然順序傳回項目的存取方法（例如 btree）應該將
+  `amcanorder` 設為 true。
+  目前，這類存取方法的相等與排序運算子必須使用與 btree 相容的策略編號。
+* 支援排序運算子的存取方法應該將
+  `amcanorderbyop` 設為 true。
+  這表示該索引能夠以滿足 `ORDER BY` *`index_key`*
+  *`operator`* *`constant`* 的順序傳回項目。該形式的掃描修飾項可以如前所述傳給 `amrescan`。
 
-Access methods that support ordered scans must support “marking” a
-position in a scan and later returning to the marked position. The same
-position might be restored multiple times. However, only one position need
-be remembered per scan; a new `ammarkpos` call overrides the
-previously marked position. An access method that does not support ordered
-scans need not provide `ammarkpos` and `amrestrpos`
-functions in `IndexAmRoutine`; set those pointers to NULL
-instead.
+`amgettuple` 函式有一個 `direction` 引數，其值可以是 `ForwardScanDirection`（一般情況）或 `BackwardScanDirection`。若 `amrescan` 之後的第一次呼叫指定 `BackwardScanDirection`，則符合的索引項目集合要由後往前掃描，而不是一般的由前往後方向，因此 `amgettuple` 必須傳回索引中最後一個符合的元組，而不是一般情況下的第一個。（這只會發生在將 `amcanorder` 設為 true 的存取方法上。）第一次呼叫之後，`amgettuple` 必須準備好從最近一次傳回的項目往任一方向推進掃描。（但若 `amcanbackward` 為 false，則後續所有呼叫的方向都會與第一次相同。）
 
-Both the scan position and the mark position (if any) must be maintained
-consistently in the face of concurrent insertions or deletions in the
-index. It is OK if a freshly-inserted entry is not returned by a scan that
-would have found the entry if it had existed when the scan started, or for
-the scan to return such an entry upon rescanning or backing
-up even though it had not been returned the first time through. Similarly,
-a concurrent delete might or might not be reflected in the results of a scan.
-What is important is that insertions or deletions not cause the scan to
-miss or multiply return entries that were not themselves being inserted or
-deleted.
+支援有序掃描的存取方法必須支援在掃描中「標記」一個位置，並於稍後回到該標記位置。同一個位置可能會被還原多次。不過，每次掃描只需要記住一個位置；新的 `ammarkpos` 呼叫會覆寫先前標記的位置。不支援有序掃描的存取方法不需要在 `IndexAmRoutine` 中提供 `ammarkpos` 與 `amrestrpos` 函式；改為將這些指標設為 NULL 即可。
 
-If the index stores the original indexed data values (and not some lossy
-representation of them), it is useful to
-support [index-only scans](../../the-sql-language/indexes/indexes-index-only-scans.md), in
-which the index returns the actual data not just the TID of the heap tuple.
-This will only avoid I/O if the visibility map shows that the TID is on an
-all-visible page; else the heap tuple must be visited anyway to check
-MVCC visibility. But that is no concern of the access method's.
+面對索引中並行的插入或刪除，掃描位置與標記位置（若有的話）都必須維持一致。若某個新插入的項目，在掃描開始時就已存在的話會被該掃描找到，但掃描並未傳回它，這是可以接受的；掃描在重新掃描或倒退時傳回這樣的項目，即使第一次經過時並未傳回它，也同樣可以接受。同樣地，並行的刪除可能反映、也可能不反映在掃描結果中。重要的是，插入或刪除不能讓掃描遺漏或重複傳回那些本身並未被插入或刪除的項目。
 
-Instead of using `amgettuple`, an index scan can be done with
-`amgetbitmap` to fetch all tuples in one call. This can be
-noticeably more efficient than `amgettuple` because it allows
-avoiding lock/unlock cycles within the access method. In principle
-`amgetbitmap` should have the same effects as repeated
-`amgettuple` calls, but we impose several restrictions to
-simplify matters. First of all, `amgetbitmap` returns all
-tuples at once and marking or restoring scan positions isn't
-supported. Secondly, the tuples are returned in a bitmap which doesn't
-have any specific ordering, which is why `amgetbitmap` doesn't
-take a `direction` argument. (Ordering operators will never be
-supplied for such a scan, either.)
-Also, there is no provision for index-only scans with
-`amgetbitmap`, since there is no way to return the contents of
-index tuples.
-Finally, `amgetbitmap`
-does not guarantee any locking of the returned tuples, with implications
-spelled out in [Section 63.4](index-locking.md).
+若索引儲存的是原始的索引資料值（而不是它們某種有損的表示形式），支援[僅索引掃描](../../the-sql-language/indexes/indexes-index-only-scans.md)就很有用，此時索引會傳回實際的資料，而不只是堆積元組的 TID。只有在可見性對應表顯示該 TID 位於全部可見（all-visible）的頁面上時，這才能避免 I/O；否則仍必須存取堆積元組以檢查 MVCC 可見性。不過這不是存取方法需要關心的事。
 
-Note that it is permitted for an access method to implement only
-`amgetbitmap` and not `amgettuple`, or vice versa,
-if its internal implementation is unsuited to one API or the other.
+除了使用 `amgettuple`，索引掃描也可以改用 `amgetbitmap`，在一次呼叫中擷取所有元組。這可能明顯比 `amgettuple` 更有效率，因為它可以避免在存取方法內部反覆進行鎖定／解鎖。原則上，`amgetbitmap` 應該與重複呼叫 `amgettuple` 有相同的效果，但我們加上了幾項限制以簡化問題。首先，`amgetbitmap` 會一次傳回所有元組，且不支援標記或還原掃描位置。其次，元組是以點陣圖（bitmap）的形式傳回，點陣圖沒有任何特定順序，這就是 `amgetbitmap` 不接受 `direction` 引數的原因。（這類掃描也永遠不會被提供排序運算子。）此外，`amgetbitmap` 沒有提供僅索引掃描的機制，因為無法傳回索引元組的內容。最後，`amgetbitmap` 不保證對傳回的元組做任何鎖定，其影響詳見[第 63.4 節](index-locking.md)。
+
+請注意，如果存取方法的內部實作不適合其中某一種 API，允許它只實作 `amgetbitmap` 而不實作 `amgettuple`，反之亦然。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-scanning.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-scanning.html)（原文版本：18.6；核對日期：2026-10-17）
