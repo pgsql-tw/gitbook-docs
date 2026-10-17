@@ -307,7 +307,7 @@
     * [32.2. 連線狀態函式 #](client-interfaces/libpq/libpq-status.md)
     * [32.3. Command Execution Functions #](client-interfaces/libpq/libpq-exec.md)
     * [32.4. Asynchronous Command Processing #](client-interfaces/libpq/libpq-async.md)
-    * [32.5. Pipeline Mode #](client-interfaces/libpq/libpq-pipeline-mode.md)
+    * [32.5. 管線模式 #](client-interfaces/libpq/libpq-pipeline-mode.md)
     * [32.6. 分塊取得查詢結果 #](client-interfaces/libpq/libpq-single-row-mode.md)
     * [32.7. Canceling Queries in Progress #](client-interfaces/libpq/libpq-cancel.md)
     * [32.8. The Fast-Path Interface #](client-interfaces/libpq/libpq-fastpath.md)
