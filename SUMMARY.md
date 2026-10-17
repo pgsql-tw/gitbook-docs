@@ -1000,7 +1000,7 @@
     * [66.4. Visibility Map #](internals/storage/storage-vm.md)
     * [66.5. 初始化分支檔案](internals/storage/storage-init.md)
     * [66.6. Database Page Layout #](internals/storage/storage-page-layout.md)
-    * [66.7. Heap-Only Tuples ( HOT ) #](internals/storage/storage-hot.md)
+    * [66.7. 僅堆積元組（HOT） #](internals/storage/storage-hot.md)
   * [第 67 章 交易處理](internals/transactions/README.md)
     * [67.1. 交易與識別碼 #](internals/transactions/transaction-id.md)
     * [67.2. Transactions and Locking #](internals/transactions/xact-locking.md)
