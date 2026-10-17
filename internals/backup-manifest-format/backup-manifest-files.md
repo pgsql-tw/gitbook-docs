@@ -1,46 +1,25 @@
-## 70.2. Backup Manifest File Object [#](#BACKUP-MANIFEST-FILES)
+<a id="BACKUP-MANIFEST-FILES"></a>
 
-The object which describes a single file contains either a
-`Path` key or an `Encoded-Path` key.
-Normally, the `Path` key will be present. The
-associated string value is the path of the file relative to the root
-of the backup directory. Files located in a user-defined tablespace
-will have paths whose first two components are `pg_tblspc` and the OID
-of the tablespace. If the path is not a string that is legal in UTF-8,
-or if the user requests that encoded paths be used for all files, then
-the `Encoded-Path` key will be present instead. This
-stores the same data, but it is encoded as a string of hexadecimal
-digits. Each pair of hexadecimal digits in the string represents a
-single octet.
+## 70.2. 備份清單檔案物件 [#](#BACKUP-MANIFEST-FILES)
 
-The following two keys are always present:
+描述單一檔案的物件會包含 `Path` 鍵或 `Encoded-Path` 鍵其中之一。通常會出現的是 `Path` 鍵，其對應的字串值是該檔案相對於備份目錄根目錄的路徑。位於使用者定義資料表空間中的檔案，其路徑的前兩個組成部分是 `pg_tblspc` 與該資料表空間的 OID。若路徑不是合法的 UTF-8 字串，或使用者要求所有檔案都使用編碼路徑，則改為出現 `Encoded-Path` 鍵。它儲存相同的資料，但編碼為十六進位數字組成的字串。字串中每一對十六進位數字代表一個八位元組（octet）。
+
+下列兩個鍵一律存在：
 
 `Size`
-:   The expected size of this file, as an integer.
+:   此檔案的預期大小，以整數表示。
 
 `Last-Modified`
-:   The last modification time of the file as reported by the server at
-    the time of the backup. Unlike the other fields stored in the backup,
-    this field is not used by [pg_verifybackup](../../reference/reference-client/app-pgverifybackup.md).
-    It is included only for informational purposes.
+:   備份當時伺服器所回報的檔案最後修改時間。與備份中儲存的其他欄位不同，此欄位不會被 [pg_verifybackup](../../reference/reference-client/app-pgverifybackup.md) 使用，納入它僅供參考。
 
-If the backup was taken with file checksums enabled, the following
-keys will be present:
+若備份是在啟用檔案檢查碼的情況下取得，則會存在下列鍵：
 
 `Checksum-Algorithm`
-:   The checksum algorithm used to compute a checksum for this file.
-    Currently, this will be the same for every file in the backup
-    manifest, but this may change in future releases. At present, the
-    supported checksum algorithms are `CRC32C`,
-    `SHA224`,
-    `SHA256`,
-    `SHA384`, and
-    `SHA512`.
+:   用來計算此檔案檢查碼的檢查碼演算法。目前，備份清單中每個檔案所用的演算法都相同，但這在未來的版本中可能會改變。目前支援的檢查碼演算法有 `CRC32C`、`SHA224`、`SHA256`、`SHA384` 與 `SHA512`。
 
 `Checksum`
-:   The checksum computed for this file, stored as a series of
-    hexadecimal characters, two for each byte of the checksum.
+:   為此檔案計算出的檢查碼，以一連串十六進位字元儲存，檢查碼的每個位元組對應兩個字元。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-manifest-files.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/backup-manifest-files.html)（原文版本：18.6；核對日期：2026-10-17）
