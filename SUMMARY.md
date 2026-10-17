@@ -978,7 +978,7 @@
   * [第 62 章 資料表存取方法介面定義](internals/tableam/README.md)
   * [Chapter 63. Index Access Method Interface Definition](internals/indexam/README.md)
     * [63.1. Basic API Structure for Indexes #](internals/indexam/index-api.md)
-    * [63.2. Index Access Method Functions #](internals/indexam/index-functions.md)
+    * [63.2. 索引存取方法函式 #](internals/indexam/index-functions.md)
     * [63.3. 索引掃描 #](internals/indexam/index-scanning.md)
     * [63.4. Index Locking Considerations #](internals/indexam/index-locking.md)
     * [63.5. 索引唯一性檢查 #](internals/indexam/index-unique-checks.md)
