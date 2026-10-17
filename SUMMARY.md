@@ -952,7 +952,7 @@
   * [第 55 章 PostgreSQL 程式碼撰寫慣例](internals/source/README.md)
     * [55.1. 格式 #](internals/source/source-format.md)
     * [55.2. 在伺服器內回報錯誤 #](internals/source/error-message-reporting.md)
-    * [55.3. Error Message Style Guide #](internals/source/error-style-guide.md)
+    * [55.3. 錯誤訊息風格指南 #](internals/source/error-style-guide.md)
     * [55.4. 其他程式碼撰寫慣例 #](internals/source/source-conventions.md)
   * [第 56 章 母語支援](internals/nls/README.md)
     * [56.1. For the Translator #](internals/nls/nls-translator.md)

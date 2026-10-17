@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：298 頁。
+待譯頁面：297 頁。
 
 ## 根目錄
 
@@ -409,7 +409,7 @@
 - [x] `internals/protocol/sasl-authentication.md` — 54.3. SASL 身分驗證 #
 - [x] `internals/source/README.md` — 第 55 章 PostgreSQL 程式碼撰寫慣例
 - [x] `internals/source/error-message-reporting.md` — 55.2. 在伺服器內回報錯誤 #
-- [ ] `internals/source/error-style-guide.md` — 55.3. Error Message Style Guide #
+- [x] `internals/source/error-style-guide.md` — 55.3. 錯誤訊息風格指南 #
 - [x] `internals/source/source-conventions.md` — 55.4. 其他程式碼撰寫慣例 #
 - [x] `internals/source/source-format.md` — 55.1. 格式 #
 - [x] `internals/storage/README.md` — 第 66 章 資料庫實體儲存
