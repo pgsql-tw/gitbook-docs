@@ -1,56 +1,50 @@
+<a id="CATALOG-PG-SHSECLABEL"></a>
+
 ## 52.50. `pg_shseclabel` [#](#CATALOG-PG-SHSECLABEL)
 
 <a id="id-1.10.4.52.2"></a>
 
-The catalog `pg_shseclabel` stores security
-labels on shared database objects. Security labels can be manipulated
-with the [`SECURITY LABEL`](../../reference/sql-commands/sql-security-label.md) command. For an easier
-way to view security labels, see [Section 53.23](../views/view-pg-seclabels.md).
+系統目錄 `pg_shseclabel` 存放共享資料庫物件上的安全標籤。安全標籤可以使用 [`SECURITY LABEL`](../../reference/sql-commands/sql-security-label.md) 命令操作。若要以更簡便的方式檢視安全標籤，請參閱[第 53.23 節](../views/view-pg-seclabels.md)。
 
-See also [`pg_seclabel`](catalog-pg-seclabel.md),
-which performs a similar function for security labels involving objects
-within a single database.
+另請參閱 [`pg_seclabel`](catalog-pg-seclabel.md)，它對涉及單一資料庫內物件的安全標籤執行類似的功能。
 
-Unlike most system catalogs, `pg_shseclabel`
-is shared across all databases of a cluster: there is only one
-copy of `pg_shseclabel` per cluster, not
-one per database.
+與大多數系統目錄不同，`pg_shseclabel` 由叢集中的所有資料庫共享：每個叢集只有一份 `pg_shseclabel`，而不是每個資料庫各一份。
 
 <a id="id-1.10.4.52.6"></a>
 
-**Table 52.50. `pg_shseclabel` Columns**
+**表 52.50. `pg_shseclabel` 欄位**
 
-<table border="1" class="table" summary="pg_shseclabel Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.50. pg_shseclabel 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">objoid</code> <code class="type">oid</code>
-       (references any OID column)
+       （參照任何 OID 欄位）
       </p>
 <p>
-       The OID of the object this security label pertains to
+       此安全標籤所屬物件的 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">classoid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the system catalog this object appears in
+       此物件所在之系統目錄的 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">provider</code> <code class="type">text</code>
 </p>
 <p>
-       The label provider associated with this label.
+       與此標籤相關聯的標籤提供者。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">label</code> <code class="type">text</code>
 </p>
 <p>
-       The security label applied to this object.
+       套用於此物件的安全標籤。
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-shseclabel.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-shseclabel.html)（原文版本：18.6；核對日期：2026-10-17）
