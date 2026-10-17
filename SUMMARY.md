@@ -968,7 +968,7 @@
     * [59.1. 取樣方法支援函式 #](internals/tablesample-method/tablesample-support-functions.md)
   * [Chapter 60. Writing a Custom Scan Provider](internals/custom-scan/README.md)
     * [60.1. 建立自訂掃描路徑 #](internals/custom-scan/custom-scan-path.md)
-    * [60.2. Creating Custom Scan Plans #](internals/custom-scan/custom-scan-plan.md)
+    * [60.2. 建立自訂掃描計畫 #](internals/custom-scan/custom-scan-plan.md)
     * [60.3. 執行自訂掃描 #](internals/custom-scan/custom-scan-execution.md)
   * [Chapter 61. Genetic Query Optimizer](internals/geqo/README.md)
     * [61.1. Query Handling as a Complex Optimization Problem #](internals/geqo/geqo-intro.md)

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：261 頁。
+待譯頁面：260 頁。
 
 ## 根目錄
 
@@ -355,7 +355,7 @@
 - [ ] `internals/custom-scan/README.md` — Chapter 60. Writing a Custom Scan Provider
 - [x] `internals/custom-scan/custom-scan-execution.md` — 60.3. 執行自訂掃描 #
 - [x] `internals/custom-scan/custom-scan-path.md` — 60.1. 建立自訂掃描路徑 #
-- [ ] `internals/custom-scan/custom-scan-plan.md` — 60.2. Creating Custom Scan Plans #
+- [x] `internals/custom-scan/custom-scan-plan.md` — 60.2. 建立自訂掃描計畫 #
 - [ ] `internals/fdwhandler/README.md` — Chapter 58. Writing a Foreign Data Wrapper
 - [ ] `internals/fdwhandler/fdw-callbacks.md` — 58.2. Foreign Data Wrapper Callback Routines #
 - [ ] `internals/fdwhandler/fdw-functions.md` — 58.1. Foreign Data Wrapper Functions #
