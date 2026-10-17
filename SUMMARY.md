@@ -981,7 +981,7 @@
     * [63.2. Index Access Method Functions #](internals/indexam/index-functions.md)
     * [63.3. Index Scanning #](internals/indexam/index-scanning.md)
     * [63.4. Index Locking Considerations #](internals/indexam/index-locking.md)
-    * [63.5. Index Uniqueness Checks #](internals/indexam/index-unique-checks.md)
+    * [63.5. 索引唯一性檢查 #](internals/indexam/index-unique-checks.md)
     * [63.6. Index Cost Estimation Functions #](internals/indexam/index-cost-estimation.md)
   * [第 64 章 擴充套件的預寫式日誌](internals/wal-for-extensions/README.md)
     * [64.1. 通用 WAL 記錄 #](internals/wal-for-extensions/generic-wal.md)

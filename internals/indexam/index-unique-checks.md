@@ -1,103 +1,30 @@
-## 63.5. Index Uniqueness Checks [#](#INDEX-UNIQUE-CHECKS)
+<a id="INDEX-UNIQUE-CHECKS"></a>
 
-PostgreSQL enforces SQL uniqueness constraints
-using *unique indexes*, which are indexes that disallow
-multiple entries with identical keys. An access method that supports this
-feature sets `amcanunique` true.
-(At present, only b-tree supports it.) Columns listed in the
-`INCLUDE` clause are not considered when enforcing
-uniqueness.
+## 63.5. 索引唯一性檢查 [#](#INDEX-UNIQUE-CHECKS)
 
-Because of MVCC, it is always necessary to allow duplicate entries to
-exist physically in an index: the entries might refer to successive
-versions of a single logical row. The behavior we actually want to
-enforce is that no MVCC snapshot could include two rows with equal
-index keys. This breaks down into the following cases that must be
-checked when inserting a new row into a unique index:
+PostgreSQL 使用*唯一值索引*來強制執行 SQL 的唯一性限制條件；唯一值索引是不允許多個項目具有相同鍵值的索引。支援此功能的存取方法會將 `amcanunique` 設為 true。（目前只有 B-tree 支援此功能。）列在 `INCLUDE` 子句中的欄位，在強制執行唯一性時不會被納入考量。
 
-* If a conflicting valid row has been deleted by the current transaction,
-  it's okay. (In particular, since an UPDATE always deletes the old row
-  version before inserting the new version, this will allow an UPDATE on
-  a row without changing the key.)
-* If a conflicting row has been inserted by an as-yet-uncommitted
-  transaction, the would-be inserter must wait to see if that transaction
-  commits. If it rolls back then there is no conflict. If it commits
-  without deleting the conflicting row again, there is a uniqueness
-  violation. (In practice we just wait for the other transaction to
-  end and then redo the visibility check in toto.)
-* Similarly, if a conflicting valid row has been deleted by an
-  as-yet-uncommitted transaction, the would-be inserter must wait
-  for that transaction to commit or abort, and then repeat the test.
+由於 MVCC 的緣故，一律必須允許重複的項目實際存在於索引中：這些項目可能參照同一個邏輯資料列的連續版本。我們實際想要強制執行的行為是：任何 MVCC 快照都不可能包含兩個索引鍵相等的資料列。這可以拆解為以下幾種情況，在將新資料列插入唯一值索引時必須加以檢查：
 
-Furthermore, immediately before reporting a uniqueness violation
-according to the above rules, the access method must recheck the
-liveness of the row being inserted. If it is committed dead then
-no violation should be reported. (This case cannot occur during the
-ordinary scenario of inserting a row that's just been created by
-the current transaction. It can happen during
-`CREATE UNIQUE INDEX CONCURRENTLY`, however.)
+* 如果一個衝突的有效資料列已被目前的交易刪除，那就沒有問題。（特別是，由於 UPDATE 一律會先刪除舊的資料列版本，再插入新版本，這樣就能允許對資料列執行不變更鍵值的 UPDATE。）
+* 如果一個衝突的資料列是由尚未提交的交易所插入，則準備插入者必須等待，看該交易是否提交。如果該交易回復，就沒有衝突。如果該交易提交且未再次刪除該衝突資料列，就違反唯一性。（實務上，我們只是等待另一個交易結束，然後完整地重新進行一次可見性檢查。）
+* 同樣地，如果一個衝突的有效資料列已被尚未提交的交易刪除，則準備插入者必須等待該交易提交或中止，然後重複這項測試。
 
-We require the index access method to apply these tests itself, which
-means that it must reach into the heap to check the commit status of
-any row that is shown to have a duplicate key according to the index
-contents. This is without a doubt ugly and non-modular, but it saves
-redundant work: if we did a separate probe then the index lookup for
-a conflicting row would be essentially repeated while finding the place to
-insert the new row's index entry. What's more, there is no obvious way
-to avoid race conditions unless the conflict check is an integral part
-of insertion of the new index entry.
+此外，在依據上述規則回報違反唯一性的前一刻，存取方法必須重新檢查正在插入之資料列的存活狀態。如果它已是已提交的死亡狀態（committed dead），就不應回報任何違反。（在插入目前交易剛建立之資料列的一般情境中，這種情況不會發生。不過，它可能在 `CREATE UNIQUE INDEX CONCURRENTLY` 期間發生。）
 
-If the unique constraint is deferrable, there is additional complexity:
-we need to be able to insert an index entry for a new row, but defer any
-uniqueness-violation error until end of statement or even later. To
-avoid unnecessary repeat searches of the index, the index access method
-should do a preliminary uniqueness check during the initial insertion.
-If this shows that there is definitely no conflicting live tuple, we
-are done. Otherwise, we schedule a recheck to occur when it is time to
-enforce the constraint. If, at the time of the recheck, both the inserted
-tuple and some other tuple with the same key are live, then the error
-must be reported. (Note that for this purpose, “live” actually
-means “any tuple in the index entry's HOT chain is live”.)
-To implement this, the `aminsert` function is passed a
-`checkUnique` parameter having one of the following values:
+我們要求索引存取方法自行執行這些測試，這表示它必須深入堆積，檢查依索引內容顯示具有重複鍵值之任何資料列的提交狀態。這無疑既醜陋又不模組化，但可以省去重複的工作：如果我們另外進行一次探查，那麼在尋找插入新資料列之索引項目的位置時，對衝突資料列的索引查找基本上就會重做一遍。更重要的是，除非衝突檢查是插入新索引項目時不可分割的一部分，否則沒有明顯的方法可以避免競爭條件。
 
-* `UNIQUE_CHECK_NO` indicates that no uniqueness checking
-  should be done (this is not a unique index).
-* `UNIQUE_CHECK_YES` indicates that this is a non-deferrable
-  unique index, and the uniqueness check must be done immediately, as
-  described above.
-* `UNIQUE_CHECK_PARTIAL` indicates that the unique
-  constraint is deferrable. PostgreSQL
-  will use this mode to insert each row's index entry. The access
-  method must allow duplicate entries into the index, and report any
-  potential duplicates by returning false from `aminsert`.
-  For each row for which false is returned, a deferred recheck will
-  be scheduled.
+如果唯一性限制條件是可延遲的，就會有額外的複雜性：我們需要能夠為新資料列插入索引項目，但將任何違反唯一性的錯誤延遲到陳述式結束時甚至更晚。為了避免不必要地重複搜尋索引，索引存取方法應該在初次插入時進行初步的唯一性檢查。如果檢查顯示確定沒有衝突的存活元組，就完成了。否則，我們會安排在該強制執行限制條件時進行重新檢查。如果在重新檢查時，被插入的元組與另一個具有相同鍵值的元組都是存活的，就必須回報錯誤。（請注意，就此目的而言，「存活」實際上是指「該索引項目之 HOT 鏈中的任何元組是存活的」。）為了實作這一點，`aminsert` 函式會收到一個 `checkUnique` 參數，其值為下列之一：
 
-  The access method must identify any rows which might violate the
-  unique constraint, but it is not an error for it to report false
-  positives. This allows the check to be done without waiting for other
-  transactions to finish; conflicts reported here are not treated as
-  errors and will be rechecked later, by which time they may no longer
-  be conflicts.
-* `UNIQUE_CHECK_EXISTING` indicates that this is a deferred
-  recheck of a row that was reported as a potential uniqueness violation.
-  Although this is implemented by calling `aminsert`, the
-  access method must *not* insert a new index entry in this
-  case. The index entry is already present. Rather, the access method
-  must check to see if there is another live index entry. If so, and
-  if the target row is also still live, report error.
+* `UNIQUE_CHECK_NO` 表示不應進行任何唯一性檢查（這不是唯一值索引）。
+* `UNIQUE_CHECK_YES` 表示這是不可延遲的唯一值索引，且必須如上所述立即進行唯一性檢查。
+* `UNIQUE_CHECK_PARTIAL` 表示唯一性限制條件是可延遲的。PostgreSQL 會使用此模式插入每個資料列的索引項目。存取方法必須允許重複的項目進入索引，並藉由從 `aminsert` 傳回 false 來回報任何可能的重複。對於每個傳回 false 的資料列，都會安排一次延遲的重新檢查。
 
-  It is recommended that in a `UNIQUE_CHECK_EXISTING` call,
-  the access method further verify that the target row actually does
-  have an existing entry in the index, and report error if not. This
-  is a good idea because the index tuple values passed to
-  `aminsert` will have been recomputed. If the index
-  definition involves functions that are not really immutable, we
-  might be checking the wrong area of the index. Checking that the
-  target row is found in the recheck verifies that we are scanning
-  for the same tuple values as were used in the original insertion.
+  存取方法必須找出任何可能違反唯一性限制條件的資料列，但回報偽陽性（false positive）並不算錯誤。這使得檢查可以在不等待其他交易完成的情況下進行；在此回報的衝突不會被視為錯誤，稍後會再重新檢查，屆時它們可能已不再是衝突。
+* `UNIQUE_CHECK_EXISTING` 表示這是對一個先前被回報為可能違反唯一性之資料列的延遲重新檢查。雖然這是透過呼叫 `aminsert` 來實作的，但在這種情況下，存取方法*不可*插入新的索引項目。該索引項目已經存在。存取方法必須改為檢查是否有另一個存活的索引項目。如果有，而且目標資料列也仍然存活，就回報錯誤。
+
+  建議在 `UNIQUE_CHECK_EXISTING` 呼叫中，存取方法進一步驗證目標資料列在索引中確實有既有的項目，若沒有就回報錯誤。這是個好做法，因為傳給 `aminsert` 的索引元組值會是重新計算過的。如果索引定義涉及並非真正不可變（immutable）的函式，我們可能會檢查到索引中錯誤的區域。在重新檢查中確認能找到目標資料列，就能驗證我們所掃描的元組值，與原始插入時所使用的值相同。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-unique-checks.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/index-unique-checks.html)（原文版本：18.6；核對日期：2026-10-12）

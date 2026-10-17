@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：286 頁。
+待譯頁面：285 頁。
 
 ## 根目錄
 
@@ -373,7 +373,7 @@
 - [ ] `internals/indexam/index-functions.md` — 63.2. Index Access Method Functions #
 - [ ] `internals/indexam/index-locking.md` — 63.4. Index Locking Considerations #
 - [ ] `internals/indexam/index-scanning.md` — 63.3. Index Scanning #
-- [ ] `internals/indexam/index-unique-checks.md` — 63.5. Index Uniqueness Checks #
+- [x] `internals/indexam/index-unique-checks.md` — 63.5. 索引唯一性檢查 #
 - [ ] `internals/indextypes/README.md` — Chapter 65. Built-in Index Access Methods
 - [ ] `internals/indextypes/brin.md` — 65.5. BRIN Indexes #
 - [ ] `internals/indextypes/btree.md` — 65.1. B-Tree Indexes #
