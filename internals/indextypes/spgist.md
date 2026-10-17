@@ -1,171 +1,81 @@
-## 65.3. SP-GiST Indexes [#](#SPGIST)
+<a id="SPGIST"></a>
 
-[65.3.1. Introduction](spgist.md#SPGIST-INTRO)
+## 65.3. SP-GiST 索引 [#](#SPGIST)
 
-[65.3.2. Built-in Operator Classes](spgist.md#SPGIST-BUILTIN-OPCLASSES)
+[65.3.1. 簡介](spgist.md#SPGIST-INTRO)
 
-[65.3.3. Extensibility](spgist.md#SPGIST-EXTENSIBILITY)
+[65.3.2. 內建運算子類別](spgist.md#SPGIST-BUILTIN-OPCLASSES)
 
-[65.3.4. Implementation](spgist.md#SPGIST-IMPLEMENTATION)
+[65.3.3. 擴充性](spgist.md#SPGIST-EXTENSIBILITY)
 
-[65.3.5. Examples](spgist.md#SPGIST-EXAMPLES)
+[65.3.4. 實作](spgist.md#SPGIST-IMPLEMENTATION)
 
-<a id="id-1.10.17.4.2"></a><a id="SPGIST-INTRO"></a>
+[65.3.5. 範例](spgist.md#SPGIST-EXAMPLES)
 
-### 65.3.1. Introduction [#](#SPGIST-INTRO)
+<a id="id-1.10.17.4.2"></a>
+<a id="SPGIST-INTRO"></a>
 
-SP-GiST is an abbreviation for space-partitioned
-GiST. SP-GiST supports partitioned
-search trees, which facilitate development of a wide range of different
-non-balanced data structures, such as quad-trees, k-d trees, and radix
-trees (tries). The common feature of these structures is that they
-repeatedly divide the search space into partitions that need not be
-of equal size. Searches that are well matched to the partitioning rule
-can be very fast.
+### 65.3.1. 簡介 [#](#SPGIST-INTRO)
 
-These popular data structures were originally developed for in-memory
-usage. In main memory, they are usually designed as a set of dynamically
-allocated nodes linked by pointers. This is not suitable for direct
-storing on disk, since these chains of pointers can be rather long which
-would require too many disk accesses. In contrast, disk-based data
-structures should have a high fanout to minimize I/O. The challenge
-addressed by SP-GiST is to map search tree nodes to
-disk pages in such a way that a search need access only a few disk pages,
-even if it traverses many nodes.
+SP-GiST 是 space-partitioned GiST（空間分割 GiST）的縮寫。SP-GiST 支援分割式搜尋樹，有助於開發各種不同的非平衡資料結構，例如四元樹（quad-tree）、k-d 樹與基數樹（radix tree，即 trie）。這些結構的共同特徵是會反覆將搜尋空間劃分成不必大小相等的分割區。與分割規則相當契合的搜尋可以非常快速。
 
-Like GiST, SP-GiST is meant to allow
-the development of custom data types with the appropriate access methods,
-by an expert in the domain of the data type, rather than a database expert.
+這些常見的資料結構原本是為記憶體內使用而開發的。在主記憶體中，它們通常被設計成一組由指標連結、動態配置的節點。這並不適合直接儲存在磁碟上，因為這些指標鏈可能相當長，會需要過多的磁碟存取。相反地，以磁碟為基礎的資料結構應該具有高扇出（fanout），以將 I/O 降到最低。SP-GiST 所處理的挑戰，是將搜尋樹節點對應到磁碟頁面，使搜尋即使走訪許多節點，也只需要存取少數幾個磁碟頁面。
 
-Some of the information here is derived from Purdue University's
-SP-GiST Indexing Project
-[web site](https://www.cs.purdue.edu/spgist/).
-The SP-GiST implementation in
-PostgreSQL is primarily maintained by Teodor
-Sigaev and Oleg Bartunov, and there is more information on their
-[web site](http://www.sai.msu.su/~megera/wiki/spgist_dev).
+與 GiST 一樣，SP-GiST 的目的是讓資料型別領域的專家（而非資料庫專家）能夠開發具有適當存取方法的自訂資料型別。
+
+這裡的部分資訊取自普渡大學（Purdue University）SP-GiST 索引專案的[網站](https://www.cs.purdue.edu/spgist/)。PostgreSQL 中的 SP-GiST 實作主要由 Teodor Sigaev 與 Oleg Bartunov 維護，在他們的[網站](http://www.sai.msu.su/~megera/wiki/spgist_dev)上有更多資訊。
 
 <a id="SPGIST-BUILTIN-OPCLASSES"></a>
 
-### 65.3.2. Built-in Operator Classes [#](#SPGIST-BUILTIN-OPCLASSES)
+### 65.3.2. 內建運算子類別 [#](#SPGIST-BUILTIN-OPCLASSES)
 
-The core PostgreSQL distribution
-includes the SP-GiST operator classes shown in
-[Table 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE).
+PostgreSQL 核心發行版本包含[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 所列的 SP-GiST 運算子類別。
 
 <a id="SPGIST-BUILTIN-OPCLASSES-TABLE"></a>
 
-**Table 65.2. Built-in SP-GiST Operator Classes**
+**表 65.2. 內建 SP-GiST 運算子類別**
 
-<table border="1" class="table" summary="Built-in SP-GiST Operator Classes"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Name</th><th>Indexable Operators</th><th>Ordering Operators</th></tr></thead><tbody><tr><td rowspan="12" valign="middle"><code class="literal">box_ops</code></td><td><code class="literal">&lt;&lt; (box,box)</code></td><td rowspan="12" valign="middle"><code class="literal">&lt;-&gt; (box,point)</code></td></tr><tr><td><code class="literal">&amp;&lt; (box,box)</code></td></tr><tr><td><code class="literal">&amp;&gt; (box,box)</code></td></tr><tr><td><code class="literal">&gt;&gt; (box,box)</code></td></tr><tr><td><code class="literal">&lt;@ (box,box)</code></td></tr><tr><td><code class="literal">@&gt; (box,box)</code></td></tr><tr><td><code class="literal">~= (box,box)</code></td></tr><tr><td><code class="literal">&amp;&amp; (box,box)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (box,box)</code></td></tr><tr><td><code class="literal">&amp;&lt;| (box,box)</code></td></tr><tr><td><code class="literal">|&amp;&gt; (box,box)</code></td></tr><tr><td><code class="literal">|&gt;&gt; (box,box)</code></td></tr><tr><td rowspan="11" valign="middle"><code class="literal">inet_ops</code></td><td><code class="literal">&lt;&lt; (inet,inet)</code></td><td rowspan="11" valign="middle"> </td></tr><tr><td><code class="literal">&lt;&lt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;&gt;= (inet,inet)</code></td></tr><tr><td><code class="literal">= (inet,inet)</code></td></tr><tr><td><code class="literal">&lt;&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&lt; (inet,inet)</code></td></tr><tr><td><code class="literal">&lt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&amp;&amp; (inet,inet)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">kd_point_ops</code></td><td><code class="literal">|&gt;&gt; (point,point)</code></td><td rowspan="6" valign="middle"><code class="literal">&lt;-&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt; (point,point)</code></td></tr><tr><td><code class="literal">&gt;&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (point,point)</code></td></tr><tr><td><code class="literal">~= (point,point)</code></td></tr><tr><td><code class="literal">&lt;@ (point,box)</code></td></tr><tr><td rowspan="12" valign="middle"><code class="literal">poly_ops</code></td><td><code class="literal">&lt;&lt; (polygon,polygon)</code></td><td rowspan="12" valign="middle"><code class="literal">&lt;-&gt; (polygon,point)</code></td></tr><tr><td><code class="literal">&amp;&lt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&gt;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&lt;@ (polygon,polygon)</code></td></tr><tr><td><code class="literal">@&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">~= (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&amp; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&lt;| (polygon,polygon)</code></td></tr><tr><td><code class="literal">|&gt;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">|&amp;&gt; (polygon,polygon)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">quad_point_ops</code></td><td><code class="literal">|&gt;&gt; (point,point)</code></td><td rowspan="6" valign="middle"><code class="literal">&lt;-&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt; (point,point)</code></td></tr><tr><td><code class="literal">&gt;&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (point,point)</code></td></tr><tr><td><code class="literal">~= (point,point)</code></td></tr><tr><td><code class="literal">&lt;@ (point,box)</code></td></tr><tr><td rowspan="10" valign="middle"><code class="literal">range_ops</code></td><td><code class="literal">= (anyrange,anyrange)</code></td><td rowspan="10" valign="middle"> </td></tr><tr><td><code class="literal">&amp;&amp; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">@&gt; (anyrange,anyelement)</code></td></tr><tr><td><code class="literal">@&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&lt;@ (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&lt;&lt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&gt;&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&amp;&lt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&amp;&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">-|- (anyrange,anyrange)</code></td></tr><tr><td rowspan="10" valign="middle"><code class="literal">text_ops</code></td><td><code class="literal">= (text,text)</code></td><td rowspan="10" valign="middle"> </td></tr><tr><td><code class="literal">&lt; (text,text)</code></td></tr><tr><td><code class="literal">&lt;= (text,text)</code></td></tr><tr><td><code class="literal">&gt; (text,text)</code></td></tr><tr><td><code class="literal">&gt;= (text,text)</code></td></tr><tr><td><code class="literal">~&lt;~ (text,text)</code></td></tr><tr><td><code class="literal">~&lt;=~ (text,text)</code></td></tr><tr><td><code class="literal">~&gt;=~ (text,text)</code></td></tr><tr><td><code class="literal">~&gt;~ (text,text)</code></td></tr><tr><td><code class="literal">^@ (text,text)</code></td></tr></tbody></table>
+<table border="1" class="table" summary="內建 SP-GiST 運算子類別"><colgroup><col/><col/><col/></colgroup><thead><tr><th>名稱</th><th>可索引運算子</th><th>排序運算子</th></tr></thead><tbody><tr><td rowspan="12" valign="middle"><code class="literal">box_ops</code></td><td><code class="literal">&lt;&lt; (box,box)</code></td><td rowspan="12" valign="middle"><code class="literal">&lt;-&gt; (box,point)</code></td></tr><tr><td><code class="literal">&amp;&lt; (box,box)</code></td></tr><tr><td><code class="literal">&amp;&gt; (box,box)</code></td></tr><tr><td><code class="literal">&gt;&gt; (box,box)</code></td></tr><tr><td><code class="literal">&lt;@ (box,box)</code></td></tr><tr><td><code class="literal">@&gt; (box,box)</code></td></tr><tr><td><code class="literal">~= (box,box)</code></td></tr><tr><td><code class="literal">&amp;&amp; (box,box)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (box,box)</code></td></tr><tr><td><code class="literal">&amp;&lt;| (box,box)</code></td></tr><tr><td><code class="literal">|&amp;&gt; (box,box)</code></td></tr><tr><td><code class="literal">|&gt;&gt; (box,box)</code></td></tr><tr><td rowspan="11" valign="middle"><code class="literal">inet_ops</code></td><td><code class="literal">&lt;&lt; (inet,inet)</code></td><td rowspan="11" valign="middle"> </td></tr><tr><td><code class="literal">&lt;&lt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;&gt;= (inet,inet)</code></td></tr><tr><td><code class="literal">= (inet,inet)</code></td></tr><tr><td><code class="literal">&lt;&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&lt; (inet,inet)</code></td></tr><tr><td><code class="literal">&lt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&amp;&amp; (inet,inet)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">kd_point_ops</code></td><td><code class="literal">|&gt;&gt; (point,point)</code></td><td rowspan="6" valign="middle"><code class="literal">&lt;-&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt; (point,point)</code></td></tr><tr><td><code class="literal">&gt;&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (point,point)</code></td></tr><tr><td><code class="literal">~= (point,point)</code></td></tr><tr><td><code class="literal">&lt;@ (point,box)</code></td></tr><tr><td rowspan="12" valign="middle"><code class="literal">poly_ops</code></td><td><code class="literal">&lt;&lt; (polygon,polygon)</code></td><td rowspan="12" valign="middle"><code class="literal">&lt;-&gt; (polygon,point)</code></td></tr><tr><td><code class="literal">&amp;&lt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&gt;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&lt;@ (polygon,polygon)</code></td></tr><tr><td><code class="literal">@&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">~= (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&amp; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&lt;| (polygon,polygon)</code></td></tr><tr><td><code class="literal">|&gt;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">|&amp;&gt; (polygon,polygon)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">quad_point_ops</code></td><td><code class="literal">|&gt;&gt; (point,point)</code></td><td rowspan="6" valign="middle"><code class="literal">&lt;-&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt; (point,point)</code></td></tr><tr><td><code class="literal">&gt;&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (point,point)</code></td></tr><tr><td><code class="literal">~= (point,point)</code></td></tr><tr><td><code class="literal">&lt;@ (point,box)</code></td></tr><tr><td rowspan="10" valign="middle"><code class="literal">range_ops</code></td><td><code class="literal">= (anyrange,anyrange)</code></td><td rowspan="10" valign="middle"> </td></tr><tr><td><code class="literal">&amp;&amp; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">@&gt; (anyrange,anyelement)</code></td></tr><tr><td><code class="literal">@&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&lt;@ (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&lt;&lt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&gt;&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&amp;&lt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&amp;&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">-|- (anyrange,anyrange)</code></td></tr><tr><td rowspan="10" valign="middle"><code class="literal">text_ops</code></td><td><code class="literal">= (text,text)</code></td><td rowspan="10" valign="middle"> </td></tr><tr><td><code class="literal">&lt; (text,text)</code></td></tr><tr><td><code class="literal">&lt;= (text,text)</code></td></tr><tr><td><code class="literal">&gt; (text,text)</code></td></tr><tr><td><code class="literal">&gt;= (text,text)</code></td></tr><tr><td><code class="literal">~&lt;~ (text,text)</code></td></tr><tr><td><code class="literal">~&lt;=~ (text,text)</code></td></tr><tr><td><code class="literal">~&gt;=~ (text,text)</code></td></tr><tr><td><code class="literal">~&gt;~ (text,text)</code></td></tr><tr><td><code class="literal">^@ (text,text)</code></td></tr></tbody></table>
 
 <br>
 
-Of the two operator classes for type `point`,
-`quad_point_ops` is the default. `kd_point_ops`
-supports the same operators but uses a different index data structure that
-may offer better performance in some applications.
+在 `point` 型別的兩個運算子類別中，`quad_point_ops` 是預設的。`kd_point_ops` 支援相同的運算子，但使用不同的索引資料結構，在某些應用中可能提供較佳的效能。
 
-The `quad_point_ops`, `kd_point_ops` and
-`poly_ops` operator classes support the `<->`
-ordering operator, which enables the k-nearest neighbor (`k-NN`)
-search over indexed point or polygon data sets.
+`quad_point_ops`、`kd_point_ops` 與 `poly_ops` 運算子類別支援 `<->` 排序運算子，可對被索引的點或多邊形資料集進行 k 最近鄰（`k-NN`）搜尋。
 
 <a id="SPGIST-EXTENSIBILITY"></a>
 
-### 65.3.3. Extensibility [#](#SPGIST-EXTENSIBILITY)
+### 65.3.3. 擴充性 [#](#SPGIST-EXTENSIBILITY)
 
-SP-GiST offers an interface with a high level of
-abstraction, requiring the access method developer to implement only
-methods specific to a given data type. The SP-GiST core
-is responsible for efficient disk mapping and searching the tree structure.
-It also takes care of concurrency and logging considerations.
+SP-GiST 提供具有高度抽象性的介面，只要求存取方法的開發者實作特定資料型別專屬的方法。SP-GiST 核心負責有效率的磁碟對應以及樹狀結構的搜尋。它也會處理並行與日誌記錄方面的考量。
 
-Leaf tuples of an SP-GiST tree usually contain values
-of the same data type as the indexed column, although it is also possible
-for them to contain lossy representations of the indexed column.
-Leaf tuples stored at the root level will directly represent
-the original indexed data value, but leaf tuples at lower
-levels might contain only a partial value, such as a suffix.
-In that case the operator class support functions must be able to
-reconstruct the original value using information accumulated from the
-inner tuples that are passed through to reach the leaf level.
+SP-GiST 樹的葉 tuple 通常包含與被索引欄位相同資料型別的值，不過它們也可以包含被索引欄位的有損表示。儲存在根層級的葉 tuple 會直接代表原始的被索引資料值，但較低層級的葉 tuple 可能只包含部分值，例如後綴。在這種情況下，運算子類別的支援函式必須能夠利用到達葉層級途中所經過之內部 tuple 累積的資訊，重建原始值。
 
-When an SP-GiST index is created with
-`INCLUDE` columns, the values of those columns are also
-stored in leaf tuples. The `INCLUDE` columns are of no
-concern to the SP-GiST operator class, so they are
-not discussed further here.
+使用 `INCLUDE` 欄位建立 SP-GiST 索引時，這些欄位的值也會儲存在葉 tuple 中。`INCLUDE` 欄位與 SP-GiST 運算子類別無關，因此這裡不再進一步討論。
 
-Inner tuples are more complex, since they are branching points in the
-search tree. Each inner tuple contains a set of one or more
-*nodes*, which represent groups of similar leaf values.
-A node contains a downlink that leads either to another, lower-level inner
-tuple, or to a short list of leaf tuples that all lie on the same index page.
-Each node normally has a *label* that describes it; for example,
-in a radix tree the node label could be the next character of the string
-value. (Alternatively, an operator class can omit the node labels, if it
-works with a fixed set of nodes for all inner tuples;
-see [Section 65.3.4.2](spgist.md#SPGIST-NULL-LABELS).)
-Optionally, an inner tuple can have a *prefix* value
-that describes all its members. In a radix tree this could be the common
-prefix of the represented strings. The prefix value is not necessarily
-really a prefix, but can be any data needed by the operator class;
-for example, in a quad-tree it can store the central point that the four
-quadrants are measured with respect to. A quad-tree inner tuple would
-then also contain four nodes corresponding to the quadrants around this
-central point.
+內部 tuple 較為複雜，因為它們是搜尋樹中的分支點。每個內部 tuple 包含一組一個或多個*節點*，代表相似葉值的群組。節點包含一個下行連結（downlink），它要麼通往另一個較低層級的內部 tuple，要麼通往一份全部位於同一索引頁面上的葉 tuple 短清單。每個節點通常有一個描述它的*標籤*；例如，在基數樹中，節點標籤可以是字串值的下一個字元。（另外，如果運算子類別對所有內部 tuple 都使用一組固定的節點，則可以省略節點標籤；請參閱[第 65.3.4.2 節](spgist.md#SPGIST-NULL-LABELS)。）內部 tuple 可以選擇性地具有描述其所有成員的*前綴*值。在基數樹中，這可以是所代表字串的共同前綴。前綴值不一定真的是前綴，而可以是運算子類別所需的任何資料；例如，在四元樹中，它可以儲存作為四個象限劃分基準的中心點。如此一來，四元樹的內部 tuple 也會包含四個節點，分別對應這個中心點周圍的各個象限。
 
-Some tree algorithms require knowledge of level (or depth) of the current
-tuple, so the SP-GiST core provides the possibility for
-operator classes to manage level counting while descending the tree.
-There is also support for incrementally reconstructing the represented
-value when that is needed, and for passing down additional data (called
-*traverse values*) during a tree descent.
+有些樹演算法需要知道目前 tuple 的層級（或深度），因此 SP-GiST 核心讓運算子類別可以在沿樹往下走訪時管理層級計數。它也支援在需要時逐步重建所代表的值，以及在沿樹往下走訪期間向下傳遞額外資料（稱為*遍歷值*，traverse values）。
 
-### Note
+### 注意
 
-The SP-GiST core code takes care of null entries.
-Although SP-GiST indexes do store entries for nulls
-in indexed columns, this is hidden from the index operator class code:
-no null index entries or search conditions will ever be passed to the
-operator class methods. (It is assumed that SP-GiST
-operators are strict and so cannot succeed for null values.) Null values
-are therefore not discussed further here.
+SP-GiST 核心程式碼會處理 null 項目。雖然 SP-GiST 索引確實會為被索引欄位中的 null 儲存項目，但這對索引運算子類別的程式碼是隱藏的：永遠不會有 null 索引項目或搜尋條件傳給運算子類別的方法。（這是假設 SP-GiST 運算子是嚴格的，因此對 null 值不可能成功。）因此這裡不再進一步討論 null 值。
 
-There are five user-defined methods that an index operator class for
-SP-GiST must provide, and two are optional. All five
-mandatory methods follow the convention of accepting two `internal`
-arguments, the first of which is a pointer to a C struct containing input
-values for the support method, while the second argument is a pointer to a
-C struct where output values must be placed. Four of the mandatory methods just
-return `void`, since all their results appear in the output struct; but
-`leaf_consistent` returns a `boolean` result.
-The methods must not modify any fields of their input structs. In all
-cases, the output struct is initialized to zeroes before calling the
-user-defined method. The optional sixth method `compress`
-accepts a `datum` to be indexed as the only argument and returns a value suitable
-for physical storage in a leaf tuple. The optional seventh method
-`options` accepts an `internal` pointer to a C struct, where
-opclass-specific parameters should be placed, and returns `void`.
+SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另有兩個是選擇性的。這五個必要方法都遵循接受兩個 `internal` 引數的慣例，第一個引數是指向 C 結構的指標，該結構包含支援方法的輸入值；第二個引數則是指向 C 結構的指標，輸出值必須放在該結構中。其中四個必要方法只傳回 `void`，因為它們的所有結果都出現在輸出結構中；但 `leaf_consistent` 傳回 `boolean` 結果。這些方法不得修改其輸入結構的任何欄位。在所有情況下，輸出結構都會在呼叫使用者定義的方法之前初始化為零。選擇性的第六個方法 `compress` 接受要被索引的 `datum` 作為唯一引數，並傳回適合實體儲存在葉 tuple 中的值。選擇性的第七個方法 `options` 接受一個指向 C 結構的 `internal` 指標，運算子類別專屬的參數應該放在該結構中，並傳回 `void`。
 
-The five mandatory user-defined methods are:
+五個必要的使用者定義方法如下：
 
 `config`
-:   Returns static information about the index implementation, including
-    the data type OIDs of the prefix and node label data types.
+:   傳回索引實作的靜態資訊，包括前綴與節點標籤資料型別的資料型別 OID。
 
-    The SQL declaration of the function must look like this:
+    此函式的 SQL 宣告必須如下所示：
 
     ```
 
     CREATE FUNCTION my_config(internal, internal) RETURNS void ...
     ```
 
-    The first argument is a pointer to a `spgConfigIn`
-    C struct, containing input data for the function.
-    The second argument is a pointer to a `spgConfigOut`
-    C struct, which the function must fill with result data.
+    第一個引數是指向 `spgConfigIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgConfigOut` C 結構的指標，函式必須在其中填入結果資料。
 
     ```
 
@@ -184,57 +94,25 @@ The five mandatory user-defined methods are:
     } spgConfigOut;
     ```
 
-    `attType` is passed in order to support polymorphic
-    index operator classes; for ordinary fixed-data-type operator classes, it
-    will always have the same value and so can be ignored.
+    傳入 `attType` 是為了支援多型的索引運算子類別；對於一般固定資料型別的運算子類別，它的值永遠相同，因此可以忽略。
 
-    For operator classes that do not use prefixes,
-    `prefixType` can be set to `VOIDOID`.
-    Likewise, for operator classes that do not use node labels,
-    `labelType` can be set to `VOIDOID`.
-    `canReturnData` should be set true if the operator class
-    is capable of reconstructing the originally-supplied index value.
-    `longValuesOK` should be set true only when the
-    `attType` is of variable length and the operator
-    class is capable of segmenting long values by repeated suffixing
-    (see [Section 65.3.4.1](spgist.md#SPGIST-LIMITS)).
+    對於不使用前綴的運算子類別，可以將 `prefixType` 設為 `VOIDOID`。同樣地，對於不使用節點標籤的運算子類別，可以將 `labelType` 設為 `VOIDOID`。如果運算子類別能夠重建原本提供的索引值，應該將 `canReturnData` 設為 true。只有在 `attType` 為可變長度，且運算子類別能夠透過反覆取後綴來分段處理長值時（也就是每往下一層就移除一段前綴、只保留較短的後綴，與下方 picksplit 去除前綴的做法一致），才應該將 `longValuesOK` 設為 true（請參閱[第 65.3.4.1 節](spgist.md#SPGIST-LIMITS)）。
 
-    `leafType` should match the index storage type
-    defined by the operator class's `opckeytype`
-    catalog entry.
-    (Note that `opckeytype` can be zero,
-    implying the storage type is the same as the operator class's input
-    type, which is the most common situation.)
-    For reasons of backward compatibility, the `config`
-    method can set `leafType` to some other value,
-    and that value will be used; but this is deprecated since the index
-    contents are then incorrectly identified in the catalogs.
-    Also, it's permissible to
-    leave `leafType` uninitialized (zero);
-    that is interpreted as meaning the index storage type derived from
-    `opckeytype`.
+    `leafType` 應該與運算子類別的 `opckeytype` 系統目錄項目所定義的索引儲存型別相符。（請注意，`opckeytype` 可以是零，表示儲存型別與運算子類別的輸入型別相同，這是最常見的情況。）基於向後相容性的理由，`config` 方法可以將 `leafType` 設為其他值，而該值會被使用；但這種做法已被棄用，因為如此一來索引內容在系統目錄中會被錯誤識別。此外，也允許讓 `leafType` 保持未初始化（零）；這會被解讀為使用從 `opckeytype` 推導出的索引儲存型別。
 
-    When `attType`
-    and `leafType` are different, the optional
-    method `compress` must be provided.
-    Method `compress` is responsible
-    for transformation of datums to be indexed from `attType`
-    to `leafType`.
+    當 `attType` 與 `leafType` 不同時，必須提供選擇性的 `compress` 方法。`compress` 方法負責將要被索引的 datum 從 `attType` 轉換為 `leafType`。
 
 `choose`
-:   Chooses a method for inserting a new value into an inner tuple.
+:   選擇將新值插入內部 tuple 的方式。
 
-    The SQL declaration of the function must look like this:
+    此函式的 SQL 宣告必須如下所示：
 
     ```
 
     CREATE FUNCTION my_choose(internal, internal) RETURNS void ...
     ```
 
-    The first argument is a pointer to a `spgChooseIn`
-    C struct, containing input data for the function.
-    The second argument is a pointer to a `spgChooseOut`
-    C struct, which the function must fill with result data.
+    第一個引數是指向 `spgChooseIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgChooseOut` C 結構的指標，函式必須在其中填入結果資料。
 
     ```
 
@@ -293,106 +171,27 @@ The five mandatory user-defined methods are:
     } spgChooseOut;
     ```
 
-    `datum` is the original datum of
-    `spgConfigIn`.`attType`
-    type that was to be inserted into the index.
-    `leafDatum` is a value of
-    `spgConfigOut`.`leafType`
-    type, which is initially a result of method
-    `compress` applied to `datum`
-    when method `compress` is provided, or the same value as
-    `datum` otherwise.
-    `leafDatum` can change at lower levels of the tree
-    if the `choose` or `picksplit`
-    methods change it. When the insertion search reaches a leaf page,
-    the current value of `leafDatum` is what will be stored
-    in the newly created leaf tuple.
-    `level` is the current inner tuple's level, starting at
-    zero for the root level.
-    `allTheSame` is true if the current inner tuple is
-    marked as containing multiple equivalent nodes
-    (see [Section 65.3.4.3](spgist.md#SPGIST-ALL-THE-SAME)).
-    `hasPrefix` is true if the current inner tuple contains
-    a prefix; if so,
-    `prefixDatum` is its value.
-    `nNodes` is the number of child nodes contained in the
-    inner tuple, and
-    `nodeLabels` is an array of their label values, or
-    NULL if there are no labels.
+    `datum` 是要插入索引的原始 datum，型別為 `spgConfigIn`.`attType`。`leafDatum` 是型別為 `spgConfigOut`.`leafType` 的值，當有提供 `compress` 方法時，它最初是將 `compress` 方法套用於 `datum` 的結果，否則就是與 `datum` 相同的值。如果 `choose` 或 `picksplit` 方法改變了 `leafDatum`，它可能會在樹的較低層級改變。當插入搜尋到達葉頁面時，`leafDatum` 的目前值就是要儲存在新建立之葉 tuple 中的值。`level` 是目前內部 tuple 的層級，根層級從零開始。如果目前內部 tuple 被標記為包含多個等價節點，`allTheSame` 為 true（請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)）。如果目前內部 tuple 包含前綴，`hasPrefix` 為 true；此時 `prefixDatum` 就是前綴的值。`nNodes` 是內部 tuple 所包含的子節點數量，`nodeLabels` 則是它們的標籤值陣列，若沒有標籤則為 NULL。
 
-    The `choose` function can determine either that
-    the new value matches one of the existing child nodes, or that a new
-    child node must be added, or that the new value is inconsistent with
-    the tuple prefix and so the inner tuple must be split to create a
-    less restrictive prefix.
+    `choose` 函式可以判定新值與現有的某個子節點相符，或必須新增一個子節點，或新值與 tuple 前綴不一致，因而必須分裂內部 tuple，以建立限制較寬鬆的前綴。
 
-    If the new value matches one of the existing child nodes,
-    set `resultType` to `spgMatchNode`.
-    Set `nodeN` to the index (from zero) of that node in
-    the node array.
-    Set `levelAdd` to the increment in
-    `level` caused by descending through that node,
-    or leave it as zero if the operator class does not use levels.
-    Set `restDatum` to equal `leafDatum`
-    if the operator class does not modify datums from one level to the
-    next, or otherwise set it to the modified value to be used as
-    `leafDatum` at the next level.
+    如果新值與現有的某個子節點相符，請將 `resultType` 設為 `spgMatchNode`。將 `nodeN` 設為該節點在節點陣列中的索引（從零起算）。將 `levelAdd` 設為經由該節點往下走訪所造成的 `level` 增量；如果運算子類別不使用層級，則保持為零。如果運算子類別不會在層級之間修改 datum，請將 `restDatum` 設為等於 `leafDatum`，否則將它設為修改後的值，作為下一層級的 `leafDatum`。
 
-    If a new child node must be added,
-    set `resultType` to `spgAddNode`.
-    Set `nodeLabel` to the label to be used for the new
-    node, and set `nodeN` to the index (from zero) at which
-    to insert the node in the node array.
-    After the node has been added, the `choose`
-    function will be called again with the modified inner tuple;
-    that call should result in an `spgMatchNode` result.
+    如果必須新增子節點，請將 `resultType` 設為 `spgAddNode`。將 `nodeLabel` 設為新節點要使用的標籤，並將 `nodeN` 設為在節點陣列中插入該節點的索引（從零起算）。新增節點之後，會以修改後的內部 tuple 再次呼叫 `choose` 函式；該次呼叫應該產生 `spgMatchNode` 結果。
 
-    If the new value is inconsistent with the tuple prefix,
-    set `resultType` to `spgSplitTuple`.
-    This action moves all the existing nodes into a new lower-level
-    inner tuple, and replaces the existing inner tuple with a tuple
-    having a single downlink pointing to the new lower-level inner tuple.
-    Set `prefixHasPrefix` to indicate whether the new
-    upper tuple should have a prefix, and if so set
-    `prefixPrefixDatum` to the prefix value. This new
-    prefix value must be sufficiently less restrictive than the original
-    to accept the new value to be indexed.
-    Set `prefixNNodes` to the number of nodes needed in the
-    new tuple, and set `prefixNodeLabels` to a palloc'd array
-    holding their labels, or to NULL if node labels are not required.
-    Note that the total size of the new upper tuple must be no more
-    than the total size of the tuple it is replacing; this constrains
-    the lengths of the new prefix and new labels.
-    Set `childNodeN` to the index (from zero) of the node
-    that will downlink to the new lower-level inner tuple.
-    Set `postfixHasPrefix` to indicate whether the new
-    lower-level inner tuple should have a prefix, and if so set
-    `postfixPrefixDatum` to the prefix value. The
-    combination of these two prefixes and the downlink node's label
-    (if any) must have the same meaning as the original prefix, because
-    there is no opportunity to alter the node labels that are moved to
-    the new lower-level tuple, nor to change any child index entries.
-    After the node has been split, the `choose`
-    function will be called again with the replacement inner tuple.
-    That call may return an `spgAddNode` result, if no suitable
-    node was created by the `spgSplitTuple` action. Eventually
-    `choose` must return `spgMatchNode` to
-    allow the insertion to descend to the next level.
+    如果新值與 tuple 前綴不一致，請將 `resultType` 設為 `spgSplitTuple`。此動作會將所有現有節點移到一個新的較低層級內部 tuple 中，並以一個只有單一下行連結、指向該新的較低層級內部 tuple 的 tuple 取代現有的內部 tuple。設定 `prefixHasPrefix` 以表示新的上層 tuple 是否應該有前綴，若是，則將 `prefixPrefixDatum` 設為前綴值。這個新的前綴值必須比原本的前綴寬鬆到足以接受要被索引的新值。將 `prefixNNodes` 設為新 tuple 所需的節點數量，並將 `prefixNodeLabels` 設為一個以 palloc 配置、存放這些節點標籤的陣列，若不需要節點標籤則設為 NULL。請注意，新上層 tuple 的總大小不得超過它所取代之 tuple 的總大小；這限制了新前綴與新標籤的長度。將 `childNodeN` 設為將以下行連結指向新的較低層級內部 tuple 之節點的索引（從零起算）。設定 `postfixHasPrefix` 以表示新的較低層級內部 tuple 是否應該有前綴，若是，則將 `postfixPrefixDatum` 設為前綴值。這兩個前綴與下行連結節點的標籤（若有的話）的組合，必須與原本的前綴具有相同的意義，因為既沒有機會變更被移到新的較低層級 tuple 中的節點標籤，也無法變更任何子索引項目。節點分裂之後，會以取代後的內部 tuple 再次呼叫 `choose` 函式。如果 `spgSplitTuple` 動作沒有建立合適的節點，該次呼叫可能會傳回 `spgAddNode` 結果。最終 `choose` 必須傳回 `spgMatchNode`，讓插入作業得以往下走訪到下一層級。
 
 `picksplit`
-:   Decides how to create a new inner tuple over a set of leaf tuples.
+:   決定如何在一組葉 tuple 之上建立新的內部 tuple。
 
-    The SQL declaration of the function must look like this:
+    此函式的 SQL 宣告必須如下所示：
 
     ```
 
     CREATE FUNCTION my_picksplit(internal, internal) RETURNS void ...
     ```
 
-    The first argument is a pointer to a `spgPickSplitIn`
-    C struct, containing input data for the function.
-    The second argument is a pointer to a `spgPickSplitOut`
-    C struct, which the function must fill with result data.
+    第一個引數是指向 `spgPickSplitIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgPickSplitOut` C 結構的指標，函式必須在其中填入結果資料。
 
     ```
 
@@ -416,68 +215,25 @@ The five mandatory user-defined methods are:
     } spgPickSplitOut;
     ```
 
-    `nTuples` is the number of leaf tuples provided.
-    `datums` is an array of their datum values of
-    `spgConfigOut`.`leafType`
-    type.
-    `level` is the current level that all the leaf tuples
-    share, which will become the level of the new inner tuple.
+    `nTuples` 是所提供的葉 tuple 數量。`datums` 是它們的 datum 值陣列，型別為 `spgConfigOut`.`leafType`。`level` 是所有葉 tuple 共同的目前層級，它將成為新內部 tuple 的層級。
 
-    Set `hasPrefix` to indicate whether the new inner
-    tuple should have a prefix, and if so set
-    `prefixDatum` to the prefix value.
-    Set `nNodes` to indicate the number of nodes that
-    the new inner tuple will contain, and
-    set `nodeLabels` to an array of their label values,
-    or to NULL if node labels are not required.
-    Set `mapTuplesToNodes` to an array that gives the index
-    (from zero) of the node that each leaf tuple should be assigned to.
-    Set `leafTupleDatums` to an array of the values to
-    be stored in the new leaf tuples (these will be the same as the
-    input `datums` if the operator class does not modify
-    datums from one level to the next).
-    Note that the `picksplit` function is
-    responsible for palloc'ing the
-    `nodeLabels`, `mapTuplesToNodes` and
-    `leafTupleDatums` arrays.
+    設定 `hasPrefix` 以表示新的內部 tuple 是否應該有前綴，若是，則將 `prefixDatum` 設為前綴值。設定 `nNodes` 以表示新內部 tuple 將包含的節點數量，並將 `nodeLabels` 設為它們的標籤值陣列，若不需要節點標籤則設為 NULL。將 `mapTuplesToNodes` 設為一個陣列，提供每個葉 tuple 應指派到之節點的索引（從零起算）。將 `leafTupleDatums` 設為要儲存在新葉 tuple 中的值陣列（如果運算子類別不會在層級之間修改 datum，這些值會與輸入的 `datums` 相同）。請注意，`picksplit` 函式負責以 palloc 配置 `nodeLabels`、`mapTuplesToNodes` 與 `leafTupleDatums` 陣列。
 
-    If more than one leaf tuple is supplied, it is expected that the
-    `picksplit` function will classify them into more than
-    one node; otherwise it is not possible to split the leaf tuples
-    across multiple pages, which is the ultimate purpose of this
-    operation. Therefore, if the `picksplit` function
-    ends up placing all the leaf tuples in the same node, the core
-    SP-GiST code will override that decision and generate an inner
-    tuple in which the leaf tuples are assigned at random to several
-    identically-labeled nodes. Such a tuple is marked
-    `allTheSame` to signify that this has happened. The
-    `choose` and `inner_consistent` functions
-    must take suitable care with such inner tuples.
-    See [Section 65.3.4.3](spgist.md#SPGIST-ALL-THE-SAME) for more information.
+    如果提供了超過一個葉 tuple，則預期 `picksplit` 函式會將它們分類到超過一個節點中；否則就無法將葉 tuple 分散到多個頁面，而這正是此操作的最終目的。因此，如果 `picksplit` 函式最後將所有葉 tuple 都放在同一個節點中，SP-GiST 核心程式碼會推翻該決定，並產生一個內部 tuple，其中的葉 tuple 會被隨機指派到數個標籤相同的節點。這樣的 tuple 會被標記為 `allTheSame`，以表示發生了這種情況。`choose` 與 `inner_consistent` 函式必須適當地處理這類內部 tuple。詳細資訊請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)。
 
-    `picksplit` can be applied to a single leaf tuple only
-    in the case that the `config` function set
-    `longValuesOK` to true and a larger-than-a-page input
-    value has been supplied. In this case the point of the operation is
-    to strip off a prefix and produce a new, shorter leaf datum value.
-    The call will be repeated until a leaf datum short enough to fit on
-    a page has been produced. See [Section 65.3.4.1](spgist.md#SPGIST-LIMITS) for
-    more information.
+    只有在 `config` 函式將 `longValuesOK` 設為 true，且提供了大於一個頁面的輸入值時，`picksplit` 才可以套用於單一葉 tuple。在這種情況下，此操作的目的是去除一個前綴，產生一個新的、較短的葉 datum 值。此呼叫會反覆進行，直到產生出短到足以放進一個頁面的葉 datum 為止。詳細資訊請參閱[第 65.3.4.1 節](spgist.md#SPGIST-LIMITS)。
 
 `inner_consistent`
-:   Returns set of nodes (branches) to follow during tree search.
+:   傳回在樹搜尋期間要跟隨的節點（分支）集合。
 
-    The SQL declaration of the function must look like this:
+    此函式的 SQL 宣告必須如下所示：
 
     ```
 
     CREATE FUNCTION my_inner_consistent(internal, internal) RETURNS void ...
     ```
 
-    The first argument is a pointer to a `spgInnerConsistentIn`
-    C struct, containing input data for the function.
-    The second argument is a pointer to a `spgInnerConsistentOut`
-    C struct, which the function must fill with result data.
+    第一個引數是指向 `spgInnerConsistentIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgInnerConsistentOut` C 結構的指標，函式必須在其中填入結果資料。
 
     ```
 
@@ -514,97 +270,21 @@ The five mandatory user-defined methods are:
     } spgInnerConsistentOut;
     ```
 
-    The array `scankeys`, of length `nkeys`,
-    describes the index search condition(s). These conditions are
-    combined with AND — only index entries that satisfy all of
-    them are interesting. (Note that `nkeys` = 0 implies
-    that all index entries satisfy the query.) Usually the consistent
-    function only cares about the `sk_strategy` and
-    `sk_argument` fields of each array entry, which
-    respectively give the indexable operator and comparison value.
-    In particular it is not necessary to check `sk_flags` to
-    see if the comparison value is NULL, because the SP-GiST core code
-    will filter out such conditions.
-    The array `orderbys`, of length `norderbys`,
-    describes ordering operators (if any) in the same manner.
-    `reconstructedValue` is the value reconstructed for the
-    parent tuple; it is `(Datum) 0` at the root level or if the
-    `inner_consistent` function did not provide a value at the
-    parent level.
-    `traversalValue` is a pointer to any traverse data
-    passed down from the previous call of `inner_consistent`
-    on the parent index tuple, or NULL at the root level.
-    `traversalMemoryContext` is the memory context in which
-    to store output traverse values (see below).
-    `level` is the current inner tuple's level, starting at
-    zero for the root level.
-    `returnData` is `true` if reconstructed data is
-    required for this query; this will only be so if the
-    `config` function asserted `canReturnData`.
-    `allTheSame` is true if the current inner tuple is
-    marked “all-the-same”; in this case all the nodes have the
-    same label (if any) and so either all or none of them match the query
-    (see [Section 65.3.4.3](spgist.md#SPGIST-ALL-THE-SAME)).
-    `hasPrefix` is true if the current inner tuple contains
-    a prefix; if so,
-    `prefixDatum` is its value.
-    `nNodes` is the number of child nodes contained in the
-    inner tuple, and
-    `nodeLabels` is an array of their label values, or
-    NULL if the nodes do not have labels.
+    長度為 `nkeys` 的 `scankeys` 陣列描述索引搜尋條件。這些條件以 AND 結合——只有滿足所有條件的索引項目才是我們感興趣的。（請注意，`nkeys` = 0 表示所有索引項目都滿足查詢。）consistent 函式通常只關心每個陣列項目的 `sk_strategy` 與 `sk_argument` 欄位，它們分別提供可索引運算子與比較值。特別是，不需要檢查 `sk_flags` 來確認比較值是否為 NULL，因為 SP-GiST 核心程式碼會濾除這類條件。長度為 `norderbys` 的 `orderbys` 陣列以相同的方式描述排序運算子（若有的話）。`reconstructedValue` 是為父 tuple 重建的值；在根層級，或 `inner_consistent` 函式未在父層級提供值時，它為 `(Datum) 0`。`traversalValue` 是一個指標，指向前一次對父索引 tuple 呼叫 `inner_consistent` 時向下傳遞的任何遍歷資料，在根層級則為 NULL。`traversalMemoryContext` 是用來儲存輸出遍歷值的記憶體上下文（見下文）。`level` 是目前內部 tuple 的層級，根層級從零開始。如果此查詢需要重建資料，`returnData` 為 `true`；只有在 `config` 函式宣告了 `canReturnData` 時才會如此。如果目前內部 tuple 被標記為「all-the-same」，`allTheSame` 為 true；在這種情況下，所有節點都具有相同的標籤（若有的話），因此要麼全部與查詢相符，要麼全部不相符（請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)）。如果目前內部 tuple 包含前綴，`hasPrefix` 為 true；此時 `prefixDatum` 就是前綴的值。`nNodes` 是內部 tuple 所包含的子節點數量，`nodeLabels` 則是它們的標籤值陣列，若節點沒有標籤則為 NULL。
 
-    `nNodes` must be set to the number of child nodes that
-    need to be visited by the search, and
-    `nodeNumbers` must be set to an array of their indexes.
-    If the operator class keeps track of levels, set
-    `levelAdds` to an array of the level increments
-    required when descending to each node to be visited. (Often these
-    increments will be the same for all the nodes, but that's not
-    necessarily so, so an array is used.)
-    If value reconstruction is needed, set
-    `reconstructedValues` to an array of the values
-    reconstructed for each child node to be visited; otherwise, leave
-    `reconstructedValues` as NULL.
-    The reconstructed values are assumed to be of type
-    `spgConfigOut`.`leafType`.
-    (However, since the core system will do nothing with them except
-    possibly copy them, it is sufficient for them to have the
-    same `typlen` and `typbyval`
-    properties as `leafType`.)
-    If ordered search is performed, set `distances`
-    to an array of distance values according to `orderbys`
-    array (nodes with lowest distances will be processed first). Leave it
-    NULL otherwise.
-    If it is desired to pass down additional out-of-band information
-    (“traverse values”) to lower levels of the tree search,
-    set `traversalValues` to an array of the appropriate
-    traverse values, one for each child node to be visited; otherwise,
-    leave `traversalValues` as NULL.
-    Note that the `inner_consistent` function is
-    responsible for palloc'ing the
-    `nodeNumbers`, `levelAdds`,
-    `distances`,
-    `reconstructedValues`, and
-    `traversalValues` arrays in the current memory context.
-    However, any output traverse values pointed to by
-    the `traversalValues` array should be allocated
-    in `traversalMemoryContext`.
-    Each traverse value must be a single palloc'd chunk.
+    `nNodes` 必須設為搜尋需要造訪的子節點數量，而 `nodeNumbers` 必須設為它們的索引陣列。如果運算子類別會追蹤層級，請將 `levelAdds` 設為往下走訪到每個要造訪之節點時所需的層級增量陣列。（這些增量通常對所有節點都相同，但不一定如此，因此使用陣列。）如果需要重建值，請將 `reconstructedValues` 設為為每個要造訪之子節點所重建的值陣列；否則將 `reconstructedValues` 保持為 NULL。重建的值假設為 `spgConfigOut`.`leafType` 型別。（不過，由於核心系統除了可能複製它們之外，不會對它們做任何處理，因此只要它們具有與 `leafType` 相同的 `typlen` 與 `typbyval` 屬性就足夠了。）如果執行的是有序搜尋，請依照 `orderbys` 陣列將 `distances` 設為距離值陣列（距離最小的節點會最先處理）；否則將它保持為 NULL。如果想要將額外的頻外資訊（「遍歷值」）向下傳遞到樹搜尋的較低層級，請將 `traversalValues` 設為適當遍歷值的陣列，每個要造訪的子節點各一個；否則將 `traversalValues` 保持為 NULL。請注意，`inner_consistent` 函式負責在目前的記憶體上下文 中以 palloc 配置 `nodeNumbers`、`levelAdds`、`distances`、`reconstructedValues` 與 `traversalValues` 陣列。不過，`traversalValues` 陣列所指向的任何輸出遍歷值，都應該配置在 `traversalMemoryContext` 中。每個遍歷值都必須是單一的 palloc 配置區塊。
 
 `leaf_consistent`
-:   Returns true if a leaf tuple satisfies a query.
+:   如果葉 tuple 滿足查詢，則傳回 true。
 
-    The SQL declaration of the function must look like this:
+    此函式的 SQL 宣告必須如下所示：
 
     ```
 
     CREATE FUNCTION my_leaf_consistent(internal, internal) RETURNS bool ...
     ```
 
-    The first argument is a pointer to a `spgLeafConsistentIn`
-    C struct, containing input data for the function.
-    The second argument is a pointer to a `spgLeafConsistentOut`
-    C struct, which the function must fill with result data.
+    第一個引數是指向 `spgLeafConsistentIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgLeafConsistentOut` C 結構的指標，函式必須在其中填入結果資料。
 
     ```
 
@@ -633,71 +313,21 @@ The five mandatory user-defined methods are:
     } spgLeafConsistentOut;
     ```
 
-    The array `scankeys`, of length `nkeys`,
-    describes the index search condition(s). These conditions are
-    combined with AND — only index entries that satisfy all of
-    them satisfy the query. (Note that `nkeys` = 0 implies
-    that all index entries satisfy the query.) Usually the consistent
-    function only cares about the `sk_strategy` and
-    `sk_argument` fields of each array entry, which
-    respectively give the indexable operator and comparison value.
-    In particular it is not necessary to check `sk_flags` to
-    see if the comparison value is NULL, because the SP-GiST core code
-    will filter out such conditions.
-    The array `orderbys`, of length `norderbys`,
-    describes the ordering operators in the same manner.
-    `reconstructedValue` is the value reconstructed for the
-    parent tuple; it is `(Datum) 0` at the root level or if the
-    `inner_consistent` function did not provide a value at the
-    parent level.
-    `traversalValue` is a pointer to any traverse data
-    passed down from the previous call of `inner_consistent`
-    on the parent index tuple, or NULL at the root level.
-    `level` is the current leaf tuple's level, starting at
-    zero for the root level.
-    `returnData` is `true` if reconstructed data is
-    required for this query; this will only be so if the
-    `config` function asserted `canReturnData`.
-    `leafDatum` is the key value of
-    `spgConfigOut`.`leafType`
-    stored in the current leaf tuple.
+    長度為 `nkeys` 的 `scankeys` 陣列描述索引搜尋條件。這些條件以 AND 結合——只有滿足所有條件的索引項目才滿足查詢。（請注意，`nkeys` = 0 表示所有索引項目都滿足查詢。）consistent 函式通常只關心每個陣列項目的 `sk_strategy` 與 `sk_argument` 欄位，它們分別提供可索引運算子與比較值。特別是，不需要檢查 `sk_flags` 來確認比較值是否為 NULL，因為 SP-GiST 核心程式碼會濾除這類條件。長度為 `norderbys` 的 `orderbys` 陣列以相同的方式描述排序運算子。`reconstructedValue` 是為父 tuple 重建的值；在根層級，或 `inner_consistent` 函式未在父層級提供值時，它為 `(Datum) 0`。`traversalValue` 是一個指標，指向前一次對父索引 tuple 呼叫 `inner_consistent` 時向下傳遞的任何遍歷資料，在根層級則為 NULL。`level` 是目前葉 tuple 的層級，根層級從零開始。如果此查詢需要重建資料，`returnData` 為 `true`；只有在 `config` 函式宣告了 `canReturnData` 時才會如此。`leafDatum` 是儲存在目前葉 tuple 中、型別為 `spgConfigOut`.`leafType` 的鍵值。
 
-    The function must return `true` if the leaf tuple matches the
-    query, or `false` if not. In the `true` case,
-    if `returnData` is `true` then
-    `leafValue` must be set to the value (of type
-    `spgConfigIn`.`attType`)
-    originally supplied to be indexed for this leaf tuple. Also,
-    `recheck` may be set to `true` if the match
-    is uncertain and so the operator(s) must be re-applied to the actual
-    heap tuple to verify the match.
-    If ordered search is performed, set `distances`
-    to an array of distance values according to `orderbys`
-    array. Leave it NULL otherwise. If at least one of returned distances
-    is not exact, set `recheckDistances` to true.
-    In this case, the executor will calculate the exact distances after
-    fetching the tuple from the heap, and will reorder the tuples if needed.
+    如果葉 tuple 與查詢相符，函式必須傳回 `true`，否則傳回 `false`。在 `true` 的情況下，如果 `returnData` 為 `true`，則必須將 `leafValue` 設為原本為此葉 tuple 提供以供索引的值（型別為 `spgConfigIn`.`attType`）。此外，如果是否相符並不確定，因而必須對實際的堆積 tuple 重新套用運算子以驗證是否相符，則可以將 `recheck` 設為 `true`。如果執行的是有序搜尋，請依照 `orderbys` 陣列將 `distances` 設為距離值陣列；否則將它保持為 NULL。如果傳回的距離中至少有一個不精確，請將 `recheckDistances` 設為 true。在這種情況下，執行器會在從堆積擷取 tuple 之後計算精確的距離，並在需要時重新排序這些 tuple。
 
-The optional user-defined methods are:
+選擇性的使用者定義方法如下：
 
 `Datum compress(Datum in)`
-:   Converts a data item into a format suitable for physical storage in
-    a leaf tuple of the index. It accepts a value of type
-    `spgConfigIn`.`attType`
-    and returns a value of type
-    `spgConfigOut`.`leafType`.
-    The output value must not contain an out-of-line TOAST pointer.
+:   將資料項目轉換為適合實體儲存在索引葉 tuple 中的格式。它接受型別為 `spgConfigIn`.`attType` 的值，並傳回型別為 `spgConfigOut`.`leafType` 的值。輸出值不得包含行外（out-of-line）TOAST 指標。
 
-    Note: the `compress` method is only applied to
-    values to be stored. The consistent methods receive query
-    `scankeys` unchanged, without transformation
-    using `compress`.
+    注意：`compress` 方法只會套用於要儲存的值。consistent 方法收到的查詢 `scankeys` 保持不變，不會使用 `compress` 進行轉換。
 
 `options`
-:   Defines a set of user-visible parameters that control operator class
-    behavior.
+:   定義一組使用者可見的參數，用以控制運算子類別的行為。
 
-    The SQL declaration of the function must look like this:
+    此函式的 SQL 宣告必須如下所示：
 
     ```
 
@@ -707,141 +337,56 @@ The optional user-defined methods are:
     LANGUAGE C STRICT;
     ```
 
-    The function is passed a pointer to a `local_relopts`
-    struct, which needs to be filled with a set of operator class
-    specific options. The options can be accessed from other support
-    functions using the `PG_HAS_OPCLASS_OPTIONS()` and
-    `PG_GET_OPCLASS_OPTIONS()` macros.
+    此函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別專屬的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集存取這些選項。
 
-    Since the representation of the key in SP-GiST is
-    flexible, it may depend on user-specified parameters.
+    由於鍵在 SP-GiST 中的表示方式具有彈性，它可能取決於使用者指定的參數。
 
-All the SP-GiST support methods are normally called in a short-lived
-memory context; that is, `CurrentMemoryContext` will be reset
-after processing of each tuple. It is therefore not very important to
-worry about pfree'ing everything you palloc. (The `config`
-method is an exception: it should try to avoid leaking memory. But
-usually the `config` method need do nothing but assign
-constants into the passed parameter struct.)
+所有 SP-GiST 支援方法通常都在短期存在的記憶體上下文 中呼叫；也就是說，每處理完一個 tuple，`CurrentMemoryContext` 就會被重設。因此，不太需要擔心是否以 pfree 釋放了所有以 palloc 配置的記憶體。（`config` 方法是例外：它應該盡量避免記憶體洩漏。但 `config` 方法通常只需要將常數指派給傳入的參數結構，不必做其他事。）
 
-If the indexed column is of a collatable data type, the index collation
-will be passed to all the support methods, using the standard
-`PG_GET_COLLATION()` mechanism.
+如果被索引的欄位屬於可定序的資料型別，索引的定序會透過標準的 `PG_GET_COLLATION()` 機制傳給所有支援方法。
 
 <a id="SPGIST-IMPLEMENTATION"></a>
 
-### 65.3.4. Implementation [#](#SPGIST-IMPLEMENTATION)
+### 65.3.4. 實作 [#](#SPGIST-IMPLEMENTATION)
 
-This section covers implementation details and other tricks that are
-useful for implementers of SP-GiST operator classes to
-know.
+本節說明實作細節，以及其他對 SP-GiST 運算子類別實作者而言值得了解的技巧。
 
 <a id="SPGIST-LIMITS"></a>
 
-#### 65.3.4.1. SP-GiST Limits [#](#SPGIST-LIMITS)
+#### 65.3.4.1. SP-GiST 的限制 [#](#SPGIST-LIMITS)
 
-Individual leaf tuples and inner tuples must fit on a single index page
-(8kB by default). Therefore, when indexing values of variable-length
-data types, long values can only be supported by methods such as radix
-trees, in which each level of the tree includes a prefix that is short
-enough to fit on a page, and the final leaf level includes a suffix also
-short enough to fit on a page. The operator class should set
-`longValuesOK` to true only if it is prepared to arrange for
-this to happen. Otherwise, the SP-GiST core will
-reject any request to index a value that is too large to fit
-on an index page.
+個別的葉 tuple 與內部 tuple 都必須能放進單一索引頁面（預設為 8kB）。因此，在為可變長度資料型別的值建立索引時，只有像基數樹這類方法才能支援長值；在這類方法中，樹的每一層都包含一個短到足以放進一個頁面的前綴，而最終的葉層級則包含一個同樣短到足以放進一個頁面的後綴。只有在運算子類別已準備好做到這一點時，才應該將 `longValuesOK` 設為 true。否則，SP-GiST 核心會拒絕任何要為大到無法放進索引頁面之值建立索引的請求。
 
-Likewise, it is the operator class's responsibility that inner tuples
-do not grow too large to fit on an index page; this limits the number
-of child nodes that can be used in one inner tuple, as well as the
-maximum size of a prefix value.
+同樣地，確保內部 tuple 不會大到無法放進索引頁面，是運算子類別的責任；這限制了單一內部 tuple 中可使用的子節點數量，以及前綴值的最大大小。
 
-Another limitation is that when an inner tuple's node points to a set
-of leaf tuples, those tuples must all be in the same index page.
-(This is a design decision to reduce seeking and save space in the
-links that chain such tuples together.) If the set of leaf tuples
-grows too large for a page, a split is performed and an intermediate
-inner tuple is inserted. For this to fix the problem, the new inner
-tuple *must* divide the set of leaf values into more than one
-node group. If the operator class's `picksplit` function
-fails to do that, the SP-GiST core resorts to
-extraordinary measures described in [Section 65.3.4.3](spgist.md#SPGIST-ALL-THE-SAME).
+另一個限制是，當內部 tuple 的節點指向一組葉 tuple 時，這些 tuple 必須全部位於同一個索引頁面中。（這是一項設計決策，目的是減少磁碟尋軌，並節省將這類 tuple 串連在一起之連結所需的空間。）如果這組葉 tuple 變得太大而無法放進一個頁面，就會執行分裂，並插入一個中間的內部 tuple。為了讓這樣做能解決問題，新的內部 tuple *必須*將這組葉值劃分到超過一個節點群組中。如果運算子類別的 `picksplit` 函式無法做到這一點，SP-GiST 核心會採取[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)所述的特殊措施。
 
-When `longValuesOK` is true, it is expected
-that successive levels of the SP-GiST tree will
-absorb more and more information into the prefixes and node labels of
-the inner tuples, making the required leaf datum smaller and smaller,
-so that eventually it will fit on a page.
-To prevent bugs in operator classes from causing infinite insertion
-loops, the SP-GiST core will raise an error if the
-leaf datum does not become any smaller within ten cycles
-of `choose` method calls.
+當 `longValuesOK` 為 true 時，預期 SP-GiST 樹的後續各層會將越來越多的資訊吸收到內部 tuple 的前綴與節點標籤中，使所需的葉 datum 越來越小，最終能夠放進一個頁面。為了防止運算子類別中的錯誤導致無限的插入迴圈，如果葉 datum 在十個 `choose` 方法呼叫週期內都沒有變得更小，SP-GiST 核心就會引發錯誤。
 
 <a id="SPGIST-NULL-LABELS"></a>
 
-#### 65.3.4.2. SP-GiST Without Node Labels [#](#SPGIST-NULL-LABELS)
+#### 65.3.4.2. 沒有節點標籤的 SP-GiST [#](#SPGIST-NULL-LABELS)
 
-Some tree algorithms use a fixed set of nodes for each inner tuple;
-for example, in a quad-tree there are always exactly four nodes
-corresponding to the four quadrants around the inner tuple's centroid
-point. In such a case the code typically works with the nodes by
-number, and there is no need for explicit node labels. To suppress
-node labels (and thereby save some space), the `picksplit`
-function can return NULL for the `nodeLabels` array,
-and likewise the `choose` function can return NULL for
-the `prefixNodeLabels` array during
-a `spgSplitTuple` action.
-This will in turn result in `nodeLabels` being NULL during
-subsequent calls to `choose` and `inner_consistent`.
-In principle, node labels could be used for some inner tuples and omitted
-for others in the same index.
+有些樹演算法對每個內部 tuple 使用一組固定的節點；例如，在四元樹中，永遠恰好有四個節點，對應於內部 tuple 中心點周圍的四個象限。在這種情況下，程式碼通常以編號來處理節點，不需要明確的節點標籤。若要省略節點標籤（藉此節省一些空間），`picksplit` 函式可以對 `nodeLabels` 陣列傳回 NULL，同樣地，`choose` 函式在 `spgSplitTuple` 動作期間也可以對 `prefixNodeLabels` 陣列傳回 NULL。這接著會使 `nodeLabels` 在後續呼叫 `choose` 與 `inner_consistent` 時為 NULL。原則上，在同一個索引中，可以對某些內部 tuple 使用節點標籤，而對其他內部 tuple 省略節點標籤。
 
-When working with an inner tuple having unlabeled nodes, it is an error
-for `choose` to return `spgAddNode`, since the set
-of nodes is supposed to be fixed in such cases.
+處理具有未加標籤節點的內部 tuple 時，`choose` 傳回 `spgAddNode` 是一種錯誤，因為在這種情況下，節點集合應該是固定的。
 
 <a id="SPGIST-ALL-THE-SAME"></a>
 
-#### 65.3.4.3. “All-the-Same” Inner Tuples [#](#SPGIST-ALL-THE-SAME)
+#### 65.3.4.3. 「全部相同」（All-the-Same）的內部元組 [#](#SPGIST-ALL-THE-SAME)
 
-The SP-GiST core can override the results of the
-operator class's `picksplit` function when
-`picksplit` fails to divide the supplied leaf values into
-at least two node categories. When this happens, the new inner tuple
-is created with multiple nodes that each have the same label (if any)
-that `picksplit` gave to the one node it did use, and the
-leaf values are divided at random among these equivalent nodes.
-The `allTheSame` flag is set on the inner tuple to warn the
-`choose` and `inner_consistent` functions that the
-tuple does not have the node set that they might otherwise expect.
+當 `picksplit` 無法將所提供的葉值劃分到至少兩個節點類別中時，SP-GiST 核心可以推翻運算子類別之 `picksplit` 函式的結果。發生這種情況時，新的內部 tuple 會以多個節點建立，每個節點都具有與 `picksplit` 為它實際使用的那一個節點所指定的相同標籤（若有的話），而葉值會被隨機分配到這些等價的節點中。內部 tuple 上會設定 `allTheSame` 旗標，以警告 `choose` 與 `inner_consistent` 函式：該 tuple 不具有它們原本可能預期的節點集合。
 
-When dealing with an `allTheSame` tuple, a `choose`
-result of `spgMatchNode` is interpreted to mean that the new
-value can be assigned to any of the equivalent nodes; the core code will
-ignore the supplied `nodeN` value and descend into one
-of the nodes at random (so as to keep the tree balanced). It is an
-error for `choose` to return `spgAddNode`, since
-that would make the nodes not all equivalent; the
-`spgSplitTuple` action must be used if the value to be inserted
-doesn't match the existing nodes.
+處理 `allTheSame` tuple 時，`choose` 的 `spgMatchNode` 結果會被解讀為新值可以指派給任何一個等價節點；核心程式碼會忽略所提供的 `nodeN` 值，並隨機往下走訪到其中一個節點（以保持樹的平衡）。`choose` 傳回 `spgAddNode` 是一種錯誤，因為那會使節點不再全部等價；如果要插入的值與現有節點不相符，必須使用 `spgSplitTuple` 動作。
 
-When dealing with an `allTheSame` tuple, the
-`inner_consistent` function should return either all or none
-of the nodes as targets for continuing the index search, since they are
-all equivalent. This may or may not require any special-case code,
-depending on how much the `inner_consistent` function normally
-assumes about the meaning of the nodes.
+處理 `allTheSame` tuple 時，`inner_consistent` 函式應該將所有節點都傳回，或一個都不傳回，作為繼續索引搜尋的目標，因為它們全都是等價的。這可能需要、也可能不需要任何特殊情況的程式碼，取決於 `inner_consistent` 函式通常對節點的意義做了多少假設。
 
 <a id="SPGIST-EXAMPLES"></a>
 
-### 65.3.5. Examples [#](#SPGIST-EXAMPLES)
+### 65.3.5. 範例 [#](#SPGIST-EXAMPLES)
 
-The PostgreSQL source distribution includes
-several examples of index operator classes for SP-GiST,
-as described in [Table 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE). Look
-into `src/backend/access/spgist/`
-and `src/backend/utils/adt/` to see the code.
+PostgreSQL 原始碼發行版本包含數個 SP-GiST 索引運算子類別的範例，如[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 所述。程式碼請參閱 `src/backend/access/spgist/` 與 `src/backend/utils/adt/`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spgist.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/spgist.html)（原文版本：18.6；核對日期：2026-10-17）
