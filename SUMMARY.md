@@ -942,7 +942,7 @@
     * [54.1. 概觀 #](internals/protocol/protocol-overview.md)
     * [54.2. 訊息流程 #](internals/protocol/protocol-flow.md)
     * [54.3. SASL 身分驗證 #](internals/protocol/sasl-authentication.md)
-    * [54.4. Streaming Replication Protocol #](internals/protocol/protocol-replication.md)
+    * [54.4. 串流複寫協定 #](internals/protocol/protocol-replication.md)
     * [54.5. 邏輯串流複寫協定 #](internals/protocol/protocol-logical-replication.md)
     * [54.6. 訊息資料型別 #](internals/protocol/protocol-message-types.md)
     * [54.7. 訊息格式 #](internals/protocol/protocol-message-formats.md)
