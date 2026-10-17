@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：269 頁。
+待譯頁面：268 頁。
 
 ## 根目錄
 
@@ -417,7 +417,7 @@
 - [x] `internals/storage/storage-fsm.md` — 66.3. 可用空間對應表
 - [x] `internals/storage/storage-hot.md` — 66.7. 僅堆積元組（HOT） #
 - [x] `internals/storage/storage-init.md` — 66.5. 初始化分支檔案
-- [ ] `internals/storage/storage-page-layout.md` — 66.6. Database Page Layout #
+- [x] `internals/storage/storage-page-layout.md` — 66.6. 資料庫頁面配置 #
 - [x] `internals/storage/storage-toast.md` — 66.2. TOAST #
 - [x] `internals/storage/storage-vm.md` — 66.4. 可見性對應表 #
 - [x] `internals/tableam/README.md` — 第 62 章 資料表存取方法介面定義
