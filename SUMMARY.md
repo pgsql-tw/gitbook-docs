@@ -906,7 +906,7 @@
     * [53.4. `pg_available_extension_versions` #](internals/views/view-pg-available-extension-versions.md)
     * [53.5. `pg_backend_memory_contexts` #](internals/views/view-pg-backend-memory-contexts.md)
     * [53.6. pg_config](internals/views/view-pg-config.md)
-    * [53.7. pg_cursors #](internals/views/view-pg-cursors.md)
+    * [53.7. `pg_cursors` #](internals/views/view-pg-cursors.md)
     * [53.8. `pg_file_settings` #](internals/views/view-pg-file-settings.md)
     * [53.9. `pg_group` #](internals/views/view-pg-group.md)
     * [53.10. `pg_hba_file_rules` #](internals/views/view-pg-hba-file-rules.md)
