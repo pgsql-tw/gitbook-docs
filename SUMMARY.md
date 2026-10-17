@@ -963,7 +963,7 @@
     * [58.2. Foreign Data Wrapper Callback Routines #](internals/fdwhandler/fdw-callbacks.md)
     * [58.3. 外部資料包裝器輔助函式 #](internals/fdwhandler/fdw-helpers.md)
     * [58.4. 外部資料包裝器查詢規劃 #](internals/fdwhandler/fdw-planning.md)
-    * [58.5. Row Locking in Foreign Data Wrappers #](internals/fdwhandler/fdw-row-locking.md)
+    * [58.5. 外部資料包裝器中的資料列鎖定 #](internals/fdwhandler/fdw-row-locking.md)
   * [第 59 章 撰寫資料表取樣方法](internals/tablesample-method/README.md)
     * [59.1. 取樣方法支援函式 #](internals/tablesample-method/tablesample-support-functions.md)
   * [第 60 章 撰寫自訂掃描提供者](internals/custom-scan/README.md)

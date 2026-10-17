@@ -1,96 +1,89 @@
-## 58.5. Row Locking in Foreign Data Wrappers [#](#FDW-ROW-LOCKING)
+<a id="FDW-ROW-LOCKING"></a>
 
-If an FDW's underlying storage mechanism has a concept of locking
-individual rows to prevent concurrent updates of those rows, it is
-usually worthwhile for the FDW to perform row-level locking with as
-close an approximation as practical to the semantics used in
-ordinary PostgreSQL tables. There are multiple
-considerations involved in this.
+## 58.5. 外部資料包裝器中的資料列鎖定 [#](#FDW-ROW-LOCKING)
 
-One key decision to be made is whether to perform *early
-locking* or *late locking*. In early locking, a row is
-locked when it is first retrieved from the underlying store, while in
-late locking, the row is locked only when it is known that it needs to
-be locked. (The difference arises because some rows may be discarded by
-locally-checked restriction or join conditions.) Early locking is much
-simpler and avoids extra round trips to a remote store, but it can cause
-locking of rows that need not have been locked, resulting in reduced
-concurrency or even unexpected deadlocks. Also, late locking is only
-possible if the row to be locked can be uniquely re-identified later.
-Preferably the row identifier should identify a specific version of the
-row, as PostgreSQL TIDs do.
+如果 FDW 的底層儲存機制有鎖定個別資料列以防止這些資料列被並行更新的概念，
+那麼 FDW 通常值得以在實務上盡可能接近一般
+PostgreSQL 資料表所用語意的方式來執行資料列層級鎖定。
+這當中牽涉到多項考量。
 
-By default, PostgreSQL ignores locking considerations
-when interfacing to FDWs, but an FDW can perform early locking without
-any explicit support from the core code. The API functions described
-in [Section 58.2.6](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING), which were added
-in PostgreSQL 9.5, allow an FDW to use late locking if
-it wishes.
+一個關鍵決定是要執行*提早
+鎖定*（early locking）還是*延後鎖定*（late locking）。在提早鎖定中，資料列會在
+首次從底層儲存區擷取時就被鎖定；而在
+延後鎖定中，只有在確知資料列需要被鎖定時才會鎖定它。
+（之所以會有差異，是因為有些資料列可能會被
+在本地檢查的限制條件或連接條件捨棄。）提早鎖定簡單得多，
+也能避免與遠端儲存區之間額外的往返，但它可能導致
+鎖定了原本不需要鎖定的資料列，造成並行性降低，
+甚至發生非預期的死結。此外，只有在要鎖定的資料列
+之後能再被唯一識別時，才可能使用延後鎖定。
+資料列識別碼最好能識別資料列的特定版本，
+就像 PostgreSQL 的 TID 那樣。
 
-An additional consideration is that in `READ COMMITTED`
-isolation mode, PostgreSQL may need to re-check
-restriction and join conditions against an updated version of some
-target tuple. Rechecking join conditions requires re-obtaining copies
-of the non-target rows that were previously joined to the target tuple.
-When working with standard PostgreSQL tables, this is
-done by including the TIDs of the non-target tables in the column list
-projected through the join, and then re-fetching non-target rows when
-required. This approach keeps the join data set compact, but it
-requires inexpensive re-fetch capability, as well as a TID that can
-uniquely identify the row version to be re-fetched. By default,
-therefore, the approach used with foreign tables is to include a copy of
-the entire row fetched from a foreign table in the column list projected
-through the join. This puts no special demands on the FDW but can
-result in reduced performance of merge and hash joins. An FDW that is
-capable of meeting the re-fetch requirements can choose to do it the
-first way.
+預設情況下，PostgreSQL 在與 FDW 介接時會忽略鎖定方面的考量，
+但 FDW 不需要核心程式碼的任何明確支援就能執行提早鎖定。[第 58.2.6 節](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)所述的 API 函式
+是在 PostgreSQL 9.5 中加入的，它們讓 FDW 在需要時
+可以使用延後鎖定。
 
-For an `UPDATE` or `DELETE` on a foreign table, it
-is recommended that the `ForeignScan` operation on the target
-table perform early locking on the rows that it fetches, perhaps via the
-equivalent of `SELECT FOR UPDATE`. An FDW can detect whether
-a table is an `UPDATE`/`DELETE` target at plan time
-by comparing its relid to `root->parse->resultRelation`,
-or at execution time by using `ExecRelationIsTargetRelation()`.
-An alternative possibility is to perform late locking within the
-`ExecForeignUpdate` or `ExecForeignDelete`
-callback, but no special support is provided for this.
+另一個考量是，在 `READ COMMITTED`
+隔離模式下，PostgreSQL 可能需要針對某個
+目標元組（tuple）的更新後版本，重新檢查限制條件與連接條件。重新檢查連接條件需要重新取得
+先前與該目標元組連接之非目標資料列的副本。
+使用標準 PostgreSQL 資料表時，做法是
+將非目標資料表的 TID 納入經由連接投影出的欄位清單中，
+然後在需要時重新擷取非目標資料列。
+這種做法能讓連接的資料集保持精簡，但它
+需要低成本的重新擷取能力，以及一個能夠
+唯一識別要重新擷取之資料列版本的 TID。因此，
+外部資料表預設採用的做法，是將從外部資料表擷取的
+整筆資料列副本納入經由連接投影出的欄位清單中。這對 FDW 沒有特別的要求，
+但可能導致合併連接與雜湊連接的效能降低。能夠
+滿足重新擷取要求的 FDW，可以選擇採用
+第一種做法。
 
-For foreign tables that are specified to be locked by a `SELECT
-FOR UPDATE/SHARE` command, the `ForeignScan` operation can
-again perform early locking by fetching tuples with the equivalent
-of `SELECT FOR UPDATE/SHARE`. To perform late locking
-instead, provide the callback functions defined
-in [Section 58.2.6](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING).
-In `GetForeignRowMarkType`, select rowmark option
-`ROW_MARK_EXCLUSIVE`, `ROW_MARK_NOKEYEXCLUSIVE`,
-`ROW_MARK_SHARE`, or `ROW_MARK_KEYSHARE` depending
-on the requested lock strength. (The core code will act the same
-regardless of which of these four options you choose.)
-Elsewhere, you can detect whether a foreign table was specified to be
-locked by this type of command by using `get_plan_rowmark` at
-plan time, or `ExecFindRowMark` at execution time; you must
-check not only whether a non-null rowmark struct is returned, but that
-its `strength` field is not `LCS_NONE`.
+對於外部資料表上的 `UPDATE` 或 `DELETE`，
+建議目標資料表上的 `ForeignScan` 操作
+對它所擷取的資料列執行提早鎖定，或許可以透過
+相當於 `SELECT FOR UPDATE` 的方式來進行。FDW 可以在規劃時
+透過將資料表的 relid 與 `root->parse->resultRelation` 比較，
+或在執行時使用 `ExecRelationIsTargetRelation()`，
+來偵測該資料表是否為 `UPDATE`/`DELETE` 的目標。
+另一種可行的做法是在
+`ExecForeignUpdate` 或 `ExecForeignDelete`
+回呼函式中執行延後鎖定，但系統並未為此提供特別的支援。
 
-Lastly, for foreign tables that are used in an `UPDATE`,
-`DELETE` or `SELECT FOR UPDATE/SHARE` command but
-are not specified to be row-locked, you can override the default choice
-to copy entire rows by having `GetForeignRowMarkType` select
-option `ROW_MARK_REFERENCE` when it sees lock strength
-`LCS_NONE`. This will cause `RefetchForeignRow` to
-be called with that value for `markType`; it should then
-re-fetch the row without acquiring any new lock. (If you have
-a `GetForeignRowMarkType` function but don't wish to re-fetch
-unlocked rows, select option `ROW_MARK_COPY`
-for `LCS_NONE`.)
+對於被 `SELECT
+FOR UPDATE/SHARE` 命令指定要鎖定的外部資料表，`ForeignScan` 操作
+同樣可以透過以相當於
+`SELECT FOR UPDATE/SHARE` 的方式擷取元組來執行提早鎖定。若要改為執行延後鎖定，
+請提供[第 58.2.6 節](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)中定義的
+回呼函式。
+在 `GetForeignRowMarkType` 中，依據所要求的鎖定強度，選擇 rowmark 選項
+`ROW_MARK_EXCLUSIVE`、`ROW_MARK_NOKEYEXCLUSIVE`、
+`ROW_MARK_SHARE` 或 `ROW_MARK_KEYSHARE`。
+（無論你選擇這四個選項中的哪一個，核心程式碼的行為都相同。）
+在其他地方，你可以在規劃時使用 `get_plan_rowmark`，
+或在執行時使用 `ExecFindRowMark`，來偵測外部資料表是否
+被這類命令指定要鎖定；你不僅必須
+檢查是否傳回了非 null 的 rowmark 結構，還必須檢查
+其 `strength` 欄位不是 `LCS_NONE`。
 
-See `src/include/nodes/lockoptions.h`, the comments
-for `RowMarkType` and `PlanRowMark`
-in `src/include/nodes/plannodes.h`, and the comments for
-`ExecRowMark` in `src/include/nodes/execnodes.h` for
-additional information.
+最後，對於用在 `UPDATE`、
+`DELETE` 或 `SELECT FOR UPDATE/SHARE` 命令中、但
+未被指定要鎖定資料列的外部資料表，你可以讓
+`GetForeignRowMarkType` 在看到鎖定強度
+`LCS_NONE` 時選擇選項 `ROW_MARK_REFERENCE`，
+藉此覆寫預設的複製整筆資料列的選擇。這會使 `RefetchForeignRow`
+以該值作為 `markType` 被呼叫；接著它應該
+在不取得任何新鎖定的情況下重新擷取該資料列。（如果你有
+`GetForeignRowMarkType` 函式，但不希望重新擷取
+未鎖定的資料列，請為 `LCS_NONE` 選擇選項 `ROW_MARK_COPY`。）
+
+更多資訊請參閱 `src/include/nodes/lockoptions.h`、
+`src/include/nodes/plannodes.h` 中
+`RowMarkType` 與 `PlanRowMark` 的註解，以及
+`src/include/nodes/execnodes.h` 中 `ExecRowMark` 的註解。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/fdw-row-locking.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/fdw-row-locking.html)（原文版本：18.6；核對日期：2026-10-17）
