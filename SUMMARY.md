@@ -975,7 +975,7 @@
     * [61.2. Genetic Algorithms #](internals/geqo/geqo-intro2.md)
     * [61.3. Genetic Query Optimization ( GEQO ) in PostgreSQL #](internals/geqo/geqo-pg-intro.md)
     * [61.4. 延伸閱讀](internals/geqo/geqo-biblio.md)
-  * [Chapter 62. Table Access Method Interface Definition](internals/tableam/README.md)
+  * [第 62 章 資料表存取方法介面定義](internals/tableam/README.md)
   * [Chapter 63. Index Access Method Interface Definition](internals/indexam/README.md)
     * [63.1. Basic API Structure for Indexes #](internals/indexam/index-api.md)
     * [63.2. Index Access Method Functions #](internals/indexam/index-functions.md)

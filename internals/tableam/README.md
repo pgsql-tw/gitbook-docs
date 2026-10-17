@@ -1,26 +1,17 @@
-## Chapter 62. Table Access Method Interface Definition
+<a id="TABLEAM"></a>
+
+## 第 62 章 資料表存取方法介面定義
 
 <a id="id-1.10.14.2"></a><a id="id-1.10.14.3"></a>
 
-This chapter explains the interface between the core
-PostgreSQL system and *table access
-methods*, which manage the storage for tables. The core system
-knows little about these access methods beyond what is specified here, so
-it is possible to develop entirely new access method types by writing
-add-on code.
+本章說明 PostgreSQL 核心系統與*資料表存取方法*之間的介面，資料表存取方法負責管理資料表的儲存。除了此處所規範的內容之外，核心系統對這些存取方法所知甚少，因此可以藉由撰寫附加程式碼來開發全新的存取方法類型。
 
-Each table access method is described by a row in the [`pg_am`](../catalogs/catalog-pg-am.md) system
-catalog. The `pg_am` entry specifies a name and a
-*handler function* for the table access method. These
-entries can be created and deleted using the [CREATE ACCESS METHOD](../../reference/sql-commands/sql-create-access-method.md) and [DROP ACCESS METHOD](../../reference/sql-commands/sql-drop-access-method.md) SQL commands.
+每個資料表存取方法都由 [`pg_am`](../catalogs/catalog-pg-am.md) 系統目錄中的一筆資料列描述。`pg_am` 項目指定了資料表存取方法的名稱與*處理函式*。這些項目可以使用 [CREATE ACCESS METHOD](../../reference/sql-commands/sql-create-access-method.md) 與 [DROP ACCESS METHOD](../../reference/sql-commands/sql-drop-access-method.md) SQL 命令建立與移除。
 
-A table access method handler function must be declared to accept a single
-argument of type `internal` and to return the pseudo-type
-`table_am_handler`. The argument is a dummy value that simply
-serves to prevent handler functions from being called directly from SQL commands.
+資料表存取方法的處理函式必須宣告為接受單一個型別為 `internal` 的引數，並傳回虛擬型別
+`table_am_handler`。該引數是一個虛設值，作用只是防止處理函式直接從 SQL 命令中被呼叫。
 
-Here is how an extension SQL script file might create a table access
-method handler:
+以下是擴充功能的 SQL 指令碼檔案建立資料表存取方法處理函式的可能寫法：
 
 ```
 
@@ -31,14 +22,10 @@ CREATE OR REPLACE FUNCTION my_tableam_handler(internal)
 CREATE ACCESS METHOD myam TYPE TABLE HANDLER my_tableam_handler;
 ```
 
-The result of the function must be a pointer to a struct of type
-`TableAmRoutine`, which contains everything that the
-core code needs to know to make use of the table access method. The return
-value needs to be of server lifetime, which is typically achieved by
-defining it as a `static const` variable in global scope.
+此函式的結果必須是指向型別為
+`TableAmRoutine` 之結構的指標，該結構包含核心程式碼使用此資料表存取方法所需知道的一切。傳回值的生命週期必須與伺服器相同，通常的做法是在全域範圍中將它定義為 `static const` 變數。
 
-Here is how a source file with the table access method handler might
-look like:
+以下是包含資料表存取方法處理函式之原始碼檔案的可能樣貌：
 
 ```
 
@@ -64,52 +51,27 @@ my_tableam_handler(PG_FUNCTION_ARGS)
 }
 ```
 
-The `TableAmRoutine` struct, also called the
-access method's *API struct*, defines the behavior of
-the access method using callbacks. These callbacks are pointers to plain C
-functions and are not visible or callable at the SQL level. All the
-callbacks and their behavior is defined in the
-`TableAmRoutine` structure (with comments inside the
-struct defining the requirements for callbacks). Most callbacks have
-wrapper functions, which are documented from the point of view of a user
-(rather than an implementor) of the table access method. For details,
-please refer to the [`src/include/access/tableam.h`](https://git.postgresql.org/gitweb/?p=postgresql.git;a=blob;f=src/include/access/tableam.h;hb=HEAD) file.
+`TableAmRoutine` 結構也稱為存取方法的 *API 結構*，它以回呼函式定義存取方法的行為。這些回呼函式是指向一般 C 函式的指標，在 SQL 層級既不可見，也無法呼叫。所有回呼函式及其行為都定義在
+`TableAmRoutine` 結構中（結構內的註解定義了對回呼函式的要求）。大多數回呼函式都有包裝函式，這些包裝函式是從資料表存取方法的使用者（而非實作者）的角度撰寫文件。詳細資訊請參閱 [`src/include/access/tableam.h`](https://git.postgresql.org/gitweb/?p=postgresql.git;a=blob;f=src/include/access/tableam.h;hb=HEAD) 檔案。
 
-To implement an access method, an implementor will typically need to
-implement an AM-specific type of tuple table slot (see
-[`src/include/executor/tuptable.h`](https://git.postgresql.org/gitweb/?p=postgresql.git;a=blob;f=src/include/executor/tuptable.h;hb=HEAD)), which allows
-code outside the access method to hold references to tuples of the AM, and
-to access the columns of the tuple.
+要實作存取方法，實作者通常需要實作一種 AM 專屬的 tuple table slot 類型（請參閱
+[`src/include/executor/tuptable.h`](https://git.postgresql.org/gitweb/?p=postgresql.git;a=blob;f=src/include/executor/tuptable.h;hb=HEAD)），讓存取方法以外的程式碼可以持有對該 AM 之 tuple 的參照，並存取 tuple 的欄位。
 
-Currently, the way an AM actually stores data is fairly unconstrained. For
-example, it's possible, but not required, to use postgres' shared buffer
-cache. In case it is used, it likely makes sense to use
-PostgreSQL's standard page layout as described in
-[Section 66.6](../storage/storage-page-layout.md).
+目前，AM 實際儲存資料的方式相當不受限制。例如，可以使用（但並非必須使用）postgres 的共享緩衝區快取。若有使用它，那麼使用
+[第 66.6 節](../storage/storage-page-layout.md)所述的 PostgreSQL 標準頁面配置，可能會比較合理。
 
-One fairly large constraint of the table access method API is that,
-currently, if the AM wants to support modifications and/or indexes, it is
-necessary for each tuple to have a tuple identifier (TID)
-consisting of a block number and an item number (see also [Section 66.6](../storage/storage-page-layout.md)). It is not strictly necessary that the
-sub-parts of TIDs have the same meaning they e.g., have
-for `heap`, but if bitmap scan support is desired (it is
-optional), the block number needs to provide locality.
+資料表存取方法 API 有一項相當大的限制：目前，如果 AM 想要支援修改及／或索引，每個 tuple 都必須具有由區塊編號與項目編號組成的 tuple 識別碼（TID）（另請參閱[第 66.6 節](../storage/storage-page-layout.md)）。TID 的各組成部分並不嚴格要求具有與（例如）`heap` 中相同的意義，但如果希望支援點陣圖掃描（這是選用的），區塊編號就必須能提供區域性。
 
-For crash safety, an AM can use postgres' [WAL](../../server-administration/wal/README.md), or a custom implementation.
-If WAL is chosen, either [Generic WAL Records](../wal-for-extensions/generic-wal.md) can be used,
-or a [Custom WAL Resource Manager](../wal-for-extensions/custom-rmgr.md) can be
-implemented.
+為了確保當機安全，AM 可以使用 postgres 的 [WAL](../../server-administration/wal/README.md)，或使用自訂的實作。
+若選擇 WAL，可以使用[通用 WAL 記錄](../wal-for-extensions/generic-wal.md)，
+也可以實作[自訂 WAL 資源管理器](../wal-for-extensions/custom-rmgr.md)。
 
-To implement transactional support in a manner that allows different table
-access methods be accessed within a single transaction, it likely is
-necessary to closely integrate with the machinery in
-`src/backend/access/transam/xlog.c`.
+若要以允許在單一交易中存取不同資料表存取方法的方式實作交易支援，很可能必須與
+`src/backend/access/transam/xlog.c` 中的機制緊密整合。
 
-Any developer of a new `table access method` can refer to
-the existing `heap` implementation present in
-`src/backend/access/heap/heapam_handler.c` for details of
-its implementation.
+任何新 `table access method` 的開發者，都可以參考
+`src/backend/access/heap/heapam_handler.c` 中現有的 `heap` 實作，了解其實作細節。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tableam.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tableam.html)（原文版本：18.6；核對日期：2026-10-12）
