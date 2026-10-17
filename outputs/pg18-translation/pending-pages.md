@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：237 頁。
+待譯頁面：236 頁。
 
 ## 根目錄
 
@@ -366,7 +366,7 @@
 - [x] `internals/geqo/geqo-biblio.md` — 61.4. 延伸閱讀
 - [x] `internals/geqo/geqo-intro.md` — 61.1. 將查詢處理視為複雜最佳化問題 #
 - [x] `internals/geqo/geqo-intro2.md` — 61.2. 遺傳演算法
-- [ ] `internals/geqo/geqo-pg-intro.md` — 61.3. Genetic Query Optimization ( GEQO ) in PostgreSQL #
+- [x] `internals/geqo/geqo-pg-intro.md` — 61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO） #
 - [ ] `internals/indexam/README.md` — Chapter 63. Index Access Method Interface Definition
 - [ ] `internals/indexam/index-api.md` — 63.1. Basic API Structure for Indexes #
 - [x] `internals/indexam/index-cost-estimation.md` — 63.6. 索引成本估算函式 #

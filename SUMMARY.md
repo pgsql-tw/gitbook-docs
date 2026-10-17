@@ -973,7 +973,7 @@
   * [Chapter 61. Genetic Query Optimizer](internals/geqo/README.md)
     * [61.1. 將查詢處理視為複雜最佳化問題 #](internals/geqo/geqo-intro.md)
     * [61.2. Genetic Algorithms #](internals/geqo/geqo-intro2.md)
-    * [61.3. Genetic Query Optimization ( GEQO ) in PostgreSQL #](internals/geqo/geqo-pg-intro.md)
+    * [61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO） #](internals/geqo/geqo-pg-intro.md)
     * [61.4. 延伸閱讀](internals/geqo/geqo-biblio.md)
   * [第 62 章 資料表存取方法介面定義](internals/tableam/README.md)
   * [Chapter 63. Index Access Method Interface Definition](internals/indexam/README.md)
