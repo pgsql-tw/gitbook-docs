@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：275 頁。
+待譯頁面：274 頁。
 
 ## 根目錄
 
@@ -375,7 +375,7 @@
 - [ ] `internals/indexam/index-scanning.md` — 63.3. Index Scanning #
 - [x] `internals/indexam/index-unique-checks.md` — 63.5. 索引唯一性檢查 #
 - [x] `internals/indextypes/README.md` — 第 65 章 內建索引存取方法
-- [ ] `internals/indextypes/brin.md` — 65.5. BRIN Indexes #
+- [x] `internals/indextypes/brin.md` — 65.5. BRIN 索引 #
 - [x] `internals/indextypes/btree.md` — 65.1. B-Tree 索引 #
 - [ ] `internals/indextypes/gin.md` — 65.4. GIN Indexes #
 - [ ] `internals/indextypes/gist.md` — 65.2. GiST Indexes #

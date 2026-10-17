@@ -991,7 +991,7 @@
     * [65.2. GiST Indexes #](internals/indextypes/gist.md)
     * [65.3. SP-GiST Indexes #](internals/indextypes/spgist.md)
     * [65.4. GIN Indexes #](internals/indextypes/gin.md)
-    * [65.5. BRIN Indexes #](internals/indextypes/brin.md)
+    * [65.5. BRIN 索引 #](internals/indextypes/brin.md)
     * [65.6. 雜湊索引 #](internals/indextypes/hash-index.md)
   * [第 66 章 資料庫實體儲存](internals/storage/README.md)
     * [66.1. 資料庫檔案配置 #](internals/storage/storage-file-layout.md)
