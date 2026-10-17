@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：225 頁。
+待譯頁面：224 頁。
 
 ## 根目錄
 
@@ -337,7 +337,7 @@
 - [x] `internals/catalogs/catalog-pg-shdescription.md` — 52.49. `pg_shdescription` #
 - [x] `internals/catalogs/catalog-pg-shseclabel.md` — 52.50. `pg_shseclabel` #
 - [x] `internals/catalogs/catalog-pg-statistic-ext-data.md` — 52.53. `pg_statistic_ext_data` #
-- [ ] `internals/catalogs/catalog-pg-statistic-ext.md` — 52.52. pg_statistic_ext #
+- [x] `internals/catalogs/catalog-pg-statistic-ext.md` — 52.52. `pg_statistic_ext` #
 - [x] `internals/catalogs/catalog-pg-statistic.md` — 52.51. `pg_statistic` #
 - [x] `internals/catalogs/catalog-pg-subscription-rel.md` — 52.55. `pg_subscription_rel` #
 - [x] `internals/catalogs/catalog-pg-subscription.md` — 52.54. `pg_subscription` #
