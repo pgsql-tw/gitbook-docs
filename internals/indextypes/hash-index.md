@@ -1,125 +1,53 @@
-## 65.6. Hash Indexes [#](#HASH-INDEX)
+<a id="HASH-INDEX"></a>
 
-[65.6.1. Overview](hash-index.md#HASH-INTRO)
+## 65.6. 雜湊索引 [#](#HASH-INDEX)
 
-[65.6.2. Implementation](hash-index.md#HASH-IMPLEMENTATION)
+[65.6.1. 概述](hash-index.md#HASH-INTRO)
 
-<a id="id-1.10.17.7.2"></a><a id="HASH-INTRO"></a>
+[65.6.2. 實作](hash-index.md#HASH-IMPLEMENTATION)
 
-### 65.6.1. Overview [#](#HASH-INTRO)
+<a id="id-1.10.17.7.2"></a>
 
-PostgreSQL
-includes an implementation of persistent on-disk hash indexes,
-which are fully crash recoverable. Any data type can be indexed by a
-hash index, including data types that do not have a well-defined linear
-ordering. Hash indexes store only the hash value of the data being
-indexed, thus there are no restrictions on the size of the data column
-being indexed.
+<a id="HASH-INTRO"></a>
 
-Hash indexes support only single-column indexes and do not allow
-uniqueness checking.
+### 65.6.1. 概述 [#](#HASH-INTRO)
 
-Hash indexes support only the `=` operator,
-so WHERE clauses that specify range operations will not be able to take
-advantage of hash indexes.
+PostgreSQL 包含持久化於磁碟的雜湊索引實作，而且可以完全從當機中復原。任何資料型別都可以用雜湊索引建立索引，包括沒有明確定義線性順序的資料型別。雜湊索引只儲存被索引資料的雜湊值，因此對被索引資料欄位的大小沒有限制。
 
-Each hash index tuple stores just the 4-byte hash value, not the actual
-column value. As a result, hash indexes may be much smaller than B-trees
-when indexing longer data items such as UUIDs, URLs, etc. The absence of
-the column value also makes all hash index scans lossy. Hash indexes may
-take part in bitmap index scans and backward scans.
+雜湊索引只支援單一欄位索引，而且不允許唯一性檢查。
 
-Hash indexes are best optimized for SELECT and UPDATE-heavy workloads
-that use equality scans on larger tables. In a B-tree index, searches must
-descend through the tree until the leaf page is found. In tables with
-millions of rows, this descent can increase access time to data. The
-equivalent of a leaf page in a hash index is referred to as a bucket page. In
-contrast, a hash index allows accessing the bucket pages directly,
-thereby potentially reducing index access time in larger tables. This
-reduction in "logical I/O" becomes even more pronounced on indexes/data
-larger than shared_buffers/RAM.
+雜湊索引只支援 `=` 運算子，因此指定範圍運算的 WHERE 子句將無法利用雜湊索引。
 
-Hash indexes have been designed to cope with uneven distributions of
-hash values. Direct access to the bucket pages works well if the hash
-values are evenly distributed. When inserts mean that the bucket page
-becomes full, additional overflow pages are chained to that specific
-bucket page, locally expanding the storage for index tuples that match
-that hash value. When scanning a hash bucket during queries, we need to
-scan through all of the overflow pages. Thus an unbalanced hash index
-might actually be worse than a B-tree in terms of number of block
-accesses required, for some data.
+每個雜湊索引元組只儲存 4 位元組的雜湊值，而不是實際的欄位值。因此，在為較長的資料項目（例如 UUID、URL 等）建立索引時，雜湊索引可能比 B-tree 小得多。由於沒有欄位值，所有雜湊索引掃描也都是有損的（lossy）。雜湊索引可以參與點陣圖索引掃描與反向掃描。
 
-As a result of the overflow cases, we can say that hash indexes are
-most suitable for unique, nearly unique data or data with a low number
-of rows per hash bucket.
-One possible way to avoid problems is to exclude highly non-unique
-values from the index using a partial index condition, but this may
-not be suitable in many cases.
+雜湊索引最適合在較大的資料表上使用相等掃描、以 SELECT 與 UPDATE 為主的工作負載。在 B-tree 索引中，搜尋必須沿著樹往下走，直到找到葉頁面為止。在有數百萬筆資料列的資料表中，這種往下走的過程可能會增加存取資料的時間。雜湊索引中相當於葉頁面的頁面稱為桶頁面（bucket page）。相較之下，雜湊索引允許直接存取桶頁面，因而有可能減少在較大資料表中存取索引的時間。當索引／資料大於 shared_buffers／RAM 時，這種「邏輯 I/O」的減少會更加明顯。
 
-Like B-Trees, hash indexes perform simple index tuple deletion. This
-is a deferred maintenance operation that deletes index tuples that are
-known to be safe to delete (those whose item identifier's LP_DEAD bit
-is already set). If an insert finds no space is available on a page we
-try to avoid creating a new overflow page by attempting to remove dead
-index tuples. Removal cannot occur if the page is pinned at that time.
-Deletion of dead index pointers also occurs during VACUUM.
+雜湊索引的設計能夠因應雜湊值分布不均的情況。如果雜湊值分布平均，直接存取桶頁面的效果很好。當插入使得桶頁面變滿時，額外的溢位頁面會被串接到該特定桶頁面上，在局部擴充符合該雜湊值之索引元組的儲存空間。在查詢期間掃描雜湊桶時，我們需要掃描所有的溢位頁面。因此，對某些資料而言，不平衡的雜湊索引在所需的區塊存取次數方面，實際上可能比 B-tree 更差。
 
-If it can, VACUUM will also try to squeeze the index tuples onto as
-few overflow pages as possible, minimizing the overflow chain. If an
-overflow page becomes empty, overflow pages can be recycled for reuse
-in other buckets, though we never return them to the operating system.
-There is currently no provision to shrink a hash index, other than by
-rebuilding it with REINDEX.
-There is no provision for reducing the number of buckets, either.
+由於溢位的情況，我們可以說雜湊索引最適合唯一、近乎唯一的資料，或是每個雜湊桶中資料列數量很少的資料。避免問題的一種可能方法，是使用部分索引條件將高度不唯一的值排除在索引之外，但這在許多情況下可能並不適合。
 
-Hash indexes may expand the number of bucket pages as the number of
-rows indexed grows. The hash key-to-bucket-number mapping is chosen so that
-the index can be incrementally expanded. When a new bucket is to be added to
-the index, exactly one existing bucket will need to be "split", with some of
-its tuples being transferred to the new bucket according to the updated
-key-to-bucket-number mapping.
+與 B-Tree 一樣，雜湊索引會執行簡單的索引元組刪除。這是一種延遲的維護操作，會刪除已知可以安全刪除的索引元組（也就是其項目識別碼的 LP_DEAD 位元已經設定的那些元組）。如果插入時發現頁面上沒有可用空間，我們會嘗試移除死亡的索引元組，以避免建立新的溢位頁面。如果該頁面當時被釘住（pinned），就無法進行移除。死亡索引指標的刪除也會在 VACUUM 期間發生。
 
-The expansion occurs in the foreground, which could increase execution
-time for user inserts. Thus, hash indexes may not be suitable for tables
-with rapidly increasing number of rows.
+如果可以的話，VACUUM 也會嘗試把索引元組壓縮到盡可能少的溢位頁面上，使溢位鏈縮到最短。如果某個溢位頁面變空，溢位頁面可以回收給其他桶重複使用，但我們從不會將它們歸還給作業系統。目前除了用 REINDEX 重建之外，沒有任何方法可以縮小雜湊索引。也沒有任何方法可以減少桶的數量。
+
+隨著被索引的資料列數量增加，雜湊索引可能會擴充桶頁面的數量。雜湊鍵到桶編號的對應方式經過選擇，使索引可以逐步擴充。當要在索引中加入新的桶時，恰好需要「分裂」一個既有的桶，並依據更新後的鍵到桶編號對應，將其中部分元組轉移到新的桶中。
+
+擴充是在前景進行的，這可能會增加使用者插入的執行時間。因此，雜湊索引可能不適合資料列數量快速增加的資料表。
 
 <a id="HASH-IMPLEMENTATION"></a>
 
-### 65.6.2. Implementation [#](#HASH-IMPLEMENTATION)
+### 65.6.2. 實作 [#](#HASH-IMPLEMENTATION)
 
-There are four kinds of pages in a hash index: the meta page (page zero),
-which contains statically allocated control information; primary bucket
-pages; overflow pages; and bitmap pages, which keep track of overflow
-pages that have been freed and are available for re-use. For addressing
-purposes, bitmap pages are regarded as a subset of the overflow pages.
+雜湊索引中有四種頁面：元頁面（meta page，第 0 頁），包含靜態配置的控制資訊；主要桶頁面；溢位頁面；以及點陣圖頁面，用來追蹤已被釋放且可以重複使用的溢位頁面。為了定址的目的，點陣圖頁面被視為溢位頁面的一個子集。
 
-Both scanning the index and inserting tuples require locating the bucket
-where a given tuple ought to be located. To do this, we need the bucket
-count, highmask, and lowmask from the metapage; however, it's undesirable
-for performance reasons to have to lock and pin the metapage for every such
-operation. Instead, we retain a cached copy of the metapage in each
-backend's relcache entry. This will produce the correct bucket mapping as
-long as the target bucket hasn't been split since the last cache refresh.
+掃描索引與插入元組都需要找出給定元組應該所在的桶。為此，我們需要元頁面中的桶數量、highmask 與 lowmask；然而，基於效能考量，不希望每次進行這類操作時都必須鎖定並釘住元頁面。因此，我們會在每個後端的 relcache 項目中保留一份元頁面的快取副本。只要目標桶自上次快取更新以來沒有被分裂，這就能產生正確的桶對應。
 
-Primary bucket pages and overflow pages are allocated independently since
-any given index might need more or fewer overflow pages relative to its
-number of buckets. The hash code uses an interesting set of addressing
-rules to support a variable number of overflow pages while not having to
-move primary bucket pages around after they are created.
+主要桶頁面與溢位頁面是獨立配置的，因為任何給定的索引相對於其桶數量，可能需要較多或較少的溢位頁面。雜湊程式碼使用一套有趣的定址規則，來支援可變數量的溢位頁面，同時不必在主要桶頁面建立之後移動它們。
 
-Each row in the table indexed is represented by a single index tuple in
-the hash index. Hash index tuples are stored in bucket pages, and if
-they exist, overflow pages. We speed up searches by keeping the index entries
-in any one index page sorted by hash code, thus allowing binary search to be
-used within an index page. Note however that there is \*no\* assumption about
-the relative ordering of hash codes across different index pages of a bucket.
+被索引資料表中的每個資料列，在雜湊索引中都以單一索引元組來表示。雜湊索引元組儲存在桶頁面中，若有溢位頁面，也會儲存在溢位頁面中。我們讓任一索引頁面中的索引項目依雜湊碼排序，藉此加快搜尋，因此可以在索引頁面內使用二元搜尋。不過請注意，對於同一個桶在不同索引頁面之間雜湊碼的相對順序，\*沒有\*任何假設。
 
-The bucket splitting algorithms to expand the hash index are too complex to
-be worthy of mention here, though are described in more detail in
-`src/backend/access/hash/README`.
-The split algorithm is crash safe and can be restarted if not completed
-successfully.
+用來擴充雜湊索引的桶分裂演算法過於複雜，不值得在此說明，不過在 `src/backend/access/hash/README` 中有更詳細的描述。分裂演算法是當機安全的，若未成功完成也可以重新開始。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/hash-index.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/hash-index.html)（原文版本：18.6；核對日期：2026-10-12）

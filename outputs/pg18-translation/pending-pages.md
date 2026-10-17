@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：285 頁。
+待譯頁面：284 頁。
 
 ## 根目錄
 
@@ -379,7 +379,7 @@
 - [ ] `internals/indextypes/btree.md` — 65.1. B-Tree Indexes #
 - [ ] `internals/indextypes/gin.md` — 65.4. GIN Indexes #
 - [ ] `internals/indextypes/gist.md` — 65.2. GiST Indexes #
-- [ ] `internals/indextypes/hash-index.md` — 65.6. Hash Indexes #
+- [x] `internals/indextypes/hash-index.md` — 65.6. 雜湊索引 #
 - [ ] `internals/indextypes/spgist.md` — 65.3. SP-GiST Indexes #
 - [x] `internals/nls/README.md` — 第 56 章 母語支援
 - [ ] `internals/nls/nls-programmer.md` — 56.2. For the Programmer #
