@@ -1,55 +1,52 @@
-## 69.3. Planner Statistics and Security [#](#PLANNER-STATS-SECURITY)
+<a id="PLANNER-STATS-SECURITY"></a>
 
-Access to the table `pg_statistic` is restricted to
-superusers, so that ordinary users cannot learn about the contents of the
-tables of other users from it. Some selectivity estimation functions will
-use a user-provided operator (either the operator appearing in the query or
-a related operator) to analyze the stored statistics. For example, in order
-to determine whether a stored most common value is applicable, the
-selectivity estimator will have to run the appropriate `=`
-operator to compare the constant in the query to the stored value.
-Thus the data in `pg_statistic` is potentially
-passed to user-defined operators. An appropriately crafted operator can
-intentionally leak the passed operands (for example, by logging them
-or writing them to a different table), or accidentally leak them by showing
-their values in error messages, in either case possibly exposing data from
-`pg_statistic` to a user who should not be able to
-see it.
+## 69.3. 規劃器統計資訊與安全性 [#](#PLANNER-STATS-SECURITY)
 
-In order to prevent this, the following applies to all built-in selectivity
-estimation functions. When planning a query, in order to be able to use
-stored statistics, the current user must either
-have `SELECT` privilege on the table or the involved
-columns, or the operator used must be `LEAKPROOF` (more
-accurately, the function that the operator is based on). If not, then the
-selectivity estimator will behave as if no statistics are available, and
-the planner will proceed with default or fall-back assumptions.
-The [psql](../../reference/reference-client/app-psql.md) program's
+存取資料表 `pg_statistic` 僅限於超級使用者，
+如此一般使用者就無法從中得知其他使用者資料表的內容。某些選擇率估算函式
+會使用使用者提供的運算子（可能是查詢中出現的運算子，也可能是
+相關的運算子）來分析已儲存的統計資訊。例如，為了判斷某個已儲存的最常見值
+是否適用，選擇率估算器必須執行適當的 `=`
+運算子，將查詢中的常數與已儲存的值進行比較。
+因此，`pg_statistic` 中的資料有可能被
+傳遞給使用者定義的運算子。經過適當設計的運算子可以
+刻意洩漏傳入的運算元（例如將它們記錄到日誌，
+或寫入另一個資料表），也可能在錯誤訊息中顯示其值而意外洩漏，
+無論哪一種情況，都可能把
+`pg_statistic` 中的資料暴露給不應該能夠
+看到它的使用者。
+
+為了防止這種情況，所有內建的選擇率估算函式都適用下列規則。
+規劃查詢時，若要能夠使用已儲存的統計資訊，目前使用者必須
+擁有該資料表或相關欄位的 `SELECT` 權限，
+或者所使用的運算子必須是 `LEAKPROOF`（更
+精確地說，是該運算子所依據的函式）。若兩者皆不成立，
+選擇率估算器的行為就會如同沒有可用的統計資訊，
+而規劃器會改用預設或備援的假設繼續進行。
+[psql](../../reference/reference-client/app-psql.md) 程式的
 `\do+`
-meta-command is useful to determine which operators are marked as leakproof.
+中繼命令可以用來判斷哪些運算子被標記為 leakproof（不洩漏資訊）。
 
-If a user does not have the required privilege on the table or columns,
-then in many cases the query will ultimately receive a permission-denied
-error, in which case this mechanism is invisible in practice. But if the
-user is reading from a security-barrier view, then the planner might wish
-to check the statistics of an underlying table that is otherwise
-inaccessible to the user. In that case, the operator should be leakproof
-or the statistics will not be used. There is no direct feedback about
-that, except that the plan might be suboptimal. If one suspects that this
-is the case, one could try running the query as a more privileged user,
-to see if a different plan results.
+如果使用者對該資料表或欄位沒有必要的權限，
+那麼在許多情況下，查詢最終會收到權限不足的
+錯誤，此時這項機制在實務上是察覺不到的。但如果
+使用者是從安全屏障檢視表讀取資料，規劃器可能會想要
+檢查某個底層資料表的統計資訊，而該資料表在其他情況下是
+使用者無法存取的。在這種情況下，運算子應該是 leakproof 的，
+否則就不會使用這些統計資訊。這一點不會有任何直接的回饋，
+唯一的跡象是計畫可能不是最佳的。如果懷疑發生了這種情況，
+可以嘗試以權限較高的使用者身分執行該查詢，
+看看是否會產生不同的計畫。
 
-This restriction applies only to cases where the planner would need to
-execute a user-defined operator on one or more values
-from `pg_statistic`. Thus the planner is permitted
-to use generic statistical information, such as the fraction of null values
-or the number of distinct values in a column, regardless of access
-privileges.
+這項限制只適用於規劃器需要對來自 `pg_statistic`
+的一個或多個值執行使用者定義運算子的情況。因此，無論存取權限為何，
+規劃器都可以使用一般性的統計資訊，例如欄位中 null 值所占的比例
+或相異值的數量。
 
-Selectivity estimation functions contained in third-party extensions that
-potentially operate on statistics with user-defined operators should follow
-the same security rules. Consult the PostgreSQL source code for guidance.
+第三方擴充功能中所含、可能會以使用者定義運算子處理統計資訊的
+選擇率估算函式，應該遵循
+相同的安全規則。相關指引請參閱 PostgreSQL 原始碼。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/planner-stats-security.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/planner-stats-security.html)（原文版本：18.6；核對日期：2026-10-12）
