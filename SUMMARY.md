@@ -988,7 +988,7 @@
     * [64.2. 自訂 WAL 資源管理器 #](internals/wal-for-extensions/custom-rmgr.md)
   * [第 65 章 內建索引存取方法](internals/indextypes/README.md)
     * [65.1. B-Tree 索引 #](internals/indextypes/btree.md)
-    * [65.2. GiST Indexes #](internals/indextypes/gist.md)
+    * [65.2. GiST 索引 #](internals/indextypes/gist.md)
     * [65.3. SP-GiST 索引 #](internals/indextypes/spgist.md)
     * [65.4. GIN 索引 #](internals/indextypes/gin.md)
     * [65.5. BRIN 索引 #](internals/indextypes/brin.md)
