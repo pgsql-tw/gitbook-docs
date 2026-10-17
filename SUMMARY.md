@@ -941,7 +941,7 @@
   * [第 54 章 前端／後端協定](internals/protocol/README.md)
     * [54.1. 概觀 #](internals/protocol/protocol-overview.md)
     * [54.2. 訊息流程 #](internals/protocol/protocol-flow.md)
-    * [54.3. SASL Authentication #](internals/protocol/sasl-authentication.md)
+    * [54.3. SASL 身分驗證 #](internals/protocol/sasl-authentication.md)
     * [54.4. Streaming Replication Protocol #](internals/protocol/protocol-replication.md)
     * [54.5. 邏輯串流複寫協定 #](internals/protocol/protocol-logical-replication.md)
     * [54.6. 訊息資料型別 #](internals/protocol/protocol-message-types.md)
