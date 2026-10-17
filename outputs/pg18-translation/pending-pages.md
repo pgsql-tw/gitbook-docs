@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：217 頁。
+待譯頁面：216 頁。
 
 ## 根目錄
 
@@ -296,7 +296,7 @@
 - [ ] `internals/catalogs/catalog-pg-auth-members.md` — 52.9. pg_auth_members #
 - [ ] `internals/catalogs/catalog-pg-authid.md` — 52.8. pg_authid #
 - [ ] `internals/catalogs/catalog-pg-cast.md` — 52.10. pg_cast #
-- [ ] `internals/catalogs/catalog-pg-class.md` — 52.11. pg_class #
+- [x] `internals/catalogs/catalog-pg-class.md` — 52.11. `pg_class` #
 - [ ] `internals/catalogs/catalog-pg-collation.md` — 52.12. pg_collation #
 - [ ] `internals/catalogs/catalog-pg-constraint.md` — 52.13. pg_constraint #
 - [ ] `internals/catalogs/catalog-pg-conversion.md` — 52.14. pg_conversion #
