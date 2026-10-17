@@ -868,7 +868,7 @@
     * [52.32. pg_namespace #](internals/catalogs/catalog-pg-namespace.md)
     * [52.33. pg_opclass #](internals/catalogs/catalog-pg-opclass.md)
     * [52.34. `pg_operator` #](internals/catalogs/catalog-pg-operator.md)
-    * [52.35. pg_opfamily #](internals/catalogs/catalog-pg-opfamily.md)
+    * [52.35. `pg_opfamily` #](internals/catalogs/catalog-pg-opfamily.md)
     * [52.36. pg_parameter_acl #](internals/catalogs/catalog-pg-parameter-acl.md)
     * [52.37. pg_partitioned_table #](internals/catalogs/catalog-pg-partitioned-table.md)
     * [52.38. pg_policy #](internals/catalogs/catalog-pg-policy.md)
