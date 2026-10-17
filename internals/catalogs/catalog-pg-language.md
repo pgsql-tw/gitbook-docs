@@ -1,89 +1,73 @@
+<a id="CATALOG-PG-LANGUAGE"></a>
+
 ## 52.29. `pg_language` [#](#CATALOG-PG-LANGUAGE)
 
 <a id="id-1.10.4.31.2"></a>
 
-The catalog `pg_language` registers
-languages in which you can write functions or stored procedures.
-See [CREATE LANGUAGE](../../reference/sql-commands/sql-createlanguage.md)
-and [Chapter 40](../../server-programming/xplang/README.md) for more information about language handlers.
+目錄 `pg_language` 登錄可用來撰寫函式或預存程序的語言。關於語言處理常式的更多資訊，請參閱 [CREATE LANGUAGE](../../reference/sql-commands/sql-createlanguage.md) 與[第 40 章](../../server-programming/xplang/README.md)。
 
 <a id="id-1.10.4.31.4"></a>
 
-**Table 52.29. `pg_language` Columns**
+**表 52.29. `pg_language` 欄位**
 
-<table border="1" class="table" summary="pg_language Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.29. pg_language 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">oid</code> <code class="type">oid</code>
 </p>
 <p>
-       Row identifier
+       資料列識別碼
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanname</code> <code class="type">name</code>
 </p>
 <p>
-       Name of the language
+       語言的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanowner</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-authid.md"><code class="structname">pg_authid</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       Owner of the language
+       語言的擁有者
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanispl</code> <code class="type">bool</code>
 </p>
 <p>
-       This is false for internal languages (such as
-       <acronym class="acronym">SQL</acronym>) and true for user-defined languages.
-       Currently, <span class="application">pg_dump</span> still uses this
-       to determine which languages need to be dumped, but this might be
-       replaced by a different mechanism in the future.
+       內部語言（例如 <acronym class="acronym">SQL</acronym>）此值為 false，使用者自訂的語言則為 true。目前 <span class="application">pg_dump</span> 仍使用此欄位來判斷哪些語言需要傾印，但未來可能會改由其他機制取代。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanpltrusted</code> <code class="type">bool</code>
 </p>
 <p>
-       True if this is a trusted language, which means that it is believed
-       not to grant access to anything outside the normal SQL execution
-       environment.  Only superusers can create functions in untrusted
-       languages.
+       若這是受信任的語言則為 true，這表示一般認為它不會授予對正常 SQL 執行環境以外任何事物的存取權。只有超級使用者可以用不受信任的語言建立函式。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanplcallfoid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       For noninternal languages this references the language
-       handler, which is a special function that is responsible for
-       executing all functions that are written in the particular
-       language. Zero for internal languages.
+       對於非內部語言，此欄位參照語言處理常式；語言處理常式是一個特殊函式，負責執行以該特定語言撰寫的所有函式。內部語言此值為零。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">laninline</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       This references a function that is responsible for executing
-       <span class="quote">“<span class="quote">inline</span>”</span> anonymous code blocks
-       (<a class="xref" href="../../reference/sql-commands/sql-do.md"><span class="refentrytitle">DO</span></a> blocks).
-       Zero if inline blocks are not supported.
+       此欄位參照一個函式，負責執行<span class="quote">“<span class="quote">行內</span>”</span>匿名程式碼區塊（<a class="xref" href="../../reference/sql-commands/sql-do.md"><span class="refentrytitle">DO</span></a> 區塊）。若不支援行內區塊則為零。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanvalidator</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       This references a language validator function that is responsible
-       for checking the syntax and validity of new functions when they
-       are created.  Zero if no validator is provided.
+       此欄位參照語言驗證函式，負責在新函式建立時檢查其語法與有效性。若未提供驗證函式則為零。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">lanacl</code> <code class="type">aclitem[]</code>
 </p>
 <p>
-       Access privileges; see <a class="xref" href="../../the-sql-language/ddl/ddl-priv.md">Section 5.8</a> for details
+       存取權限；詳細資訊請參閱<a class="xref" href="../../the-sql-language/ddl/ddl-priv.md">第 5.8 節</a>
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-language.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-language.html)（原文版本：18.6；核對日期：2026-10-17）
