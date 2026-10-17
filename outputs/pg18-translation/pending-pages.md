@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：263 頁。
+待譯頁面：262 頁。
 
 ## 根目錄
 
@@ -353,7 +353,7 @@
 - [ ] `internals/catalogs/catalog-pg-user-mapping.md` — 52.65. pg_user_mapping #
 - [ ] `internals/catalogs/catalogs-overview.md` — 52.1. Overview #
 - [ ] `internals/custom-scan/README.md` — Chapter 60. Writing a Custom Scan Provider
-- [ ] `internals/custom-scan/custom-scan-execution.md` — 60.3. Executing Custom Scans #
+- [x] `internals/custom-scan/custom-scan-execution.md` — 60.3. 執行自訂掃描 #
 - [ ] `internals/custom-scan/custom-scan-path.md` — 60.1. Creating Custom Scan Paths #
 - [ ] `internals/custom-scan/custom-scan-plan.md` — 60.2. Creating Custom Scan Plans #
 - [ ] `internals/fdwhandler/README.md` — Chapter 58. Writing a Foreign Data Wrapper

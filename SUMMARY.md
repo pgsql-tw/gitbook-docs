@@ -969,7 +969,7 @@
   * [Chapter 60. Writing a Custom Scan Provider](internals/custom-scan/README.md)
     * [60.1. Creating Custom Scan Paths #](internals/custom-scan/custom-scan-path.md)
     * [60.2. Creating Custom Scan Plans #](internals/custom-scan/custom-scan-plan.md)
-    * [60.3. Executing Custom Scans #](internals/custom-scan/custom-scan-execution.md)
+    * [60.3. 執行自訂掃描 #](internals/custom-scan/custom-scan-execution.md)
   * [Chapter 61. Genetic Query Optimizer](internals/geqo/README.md)
     * [61.1. Query Handling as a Complex Optimization Problem #](internals/geqo/geqo-intro.md)
     * [61.2. Genetic Algorithms #](internals/geqo/geqo-intro2.md)
