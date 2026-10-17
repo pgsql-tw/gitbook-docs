@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：253 頁。
+待譯頁面：252 頁。
 
 ## 根目錄
 
@@ -342,7 +342,7 @@
 - [x] `internals/catalogs/catalog-pg-subscription-rel.md` — 52.55. `pg_subscription_rel` #
 - [x] `internals/catalogs/catalog-pg-subscription.md` — 52.54. `pg_subscription` #
 - [x] `internals/catalogs/catalog-pg-tablespace.md` — 52.56. `pg_tablespace` #
-- [ ] `internals/catalogs/catalog-pg-transform.md` — 52.57. pg_transform #
+- [x] `internals/catalogs/catalog-pg-transform.md` — 52.57. `pg_transform` #
 - [ ] `internals/catalogs/catalog-pg-trigger.md` — 52.58. pg_trigger #
 - [ ] `internals/catalogs/catalog-pg-ts-config-map.md` — 52.60. pg_ts_config_map #
 - [ ] `internals/catalogs/catalog-pg-ts-config.md` — 52.59. pg_ts_config #

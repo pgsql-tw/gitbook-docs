@@ -890,7 +890,7 @@
     * [52.54. `pg_subscription` #](internals/catalogs/catalog-pg-subscription.md)
     * [52.55. `pg_subscription_rel` #](internals/catalogs/catalog-pg-subscription-rel.md)
     * [52.56. `pg_tablespace` #](internals/catalogs/catalog-pg-tablespace.md)
-    * [52.57. pg_transform #](internals/catalogs/catalog-pg-transform.md)
+    * [52.57. `pg_transform` #](internals/catalogs/catalog-pg-transform.md)
     * [52.58. pg_trigger #](internals/catalogs/catalog-pg-trigger.md)
     * [52.59. pg_ts_config #](internals/catalogs/catalog-pg-ts-config.md)
     * [52.60. pg_ts_config_map #](internals/catalogs/catalog-pg-ts-config-map.md)

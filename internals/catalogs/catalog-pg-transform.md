@@ -1,57 +1,55 @@
+<a id="CATALOG-PG-TRANSFORM"></a>
+
 ## 52.57. `pg_transform` [#](#CATALOG-PG-TRANSFORM)
 
 <a id="id-1.10.4.59.2"></a>
 
-The catalog `pg_transform` stores information about
-transforms, which are a mechanism to adapt data types to procedural
-languages. See [CREATE TRANSFORM](../../reference/sql-commands/sql-createtransform.md) for more information.
+目錄 `pg_transform` 儲存關於轉換（transform）的資訊；轉換是一種讓資料型別適應程序語言的機制。詳細資訊請參閱 [CREATE TRANSFORM](../../reference/sql-commands/sql-createtransform.md)。
 
 <a id="id-1.10.4.59.4"></a>
 
-**Table 52.57. `pg_transform` Columns**
+**表 52.57. `pg_transform` 欄位**
 
-<table border="1" class="table" summary="pg_transform Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.57. pg_transform 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">oid</code> <code class="type">oid</code>
 </p>
 <p>
-       Row identifier
+       資料列識別碼
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trftype</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-type.md"><code class="structname">pg_type</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-type.md"><code class="structname">pg_type</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       OID of the data type this transform is for
+       此轉換所適用之資料型別的 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trflang</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-language.md"><code class="structname">pg_language</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-language.md"><code class="structname">pg_language</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       OID of the language this transform is for
+       此轉換所適用之語言的 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trffromsql</code> <code class="type">regproc</code>
-       (references <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the function to use when converting the data type for input
-       to the procedural language (e.g., function parameters).  Zero is stored
-       if the default behavior should be used.
+       將資料型別轉換為程序語言的輸入（例如函式參數）時所使用函式的 OID。
+       若應使用預設行為，則儲存零。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trftosql</code> <code class="type">regproc</code>
-       (references <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-proc.md"><code class="structname">pg_proc</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       The OID of the function to use when converting output from the
-       procedural language (e.g., return values) to the data type.  Zero is
-       stored if the default behavior should be used.
+       將程序語言的輸出（例如回傳值）轉換為資料型別時所使用函式的 OID。
+       若應使用預設行為，則儲存零。
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-transform.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-transform.html)（原文版本：18.6；核對日期：2026-10-17）
