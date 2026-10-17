@@ -859,7 +859,7 @@
     * [52.23. `pg_foreign_data_wrapper` #](internals/catalogs/catalog-pg-foreign-data-wrapper.md)
     * [52.24. `pg_foreign_server` #](internals/catalogs/catalog-pg-foreign-server.md)
     * [52.25. `pg_foreign_table` #](internals/catalogs/catalog-pg-foreign-table.md)
-    * [52.26. pg_index #](internals/catalogs/catalog-pg-index.md)
+    * [52.26. `pg_index` #](internals/catalogs/catalog-pg-index.md)
     * [52.27. pg_inherits #](internals/catalogs/catalog-pg-inherits.md)
     * [52.28. pg_init_privs #](internals/catalogs/catalog-pg-init-privs.md)
     * [52.29. pg_language #](internals/catalogs/catalog-pg-language.md)
