@@ -1,29 +1,29 @@
-## 32.9. Asynchronous Notification [#](#LIBPQ-NOTIFY)
+<a id="LIBPQ-NOTIFY"></a>
+
+## 32.9. 非同步通知 [#](#LIBPQ-NOTIFY)
 
 <a id="id-1.7.3.16.2"></a>
 
-PostgreSQL offers asynchronous notification
-via the `LISTEN` and `NOTIFY`
-commands. A client session registers its interest in a particular
-notification channel with the `LISTEN` command (and
-can stop listening with the `UNLISTEN` command). All
-sessions listening on a particular channel will be notified
-asynchronously when a `NOTIFY` command with that
-channel name is executed by any session. A “payload” string can
-be passed to communicate additional data to the listeners.
+PostgreSQL 透過 `LISTEN` 與 `NOTIFY`
+命令提供非同步通知。用戶端工作階段以 `LISTEN` 命令
+登記其對特定通知頻道的關注（並且
+可以用 `UNLISTEN` 命令停止監聽）。當任何
+工作階段執行帶有該頻道名稱的 `NOTIFY` 命令時，
+所有監聽該頻道的工作階段都會以非同步方式收到通知。
+可以傳遞一個「承載（payload）」字串，向監聽者傳達額外資料。
 
-libpq applications submit
-`LISTEN`, `UNLISTEN`,
-and `NOTIFY` commands as
-ordinary SQL commands. The arrival of `NOTIFY`
-messages can subsequently be detected by calling
-<a id="LIBPQ-PQNOTIFIES"></a>`PQnotifies`.<a id="id-1.7.3.16.4.7"></a>
+libpq 應用程式將
+`LISTEN`、`UNLISTEN`
+與 `NOTIFY` 命令作為
+一般 SQL 命令送出。之後可以呼叫
+<a id="LIBPQ-PQNOTIFIES"></a>`PQnotifies`<a id="id-1.7.3.16.4.7"></a> 來偵測 `NOTIFY`
+訊息是否到達。
 
-The function `PQnotifies` returns the next notification
-from a list of unhandled notification messages received from the server.
-It returns a null pointer if there are no pending notifications. Once a
-notification is returned from `PQnotifies`, it is considered
-handled and will be removed from the list of notifications.
+函式 `PQnotifies` 會從伺服器傳來的
+未處理通知訊息清單中傳回下一則通知。
+若沒有待處理的通知，則傳回空指標。一旦
+通知由 `PQnotifies` 傳回，即視為
+已處理，並會從通知清單中移除。
 
 ```
 
@@ -37,42 +37,40 @@ typedef struct pgNotify
 } PGnotify;
 ```
 
-After processing a `PGnotify` object returned
-by `PQnotifies`, be sure to free it with
-[`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM). It is sufficient to free the
-`PGnotify` pointer; the
-`relname` and `extra`
-fields do not represent separate allocations. (The names of these fields
-are historical; in particular, channel names need not have anything to
-do with relation names.)
+處理完 `PQnotifies` 傳回的
+`PGnotify` 物件後，務必以
+[`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 將其釋放。只需釋放
+`PGnotify` 指標即可；
+`relname` 與 `extra`
+欄位並不代表各自獨立的記憶體配置。（這些欄位的名稱
+是歷史沿革的結果；特別是，頻道名稱不必與
+關聯名稱有任何關係。）
 
-[Example 32.2](libpq-example.md#LIBPQ-EXAMPLE-2) gives a sample program that illustrates
-the use of asynchronous notification.
+[範例 32.2](libpq-example.md#LIBPQ-EXAMPLE-2) 提供了一個範例程式，示範
+非同步通知的用法。
 
-`PQnotifies` does not actually read data from the
-server; it just returns messages previously absorbed by another
-libpq function. In ancient releases of
-libpq, the only way to ensure timely receipt
-of `NOTIFY` messages was to constantly submit commands, even
-empty ones, and then check `PQnotifies` after each
-[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC). While this still works, it is deprecated
-as a waste of processing power.
+`PQnotifies` 實際上並不會從
+伺服器讀取資料；它只會傳回先前已被另一個
+libpq 函式吸收的訊息。在很早期的
+libpq 版本中，確保及時收到
+`NOTIFY` 訊息的唯一方法，是不斷送出命令（即使是
+空命令），並在每次
+[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 之後檢查 `PQnotifies`。這種做法雖然仍然有效，但因為
+浪費處理能力，已不建議使用。
 
-A better way to check for `NOTIFY` messages when you have no
-useful commands to execute is to call
-[`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT), then check
-`PQnotifies`. You can use
-`select()` to wait for data to arrive from the
-server, thereby using no CPU power unless there is
-something to do. (See [`PQsocket`](libpq-status.md#LIBPQ-PQSOCKET) to obtain the file
-descriptor number to use with `select()`.) Note that
-this will work OK whether you submit commands with
-[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY)/[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) or
-simply use [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC). You should, however, remember
-to check `PQnotifies` after each
-[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) or [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC), to
-see if any notifications came in during the processing of the command.
+在沒有實用的命令可執行時，檢查 `NOTIFY` 訊息的較佳方法是
+呼叫 [`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT)，然後檢查
+`PQnotifies`。你可以使用
+`select()` 等待資料從
+伺服器到達，如此除非有事要處理，否則不會耗用 CPU 資源。
+（請參閱 [`PQsocket`](libpq-status.md#LIBPQ-PQSOCKET) 以取得要搭配
+`select()` 使用的檔案描述子編號。）請注意，
+無論你是以
+[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY)/[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 送出命令，還是
+只使用 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC)，這種方式都能正常運作。不過，你應該記得
+在每次 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 或 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 之後檢查
+`PQnotifies`，以確認在命令處理期間是否有通知傳入。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-notify.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-notify.html)（原文版本：18.6；核對日期：2026-10-17）
