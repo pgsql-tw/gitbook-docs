@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：195 頁。
+待譯頁面：194 頁。
 
 ## 根目錄
 
@@ -301,7 +301,7 @@
 - [x] `internals/catalogs/catalog-pg-constraint.md` — 52.13. `pg_constraint` #
 - [x] `internals/catalogs/catalog-pg-conversion.md` — 52.14. `pg_conversion` #
 - [x] `internals/catalogs/catalog-pg-database.md` — 52.15. `pg_database` #
-- [ ] `internals/catalogs/catalog-pg-db-role-setting.md` — 52.16. pg_db_role_setting #
+- [x] `internals/catalogs/catalog-pg-db-role-setting.md` — 52.16. `pg_db_role_setting` #
 - [ ] `internals/catalogs/catalog-pg-default-acl.md` — 52.17. pg_default_acl #
 - [ ] `internals/catalogs/catalog-pg-depend.md` — 52.18. pg_depend #
 - [x] `internals/catalogs/catalog-pg-description.md` — 52.19. `pg_description` #

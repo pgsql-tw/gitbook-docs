@@ -849,7 +849,7 @@
     * [52.13. `pg_constraint` #](internals/catalogs/catalog-pg-constraint.md)
     * [52.14. `pg_conversion` #](internals/catalogs/catalog-pg-conversion.md)
     * [52.15. `pg_database` #](internals/catalogs/catalog-pg-database.md)
-    * [52.16. pg_db_role_setting #](internals/catalogs/catalog-pg-db-role-setting.md)
+    * [52.16. `pg_db_role_setting` #](internals/catalogs/catalog-pg-db-role-setting.md)
     * [52.17. pg_default_acl #](internals/catalogs/catalog-pg-default-acl.md)
     * [52.18. pg_depend #](internals/catalogs/catalog-pg-depend.md)
     * [52.19. `pg_description` #](internals/catalogs/catalog-pg-description.md)
