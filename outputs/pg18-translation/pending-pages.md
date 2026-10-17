@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：270 頁。
+待譯頁面：269 頁。
 
 ## 根目錄
 
@@ -377,7 +377,7 @@
 - [x] `internals/indextypes/README.md` — 第 65 章 內建索引存取方法
 - [x] `internals/indextypes/brin.md` — 65.5. BRIN 索引 #
 - [x] `internals/indextypes/btree.md` — 65.1. B-Tree 索引 #
-- [ ] `internals/indextypes/gin.md` — 65.4. GIN Indexes #
+- [x] `internals/indextypes/gin.md` — 65.4. GIN 索引 #
 - [ ] `internals/indextypes/gist.md` — 65.2. GiST Indexes #
 - [x] `internals/indextypes/hash-index.md` — 65.6. 雜湊索引 #
 - [x] `internals/indextypes/spgist.md` — 65.3. SP-GiST 索引 #
