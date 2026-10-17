@@ -1002,7 +1002,7 @@
     * [66.6. Database Page Layout #](internals/storage/storage-page-layout.md)
     * [66.7. Heap-Only Tuples ( HOT ) #](internals/storage/storage-hot.md)
   * [第 67 章 交易處理](internals/transactions/README.md)
-    * [67.1. Transactions and Identifiers #](internals/transactions/transaction-id.md)
+    * [67.1. 交易與識別碼 #](internals/transactions/transaction-id.md)
     * [67.2. Transactions and Locking #](internals/transactions/xact-locking.md)
     * [67.3. 子交易 #](internals/transactions/subxacts.md)
     * [67.4. 兩階段交易](internals/transactions/two-phase.md)

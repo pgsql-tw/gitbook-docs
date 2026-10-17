@@ -1,54 +1,39 @@
-## 67.1. Transactions and Identifiers [#](#TRANSACTION-ID)
+<a id="TRANSACTION-ID"></a>
 
-Transactions can be created explicitly using `BEGIN`
-or `START TRANSACTION` and ended using
-`COMMIT` or `ROLLBACK`. SQL
-statements outside of explicit transactions automatically use
-single-statement transactions.
+## 67.1. 交易與識別碼 [#](#TRANSACTION-ID)
 
-Every transaction is identified by a unique
-`VirtualTransactionId` (also called
-`virtualXID` or `vxid`), which
-is comprised of a backend's process number (or `procNumber`)
-and a sequentially-assigned number local to each backend, known as
-`localXID`. For example, the virtual transaction
-ID `4/12532` has a `procNumber`
-of `4` and a `localXID` of
-`12532`.
+交易可以使用 `BEGIN`
+或 `START TRANSACTION` 明確建立，並使用
+`COMMIT` 或 `ROLLBACK` 結束。位於明確交易之外的 SQL
+陳述式會自動使用單一陳述式交易。
 
-Non-virtual `TransactionId`s (or `xid`),
-e.g., `278394`, are assigned sequentially to
-transactions from a global counter used by all databases within
-the PostgreSQL cluster. This assignment
-happens when a transaction first writes to the database. This means
-lower-numbered xids started writing before higher-numbered xids.
-Note that the order in which transactions perform their first database
-write might be different from the order in which the transactions
-started, particularly if the transaction started with statements that
-only performed database reads.
+每個交易都以唯一的
+`VirtualTransactionId`（也稱為
+`virtualXID` 或 `vxid`）識別，它由後端的程序編號（或稱 `procNumber`）
+以及各後端本地依序分配的編號（稱為
+`localXID`）組成。例如，虛擬交易
+ID `4/12532` 的 `procNumber`
+為 `4`，`localXID` 為
+`12532`。
 
-The internal transaction ID type `xid` is 32 bits wide
-and [wraps around](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND) every
-4 billion transactions. A 32-bit epoch is incremented during each
-wraparound. There is also a 64-bit type `xid8` which
-includes this epoch and therefore does not wrap around during the
-life of an installation; it can be converted to xid by casting.
-The functions in [Table 9.84](../../the-sql-language/functions/functions-info.md#FUNCTIONS-PG-SNAPSHOT)
-return `xid8` values. Xids are used as the
-basis for PostgreSQL's [MVCC](../../the-sql-language/mvcc/README.md) concurrency mechanism and streaming
-replication.
+非虛擬的 `TransactionId`（或稱 `xid`），
+例如 `278394`，是從一個全域計數器依序分配給交易的，該計數器由
+PostgreSQL 叢集中的所有資料庫共用。此分配發生在交易第一次寫入資料庫時。這表示編號較小的 xid 比編號較大的 xid 更早開始寫入。請注意，交易執行第一次資料庫寫入的順序，可能與交易開始的順序不同，特別是當交易一開始執行的是只進行資料庫讀取的陳述式時。
 
-When a top-level transaction with a (non-virtual) xid commits,
-it is marked as committed in the `pg_xact`
-directory. Additional information is recorded in the
-`pg_commit_ts` directory if [track_commit_timestamp](../../server-administration/runtime-config/runtime-config-replication.md#GUC-TRACK-COMMIT-TIMESTAMP) is enabled.
+內部交易 ID 型別 `xid` 寬 32 位元，
+每 40 億個交易就會[回捲](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)一次。每次回捲時，一個 32 位元的 epoch 會遞增。另外還有一個 64 位元的型別 `xid8`，它包含此 epoch，因此在整個安裝的生命週期內都不會回捲；它可以透過型別轉換轉為 xid。
+[表 9.84](../../the-sql-language/functions/functions-info.md#FUNCTIONS-PG-SNAPSHOT) 中的函式
+會傳回 `xid8` 值。xid 是 PostgreSQL 的 [MVCC](../../the-sql-language/mvcc/README.md) 並行機制與串流複寫的基礎。
 
-In addition to `vxid` and `xid`,
-prepared transactions are also assigned Global Transaction
-Identifiers (GID). GIDs are string literals up
-to 200 bytes long, which must be unique amongst other currently
-prepared transactions. The mapping of GID to xid is shown in [`pg_prepared_xacts`](../views/view-pg-prepared-xacts.md).
+當具有（非虛擬）xid 的最上層交易提交時，
+它會在 `pg_xact`
+目錄中被標記為已提交。若啟用了 [track_commit_timestamp](../../server-administration/runtime-config/runtime-config-replication.md#GUC-TRACK-COMMIT-TIMESTAMP)，還會在
+`pg_commit_ts` 目錄中記錄額外的資訊。
+
+除了 `vxid` 與 `xid` 之外，
+預備交易還會被分配全域交易識別碼（Global Transaction
+Identifier，GID）。GID 是最長 200 位元組的字串常數，在目前其他已預備的交易之中必須是唯一的。GID 與 xid 的對應關係顯示於 [`pg_prepared_xacts`](../views/view-pg-prepared-xacts.md)。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/transaction-id.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/transaction-id.html)（原文版本：18.6；核對日期：2026-10-12）
