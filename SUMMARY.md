@@ -852,7 +852,7 @@
     * [52.16. pg_db_role_setting #](internals/catalogs/catalog-pg-db-role-setting.md)
     * [52.17. pg_default_acl #](internals/catalogs/catalog-pg-default-acl.md)
     * [52.18. pg_depend #](internals/catalogs/catalog-pg-depend.md)
-    * [52.19. pg_description #](internals/catalogs/catalog-pg-description.md)
+    * [52.19. `pg_description` #](internals/catalogs/catalog-pg-description.md)
     * [52.20. pg_enum #](internals/catalogs/catalog-pg-enum.md)
     * [52.21. pg_event_trigger #](internals/catalogs/catalog-pg-event-trigger.md)
     * [52.22. pg_extension #](internals/catalogs/catalog-pg-extension.md)
