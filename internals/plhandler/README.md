@@ -1,161 +1,35 @@
-## Chapter 57. Writing a Procedural Language Handler
+<a id="PLHANDLER"></a>
+
+## 第 57 章 撰寫程序語言處理常式
 
 <a id="id-1.10.9.2"></a>
 
-All calls to functions that are written in a language other than
-the current “version 1” interface for compiled
-languages (this includes functions in user-defined procedural languages
-and functions written in SQL) go through a *call handler*
-function for the specific language. It is the responsibility of
-the call handler to execute the function in a meaningful way, such
-as by interpreting the supplied source text. This chapter outlines
-how a new procedural language's call handler can be written.
+所有以編譯語言目前的「version 1」介面以外的語言所撰寫之函式（包括使用者自訂程序語言中的函式，以及以 SQL 撰寫的函式）的呼叫，都會經過該特定語言的*呼叫處理常式*（call handler）函式。呼叫處理常式負責以有意義的方式執行函式，例如解譯所提供的原始碼文字。本章概述如何撰寫新程序語言的呼叫處理常式。
 
-The call handler for a procedural language is a
-“normal” function that must be written in a compiled
-language such as C, using the version-1 interface, and registered
-with PostgreSQL as taking no arguments
-and returning the type `language_handler`. This
-special pseudo-type identifies the function as a call handler and
-prevents it from being called directly in SQL commands.
-For more details on C language calling conventions and dynamic loading,
-see [Section 36.10](../../server-programming/extend/xfunc-c.md).
+程序語言的呼叫處理常式是一個「一般」函式，必須以 C 之類的編譯語言、使用 version-1 介面撰寫，並向 PostgreSQL 註冊為不接受引數且傳回 `language_handler` 型別。這個特殊的虛擬型別會將該函式標識為呼叫處理常式，並防止它在 SQL 命令中被直接呼叫。關於 C 語言呼叫慣例與動態載入的更多細節，請參閱[第 36.10 節](../../server-programming/extend/xfunc-c.md)。
 
-The call handler is called in the same way as any other function:
-It receives a pointer to a
-`FunctionCallInfoBaseData` `struct` containing
-argument values and information about the called function, and it
-is expected to return a `Datum` result (and possibly
-set the `isnull` field of the
-`FunctionCallInfoBaseData` structure, if it wishes
-to return an SQL null result). The difference between a call
-handler and an ordinary callee function is that the
-`flinfo->fn_oid` field of the
-`FunctionCallInfoBaseData` structure will contain
-the OID of the actual function to be called, not of the call
-handler itself. The call handler must use this field to determine
-which function to execute. Also, the passed argument list has
-been set up according to the declaration of the target function,
-not of the call handler.
+呼叫處理常式的呼叫方式與其他任何函式相同：它會收到一個指向 `FunctionCallInfoBaseData` `struct` 的指標，其中包含引數值以及被呼叫函式的相關資訊，並且預期傳回一個 `Datum` 結果（如果它想要傳回 SQL 空值結果，也可能會設定 `isnull` 欄位，該欄位屬於 `FunctionCallInfoBaseData` 結構）。呼叫處理常式與一般被呼叫函式的差別在於：`flinfo->fn_oid` 欄位（屬於 `FunctionCallInfoBaseData` 結構）會包含實際要被呼叫之函式的 OID，而不是呼叫處理常式本身的 OID。呼叫處理常式必須使用這個欄位來決定要執行哪個函式。此外，傳入的引數清單是依據目標函式的宣告所設定的，而不是依據呼叫處理常式的宣告。
 
-It's up to the call handler to fetch the entry of the function from the
-`pg_proc` system catalog and to analyze the argument
-and return types of the called function. The `AS` clause from the
-`CREATE FUNCTION` command for the function will be found
-in the `prosrc` column of the
-`pg_proc` row. This is commonly source
-text in the procedural language, but in theory it could be something else,
-such as a path name to a file, or anything else that tells the call handler
-what to do in detail.
+由呼叫處理常式負責從 `pg_proc` 系統目錄中擷取該函式的項目，並分析被呼叫函式的引數型別與傳回型別。該函式之 `CREATE FUNCTION` 命令中的 `AS` 子句，可以在 `prosrc` 欄位中找到，該欄位屬於 `pg_proc` 資料列。這通常是以該程序語言撰寫的原始碼文字，但理論上也可以是其他東西，例如某個檔案的路徑名稱，或任何能詳細告訴呼叫處理常式該做什麼的內容。
 
-Often, the same function is called many times per SQL statement.
-A call handler can avoid repeated lookups of information about the
-called function by using the
-`flinfo->fn_extra` field. This will
-initially be `NULL`, but can be set by the call handler to point at
-information about the called function. On subsequent calls, if
-`flinfo->fn_extra` is already non-`NULL`
-then it can be used and the information lookup step skipped. The
-call handler must make sure that
-`flinfo->fn_extra` is made to point at
-memory that will live at least until the end of the current query,
-since an `FmgrInfo` data structure could be
-kept that long. One way to do this is to allocate the extra data
-in the memory context specified by
-`flinfo->fn_mcxt`; such data will
-normally have the same lifespan as the
-`FmgrInfo` itself. But the handler could
-also choose to use a longer-lived memory context so that it can cache
-function definition information across queries.
+同一個函式在每個 SQL 陳述式中經常會被呼叫很多次。呼叫處理常式可以利用 `flinfo->fn_extra` 欄位，避免重複查找被呼叫函式的相關資訊。這個欄位一開始會是 `NULL`，但呼叫處理常式可以將它設定為指向被呼叫函式的相關資訊。在後續的呼叫中，如果 `flinfo->fn_extra` 已經不是 `NULL`，就可以使用它並略過查找資訊的步驟。呼叫處理常式必須確保讓 `flinfo->fn_extra` 指向至少存活到目前查詢結束為止的記憶體，因為 `FmgrInfo` 資料結構可能會被保留那麼久。做到這一點的一種方法，是在 `flinfo->fn_mcxt` 所指定的記憶體上下文 中配置額外的資料；這類資料的生命週期通常會與 `FmgrInfo` 本身相同。但處理常式也可以選擇使用生命週期更長的記憶體上下文，以便跨查詢快取函式定義資訊。
 
-When a procedural-language function is invoked as a trigger, no arguments
-are passed in the usual way, but the
-`FunctionCallInfoBaseData`'s
-`context` field points at a
-`TriggerData` structure, rather than being `NULL`
-as it is in a plain function call. A language handler should
-provide mechanisms for procedural-language functions to get at the trigger
-information.
+當程序語言函式作為觸發程序被呼叫時，不會以一般方式傳入任何引數，但 `FunctionCallInfoBaseData` 的 `context` 欄位會指向一個 `TriggerData` 結構，而不是像在一般函式呼叫中那樣為 `NULL`。語言處理常式應該提供機制，讓程序語言函式能夠取得觸發程序的資訊。
 
-A template for a procedural-language handler written as a C extension is
-provided in `src/test/modules/plsample`. This is a
-working sample demonstrating one way to create a procedural-language
-handler, process parameters, and return a value.
+`src/test/modules/plsample` 中提供了一個以 C 擴充功能撰寫的程序語言處理常式範本。這是一個可運作的範例，示範了建立程序語言處理常式、處理參數以及傳回值的一種方式。
 
-Although providing a call handler is sufficient to create a minimal
-procedural language, there are two other functions that can optionally
-be provided to make the language more convenient to use. These
-are a *validator* and an
-*inline handler*. A validator can be provided
-to allow language-specific checking to be done during
-[CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md).
-An inline handler can be provided to allow the language to support
-anonymous code blocks executed via the [DO](../../reference/sql-commands/sql-do.md) command.
+雖然提供呼叫處理常式就足以建立一個最基本的程序語言，但還有另外兩個函式可以選擇性地提供，讓該語言使用起來更方便。這兩個函式是*驗證器*（validator）與*內嵌處理常式*（inline handler）。可以提供驗證器，以便在 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 期間進行語言特定的檢查。可以提供內嵌處理常式，讓該語言支援透過 [DO](../../reference/sql-commands/sql-do.md) 命令執行的匿名程式碼區塊。
 
-If a validator is provided by a procedural language, it
-must be declared as a function taking a single parameter of type
-`oid`. The validator's result is ignored, so it is customarily
-declared to return `void`. The validator will be called at
-the end of a `CREATE FUNCTION` command that has created
-or updated a function written in the procedural language.
-The passed-in OID is the OID of the function's `pg_proc`
-row. The validator must fetch this row in the usual way, and do
-whatever checking is appropriate.
-First, call `CheckFunctionValidatorAccess()` to diagnose
-explicit calls to the validator that the user could not achieve through
-`CREATE FUNCTION`. Typical checks then include verifying
-that the function's argument and result types are supported by the
-language, and that the function's body is syntactically correct
-in the language. If the validator finds the function to be okay,
-it should just return. If it finds an error, it should report that
-via the normal `ereport()` error reporting mechanism.
-Throwing an error will force a transaction rollback and thus prevent
-the incorrect function definition from being committed.
+如果程序語言提供了驗證器，它必須宣告為接受單一 `oid` 型別參數的函式。驗證器的結果會被忽略，因此慣例上宣告為傳回 `void`。驗證器會在建立或更新以該程序語言撰寫之函式的 `CREATE FUNCTION` 命令結束時被呼叫。傳入的 OID 是該函式之 `pg_proc` 資料列的 OID。驗證器必須以一般方式擷取這一列資料，並進行任何適當的檢查。首先，呼叫 `CheckFunctionValidatorAccess()`，以診斷使用者無法透過 `CREATE FUNCTION` 達成的對驗證器之直接呼叫。接著，典型的檢查包括驗證該函式的引數型別與結果型別受到該語言支援，以及該函式的主體在該語言中語法正確。如果驗證器認為函式沒有問題，就應該直接返回。如果發現錯誤，則應該透過一般的 `ereport()` 錯誤回報機制回報。擲出錯誤會強制交易回復，從而防止不正確的函式定義被提交。
 
-Validator functions should typically honor the [check_function_bodies](../../server-administration/runtime-config/runtime-config-client.md#GUC-CHECK-FUNCTION-BODIES) parameter: if it is turned off then
-any expensive or context-sensitive checking should be skipped. If the
-language provides for code execution at compilation time, the validator
-must suppress checks that would induce such execution. In particular,
-this parameter is turned off by pg_dump so that it can
-load procedural language functions without worrying about side effects or
-dependencies of the function bodies on other database objects.
-(Because of this requirement, the call handler should avoid
-assuming that the validator has fully checked the function. The point
-of having a validator is not to let the call handler omit checks, but
-to notify the user immediately if there are obvious errors in a
-`CREATE FUNCTION` command.)
-While the choice of exactly what to check is mostly left to the
-discretion of the validator function, note that the core
-`CREATE FUNCTION` code only executes `SET` clauses
-attached to a function when `check_function_bodies` is on.
-Therefore, checks whose results might be affected by GUC parameters
-definitely should be skipped when `check_function_bodies` is
-off, to avoid false failures when restoring a dump.
+驗證器函式通常應該遵循 [check_function_bodies](../../server-administration/runtime-config/runtime-config-client.md#GUC-CHECK-FUNCTION-BODIES) 參數：如果它被關閉，就應該略過任何耗費資源或與上下文相關的檢查。如果該語言提供在編譯期間執行程式碼的功能，驗證器必須抑制會引發此類執行的檢查。特別是，pg_dump 會關閉此參數，以便能夠載入程序語言函式，而不必擔心函式主體的副作用，或函式主體對其他資料庫物件的相依性。（由於這項要求，呼叫處理常式應該避免假設驗證器已經完整檢查過函式。提供驗證器的目的不是讓呼叫處理常式省略檢查，而是在 `CREATE FUNCTION` 命令中有明顯錯誤時立即通知使用者。）雖然確切要檢查什麼大多交由驗證器函式自行決定，但請注意，核心的 `CREATE FUNCTION` 程式碼只有在 `check_function_bodies` 開啟時，才會執行附加在函式上的 `SET` 子句。因此，結果可能受 GUC 參數影響的檢查，在 `check_function_bodies` 關閉時絕對應該略過，以避免在還原傾印時發生錯誤的失敗。
 
-If an inline handler is provided by a procedural language, it
-must be declared as a function taking a single parameter of type
-`internal`. The inline handler's result is ignored, so it is
-customarily declared to return `void`. The inline handler
-will be called when a `DO` statement is executed specifying
-the procedural language. The parameter actually passed is a pointer
-to an `InlineCodeBlock` struct, which contains information
-about the `DO` statement's parameters, in particular the
-text of the anonymous code block to be executed. The inline handler
-should execute this code and return.
+如果程序語言提供了內嵌處理常式，它必須宣告為接受單一 `internal` 型別參數的函式。內嵌處理常式的結果會被忽略，因此慣例上宣告為傳回 `void`。當執行指定該程序語言的 `DO` 陳述式時，會呼叫內嵌處理常式。實際傳入的參數是指向 `InlineCodeBlock` 結構（struct）的指標，其中包含 `DO` 陳述式之參數的相關資訊，特別是要執行之匿名程式碼區塊的文字。內嵌處理常式應該執行這段程式碼並返回。
 
-It's recommended that you wrap all these function declarations,
-as well as the `CREATE LANGUAGE` command itself, into
-an *extension* so that a simple `CREATE EXTENSION`
-command is sufficient to install the language. See
-[Section 36.17](../../server-programming/extend/extend-extensions.md) for information about writing
-extensions.
+建議你將所有這些函式宣告，以及 `CREATE LANGUAGE` 命令本身，包裝成一個*擴充功能*，如此只要一個簡單的 `CREATE EXTENSION` 命令就足以安裝該語言。關於撰寫擴充功能的資訊，請參閱[第 36.17 節](../../server-programming/extend/extend-extensions.md)。
 
-The procedural languages included in the standard distribution
-are good references when trying to write your own language handler.
-Look into the `src/pl` subdirectory of the source tree.
-The [CREATE LANGUAGE](../../reference/sql-commands/sql-createlanguage.md)
-reference page also has some useful details.
+撰寫你自己的語言處理常式時，標準發行版本中所包含的程序語言是很好的參考。請查看原始碼樹的 `src/pl` 子目錄。[CREATE LANGUAGE](../../reference/sql-commands/sql-createlanguage.md) 參考頁面也有一些實用的細節。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plhandler.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/plhandler.html)（原文版本：18.6；核對日期：2026-10-12）

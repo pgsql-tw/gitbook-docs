@@ -957,7 +957,7 @@
   * [第 56 章 母語支援](internals/nls/README.md)
     * [56.1. For the Translator #](internals/nls/nls-translator.md)
     * [56.2. For the Programmer #](internals/nls/nls-programmer.md)
-  * [Chapter 57. Writing a Procedural Language Handler](internals/plhandler/README.md)
+  * [第 57 章 撰寫程序語言處理常式](internals/plhandler/README.md)
   * [Chapter 58. Writing a Foreign Data Wrapper](internals/fdwhandler/README.md)
     * [58.1. Foreign Data Wrapper Functions #](internals/fdwhandler/fdw-functions.md)
     * [58.2. Foreign Data Wrapper Callback Routines #](internals/fdwhandler/fdw-callbacks.md)
