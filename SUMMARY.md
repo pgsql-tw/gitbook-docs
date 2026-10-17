@@ -835,7 +835,7 @@
     * [51.6. 執行器 #](internals/overview/executor.md)
   * [Chapter 52. System Catalogs](internals/catalogs/README.md)
     * [52.1. 概觀 #](internals/catalogs/catalogs-overview.md)
-    * [52.2. pg_aggregate #](internals/catalogs/catalog-pg-aggregate.md)
+    * [52.2. `pg_aggregate` #](internals/catalogs/catalog-pg-aggregate.md)
     * [52.3. `pg_am` #](internals/catalogs/catalog-pg-am.md)
     * [52.4. `pg_amop` #](internals/catalogs/catalog-pg-amop.md)
     * [52.5. `pg_amproc` #](internals/catalogs/catalog-pg-amproc.md)
