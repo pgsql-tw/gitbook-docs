@@ -886,7 +886,7 @@
     * [52.50. `pg_shseclabel` #](internals/catalogs/catalog-pg-shseclabel.md)
     * [52.51. `pg_statistic` #](internals/catalogs/catalog-pg-statistic.md)
     * [52.52. pg_statistic_ext #](internals/catalogs/catalog-pg-statistic-ext.md)
-    * [52.53. pg_statistic_ext_data #](internals/catalogs/catalog-pg-statistic-ext-data.md)
+    * [52.53. `pg_statistic_ext_data` #](internals/catalogs/catalog-pg-statistic-ext-data.md)
     * [52.54. `pg_subscription` #](internals/catalogs/catalog-pg-subscription.md)
     * [52.55. `pg_subscription_rel` #](internals/catalogs/catalog-pg-subscription-rel.md)
     * [52.56. `pg_tablespace` #](internals/catalogs/catalog-pg-tablespace.md)

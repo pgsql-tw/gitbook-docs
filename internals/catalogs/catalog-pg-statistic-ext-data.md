@@ -1,83 +1,59 @@
+<a id="CATALOG-PG-STATISTIC-EXT-DATA"></a>
+
 ## 52.53. `pg_statistic_ext_data` [#](#CATALOG-PG-STATISTIC-EXT-DATA)
 
 <a id="id-1.10.4.55.2"></a>
 
-The catalog `pg_statistic_ext_data`
-holds data for extended planner statistics defined in
-[`pg_statistic_ext`](catalog-pg-statistic-ext.md).
-Each row in this catalog corresponds to a *statistics object*
-created with [`CREATE STATISTICS`](../../reference/sql-commands/sql-createstatistics.md).
+系統目錄 `pg_statistic_ext_data` 存放 [`pg_statistic_ext`](catalog-pg-statistic-ext.md) 中所定義之擴充規劃器統計資訊的資料。此系統目錄中的每一筆資料列對應一個以 [`CREATE STATISTICS`](../../reference/sql-commands/sql-createstatistics.md) 建立的*統計資訊物件*。
 
-Normally there is one entry, with `stxdinherit` =
-`false`, for each statistics object that has been analyzed.
-If the table has inheritance children or partitions, a second entry with
-`stxdinherit` = `true` is also created.
-This row represents the statistics object over the inheritance tree, i.e.,
-statistics for the data you'd see with
-`SELECT * FROM table*`,
-whereas the `stxdinherit` = `false` row
-represents the results of
-`SELECT * FROM ONLY table`.
+通常每個已分析過的統計資訊物件會有一筆 `stxdinherit` = `false` 的項目。若資料表有繼承子資料表或分割區，還會另外建立一筆 `stxdinherit` = `true` 的項目。這筆資料列代表涵蓋整個繼承樹的統計資訊物件，亦即你以 `SELECT * FROM table*` 會看到之資料的統計資訊；而 `stxdinherit` = `false` 的資料列則代表 `SELECT * FROM ONLY table` 的結果。
 
-Like [`pg_statistic`](catalog-pg-statistic.md),
-`pg_statistic_ext_data` should not be
-readable by the public, since the contents might be considered sensitive.
-(Example: most common combinations of values in columns might be quite
-interesting.)
-[`pg_stats_ext`](../views/view-pg-stats-ext.md)
-is a publicly readable view
-on `pg_statistic_ext_data` (after joining
-with [`pg_statistic_ext`](catalog-pg-statistic-ext.md)) that only exposes
-information about tables the current user owns.
+與 [`pg_statistic`](catalog-pg-statistic.md) 相同，`pg_statistic_ext_data` 不應開放給一般大眾讀取，因為其內容可能被視為敏感資訊。（例如：欄位中最常見的值組合可能相當值得關注。）[`pg_stats_ext`](../views/view-pg-stats-ext.md) 是建立在 `pg_statistic_ext_data` 之上（與 [`pg_statistic_ext`](catalog-pg-statistic-ext.md) 連接之後）、可公開讀取的檢視表，只會揭露目前使用者所擁有之資料表的資訊。
 
 <a id="id-1.10.4.55.6"></a>
 
-**Table 52.53. `pg_statistic_ext_data` Columns**
+**表 52.53. `pg_statistic_ext_data` 欄位**
 
-<table border="1" class="table" summary="pg_statistic_ext_data Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="表 52.53. pg_statistic_ext_data 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">stxoid</code> <code class="type">oid</code>
-       (references <a class="link" href="catalog-pg-statistic-ext.md"><code class="structname">pg_statistic_ext</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="catalog-pg-statistic-ext.md"><code class="structname">pg_statistic_ext</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       Extended statistics object containing the definition for this data
+       包含此資料之定義的擴充統計資訊物件
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">stxdinherit</code> <code class="type">bool</code>
 </p>
 <p>
-       If true, the stats include values from child tables, not just the
-       values in the specified relation
+       若為真，統計資訊包含子資料表中的值，而不只是指定關聯中的值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">stxdndistinct</code> <code class="type">pg_ndistinct</code>
 </p>
 <p>
-       N-distinct counts, serialized as <code class="structname">pg_ndistinct</code> type
+       N-distinct 計數，序列化為 <code class="structname">pg_ndistinct</code> 型別
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">stxddependencies</code> <code class="type">pg_dependencies</code>
 </p>
 <p>
-       Functional dependency statistics, serialized
-       as <code class="structname">pg_dependencies</code> type
+       函數相依統計資訊，序列化為 <code class="structname">pg_dependencies</code> 型別
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">stxdmcv</code> <code class="type">pg_mcv_list</code>
 </p>
 <p>
-       MCV (most-common values) list statistics, serialized as
-       <code class="structname">pg_mcv_list</code> type
+       MCV（最常見值）清單統計資訊，序列化為 <code class="structname">pg_mcv_list</code> 型別
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">stxdexpr</code> <code class="type">pg_statistic[]</code>
 </p>
 <p>
-       Per-expression statistics, serialized as an array of
-       <code class="structname">pg_statistic</code> type
+       逐運算式的統計資訊，序列化為 <code class="structname">pg_statistic</code> 型別的陣列
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-statistic-ext-data.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/catalog-pg-statistic-ext-data.html)（原文版本：18.6；核對日期：2026-10-17）
