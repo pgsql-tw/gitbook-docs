@@ -976,7 +976,7 @@
     * [61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO） #](internals/geqo/geqo-pg-intro.md)
     * [61.4. 延伸閱讀](internals/geqo/geqo-biblio.md)
   * [第 62 章 資料表存取方法介面定義](internals/tableam/README.md)
-  * [Chapter 63. Index Access Method Interface Definition](internals/indexam/README.md)
+  * [第 63 章：索引存取方法介面定義](internals/indexam/README.md)
     * [63.1. Basic API Structure for Indexes #](internals/indexam/index-api.md)
     * [63.2. 索引存取方法函式 #](internals/indexam/index-functions.md)
     * [63.3. 索引掃描 #](internals/indexam/index-scanning.md)
