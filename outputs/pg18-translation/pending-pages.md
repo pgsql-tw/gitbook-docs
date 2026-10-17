@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：214 頁。
+待譯頁面：213 頁。
 
 ## 根目錄
 
@@ -261,7 +261,7 @@
 - [ ] `client-interfaces/libpq/libpq-fastpath.md` — 32.8. The Fast-Path Interface #
 - [ ] `client-interfaces/libpq/libpq-ldap.md` — 32.18. LDAP Lookup of Connection Parameters #
 - [ ] `client-interfaces/libpq/libpq-misc.md` — 32.12. Miscellaneous Functions #
-- [ ] `client-interfaces/libpq/libpq-notice-processing.md` — 32.13. Notice Processing #
+- [x] `client-interfaces/libpq/libpq-notice-processing.md` — 32.13. 通知訊息處理 #
 - [ ] `client-interfaces/libpq/libpq-notify.md` — 32.9. Asynchronous Notification #
 - [ ] `client-interfaces/libpq/libpq-oauth.md` — 32.20. OAuth Support #
 - [ ] `client-interfaces/libpq/libpq-pgpass.md` — 32.16. The Password File #

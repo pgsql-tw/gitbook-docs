@@ -315,7 +315,7 @@
     * [32.10. Functions Associated with the COPY Command #](client-interfaces/libpq/libpq-copy.md)
     * [32.11. Control Functions #](client-interfaces/libpq/libpq-control.md)
     * [32.12. Miscellaneous Functions #](client-interfaces/libpq/libpq-misc.md)
-    * [32.13. Notice Processing #](client-interfaces/libpq/libpq-notice-processing.md)
+    * [32.13. 通知訊息處理 #](client-interfaces/libpq/libpq-notice-processing.md)
     * [32.14. Event System #](client-interfaces/libpq/libpq-events.md)
     * [32.15. Environment Variables #](client-interfaces/libpq/libpq-envars.md)
     * [32.16. The Password File #](client-interfaces/libpq/libpq-pgpass.md)
