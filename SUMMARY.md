@@ -323,7 +323,7 @@
     * [32.18. LDAP Lookup of Connection Parameters #](client-interfaces/libpq/libpq-ldap.md)
     * [32.19. SSL 支援 #](client-interfaces/libpq/libpq-ssl.md)
     * [32.20. OAuth 支援 #](client-interfaces/libpq/libpq-oauth.md)
-    * [32.21. Behavior in Threaded Programs #](client-interfaces/libpq/libpq-threading.md)
+    * [32.21. 多執行緒程式中的行為 #](client-interfaces/libpq/libpq-threading.md)
     * [32.22. Building libpq Programs #](client-interfaces/libpq/libpq-build.md)
     * [32.23. Example Programs #](client-interfaces/libpq/libpq-example.md)
   * [Chapter 33. Large Objects](client-interfaces/largeobjects/README.md)
