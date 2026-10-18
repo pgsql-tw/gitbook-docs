@@ -1,8 +1,10 @@
+<a id="ECPG-SQL-GET-DESCRIPTOR"></a>
+
 ## GET DESCRIPTOR
 
-GET DESCRIPTOR — get information from an SQL descriptor area
+GET DESCRIPTOR — 從 SQL 描述區取得資訊
 
-## Synopsis
+## 語法
 
 ```
 
@@ -12,82 +14,63 @@ GET DESCRIPTOR descriptor_name VALUE column_number :cvariable = descriptor_item 
 
 <a id="id-1.7.5.20.11.3"></a>
 
-## Description
+## 說明
 
-`GET DESCRIPTOR` retrieves information about a
-query result set from an SQL descriptor area and stores it into
-host variables. A descriptor area is typically populated
-using `FETCH` or `SELECT`
-before using this command to transfer the information into host
-language variables.
+`GET DESCRIPTOR` 會從 SQL 描述區擷取查詢結果集的相關資訊，並將其存入主機變數。在使用此命令將資訊傳送到主機語言變數之前，描述區通常會先以 `FETCH` 或 `SELECT` 填入資料。
 
-This command has two forms: The first form retrieves
-descriptor “header” item, which applies to the result
-set in its entirety. One example is the row count. The second
-form, which requires the column number as additional parameter,
-retrieves information about a particular column. Examples are
-the column name and the actual column value.
+此命令有兩種形式：第一種形式擷取描述區的「標頭」項目，這類項目適用於整個結果集，例如欄位數（原文此處寫作 row count，但下方參數說明指出，目前唯一支援的標頭項目 COUNT 取得的是結果集的欄位數，而不是資料列數）。第二種形式需要以欄位編號作為額外參數，擷取特定欄位的相關資訊，例如欄位名稱與實際的欄位值。
 
 <a id="id-1.7.5.20.11.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-NAME"></a>
 
 *`descriptor_name`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-NAME)
-:   A descriptor name.
+:   描述區名稱。
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM"></a>
 
 *`descriptor_header_item`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM)
-:   A token identifying which header information item to retrieve.
-    Only `COUNT`, to get the number of columns in the
-    result set, is currently supported.
+:   識別要擷取哪一個標頭資訊項目的標記（token）。目前只支援 `COUNT`，用於取得結果集中的欄位數。
 <a id="ECPG-SQL-GET-DESCRIPTOR-COLUMN-NUMBER"></a>
 
 *`column_number`* [#](#ECPG-SQL-GET-DESCRIPTOR-COLUMN-NUMBER)
-:   The number of the column about which information is to be
-    retrieved. The count starts at 1.
+:   要擷取其相關資訊的欄位編號。編號從 1 開始。
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-ITEM"></a>
 
 *`descriptor_item`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-ITEM)
-:   A token identifying which item of information about a column
-    to retrieve. See [Section 34.7.1](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS) for
-    a list of supported items.
+:   識別要擷取欄位的哪一項資訊的標記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)。
 <a id="ECPG-SQL-GET-DESCRIPTOR-CVARIABLE"></a>
 
 *`cvariable`* [#](#ECPG-SQL-GET-DESCRIPTOR-CVARIABLE)
-:   A host variable that will receive the data retrieved from the
-    descriptor area.
+:   用來接收從描述區擷取之資料的主機變數。
 
 <a id="id-1.7.5.20.11.5"></a>
 
-## Examples
+## 範例
 
-An example to retrieve the number of columns in a result set:
+擷取結果集欄位數的範例：
 
 ```
 
 EXEC SQL GET DESCRIPTOR d :d_count = COUNT;
 ```
 
-An example to retrieve a data length in the first column:
+擷取第一個欄位資料長度的範例：
 
 ```
 
 EXEC SQL GET DESCRIPTOR d VALUE 1 :d_returned_octet_length = RETURNED_OCTET_LENGTH;
 ```
 
-An example to retrieve the data body of the second column as a
-string:
+以字串形式擷取第二個欄位資料本體的範例：
 
 ```
 
 EXEC SQL GET DESCRIPTOR d VALUE 2 :d_data = DATA;
 ```
 
-Here is an example for a whole procedure of
-executing `SELECT current_database();` and showing the number of
-columns, the column data length, and the column data:
+以下是完整流程的範例：執行 `SELECT current_database();`，並顯示欄位數、欄位資料長度與欄位資料：
 
 ```
 
@@ -132,7 +115,7 @@ EXEC SQL END DECLARE SECTION;
 }
 ```
 
-When the example is executed, the result will look like this:
+執行此範例後，結果會如下所示：
 
 ```
 
@@ -143,16 +126,16 @@ d_data                  = testdb
 
 <a id="id-1.7.5.20.11.6"></a>
 
-## Compatibility
+## 相容性
 
-`GET DESCRIPTOR` is specified in the SQL standard.
+SQL 標準規定了 `GET DESCRIPTOR`。
 
 <a id="id-1.7.5.20.11.7"></a>
 
-## See Also
+## 另請參閱
 
 [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md), [SET DESCRIPTOR](ecpg-sql-set-descriptor.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-get-descriptor.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-get-descriptor.html)（原文版本：18.6；核對日期：2026-10-18）
