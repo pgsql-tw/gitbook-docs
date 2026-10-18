@@ -316,7 +316,7 @@
     * [32.11. Control Functions #](client-interfaces/libpq/libpq-control.md)
     * [32.12. Miscellaneous Functions #](client-interfaces/libpq/libpq-misc.md)
     * [32.13. 通知訊息處理 #](client-interfaces/libpq/libpq-notice-processing.md)
-    * [32.14. Event System #](client-interfaces/libpq/libpq-events.md)
+    * [32.14. 事件系統 #](client-interfaces/libpq/libpq-events.md)
     * [32.15. Environment Variables #](client-interfaces/libpq/libpq-envars.md)
     * [32.16. 密碼檔 #](client-interfaces/libpq/libpq-pgpass.md)
     * [32.17. 連線服務檔 #](client-interfaces/libpq/libpq-pgservice.md)

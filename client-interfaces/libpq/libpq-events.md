@@ -1,60 +1,29 @@
-## 32.14. Event System [#](#LIBPQ-EVENTS)
+<a id="LIBPQ-EVENTS"></a>
 
-[32.14.1. Event Types](libpq-events.md#LIBPQ-EVENTS-TYPES)
+## 32.14. 事件系統 [#](#LIBPQ-EVENTS)
 
-[32.14.2. Event Callback Procedure](libpq-events.md#LIBPQ-EVENTS-PROC)
+[32.14.1. 事件類型](libpq-events.md#LIBPQ-EVENTS-TYPES)
 
-[32.14.3. Event Support Functions](libpq-events.md#LIBPQ-EVENTS-FUNCS)
+[32.14.2. 事件回呼程序](libpq-events.md#LIBPQ-EVENTS-PROC)
 
-[32.14.4. Event Example](libpq-events.md#LIBPQ-EVENTS-EXAMPLE)
+[32.14.3. 事件支援函式](libpq-events.md#LIBPQ-EVENTS-FUNCS)
 
-libpq's event system is designed to notify
-registered event handlers about interesting
-libpq events, such as the creation or
-destruction of `PGconn` and
-`PGresult` objects. A principal use case is that
-this allows applications to associate their own data with a
-`PGconn` or `PGresult`
-and ensure that that data is freed at an appropriate time.
+[32.14.4. 事件範例](libpq-events.md#LIBPQ-EVENTS-EXAMPLE)
 
-Each registered event handler is associated with two pieces of data,
-known to libpq only as opaque `void *`
-pointers. There is a *pass-through* pointer that is provided
-by the application when the event handler is registered with a
-`PGconn`. The pass-through pointer never changes for the
-life of the `PGconn` and all `PGresult`s
-generated from it; so if used, it must point to long-lived data.
-In addition there is an *instance data* pointer, which starts
-out `NULL` in every `PGconn` and `PGresult`.
-This pointer can be manipulated using the
-[`PQinstanceData`](libpq-events.md#LIBPQ-PQINSTANCEDATA),
-[`PQsetInstanceData`](libpq-events.md#LIBPQ-PQSETINSTANCEDATA),
-[`PQresultInstanceData`](libpq-events.md#LIBPQ-PQRESULTINSTANCEDATA) and
-[`PQresultSetInstanceData`](libpq-events.md#LIBPQ-PQRESULTSETINSTANCEDATA) functions. Note that
-unlike the pass-through pointer, instance data of a `PGconn`
-is not automatically inherited by `PGresult`s created from
-it. libpq does not know what pass-through
-and instance data pointers point to (if anything) and will never attempt
-to free them — that is the responsibility of the event handler.
+libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與 `PGresult` 物件的建立或銷毀）通知已註冊的事件處理常式。主要的使用情境是讓應用程式能將自己的資料與 `PGconn` 或 `PGresult` 相關聯，並確保這些資料在適當的時機被釋放。
+
+每個已註冊的事件處理常式都與兩項資料相關聯，對 libpq 而言，它們只是不透明的 `void *` 指標。其一是*傳遞（pass-through）*指標，由應用程式在將事件處理常式註冊到 `PGconn` 時提供。在該 `PGconn` 以及由它產生的所有 `PGresult` 的存續期間，傳遞指標都不會改變；因此若有使用，它必須指向長期存在的資料。此外還有一個*執行個體資料（instance data）*指標，它在每個 `PGconn` 與 `PGresult` 中的初始值都是 `NULL`。這個指標可以使用 [`PQinstanceData`](libpq-events.md#LIBPQ-PQINSTANCEDATA)、[`PQsetInstanceData`](libpq-events.md#LIBPQ-PQSETINSTANCEDATA)、[`PQresultInstanceData`](libpq-events.md#LIBPQ-PQRESULTINSTANCEDATA) 與 [`PQresultSetInstanceData`](libpq-events.md#LIBPQ-PQRESULTSETINSTANCEDATA) 函式操作。請注意，與傳遞指標不同，`PGconn` 的執行個體資料不會自動由從它建立的 `PGresult` 繼承。libpq 並不知道傳遞指標與執行個體資料指標指向什麼（如果有指向任何東西的話），也絕不會嘗試釋放它們——那是事件處理常式的責任。
 
 <a id="LIBPQ-EVENTS-TYPES"></a>
 
-### 32.14.1. Event Types [#](#LIBPQ-EVENTS-TYPES)
+### 32.14.1. 事件類型 [#](#LIBPQ-EVENTS-TYPES)
 
-The enum `PGEventId` names the types of events handled by
-the event system. All its values have names beginning with
-`PGEVT`. For each event type, there is a corresponding
-event info structure that carries the parameters passed to the event
-handlers. The event types are:
+列舉型別 `PGEventId` 命名了事件系統所處理的事件類型。它的所有值的名稱都以 `PGEVT` 開頭。每一種事件類型都有對應的事件資訊結構，用來攜帶傳給事件處理常式的參數。事件類型如下：
 
 <a id="LIBPQ-PGEVT-REGISTER"></a>
 
 `PGEVT_REGISTER` [#](#LIBPQ-PGEVT-REGISTER)
-:   The register event occurs when [`PQregisterEventProc`](libpq-events.md#LIBPQ-PQREGISTEREVENTPROC)
-    is called. It is the ideal time to initialize any
-    `instanceData` an event procedure may need. Only one
-    register event will be fired per event handler per connection. If the
-    event procedure fails (returns zero), the registration is canceled.
+:   註冊事件在呼叫 [`PQregisterEventProc`](libpq-events.md#LIBPQ-PQREGISTEREVENTPROC) 時發生。這是初始化事件程序可能需要的任何 `instanceData` 的理想時機。每個連線的每個事件處理常式只會觸發一次註冊事件。若事件程序失敗（傳回零），則註冊會被取消。
 
     ```
 
@@ -64,25 +33,11 @@ handlers. The event types are:
     } PGEventRegister;
     ```
 
-    When a `PGEVT_REGISTER` event is received, the
-    *`evtInfo`* pointer should be cast to a
-    `PGEventRegister *`. This structure contains a
-    `PGconn` that should be in the
-    `CONNECTION_OK` status; guaranteed if one calls
-    [`PQregisterEventProc`](libpq-events.md#LIBPQ-PQREGISTEREVENTPROC) right after obtaining a good
-    `PGconn`. When returning a failure code, all
-    cleanup must be performed as no `PGEVT_CONNDESTROY`
-    event will be sent.
+    收到 `PGEVT_REGISTER` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventRegister *`。此結構包含一個應處於 `CONNECTION_OK` 狀態的 `PGconn`；若在取得正常的 `PGconn` 後立即呼叫 [`PQregisterEventProc`](libpq-events.md#LIBPQ-PQREGISTEREVENTPROC)，即可保證如此。傳回失敗代碼時，必須完成所有清理工作，因為不會送出 `PGEVT_CONNDESTROY` 事件。
 <a id="LIBPQ-PGEVT-CONNRESET"></a>
 
 `PGEVT_CONNRESET` [#](#LIBPQ-PGEVT-CONNRESET)
-:   The connection reset event is fired on completion of
-    [`PQreset`](libpq-connect.md#LIBPQ-PQRESET) or `PQresetPoll`. In
-    both cases, the event is only fired if the reset was successful.
-    The return value of the event procedure is ignored
-    in PostgreSQL v15 and later.
-    With earlier versions, however, it's important to return success
-    (nonzero) or the connection will be aborted.
+:   連線重設事件會在 [`PQreset`](libpq-connect.md#LIBPQ-PQRESET) 或 `PQresetPoll` 完成時觸發。在這兩種情況下，只有重設成功時才會觸發此事件。在 PostgreSQL v15 及更新版本中，事件程序的傳回值會被忽略。不過在更早的版本中，傳回成功（非零值）很重要，否則連線將會被中止。
 
     ```
 
@@ -92,23 +47,11 @@ handlers. The event types are:
     } PGEventConnReset;
     ```
 
-    When a `PGEVT_CONNRESET` event is received, the
-    *`evtInfo`* pointer should be cast to a
-    `PGEventConnReset *`. Although the contained
-    `PGconn` was just reset, all event data remains
-    unchanged. This event should be used to reset/reload/requery any
-    associated `instanceData`. Note that even if the
-    event procedure fails to process `PGEVT_CONNRESET`, it will
-    still receive a `PGEVT_CONNDESTROY` event when the connection
-    is closed.
+    收到 `PGEVT_CONNRESET` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventConnReset *`。雖然其中包含的 `PGconn` 剛剛被重設，所有事件資料仍保持不變。此事件應用於重設／重新載入／重新查詢任何相關聯的 `instanceData`。請注意，即使事件程序處理 `PGEVT_CONNRESET` 失敗，在連線關閉時它仍會收到 `PGEVT_CONNDESTROY` 事件。
 <a id="LIBPQ-PGEVT-CONNDESTROY"></a>
 
 `PGEVT_CONNDESTROY` [#](#LIBPQ-PGEVT-CONNDESTROY)
-:   The connection destroy event is fired in response to
-    [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH). It is the event procedure's
-    responsibility to properly clean up its event data as libpq has no
-    ability to manage this memory. Failure to clean up will lead
-    to memory leaks.
+:   連線銷毀事件會因應 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 而觸發。由於 libpq 沒有能力管理這些記憶體，正確清理其事件資料是事件程序的責任。未進行清理將導致記憶體洩漏。
 
     ```
 
@@ -118,21 +61,11 @@ handlers. The event types are:
     } PGEventConnDestroy;
     ```
 
-    When a `PGEVT_CONNDESTROY` event is received, the
-    *`evtInfo`* pointer should be cast to a
-    `PGEventConnDestroy *`. This event is fired
-    prior to [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) performing any other cleanup.
-    The return value of the event procedure is ignored since there is no
-    way of indicating a failure from [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH). Also,
-    an event procedure failure should not abort the process of cleaning up
-    unwanted memory.
+    收到 `PGEVT_CONNDESTROY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventConnDestroy *`。此事件會在 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 執行任何其他清理工作之前觸發。由於無法從 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 回報失敗，事件程序的傳回值會被忽略。此外，事件程序的失敗不應中止清理不再需要之記憶體的過程。
 <a id="LIBPQ-PGEVT-RESULTCREATE"></a>
 
 `PGEVT_RESULTCREATE` [#](#LIBPQ-PGEVT-RESULTCREATE)
-:   The result creation event is fired in response to any query execution
-    function that generates a result, including
-    [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT). This event will only be fired after
-    the result has been created successfully.
+:   結果建立事件會因應任何產生結果的查詢執行函式而觸發，包括 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)。此事件只會在結果成功建立之後才觸發。
 
     ```
 
@@ -143,26 +76,11 @@ handlers. The event types are:
     } PGEventResultCreate;
     ```
 
-    When a `PGEVT_RESULTCREATE` event is received, the
-    *`evtInfo`* pointer should be cast to a
-    `PGEventResultCreate *`. The
-    *`conn`* is the connection used to generate the
-    result. This is the ideal place to initialize any
-    `instanceData` that needs to be associated with the
-    result. If an event procedure fails (returns zero), that event
-    procedure will be ignored for the remaining lifetime of the result;
-    that is, it will not receive `PGEVT_RESULTCOPY`
-    or `PGEVT_RESULTDESTROY` events for this result or
-    results copied from it.
+    收到 `PGEVT_RESULTCREATE` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventResultCreate *`。*`conn`* 是用來產生該結果的連線。這是初始化需要與該結果相關聯之任何 `instanceData` 的理想位置。若事件程序失敗（傳回零），在該結果剩餘的存續期間內都會忽略該事件程序；也就是說，對於此結果或從它複製出的結果，該事件程序都不會收到 `PGEVT_RESULTCOPY` 或 `PGEVT_RESULTDESTROY` 事件。
 <a id="LIBPQ-PGEVT-RESULTCOPY"></a>
 
 `PGEVT_RESULTCOPY` [#](#LIBPQ-PGEVT-RESULTCOPY)
-:   The result copy event is fired in response to
-    [`PQcopyResult`](libpq-misc.md#LIBPQ-PQCOPYRESULT). This event will only be fired after
-    the copy is complete. Only event procedures that have
-    successfully handled the `PGEVT_RESULTCREATE`
-    or `PGEVT_RESULTCOPY` event for the source result
-    will receive `PGEVT_RESULTCOPY` events.
+:   結果複製事件會因應 [`PQcopyResult`](libpq-misc.md#LIBPQ-PQCOPYRESULT) 而觸發。此事件只會在複製完成之後才觸發。只有已成功處理來源結果之 `PGEVT_RESULTCREATE` 或 `PGEVT_RESULTCOPY` 事件的事件程序，才會收到 `PGEVT_RESULTCOPY` 事件。
 
     ```
 
@@ -173,26 +91,11 @@ handlers. The event types are:
     } PGEventResultCopy;
     ```
 
-    When a `PGEVT_RESULTCOPY` event is received, the
-    *`evtInfo`* pointer should be cast to a
-    `PGEventResultCopy *`. The
-    *`src`* result is what was copied while the
-    *`dest`* result is the copy destination. This event
-    can be used to provide a deep copy of `instanceData`,
-    since `PQcopyResult` cannot do that. If an event
-    procedure fails (returns zero), that event procedure will be
-    ignored for the remaining lifetime of the new result; that is, it
-    will not receive `PGEVT_RESULTCOPY`
-    or `PGEVT_RESULTDESTROY` events for that result or
-    results copied from it.
+    收到 `PGEVT_RESULTCOPY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventResultCopy *`。*`src`* 結果是被複製的對象，而 *`dest`* 結果是複製的目的地。由於 `PQcopyResult` 無法做到深層複製，此事件可用來提供 `instanceData` 的深層複製。若事件程序失敗（傳回零），在新結果剩餘的存續期間內都會忽略該事件程序；也就是說，對於該結果或從它複製出的結果，該事件程序都不會收到 `PGEVT_RESULTCOPY` 或 `PGEVT_RESULTDESTROY` 事件。
 <a id="LIBPQ-PGEVT-RESULTDESTROY"></a>
 
 `PGEVT_RESULTDESTROY` [#](#LIBPQ-PGEVT-RESULTDESTROY)
-:   The result destroy event is fired in response to a
-    [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR). It is the event procedure's
-    responsibility to properly clean up its event data as libpq has no
-    ability to manage this memory. Failure to clean up will lead
-    to memory leaks.
+:   結果銷毀事件會因應 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 而觸發。由於 libpq 沒有能力管理這些記憶體，正確清理其事件資料是事件程序的責任。未進行清理將導致記憶體洩漏。
 
     ```
 
@@ -202,63 +105,38 @@ handlers. The event types are:
     } PGEventResultDestroy;
     ```
 
-    When a `PGEVT_RESULTDESTROY` event is received, the
-    *`evtInfo`* pointer should be cast to a
-    `PGEventResultDestroy *`. This event is fired
-    prior to [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) performing any other cleanup.
-    The return value of the event procedure is ignored since there is no
-    way of indicating a failure from [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR). Also,
-    an event procedure failure should not abort the process of cleaning up
-    unwanted memory.
+    收到 `PGEVT_RESULTDESTROY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventResultDestroy *`。此事件會在 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 執行任何其他清理工作之前觸發。由於無法從 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 回報失敗，事件程序的傳回值會被忽略。此外，事件程序的失敗不應中止清理不再需要之記憶體的過程。
 
 <a id="LIBPQ-EVENTS-PROC"></a>
 
-### 32.14.2. Event Callback Procedure [#](#LIBPQ-EVENTS-PROC)
+### 32.14.2. 事件回呼程序 [#](#LIBPQ-EVENTS-PROC)
 
 <a id="LIBPQ-PGEVENTPROC"></a>
 
 `PGEventProc`<a id="id-1.7.3.21.5.2.1.1.2"></a> [#](#LIBPQ-PGEVENTPROC)
-:   `PGEventProc` is a typedef for a pointer to an
-    event procedure, that is, the user callback function that receives
-    events from libpq. The signature of an event procedure must be
+:   `PGEventProc` 是指向事件程序之指標的型別定義（typedef）；事件程序即接收來自 libpq 之事件的使用者回呼函式。事件程序的簽章必須是
 
     ```
 
     int eventproc(PGEventId evtId, void *evtInfo, void *passThrough)
     ```
 
-    The *`evtId`* parameter indicates which
-    `PGEVT` event occurred. The
-    *`evtInfo`* pointer must be cast to the appropriate
-    structure type to obtain further information about the event.
-    The *`passThrough`* parameter is the pointer
-    provided to [`PQregisterEventProc`](libpq-events.md#LIBPQ-PQREGISTEREVENTPROC) when the event
-    procedure was registered. The function should return a non-zero value
-    if it succeeds and zero if it fails.
+    *`evtId`* 參數指出發生了哪一個 `PGEVT` 事件。必須將 *`evtInfo`* 指標轉型為適當的結構型別，才能取得該事件的進一步資訊。*`passThrough`* 參數是註冊該事件程序時提供給 [`PQregisterEventProc`](libpq-events.md#LIBPQ-PQREGISTEREVENTPROC) 的指標。此函式成功時應傳回非零值，失敗時應傳回零。
 
-    A particular event procedure can be registered only once in any
-    `PGconn`. This is because the address of the procedure
-    is used as a lookup key to identify the associated instance data.
+    特定的事件程序在任何一個 `PGconn` 中都只能註冊一次。這是因為該程序的位址會被當作查找鍵，用來識別相關聯的執行個體資料。
 
-    ### Caution
+    ### 小心
 
-    On Windows, functions can have two different addresses: one visible
-    from outside a DLL and another visible from inside the DLL. One
-    should be careful that only one of these addresses is used with
-    libpq's event-procedure functions, else confusion will
-    result. The simplest rule for writing code that will work is to
-    ensure that event procedures are declared `static`. If the
-    procedure's address must be available outside its own source file,
-    expose a separate function to return the address.
+    在 Windows 上，函式可能有兩個不同的位址：一個是從 DLL 外部可見的位址，另一個是從 DLL 內部可見的位址。應該小心確保 libpq 的事件程序函式只使用其中一個位址，否則會造成混亂。撰寫可正常運作之程式碼的最簡單規則，是確保事件程序都宣告為 `static`。若該程序的位址必須在其所屬原始檔之外取得，請另外提供一個傳回該位址的函式。
 
 <a id="LIBPQ-EVENTS-FUNCS"></a>
 
-### 32.14.3. Event Support Functions [#](#LIBPQ-EVENTS-FUNCS)
+### 32.14.3. 事件支援函式 [#](#LIBPQ-EVENTS-FUNCS)
 
 <a id="LIBPQ-PQREGISTEREVENTPROC"></a>
 
 `PQregisterEventProc`<a id="id-1.7.3.21.6.2.1.1.2"></a> [#](#LIBPQ-PQREGISTEREVENTPROC)
-:   Registers an event callback procedure with libpq.
+:   向 libpq 註冊一個事件回呼程序。
 
     ```
 
@@ -266,29 +144,13 @@ handlers. The event types are:
                             const char *name, void *passThrough);
     ```
 
-    An event procedure must be registered once on each
-    `PGconn` you want to receive events about. There is no
-    limit, other than memory, on the number of event procedures that
-    can be registered with a connection. The function returns a non-zero
-    value if it succeeds and zero if it fails.
+    對於每一個你想接收其事件的 `PGconn`，都必須註冊一次事件程序。除了記憶體之外，可註冊到一個連線的事件程序數量沒有限制。此函式成功時傳回非零值，失敗時傳回零。
 
-    The *`proc`* argument will be called when a libpq
-    event is fired. Its memory address is also used to lookup
-    `instanceData`. The *`name`*
-    argument is used to refer to the event procedure in error messages.
-    This value cannot be `NULL` or a zero-length string. The name string is
-    copied into the `PGconn`, so what is passed need not be
-    long-lived. The *`passThrough`* pointer is passed
-    to the *`proc`* whenever an event occurs. This
-    argument can be `NULL`.
+    *`proc`* 引數會在觸發 libpq 事件時被呼叫。它的記憶體位址也被用來查找 `instanceData`。*`name`* 引數用於在錯誤訊息中指稱該事件程序。此值不能是 `NULL` 或長度為零的字串。名稱字串會被複製到 `PGconn` 中，因此所傳入的字串不需要長期存在。每當有事件發生時，*`passThrough`* 指標都會傳給 *`proc`*。此引數可以是 `NULL`。
 <a id="LIBPQ-PQSETINSTANCEDATA"></a>
 
 `PQsetInstanceData`<a id="id-1.7.3.21.6.2.2.1.2"></a> [#](#LIBPQ-PQSETINSTANCEDATA)
-:   Sets the connection *`conn`*'s `instanceData`
-    for procedure *`proc`* to *`data`*. This
-    returns non-zero for success and zero for failure. (Failure is
-    only possible if *`proc`* has not been properly
-    registered in *`conn`*.)
+:   將連線 *`conn`* 中對應程序 *`proc`* 的 `instanceData` 設為 *`data`*。成功時傳回非零值，失敗時傳回零。（只有在 *`proc`* 未在 *`conn`* 中正確註冊時才可能失敗。）
 
     ```
 
@@ -297,10 +159,7 @@ handlers. The event types are:
 <a id="LIBPQ-PQINSTANCEDATA"></a>
 
 `PQinstanceData`<a id="id-1.7.3.21.6.2.3.1.2"></a> [#](#LIBPQ-PQINSTANCEDATA)
-:   Returns the
-    connection *`conn`*'s `instanceData`
-    associated with procedure *`proc`*,
-    or `NULL` if there is none.
+:   傳回連線 *`conn`* 中與程序 *`proc`* 相關聯的 `instanceData`；若沒有，則傳回 `NULL`。
 
     ```
 
@@ -309,27 +168,18 @@ handlers. The event types are:
 <a id="LIBPQ-PQRESULTSETINSTANCEDATA"></a>
 
 `PQresultSetInstanceData`<a id="id-1.7.3.21.6.2.4.1.2"></a> [#](#LIBPQ-PQRESULTSETINSTANCEDATA)
-:   Sets the result's `instanceData`
-    for *`proc`* to *`data`*. This returns
-    non-zero for success and zero for failure. (Failure is only
-    possible if *`proc`* has not been properly registered
-    in the result.)
+:   將結果中對應 *`proc`* 的 `instanceData` 設為 *`data`*。成功時傳回非零值，失敗時傳回零。（只有在 *`proc`* 未在該結果中正確註冊時才可能失敗。）
 
     ```
 
     int PQresultSetInstanceData(PGresult *res, PGEventProc proc, void *data);
     ```
 
-    Beware that any storage represented by *`data`*
-    will not be accounted for by [`PQresultMemorySize`](libpq-misc.md#LIBPQ-PQRESULTMEMORYSIZE),
-    unless it is allocated using [`PQresultAlloc`](libpq-misc.md#LIBPQ-PQRESULTALLOC).
-    (Doing so is recommendable because it eliminates the need to free
-    such storage explicitly when the result is destroyed.)
+    請注意，*`data`* 所代表的任何儲存空間都不會被 [`PQresultMemorySize`](libpq-misc.md#LIBPQ-PQRESULTMEMORYSIZE) 計入，除非它是使用 [`PQresultAlloc`](libpq-misc.md#LIBPQ-PQRESULTALLOC) 配置的。（建議這麼做，因為如此一來，在結果被銷毀時就不需要另行明確釋放這類儲存空間。）
 <a id="LIBPQ-PQRESULTINSTANCEDATA"></a>
 
 `PQresultInstanceData`<a id="id-1.7.3.21.6.2.5.1.2"></a> [#](#LIBPQ-PQRESULTINSTANCEDATA)
-:   Returns the result's `instanceData` associated with *`proc`*, or `NULL`
-    if there is none.
+:   傳回結果中與 *`proc`* 相關聯的 `instanceData`；若沒有，則傳回 `NULL`。
 
     ```
 
@@ -338,10 +188,9 @@ handlers. The event types are:
 
 <a id="LIBPQ-EVENTS-EXAMPLE"></a>
 
-### 32.14.4. Event Example [#](#LIBPQ-EVENTS-EXAMPLE)
+### 32.14.4. 事件範例 [#](#LIBPQ-EVENTS-EXAMPLE)
 
-Here is a skeleton example of managing private data associated with
-libpq connections and results.
+以下是一個骨架範例，示範如何管理與 libpq 連線及結果相關聯的私有資料。
 
 ```
 
@@ -490,6 +339,8 @@ myEventProc(PGEventId evtId, void *evtInfo, void *passThrough)
 }
 ```
 
+譯註：此骨架範例中的 res_copy 並未在 main 函式中宣告（實際編譯時需另行宣告 PGresult *res_copy;）；get_mydata、dup_mydata、free_mydata 也是假設由應用程式自行提供的函式。程式碼依原文保留。
+
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-events.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-events.html)（原文版本：18.6；核對日期：2026-10-18）
