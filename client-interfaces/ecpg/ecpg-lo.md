@@ -1,29 +1,18 @@
-## 34.12. Large Objects [#](#ECPG-LO)
+<a id="ECPG-LO"></a>
 
-Large objects are not directly supported by ECPG, but ECPG
-application can manipulate large objects through the libpq large
-object functions, obtaining the necessary `PGconn`
-object by calling the `ECPGget_PGconn()`
-function. (However, use of
-the `ECPGget_PGconn()` function and touching
-`PGconn` objects directly should be done very carefully
-and ideally not mixed with other ECPG database access calls.)
+## 34.12. 大型物件 [#](#ECPG-LO)
 
-For more details about the `ECPGget_PGconn()`, see
-[Section 34.11](ecpg-library.md). For information about the large
-object function interface, see [Chapter 33](../largeobjects/README.md).
+ECPG 並未直接支援大型物件，但 ECPG 應用程式可以透過 libpq 的大型物件函式來操作大型物件，所需的 `PGconn` 物件可藉由呼叫 `ECPGget_PGconn()` 函式取得。（不過，使用 `ECPGget_PGconn()` 函式以及直接操作 `PGconn` 物件時應非常謹慎，而且最好不要與其他 ECPG 資料庫存取呼叫混用。）
 
-Large object functions have to be called in a transaction block, so
-when autocommit is off, `BEGIN` commands have to
-be issued explicitly.
+關於 `ECPGget_PGconn()` 的更多細節，請參閱[第 34.11 節](ecpg-library.md)。關於大型物件函式介面的資訊，請參閱[第 33 章](../largeobjects/README.md)。
 
-[Example 34.2](ecpg-lo.md#ECPG-LO-EXAMPLE) shows an example program that
-illustrates how to create, write, and read a large object in an
-ECPG application.
+大型物件函式必須在交易區塊中呼叫，因此在自動提交關閉時，必須明確發出 `BEGIN` 命令。
+
+[範例 34.2](ecpg-lo.md#ECPG-LO-EXAMPLE) 是一個範例程式，示範如何在 ECPG 應用程式中建立、寫入及讀取大型物件。
 
 <a id="ECPG-LO-EXAMPLE"></a>
 
-**Example 34.2. ECPG Program Accessing Large Objects**
+**範例 34.2. 存取大型物件的 ECPG 程式**
 
 ```
 
@@ -105,8 +94,15 @@ main(void)
 }
 ```
 
+譯註：上方程式碼依原樣保留，僅在此說明四點：
+
+- 程式碼中的「&amp;lt;」是文件轉換時殘留的 HTML 實體，實際原始碼為小於符號「&lt;」，例如 loid &lt; 0 與 fd &lt; 0。
+- lo_create 的傳回型別 Oid 是無號整數，因此 loid &lt; 0 這項檢查永遠不會成立；lo_create 失敗時傳回的是 InvalidOid（0），正確的檢查方式是比較 loid == InvalidOid。
+- 本節說明大型物件函式必須在交易區塊中呼叫，但範例在 EXEC SQL COMMIT 之後就直接呼叫 lo_create，沒有先開始交易。實際使用時，應在第一次呼叫大型物件函式之前先執行 EXEC SQL BEGIN（或以其他方式開始交易）。
+- 範例使用了 memset 與 memcmp，但沒有引入宣告這兩個函式的標頭檔 &lt;string.h&gt;。實際編譯時應加上 #include &lt;string.h&gt;，以取得正確的函式宣告。
+
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-lo.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-lo.html)（原文版本：18.6；核對日期：2026-10-18）
