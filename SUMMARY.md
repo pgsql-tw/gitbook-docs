@@ -338,7 +338,7 @@
     * [34.3. Running SQL Commands #](client-interfaces/ecpg/ecpg-commands.md)
     * [34.4. Using Host Variables #](client-interfaces/ecpg/ecpg-variables.md)
     * [34.5. Dynamic SQL #](client-interfaces/ecpg/ecpg-dynamic.md)
-    * [34.6. pgtypes Library #](client-interfaces/ecpg/ecpg-pgtypes.md)
+    * [34.6. pgtypes 函式庫 #](client-interfaces/ecpg/ecpg-pgtypes.md)
     * [34.7. Using Descriptor Areas #](client-interfaces/ecpg/ecpg-descriptors.md)
     * [34.8. Error Handling #](client-interfaces/ecpg/ecpg-errors.md)
     * [34.9. 前置處理器指令 #](client-interfaces/ecpg/ecpg-preproc.md)

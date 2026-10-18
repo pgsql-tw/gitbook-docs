@@ -1,26 +1,24 @@
-## 34.6. pgtypes Library [#](#ECPG-PGTYPES)
+<a id="ECPG-PGTYPES"></a>
 
-[34.6.1. Character Strings](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
+## 34.6. pgtypes 函式庫 [#](#ECPG-PGTYPES)
 
-[34.6.2. The numeric Type](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
+[34.6.1. 字串](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
 
-[34.6.3. The date Type](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
+[34.6.2. numeric 型別](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
 
-[34.6.4. The timestamp Type](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
+[34.6.3. date 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
 
-[34.6.5. The interval Type](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
+[34.6.4. timestamp 型別](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
 
-[34.6.6. The decimal Type](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
+[34.6.5. interval 型別](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
 
-[34.6.7. errno Values of pgtypeslib](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
+[34.6.6. decimal 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
 
-[34.6.8. Special Constants of pgtypeslib](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
+[34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
 
-The pgtypes library maps PostgreSQL database
-types to C equivalents that can be used in C programs. It also offers
-functions to do basic calculations with those types within C, i.e., without
-the help of the PostgreSQL server. See the
-following example:
+[34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
+
+pgtypes 函式庫將 PostgreSQL 資料庫的型別對應到可在 C 程式中使用的 C 等價型別。它也提供在 C 之中、亦即不借助 PostgreSQL 伺服器，對這些型別進行基本計算的函式。請參閱下列範例：
 
 ```
 
@@ -41,34 +39,22 @@ PGTYPESchar_free(out);
 
 <a id="ECPG-PGTYPES-CSTRINGS"></a>
 
-### 34.6.1. Character Strings [#](#ECPG-PGTYPES-CSTRINGS)
+### 34.6.1. 字串 [#](#ECPG-PGTYPES-CSTRINGS)
 
-Some functions such as `PGTYPESnumeric_to_asc` return
-a pointer to a freshly allocated character string. These results should be
-freed with `PGTYPESchar_free` instead of
-`free`. (This is important only on Windows, where
-memory allocation and release sometimes need to be done by the same
-library.)
+有些函式（例如 `PGTYPESnumeric_to_asc`）會傳回指向新配置字串的指標。這些結果應該以 `PGTYPESchar_free` 釋放，而不是用 `free`。（這只在 Windows 上才重要，因為在 Windows 上，記憶體的配置與釋放有時必須由同一個函式庫完成。）
 
 <a id="ECPG-PGTYPES-NUMERIC"></a>
 
-### 34.6.2. The numeric Type [#](#ECPG-PGTYPES-NUMERIC)
+### 34.6.2. numeric 型別 [#](#ECPG-PGTYPES-NUMERIC)
 
-The numeric type offers to do calculations with arbitrary precision. See
-[Section 8.1](../../the-sql-language/datatype/datatype-numeric.md) for the equivalent type in the
-PostgreSQL server. Because of the arbitrary precision this
-variable needs to be able to expand and shrink dynamically. That's why you
-can only create numeric variables on the heap, by means of the
-`PGTYPESnumeric_new` and `PGTYPESnumeric_free`
-functions. The decimal type, which is similar but limited in precision,
-can be created on the stack as well as on the heap.
+numeric 型別可以進行任意精確度的計算。PostgreSQL 伺服器中對應的型別請參閱[第 8.1 節](../../the-sql-language/datatype/datatype-numeric.md)。由於精確度任意，這種變數必須能夠動態地擴大與縮小。因此你只能透過 `PGTYPESnumeric_new` 與 `PGTYPESnumeric_free` 函式在堆積（heap）上建立 numeric 變數。decimal 型別與它相似但精確度有限，既可以建立在堆疊（stack）上，也可以建立在堆積上。
 
-The following functions can be used to work with the numeric type:
+下列函式可用來處理 numeric 型別：
 
 <a id="ECPG-PGTYPES-NUMERIC-NEW"></a>
 
 `PGTYPESnumeric_new` [#](#ECPG-PGTYPES-NUMERIC-NEW)
-:   Request a pointer to a newly allocated numeric variable.
+:   取得指向新配置之 numeric 變數的指標。
 
     ```
 
@@ -77,7 +63,7 @@ The following functions can be used to work with the numeric type:
 <a id="ECPG-PGTYPES-NUMERIC-FREE"></a>
 
 `PGTYPESnumeric_free` [#](#ECPG-PGTYPES-NUMERIC-FREE)
-:   Free a numeric type, release all of its memory.
+:   釋放 numeric 型別，釋放它所有的記憶體。
 
     ```
 
@@ -86,558 +72,453 @@ The following functions can be used to work with the numeric type:
 <a id="ECPG-PGTYPES-NUMERIC-FROM-ASC"></a>
 
 `PGTYPESnumeric_from_asc` [#](#ECPG-PGTYPES-NUMERIC-FROM-ASC)
-:   Parse a numeric type from its string notation.
+:   從字串表示法剖析出 numeric 型別。
 
     ```
 
     numeric *PGTYPESnumeric_from_asc(char *str, char **endptr);
     ```
 
-    Valid formats are for example:
-    `-2`,
-    `.794`,
-    `+3.44`,
-    `592.49E07` or
-    `-32.84e-4`.
-    If the value could be parsed successfully, a valid pointer is returned,
-    else the NULL pointer. At the moment ECPG always parses the complete
-    string and so it currently does not support to store the address of the
-    first invalid character in `*endptr`. You can safely
-    set `endptr` to NULL.
+    有效格式的例子如：
+    `-2`、
+    `.794`、
+    `+3.44`、
+    `592.49E07` 或
+    `-32.84e-4`。
+    若值能成功剖析，會傳回有效的指標，否則傳回 NULL 指標。目前 ECPG 一律剖析整個字串，因此目前不支援將第一個無效字元的位址存放到 `*endptr` 中。你可以放心地將 `endptr` 設為 NULL。
 <a id="ECPG-PGTYPES-NUMERIC-TO-ASC"></a>
 
 `PGTYPESnumeric_to_asc` [#](#ECPG-PGTYPES-NUMERIC-TO-ASC)
-:   Returns a pointer to a string allocated by `malloc` that contains the string
-    representation of the numeric type `num`.
+:   傳回一個指標，指向由 `malloc` 配置、內含 numeric 型別 `num` 之字串表示法的字串。
 
     ```
 
     char *PGTYPESnumeric_to_asc(numeric *num, int dscale);
     ```
 
-    The numeric value will be printed with `dscale` decimal
-    digits, with rounding applied if necessary.
-    The result must be freed with `PGTYPESchar_free()`.
+    numeric 值會以 `dscale` 位小數輸出，必要時會進行捨入。
+    結果必須以 `PGTYPESchar_free()` 釋放。
 <a id="ECPG-PGTYPES-NUMERIC-ADD"></a>
 
 `PGTYPESnumeric_add` [#](#ECPG-PGTYPES-NUMERIC-ADD)
-:   Add two numeric variables into a third one.
+:   將兩個 numeric 變數相加，結果存入第三個變數。
 
     ```
 
     int PGTYPESnumeric_add(numeric *var1, numeric *var2, numeric *result);
     ```
 
-    The function adds the variables `var1` and
-    `var2` into the result variable
-    `result`.
-    The function returns 0 on success and -1 in case of error.
+    此函式將變數 `var1` 與 `var2` 相加，結果存入結果變數 `result`。
+    此函式成功時傳回 0，發生錯誤時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-SUB"></a>
 
 `PGTYPESnumeric_sub` [#](#ECPG-PGTYPES-NUMERIC-SUB)
-:   Subtract two numeric variables and return the result in a third one.
+:   將兩個 numeric 變數相減，並在第三個變數中傳回結果。
 
     ```
 
     int PGTYPESnumeric_sub(numeric *var1, numeric *var2, numeric *result);
     ```
 
-    The function subtracts the variable `var2` from
-    the variable `var1`. The result of the operation is
-    stored in the variable `result`.
-    The function returns 0 on success and -1 in case of error.
+    此函式將變數 `var1` 減去變數 `var2`。運算結果存放在變數 `result` 中。
+    此函式成功時傳回 0，發生錯誤時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-MUL"></a>
 
 `PGTYPESnumeric_mul` [#](#ECPG-PGTYPES-NUMERIC-MUL)
-:   Multiply two numeric variables and return the result in a third one.
+:   將兩個 numeric 變數相乘，並在第三個變數中傳回結果。
 
     ```
 
     int PGTYPESnumeric_mul(numeric *var1, numeric *var2, numeric *result);
     ```
 
-    The function multiplies the variables `var1` and
-    `var2`. The result of the operation is stored in the
-    variable `result`.
-    The function returns 0 on success and -1 in case of error.
+    此函式將變數 `var1` 與 `var2` 相乘。運算結果存放在變數 `result` 中。
+    此函式成功時傳回 0，發生錯誤時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-DIV"></a>
 
 `PGTYPESnumeric_div` [#](#ECPG-PGTYPES-NUMERIC-DIV)
-:   Divide two numeric variables and return the result in a third one.
+:   將兩個 numeric 變數相除，並在第三個變數中傳回結果。
 
     ```
 
     int PGTYPESnumeric_div(numeric *var1, numeric *var2, numeric *result);
     ```
 
-    The function divides the variables `var1` by
-    `var2`. The result of the operation is stored in the
-    variable `result`.
-    The function returns 0 on success and -1 in case of error.
+    此函式將變數 `var1` 除以 `var2`。運算結果存放在變數 `result` 中。
+    此函式成功時傳回 0，發生錯誤時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-CMP"></a>
 
 `PGTYPESnumeric_cmp` [#](#ECPG-PGTYPES-NUMERIC-CMP)
-:   Compare two numeric variables.
+:   比較兩個 numeric 變數。
 
     ```
 
     int PGTYPESnumeric_cmp(numeric *var1, numeric *var2)
     ```
 
-    This function compares two numeric variables. In case of error,
-    `INT_MAX` is returned. On success, the function
-    returns one of three possible results:
+    譯註：上方函式宣告依原文保留，原文漏了結尾的分號；正確的 C 宣告應以分號結尾。
 
-    * 1, if `var1` is bigger than `var2`
-    * -1, if `var1` is smaller than `var2`
-    * 0, if `var1` and `var2` are equal
+    此函式比較兩個 numeric 變數。發生錯誤時，傳回 `INT_MAX`。成功時，此函式傳回三種可能結果之一：
+
+    * 1，若 `var1` 大於 `var2`
+    * -1，若 `var1` 小於 `var2`
+    * 0，若 `var1` 與 `var2` 相等
 <a id="ECPG-PGTYPES-NUMERIC-FROM-INT"></a>
 
 `PGTYPESnumeric_from_int` [#](#ECPG-PGTYPES-NUMERIC-FROM-INT)
-:   Convert an int variable to a numeric variable.
+:   將 int 變數轉換為 numeric 變數。
 
     ```
 
     int PGTYPESnumeric_from_int(signed int int_val, numeric *var);
     ```
 
-    This function accepts a variable of type signed int and stores it
-    in the numeric variable `var`. Upon success, 0 is returned and
-    -1 in case of a failure.
+    此函式接受一個 signed int 型別的變數，並將它存放在 numeric 變數 `var` 中。成功時傳回 0，失敗時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-FROM-LONG"></a>
 
 `PGTYPESnumeric_from_long` [#](#ECPG-PGTYPES-NUMERIC-FROM-LONG)
-:   Convert a long int variable to a numeric variable.
+:   將 long int 變數轉換為 numeric 變數。
 
     ```
 
     int PGTYPESnumeric_from_long(signed long int long_val, numeric *var);
     ```
 
-    This function accepts a variable of type signed long int and stores it
-    in the numeric variable `var`. Upon success, 0 is returned and
-    -1 in case of a failure.
+    此函式接受一個 signed long int 型別的變數，並將它存放在 numeric 變數 `var` 中。成功時傳回 0，失敗時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-COPY"></a>
 
 `PGTYPESnumeric_copy` [#](#ECPG-PGTYPES-NUMERIC-COPY)
-:   Copy over one numeric variable into another one.
+:   將一個 numeric 變數複製到另一個變數。
 
     ```
 
     int PGTYPESnumeric_copy(numeric *src, numeric *dst);
     ```
 
-    This function copies over the value of the variable that
-    `src` points to into the variable that `dst`
-    points to. It returns 0 on success and -1 if an error occurs.
+    此函式將 `src` 所指變數的值複製到 `dst` 所指的變數中。成功時傳回 0，發生錯誤時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-FROM-DOUBLE"></a>
 
 `PGTYPESnumeric_from_double` [#](#ECPG-PGTYPES-NUMERIC-FROM-DOUBLE)
-:   Convert a variable of type double to a numeric.
+:   將 double 型別的變數轉換為 numeric。
 
     ```
 
     int  PGTYPESnumeric_from_double(double d, numeric *dst);
     ```
 
-    This function accepts a variable of type double and stores the result
-    in the variable that `dst` points to. It returns 0 on success
-    and -1 if an error occurs.
+    此函式接受一個 double 型別的變數，並將結果存放在 `dst` 所指的變數中。成功時傳回 0，發生錯誤時傳回 -1。
 <a id="ECPG-PGTYPES-NUMERIC-TO-DOUBLE"></a>
 
 `PGTYPESnumeric_to_double` [#](#ECPG-PGTYPES-NUMERIC-TO-DOUBLE)
-:   Convert a variable of type numeric to double.
+:   將 numeric 型別的變數轉換為 double。
 
     ```
 
     int PGTYPESnumeric_to_double(numeric *nv, double *dp)
     ```
 
-    The function converts the numeric value from the variable that
-    `nv` points to into the double variable that `dp` points
-    to. It returns 0 on success and -1 if an error occurs, including
-    overflow. On overflow, the global variable `errno` will be set
-    to `PGTYPES_NUM_OVERFLOW` additionally.
+    譯註：上方函式宣告依原文保留，原文漏了結尾的分號；正確的 C 宣告應以分號結尾。
+
+    此函式將 `nv` 所指變數中的 numeric 值轉換到 `dp` 所指的 double 變數中。成功時傳回 0，發生錯誤（包括溢位）時傳回 -1。溢位時，另外還會將全域變數 `errno` 設為 `PGTYPES_NUM_OVERFLOW`。
 <a id="ECPG-PGTYPES-NUMERIC-TO-INT"></a>
 
 `PGTYPESnumeric_to_int` [#](#ECPG-PGTYPES-NUMERIC-TO-INT)
-:   Convert a variable of type numeric to int.
+:   將 numeric 型別的變數轉換為 int。
 
     ```
 
     int PGTYPESnumeric_to_int(numeric *nv, int *ip);
     ```
 
-    The function converts the numeric value from the variable that
-    `nv` points to into the integer variable that `ip`
-    points to. It returns 0 on success and -1 if an error occurs, including
-    overflow. On overflow, the global variable `errno` will be set
-    to `PGTYPES_NUM_OVERFLOW` additionally.
+    此函式將 `nv` 所指變數中的 numeric 值轉換到 `ip` 所指的整數變數中。成功時傳回 0，發生錯誤（包括溢位）時傳回 -1。溢位時，另外還會將全域變數 `errno` 設為 `PGTYPES_NUM_OVERFLOW`。
 <a id="ECPG-PGTYPES-NUMERIC-TO-LONG"></a>
 
 `PGTYPESnumeric_to_long` [#](#ECPG-PGTYPES-NUMERIC-TO-LONG)
-:   Convert a variable of type numeric to long.
+:   將 numeric 型別的變數轉換為 long。
 
     ```
 
     int PGTYPESnumeric_to_long(numeric *nv, long *lp);
     ```
 
-    The function converts the numeric value from the variable that
-    `nv` points to into the long integer variable that
-    `lp` points to. It returns 0 on success and -1 if an error
-    occurs, including overflow and underflow. On overflow, the global variable
-    `errno` will be set to `PGTYPES_NUM_OVERFLOW`
-    and on underflow `errno` will be set to
-    `PGTYPES_NUM_UNDERFLOW`.
+    此函式將 `nv` 所指變數中的 numeric 值轉換到 `lp` 所指的長整數變數中。成功時傳回 0，發生錯誤（包括溢位與下溢）時傳回 -1。溢位時，全域變數 `errno` 會被設為 `PGTYPES_NUM_OVERFLOW`；下溢時，`errno` 會被設為 `PGTYPES_NUM_UNDERFLOW`。
 <a id="ECPG-PGTYPES-NUMERIC-TO-DECIMAL"></a>
 
 `PGTYPESnumeric_to_decimal` [#](#ECPG-PGTYPES-NUMERIC-TO-DECIMAL)
-:   Convert a variable of type numeric to decimal.
+:   將 numeric 型別的變數轉換為 decimal。
 
     ```
 
     int PGTYPESnumeric_to_decimal(numeric *src, decimal *dst);
     ```
 
-    The function converts the numeric value from the variable that
-    `src` points to into the decimal variable that
-    `dst` points to. It returns 0 on success and -1 if an error
-    occurs, including overflow. On overflow, the global variable
-    `errno` will be set to `PGTYPES_NUM_OVERFLOW`
-    additionally.
+    此函式將 `src` 所指變數中的 numeric 值轉換到 `dst` 所指的 decimal 變數中。成功時傳回 0，發生錯誤（包括溢位）時傳回 -1。溢位時，另外還會將全域變數 `errno` 設為 `PGTYPES_NUM_OVERFLOW`。
 <a id="ECPG-PGTYPES-NUMERIC-FROM-DECIMAL"></a>
 
 `PGTYPESnumeric_from_decimal` [#](#ECPG-PGTYPES-NUMERIC-FROM-DECIMAL)
-:   Convert a variable of type decimal to numeric.
+:   將 decimal 型別的變數轉換為 numeric。
 
     ```
 
     int PGTYPESnumeric_from_decimal(decimal *src, numeric *dst);
     ```
 
-    The function converts the decimal value from the variable that
-    `src` points to into the numeric variable that
-    `dst` points to. It returns 0 on success and -1 if an error
-    occurs. Since the decimal type is implemented as a limited version of
-    the numeric type, overflow cannot occur with this conversion.
+    此函式將 `src` 所指變數中的 decimal 值轉換到 `dst` 所指的 numeric 變數中。成功時傳回 0，發生錯誤時傳回 -1。由於 decimal 型別是以 numeric 型別的受限版本實作，這項轉換不可能發生溢位。
 
 <a id="ECPG-PGTYPES-DATE"></a>
 
-### 34.6.3. The date Type [#](#ECPG-PGTYPES-DATE)
+### 34.6.3. date 型別 [#](#ECPG-PGTYPES-DATE)
 
-The date type in C enables your programs to deal with data of the SQL type
-date. See [Section 8.5](../../the-sql-language/datatype/datatype-datetime.md) for the equivalent type in the
-PostgreSQL server.
+C 中的 date 型別讓你的程式能夠處理 SQL 型別 date 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
-The following functions can be used to work with the date type:
+下列函式可用來處理 date 型別：
 
 <a id="PGTYPESDATEFROMTIMESTAMP"></a>
 
 `PGTYPESdate_from_timestamp` [#](#PGTYPESDATEFROMTIMESTAMP)
-:   Extract the date part from a timestamp.
+:   從 timestamp 中擷取日期部分。
 
     ```
 
     date PGTYPESdate_from_timestamp(timestamp dt);
     ```
 
-    The function receives a timestamp as its only argument and returns the
-    extracted date part from this timestamp.
+    此函式接收一個 timestamp 作為唯一引數，並傳回從這個 timestamp 擷取出的日期部分。
 <a id="PGTYPESDATEFROMASC"></a>
 
 `PGTYPESdate_from_asc` [#](#PGTYPESDATEFROMASC)
-:   Parse a date from its textual representation.
+:   從文字表示法剖析出日期。
 
     ```
 
     date PGTYPESdate_from_asc(char *str, char **endptr);
     ```
 
-    The function receives a C char\* string `str` and a pointer to
-    a C char\* string `endptr`. At the moment ECPG always parses
-    the complete string and so it currently does not support to store the
-    address of the first invalid character in `*endptr`.
-    You can safely set `endptr` to NULL.
+    此函式接收一個 C char\* 字串 `str`，以及一個指向 C char\* 字串的指標 `endptr`。目前 ECPG 一律剖析整個字串，因此目前不支援將第一個無效字元的位址存放到 `*endptr` 中。
+    你可以放心地將 `endptr` 設為 NULL。
 
-    Note that the function always assumes MDY-formatted dates and there is
-    currently no variable to change that within ECPG.
+    請注意，此函式一律假設日期採 MDY 格式，而且 ECPG 中目前沒有可以變更這一點的變數。
 
-    [Table 34.2](ecpg-pgtypes.md#ECPG-PGTYPESDATE-FROM-ASC-TABLE) shows the allowed input formats.
+    [表 34.2](ecpg-pgtypes.md#ECPG-PGTYPESDATE-FROM-ASC-TABLE) 列出允許的輸入格式。表中「結果」欄最後三列的英文說明依序表示：年份與該年第幾日、儒略日、西元前 99 年。
 
     <a id="ECPG-PGTYPESDATE-FROM-ASC-TABLE"></a>
 
-    **Table 34.2. Valid Input Formats for `PGTYPESdate_from_asc`**
+    **表 34.2. `PGTYPESdate_from_asc` 的有效輸入格式**
 
-    <table border="1" class="table" summary="Valid Input Formats for PGTYPESdate_from_asc"><colgroup><col/><col/></colgroup><thead><tr><th>Input</th><th>Result</th></tr></thead><tbody><tr><td><code class="literal">January 8, 1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1999-01-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1/8/1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1/18/1999</code></td><td><code class="literal">January 18, 1999</code></td></tr><tr><td><code class="literal">01/02/03</code></td><td><code class="literal">February 1, 2003</code></td></tr><tr><td><code class="literal">1999-Jan-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">Jan-08-1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">99-Jan-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-99</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-06</code></td><td><code class="literal">January 8, 2006</code></td></tr><tr><td><code class="literal">Jan-08-99</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">19990108</code></td><td><code class="literal">ISO 8601; January 8, 1999</code></td></tr><tr><td><code class="literal">990108</code></td><td><code class="literal">ISO 8601; January 8, 1999</code></td></tr><tr><td><code class="literal">1999.008</code></td><td><code class="literal">year and day of year</code></td></tr><tr><td><code class="literal">J2451187</code></td><td><code class="literal">Julian day</code></td></tr><tr><td><code class="literal">January 8, 99 BC</code></td><td><code class="literal">year 99 before the Common Era</code></td></tr></tbody></table>
+    <table border="1" class="table" summary="PGTYPESdate_from_asc 的有效輸入格式"><colgroup><col/><col/></colgroup><thead><tr><th>輸入</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">January 8, 1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1999-01-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1/8/1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1/18/1999</code></td><td><code class="literal">January 18, 1999</code></td></tr><tr><td><code class="literal">01/02/03</code></td><td><code class="literal">February 1, 2003</code></td></tr><tr><td><code class="literal">1999-Jan-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">Jan-08-1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">99-Jan-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-99</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-06</code></td><td><code class="literal">January 8, 2006</code></td></tr><tr><td><code class="literal">Jan-08-99</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">19990108</code></td><td><code class="literal">ISO 8601; January 8, 1999</code></td></tr><tr><td><code class="literal">990108</code></td><td><code class="literal">ISO 8601; January 8, 1999</code></td></tr><tr><td><code class="literal">1999.008</code></td><td><code class="literal">year and day of year</code></td></tr><tr><td><code class="literal">J2451187</code></td><td><code class="literal">Julian day</code></td></tr><tr><td><code class="literal">January 8, 99 BC</code></td><td><code class="literal">year 99 before the Common Era</code></td></tr></tbody></table>
+
+    譯註：上表中輸入 01/02/03 對應的結果，原文寫作 February 1, 2003，與上文「此函式一律假設日期採 MDY 格式」矛盾；依 MDY 解讀，01/02/03 應為 2003 年 1 月 2 日（January 2, 2003）。表格內容依原文保留。
 
     <br>
 <a id="PGTYPESDATETOASC"></a>
 
 `PGTYPESdate_to_asc` [#](#PGTYPESDATETOASC)
-:   Return the textual representation of a date variable.
+:   傳回 date 變數的文字表示法。
 
     ```
 
     char *PGTYPESdate_to_asc(date dDate);
     ```
 
-    The function receives the date `dDate` as its only parameter.
-    It will output the date in the form `1999-01-18`, i.e., in the
-    `YYYY-MM-DD` format.
-    The result must be freed with `PGTYPESchar_free()`.
+    此函式接收日期 `dDate` 作為唯一參數。
+    它會以 `1999-01-18` 的形式輸出日期，也就是 `YYYY-MM-DD` 格式。
+    結果必須以 `PGTYPESchar_free()` 釋放。
 <a id="PGTYPESDATEJULMDY"></a>
 
 `PGTYPESdate_julmdy` [#](#PGTYPESDATEJULMDY)
-:   Extract the values for the day, the month and the year from a variable
-    of type date.
+:   從 date 型別的變數中擷取日、月、年的值。
 
     ```
 
     void PGTYPESdate_julmdy(date d, int *mdy);
     ```
 
-    The function receives the date `d` and a pointer to an array
-    of 3 integer values `mdy`. The variable name indicates
-    the sequential order: `mdy[0]` will be set to contain the
-    number of the month, `mdy[1]` will be set to the value of the
-    day and `mdy[2]` will contain the year.
+    此函式接收日期 `d`，以及一個指向含 3 個整數值之陣列 `mdy` 的指標。變數名稱表示了先後順序：`mdy[0]` 會被設為月份，`mdy[1]` 會被設為日的值，`mdy[2]` 則會包含年份。
 <a id="PGTYPESDATEMDYJUL"></a>
 
 `PGTYPESdate_mdyjul` [#](#PGTYPESDATEMDYJUL)
-:   Create a date value from an array of 3 integers that specify the
-    day, the month and the year of the date.
+:   從指定日期之日、月、年的 3 個整數所組成的陣列建立 date 值。
 
     ```
 
     void PGTYPESdate_mdyjul(int *mdy, date *jdate);
     ```
 
-    The function receives the array of the 3 integers (`mdy`) as
-    its first argument and as its second argument a pointer to a variable
-    of type date that should hold the result of the operation.
+    此函式以 3 個整數組成的陣列（`mdy`）作為第一個引數，第二個引數則是一個指標，指向用來存放運算結果的 date 型別變數。
 <a id="PGTYPESDATEDAYOFWEEK"></a>
 
 `PGTYPESdate_dayofweek` [#](#PGTYPESDATEDAYOFWEEK)
-:   Return a number representing the day of the week for a date value.
+:   傳回代表某個 date 值是星期幾的數字。
 
     ```
 
     int PGTYPESdate_dayofweek(date d);
     ```
 
-    The function receives the date variable `d` as its only
-    argument and returns an integer that indicates the day of the week for
-    this date.
+    此函式接收 date 變數 `d` 作為唯一引數，並傳回一個整數，表示這個日期是星期幾。
 
-    * 0 - Sunday
-    * 1 - Monday
-    * 2 - Tuesday
-    * 3 - Wednesday
-    * 4 - Thursday
-    * 5 - Friday
-    * 6 - Saturday
+    * 0 - 星期日
+    * 1 - 星期一
+    * 2 - 星期二
+    * 3 - 星期三
+    * 4 - 星期四
+    * 5 - 星期五
+    * 6 - 星期六
 <a id="PGTYPESDATETODAY"></a>
 
 `PGTYPESdate_today` [#](#PGTYPESDATETODAY)
-:   Get the current date.
+:   取得目前日期。
 
     ```
 
     void PGTYPESdate_today(date *d);
     ```
 
-    The function receives a pointer to a date variable (`d`)
-    that it sets to the current date.
+    此函式接收一個指向 date 變數（`d`）的指標，並將該變數設為目前日期。
 <a id="PGTYPESDATEFMTASC"></a>
 
 `PGTYPESdate_fmt_asc` [#](#PGTYPESDATEFMTASC)
-:   Convert a variable of type date to its textual representation using a
-    format mask.
+:   使用格式遮罩，將 date 型別的變數轉換為它的文字表示法。
 
     ```
 
     int PGTYPESdate_fmt_asc(date dDate, char *fmtstring, char *outbuf);
     ```
 
-    The function receives the date to convert (`dDate`), the
-    format mask (`fmtstring`) and the string that will hold the
-    textual representation of the date (`outbuf`).
+    此函式接收要轉換的日期（`dDate`）、格式遮罩（`fmtstring`），以及用來存放日期文字表示法的字串（`outbuf`）。
 
-    On success, 0 is returned and a negative value if an error occurred.
+    成功時傳回 0，發生錯誤時傳回負值。
 
-    The following literals are the field specifiers you can use:
+    下列字面值是你可以使用的欄位指定符號：
 
-    * `dd` - The number of the day of the month.
-    * `mm` - The number of the month of the year.
-    * `yy` - The number of the year as a two digit number.
-    * `yyyy` - The number of the year as a four digit number.
-    * `ddd` - The name of the day (abbreviated).
-    * `mmm` - The name of the month (abbreviated).
+    * `dd` - 該月中的第幾日。
+    * `mm` - 該年中的第幾月。
+    * `yy` - 以兩位數表示的年份。
+    * `yyyy` - 以四位數表示的年份。
+    * `ddd` - 星期名稱（縮寫）。
+    * `mmm` - 月份名稱（縮寫）。
 
-    All other characters are copied 1:1 to the output string.
+    其他所有字元都會原封不動地複製到輸出字串。
 
-    [Table 34.3](ecpg-pgtypes.md#ECPG-PGTYPESDATE-FMT-ASC-EXAMPLE-TABLE) indicates a few possible formats. This will give
-    you an idea of how to use this function. All output lines are based on
-    the same date: November 23, 1959.
+    [表 34.3](ecpg-pgtypes.md#ECPG-PGTYPESDATE-FMT-ASC-EXAMPLE-TABLE) 列出幾種可能的格式，讓你了解如何使用此函式。所有輸出結果都以同一個日期為準：1959 年 11 月 23 日。
 
     <a id="ECPG-PGTYPESDATE-FMT-ASC-EXAMPLE-TABLE"></a>
 
-    **Table 34.3. Valid Input Formats for `PGTYPESdate_fmt_asc`**
+    **表 34.3. `PGTYPESdate_fmt_asc` 的有效輸入格式**
 
-    <table border="1" class="table" summary="Valid Input Formats for PGTYPESdate_fmt_asc"><colgroup><col/><col/></colgroup><thead><tr><th>Format</th><th>Result</th></tr></thead><tbody><tr><td><code class="literal">mmddyy</code></td><td><code class="literal">112359</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">231159</code></td></tr><tr><td><code class="literal">yymmdd</code></td><td><code class="literal">591123</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">59/11/23</code></td></tr><tr><td><code class="literal">yy mm dd</code></td><td><code class="literal">59 11 23</code></td></tr><tr><td><code class="literal">yy.mm.dd</code></td><td><code class="literal">59.11.23</code></td></tr><tr><td><code class="literal">.mm.yyyy.dd.</code></td><td><code class="literal">.11.1959.23.</code></td></tr><tr><td><code class="literal">mmm. dd, yyyy</code></td><td><code class="literal">Nov. 23, 1959</code></td></tr><tr><td><code class="literal">mmm dd yyyy</code></td><td><code class="literal">Nov 23 1959</code></td></tr><tr><td><code class="literal">yyyy dd mm</code></td><td><code class="literal">1959 23 11</code></td></tr><tr><td><code class="literal">ddd, mmm. dd, yyyy</code></td><td><code class="literal">Mon, Nov. 23, 1959</code></td></tr><tr><td><code class="literal">(ddd) mmm. dd, yyyy</code></td><td><code class="literal">(Mon) Nov. 23, 1959</code></td></tr></tbody></table>
+    <table border="1" class="table" summary="PGTYPESdate_fmt_asc 的有效輸入格式"><colgroup><col/><col/></colgroup><thead><tr><th>格式</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">mmddyy</code></td><td><code class="literal">112359</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">231159</code></td></tr><tr><td><code class="literal">yymmdd</code></td><td><code class="literal">591123</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">59/11/23</code></td></tr><tr><td><code class="literal">yy mm dd</code></td><td><code class="literal">59 11 23</code></td></tr><tr><td><code class="literal">yy.mm.dd</code></td><td><code class="literal">59.11.23</code></td></tr><tr><td><code class="literal">.mm.yyyy.dd.</code></td><td><code class="literal">.11.1959.23.</code></td></tr><tr><td><code class="literal">mmm. dd, yyyy</code></td><td><code class="literal">Nov. 23, 1959</code></td></tr><tr><td><code class="literal">mmm dd yyyy</code></td><td><code class="literal">Nov 23 1959</code></td></tr><tr><td><code class="literal">yyyy dd mm</code></td><td><code class="literal">1959 23 11</code></td></tr><tr><td><code class="literal">ddd, mmm. dd, yyyy</code></td><td><code class="literal">Mon, Nov. 23, 1959</code></td></tr><tr><td><code class="literal">(ddd) mmm. dd, yyyy</code></td><td><code class="literal">(Mon) Nov. 23, 1959</code></td></tr></tbody></table>
 
     <br>
+
+    譯註：此表列出的是格式遮罩與對應的輸出結果；表標題沿用原文「Valid Input Formats」（有效輸入格式）的字面譯法。
 <a id="PGTYPESDATEDEFMTASC"></a>
 
 `PGTYPESdate_defmt_asc` [#](#PGTYPESDATEDEFMTASC)
-:   Use a format mask to convert a C `char*` string to a value of type
-    date.
+:   使用格式遮罩，將 C `char*` 字串轉換為 date 型別的值。
 
     ```
 
     int PGTYPESdate_defmt_asc(date *d, char *fmt, char *str);
     ```
 
-    The function receives a pointer to the date value that should hold the
-    result of the operation (`d`), the format mask to use for
-    parsing the date (`fmt`) and the C char\* string containing
-    the textual representation of the date (`str`). The textual
-    representation is expected to match the format mask. However you do not
-    need to have a 1:1 mapping of the string to the format mask. The
-    function only analyzes the sequential order and looks for the literals
-    `yy` or `yyyy` that indicate the
-    position of the year, `mm` to indicate the position of
-    the month and `dd` to indicate the position of the
-    day.
+    此函式接收一個指向用來存放運算結果之 date 值的指標（`d`）、剖析日期時使用的格式遮罩（`fmt`），以及內含日期文字表示法的 C char\* 字串（`str`）。文字表示法應該要符合格式遮罩。不過，字串與格式遮罩之間不需要一對一對應。此函式只分析先後順序，並尋找表示年份位置的字面值 `yy` 或 `yyyy`、表示月份位置的 `mm`，以及表示日位置的 `dd`。
 
-    [Table 34.4](ecpg-pgtypes.md#ECPG-RDEFMTDATE-EXAMPLE-TABLE) indicates a few possible formats. This will give
-    you an idea of how to use this function.
+    [表 34.4](ecpg-pgtypes.md#ECPG-RDEFMTDATE-EXAMPLE-TABLE) 列出幾種可能的格式，讓你了解如何使用此函式。
 
     <a id="ECPG-RDEFMTDATE-EXAMPLE-TABLE"></a>
 
-    **Table 34.4. Valid Input Formats for `rdefmtdate`**
+    **表 34.4. `rdefmtdate` 的有效輸入格式**
 
-    <table border="1" class="table" summary="Valid Input Formats for rdefmtdate"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Format</th><th>String</th><th>Result</th></tr></thead><tbody><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">21-2-54</code></td><td><code class="literal">1954-02-21</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">2-12-54</code></td><td><code class="literal">1954-12-02</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">20111954</code></td><td><code class="literal">1954-11-20</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">130464</code></td><td><code class="literal">1964-04-13</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">MAR-12-1967</code></td><td><code class="literal">1967-03-12</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">1954, February 3rd</code></td><td><code class="literal">1954-02-03</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">041269</code></td><td><code class="literal">1969-04-12</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">In the year 2525, in the month of July, mankind will be alive on the 28th day</code></td><td><code class="literal">2525-07-28</code></td></tr><tr><td><code class="literal">dd-mm-yy</code></td><td><code class="literal">I said on the 28th of July in the year 2525</code></td><td><code class="literal">2525-07-28</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">9/14/58</code></td><td><code class="literal">1958-09-14</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">47/03/29</code></td><td><code class="literal">1947-03-29</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">oct 28 1975</code></td><td><code class="literal">1975-10-28</code></td></tr><tr><td><code class="literal">mmddyy</code></td><td><code class="literal">Nov 14th, 1985</code></td><td><code class="literal">1985-11-14</code></td></tr></tbody></table>
+    <table border="1" class="table" summary="rdefmtdate 的有效輸入格式"><colgroup><col/><col/><col/></colgroup><thead><tr><th>格式</th><th>字串</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">21-2-54</code></td><td><code class="literal">1954-02-21</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">2-12-54</code></td><td><code class="literal">1954-12-02</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">20111954</code></td><td><code class="literal">1954-11-20</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">130464</code></td><td><code class="literal">1964-04-13</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">MAR-12-1967</code></td><td><code class="literal">1967-03-12</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">1954, February 3rd</code></td><td><code class="literal">1954-02-03</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">041269</code></td><td><code class="literal">1969-04-12</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">In the year 2525, in the month of July, mankind will be alive on the 28th day</code></td><td><code class="literal">2525-07-28</code></td></tr><tr><td><code class="literal">dd-mm-yy</code></td><td><code class="literal">I said on the 28th of July in the year 2525</code></td><td><code class="literal">2525-07-28</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">9/14/58</code></td><td><code class="literal">1958-09-14</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">47/03/29</code></td><td><code class="literal">1947-03-29</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">oct 28 1975</code></td><td><code class="literal">1975-10-28</code></td></tr><tr><td><code class="literal">mmddyy</code></td><td><code class="literal">Nov 14th, 1985</code></td><td><code class="literal">1985-11-14</code></td></tr></tbody></table>
 
     <br>
 
+    譯註：此表標題中的 rdefmtdate 是 Informix 相容模式中的對應函式（原文於該函式的說明與此處相同）；表中格式同樣適用於本項的 PGTYPESdate_defmt_asc。
+
 <a id="ECPG-PGTYPES-TIMESTAMP"></a>
 
-### 34.6.4. The timestamp Type [#](#ECPG-PGTYPES-TIMESTAMP)
+### 34.6.4. timestamp 型別 [#](#ECPG-PGTYPES-TIMESTAMP)
 
-The timestamp type in C enables your programs to deal with data of the SQL
-type timestamp. See [Section 8.5](../../the-sql-language/datatype/datatype-datetime.md) for the equivalent
-type in the PostgreSQL server.
+C 中的 timestamp 型別讓你的程式能夠處理 SQL 型別 timestamp 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
-The following functions can be used to work with the timestamp type:
+下列函式可用來處理 timestamp 型別：
 
 <a id="PGTYPESTIMESTAMPFROMASC"></a>
 
 `PGTYPEStimestamp_from_asc` [#](#PGTYPESTIMESTAMPFROMASC)
-:   Parse a timestamp from its textual representation into a timestamp
-    variable.
+:   將 timestamp 從文字表示法剖析到 timestamp 變數中。
 
     ```
 
     timestamp PGTYPEStimestamp_from_asc(char *str, char **endptr);
     ```
 
-    The function receives the string to parse (`str`) and a
-    pointer to a C char\* (`endptr`).
-    At the moment ECPG always parses
-    the complete string and so it currently does not support to store the
-    address of the first invalid character in `*endptr`.
-    You can safely set `endptr` to NULL.
+    此函式接收要剖析的字串（`str`），以及一個指向 C char\* 的指標（`endptr`）。
+    目前 ECPG 一律剖析整個字串，因此目前不支援將第一個無效字元的位址存放到 `*endptr` 中。
+    你可以放心地將 `endptr` 設為 NULL。
 
-    The function returns the parsed timestamp on success. On error,
-    `PGTYPESInvalidTimestamp` is returned and `errno` is
-    set to `PGTYPES_TS_BAD_TIMESTAMP`. See [`PGTYPESInvalidTimestamp`](ecpg-pgtypes.md#PGTYPESINVALIDTIMESTAMP) for important notes on this value.
+    此函式成功時傳回剖析出的 timestamp。發生錯誤時，傳回 `PGTYPESInvalidTimestamp`，並將 `errno` 設為 `PGTYPES_TS_BAD_TIMESTAMP`。關於這個值的重要注意事項，請參閱 [`PGTYPESInvalidTimestamp`](ecpg-pgtypes.md#PGTYPESINVALIDTIMESTAMP)。
 
-    In general, the input string can contain any combination of an allowed
-    date specification, a whitespace character and an allowed time
-    specification. Note that time zones are not supported by ECPG. It can
-    parse them but does not apply any calculation as the
-    PostgreSQL server does for example. Timezone
-    specifiers are silently discarded.
+    一般而言，輸入字串可以是允許的日期表示、一個空白字元與允許的時間表示的任意組合。請注意，ECPG 不支援時區。它可以剖析時區，但不會像 PostgreSQL 伺服器那樣據以進行任何計算。時區指定符號會被靜默捨棄。
 
-    [Table 34.5](ecpg-pgtypes.md#ECPG-PGTYPESTIMESTAMP-FROM-ASC-EXAMPLE-TABLE) contains a few examples for input strings.
+    [表 34.5](ecpg-pgtypes.md#ECPG-PGTYPESTIMESTAMP-FROM-ASC-EXAMPLE-TABLE) 列出幾個輸入字串的範例。表中「結果」欄括號內的英文說明表示「已忽略時區指定符號」。
 
     <a id="ECPG-PGTYPESTIMESTAMP-FROM-ASC-EXAMPLE-TABLE"></a>
 
-    **Table 34.5. Valid Input Formats for `PGTYPEStimestamp_from_asc`**
+    **表 34.5. `PGTYPEStimestamp_from_asc` 的有效輸入格式**
 
-    <table border="1" class="table" summary="Valid Input Formats for PGTYPEStimestamp_from_asc"><colgroup><col/><col/></colgroup><thead><tr><th>Input</th><th>Result</th></tr></thead><tbody><tr><td><code class="literal">1999-01-08 04:05:06</code></td><td><code class="literal">1999-01-08 04:05:06</code></td></tr><tr><td><code class="literal">January 8 04:05:06 1999 PST</code></td><td><code class="literal">1999-01-08 04:05:06</code></td></tr><tr><td><code class="literal">1999-Jan-08 04:05:06.789-8</code></td><td><code class="literal">1999-01-08 04:05:06.789 (time zone specifier ignored)</code></td></tr><tr><td><code class="literal">J2451187 04:05-08:00</code></td><td><code class="literal">1999-01-08 04:05:00 (time zone specifier ignored)</code></td></tr></tbody></table>
+    <table border="1" class="table" summary="PGTYPEStimestamp_from_asc 的有效輸入格式"><colgroup><col/><col/></colgroup><thead><tr><th>輸入</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">1999-01-08 04:05:06</code></td><td><code class="literal">1999-01-08 04:05:06</code></td></tr><tr><td><code class="literal">January 8 04:05:06 1999 PST</code></td><td><code class="literal">1999-01-08 04:05:06</code></td></tr><tr><td><code class="literal">1999-Jan-08 04:05:06.789-8</code></td><td><code class="literal">1999-01-08 04:05:06.789 (time zone specifier ignored)</code></td></tr><tr><td><code class="literal">J2451187 04:05-08:00</code></td><td><code class="literal">1999-01-08 04:05:00 (time zone specifier ignored)</code></td></tr></tbody></table>
 
     <br>
 <a id="PGTYPESTIMESTAMPTOASC"></a>
 
 `PGTYPEStimestamp_to_asc` [#](#PGTYPESTIMESTAMPTOASC)
-:   Converts a date to a C char\* string.
+:   將 timestamp 轉換為 C char\* 字串（原文此處寫作「Converts a date」，但此函式轉換的是 timestamp）。
 
     ```
 
     char *PGTYPEStimestamp_to_asc(timestamp tstamp);
     ```
 
-    The function receives the timestamp `tstamp` as
-    its only argument and returns an allocated string that contains the
-    textual representation of the timestamp.
-    The result must be freed with `PGTYPESchar_free()`.
+    此函式接收 timestamp `tstamp` 作為唯一引數，並傳回一個已配置的字串，內含該 timestamp 的文字表示法。
+    結果必須以 `PGTYPESchar_free()` 釋放。
 <a id="PGTYPESTIMESTAMPCURRENT"></a>
 
 `PGTYPEStimestamp_current` [#](#PGTYPESTIMESTAMPCURRENT)
-:   Retrieve the current timestamp.
+:   取得目前的 timestamp。
 
     ```
 
     void PGTYPEStimestamp_current(timestamp *ts);
     ```
 
-    The function retrieves the current timestamp and saves it into the
-    timestamp variable that `ts` points to.
+    此函式取得目前的 timestamp，並將它存入 `ts` 所指的 timestamp 變數中。
 <a id="PGTYPESTIMESTAMPFMTASC"></a>
 
 `PGTYPEStimestamp_fmt_asc` [#](#PGTYPESTIMESTAMPFMTASC)
-:   Convert a timestamp variable to a C char\* using a format mask.
+:   使用格式遮罩，將 timestamp 變數轉換為 C char\*。
 
     ```
 
     int PGTYPEStimestamp_fmt_asc(timestamp *ts, char *output, int str_len, char *fmtstr);
     ```
 
-    The function receives a pointer to the timestamp to convert as its
-    first argument (`ts`), a pointer to the output buffer
-    (`output`), the maximal length that has been allocated for
-    the output buffer (`str_len`) and the format mask to
-    use for the conversion (`fmtstr`).
+    此函式以指向要轉換之 timestamp 的指標作為第一個引數（`ts`），其後依序是指向輸出緩衝區的指標（`output`）、為輸出緩衝區配置的最大長度（`str_len`），以及轉換時使用的格式遮罩（`fmtstr`）。
 
-    Upon success, the function returns 0 and a negative value if an
-    error occurred.
+    成功時，此函式傳回 0；發生錯誤時傳回負值。
 
-    You can use the following format specifiers for the format mask. The
-    format specifiers are the same ones that are used in the
-    `strftime` function in libc. Any
-    non-format specifier will be copied into the output buffer.
+    格式遮罩可以使用下列格式指定符號。這些格式指定符號與 libc 中 `strftime` 函式所使用的相同。任何非格式指定符號的內容都會被複製到輸出緩衝區。
 
-    * `%A` - is replaced by national representation of
-      the full weekday name.
-    * `%a` - is replaced by national representation of
-      the abbreviated weekday name.
-    * `%B` - is replaced by national representation of
-      the full month name.
-    * `%b` - is replaced by national representation of
-      the abbreviated month name.
-    * `%C` - is replaced by (year / 100) as decimal
-      number; single digits are preceded by a zero.
-    * `%c` - is replaced by national representation of
-      time and date.
-    * `%D` - is equivalent to
-      `%m/%d/%y`.
-    * `%d` - is replaced by the day of the month as a
-      decimal number (01–31).
-    * `%E*` `%O*` - POSIX locale
-      extensions. The sequences
+    * `%A` - 以當地語系的表示法取代為星期的完整名稱。
+    * `%a` - 以當地語系的表示法取代為星期的縮寫名稱。
+    * `%B` - 以當地語系的表示法取代為月份的完整名稱。
+    * `%b` - 以當地語系的表示法取代為月份的縮寫名稱。
+    * `%C` - 取代為以十進位數字表示的（年 / 100）；個位數前面補零。
+    * `%c` - 以當地語系的表示法取代為時間與日期。
+    * `%D` - 等同於
+      `%m/%d/%y`。
+    * `%d` - 取代為以十進位數字表示的該月第幾日（01–31）。
+    * `%E*` `%O*` - POSIX 語系擴充。序列
       `%Ec`
       `%EC`
       `%Ex`
@@ -657,172 +538,119 @@ The following functions can be used to work with the timestamp type:
       `%Ow`
       `%OW`
       `%Oy`
-      are supposed to provide alternative representations.
+      應該提供替代的表示法。
 
-      Additionally `%OB` implemented to represent
-      alternative months names (used standalone, without day mentioned).
-    * `%e` - is replaced by the day of month as a decimal
-      number (1–31); single digits are preceded by a blank.
-    * `%F` - is equivalent to `%Y-%m-%d`.
-    * `%G` - is replaced by a year as a decimal number
-      with century. This year is the one that contains the greater part of
-      the week (Monday as the first day of the week).
-    * `%g` - is replaced by the same year as in
-      `%G`, but as a decimal number without century
-      (00–99).
-    * `%H` - is replaced by the hour (24-hour clock) as a
-      decimal number (00–23).
-    * `%h` - the same as `%b`.
-    * `%I` - is replaced by the hour (12-hour clock) as a
-      decimal number (01–12).
-    * `%j` - is replaced by the day of the year as a
-      decimal number (001–366).
-    * `%k` - is replaced by the hour (24-hour clock) as a
-      decimal number (0–23); single digits are preceded by a blank.
-    * `%l` - is replaced by the hour (12-hour clock) as a
-      decimal number (1–12); single digits are preceded by a blank.
-    * `%M` - is replaced by the minute as a decimal
-      number (00–59).
-    * `%m` - is replaced by the month as a decimal number
-      (01–12).
-    * `%n` - is replaced by a newline.
-    * `%O*` - the same as `%E*`.
-    * `%p` - is replaced by national representation of
-      either “ante meridiem” or “post meridiem” as appropriate.
-    * `%R` - is equivalent to `%H:%M`.
-    * `%r` - is equivalent to `%I:%M:%S
-      %p`.
-    * `%S` - is replaced by the second as a decimal
-      number (00–60).
-    * `%s` - is replaced by the number of seconds since
-      the Epoch, UTC.
-    * `%T` - is equivalent to `%H:%M:%S`
-    * `%t` - is replaced by a tab.
-    * `%U` - is replaced by the week number of the year
-      (Sunday as the first day of the week) as a decimal number (00–53).
-    * `%u` - is replaced by the weekday (Monday as the
-      first day of the week) as a decimal number (1–7).
-    * `%V` - is replaced by the week number of the year
-      (Monday as the first day of the week) as a decimal number (01–53).
-      If the week containing January 1 has four or more days in the new
-      year, then it is week 1; otherwise it is the last week of the
-      previous year, and the next week is week 1.
-    * `%v` - is equivalent to
-      `%e-%b-%Y`.
-    * `%W` - is replaced by the week number of the year
-      (Monday as the first day of the week) as a decimal number (00–53).
-    * `%w` - is replaced by the weekday (Sunday as the
-      first day of the week) as a decimal number (0–6).
-    * `%X` - is replaced by national representation of
-      the time.
-    * `%x` - is replaced by national representation of
-      the date.
-    * `%Y` - is replaced by the year with century as a
-      decimal number.
-    * `%y` - is replaced by the year without century as a
-      decimal number (00–99).
-    * `%Z` - is replaced by the time zone name.
-    * `%z` - is replaced by the time zone offset from
-      UTC; a leading plus sign stands for east of UTC, a minus sign for
-      west of UTC, hours and minutes follow with two digits each and no
-      delimiter between them (common form for [RFC 822](https://datatracker.ietf.org/doc/html/rfc822) date headers).
-    * `%+` - is replaced by national representation of
-      the date and time.
-    * `%-*` - GNU libc extension. Do not do any padding
-      when performing numerical outputs.
-    * $_\* - GNU libc extension. Explicitly specify space for padding.
-    * `%0*` - GNU libc extension. Explicitly specify zero
-      for padding.
-    * `%%` - is replaced by `%`.
+      此外，`%OB` 已實作，用來表示替代的月份名稱（單獨使用，不提及日）。
+    * `%e` - 取代為以十進位數字表示的該月第幾日（1–31）；個位數前面補一個空白。
+    * `%F` - 等同於 `%Y-%m-%d`。
+    * `%G` - 取代為以十進位數字表示、含世紀的年份。這個年份是包含該週大部分日子的那一年（以星期一為一週的第一天）。
+    * `%g` - 取代為與
+      `%G` 相同的年份，但以不含世紀的十進位數字表示（00–99）。
+    * `%H` - 取代為以十進位數字表示的小時（24 小時制）（00–23）。
+    * `%h` - 與 `%b` 相同。
+    * `%I` - 取代為以十進位數字表示的小時（12 小時制）（01–12）。
+    * `%j` - 取代為以十進位數字表示的該年第幾日（001–366）。
+    * `%k` - 取代為以十進位數字表示的小時（24 小時制）（0–23）；個位數前面補一個空白。
+    * `%l` - 取代為以十進位數字表示的小時（12 小時制）（1–12）；個位數前面補一個空白。
+    * `%M` - 取代為以十進位數字表示的分鐘（00–59）。
+    * `%m` - 取代為以十進位數字表示的月份（01–12）。
+    * `%n` - 取代為換行字元。
+    * `%O*` - 與 `%E*` 相同。
+    * `%p` - 視情況以當地語系的表示法取代為「上午」（ante meridiem）或「下午」（post meridiem）。
+    * `%R` - 等同於 `%H:%M`。
+    * `%r` - 等同於 `%I:%M:%S
+      %p`。
+    * `%S` - 取代為以十進位數字表示的秒數（00–60）。
+    * `%s` - 取代為自 Epoch（UTC）以來的秒數。
+    * `%T` - 等同於 `%H:%M:%S`
+    * `%t` - 取代為定位字元（tab）。
+    * `%U` - 取代為以十進位數字表示的該年第幾週（以星期日為一週的第一天）（00–53）。
+    * `%u` - 取代為以十進位數字表示的星期幾（以星期一為一週的第一天）（1–7）。
+    * `%V` - 取代為以十進位數字表示的該年第幾週（以星期一為一週的第一天）（01–53）。
+      若包含 1 月 1 日的那一週在新的一年中有四天以上，則該週為第 1 週；否則它是前一年的最後一週，而下一週才是第 1 週。
+    * `%v` - 等同於
+      `%e-%b-%Y`。
+    * `%W` - 取代為以十進位數字表示的該年第幾週（以星期一為一週的第一天）（00–53）。
+    * `%w` - 取代為以十進位數字表示的星期幾（以星期日為一週的第一天）（0–6）。
+    * `%X` - 以當地語系的表示法取代為時間。
+    * `%x` - 以當地語系的表示法取代為日期。
+    * `%Y` - 取代為以十進位數字表示、含世紀的年份。
+    * `%y` - 取代為以十進位數字表示、不含世紀的年份（00–99）。
+    * `%Z` - 取代為時區名稱。
+    * `%z` - 取代為相對於 UTC 的時區偏移；開頭的加號表示 UTC 以東，減號表示 UTC 以西，其後是各為兩位數的小時與分鐘，兩者之間沒有分隔符號（這是 [RFC 822](https://datatracker.ietf.org/doc/html/rfc822) 日期標頭的常見形式）。
+    * `%+` - 以當地語系的表示法取代為日期與時間。
+    * `%-*` - GNU libc 擴充。進行數字輸出時不做任何填補。
+    * $_\* - GNU libc 擴充。明確指定以空白填補。（譯註：原文此項開頭的格式指定符號顯示有誤，依前後項目與 GNU libc 的 strftime，應為 %\_\*。）
+    * `%0*` - GNU libc 擴充。明確指定以零填補。
+    * `%%` - 取代為 `%`。
 <a id="PGTYPESTIMESTAMPSUB"></a>
 
 `PGTYPEStimestamp_sub` [#](#PGTYPESTIMESTAMPSUB)
-:   Subtract one timestamp from another one and save the result in a
-    variable of type interval.
+:   將一個 timestamp 減去另一個 timestamp，並將結果存入 interval 型別的變數。
 
     ```
 
     int PGTYPEStimestamp_sub(timestamp *ts1, timestamp *ts2, interval *iv);
     ```
 
-    The function will subtract the timestamp variable that `ts2`
-    points to from the timestamp variable that `ts1` points to
-    and will store the result in the interval variable that `iv`
-    points to.
+    此函式會將 `ts1` 所指的 timestamp 變數減去 `ts2` 所指的 timestamp 變數，並將結果存放在 `iv` 所指的 interval 變數中。
 
-    Upon success, the function returns 0 and a negative value if an
-    error occurred.
+    成功時，此函式傳回 0；發生錯誤時傳回負值。
 <a id="PGTYPESTIMESTAMPDEFMTASC"></a>
 
 `PGTYPEStimestamp_defmt_asc` [#](#PGTYPESTIMESTAMPDEFMTASC)
-:   Parse a timestamp value from its textual representation using a
-    formatting mask.
+:   使用格式遮罩，從文字表示法剖析出 timestamp 值。
 
     ```
 
     int PGTYPEStimestamp_defmt_asc(char *str, char *fmt, timestamp *d);
     ```
 
-    The function receives the textual representation of a timestamp in the
-    variable `str` as well as the formatting mask to use in the
-    variable `fmt`. The result will be stored in the variable
-    that `d` points to.
+    此函式從變數 `str` 接收 timestamp 的文字表示法，並從變數 `fmt` 接收要使用的格式遮罩。結果會存放在 `d` 所指的變數中。
 
-    If the formatting mask `fmt` is NULL, the function will fall
-    back to the default formatting mask which is `%Y-%m-%d
-    %H:%M:%S`.
+    若格式遮罩 `fmt` 為 NULL，此函式會改用預設的格式遮罩，也就是 `%Y-%m-%d
+    %H:%M:%S`。
 
-    This is the reverse function to [`PGTYPEStimestamp_fmt_asc`](ecpg-pgtypes.md#PGTYPESTIMESTAMPFMTASC). See the documentation there in
-    order to find out about the possible formatting mask entries.
+    這是 [`PGTYPEStimestamp_fmt_asc`](ecpg-pgtypes.md#PGTYPESTIMESTAMPFMTASC) 的反向函式。可用的格式遮罩項目請參閱該處的說明。
 <a id="PGTYPESTIMESTAMPADDINTERVAL"></a>
 
 `PGTYPEStimestamp_add_interval` [#](#PGTYPESTIMESTAMPADDINTERVAL)
-:   Add an interval variable to a timestamp variable.
+:   將 interval 變數加到 timestamp 變數上。
 
     ```
 
     int PGTYPEStimestamp_add_interval(timestamp *tin, interval *span, timestamp *tout);
     ```
 
-    The function receives a pointer to a timestamp variable `tin`
-    and a pointer to an interval variable `span`. It adds the
-    interval to the timestamp and saves the resulting timestamp in the
-    variable that `tout` points to.
+    此函式接收一個指向 timestamp 變數的指標 `tin`，以及一個指向 interval 變數的指標 `span`。它將 interval 加到 timestamp 上，並將所得的 timestamp 存放在 `tout` 所指的變數中。
 
-    Upon success, the function returns 0 and a negative value if an
-    error occurred.
+    成功時，此函式傳回 0；發生錯誤時傳回負值。
 <a id="PGTYPESTIMESTAMPSUBINTERVAL"></a>
 
 `PGTYPEStimestamp_sub_interval` [#](#PGTYPESTIMESTAMPSUBINTERVAL)
-:   Subtract an interval variable from a timestamp variable.
+:   將 timestamp 變數減去 interval 變數。
 
     ```
 
     int PGTYPEStimestamp_sub_interval(timestamp *tin, interval *span, timestamp *tout);
     ```
 
-    The function subtracts the interval variable that `span`
-    points to from the timestamp variable that `tin` points to
-    and saves the result into the variable that `tout` points
-    to.
+    此函式將 `tin` 所指的 timestamp 變數減去 `span` 所指的 interval 變數，並將結果存入 `tout` 所指的變數中。
 
-    Upon success, the function returns 0 and a negative value if an
-    error occurred.
+    成功時，此函式傳回 0；發生錯誤時傳回負值。
 
 <a id="ECPG-PGTYPES-INTERVAL"></a>
 
-### 34.6.5. The interval Type [#](#ECPG-PGTYPES-INTERVAL)
+### 34.6.5. interval 型別 [#](#ECPG-PGTYPES-INTERVAL)
 
-The interval type in C enables your programs to deal with data of the SQL
-type interval. See [Section 8.5](../../the-sql-language/datatype/datatype-datetime.md) for the equivalent
-type in the PostgreSQL server.
+C 中的 interval 型別讓你的程式能夠處理 SQL 型別 interval 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
-The following functions can be used to work with the interval type:
+下列函式可用來處理 interval 型別：
 
 <a id="PGTYPESINTERVALNEW"></a>
 
 `PGTYPESinterval_new` [#](#PGTYPESINTERVALNEW)
-:   Return a pointer to a newly allocated interval variable.
+:   傳回指向新配置之 interval 變數的指標。
 
     ```
 
@@ -831,7 +659,7 @@ The following functions can be used to work with the interval type:
 <a id="PGTYPESINTERVALFREE"></a>
 
 `PGTYPESinterval_free` [#](#PGTYPESINTERVALFREE)
-:   Release the memory of a previously allocated interval variable.
+:   釋放先前配置之 interval 變數的記憶體。
 
     ```
 
@@ -840,68 +668,53 @@ The following functions can be used to work with the interval type:
 <a id="PGTYPESINTERVALFROMASC"></a>
 
 `PGTYPESinterval_from_asc` [#](#PGTYPESINTERVALFROMASC)
-:   Parse an interval from its textual representation.
+:   從文字表示法剖析出 interval。
 
     ```
 
     interval *PGTYPESinterval_from_asc(char *str, char **endptr);
     ```
 
-    The function parses the input string `str` and returns a
-    pointer to an allocated interval variable.
-    At the moment ECPG always parses
-    the complete string and so it currently does not support to store the
-    address of the first invalid character in `*endptr`.
-    You can safely set `endptr` to NULL.
+    此函式剖析輸入字串 `str`，並傳回指向已配置之 interval 變數的指標。
+    目前 ECPG 一律剖析整個字串，因此目前不支援將第一個無效字元的位址存放到 `*endptr` 中。
+    你可以放心地將 `endptr` 設為 NULL。
 <a id="PGTYPESINTERVALTOASC"></a>
 
 `PGTYPESinterval_to_asc` [#](#PGTYPESINTERVALTOASC)
-:   Convert a variable of type interval to its textual representation.
+:   將 interval 型別的變數轉換為它的文字表示法。
 
     ```
 
     char *PGTYPESinterval_to_asc(interval *span);
     ```
 
-    The function converts the interval variable that `span`
-    points to into a C char\*. The output looks like this example:
-    `@ 1 day 12 hours 59 mins 10 secs`.
-    The result must be freed with `PGTYPESchar_free()`.
+    此函式將 `span` 所指的 interval 變數轉換為 C char\*。輸出看起來像這個範例：
+    `@ 1 day 12 hours 59 mins 10 secs`。
+    結果必須以 `PGTYPESchar_free()` 釋放。
 <a id="PGTYPESINTERVALCOPY"></a>
 
 `PGTYPESinterval_copy` [#](#PGTYPESINTERVALCOPY)
-:   Copy a variable of type interval.
+:   複製 interval 型別的變數。
 
     ```
 
     int PGTYPESinterval_copy(interval *intvlsrc, interval *intvldest);
     ```
 
-    The function copies the interval variable that `intvlsrc`
-    points to into the variable that `intvldest` points to. Note
-    that you need to allocate the memory for the destination variable
-    before.
+    此函式將 `intvlsrc` 所指的 interval 變數複製到 `intvldest` 所指的變數中。請注意，你必須事先為目的變數配置記憶體。
 
 <a id="ECPG-PGTYPES-DECIMAL"></a>
 
-### 34.6.6. The decimal Type [#](#ECPG-PGTYPES-DECIMAL)
+### 34.6.6. decimal 型別 [#](#ECPG-PGTYPES-DECIMAL)
 
-The decimal type is similar to the numeric type. However it is limited to
-a maximum precision of 30 significant digits. In contrast to the numeric
-type which can be created on the heap only, the decimal type can be
-created either on the stack or on the heap (by means of the functions
-`PGTYPESdecimal_new` and
-`PGTYPESdecimal_free`).
-There are a lot of other functions that deal with the decimal type in the
-Informix compatibility mode described in [Section 34.15](ecpg-informix-compat.md).
+decimal 型別與 numeric 型別相似，但其精確度上限為 30 位有效數字。numeric 型別只能建立在堆積上；相對地，decimal 型別既可以建立在堆疊上，也可以建立在堆積上（透過 `PGTYPESdecimal_new` 與 `PGTYPESdecimal_free` 函式）。在[第 34.15 節](ecpg-informix-compat.md)所述的 Informix 相容模式中，還有許多其他處理 decimal 型別的函式。
 
-The following functions can be used to work with the decimal type and are
-not only contained in the `libcompat` library.
+下列函式可用來處理 decimal 型別，而且不只包含在 `libcompat` 函式庫中。
 
 <a id="ECPG-PGTYPES-DECIMAL-NEW"></a>
 
 `PGTYPESdecimal_new` [#](#ECPG-PGTYPES-DECIMAL-NEW)
-:   Request a pointer to a newly allocated decimal variable.
+:   取得指向新配置之 decimal 變數的指標。
 
     ```
 
@@ -910,7 +723,7 @@ not only contained in the `libcompat` library.
 <a id="ECPG-PGTYPES-DECIMAL-FREE"></a>
 
 `PGTYPESdecimal_free` [#](#ECPG-PGTYPES-DECIMAL-FREE)
-:   Free a decimal type, release all of its memory.
+:   釋放 decimal 型別，釋放它所有的記憶體。
 
     ```
 
@@ -919,97 +732,71 @@ not only contained in the `libcompat` library.
 
 <a id="ECPG-PGTYPES-ERRNO"></a>
 
-### 34.6.7. errno Values of pgtypeslib [#](#ECPG-PGTYPES-ERRNO)
+### 34.6.7. pgtypeslib 的 errno 值 [#](#ECPG-PGTYPES-ERRNO)
 
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-BAD-NUMERIC"></a>
 
 `PGTYPES_NUM_BAD_NUMERIC` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-BAD-NUMERIC)
-:   An argument should contain a numeric variable (or point to a numeric
-    variable) but in fact its in-memory representation was invalid.
+:   引數應該包含一個 numeric 變數（或指向一個 numeric 變數），但它在記憶體中的表示實際上無效。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-OVERFLOW"></a>
 
 `PGTYPES_NUM_OVERFLOW` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-OVERFLOW)
-:   An overflow occurred. Since the numeric type can deal with almost
-    arbitrary precision, converting a numeric variable into other types
-    might cause overflow.
+:   發生溢位。由於 numeric 型別幾乎可以處理任意精確度，將 numeric 變數轉換為其他型別時可能會導致溢位。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-UNDERFLOW"></a>
 
 `PGTYPES_NUM_UNDERFLOW` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-UNDERFLOW)
-:   An underflow occurred. Since the numeric type can deal with almost
-    arbitrary precision, converting a numeric variable into other types
-    might cause underflow.
+:   發生下溢。由於 numeric 型別幾乎可以處理任意精確度，將 numeric 變數轉換為其他型別時可能會導致下溢。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-DIVIDE-ZERO"></a>
 
 `PGTYPES_NUM_DIVIDE_ZERO` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-DIVIDE-ZERO)
-:   A division by zero has been attempted.
+:   嘗試除以零。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DATE"></a>
 
 `PGTYPES_DATE_BAD_DATE` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DATE)
-:   An invalid date string was passed to
-    the `PGTYPESdate_from_asc` function.
+:   傳給 `PGTYPESdate_from_asc` 函式的日期字串無效。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-EARGS"></a>
 
 `PGTYPES_DATE_ERR_EARGS` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-EARGS)
-:   Invalid arguments were passed to the
-    `PGTYPESdate_defmt_asc` function.
+:   傳給 `PGTYPESdate_defmt_asc` 函式的引數無效。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOSHORTDATE"></a>
 
 `PGTYPES_DATE_ERR_ENOSHORTDATE` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOSHORTDATE)
-:   An invalid token in the input string was found by the
-    `PGTYPESdate_defmt_asc` function.
+:   `PGTYPESdate_defmt_asc` 函式在輸入字串中發現無效的語彙單元（token）。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-INTVL-BAD-INTERVAL"></a>
 
 `PGTYPES_INTVL_BAD_INTERVAL` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-INTVL-BAD-INTERVAL)
-:   An invalid interval string was passed to the
-    `PGTYPESinterval_from_asc` function, or an
-    invalid interval value was passed to the
-    `PGTYPESinterval_to_asc` function.
+:   傳給 `PGTYPESinterval_from_asc` 函式的 interval 字串無效，或傳給 `PGTYPESinterval_to_asc` 函式的 interval 值無效。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOTDMY"></a>
 
 `PGTYPES_DATE_ERR_ENOTDMY` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOTDMY)
-:   There was a mismatch in the day/month/year assignment in the
-    `PGTYPESdate_defmt_asc` function.
+:   `PGTYPESdate_defmt_asc` 函式中的日／月／年指派不相符。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DAY"></a>
 
 `PGTYPES_DATE_BAD_DAY` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DAY)
-:   An invalid day of the month value was found by
-    the `PGTYPESdate_defmt_asc` function.
+:   `PGTYPESdate_defmt_asc` 函式發現無效的「該月第幾日」值。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-MONTH"></a>
 
 `PGTYPES_DATE_BAD_MONTH` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-MONTH)
-:   An invalid month value was found by
-    the `PGTYPESdate_defmt_asc` function.
+:   `PGTYPESdate_defmt_asc` 函式發現無效的月份值。
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-TS-BAD-TIMESTAMP"></a>
 
 `PGTYPES_TS_BAD_TIMESTAMP` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-TS-BAD-TIMESTAMP)
-:   An invalid timestamp string pass passed to
-    the `PGTYPEStimestamp_from_asc` function,
-    or an invalid timestamp value was passed to
-    the `PGTYPEStimestamp_to_asc` function.
+:   傳給 `PGTYPEStimestamp_from_asc` 函式的 timestamp 字串無效，或傳給 `PGTYPEStimestamp_to_asc` 函式的 timestamp 值無效。（原文此處寫作「pass passed」，應為「was passed」的誤植。）
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-TS-ERR-EINFTIME"></a>
 
 `PGTYPES_TS_ERR_EINFTIME` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-TS-ERR-EINFTIME)
-:   An infinite timestamp value was encountered in a context that
-    cannot handle it.
+:   在無法處理無限 timestamp 值的情境中遇到了這種值。
 
 <a id="ECPG-PGTYPES-CONSTANTS"></a>
 
-### 34.6.8. Special Constants of pgtypeslib [#](#ECPG-PGTYPES-CONSTANTS)
+### 34.6.8. pgtypeslib 的特殊常數 [#](#ECPG-PGTYPES-CONSTANTS)
 
 <a id="PGTYPESINVALIDTIMESTAMP"></a>
 
 `PGTYPESInvalidTimestamp` [#](#PGTYPESINVALIDTIMESTAMP)
-:   A value of type timestamp representing an invalid time stamp. This is
-    returned by the function `PGTYPEStimestamp_from_asc` on
-    parse error.
-    Note that due to the internal representation of the `timestamp` data type,
-    `PGTYPESInvalidTimestamp` is also a valid timestamp at
-    the same time. It is set to `1899-12-31 23:59:59`. In order
-    to detect errors, make sure that your application does not only test
-    for `PGTYPESInvalidTimestamp` but also for
-    `errno != 0` after each call to
-    `PGTYPEStimestamp_from_asc`.
+:   代表無效時間戳記的 timestamp 型別值。`PGTYPEStimestamp_from_asc` 函式發生剖析錯誤時會傳回此值。
+    請注意，由於 `timestamp` 資料型別的內部表示方式，`PGTYPESInvalidTimestamp` 同時也是一個有效的 timestamp。它被設為 `1899-12-31 23:59:59`。為了偵測錯誤，請確保你的應用程式在每次呼叫 `PGTYPEStimestamp_from_asc` 之後，不只檢查 `PGTYPESInvalidTimestamp`，也檢查 `errno != 0`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-pgtypes.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-pgtypes.html)（原文版本：18.6；核對日期：2026-10-18）
