@@ -326,7 +326,7 @@
     * [32.21. 多執行緒程式中的行為 #](client-interfaces/libpq/libpq-threading.md)
     * [32.22. Building libpq Programs #](client-interfaces/libpq/libpq-build.md)
     * [32.23. 範例程式 #](client-interfaces/libpq/libpq-example.md)
-  * [Chapter 33. Large Objects](client-interfaces/largeobjects/README.md)
+  * [第 33 章 大型物件](client-interfaces/largeobjects/README.md)
     * [33.1. 簡介](client-interfaces/largeobjects/lo-intro.md)
     * [33.2. 實作特性 #](client-interfaces/largeobjects/lo-implementation.md)
     * [33.3. Client Interfaces #](client-interfaces/largeobjects/lo-interfaces.md)

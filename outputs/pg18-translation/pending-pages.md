@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：141 頁。
+待譯頁面：140 頁。
 
 ## 根目錄
 
@@ -241,7 +241,7 @@
 - [ ] `client-interfaces/information-schema/infoschema-view-routine-usage.md` — 35.64. view_routine_usage #
 - [ ] `client-interfaces/information-schema/infoschema-view-table-usage.md` — 35.65. view_table_usage #
 - [ ] `client-interfaces/information-schema/infoschema-views.md` — 35.66. views #
-- [ ] `client-interfaces/largeobjects/README.md` — Chapter 33. Large Objects
+- [x] `client-interfaces/largeobjects/README.md` — 第 33 章 大型物件
 - [ ] `client-interfaces/largeobjects/lo-examplesect.md` — 33.5. Example Program #
 - [x] `client-interfaces/largeobjects/lo-funcs.md` — 33.4. 伺服器端函式 #
 - [x] `client-interfaces/largeobjects/lo-implementation.md` — 33.2. 實作特性 #
