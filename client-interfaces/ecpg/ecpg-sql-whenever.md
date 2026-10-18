@@ -1,3 +1,5 @@
+<a id="ECPG-SQL-WHENEVER"></a>
+
 ## WHENEVER
 
 WHENEVER — 指定 SQL 陳述式引發特定類別條件時要採取的動作
@@ -13,13 +15,13 @@ WHENEVER { NOT FOUND | SQLERROR | SQLWARNING } action
 
 ## 說明
 
-定義 SQL 執行結果出現特殊情況（找不到資料列、SQL 警告或錯誤）時要呼叫的行為。
+定義一種行為，在 SQL 執行結果出現特殊情況（找不到資料列、SQL 警告或錯誤）時呼叫。
 
 <a id="id-1.7.5.20.19.4"></a>
 
 ## 參數
 
-參數說明請參閱[第 34.8.1 節](ecpg-errors.md#ECPG-WHENEVER)。
+參數的說明請參閱[第 34.8.1 節](ecpg-errors.md#ECPG-WHENEVER)。
 
 <a id="id-1.7.5.20.19.5"></a>
 
@@ -41,7 +43,7 @@ EXEC SQL WHENEVER SQLERROR GOTO error_label;
 EXEC SQL WHENEVER SQLERROR STOP;
 ```
 
-典型用途是使用 `WHENEVER NOT FOUND BREAK` 處理走訪結果集的迴圈：
+典型的應用是使用 `WHENEVER NOT FOUND BREAK` 來處理逐一走訪結果集的迴圈：
 
 ```
 
@@ -73,12 +75,14 @@ main(void)
 }
 ```
 
+譯註：上述說明文字原文寫作 WHENEVER NOT FOUND BREAK（省略了 DO）；依第 34.8.1 節，此動作的語法為 DO BREAK，範例程式中也寫作 EXEC SQL WHENEVER NOT FOUND DO BREAK;。
+
 <a id="id-1.7.5.20.19.6"></a>
 
 ## 相容性
 
-SQL 標準規定了 `WHENEVER`，但多數動作都是 PostgreSQL 擴充功能。
+SQL 標準規定了 `WHENEVER`，但大部分的動作是 PostgreSQL 對 SQL 標準的擴充。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-whenever.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-whenever.html)（原文版本：18.6；核對日期：2026-10-18）

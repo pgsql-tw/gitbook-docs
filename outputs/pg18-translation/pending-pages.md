@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：85 頁。
+待譯頁面：84 頁。
 
 ## 根目錄
 
@@ -172,7 +172,7 @@
 - [x] `client-interfaces/ecpg/ecpg-sql-set-descriptor.md` — SET DESCRIPTOR
 - [x] `client-interfaces/ecpg/ecpg-sql-type.md` — TYPE
 - [x] `client-interfaces/ecpg/ecpg-sql-var.md` — VAR — 定義變數
-- [ ] `client-interfaces/ecpg/ecpg-sql-whenever.md` — WHENEVER
+- [x] `client-interfaces/ecpg/ecpg-sql-whenever.md` — WHENEVER
 - [ ] `client-interfaces/ecpg/ecpg-variables.md` — 34.4. Using Host Variables #
 - [ ] `client-interfaces/information-schema/README.md` — Chapter 35. The Information Schema
 - [x] `client-interfaces/information-schema/infoschema-administrable-role-authorizations.md` — 35.4. `administrable_role_authorizations`
