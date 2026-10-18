@@ -433,7 +433,7 @@
     * [35.63. `view_column_usage` #](client-interfaces/information-schema/infoschema-view-column-usage.md)
     * [35.64. `view_routine_usage` #](client-interfaces/information-schema/infoschema-view-routine-usage.md)
     * [35.65. `view_table_usage` #](client-interfaces/information-schema/infoschema-view-table-usage.md)
-    * [35.66. views #](client-interfaces/information-schema/infoschema-views.md)
+    * [35.66. `views` #](client-interfaces/information-schema/infoschema-views.md)
 * [第五部分：伺服器程式設計](server-programming/README.md)
   * [第 36 章 擴充 SQL](server-programming/extend/README.md)
     * [36.1. 擴充性的運作方式 #](server-programming/extend/extend-how.md)
