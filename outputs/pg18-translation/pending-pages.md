@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：152 頁。
+待譯頁面：151 頁。
 
 ## 根目錄
 
@@ -226,7 +226,7 @@
 - [x] `client-interfaces/information-schema/infoschema-sql-implementation-info.md` — 35.49. `sql_implementation_info` #
 - [x] `client-interfaces/information-schema/infoschema-sql-parts.md` — 35.50. `sql_parts` #
 - [x] `client-interfaces/information-schema/infoschema-sql-sizing.md` — 35.51. `sql_sizing` #
-- [ ] `client-interfaces/information-schema/infoschema-table-constraints.md` — 35.52. table_constraints #
+- [x] `client-interfaces/information-schema/infoschema-table-constraints.md` — 35.52. `table_constraints` #
 - [ ] `client-interfaces/information-schema/infoschema-table-privileges.md` — 35.53. table_privileges #
 - [ ] `client-interfaces/information-schema/infoschema-tables.md` — 35.54. tables #
 - [ ] `client-interfaces/information-schema/infoschema-transforms.md` — 35.55. transforms #
