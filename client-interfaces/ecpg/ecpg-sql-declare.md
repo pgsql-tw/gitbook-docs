@@ -1,3 +1,5 @@
+<a id="ECPG-SQL-DECLARE"></a>
+
 ## DECLARE
 
 DECLARE — 定義游標
@@ -14,7 +16,7 @@ DECLARE cursor_name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ] CU
 
 ## 說明
 
-`DECLARE` 宣告游標，以走訪備妥陳述式的結果集。此命令與直接 SQL 命令 `DECLARE` 的語意稍有不同：後者會執行查詢並準備結果集以供擷取；此嵌入式 SQL 命令只會宣告一個名稱作為走訪查詢結果集的「迴圈變數」，實際執行會在以 `OPEN` 命令開啟游標時發生。
+`DECLARE` 會宣告一個游標，用以逐一走訪預備陳述式的結果集。此命令的語意與直接 SQL 命令 `DECLARE` 略有不同：後者會執行查詢並準備結果集以供擷取，而此嵌入式 SQL 命令只是將一個名稱宣告為逐一走訪查詢結果集的「迴圈變數」；實際的執行發生在以 `OPEN` 命令開啟游標時。
 
 <a id="id-1.7.5.20.6.4"></a>
 
@@ -27,11 +29,11 @@ DECLARE cursor_name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ] CU
 <a id="ECPG-SQL-DECLARE-PREPARED-NAME"></a>
 
 *`prepared_name`* [#](#ECPG-SQL-DECLARE-PREPARED-NAME)
-:   備妥查詢的名稱，可以是 SQL 識別字或主機變數。
+:   預備查詢的名稱，可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DECLARE-QUERY"></a>
 
 *`query`* [#](#ECPG-SQL-DECLARE-QUERY)
-:   提供游標要傳回資料列的 [SELECT](../../reference/sql-commands/sql-select.md) 或 [VALUES](../../reference/sql-commands/sql-values.md) 命令。
+:   提供游標所要傳回之資料列的 [SELECT](../../reference/sql-commands/sql-select.md) 或 [VALUES](../../reference/sql-commands/sql-values.md) 命令。
 
 游標選項的意義請參閱 [DECLARE](../../reference/sql-commands/sql-declare.md)。
 
@@ -39,7 +41,7 @@ DECLARE cursor_name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ] CU
 
 ## 範例
 
-以下範例為查詢宣告游標：
+為查詢宣告游標的範例：
 
 ```
 
@@ -48,7 +50,7 @@ EXEC SQL DECLARE C CURSOR FOR SELECT Item1 FROM T;
 EXEC SQL DECLARE cur1 CURSOR FOR SELECT version();
 ```
 
-以下範例為備妥陳述式宣告游標：
+為預備陳述式宣告游標的範例：
 
 ```
 
@@ -70,4 +72,4 @@ SQL 標準規定了 `DECLARE`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-declare.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-declare.html)（原文版本：18.6；核對日期：2026-10-18）
