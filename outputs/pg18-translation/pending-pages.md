@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：88 頁。
+待譯頁面：87 頁。
 
 ## 根目錄
 
@@ -166,7 +166,7 @@
 - [x] `client-interfaces/ecpg/ecpg-sql-execute-immediate.md` — EXECUTE IMMEDIATE
 - [ ] `client-interfaces/ecpg/ecpg-sql-get-descriptor.md` — GET DESCRIPTOR
 - [x] `client-interfaces/ecpg/ecpg-sql-open.md` — OPEN
-- [ ] `client-interfaces/ecpg/ecpg-sql-prepare.md` — PREPARE
+- [x] `client-interfaces/ecpg/ecpg-sql-prepare.md` — PREPARE
 - [x] `client-interfaces/ecpg/ecpg-sql-set-autocommit.md` — SET AUTOCOMMIT
 - [x] `client-interfaces/ecpg/ecpg-sql-set-connection.md` — SET CONNECTION — 選取資料庫連線
 - [ ] `client-interfaces/ecpg/ecpg-sql-set-descriptor.md` — SET DESCRIPTOR
