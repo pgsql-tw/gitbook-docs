@@ -420,7 +420,7 @@
     * [35.50. `sql_parts` #](client-interfaces/information-schema/infoschema-sql-parts.md)
     * [35.51. `sql_sizing` #](client-interfaces/information-schema/infoschema-sql-sizing.md)
     * [35.52. `table_constraints` #](client-interfaces/information-schema/infoschema-table-constraints.md)
-    * [35.53. table_privileges #](client-interfaces/information-schema/infoschema-table-privileges.md)
+    * [35.53. `table_privileges` #](client-interfaces/information-schema/infoschema-table-privileges.md)
     * [35.54. tables #](client-interfaces/information-schema/infoschema-tables.md)
     * [35.55. transforms #](client-interfaces/information-schema/infoschema-transforms.md)
     * [35.56. triggered_update_columns #](client-interfaces/information-schema/infoschema-triggered-update-columns.md)
