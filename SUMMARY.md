@@ -305,7 +305,7 @@
   * [Chapter 32. libpq — C Library](client-interfaces/libpq/README.md)
     * [32.1. Database Connection Control Functions #](client-interfaces/libpq/libpq-connect.md)
     * [32.2. 連線狀態函式 #](client-interfaces/libpq/libpq-status.md)
-    * [32.3. Command Execution Functions #](client-interfaces/libpq/libpq-exec.md)
+    * [32.3. 命令執行函式 #](client-interfaces/libpq/libpq-exec.md)
     * [32.4. Asynchronous Command Processing #](client-interfaces/libpq/libpq-async.md)
     * [32.5. 管線模式 #](client-interfaces/libpq/libpq-pipeline-mode.md)
     * [32.6. 分塊取得查詢結果 #](client-interfaces/libpq/libpq-single-row-mode.md)
