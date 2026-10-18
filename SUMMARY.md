@@ -310,7 +310,7 @@
     * [32.5. 管線模式 #](client-interfaces/libpq/libpq-pipeline-mode.md)
     * [32.6. 分塊取得查詢結果 #](client-interfaces/libpq/libpq-single-row-mode.md)
     * [32.7. Canceling Queries in Progress #](client-interfaces/libpq/libpq-cancel.md)
-    * [32.8. The Fast-Path Interface #](client-interfaces/libpq/libpq-fastpath.md)
+    * [32.8. 快速路徑介面 #](client-interfaces/libpq/libpq-fastpath.md)
     * [32.9. 非同步通知 #](client-interfaces/libpq/libpq-notify.md)
     * [32.10. Functions Associated with the COPY Command #](client-interfaces/libpq/libpq-copy.md)
     * [32.11. Control Functions #](client-interfaces/libpq/libpq-control.md)
