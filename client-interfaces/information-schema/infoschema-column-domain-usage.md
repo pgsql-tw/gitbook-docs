@@ -1,6 +1,7 @@
+<a id="INFOSCHEMA-COLUMN-DOMAIN-USAGE"></a>
 ## 35.13. `column_domain_usage` [#](#INFOSCHEMA-COLUMN-DOMAIN-USAGE)
 
-檢視表 `column_domain_usage` 列出資料表或檢視表中使用目前資料庫所定義、且由目前已啟用角色擁有之 domain 的所有欄位。
+檢視表 `column_domain_usage` 列出所有使用了某個網域的欄位（資料表或檢視表的欄位），該網域定義於目前資料庫中，且由目前已啟用的角色擁有。
 
 <a id="id-1.7.6.17.3"></a>
 
@@ -15,27 +16,27 @@
 <code class="structfield">domain_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含 domain 的資料庫名稱（一律為目前資料庫）
+       包含該網域的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">domain_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含 domain 的 schema 名稱
+       包含該網域的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">domain_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       domain 名稱
+       網域名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含資料表的資料庫名稱（一律為目前資料庫）
+       包含該資料表的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含資料表的 schema 名稱
+       包含該資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_name</code> <code class="type">sql_identifier</code>
 </p>
@@ -52,4 +53,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-column-domain-usage.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-column-domain-usage.html)（原文版本：18.6；核對日期：2026-10-18）

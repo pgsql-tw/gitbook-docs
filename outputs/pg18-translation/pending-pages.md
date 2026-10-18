@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：104 頁。
+待譯頁面：103 頁。
 
 ## 根目錄
 
@@ -184,7 +184,7 @@
 - [x] `client-interfaces/information-schema/infoschema-collation-character-set-applicab.md` — 35.11. `collation_character_set_​applicability` #
 - [x] `client-interfaces/information-schema/infoschema-collations.md` — 35.10. `collations` #
 - [x] `client-interfaces/information-schema/infoschema-column-column-usage.md` — 35.12. `column_column_usage` #
-- [ ] `client-interfaces/information-schema/infoschema-column-domain-usage.md` — 35.13. column_domain_usage #
+- [x] `client-interfaces/information-schema/infoschema-column-domain-usage.md` — 35.13. `column_domain_usage` #
 - [ ] `client-interfaces/information-schema/infoschema-column-options.md` — 35.14. column_options #
 - [ ] `client-interfaces/information-schema/infoschema-column-privileges.md` — 35.15. column_privileges #
 - [ ] `client-interfaces/information-schema/infoschema-column-udt-usage.md` — 35.16. column_udt_usage #
