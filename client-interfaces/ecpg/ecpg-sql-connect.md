@@ -1,8 +1,10 @@
+<a id="ECPG-SQL-CONNECT"></a>
+
 ## CONNECT
 
-CONNECT — establish a database connection
+CONNECT — 建立資料庫連線
 
-## Synopsis
+## 語法
 
 ```
 
@@ -14,72 +16,62 @@ DATABASE connection_target
 
 <a id="id-1.7.5.20.4.3"></a>
 
-## Description
+## 說明
 
-The `CONNECT` command establishes a connection
-between the client and the PostgreSQL server.
+`CONNECT` 命令會在用戶端與 PostgreSQL 伺服器之間建立連線。
 
 <a id="id-1.7.5.20.4.4"></a>
 
-## Parameters
+## 參數
 
 <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET"></a>
 
 *`connection_target`* [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET)
 :   *`connection_target`*
-    specifies the target server of the connection on one of
-    several forms.
+    指定連線的目標伺服器，可採用下列幾種形式之一。
 
     <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME"></a>
 
     [ *`database_name`* ] [ `@`*`host`* ] [ `:`*`port`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME)
-    :   Connect over TCP/IP
+    :   透過 TCP/IP 連線
     <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS"></a>
 
     `unix:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS)
-    :   Connect over Unix-domain sockets
+    :   透過 Unix 網域通訊端連線
     <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP"></a>
 
     `tcp:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP)
-    :   Connect over TCP/IP
+    :   透過 TCP/IP 連線
     <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT"></a>
 
-    SQL string constant [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT)
-    :   containing a value in one of the above forms
+    SQL 字串常數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT)
+    :   內容為上述任一形式的值
     <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE"></a>
 
-    host variable [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE)
-    :   host variable of type `char[]`
-        or `VARCHAR[]` containing a value in one of the
-        above forms
+    主機變數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE)
+    :   型別為 `char[]` 或 `VARCHAR[]`、內容為上述任一形式之值的主機變數
 <a id="ECPG-SQL-CONNECT-CONNECTION-NAME"></a>
 
 *`connection_name`* [#](#ECPG-SQL-CONNECT-CONNECTION-NAME)
-:   An optional identifier for the connection, so that it can be
-    referred to in other commands. This can be an SQL identifier
-    or a host variable.
+:   連線的選用識別字，讓其他命令可以參照此連線。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-CONNECT-CONNECTION-USER"></a>
 
 *`connection_user`* [#](#ECPG-SQL-CONNECT-CONNECTION-USER)
-:   The user name for the database connection.
+:   資料庫連線的使用者名稱。
 
-    This parameter can also specify user name and password, using one the forms
-    `user_name/password`,
-    `user_name IDENTIFIED BY password`, or
-    `user_name USING password`.
+    此參數也可以同時指定使用者名稱與密碼，使用下列形式之一：`user_name/password`、`user_name IDENTIFIED BY password` 或 `user_name USING password`。
 
-    User name and password can be SQL identifiers, string
-    constants, or host variables.
+    使用者名稱與密碼可以是 SQL 識別字、字串常數或主機變數。
 <a id="ECPG-SQL-CONNECT-DEFAULT"></a>
 
 `DEFAULT` [#](#ECPG-SQL-CONNECT-DEFAULT)
-:   Use all default connection parameters, as defined by libpq.
+:   使用 libpq 所定義的所有預設連線參數。
 
 <a id="id-1.7.5.20.4.5"></a>
 
-## Examples
+## 範例
 
-Here a several variants for specifying connection parameters:
+以下是指定連線參數的幾種不同寫法：
 
 ```
 
@@ -108,8 +100,7 @@ EXEC SQL CONNECT TO unix:postgresql://localhost/connectdb USER connectuser USING
 EXEC SQL CONNECT TO unix:postgresql://localhost/connectdb?connect_timeout=14 USER connectuser;
 ```
 
-Here is an example program that illustrates the use of host
-variables to specify connection parameters:
+以下範例程式示範如何使用主機變數指定連線參數：
 
 ```
 
@@ -146,18 +137,16 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="id-1.7.5.20.4.6"></a>
 
-## Compatibility
+## 相容性
 
-`CONNECT` is specified in the SQL standard, but
-the format of the connection parameters is
-implementation-specific.
+SQL 標準規定了 `CONNECT`，但連線參數的格式則依各實作而定。
 
 <a id="id-1.7.5.20.4.7"></a>
 
-## See Also
+## 另請參閱
 
 [DISCONNECT](ecpg-sql-disconnect.md), [SET CONNECTION](ecpg-sql-set-connection.md)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-connect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-connect.html)（原文版本：18.6；核對日期：2026-10-18）
