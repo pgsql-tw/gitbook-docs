@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：125 頁。
+待譯頁面：124 頁。
 
 ## 根目錄
 
@@ -237,7 +237,7 @@
 - [x] `client-interfaces/information-schema/infoschema-user-defined-types.md` — 35.60. `user_defined_types` #
 - [x] `client-interfaces/information-schema/infoschema-user-mapping-options.md` — 35.61. `user_mapping_options` #
 - [x] `client-interfaces/information-schema/infoschema-user-mappings.md` — 35.62. `user_mappings` #
-- [ ] `client-interfaces/information-schema/infoschema-view-column-usage.md` — 35.63. view_column_usage #
+- [x] `client-interfaces/information-schema/infoschema-view-column-usage.md` — 35.63. `view_column_usage` #
 - [ ] `client-interfaces/information-schema/infoschema-view-routine-usage.md` — 35.64. view_routine_usage #
 - [ ] `client-interfaces/information-schema/infoschema-view-table-usage.md` — 35.65. view_table_usage #
 - [ ] `client-interfaces/information-schema/infoschema-views.md` — 35.66. views #
