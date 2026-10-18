@@ -1,6 +1,7 @@
+<a id="INFOSCHEMA-SQL-PARTS"></a>
 ## 35.50. `sql_parts` [#](#INFOSCHEMA-SQL-PARTS)
 
-資料表 `sql_parts` 包含 PostgreSQL 支援 SQL 標準哪些部分的資訊。
+資料表 `sql_parts` 包含 PostgreSQL 支援 SQL 標準數個部分中哪些部分的資訊。
 
 <a id="id-1.7.6.54.3"></a>
 
@@ -43,4 +44,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-sql-parts.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-sql-parts.html)（原文版本：18.6；核對日期：2026-10-18）
