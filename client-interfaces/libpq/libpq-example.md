@@ -1,12 +1,12 @@
-## 32.23. Example Programs [#](#LIBPQ-EXAMPLE)
+<a id="LIBPQ-EXAMPLE"></a>
 
-These examples and others can be found in the
-directory `src/test/examples` in the source code
-distribution.
+## 32.23. 範例程式 [#](#LIBPQ-EXAMPLE)
+
+這些範例以及其他範例可以在原始碼發行版的 `src/test/examples` 目錄中找到。
 
 <a id="LIBPQ-EXAMPLE-1"></a>
 
-**Example 32.1. libpq Example Program 1**
+**範例 32.1. libpq 範例程式 1**
 
 ```
 
@@ -146,7 +146,7 @@ main(int argc, char **argv)
 
 <br><a id="LIBPQ-EXAMPLE-2"></a>
 
-**Example 32.2. libpq Example Program 2**
+**範例 32.2. libpq 範例程式 2**
 
 ```
 
@@ -305,7 +305,7 @@ main(int argc, char **argv)
 
 <br><a id="LIBPQ-EXAMPLE-3"></a>
 
-**Example 32.3. libpq Example Program 3**
+**範例 32.3. libpq 範例程式 3**
 
 ```
 
@@ -547,4 +547,4 @@ main(int argc, char **argv)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-example.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-example.html)（原文版本：18.6；核對日期：2026-10-18）

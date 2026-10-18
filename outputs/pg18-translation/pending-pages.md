@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：146 頁。
+待譯頁面：145 頁。
 
 ## 根目錄
 
@@ -256,7 +256,7 @@
 - [ ] `client-interfaces/libpq/libpq-copy.md` — 32.10. Functions Associated with the COPY Command #
 - [ ] `client-interfaces/libpq/libpq-envars.md` — 32.15. Environment Variables #
 - [ ] `client-interfaces/libpq/libpq-events.md` — 32.14. Event System #
-- [ ] `client-interfaces/libpq/libpq-example.md` — 32.23. Example Programs #
+- [x] `client-interfaces/libpq/libpq-example.md` — 32.23. 範例程式 #
 - [x] `client-interfaces/libpq/libpq-exec.md` — 32.3. 命令執行函式 #
 - [ ] `client-interfaces/libpq/libpq-fastpath.md` — 32.8. The Fast-Path Interface #
 - [ ] `client-interfaces/libpq/libpq-ldap.md` — 32.18. LDAP Lookup of Connection Parameters #
