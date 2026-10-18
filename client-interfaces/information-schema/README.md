@@ -1,10 +1,12 @@
-## Chapter 35. The Information Schema
+<a id="INFORMATION-SCHEMA"></a>
 
-**Table of Contents**
+## 第 35 章 資訊綱要
 
-[35.1. The Schema](infoschema-schema.md)
+**目錄**
 
-[35.2. Data Types](infoschema-datatypes.md)
+[35.1. 資訊結構描述](infoschema-schema.md)
+
+[35.2. 資料型別](infoschema-datatypes.md)
 
 [35.3. `information_schema_catalog_name`](infoschema-information-schema-catalog-name.md)
 
@@ -136,37 +138,25 @@
 
 <a id="id-1.7.6.2"></a>
 
-The information schema consists of a set of views that contain
-information about the objects defined in the current database. The
-information schema is defined in the SQL standard and can therefore
-be expected to be portable and remain stable — unlike the system
-catalogs, which are specific to
-PostgreSQL and are modeled after
-implementation concerns. The information schema views do not,
-however, contain information about
-PostgreSQL-specific features; to inquire
-about those you need to query the system catalogs or other
-PostgreSQL-specific views.
+資訊綱要由一組檢視表組成，其中包含目前資料庫中所定義物件的相關資訊。資訊綱要定義於
+SQL 標準中，因此可以預期它具有可攜性並保持穩定——這點與系統目錄不同，系統目錄是
+PostgreSQL 特有的，並且是依照實作上的考量來設計。不過，資訊綱要檢視表並不包含
+PostgreSQL 特有功能的相關資訊；若要查詢這些資訊，你需要查詢系統目錄或其他
+PostgreSQL 特有的檢視表。
 
-### Note
+### 注意
 
-When querying the database for constraint information, it is possible
-for a standard-compliant query that expects to return one row to
-return several. This is because the SQL standard requires constraint
-names to be unique within a schema, but
-PostgreSQL does not enforce this
-restriction. PostgreSQL
-automatically-generated constraint names avoid duplicates in the
-same schema, but users can specify such duplicate names.
+向資料庫查詢限制條件資訊時，預期傳回一筆資料列的符合標準查詢，有可能傳回多筆
+資料列。這是因為 SQL 標準要求限制條件名稱在綱要內必須唯一，但 PostgreSQL 並不
+強制執行此限制。PostgreSQL 自動產生的限制條件名稱會避免在同一綱要中重複，但使用者
+可以指定這種重複的名稱。
 
-This problem can appear when querying information schema views such
-as `check_constraint_routine_usage`,
-`check_constraints`, `domain_constraints`, and
-`referential_constraints`. Some other views have similar
-issues but contain the table name to help distinguish duplicate
-rows, e.g., `constraint_column_usage`,
-`constraint_table_usage`, `table_constraints`.
+查詢 `check_constraint_routine_usage`、
+`check_constraints`、`domain_constraints` 與
+`referential_constraints` 等資訊綱要檢視表時，可能會出現這個問題。其他一些檢視表
+也有類似的問題，但包含資料表名稱以協助區分重複的資料列，例如 `constraint_column_usage`、
+`constraint_table_usage`、`table_constraints`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/information-schema.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/information-schema.html)（原文版本：18.6；核對日期：2026-10-18）

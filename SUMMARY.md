@@ -367,7 +367,7 @@
     * [34.15. Informix Compatibility Mode #](client-interfaces/ecpg/ecpg-informix-compat.md)
     * [34.16. Oracle 相容模式](client-interfaces/ecpg/ecpg-oracle-compat.md)
     * [34.17. Internals #](client-interfaces/ecpg/ecpg-develop.md)
-  * [Chapter 35. The Information Schema](client-interfaces/information-schema/README.md)
+  * [第 35 章 資訊綱要](client-interfaces/information-schema/README.md)
     * [35.1. The Schema #](client-interfaces/information-schema/infoschema-schema.md)
     * [35.2. Data Types #](client-interfaces/information-schema/infoschema-datatypes.md)
     * [35.3. information_schema_catalog_name #](client-interfaces/information-schema/infoschema-information-schema-catalog-name.md)
