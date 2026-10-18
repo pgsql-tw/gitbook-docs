@@ -408,7 +408,7 @@
     * [35.38. `role_udt_grants` #](client-interfaces/information-schema/infoschema-role-udt-grants.md)
     * [35.39. `role_usage_grants` #](client-interfaces/information-schema/infoschema-role-usage-grants.md)
     * [35.40. `routine_column_usage` #](client-interfaces/information-schema/infoschema-routine-column-usage.md)
-    * [35.41. routine_privileges #](client-interfaces/information-schema/infoschema-routine-privileges.md)
+    * [35.41. `routine_privileges` #](client-interfaces/information-schema/infoschema-routine-privileges.md)
     * [35.42. routine_routine_usage #](client-interfaces/information-schema/infoschema-routine-routine-usage.md)
     * [35.43. routine_sequence_usage #](client-interfaces/information-schema/infoschema-routine-sequence-usage.md)
     * [35.44. routine_table_usage #](client-interfaces/information-schema/infoschema-routine-table-usage.md)
