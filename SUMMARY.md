@@ -330,7 +330,7 @@
     * [33.1. 簡介](client-interfaces/largeobjects/lo-intro.md)
     * [33.2. Implementation Features #](client-interfaces/largeobjects/lo-implementation.md)
     * [33.3. Client Interfaces #](client-interfaces/largeobjects/lo-interfaces.md)
-    * [33.4. Server-Side Functions #](client-interfaces/largeobjects/lo-funcs.md)
+    * [33.4. 伺服器端函式 #](client-interfaces/largeobjects/lo-funcs.md)
     * [33.5. Example Program #](client-interfaces/largeobjects/lo-examplesect.md)
   * [Chapter 34. ECPG — Embedded SQL in C](client-interfaces/ecpg/README.md)
     * [34.1. The Concept #](client-interfaces/ecpg/ecpg-concept.md)

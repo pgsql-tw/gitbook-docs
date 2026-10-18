@@ -1,31 +1,33 @@
-## 33.4. Server-Side Functions [#](#LO-FUNCS)
+<a id="LO-FUNCS"></a>
 
-Server-side functions tailored for manipulating large objects from SQL are
-listed in [Table 33.1](lo-funcs.md#LO-FUNCS-TABLE).
+## 33.4. 伺服器端函式 [#](#LO-FUNCS)
+
+專為從 SQL 操作大型物件而設計的伺服器端函式，
+列於[表 33.1](lo-funcs.md#LO-FUNCS-TABLE)。
 
 <a id="LO-FUNCS-TABLE"></a>
 
-**Table 33.1. SQL-Oriented Large Object Functions**
+**表 33.1. 以 SQL 操作的大型物件函式**
 
 <table border="1" class="table" summary="SQL-Oriented Large Object Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+        函式
        </p>
 <p>
-        Description
+        說明
        </p>
 <p>
-        Example(s)
+        範例
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.7.4.9.3.2.2.1.1.1.1"></a>
 <code class="function">lo_from_bytea</code> ( <em class="parameter"><code>loid</code></em> <code class="type">oid</code>, <em class="parameter"><code>data</code></em> <code class="type">bytea</code> )
         → <code class="returnvalue">oid</code>
 </p>
 <p>
-        Creates a large object and stores <em class="parameter"><code>data</code></em> in it.
-        If <em class="parameter"><code>loid</code></em> is zero then the system will choose a
-        free OID, otherwise that OID is used (with an error if some large
-        object already has that OID).  On success, the large object's OID is
-        returned.
+        建立一個大型物件，並將 <em class="parameter"><code>data</code></em> 存入其中。
+        若 <em class="parameter"><code>loid</code></em> 為零，系統會選擇一個
+        未使用的 OID，否則就使用該 OID（若已有某個大型物件
+        使用該 OID，則會發生錯誤）。成功時會傳回該大型物件的
+        OID。
        </p>
 <p>
 <code class="literal">lo_from_bytea(0, '\xffffff00')</code>
@@ -36,8 +38,8 @@ listed in [Table 33.1](lo-funcs.md#LO-FUNCS-TABLE).
         → <code class="returnvalue">void</code>
 </p>
 <p>
-        Writes <em class="parameter"><code>data</code></em> starting at the given offset within
-        the large object; the large object is enlarged if necessary.
+        從大型物件內給定的位移開始寫入 <em class="parameter"><code>data</code></em>；
+        必要時會擴大該大型物件。
        </p>
 <p>
 <code class="literal">lo_put(24528, 1, '\xaa')</code>
@@ -48,7 +50,7 @@ listed in [Table 33.1](lo-funcs.md#LO-FUNCS-TABLE).
         → <code class="returnvalue">bytea</code>
 </p>
 <p>
-        Extracts the large object's contents, or a substring thereof.
+        擷取大型物件的內容，或其中的一段子字串。
        </p>
 <p>
 <code class="literal">lo_get(24528, 0, 3)</code>
@@ -57,16 +59,15 @@ listed in [Table 33.1](lo-funcs.md#LO-FUNCS-TABLE).
 
 <br>
 
-There are additional server-side functions corresponding to each of the
-client-side functions described earlier; indeed, for the most part the
-client-side functions are simply interfaces to the equivalent server-side
-functions. The ones just as convenient to call via SQL commands are
-`lo_creat`<a id="id-1.7.4.9.4.2"></a>,
-`lo_create`,
-`lo_unlink`<a id="id-1.7.4.9.4.5"></a>,
-`lo_import`<a id="id-1.7.4.9.4.7"></a>, and
-`lo_export`<a id="id-1.7.4.9.4.9"></a>.
-Here are examples of their use:
+另外還有一些伺服器端函式，分別對應於先前說明的每個
+用戶端函式；事實上，用戶端函式大多只是對應伺服器端函式的
+介面。其中同樣適合透過 SQL 命令呼叫的有
+`lo_creat`<a id="id-1.7.4.9.4.2"></a>、
+`lo_create`、
+`lo_unlink`<a id="id-1.7.4.9.4.5"></a>、
+`lo_import`<a id="id-1.7.4.9.4.7"></a> 與
+`lo_export`<a id="id-1.7.4.9.4.9"></a>。
+以下是它們的使用範例：
 
 ```
 
@@ -91,41 +92,37 @@ SELECT lo_export(image.raster, '/tmp/motd') FROM image
     WHERE name = 'beautiful image';
 ```
 
-The server-side `lo_import` and
-`lo_export` functions behave considerably differently
-from their client-side analogs. These two functions read and write files
-in the server's file system, using the permissions of the database's
-owning user. Therefore, by default their use is restricted to superusers.
-In contrast, the client-side import and export functions read and write
-files in the client's file system, using the permissions of the client
-program. The client-side functions do not require any database
-privileges, except the privilege to read or write the large object in
-question.
+伺服器端的 `lo_import` 與
+`lo_export` 函式，其行為與對應的用戶端函式
+有相當大的差異。這兩個函式會以擁有該資料庫之使用者的權限，
+讀寫伺服器檔案系統中的檔案。
+因此，預設只有超級使用者可以使用它們。
+相較之下，用戶端的匯入與匯出函式會以用戶端程式的權限，
+讀寫用戶端檔案系統中的檔案。用戶端函式不需要任何資料庫
+權限，只需要讀取或寫入相關大型物件的權限。
 
-### Caution
+### 小心
 
-It is possible to [GRANT](../../reference/sql-commands/sql-grant.md) use of the
-server-side `lo_import`
-and `lo_export` functions to non-superusers, but
-careful consideration of the security implications is required. A
-malicious user of such privileges could easily parlay them into becoming
-superuser (for example by rewriting server configuration files), or could
-attack the rest of the server's file system without bothering to obtain
-database superuser privileges as such. *Access to roles having
-such privilege must therefore be guarded just as carefully as access to
-superuser roles.* Nonetheless, if use of
-server-side `lo_import`
-or `lo_export` is needed for some routine task, it's
-safer to use a role with such privileges than one with full superuser
-privileges, as that helps to reduce the risk of damage from accidental
-errors.
+可以將伺服器端 `lo_import`
+與 `lo_export` 函式的使用權限 [GRANT](../../reference/sql-commands/sql-grant.md) 給
+非超級使用者，但必須審慎考量其安全性影響。
+擁有這類權限的惡意使用者，可以輕易地利用它們成為
+超級使用者（例如藉由改寫伺服器設定檔），或者可以
+攻擊伺服器檔案系統的其他部分，而根本不必取得
+資料庫超級使用者權限。*因此，對於擁有
+這類權限之角色的存取，必須與對超級使用者角色的存取同樣謹慎地加以防護。*
+儘管如此，若某些例行工作需要使用
+伺服器端的 `lo_import`
+或 `lo_export`，使用擁有這類權限的角色，
+會比使用擁有完整超級使用者權限的角色更安全，因為這有助於降低
+意外錯誤所造成損害的風險。
 
-The functionality of `lo_read` and
-`lo_write` is also available via server-side calls,
-but the names of the server-side functions differ from the client side
-interfaces in that they do not contain underscores. You must call
-these functions as `loread` and `lowrite`.
+`lo_read` 與
+`lo_write` 的功能也可以透過伺服器端呼叫取得，
+但伺服器端函式的名稱與用戶端介面不同，
+其中不含底線。你必須以
+`loread` 與 `lowrite` 呼叫這些函式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/lo-funcs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/lo-funcs.html)（原文版本：18.6；核對日期：2026-10-18）
