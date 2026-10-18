@@ -341,7 +341,7 @@
     * [34.6. pgtypes Library #](client-interfaces/ecpg/ecpg-pgtypes.md)
     * [34.7. Using Descriptor Areas #](client-interfaces/ecpg/ecpg-descriptors.md)
     * [34.8. Error Handling #](client-interfaces/ecpg/ecpg-errors.md)
-    * [34.9. Preprocessor Directives #](client-interfaces/ecpg/ecpg-preproc.md)
+    * [34.9. 前置處理器指令 #](client-interfaces/ecpg/ecpg-preproc.md)
     * [34.10. Processing Embedded SQL Programs #](client-interfaces/ecpg/ecpg-process.md)
     * [34.11. 函式庫函式 #](client-interfaces/ecpg/ecpg-library.md)
     * [34.12. Large Objects #](client-interfaces/ecpg/ecpg-lo.md)
