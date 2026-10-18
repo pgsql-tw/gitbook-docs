@@ -414,7 +414,7 @@
     * [35.44. `routine_table_usage` #](client-interfaces/information-schema/infoschema-routine-table-usage.md)
     * [35.45. routines #](client-interfaces/information-schema/infoschema-routines.md)
     * [35.46. `schemata` #](client-interfaces/information-schema/infoschema-schemata.md)
-    * [35.47. sequences #](client-interfaces/information-schema/infoschema-sequences.md)
+    * [35.47. `sequences` #](client-interfaces/information-schema/infoschema-sequences.md)
     * [35.48. sql_features #](client-interfaces/information-schema/infoschema-sql-features.md)
     * [35.49. sql_implementation_info #](client-interfaces/information-schema/infoschema-sql-implementation-info.md)
     * [35.50. sql_parts #](client-interfaces/information-schema/infoschema-sql-parts.md)
