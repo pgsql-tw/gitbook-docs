@@ -1,61 +1,51 @@
+<a id="INFOSCHEMA-CONSTRAINT-TABLE-USAGE"></a>
 ## 35.19. `constraint_table_usage` [#](#INFOSCHEMA-CONSTRAINT-TABLE-USAGE)
 
-The view `constraint_table_usage` identifies all
-tables in the current database that are used by some constraint and
-are owned by a currently enabled role. (This is different from the
-view `table_constraints`, which identifies all
-table constraints along with the table they are defined on.) For a
-foreign key constraint, this view identifies the table that the
-foreign key references. For a unique or primary key constraint,
-this view simply identifies the table the constraint belongs to.
-Check constraints and not-null constraints are not included in this
-view.
+檢視表 `constraint_table_usage` 列出目前資料庫中被某個限制條件使用、且由目前已啟用角色所擁有的所有資料表。（這與檢視表 `table_constraints` 不同，後者列出所有資料表限制條件及其所定義的資料表。）對於外鍵限制條件，此檢視表列出該外鍵所參照的資料表。對於唯一限制條件或主鍵限制條件，此檢視表只列出該限制條件所屬的資料表。檢查限制條件與非空值限制條件不包含在此檢視表中。
 
 <a id="id-1.7.6.23.3"></a>
 
-**Table 35.17. `constraint_table_usage` Columns**
+**表 35.17. `constraint_table_usage` 欄位**
 
-<table border="1" class="table" summary="constraint_table_usage Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="constraint_table_usage 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database that contains the table that is used by
-       some constraint (always the current database)
+       包含被某個限制條件使用之資料表的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema that contains the table that is used by some
-       constraint
+       包含被某個限制條件使用之資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the table that is used by some constraint
+       被某個限制條件使用的資料表名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database that contains the constraint (always the current database)
+       包含該限制條件的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema that contains the constraint
+       包含該限制條件的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the constraint
+       限制條件名稱
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-constraint-table-usage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-constraint-table-usage.html)（原文版本：18.6；核對日期：2026-10-18）
