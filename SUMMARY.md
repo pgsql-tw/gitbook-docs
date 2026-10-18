@@ -346,7 +346,7 @@
     * [34.11. 函式庫函式 #](client-interfaces/ecpg/ecpg-library.md)
     * [34.12. Large Objects #](client-interfaces/ecpg/ecpg-lo.md)
     * [34.13. C++ Applications #](client-interfaces/ecpg/ecpg-cpp.md)
-    * [34.14. Embedded SQL Commands #](client-interfaces/ecpg/ecpg-sql-commands.md)
+    * [34.14. 嵌入式 SQL 命令 #](client-interfaces/ecpg/ecpg-sql-commands.md)
       * [ALLOCATE DESCRIPTOR](client-interfaces/ecpg/ecpg-sql-allocate-descriptor.md)
       * [CONNECT](client-interfaces/ecpg/ecpg-sql-connect.md)
       * [DEALLOCATE DESCRIPTOR](client-interfaces/ecpg/ecpg-sql-deallocate-descriptor.md)
