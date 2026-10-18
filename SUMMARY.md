@@ -388,7 +388,7 @@
     * [35.18. `constraint_column_usage` #](client-interfaces/information-schema/infoschema-constraint-column-usage.md)
     * [35.19. `constraint_table_usage` #](client-interfaces/information-schema/infoschema-constraint-table-usage.md)
     * [35.20. `data_type_privileges` #](client-interfaces/information-schema/infoschema-data-type-privileges.md)
-    * [35.21. domain_constraints #](client-interfaces/information-schema/infoschema-domain-constraints.md)
+    * [35.21. `domain_constraints` #](client-interfaces/information-schema/infoschema-domain-constraints.md)
     * [35.22. domain_udt_usage #](client-interfaces/information-schema/infoschema-domain-udt-usage.md)
     * [35.23. domains #](client-interfaces/information-schema/infoschema-domains.md)
     * [35.24. element_types #](client-interfaces/information-schema/infoschema-element-types.md)
