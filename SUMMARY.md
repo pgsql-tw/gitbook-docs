@@ -329,7 +329,7 @@
   * [第 33 章 大型物件](client-interfaces/largeobjects/README.md)
     * [33.1. 簡介](client-interfaces/largeobjects/lo-intro.md)
     * [33.2. 實作特性 #](client-interfaces/largeobjects/lo-implementation.md)
-    * [33.3. Client Interfaces #](client-interfaces/largeobjects/lo-interfaces.md)
+    * [33.3. 用戶端介面 #](client-interfaces/largeobjects/lo-interfaces.md)
     * [33.4. 伺服器端函式 #](client-interfaces/largeobjects/lo-funcs.md)
     * [33.5. 範例程式 #](client-interfaces/largeobjects/lo-examplesect.md)
   * [Chapter 34. ECPG — Embedded SQL in C](client-interfaces/ecpg/README.md)
