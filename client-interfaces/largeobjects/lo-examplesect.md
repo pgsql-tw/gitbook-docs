@@ -1,15 +1,17 @@
-## 33.5. Example Program [#](#LO-EXAMPLESECT)
+<a id="LO-EXAMPLESECT"></a>
 
-[Example 33.1](lo-examplesect.md#LO-EXAMPLE) is a sample program which shows how the large object
-interface
-in libpq can be used. Parts of the program are
-commented out but are left in the source for the reader's
-benefit. This program can also be found in
-`src/test/examples/testlo.c` in the source distribution.
+## 33.5. 範例程式 [#](#LO-EXAMPLESECT)
+
+[範例 33.1](lo-examplesect.md#LO-EXAMPLE) 是一個範例程式，示範如何使用
+libpq 中的大型物件
+介面。程式中有部分內容被註解掉，
+但為了方便讀者參考而保留在原始碼中。
+此程式也可以在原始碼發行版的
+`src/test/examples/testlo.c` 中找到。
 
 <a id="LO-EXAMPLE"></a>
 
-**Example 33.1. Large Objects with libpq Example Program**
+**範例 33.1. 使用 libpq 的大型物件範例程式**
 
 ```
 
@@ -285,8 +287,13 @@ main(int argc, char **argv)
 }
 ```
 
+譯註：上方範例程式有兩處原文瑕疵，程式碼依原樣保留，僅在此說明：
+
+- pickout 函式在檢查 nbytes <= 0 之前就先執行 buf[nbytes] = '\0'。若 lo_read 讀取失敗而傳回 -1，這行會寫到緩衝區範圍之外。正確做法是先檢查讀取結果，確認 nbytes 大於 0 後再設定字串結尾。
+- importFile 函式在 lo_write 寫入的位元組數不足時，輸出的錯誤訊息是「error while reading」，但此處實際檢查的是寫入大型物件的結果，訊息應為寫入錯誤（例如 error while writing）。
+
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/lo-examplesect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/lo-examplesect.html)（原文版本：18.6；核對日期：2026-10-18）
