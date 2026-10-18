@@ -1,11 +1,12 @@
+<a id="INFOSCHEMA-VIEW-TABLE-USAGE"></a>
 ## 35.65. `view_table_usage` [#](#INFOSCHEMA-VIEW-TABLE-USAGE)
 
-檢視表 `view_table_usage` 列出檢視表查詢表示式（定義該檢視表的 `SELECT`
-敘述）所使用的所有資料表。只有目前已啟用角色所擁有的資料表才會包含在內。
+檢視表 `view_table_usage` 列出檢視表的查詢表示式（定義該檢視表的 `SELECT`
+陳述式）中使用的所有資料表。只有由目前已啟用的角色擁有的資料表才會納入。
 
 ### 注意
 
-不包含系統資料表。此問題應於未來修正。
+不包含系統資料表。此問題日後應予修正。
 
 <a id="id-1.7.6.69.4"></a>
 
@@ -25,7 +26,7 @@
 <code class="structfield">view_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含檢視表的 schema 名稱
+       包含檢視表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">view_name</code> <code class="type">sql_identifier</code>
 </p>
@@ -40,7 +41,7 @@
 <code class="structfield">table_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含檢視表所用資料表的 schema 名稱
+       包含檢視表所用資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_name</code> <code class="type">sql_identifier</code>
 </p>
@@ -52,4 +53,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-view-table-usage.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-view-table-usage.html)（原文版本：18.6；核對日期：2026-10-18）
