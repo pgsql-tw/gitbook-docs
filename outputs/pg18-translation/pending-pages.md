@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：164 頁。
+待譯頁面：163 頁。
 
 ## 根目錄
 
@@ -212,7 +212,7 @@
 - [x] `client-interfaces/information-schema/infoschema-role-routine-grants.md` — 35.36. `role_routine_grants` #
 - [x] `client-interfaces/information-schema/infoschema-role-table-grants.md` — 35.37. `role_table_grants` #
 - [x] `client-interfaces/information-schema/infoschema-role-udt-grants.md` — 35.38. `role_udt_grants` #
-- [ ] `client-interfaces/information-schema/infoschema-role-usage-grants.md` — 35.39. role_usage_grants #
+- [x] `client-interfaces/information-schema/infoschema-role-usage-grants.md` — 35.39. `role_usage_grants` #
 - [ ] `client-interfaces/information-schema/infoschema-routine-column-usage.md` — 35.40. routine_column_usage #
 - [ ] `client-interfaces/information-schema/infoschema-routine-privileges.md` — 35.41. routine_privileges #
 - [ ] `client-interfaces/information-schema/infoschema-routine-routine-usage.md` — 35.42. routine_routine_usage #
