@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：73 頁。
+待譯頁面：72 頁。
 
 ## 根目錄
 
@@ -195,7 +195,7 @@
 - [x] `client-interfaces/information-schema/infoschema-datatypes.md` — 35.2. 資料型別
 - [x] `client-interfaces/information-schema/infoschema-domain-constraints.md` — 35.21. `domain_constraints` #
 - [x] `client-interfaces/information-schema/infoschema-domain-udt-usage.md` — 35.22. `domain_udt_usage` #
-- [ ] `client-interfaces/information-schema/infoschema-domains.md` — 35.23. domains #
+- [x] `client-interfaces/information-schema/infoschema-domains.md` — 35.23. `domains` #
 - [ ] `client-interfaces/information-schema/infoschema-element-types.md` — 35.24. element_types #
 - [x] `client-interfaces/information-schema/infoschema-enabled-roles.md` — 35.25. `enabled_roles`
 - [x] `client-interfaces/information-schema/infoschema-foreign-data-wrapper-options.md` — 35.26. `foreign_data_wrapper_options` #
