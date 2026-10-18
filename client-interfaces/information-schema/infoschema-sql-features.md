@@ -1,61 +1,60 @@
-## 35.48. `sql_features` [#](#INFOSCHEMA-SQL-FEATURES)
+<a id="INFOSCHEMA-SQL-FEATURES"></a>
+## 35.48. `sql_features` [#](#INFOSCHEMA-SQL-FEATURES)
 
-The table `sql_features` contains information
-about which formal features defined in the SQL standard are
-supported by PostgreSQL. This is the
-same information that is presented in [Appendix D](../../appendixes/features/README.md).
-There you can also find some additional background information.
+資料表 `sql_features` 包含 PostgreSQL 支援 SQL 標準中所定義之哪些正式功能的
+資訊。這與[附錄 D](../../appendixes/features/README.md)中呈現的資訊相同，
+你也可以在該處找到一些額外的背景資訊。
 
 <a id="id-1.7.6.52.3"></a>
 
-**Table 35.46. `sql_features` Columns**
+**表 35.46. `sql_features` 欄位**
 
-<table border="1" class="table" summary="sql_features Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="sql_features 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">feature_id</code> <code class="type">character_data</code>
 </p>
 <p>
-       Identifier string of the feature
+       功能的識別字串
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">feature_name</code> <code class="type">character_data</code>
 </p>
 <p>
-       Descriptive name of the feature
+       功能的描述性名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">sub_feature_id</code> <code class="type">character_data</code>
 </p>
 <p>
-       Identifier string of the subfeature, or a zero-length string if not a subfeature
+       子功能的識別字串；若不是子功能，則為長度為零的字串
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">sub_feature_name</code> <code class="type">character_data</code>
 </p>
 <p>
-       Descriptive name of the subfeature, or a zero-length string if not a subfeature
+       子功能的描述性名稱；若不是子功能，則為長度為零的字串
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">is_supported</code> <code class="type">yes_or_no</code>
 </p>
 <p>
-<code class="literal">YES</code> if the feature is fully supported by the
-       current version of <span class="productname">PostgreSQL</span>, <code class="literal">NO</code> if not
+若目前版本的 <span class="productname">PostgreSQL</span> 完全支援此功能，
+       則為 <code class="literal">YES</code>；否則為 <code class="literal">NO</code>
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">is_verified_by</code> <code class="type">character_data</code>
 </p>
 <p>
-       Always null, since the <span class="productname">PostgreSQL</span> development group does not
-       perform formal testing of feature conformance
+       一律為 null，因為 <span class="productname">PostgreSQL</span> 開發團隊不會對功能符合性
+       執行正式測試
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">comments</code> <code class="type">character_data</code>
 </p>
 <p>
-       Possibly a comment about the supported status of the feature
+       可能與此功能支援狀態相關的註解
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-sql-features.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-sql-features.html)（原文版本：18.6；核對日期：2026-10-18）
