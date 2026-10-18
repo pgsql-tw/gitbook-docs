@@ -343,7 +343,7 @@
     * [34.8. Error Handling #](client-interfaces/ecpg/ecpg-errors.md)
     * [34.9. Preprocessor Directives #](client-interfaces/ecpg/ecpg-preproc.md)
     * [34.10. Processing Embedded SQL Programs #](client-interfaces/ecpg/ecpg-process.md)
-    * [34.11. Library Functions #](client-interfaces/ecpg/ecpg-library.md)
+    * [34.11. 函式庫函式 #](client-interfaces/ecpg/ecpg-library.md)
     * [34.12. Large Objects #](client-interfaces/ecpg/ecpg-lo.md)
     * [34.13. C++ Applications #](client-interfaces/ecpg/ecpg-cpp.md)
     * [34.14. Embedded SQL Commands #](client-interfaces/ecpg/ecpg-sql-commands.md)
