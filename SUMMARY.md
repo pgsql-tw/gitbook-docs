@@ -313,7 +313,7 @@
     * [32.8. 快速路徑介面 #](client-interfaces/libpq/libpq-fastpath.md)
     * [32.9. 非同步通知 #](client-interfaces/libpq/libpq-notify.md)
     * [32.10. Functions Associated with the COPY Command #](client-interfaces/libpq/libpq-copy.md)
-    * [32.11. Control Functions #](client-interfaces/libpq/libpq-control.md)
+    * [32.11. 控制函式 #](client-interfaces/libpq/libpq-control.md)
     * [32.12. 其他函式 #](client-interfaces/libpq/libpq-misc.md)
     * [32.13. 通知訊息處理 #](client-interfaces/libpq/libpq-notice-processing.md)
     * [32.14. 事件系統 #](client-interfaces/libpq/libpq-events.md)
