@@ -402,7 +402,7 @@
     * [35.32. `key_column_usage` #](client-interfaces/information-schema/infoschema-key-column-usage.md)
     * [35.33. `parameters` #](client-interfaces/information-schema/infoschema-parameters.md)
     * [35.34. `referential_constraints` #](client-interfaces/information-schema/infoschema-referential-constraints.md)
-    * [35.35. role_column_grants #](client-interfaces/information-schema/infoschema-role-column-grants.md)
+    * [35.35. `role_column_grants` #](client-interfaces/information-schema/infoschema-role-column-grants.md)
     * [35.36. `role_routine_grants` #](client-interfaces/information-schema/infoschema-role-routine-grants.md)
     * [35.37. `role_table_grants` #](client-interfaces/information-schema/infoschema-role-table-grants.md)
     * [35.38. `role_udt_grants` #](client-interfaces/information-schema/infoschema-role-udt-grants.md)
