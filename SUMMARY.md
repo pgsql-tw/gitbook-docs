@@ -328,7 +328,7 @@
     * [32.23. 範例程式 #](client-interfaces/libpq/libpq-example.md)
   * [Chapter 33. Large Objects](client-interfaces/largeobjects/README.md)
     * [33.1. 簡介](client-interfaces/largeobjects/lo-intro.md)
-    * [33.2. Implementation Features #](client-interfaces/largeobjects/lo-implementation.md)
+    * [33.2. 實作特性 #](client-interfaces/largeobjects/lo-implementation.md)
     * [33.3. Client Interfaces #](client-interfaces/largeobjects/lo-interfaces.md)
     * [33.4. 伺服器端函式 #](client-interfaces/largeobjects/lo-funcs.md)
     * [33.5. Example Program #](client-interfaces/largeobjects/lo-examplesect.md)
