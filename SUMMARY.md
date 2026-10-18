@@ -429,7 +429,7 @@
     * [35.59. `usage_privileges` #](client-interfaces/information-schema/infoschema-usage-privileges.md)
     * [35.60. `user_defined_types` #](client-interfaces/information-schema/infoschema-user-defined-types.md)
     * [35.61. `user_mapping_options` #](client-interfaces/information-schema/infoschema-user-mapping-options.md)
-    * [35.62. user_mappings #](client-interfaces/information-schema/infoschema-user-mappings.md)
+    * [35.62. `user_mappings` #](client-interfaces/information-schema/infoschema-user-mappings.md)
     * [35.63. view_column_usage #](client-interfaces/information-schema/infoschema-view-column-usage.md)
     * [35.64. view_routine_usage #](client-interfaces/information-schema/infoschema-view-routine-usage.md)
     * [35.65. view_table_usage #](client-interfaces/information-schema/infoschema-view-table-usage.md)
