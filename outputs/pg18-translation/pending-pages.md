@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：121 頁。
+待譯頁面：120 頁。
 
 ## 根目錄
 
@@ -251,7 +251,7 @@
 - [x] `client-interfaces/libpq/libpq-async.md` — 32.4. 非同步命令處理 #
 - [x] `client-interfaces/libpq/libpq-build.md` — 32.22. 建置 libpq 程式 #
 - [x] `client-interfaces/libpq/libpq-cancel.md` — 32.7. 取消進行中的查詢 #
-- [ ] `client-interfaces/libpq/libpq-connect.md` — 32.1. Database Connection Control Functions #
+- [x] `client-interfaces/libpq/libpq-connect.md` — 32.1. 資料庫連線控制函式 #
 - [x] `client-interfaces/libpq/libpq-control.md` — 32.11. 控制函式 #
 - [x] `client-interfaces/libpq/libpq-copy.md` — 32.10. 與 `COPY` 命令相關的函式 #
 - [x] `client-interfaces/libpq/libpq-envars.md` — 32.15. 環境變數 #

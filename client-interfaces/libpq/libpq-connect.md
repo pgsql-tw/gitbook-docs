@@ -1,50 +1,26 @@
-## 32.1. Database Connection Control Functions [#](#LIBPQ-CONNECT)
+<a id="LIBPQ-CONNECT"></a>
 
-[32.1.1. Connection Strings](libpq-connect.md#LIBPQ-CONNSTRING)
+## 32.1. 資料庫連線控制函式 [#](#LIBPQ-CONNECT)
 
-[32.1.2. Parameter Key Words](libpq-connect.md#LIBPQ-PARAMKEYWORDS)
+[32.1.1. 連線字串](libpq-connect.md#LIBPQ-CONNSTRING)
 
-The following functions deal with making a connection to a
-PostgreSQL backend server. An
-application program can have several backend connections open at
-one time. (One reason to do that is to access more than one
-database.) Each connection is represented by a
-`PGconn`<a id="id-1.7.3.8.2.3"></a> object, which
-is obtained from the function [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB),
-[`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS), or
-[`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN). Note that these functions will always
-return a non-null object pointer, unless perhaps there is too
-little memory even to allocate the `PGconn` object.
-The [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) function should be called to check
-the return value for a successful connection before queries are sent
-via the connection object.
+[32.1.2. 參數關鍵字](libpq-connect.md#LIBPQ-PARAMKEYWORDS)
 
-### Warning
+下列函式用於建立與 PostgreSQL 後端伺服器的連線。一個應用程式可以同時開啟多個後端連線。（這麼做的原因之一是為了存取超過一個資料庫。）每個連線都以一個 `PGconn`<a id="id-1.7.3.8.2.3"></a> 物件表示，此物件可由函式 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB)、[`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 或 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) 取得。請注意，這些函式一律會傳回非空的物件指標，除非（或許）記憶體少到連 `PGconn` 物件都無法配置。在透過連線物件送出查詢之前，應該呼叫 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 函式，檢查傳回值以確認連線成功。
 
-If untrusted users have access to a database that has not adopted a
-[secure schema usage pattern](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS),
-begin each session by removing publicly-writable schemas from
-`search_path`. One can set parameter key
-word `options` to
-value `-csearch_path=`. Alternately, one can
-issue `PQexec(conn, "SELECT
-pg_catalog.set_config('search_path', '', false)")` after
-connecting. This consideration is not specific
-to libpq; it applies to every interface for
-executing arbitrary SQL commands.
+### 警告
 
-### Warning
+如果不受信任的使用者可以存取一個尚未採用[安全綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)的資料庫，請在每個工作階段開始時，從 `search_path` 中移除可被公眾寫入的綱要。做法之一是將參數關鍵字 `options` 設為值 `-csearch_path=`。或者，也可以在連線後執行 `PQexec(conn, "SELECT
+pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq 所特有；它適用於每一種可執行任意 SQL 命令的介面。
 
-On Unix, forking a process with open libpq connections can lead to
-unpredictable results because the parent and child processes share
-the same sockets and operating system resources. For this reason,
-such usage is not recommended, though doing an `exec` from
-the child process to load a new executable is safe.
+### 警告
+
+在 Unix 上，於持有已開啟 libpq 連線的情況下 fork 程序，可能導致無法預期的結果，因為父程序與子程序會共用相同的通訊端與作業系統資源。因此不建議這樣使用；不過，從子程序執行 `exec` 來載入新的執行檔是安全的。
 
 <a id="LIBPQ-PQCONNECTDBPARAMS"></a>
 
 `PQconnectdbParams`<a id="id-1.7.3.8.2.11.1.1.2"></a> [#](#LIBPQ-PQCONNECTDBPARAMS)
-:   Makes a new connection to the database server.
+:   建立與資料庫伺服器的新連線。
 
     ```
 
@@ -53,81 +29,34 @@ the child process to load a new executable is safe.
                               int expand_dbname);
     ```
 
-    This function opens a new database connection using the parameters taken
-    from two `NULL`-terminated arrays. The first,
-    `keywords`, is defined as an array of strings, each one
-    being a key word. The second, `values`, gives the value
-    for each key word. Unlike [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) below, the parameter
-    set can be extended without changing the function signature, so use of
-    this function (or its nonblocking analogs [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)
-    and `PQconnectPoll`) is preferred for new application
-    programming.
+    此函式使用取自兩個以 `NULL` 結尾之陣列的參數來開啟新的資料庫連線。第一個陣列 `keywords` 定義為字串陣列，每個字串是一個關鍵字。第二個陣列 `values` 提供每個關鍵字的值。與下面的 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) 不同，參數集合可以在不變更函式簽章的情況下擴充，因此開發新的應用程式時，建議使用此函式（或其非阻塞版本 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 與 `PQconnectPoll`）。
 
-    The currently recognized parameter key words are listed in
-    [Section 32.1.2](libpq-connect.md#LIBPQ-PARAMKEYWORDS).
+    目前可辨識的參數關鍵字列於[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)。
 
-    The passed arrays can be empty to use all default parameters, or can
-    contain one or more parameter settings. They must be matched in length.
-    Processing will stop at the first `NULL` entry
-    in the `keywords` array.
-    Also, if the `values` entry associated with a
-    non-`NULL` `keywords` entry is
-    `NULL` or an empty string, that entry is ignored and
-    processing continues with the next pair of array entries.
+    傳入的陣列可以是空的，以使用全部的預設參數；也可以包含一個或多個參數設定。兩個陣列的長度必須相符。處理會在 `keywords` 陣列中第一個 `NULL` 項目處停止。此外，如果與某個非 `NULL` 之 `keywords` 項目相對應的 `values` 項目是 `NULL` 或空字串，該項目會被忽略，並繼續處理下一組陣列項目。
 
-    When `expand_dbname` is non-zero, the value for
-    the first *`dbname`* key word is checked to see
-    if it is a *connection string*. If so, it
-    is “expanded” into the individual connection
-    parameters extracted from the string. The value is considered to
-    be a connection string, rather than just a database name, if it
-    contains an equal sign (`=`) or it begins with a
-    URI scheme designator. (More details on connection string formats
-    appear in [Section 32.1.1](libpq-connect.md#LIBPQ-CONNSTRING).) Only the first
-    occurrence of *`dbname`* is treated in this way;
-    any subsequent *`dbname`* parameter is processed
-    as a plain database name.
+    當 `expand_dbname` 不為零時，會檢查第一個 *`dbname`* 關鍵字的值是否為*連線字串*。若是，就會將其「展開」為從字串中取出的個別連線參數。如果該值包含等號（`=`），或以 URI 架構（scheme）指示符開頭，就會被視為連線字串，而不只是資料庫名稱。（連線字串格式的更多細節見[第 32.1.1 節](libpq-connect.md#LIBPQ-CONNSTRING)。）只有第一次出現的 *`dbname`* 會以這種方式處理；之後的任何 *`dbname`* 參數都會當作一般的資料庫名稱處理。
 
-    In general the parameter arrays are processed from start to end.
-    If any key word is repeated, the last value (that is
-    not `NULL` or empty) is used. This rule applies in
-    particular when a key word found in a connection string conflicts
-    with one appearing in the `keywords` array. Thus,
-    the programmer may determine whether array entries can override or
-    be overridden by values taken from a connection string. Array
-    entries appearing before an expanded *`dbname`*
-    entry can be overridden by fields of the connection string, and in
-    turn those fields are overridden by array entries appearing
-    after *`dbname`* (but, again, only if those
-    entries supply non-empty values).
+    一般而言，參數陣列會從頭到尾依序處理。如果有任何關鍵字重複出現，會使用最後一個值（非 `NULL` 且非空者）。這項規則特別適用於連線字串中的關鍵字與 `keywords` 陣列中的關鍵字衝突的情況。因此，程式設計者可以決定陣列項目能否覆寫連線字串中取得的值，或能否被其覆寫。出現在展開的 *`dbname`* 項目之前的陣列項目，可以被連線字串的欄位覆寫；而這些欄位又會被出現在 *`dbname`* 之後的陣列項目覆寫（但同樣地，只有在這些項目提供非空值時才會如此）。
 
-    After processing all the array entries and any expanded connection
-    string, any connection parameters that remain unset are filled with
-    default values. If an unset parameter's corresponding environment
-    variable (see [Section 32.15](libpq-envars.md)) is set, its value is
-    used. If the environment variable is not set either, then the
-    parameter's built-in default value is used.
+    處理完所有陣列項目與任何展開的連線字串之後，仍未設定的連線參數會以預設值填入。如果未設定之參數所對應的環境變數（請參閱[第 32.15 節](libpq-envars.md)）有設定，就使用它的值。如果環境變數也沒有設定，則使用該參數的內建預設值。
 <a id="LIBPQ-PQCONNECTDB"></a>
 
 `PQconnectdb`<a id="id-1.7.3.8.2.11.2.1.2"></a> [#](#LIBPQ-PQCONNECTDB)
-:   Makes a new connection to the database server.
+:   建立與資料庫伺服器的新連線。
 
     ```
 
     PGconn *PQconnectdb(const char *conninfo);
     ```
 
-    This function opens a new database connection using the parameters taken
-    from the string `conninfo`.
+    此函式使用取自字串 `conninfo` 的參數來開啟新的資料庫連線。
 
-    The passed string can be empty to use all default parameters, or it can
-    contain one or more parameter settings separated by whitespace,
-    or it can contain a URI.
-    See [Section 32.1.1](libpq-connect.md#LIBPQ-CONNSTRING) for details.
+    傳入的字串可以是空的，以使用全部的預設參數；也可以包含一個或多個以空白分隔的參數設定；或者可以包含一個 URI。詳細資訊請參閱[第 32.1.1 節](libpq-connect.md#LIBPQ-CONNSTRING)。
 <a id="LIBPQ-PQSETDBLOGIN"></a>
 
 `PQsetdbLogin`<a id="id-1.7.3.8.2.11.3.1.2"></a> [#](#LIBPQ-PQSETDBLOGIN)
-:   Makes a new connection to the database server.
+:   建立與資料庫伺服器的新連線。
 
     ```
 
@@ -140,23 +69,15 @@ the child process to load a new executable is safe.
                          const char *pwd);
     ```
 
-    This is the predecessor of [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) with a fixed
-    set of parameters. It has the same functionality except that the
-    missing parameters will always take on default values. Write `NULL` or an
-    empty string for any one of the fixed parameters that is to be defaulted.
+    這是 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 的前身，具有固定的參數集合。它的功能相同，只是缺少的參數一律會採用預設值。對於任何要使用預設值的固定參數，請寫入 `NULL` 或空字串。
 
-    If the *`dbName`* contains
-    an `=` sign or has a valid connection URI prefix, it
-    is taken as a *`conninfo`* string in exactly the same way as
-    if it had been passed to [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB), and the remaining
-    parameters are then applied as specified for [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS).
+    如果 *`dbName`* 包含 `=` 符號或具有有效的連線 URI 前綴，它會被當作 *`conninfo`* 字串，處理方式與傳給 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 時完全相同，接著其餘參數再依 [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 所述的方式套用。
 
-    `pgtty` is no longer used and any value passed will
-    be ignored.
+    `pgtty` 已不再使用，傳入的任何值都會被忽略。
 <a id="LIBPQ-PQSETDB"></a>
 
 `PQsetdb`<a id="id-1.7.3.8.2.11.4.1.2"></a> [#](#LIBPQ-PQSETDB)
-:   Makes a new connection to the database server.
+:   建立與資料庫伺服器的新連線。
 
     ```
 
@@ -167,14 +88,12 @@ the child process to load a new executable is safe.
                     char *dbName);
     ```
 
-    This is a macro that calls [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) with null pointers
-    for the *`login`* and *`pwd`* parameters. It is provided
-    for backward compatibility with very old programs.
+    這是一個巨集，它呼叫 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN)，並以空指標作為 *`login`* 與 *`pwd`* 參數。提供它是為了與非常舊的程式保持向後相容性。
 <a id="LIBPQ-PQCONNECTSTARTPARAMS"></a>
 
 `PQconnectStartParams`<a id="id-1.7.3.8.2.11.5.1.2"></a><br>`PQconnectStart`<a id="id-1.7.3.8.2.11.5.2.2"></a><br><a id="LIBPQ-PQCONNECTPOLL"></a>`PQconnectPoll`<a id="id-1.7.3.8.2.11.5.3.2"></a> [#](#LIBPQ-PQCONNECTSTARTPARAMS)
 :   <a id="id-1.7.3.8.2.11.5.4.1.1"></a>
-    Make a connection to the database server in a nonblocking manner.
+    以非阻塞方式建立與資料庫伺服器的連線。
 
     ```
 
@@ -187,122 +106,62 @@ the child process to load a new executable is safe.
     PostgresPollingStatusType PQconnectPoll(PGconn *conn);
     ```
 
-    These three functions are used to open a connection to a database server such
-    that your application's thread of execution is not blocked on remote I/O
-    whilst doing so. The point of this approach is that the waits for I/O to
-    complete can occur in the application's main loop, rather than down inside
-    [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) or [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB), and so the
-    application can manage this operation in parallel with other activities.
+    這三個函式用於開啟與資料庫伺服器的連線，且在過程中不會讓應用程式的執行緒因遠端 I/O 而阻塞。這種做法的重點在於，等待 I/O 完成的動作可以發生在應用程式的主迴圈中，而不是在 [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 或 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 內部，因此應用程式可以在進行此操作的同時處理其他工作。
 
-    With [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS), the database connection is made
-    using the parameters taken from the `keywords` and
-    `values` arrays, and controlled by `expand_dbname`,
-    as described above for [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS).
+    使用 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 時，資料庫連線會使用取自 `keywords` 與 `values` 陣列的參數建立，並由 `expand_dbname` 控制，如前面 [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 所述。
 
-    With `PQconnectStart`, the database connection is made
-    using the parameters taken from the string `conninfo` as
-    described above for [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB).
+    使用 `PQconnectStart` 時，資料庫連線會使用取自字串 `conninfo` 的參數建立，如前面 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 所述。
 
-    Neither [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) nor `PQconnectStart`
-    nor `PQconnectPoll` will block, so long as a number of
-    restrictions are met:
+    只要滿足下列幾項限制，[`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)、`PQconnectStart` 與 `PQconnectPoll` 都不會阻塞：
 
-    * The `hostaddr` parameter must be used appropriately
-      to prevent DNS queries from being made. See the documentation of
-      this parameter in [Section 32.1.2](libpq-connect.md#LIBPQ-PARAMKEYWORDS) for details.
-    * If you call [`PQtrace`](libpq-control.md#LIBPQ-PQTRACE), ensure that the stream object
-      into which you trace will not block.
-    * You must ensure that the socket is in the appropriate state
-      before calling `PQconnectPoll`, as described below.
+    * 必須適當地使用 `hostaddr` 參數，以避免進行 DNS 查詢。詳細資訊請參閱[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)中此參數的說明。
+    * 如果你呼叫 [`PQtrace`](libpq-control.md#LIBPQ-PQTRACE)，請確保追蹤輸出所寫入的串流物件不會阻塞。
+    * 你必須確保在呼叫 `PQconnectPoll` 之前，通訊端處於適當的狀態，如下所述。
 
-    To begin a nonblocking connection request,
-    call `PQconnectStart`
-    or [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS). If the result is null,
-    then libpq has been unable to allocate a
-    new `PGconn` structure. Otherwise, a
-    valid `PGconn` pointer is returned (though not
-    yet representing a valid connection to the database). Next
-    call `PQstatus(conn)`. If the result
-    is `CONNECTION_BAD`, the connection attempt has already
-    failed, typically because of invalid connection parameters.
+    要開始一個非阻塞的連線請求，請呼叫 `PQconnectStart` 或 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)。如果結果為空（null），表示 libpq 無法配置新的 `PGconn` 結構。否則會傳回一個有效的 `PGconn` 指標（不過它尚未代表一個有效的資料庫連線）。接著呼叫 `PQstatus(conn)`。如果結果是 `CONNECTION_BAD`，表示連線嘗試已經失敗，通常是因為連線參數無效。
 
-    If `PQconnectStart`
-    or [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) succeeds, the next stage
-    is to poll libpq so that it can proceed with
-    the connection sequence.
-    Use `PQsocket(conn)` to obtain the descriptor of the
-    socket underlying the database connection.
-    (Caution: do not assume that the socket remains the same
-    across `PQconnectPoll` calls.)
-    Loop thus: If `PQconnectPoll(conn)` last returned
-    `PGRES_POLLING_READING`, wait until the socket is ready to
-    read (as indicated by `select()`, `poll()`, or
-    similar system function). Note that `PQsocketPoll`
-    can help reduce boilerplate by abstracting the setup of
-    `select(2)` or `poll(2)` if it is
-    available on your system.
-    Then call `PQconnectPoll(conn)` again.
-    Conversely, if `PQconnectPoll(conn)` last returned
-    `PGRES_POLLING_WRITING`, wait until the socket is ready
-    to write, then call `PQconnectPoll(conn)` again.
-    On the first iteration, i.e., if you have yet to call
-    `PQconnectPoll`, behave as if it last returned
-    `PGRES_POLLING_WRITING`. Continue this loop until
-    `PQconnectPoll(conn)` returns
-    `PGRES_POLLING_FAILED`, indicating the connection procedure
-    has failed, or `PGRES_POLLING_OK`, indicating the connection
-    has been successfully made.
+    如果 `PQconnectStart` 或 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 成功，下一階段是輪詢 libpq，讓它可以繼續進行連線程序。使用 `PQsocket(conn)` 取得資料庫連線底層通訊端的描述子。（注意：不要假設通訊端在多次 `PQconnectPoll` 呼叫之間保持不變。）依下列方式循環：如果 `PQconnectPoll(conn)` 上一次傳回 `PGRES_POLLING_READING`，就等待通訊端可供讀取（由 `select()`、`poll()` 或類似的系統函式指出）。請注意，如果你的系統上有 `select(2)` 或 `poll(2)`，`PQsocketPoll` 可以將其設定抽象化，有助於減少樣板程式碼。然後再次呼叫 `PQconnectPoll(conn)`。反之，如果 `PQconnectPoll(conn)` 上一次傳回 `PGRES_POLLING_WRITING`，就等待通訊端可供寫入，然後再次呼叫 `PQconnectPoll(conn)`。在第一次循環時，也就是你尚未呼叫 `PQconnectPoll` 時，請視為它上一次傳回了 `PGRES_POLLING_WRITING`。持續此循環，直到 `PQconnectPoll(conn)` 傳回 `PGRES_POLLING_FAILED`（表示連線程序已失敗），或傳回 `PGRES_POLLING_OK`（表示連線已成功建立）。
 
-    At any time during connection, the status of the connection can be
-    checked by calling [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS). If this call returns `CONNECTION_BAD`, then the
-    connection procedure has failed; if the call returns `CONNECTION_OK`, then the
-    connection is ready. Both of these states are equally detectable
-    from the return value of `PQconnectPoll`, described above. Other states might also occur
-    during (and only during) an asynchronous connection procedure. These
-    indicate the current stage of the connection procedure and might be useful
-    to provide feedback to the user for example. These statuses are:
+    在連線過程中的任何時刻，都可以呼叫 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 來檢查連線的狀態。如果此呼叫傳回 `CONNECTION_BAD`，表示連線程序已失敗；如果傳回 `CONNECTION_OK`，表示連線已就緒。這兩種狀態同樣可以從前述 `PQconnectPoll` 的傳回值偵測出來。在非同步連線程序期間（且只在此期間），也可能出現其他狀態。這些狀態指出連線程序目前所處的階段，例如可能有助於向使用者提供回饋。這些狀態如下：
 
     <a id="LIBPQ-CONNECTION-STARTED"></a>
 
     `CONNECTION_STARTED` [#](#LIBPQ-CONNECTION-STARTED)
-    :   Waiting for connection to be made.
+    :   正在等待連線建立。
     <a id="LIBPQ-CONNECTION-MADE"></a>
 
     `CONNECTION_MADE` [#](#LIBPQ-CONNECTION-MADE)
-    :   Connection OK; waiting to send.
+    :   連線正常；正在等待傳送。
     <a id="LIBPQ-CONNECTION-AWAITING-RESPONSE"></a>
 
     `CONNECTION_AWAITING_RESPONSE` [#](#LIBPQ-CONNECTION-AWAITING-RESPONSE)
-    :   Waiting for a response from the server.
+    :   正在等待伺服器的回應。
     <a id="LIBPQ-CONNECTION-AUTH-OK"></a>
 
     `CONNECTION_AUTH_OK` [#](#LIBPQ-CONNECTION-AUTH-OK)
-    :   Received authentication; waiting for backend start-up to finish.
+    :   已收到認證；正在等待後端完成啟動。
     <a id="LIBPQ-CONNECTION-SSL-STARTUP"></a>
 
     `CONNECTION_SSL_STARTUP` [#](#LIBPQ-CONNECTION-SSL-STARTUP)
-    :   Negotiating SSL encryption.
+    :   正在協商 SSL 加密。
     <a id="LIBPQ-CONNECTION-GSS-STARTUP"></a>
 
     `CONNECTION_GSS_STARTUP` [#](#LIBPQ-CONNECTION-GSS-STARTUP)
-    :   Negotiating GSS encryption.
+    :   正在協商 GSS 加密。
     <a id="LIBPQ-CONNECTION-CHECK-WRITABLE"></a>
 
     `CONNECTION_CHECK_WRITABLE` [#](#LIBPQ-CONNECTION-CHECK-WRITABLE)
-    :   Checking if connection is able to handle write transactions.
+    :   正在檢查連線能否處理寫入交易。
     <a id="LIBPQ-CONNECTION-CHECK-STANDBY"></a>
 
     `CONNECTION_CHECK_STANDBY` [#](#LIBPQ-CONNECTION-CHECK-STANDBY)
-    :   Checking if connection is to a server in standby mode.
+    :   正在檢查連線的對象是否為處於備用模式的伺服器。
     <a id="LIBPQ-CONNECTION-CONSUME"></a>
 
     `CONNECTION_CONSUME` [#](#LIBPQ-CONNECTION-CONSUME)
-    :   Consuming any remaining response messages on connection.
+    :   正在接收連線上剩餘的所有回應訊息。
 
-    Note that, although these constants will remain (in order to maintain
-    compatibility), an application should never rely upon these occurring in a
-    particular order, or at all, or on the status always being one of these
-    documented values. An application might do something like this:
+    請注意，雖然這些常數會保留下來（以維持相容性），但應用程式絕不應該依賴這些狀態以特定順序出現或一定會出現，也不應該依賴狀態一律是這些已記載的值之一。應用程式可以像這樣處理：
 
     ```
 
@@ -323,28 +182,14 @@ the child process to load a new executable is safe.
     }
     ```
 
-    The `connect_timeout` connection parameter is ignored
-    when using `PQconnectPoll`; it is the application's
-    responsibility to decide whether an excessive amount of time has elapsed.
-    Otherwise, `PQconnectStart` followed by a
-    `PQconnectPoll` loop is equivalent to
-    [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB).
+    使用 `PQconnectPoll` 時，`connect_timeout` 連線參數會被忽略；判斷是否已經過太長的時間，是應用程式的責任。除此之外，`PQconnectStart` 加上 `PQconnectPoll` 迴圈等同於 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB)。
 
-    Note that when `PQconnectStart`
-    or [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) returns a non-null
-    pointer, you must call [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) when you are
-    finished with it, in order to dispose of the structure and any
-    associated memory blocks. This must be done even if the connection
-    attempt fails or is abandoned.
+    請注意，當 `PQconnectStart` 或 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 傳回非空指標時，你在使用完畢後必須呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH)，以釋放該結構及任何相關聯的記憶體區塊。即使連線嘗試失敗或被放棄，也必須這麼做。
 <a id="LIBPQ-PQSOCKETPOLL"></a>
 
 `PQsocketPoll`<a id="id-1.7.3.8.2.11.6.1.2"></a> [#](#LIBPQ-PQSOCKETPOLL)
 :   <a id="id-1.7.3.8.2.11.6.2.1.1"></a>
-    Poll a connection's underlying socket descriptor retrieved with
-    [`PQsocket`](libpq-status.md#LIBPQ-PQSOCKET).
-    The primary use of this function is iterating through the connection
-    sequence described in the documentation of
-    [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS).
+    輪詢以 [`PQsocket`](libpq-status.md#LIBPQ-PQSOCKET) 取得的連線底層通訊端描述子。此函式的主要用途是逐步完成 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 說明中所述的連線程序。
 
     ```
 
@@ -354,45 +199,17 @@ the child process to load a new executable is safe.
                      pg_usec_time_t end_time);
     ```
 
-    This function performs polling of a file descriptor, optionally with
-    a timeout.
-    If *`forRead`* is nonzero, the
-    function will terminate when the socket is ready for
-    reading. If *`forWrite`* is nonzero,
-    the function will terminate when the
-    socket is ready for writing.
+    此函式對檔案描述子進行輪詢，並可選擇設定逾時。如果 *`forRead`* 不為零，函式會在通訊端可供讀取時結束。如果 *`forWrite`* 不為零，函式會在通訊端可供寫入時結束。
 
-    The timeout is specified by *`end_time`*, which
-    is the time to stop waiting expressed as a number of microseconds since
-    the Unix epoch (that is, `time_t` times 1 million).
-    Timeout is infinite if *`end_time`*
-    is `-1`. Timeout is immediate (no blocking) if
-    *`end_time`* is `0` (or indeed, any
-    time before now). Timeout values can be calculated conveniently by
-    adding the desired number of microseconds to the result of
-    [`PQgetCurrentTimeUSec`](libpq-misc.md#LIBPQ-PQGETCURRENTTIMEUSEC).
-    Note that the underlying system calls may have less than microsecond
-    precision, so that the actual delay may be imprecise.
+    逾時由 *`end_time`* 指定，也就是停止等待的時間，以自 Unix 紀元起算的微秒數表示（亦即 `time_t` 乘以 1 百萬）。如果 *`end_time`* 是 `-1`，逾時為無限。如果 *`end_time`* 是 `0`（或者實際上是現在之前的任何時間），則立即逾時（不阻塞）。逾時值可以方便地透過將所需的微秒數加到 [`PQgetCurrentTimeUSec`](libpq-misc.md#LIBPQ-PQGETCURRENTTIMEUSEC) 的結果上來計算。請注意，底層系統呼叫的精確度可能低於微秒，因此實際的延遲可能不精確。
 
-    The function returns a value greater than `0` if the
-    specified condition is met, `0` if a timeout occurred,
-    or `-1` if an error occurred. The error can be
-    retrieved by checking the `errno(3)` value. In the
-    event both *`forRead`*
-    and *`forWrite`* are zero, the function immediately
-    returns a timeout indication.
+    如果指定的條件已滿足，函式會傳回大於 `0` 的值；如果發生逾時，傳回 `0`；如果發生錯誤，則傳回 `-1`。錯誤可以透過檢查 `errno(3)` 的值取得。如果 *`forRead`* 與 *`forWrite`* 都為零，函式會立即傳回逾時指示。
 
-    `PQsocketPoll` is implemented using either
-    `poll(2)` or `select(2)`,
-    depending on platform. See `POLLIN`
-    and `POLLOUT` from `poll(2)`,
-    or *`readfds`* and
-    *`writefds`* from `select(2)`,
-    for more information.
+    `PQsocketPoll` 依平台不同，以 `poll(2)` 或 `select(2)` 實作。更多資訊請參閱 `poll(2)` 中的 `POLLIN` 與 `POLLOUT`，或 `select(2)` 中的 *`readfds`* 與 *`writefds`*。
 <a id="LIBPQ-PQCONNDEFAULTS"></a>
 
 `PQconndefaults`<a id="id-1.7.3.8.2.11.7.1.2"></a> [#](#LIBPQ-PQCONNDEFAULTS)
-:   Returns the default connection options.
+:   傳回預設的連線選項。
 
     ```
 
@@ -414,106 +231,63 @@ the child process to load a new executable is safe.
     } PQconninfoOption;
     ```
 
-    Returns a connection options array. This can be used to determine
-    all possible [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) options and their
-    current default values. The return value points to an array of
-    `PQconninfoOption` structures, which ends
-    with an entry having a null `keyword` pointer. The
-    null pointer is returned if memory could not be allocated. Note that
-    the current default values (`val` fields)
-    will depend on environment variables and other context. A
-    missing or invalid service file will be silently ignored. Callers
-    must treat the connection options data as read-only.
+    傳回一個連線選項陣列。這可用來找出所有可能的 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 選項及其目前的預設值。傳回值指向一個 `PQconninfoOption` 結構的陣列，該陣列以一個 `keyword` 為空指標的項目結尾。如果無法配置記憶體，則傳回空指標。請注意，目前的預設值（`val` 欄位）會取決於環境變數及其他環境狀態。缺少或無效的服務檔會被默默忽略。呼叫者必須將連線選項資料視為唯讀。
 
-    After processing the options array, free it by passing it to
-    [`PQconninfoFree`](libpq-misc.md#LIBPQ-PQCONNINFOFREE). If this is not done, a small amount of memory
-    is leaked for each call to [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS).
+    處理完選項陣列之後，請將它傳給 [`PQconninfoFree`](libpq-misc.md#LIBPQ-PQCONNINFOFREE) 以釋放它。如果沒有這麼做，每次呼叫 [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS) 都會洩漏少量記憶體。
 <a id="LIBPQ-PQCONNINFO"></a>
 
 `PQconninfo`<a id="id-1.7.3.8.2.11.8.1.2"></a> [#](#LIBPQ-PQCONNINFO)
-:   Returns the connection options used by a live connection.
+:   傳回作用中連線所使用的連線選項。
 
     ```
 
     PQconninfoOption *PQconninfo(PGconn *conn);
     ```
 
-    Returns a connection options array. This can be used to determine
-    all possible [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) options and the
-    values that were used to connect to the server. The return
-    value points to an array of `PQconninfoOption`
-    structures, which ends with an entry having a null `keyword`
-    pointer. All notes above for [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS) also
-    apply to the result of [`PQconninfo`](libpq-connect.md#LIBPQ-PQCONNINFO).
+    傳回一個連線選項陣列。這可用來找出所有可能的 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 選項，以及連線到伺服器時所使用的值。傳回值指向一個 `PQconninfoOption` 結構的陣列，該陣列以一個 `keyword` 為空指標的項目結尾。前面關於 [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS) 的所有說明，也適用於 [`PQconninfo`](libpq-connect.md#LIBPQ-PQCONNINFO) 的結果。
 <a id="LIBPQ-PQCONNINFOPARSE"></a>
 
 `PQconninfoParse`<a id="id-1.7.3.8.2.11.9.1.2"></a> [#](#LIBPQ-PQCONNINFOPARSE)
-:   Returns parsed connection options from the provided connection string.
+:   傳回從所提供之連線字串剖析出的連線選項。
 
     ```
 
     PQconninfoOption *PQconninfoParse(const char *conninfo, char **errmsg);
     ```
 
-    Parses a connection string and returns the resulting options as an
-    array; or returns `NULL` if there is a problem with the connection
-    string. This function can be used to extract
-    the [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) options in the provided
-    connection string. The return value points to an array of
-    `PQconninfoOption` structures, which ends
-    with an entry having a null `keyword` pointer.
+    剖析連線字串，並以陣列形式傳回產生的選項；如果連線字串有問題，則傳回 `NULL`。此函式可用來取出所提供之連線字串中的 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 選項。傳回值指向一個 `PQconninfoOption` 結構的陣列，該陣列以一個 `keyword` 為空指標的項目結尾。
 
-    All legal options will be present in the result array, but the
-    `PQconninfoOption` for any option not present
-    in the connection string will have `val` set to
-    `NULL`; default values are not inserted.
+    所有合法的選項都會出現在結果陣列中，但對於連線字串中沒有出現的選項，其 `PQconninfoOption` 的 `val` 會設為 `NULL`；不會填入預設值。
 
-    If `errmsg` is not `NULL`, then `*errmsg` is set
-    to `NULL` on success, else to a `malloc`'d error string explaining
-    the problem. (It is also possible for `*errmsg` to be
-    set to `NULL` and the function to return `NULL`;
-    this indicates an out-of-memory condition.)
+    如果 `errmsg` 不是 `NULL`，那麼成功時 `*errmsg` 會設為 `NULL`，否則設為一個以 `malloc` 配置、說明問題所在的錯誤字串。（`*errmsg` 也可能被設為 `NULL` 而函式傳回 `NULL`；這表示記憶體不足。）
 
-    After processing the options array, free it by passing it to
-    [`PQconninfoFree`](libpq-misc.md#LIBPQ-PQCONNINFOFREE). If this is not done, some memory
-    is leaked for each call to [`PQconninfoParse`](libpq-connect.md#LIBPQ-PQCONNINFOPARSE).
-    Conversely, if an error occurs and `errmsg` is not `NULL`,
-    be sure to free the error string using [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM).
+    處理完選項陣列之後，請將它傳給 [`PQconninfoFree`](libpq-misc.md#LIBPQ-PQCONNINFOFREE) 以釋放它。如果沒有這麼做，每次呼叫 [`PQconninfoParse`](libpq-connect.md#LIBPQ-PQCONNINFOPARSE) 都會洩漏一些記憶體。反之，如果發生錯誤且 `errmsg` 不是 `NULL`，請務必使用 [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 釋放錯誤字串。
 <a id="LIBPQ-PQFINISH"></a>
 
 `PQfinish`<a id="id-1.7.3.8.2.11.10.1.2"></a> [#](#LIBPQ-PQFINISH)
-:   Closes the connection to the server. Also frees
-    memory used by the `PGconn` object.
+:   關閉與伺服器的連線。同時釋放 `PGconn` 物件所使用的記憶體。
 
     ```
 
     void PQfinish(PGconn *conn);
     ```
 
-    Note that even if the server connection attempt fails (as
-    indicated by [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS)), the application should call [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH)
-    to free the memory used by the `PGconn` object.
-    The `PGconn` pointer must not be used again after
-    [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) has been called.
+    請注意，即使伺服器連線嘗試失敗（由 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 指出），應用程式仍應呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 以釋放 `PGconn` 物件所使用的記憶體。呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 之後，就不得再使用 `PGconn` 指標。
 <a id="LIBPQ-PQRESET"></a>
 
 `PQreset`<a id="id-1.7.3.8.2.11.11.1.2"></a> [#](#LIBPQ-PQRESET)
-:   Resets the communication channel to the server.
+:   重設與伺服器之間的通訊通道。
 
     ```
 
     void PQreset(PGconn *conn);
     ```
 
-    This function will close the connection
-    to the server and attempt to establish a new
-    connection, using all the same
-    parameters previously used. This might be useful for
-    error recovery if a working connection is lost.
+    此函式會關閉與伺服器的連線，並嘗試使用先前用過的所有相同參數建立新連線。如果正常運作的連線中斷，這可能有助於錯誤復原。
 <a id="LIBPQ-PQRESETSTART"></a>
 
 `PQresetStart`<a id="id-1.7.3.8.2.11.12.1.2"></a><br>`PQresetPoll`<a id="id-1.7.3.8.2.11.12.2.2"></a> [#](#LIBPQ-PQRESETSTART)
-:   Reset the communication channel to the server, in a nonblocking manner.
+:   以非阻塞方式重設與伺服器之間的通訊通道。
 
     ```
 
@@ -522,28 +296,13 @@ the child process to load a new executable is safe.
     PostgresPollingStatusType PQresetPoll(PGconn *conn);
     ```
 
-    These functions will close the connection to the server and attempt to
-    establish a new connection, using all the same
-    parameters previously used. This can be useful for error recovery if a
-    working connection is lost. They differ from [`PQreset`](libpq-connect.md#LIBPQ-PQRESET) (above) in that they
-    act in a nonblocking manner. These functions suffer from the same
-    restrictions as [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS), `PQconnectStart`
-    and `PQconnectPoll`.
+    這些函式會關閉與伺服器的連線，並嘗試使用先前用過的所有相同參數建立新連線。如果正常運作的連線中斷，這可以用來進行錯誤復原。它們與 [`PQreset`](libpq-connect.md#LIBPQ-PQRESET)（前述）的差別在於它們以非阻塞方式運作。這些函式受到與 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)、`PQconnectStart` 及 `PQconnectPoll` 相同的限制。
 
-    To initiate a connection reset, call
-    [`PQresetStart`](libpq-connect.md#LIBPQ-PQRESETSTART). If it returns 0, the reset has
-    failed. If it returns 1, poll the reset using
-    `PQresetPoll` in exactly the same way as you
-    would create the connection using `PQconnectPoll`.
+    要開始重設連線，請呼叫 [`PQresetStart`](libpq-connect.md#LIBPQ-PQRESETSTART)。如果它傳回 0，表示重設失敗。如果它傳回 1，就使用 `PQresetPoll` 輪詢重設過程，方式與使用 `PQconnectPoll` 建立連線時完全相同。
 <a id="LIBPQ-PQPINGPARAMS"></a>
 
 `PQpingParams`<a id="id-1.7.3.8.2.11.13.1.2"></a> [#](#LIBPQ-PQPINGPARAMS)
-:   [`PQpingParams`](libpq-connect.md#LIBPQ-PQPINGPARAMS) reports the status of the
-    server. It accepts connection parameters identical to those of
-    [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS), described above. It is not
-    necessary to supply correct user name, password, or database name
-    values to obtain the server status; however, if incorrect values
-    are provided, the server will log a failed connection attempt.
+:   [`PQpingParams`](libpq-connect.md#LIBPQ-PQPINGPARAMS) 回報伺服器的狀態。它接受與前述 [`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 完全相同的連線參數。要取得伺服器狀態，不需要提供正確的使用者名稱、密碼或資料庫名稱值；不過，如果提供的值不正確，伺服器會記錄一次失敗的連線嘗試。
 
     ```
 
@@ -552,99 +311,63 @@ the child process to load a new executable is safe.
                         int expand_dbname);
     ```
 
-    The function returns one of the following values:
+    此函式傳回下列值之一：
 
     <a id="LIBPQ-PQPINGPARAMS-PQPING_OK"></a>
 
     `PQPING_OK` [#](#LIBPQ-PQPINGPARAMS-PQPING_OK)
-    :   The server is running and appears to be accepting connections.
+    :   伺服器正在執行，而且看起來正在接受連線。
     <a id="LIBPQ-PQPINGPARAMS-PQPING_REJECT"></a>
 
     `PQPING_REJECT` [#](#LIBPQ-PQPINGPARAMS-PQPING_REJECT)
-    :   The server is running but is in a state that disallows connections
-        (startup, shutdown, or crash recovery).
+    :   伺服器正在執行，但處於不允許連線的狀態（啟動中、關閉中或當機復原中）。
     <a id="LIBPQ-PQPINGPARAMS-PQPING_NO_RESPONSE"></a>
 
     `PQPING_NO_RESPONSE` [#](#LIBPQ-PQPINGPARAMS-PQPING_NO_RESPONSE)
-    :   The server could not be contacted. This might indicate that the
-        server is not running, or that there is something wrong with the
-        given connection parameters (for example, wrong port number), or
-        that there is a network connectivity problem (for example, a
-        firewall blocking the connection request).
+    :   無法與伺服器聯繫。這可能表示伺服器沒有在執行，或者所提供的連線參數有問題（例如連接埠號碼錯誤），或者有網路連通性問題（例如防火牆阻擋了連線請求）。
     <a id="LIBPQ-PQPINGPARAMS-PQPING_NO_ATTEMPT"></a>
 
     `PQPING_NO_ATTEMPT` [#](#LIBPQ-PQPINGPARAMS-PQPING_NO_ATTEMPT)
-    :   No attempt was made to contact the server, because the supplied
-        parameters were obviously incorrect or there was some client-side
-        problem (for example, out of memory).
+    :   沒有嘗試聯繫伺服器，因為所提供的參數明顯不正確，或者用戶端有某些問題（例如記憶體不足）。
 <a id="LIBPQ-PQPING"></a>
 
 `PQping`<a id="id-1.7.3.8.2.11.14.1.2"></a> [#](#LIBPQ-PQPING)
-:   [`PQping`](libpq-connect.md#LIBPQ-PQPING) reports the status of the
-    server. It accepts connection parameters identical to those of
-    [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB), described above. It is not
-    necessary to supply correct user name, password, or database name
-    values to obtain the server status; however, if incorrect values
-    are provided, the server will log a failed connection attempt.
+:   [`PQping`](libpq-connect.md#LIBPQ-PQPING) 回報伺服器的狀態。它接受與前述 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 完全相同的連線參數。要取得伺服器狀態，不需要提供正確的使用者名稱、密碼或資料庫名稱值；不過，如果提供的值不正確，伺服器會記錄一次失敗的連線嘗試。
 
     ```
 
     PGPing PQping(const char *conninfo);
     ```
 
-    The return values are the same as for [`PQpingParams`](libpq-connect.md#LIBPQ-PQPINGPARAMS).
+    傳回值與 [`PQpingParams`](libpq-connect.md#LIBPQ-PQPINGPARAMS) 相同。
 <a id="LIBPQ-PQSETSSLKEYPASSHOOK-OPENSSL"></a>
 
 `PQsetSSLKeyPassHook_OpenSSL`<a id="id-1.7.3.8.2.11.15.1.2"></a> [#](#LIBPQ-PQSETSSLKEYPASSHOOK-OPENSSL)
-:   `PQsetSSLKeyPassHook_OpenSSL` lets an application override
-    libpq's [default
-    handling of encrypted client certificate key files](libpq-ssl.md#LIBPQ-SSL-CLIENTCERT) using
-    [sslpassword](libpq-connect.md#LIBPQ-CONNECT-SSLPASSWORD) or interactive prompting.
+:   `PQsetSSLKeyPassHook_OpenSSL` 讓應用程式可以覆寫 libpq 對[加密之用戶端憑證金鑰檔的預設處理方式](libpq-ssl.md#LIBPQ-SSL-CLIENTCERT)，也就是使用 [sslpassword](libpq-connect.md#LIBPQ-CONNECT-SSLPASSWORD) 或互動式提示。
 
     ```
 
     void PQsetSSLKeyPassHook_OpenSSL(PQsslKeyPassHook_OpenSSL_type hook);
     ```
 
-    The application passes a pointer to a callback function with signature:
+    應用程式傳入一個指向回呼函式的指標，其簽章為：
 
     ```
 
     int callback_fn(char *buf, int size, PGconn *conn);
     ```
 
-    which libpq will then call
-    *instead of* its default
-    `PQdefaultSSLKeyPassHook_OpenSSL` handler. The
-    callback should determine the password for the key and copy it to
-    result-buffer *`buf`* of size
-    *`size`*. The string in *`buf`*
-    must be null-terminated. The callback must return the length of the
-    password stored in *`buf`* excluding the null
-    terminator. On failure, the callback should set
-    `buf[0] = '\0'` and return 0. See
-    `PQdefaultSSLKeyPassHook_OpenSSL` in
-    libpq's source code for an example.
+    之後 libpq 就會呼叫此回呼函式，*取代*其預設的 `PQdefaultSSLKeyPassHook_OpenSSL` 處理函式。回呼函式應該決定金鑰的密碼，並將它複製到大小為 *`size`* 的結果緩衝區 *`buf`*。*`buf`* 中的字串必須以 null 結尾。回呼函式必須傳回儲存在 *`buf`* 中之密碼的長度，不含 null 結尾字元。失敗時，回呼函式應該設定 `buf[0] = '\0'` 並傳回 0。範例請參閱 libpq 原始碼中的 `PQdefaultSSLKeyPassHook_OpenSSL`。
 
-    If the user specified an explicit key location,
-    its path will be in `conn->sslkey` when the callback
-    is invoked. This will be empty if the default key path is being used.
-    For keys that are engine specifiers, it is up to engine implementations
-    whether they use the OpenSSL password
-    callback or define their own handling.
+    如果使用者明確指定了金鑰位置，在呼叫回呼函式時，其路徑會存放在 `conn->sslkey` 中。如果使用的是預設金鑰路徑，此值會是空的。對於屬於引擎指定符的金鑰，是否使用 OpenSSL 密碼回呼函式或自行定義處理方式，由引擎實作決定。
 
-    The app callback may choose to delegate unhandled cases to
-    `PQdefaultSSLKeyPassHook_OpenSSL`,
-    or call it first and try something else if it returns 0, or completely override it.
+    應用程式的回呼函式可以選擇將未處理的情況委派給 `PQdefaultSSLKeyPassHook_OpenSSL`，或者先呼叫它，若它傳回 0 再嘗試其他做法，或者完全覆寫它。
 
-    The callback *must not* escape normal flow control with exceptions,
-    `longjmp(...)`, etc. It must return normally.
+    回呼函式*不得*以例外、`longjmp(...)` 等方式跳脫正常的流程控制。它必須正常地返回。
 <a id="LIBPQ-PQGETSSLKEYPASSHOOK-OPENSSL"></a>
 
 `PQgetSSLKeyPassHook_OpenSSL`<a id="id-1.7.3.8.2.11.16.1.2"></a> [#](#LIBPQ-PQGETSSLKEYPASSHOOK-OPENSSL)
-:   `PQgetSSLKeyPassHook_OpenSSL` returns the current
-    client certificate key password hook, or `NULL`
-    if none has been set.
+:   `PQgetSSLKeyPassHook_OpenSSL` 傳回目前的用戶端憑證金鑰密碼掛鉤；如果尚未設定任何掛鉤，則傳回 `NULL`。
 
     ```
 
@@ -653,46 +376,33 @@ the child process to load a new executable is safe.
 
 <a id="LIBPQ-CONNSTRING"></a>
 
-### 32.1.1. Connection Strings [#](#LIBPQ-CONNSTRING)
+### 32.1.1. 連線字串 [#](#LIBPQ-CONNSTRING)
 
 <a id="id-1.7.3.8.3.2"></a><a id="id-1.7.3.8.3.3"></a>
 
-Several libpq functions parse a user-specified string to obtain
-connection parameters. There are two accepted formats for these strings:
-plain keyword/value strings
-and URIs. URIs generally follow
-[RFC
-3986](https://datatracker.ietf.org/doc/html/rfc3986), except that multi-host connection strings are allowed
-as further described below.
+有幾個 libpq 函式會剖析使用者指定的字串以取得連線參數。這些字串有兩種可接受的格式：一般的關鍵字／值字串與 URI。URI 大致上遵循 [RFC
+3986](https://datatracker.ietf.org/doc/html/rfc3986)，但允許如下文進一步所述的多主機連線字串。
 
 <a id="LIBPQ-CONNSTRING-KEYWORD-VALUE"></a>
 
-#### 32.1.1.1. Keyword/Value Connection Strings [#](#LIBPQ-CONNSTRING-KEYWORD-VALUE)
+#### 32.1.1.1. 關鍵字／值連線字串 [#](#LIBPQ-CONNSTRING-KEYWORD-VALUE)
 
-In the keyword/value format, each parameter setting is in the form
-*`keyword`* `=`
-*`value`*, with space(s) between settings.
-Spaces around a setting's equal sign are
-optional. To write an empty value, or a value containing spaces, surround it
-with single quotes, for example `keyword = 'a value'`.
-Single quotes and backslashes within
-a value must be escaped with a backslash, i.e., `\'` and
-`\\`.
+在關鍵字／值格式中，每個參數設定的形式為 *`keyword`* `=` *`value`*，設定之間以空白分隔。設定中等號兩側的空白可有可無。要寫入空值或包含空白的值，請以單引號括住，例如 `keyword = 'a value'`。值中的單引號與反斜線必須以反斜線跳脫，也就是 `\'` 與 `\\`。
 
-Example:
+範例：
 
 ```
 
 host=localhost port=5432 dbname=mydb connect_timeout=10
 ```
 
-The recognized parameter key words are listed in [Section 32.1.2](libpq-connect.md#LIBPQ-PARAMKEYWORDS).
+可辨識的參數關鍵字列於[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)。
 
 <a id="LIBPQ-CONNSTRING-URIS"></a>
 
-#### 32.1.1.2. Connection URIs [#](#LIBPQ-CONNSTRING-URIS)
+#### 32.1.1.2. 連線 URI [#](#LIBPQ-CONNSTRING-URIS)
 
-The general form for a connection URI is:
+連線 URI 的一般形式為：
 
 ```
 
@@ -711,10 +421,7 @@ and paramspec is:
 name=value[&...]
 ```
 
-The URI scheme designator can be either
-`postgresql://` or `postgres://`. Each
-of the remaining URI parts is optional. The
-following examples illustrate valid URI syntax:
+URI 架構（scheme）指示符可以是 `postgresql://` 或 `postgres://`。URI 其餘的每個部分都是選用的。下列範例示範有效的 URI 語法：
 
 ```
 
@@ -728,48 +435,30 @@ postgresql://other@localhost/otherdb?connect_timeout=10&application_name=myapp
 postgresql://host1:123,host2:456/somedb?target_session_attrs=any&application_name=myapp
 ```
 
-Values that would normally appear in the hierarchical part of
-the URI can alternatively be given as named
-parameters. For example:
+通常出現在 URI 階層部分的值，也可以改用具名參數提供。例如：
 
 ```
 
 postgresql:///mydb?host=localhost&port=5433
 ```
 
-All named parameters must match key words listed in
-[Section 32.1.2](libpq-connect.md#LIBPQ-PARAMKEYWORDS), except that for compatibility
-with JDBC connection URIs, instances
-of `ssl=true` are translated into
-`sslmode=require`.
+所有具名參數都必須符合[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)所列的關鍵字，但為了與 JDBC 連線 URI 相容，`ssl=true` 會被轉換為 `sslmode=require`。
 
-The connection URI needs to be encoded with [percent-encoding](https://datatracker.ietf.org/doc/html/rfc3986#section-2.1)
-if it includes symbols with special meaning in any of its parts. Here is
-an example where the equal sign (`=`) is replaced with
-`%3D` and the space character with
-`%20`:
+如果連線 URI 的任何部分包含具有特殊意義的符號，就需要以[百分比編碼](https://datatracker.ietf.org/doc/html/rfc3986#section-2.1)進行編碼。以下範例中，等號（`=`）被替換為 `%3D`，空白字元被替換為 `%20`：
 
 ```
 
 postgresql://user@localhost:5433/mydb?options=-c%20synchronous_commit%3Doff
 ```
 
-The host part may be either a host name or an IP address. To specify an
-IPv6 address, enclose it in square brackets:
+主機部分可以是主機名稱或 IP 位址。要指定 IPv6 位址，請以方括號括住：
 
 ```
 
 postgresql://[2001:db8::1234]/database
 ```
 
-The host part is interpreted as described for the parameter [host](libpq-connect.md#LIBPQ-CONNECT-HOST). In particular, a Unix-domain socket
-connection is chosen if the host part is either empty or looks like an
-absolute path name,
-otherwise a TCP/IP connection is initiated. Note, however, that the
-slash is a reserved character in the hierarchical part of the URI. So, to
-specify a non-standard Unix-domain socket directory, either omit the host
-part of the URI and specify the host as a named parameter, or
-percent-encode the path in the host part of the URI:
+主機部分的解讀方式與參數 [host](libpq-connect.md#LIBPQ-CONNECT-HOST) 的說明相同。特別是，如果主機部分是空的或看起來像絕對路徑名稱，就會選擇 Unix 網域通訊端連線，否則會發起 TCP/IP 連線。不過請注意，斜線在 URI 的階層部分中是保留字元。因此，要指定非標準的 Unix 網域通訊端目錄，可以省略 URI 的主機部分並將主機指定為具名參數，或者在 URI 的主機部分中對路徑進行百分比編碼：
 
 ```
 
@@ -777,939 +466,424 @@ postgresql:///dbname?host=/var/lib/postgresql
 postgresql://%2Fvar%2Flib%2Fpostgresql/dbname
 ```
 
-It is possible to specify multiple host components, each with an optional
-port component, in a single URI. A URI of the form
-`postgresql://host1:port1,host2:port2,host3:port3/`
-is equivalent to a connection string of the form
-`host=host1,host2,host3 port=port1,port2,port3`.
-As further described below, each
-host will be tried in turn until a connection is successfully established.
+可以在單一 URI 中指定多個主機元件，每個主機元件都可以選擇性地搭配連接埠元件。形式為 `postgresql://host1:port1,host2:port2,host3:port3/` 的 URI，等同於形式為 `host=host1,host2,host3 port=port1,port2,port3` 的連線字串。如下文進一步所述，會依序嘗試每個主機，直到成功建立連線為止。
 
 <a id="LIBPQ-MULTIPLE-HOSTS"></a>
 
-#### 32.1.1.3. Specifying Multiple Hosts [#](#LIBPQ-MULTIPLE-HOSTS)
+#### 32.1.1.3. 指定多個主機 [#](#LIBPQ-MULTIPLE-HOSTS)
 
-It is possible to specify multiple hosts to connect to, so that they are
-tried in the given order. In the Keyword/Value format, the `host`,
-`hostaddr`, and `port` options accept comma-separated
-lists of values. The same number of elements must be given in each
-option that is specified, such
-that e.g., the first `hostaddr` corresponds to the first host name,
-the second `hostaddr` corresponds to the second host name, and so
-forth. As an exception, if only one `port` is specified, it
-applies to all the hosts.
+可以指定多個要連線的主機，讓它們依指定的順序嘗試。在關鍵字／值格式中，`host`、`hostaddr` 與 `port` 選項接受以逗號分隔的值清單。在每個有指定的選項中，必須提供相同數量的元素，例如第一個 `hostaddr` 對應第一個主機名稱，第二個 `hostaddr` 對應第二個主機名稱，依此類推。例外的是，如果只指定了一個 `port`，它會套用到所有主機。
 
-In the connection URI format, you can list multiple `host:port` pairs
-separated by commas in the `host` component of the URI.
+在連線 URI 格式中，你可以在 URI 的 `host` 元件中列出多個以逗號分隔的 `host:port` 配對。
 
-In either format, a single host name can translate to multiple network
-addresses. A common example of this is a host that has both an IPv4 and
-an IPv6 address.
+無論使用哪種格式，單一主機名稱都可能解析為多個網路位址。常見的例子是一台同時具有 IPv4 與 IPv6 位址的主機。
 
-When multiple hosts are specified, or when a single host name is
-translated to multiple addresses, all the hosts and addresses will be
-tried in order, until one succeeds. If none of the hosts can be reached,
-the connection fails. If a connection is established successfully, but
-authentication fails, the remaining hosts in the list are not tried.
+當指定了多個主機，或單一主機名稱解析為多個位址時，會依序嘗試所有的主機與位址，直到其中一個成功為止。如果所有主機都無法連上，連線就會失敗。如果成功建立了連線但認證失敗，就不會再嘗試清單中其餘的主機。
 
-If a password file is used, you can have different passwords for
-different hosts. All the other connection options are the same for every
-host in the list; it is not possible to e.g., specify different
-usernames for different hosts.
+如果使用密碼檔，你可以為不同的主機設定不同的密碼。其他所有連線選項對清單中的每個主機都相同；例如，無法為不同的主機指定不同的使用者名稱。
 
 <a id="LIBPQ-PARAMKEYWORDS"></a>
 
-### 32.1.2. Parameter Key Words [#](#LIBPQ-PARAMKEYWORDS)
+### 32.1.2. 參數關鍵字 [#](#LIBPQ-PARAMKEYWORDS)
 
-The currently recognized parameter key words are:
+目前可辨識的參數關鍵字如下：
 
 <a id="LIBPQ-CONNECT-HOST"></a>
 
 `host` [#](#LIBPQ-CONNECT-HOST)
-:   Name of host to connect to.<a id="id-1.7.3.8.4.2.1.1.2.1.1"></a> If a host name looks like an absolute path
-    name, it specifies Unix-domain communication rather than TCP/IP
-    communication; the value is the name of the directory in which the
-    socket file is stored. (On Unix, an absolute path name begins with a
-    slash. On Windows, paths starting with drive letters are also
-    recognized.) If the host name starts with `@`, it is
-    taken as a Unix-domain socket in the abstract namespace (currently
-    supported on Linux and Windows).
-    The default behavior when `host` is not
-    specified, or is empty, is to connect to a Unix-domain
-    socket<a id="id-1.7.3.8.4.2.1.1.2.1.4"></a> in
-    `/tmp` (or whatever socket directory was specified
-    when PostgreSQL was built). On Windows,
-    the default is to connect to `localhost`.
+:   要連線的主機名稱。<a id="id-1.7.3.8.4.2.1.1.2.1.1"></a>如果主機名稱看起來像絕對路徑名稱，它代表使用 Unix 網域通訊而非 TCP/IP 通訊；其值為存放通訊端檔案的目錄名稱。（在 Unix 上，絕對路徑名稱以斜線開頭。在 Windows 上，以磁碟機代號開頭的路徑也會被辨識。）如果主機名稱以 `@` 開頭，它會被視為抽象命名空間中的 Unix 網域通訊端（目前在 Linux 與 Windows 上支援）。未指定 `host` 或其為空時，預設行為是連線到 `/tmp`（或建置 PostgreSQL 時所指定的任何通訊端目錄）中的 Unix 網域通訊端<a id="id-1.7.3.8.4.2.1.1.2.1.4"></a>。在 Windows 上，預設是連線到 `localhost`。
 
-    A comma-separated list of host names is also accepted, in which case
-    each host name in the list is tried in order; an empty item in the
-    list selects the default behavior as explained above. See
-    [Section 32.1.1.3](libpq-connect.md#LIBPQ-MULTIPLE-HOSTS) for details.
+    也接受以逗號分隔的主機名稱清單，此時會依序嘗試清單中的每個主機名稱；清單中的空項目會選用上述的預設行為。詳細資訊請參閱[第 32.1.1.3 節](libpq-connect.md#LIBPQ-MULTIPLE-HOSTS)。
 <a id="LIBPQ-CONNECT-HOSTADDR"></a>
 
 `hostaddr` [#](#LIBPQ-CONNECT-HOSTADDR)
-:   Numeric IP address of host to connect to. This should be in the
-    standard IPv4 address format, e.g., `172.28.40.9`. If
-    your machine supports IPv6, you can also use those addresses.
-    TCP/IP communication is
-    always used when a nonempty string is specified for this parameter.
-    If this parameter is not specified, the value of `host`
-    will be looked up to find the corresponding IP address — or, if
-    `host` specifies an IP address, that value will be
-    used directly.
+:   要連線之主機的數字 IP 位址。它應該採用標準的 IPv4 位址格式，例如 `172.28.40.9`。如果你的機器支援 IPv6，也可以使用 IPv6 位址。當此參數指定為非空字串時，一律使用 TCP/IP 通訊。如果未指定此參數，會查詢 `host` 的值以找出對應的 IP 位址；或者，如果 `host` 指定的是 IP 位址，就直接使用該值。
 
-    Using `hostaddr` allows the
-    application to avoid a host name look-up, which might be important
-    in applications with time constraints. However, a host name is
-    required for GSSAPI or SSPI authentication
-    methods, as well as for `verify-full` SSL
-    certificate verification. The following rules are used:
+    使用 `hostaddr` 可讓應用程式避免查詢主機名稱，這對有時間限制的應用程式可能很重要。不過，GSSAPI 或 SSPI 認證方法，以及 `verify-full` SSL 憑證驗證，都需要主機名稱。適用下列規則：
 
-    * If `host` is specified
-      without `hostaddr`, a host name lookup occurs.
-      (When using `PQconnectPoll`, the lookup occurs
-      when `PQconnectPoll` first considers this host
-      name, and it may cause `PQconnectPoll` to block
-      for a significant amount of time.)
-    * If `hostaddr` is specified without `host`,
-      the value for `hostaddr` gives the server network address.
-      The connection attempt will fail if the authentication
-      method requires a host name.
-    * If both `host` and `hostaddr` are specified,
-      the value for `hostaddr` gives the server network address.
-      The value for `host` is ignored unless the
-      authentication method requires it, in which case it will be
-      used as the host name.
+    * 如果指定了 `host` 而沒有指定 `hostaddr`，就會進行主機名稱查詢。（使用 `PQconnectPoll` 時，查詢會在 `PQconnectPoll` 第一次處理此主機名稱時進行，而且可能導致 `PQconnectPoll` 阻塞相當長的時間。）
+    * 如果指定了 `hostaddr` 而沒有指定 `host`，`hostaddr` 的值即為伺服器的網路位址。如果認證方法需要主機名稱，連線嘗試將會失敗。
+    * 如果同時指定了 `host` 與 `hostaddr`，`hostaddr` 的值即為伺服器的網路位址。除非認證方法需要，否則 `host` 的值會被忽略；若認證方法需要，則它會被用作主機名稱。
 
-    Note that authentication is likely to fail if `host`
-    is not the name of the server at network address `hostaddr`.
-    Also, when both `host` and `hostaddr`
-    are specified, `host`
-    is used to identify the connection in a password file (see
-    [Section 32.16](libpq-pgpass.md)).
+    請注意，如果 `host` 不是網路位址 `hostaddr` 上伺服器的名稱，認證很可能會失敗。此外，當同時指定了 `host` 與 `hostaddr` 時，會使用 `host` 在密碼檔中識別此連線（請參閱[第 32.16 節](libpq-pgpass.md)）。
 
-    A comma-separated list of `hostaddr` values is also
-    accepted, in which case each host in the list is tried in order.
-    An empty item in the list causes the corresponding host name to be
-    used, or the default host name if that is empty as well. See
-    [Section 32.1.1.3](libpq-connect.md#LIBPQ-MULTIPLE-HOSTS) for details.
+    也接受以逗號分隔的 `hostaddr` 值清單，此時會依序嘗試清單中的每個主機。清單中的空項目會使用對應的主機名稱；如果該主機名稱也是空的，則使用預設主機名稱。詳細資訊請參閱[第 32.1.1.3 節](libpq-connect.md#LIBPQ-MULTIPLE-HOSTS)。
 
-    Without either a host name or host address,
-    libpq will connect using a local
-    Unix-domain socket; or on Windows, it will attempt to connect to
-    `localhost`.
+    如果既沒有主機名稱也沒有主機位址，libpq 會使用本機的 Unix 網域通訊端連線；在 Windows 上，則會嘗試連線到 `localhost`。
 <a id="LIBPQ-CONNECT-PORT"></a>
 
 `port` [#](#LIBPQ-CONNECT-PORT)
-:   Port number to connect to at the server host, or socket file
-    name extension for Unix-domain
-    connections.<a id="id-1.7.3.8.4.2.1.3.2.1.1"></a>
-    If multiple hosts were given in the `host` or
-    `hostaddr` parameters, this parameter may specify a
-    comma-separated list of ports of the same length as the host list, or
-    it may specify a single port number to be used for all hosts.
-    An empty string, or an empty item in a comma-separated list,
-    specifies the default port number established
-    when PostgreSQL was built.
+:   伺服器主機上要連線的連接埠號碼，或 Unix 網域連線所用的通訊端檔名副檔名。<a id="id-1.7.3.8.4.2.1.3.2.1.1"></a>如果在 `host` 或 `hostaddr` 參數中提供了多個主機，此參數可以指定一個與主機清單等長、以逗號分隔的連接埠清單，也可以指定一個用於所有主機的單一連接埠號碼。空字串或以逗號分隔之清單中的空項目，代表建置 PostgreSQL 時所設定的預設連接埠號碼。
 <a id="LIBPQ-CONNECT-DBNAME"></a>
 
 `dbname` [#](#LIBPQ-CONNECT-DBNAME)
-:   The database name. Defaults to be the same as the user name.
-    In certain contexts, the value is checked for extended
-    formats; see [Section 32.1.1](libpq-connect.md#LIBPQ-CONNSTRING) for more details on
-    those.
+:   資料庫名稱。預設與使用者名稱相同。在某些情境下，會檢查此值是否為延伸格式；這些格式的更多細節請參閱[第 32.1.1 節](libpq-connect.md#LIBPQ-CONNSTRING)。
 <a id="LIBPQ-CONNECT-USER"></a>
 
 `user` [#](#LIBPQ-CONNECT-USER)
-:   PostgreSQL user name to connect as.
-    Defaults to be the same as the operating system name of the user
-    running the application.
+:   用來連線的 PostgreSQL 使用者名稱。預設與執行應用程式之使用者的作業系統名稱相同。
 <a id="LIBPQ-CONNECT-PASSWORD"></a>
 
 `password` [#](#LIBPQ-CONNECT-PASSWORD)
-:   Password to be used if the server demands password authentication.
+:   伺服器要求密碼認證時所使用的密碼。
 <a id="LIBPQ-CONNECT-PASSFILE"></a>
 
 `passfile` [#](#LIBPQ-CONNECT-PASSFILE)
-:   Specifies the name of the file used to store passwords
-    (see [Section 32.16](libpq-pgpass.md)).
-    Defaults to `~/.pgpass`, or
-    `%APPDATA%\postgresql\pgpass.conf` on Microsoft Windows.
-    (No error is reported if this file does not exist.)
+:   指定用來儲存密碼之檔案的名稱（請參閱[第 32.16 節](libpq-pgpass.md)）。預設為 `~/.pgpass`，在 Microsoft Windows 上則為 `%APPDATA%\postgresql\pgpass.conf`。（如果此檔案不存在，不會回報錯誤。）
 <a id="LIBPQ-CONNECT-REQUIRE-AUTH"></a>
 
 `require_auth` [#](#LIBPQ-CONNECT-REQUIRE-AUTH)
-:   Specifies the authentication method that the client requires from the
-    server. If the server does not use the required method to authenticate
-    the client, or if the authentication handshake is not fully completed by
-    the server, the connection will fail. A comma-separated list of methods
-    may also be provided, of which the server must use exactly one in order
-    for the connection to succeed. By default, any authentication method is
-    accepted, and the server is free to skip authentication altogether.
+:   指定用戶端要求伺服器使用的認證方法。如果伺服器沒有使用所要求的方法來認證用戶端，或者伺服器沒有完整完成認證交握，連線就會失敗。也可以提供以逗號分隔的方法清單，伺服器必須恰好使用其中一種方法，連線才會成功。預設情況下，接受任何認證方法，而且伺服器可以完全略過認證。
 
-    Methods may be negated with the addition of a `!`
-    prefix, in which case the server must *not* attempt
-    the listed method; any other method is accepted, and the server is free
-    not to authenticate the client at all. If a comma-separated list is
-    provided, the server may not attempt *any* of the
-    listed negated methods. Negated and non-negated forms may not be
-    combined in the same setting.
+    方法可以加上 `!` 前綴來表示否定，此時伺服器*不得*嘗試所列的方法；接受任何其他方法，而且伺服器可以完全不認證用戶端。如果提供的是以逗號分隔的清單，伺服器不得嘗試所列否定方法中的*任何*一種。否定形式與非否定形式不可在同一個設定中混用。
 
-    As a final special case, the `none` method requires the
-    server not to use an authentication challenge. (It may also be negated,
-    to require some form of authentication.)
+    最後一個特殊情況是，`none` 方法要求伺服器不得使用認證挑戰。（它也可以被否定，以要求某種形式的認證。）
 
-    The following methods may be specified:
+    可以指定下列方法：
 
     `password`
-    :   The server must request plaintext password authentication.
+    :   伺服器必須要求明文密碼認證。
 
     `md5`
-    :   The server must request MD5 hashed password authentication.
+    :   伺服器必須要求 MD5 雜湊密碼認證。
 
-        ### Warning
+        ### 警告
 
-        Support for MD5-encrypted passwords is deprecated and will be
-        removed in a future release of
-        PostgreSQL. Refer to
-        [Section 20.5](../../server-administration/client-authentication/auth-password.md) for details about migrating to
-        another password type.
+        MD5 加密密碼的支援已被棄用，並將在 PostgreSQL 的未來版本中移除。關於遷移到其他密碼類型的細節，請參閱[第 20.5 節](../../server-administration/client-authentication/auth-password.md)。
 
     `gss`
-    :   The server must either request a Kerberos handshake via
-        GSSAPI or establish a
-        GSS-encrypted channel (see also
-        [gssencmode](libpq-connect.md#LIBPQ-CONNECT-GSSENCMODE)).
+    :   伺服器必須透過 GSSAPI 要求 Kerberos 交握，或建立 GSS 加密通道（另請參閱 [gssencmode](libpq-connect.md#LIBPQ-CONNECT-GSSENCMODE)）。
 
     `sspi`
-    :   The server must request Windows SSPI
-        authentication.
+    :   伺服器必須要求 Windows SSPI 認證。
 
     `scram-sha-256`
-    :   The server must successfully complete a SCRAM-SHA-256 authentication
-        exchange with the client.
+    :   伺服器必須與用戶端成功完成 SCRAM-SHA-256 認證交換。
 
     `oauth`
-    :   The server must request an OAuth bearer token from the client.
+    :   伺服器必須向用戶端要求 OAuth 持有者權杖。
 
     `none`
-    :   The server must not prompt the client for an authentication
-        exchange. (This does not prohibit client certificate authentication
-        via TLS, nor GSS authentication via its encrypted transport.)
+    :   伺服器不得要求用戶端進行認證交換。（這既不禁止透過 TLS 的用戶端憑證認證，也不禁止透過其加密傳輸的 GSS 認證。）
 <a id="LIBPQ-CONNECT-CHANNEL-BINDING"></a>
 
 `channel_binding` [#](#LIBPQ-CONNECT-CHANNEL-BINDING)
-:   This option controls the client's use of channel binding. A setting
-    of `require` means that the connection must employ
-    channel binding, `prefer` means that the client will
-    choose channel binding if available, and `disable`
-    prevents the use of channel binding. The default
-    is `prefer` if
-    PostgreSQL is compiled with SSL support;
-    otherwise the default is `disable`.
+:   此選項控制用戶端對通道綁定的使用。設定為 `require` 表示連線必須採用通道綁定；`prefer` 表示若可用，用戶端會選擇通道綁定；`disable` 則禁止使用通道綁定。如果 PostgreSQL 編譯時有 SSL 支援，預設值為 `prefer`；否則預設值為 `disable`。
 
-    Channel binding is a method for the server to authenticate itself to
-    the client. It is only supported over SSL connections
-    with PostgreSQL 11 or later servers using
-    the `SCRAM` authentication method.
+    通道綁定是伺服器向用戶端認證自身的一種方法。只有在透過 SSL 連線、連到使用 `SCRAM` 認證方法的 PostgreSQL 11 或更新版本伺服器時，才支援此功能。
 <a id="LIBPQ-CONNECT-CONNECT-TIMEOUT"></a>
 
 `connect_timeout` [#](#LIBPQ-CONNECT-CONNECT-TIMEOUT)
-:   Maximum time to wait while connecting, in seconds (write as a decimal integer,
-    e.g., `10`). Zero, negative, or not specified means
-    wait indefinitely.
-    This timeout applies separately to each host name or IP address.
-    For example, if you specify two hosts and `connect_timeout`
-    is 5, each host will time out if no connection is made within 5
-    seconds, so the total time spent waiting for a connection might be
-    up to 10 seconds.
+:   連線時等待的最長時間，以秒為單位（寫成十進位整數，例如 `10`）。零、負值或未指定表示無限期等待。此逾時分別套用於每個主機名稱或 IP 位址。例如，如果你指定了兩個主機，且 `connect_timeout` 為 5，那麼每個主機在 5 秒內沒有建立連線就會逾時，因此等待連線所花的總時間最多可能達 10 秒。
 <a id="LIBPQ-CONNECT-CLIENT-ENCODING"></a>
 
 `client_encoding` [#](#LIBPQ-CONNECT-CLIENT-ENCODING)
-:   This sets the `client_encoding`
-    configuration parameter for this connection. In addition to
-    the values accepted by the corresponding server option, you
-    can use `auto` to determine the right
-    encoding from the current locale in the client
-    (`LC_CTYPE` environment variable on Unix
-    systems).
+:   為此連線設定 `client_encoding` 組態參數。除了對應的伺服器選項所接受的值之外，你也可以使用 `auto`，從用戶端目前的區域設定（在 Unix 系統上為 `LC_CTYPE` 環境變數）判斷正確的編碼。
 <a id="LIBPQ-CONNECT-OPTIONS"></a>
 
 `options` [#](#LIBPQ-CONNECT-OPTIONS)
-:   Specifies command-line options to send to the server at connection
-    start. For example, setting this to `-c geqo=off`
-    or `--geqo=off` sets the session's value of the
-    `geqo` parameter to `off`.
-    Spaces within this string are considered to
-    separate command-line arguments, unless escaped with a backslash
-    (`\`); write `\\` to represent a literal
-    backslash. For a detailed discussion of the available
-    options, consult [Chapter 19](../../server-administration/runtime-config/README.md).
+:   指定在連線開始時要傳送給伺服器的命令列選項。例如，將此設為 `-c geqo=off` 或 `--geqo=off`，會將工作階段中 `geqo` 參數的值設為 `off`。此字串中的空白會被視為命令列引數的分隔符，除非以反斜線（`\`）跳脫；要表示字面上的反斜線，請寫 `\\`。關於可用選項的詳細討論，請參閱[第 19 章](../../server-administration/runtime-config/README.md)。
 <a id="LIBPQ-CONNECT-APPLICATION-NAME"></a>
 
 `application_name` [#](#LIBPQ-CONNECT-APPLICATION-NAME)
-:   Specifies a value for the [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME)
-    configuration parameter.
+:   指定 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME) 組態參數的值。
 <a id="LIBPQ-CONNECT-FALLBACK-APPLICATION-NAME"></a>
 
 `fallback_application_name` [#](#LIBPQ-CONNECT-FALLBACK-APPLICATION-NAME)
-:   Specifies a fallback value for the [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME) configuration parameter.
-    This value will be used if no value has been given for
-    `application_name` via a connection parameter or the
-    `PGAPPNAME` environment variable. Specifying
-    a fallback name is useful in generic utility programs that
-    wish to set a default application name but allow it to be
-    overridden by the user.
+:   指定 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME) 組態參數的備用值。如果沒有透過連線參數或 `PGAPPNAME` 環境變數為 `application_name` 提供值，就會使用此值。對於希望設定預設應用程式名稱、但允許使用者覆寫的通用工具程式而言，指定備用名稱很有用。
 <a id="LIBPQ-KEEPALIVES"></a>
 
 `keepalives` [#](#LIBPQ-KEEPALIVES)
-:   Controls whether client-side TCP keepalives are used. The default
-    value is 1, meaning on, but you can change this to 0, meaning off,
-    if keepalives are not wanted. This parameter is ignored for
-    connections made via a Unix-domain socket.
+:   控制是否使用用戶端的 TCP keepalive。預設值為 1，表示開啟；但如果不需要 keepalive，你可以將它改為 0，表示關閉。對於透過 Unix 網域通訊端建立的連線，此參數會被忽略。
 <a id="LIBPQ-KEEPALIVES-IDLE"></a>
 
 `keepalives_idle` [#](#LIBPQ-KEEPALIVES-IDLE)
-:   Controls the number of seconds of inactivity after which TCP should
-    send a keepalive message to the server. A value of zero uses the
-    system default. This parameter is ignored for connections made via a
-    Unix-domain socket, or if keepalives are disabled.
-    It is only supported on systems where `TCP_KEEPIDLE` or
-    an equivalent socket option is available, and on Windows; on other
-    systems, it has no effect.
+:   控制閒置多少秒之後，TCP 應該向伺服器傳送 keepalive 訊息。值為零表示使用系統預設值。對於透過 Unix 網域通訊端建立的連線，或者停用了 keepalive 時，此參數會被忽略。只有在提供 `TCP_KEEPIDLE` 或同等通訊端選項的系統上，以及在 Windows 上才支援此參數；在其他系統上沒有作用。
 <a id="LIBPQ-KEEPALIVES-INTERVAL"></a>
 
 `keepalives_interval` [#](#LIBPQ-KEEPALIVES-INTERVAL)
-:   Controls the number of seconds after which a TCP keepalive message
-    that is not acknowledged by the server should be retransmitted. A
-    value of zero uses the system default. This parameter is ignored for
-    connections made via a Unix-domain socket, or if keepalives are disabled.
-    It is only supported on systems where `TCP_KEEPINTVL` or
-    an equivalent socket option is available, and on Windows; on other
-    systems, it has no effect.
+:   控制未獲伺服器確認的 TCP keepalive 訊息應在多少秒之後重新傳送。值為零表示使用系統預設值。對於透過 Unix 網域通訊端建立的連線，或者停用了 keepalive 時，此參數會被忽略。只有在提供 `TCP_KEEPINTVL` 或同等通訊端選項的系統上，以及在 Windows 上才支援此參數；在其他系統上沒有作用。
 <a id="LIBPQ-KEEPALIVES-COUNT"></a>
 
 `keepalives_count` [#](#LIBPQ-KEEPALIVES-COUNT)
-:   Controls the number of TCP keepalives that can be lost before the
-    client's connection to the server is considered dead. A value of
-    zero uses the system default. This parameter is ignored for
-    connections made via a Unix-domain socket, or if keepalives are disabled.
-    It is only supported on systems where `TCP_KEEPCNT` or
-    an equivalent socket option is available; on other systems, it has no
-    effect.
+:   控制在用戶端與伺服器的連線被視為中斷之前，可以遺失多少個 TCP keepalive。值為零表示使用系統預設值。對於透過 Unix 網域通訊端建立的連線，或者停用了 keepalive 時，此參數會被忽略。只有在提供 `TCP_KEEPCNT` 或同等通訊端選項的系統上才支援此參數；在其他系統上沒有作用。
 <a id="LIBPQ-TCP-USER-TIMEOUT"></a>
 
 `tcp_user_timeout` [#](#LIBPQ-TCP-USER-TIMEOUT)
-:   Controls the number of milliseconds that transmitted data may
-    remain unacknowledged before a connection is forcibly closed.
-    A value of zero uses the system default. This parameter is
-    ignored for connections made via a Unix-domain socket.
-    It is only supported on systems where `TCP_USER_TIMEOUT`
-    is available; on other systems, it has no effect.
+:   控制已傳送的資料在連線被強制關閉之前，可以維持未確認狀態多少毫秒。值為零表示使用系統預設值。對於透過 Unix 網域通訊端建立的連線，此參數會被忽略。只有在提供 `TCP_USER_TIMEOUT` 的系統上才支援此參數；在其他系統上沒有作用。
 <a id="LIBPQ-CONNECT-REPLICATION"></a>
 
 `replication` [#](#LIBPQ-CONNECT-REPLICATION)
-:   This option determines whether the connection should use the
-    replication protocol instead of the normal protocol. This is what
-    PostgreSQL replication connections as well as tools such as
-    pg_basebackup use internally, but it can
-    also be used by third-party applications. For a description of the
-    replication protocol, consult [Section 54.4](../../internals/protocol/protocol-replication.md).
+:   此選項決定連線是否應該使用複寫協定而非一般協定。PostgreSQL 的複寫連線以及 pg_basebackup 等工具在內部使用的就是這個協定，但第三方應用程式也可以使用它。關於複寫協定的說明，請參閱[第 54.4 節](../../internals/protocol/protocol-replication.md)。
 
-    The following values, which are case-insensitive, are supported:
+    支援下列值，不區分大小寫：
 
     `true`, `on`, `yes`, `1`
-    :   The connection goes into physical replication mode.
+    :   連線進入實體複寫模式。
 
     `database`
-    :   The connection goes into logical replication mode, connecting to
-        the database specified in the `dbname` parameter.
+    :   連線進入邏輯複寫模式，連線到 `dbname` 參數所指定的資料庫。
 
     `false`, `off`, `no`, `0`
-    :   The connection is a regular one, which is the default behavior.
+    :   連線為一般連線，這是預設行為。
 
-    In physical or logical replication mode, only the simple query protocol
-    can be used.
+    在實體或邏輯複寫模式中，只能使用簡單查詢協定。
 <a id="LIBPQ-CONNECT-GSSENCMODE"></a>
 
 `gssencmode` [#](#LIBPQ-CONNECT-GSSENCMODE)
-:   This option determines whether or with what priority a secure
-    GSS TCP/IP connection will be negotiated with the
-    server. There are three modes:
+:   此選項決定是否要與伺服器協商安全的 GSS TCP/IP 連線，或以何種優先順序協商。共有三種模式：
 
     `disable`
-    :   only try a non-GSSAPI-encrypted connection
+    :   只嘗試未使用 GSSAPI 加密的連線
 
-    `prefer` (default)
-    :   if there are GSSAPI credentials present (i.e.,
-        in a credentials cache), first try
-        a GSSAPI-encrypted connection; if that fails or
-        there are no credentials, try a
-        non-GSSAPI-encrypted connection. This is the
-        default when PostgreSQL has been
-        compiled with GSSAPI support.
+    `prefer`（預設）
+    :   如果存在 GSSAPI 憑證（也就是在憑證快取中），先嘗試 GSSAPI 加密連線；如果失敗或沒有憑證，再嘗試未使用 GSSAPI 加密的連線。當 PostgreSQL 編譯時有 GSSAPI 支援，這是預設值。
 
     `require`
-    :   only try a GSSAPI-encrypted connection
+    :   只嘗試 GSSAPI 加密連線
 
-    `gssencmode` is ignored for Unix domain socket
-    communication. If PostgreSQL is compiled
-    without GSSAPI support, using the `require` option
-    will cause an error, while `prefer` will be accepted
-    but libpq will not actually attempt
-    a GSSAPI-encrypted
-    connection.<a id="id-1.7.3.8.4.2.1.21.2.2.7"></a>
+    對於 Unix 網域通訊端通訊，`gssencmode` 會被忽略。如果 PostgreSQL 編譯時沒有 GSSAPI 支援，使用 `require` 選項會導致錯誤，而 `prefer` 雖會被接受，但 libpq 實際上不會嘗試 GSSAPI 加密連線。<a id="id-1.7.3.8.4.2.1.21.2.2.7"></a>
 <a id="LIBPQ-CONNECT-SSLMODE"></a>
 
 `sslmode` [#](#LIBPQ-CONNECT-SSLMODE)
-:   This option determines whether or with what priority a secure
-    SSL TCP/IP connection will be negotiated with the
-    server. There are six modes:
+:   此選項決定是否要與伺服器協商安全的 SSL TCP/IP 連線，或以何種優先順序協商。共有六種模式：
 
     `disable`
-    :   only try a non-SSL connection
+    :   只嘗試非 SSL 連線
 
     `allow`
-    :   first try a non-SSL connection; if that
-        fails, try an SSL connection
+    :   先嘗試非 SSL 連線；如果失敗，再嘗試 SSL 連線
 
-    `prefer` (default)
-    :   first try an SSL connection; if that fails,
-        try a non-SSL connection
+    `prefer`（預設）
+    :   先嘗試 SSL 連線；如果失敗，再嘗試非 SSL 連線
 
     `require`
-    :   only try an SSL connection. If a root CA
-        file is present, verify the certificate in the same way as
-        if `verify-ca` was specified
+    :   只嘗試 SSL 連線。如果存在根 CA 檔，就以與指定 `verify-ca` 時相同的方式驗證憑證
 
     `verify-ca`
-    :   only try an SSL connection, and verify that
-        the server certificate is issued by a trusted
-        certificate authority (CA)
+    :   只嘗試 SSL 連線，並驗證伺服器憑證是由受信任的憑證授權單位（CA）所簽發
 
     `verify-full`
-    :   only try an SSL connection, verify that the
-        server certificate is issued by a
-        trusted CA and that the requested server host name
-        matches that in the certificate
+    :   只嘗試 SSL 連線，驗證伺服器憑證是由受信任的 CA 所簽發，並且所要求的伺服器主機名稱與憑證中的名稱相符
 
-    See [Section 32.19](libpq-ssl.md) for a detailed description of how
-    these options work.
+    關於這些選項如何運作的詳細說明，請參閱[第 32.19 節](libpq-ssl.md)。
 
-    `sslmode` is ignored for Unix domain socket
-    communication.
-    If PostgreSQL is compiled without SSL support,
-    using options `require`, `verify-ca`, or
-    `verify-full` will cause an error, while
-    options `allow` and `prefer` will be
-    accepted but libpq will not actually attempt
-    an SSL
-    connection.<a id="id-1.7.3.8.4.2.1.22.2.2.10"></a>
+    對於 Unix 網域通訊端通訊，`sslmode` 會被忽略。如果 PostgreSQL 編譯時沒有 SSL 支援，使用 `require`、`verify-ca` 或 `verify-full` 選項會導致錯誤，而 `allow` 與 `prefer` 選項雖會被接受，但 libpq 實際上不會嘗試 SSL 連線。<a id="id-1.7.3.8.4.2.1.22.2.2.10"></a>
 
-    Note that if GSSAPI encryption is possible,
-    that will be used in preference to SSL
-    encryption, regardless of the value of `sslmode`.
-    To force use of SSL encryption in an
-    environment that has working GSSAPI
-    infrastructure (such as a Kerberos server), also set
-    `gssencmode` to `disable`.
+    請注意，如果可以使用 GSSAPI 加密，無論 `sslmode` 的值為何，都會優先使用它而非 SSL 加密。要在具有可運作之 GSSAPI 基礎架構（例如 Kerberos 伺服器）的環境中強制使用 SSL 加密，請同時將 `gssencmode` 設為 `disable`。
 <a id="LIBPQ-CONNECT-REQUIRESSL"></a>
 
 `requiressl` [#](#LIBPQ-CONNECT-REQUIRESSL)
-:   This option is deprecated in favor of the `sslmode`
-    setting.
+:   此選項已被棄用，請改用 `sslmode` 設定。
 
-    If set to 1, an SSL connection to the server
-    is required (this is equivalent to `sslmode`
-    `require`). libpq will then refuse
-    to connect if the server does not accept an
-    SSL connection. If set to 0 (default),
-    libpq will negotiate the connection type with
-    the server (equivalent to `sslmode`
-    `prefer`). This option is only available if
-    PostgreSQL is compiled with SSL support.
+    如果設為 1，就要求與伺服器建立 SSL 連線（這等同於 `sslmode` `require`）。此時如果伺服器不接受 SSL 連線，libpq 會拒絕連線。如果設為 0（預設），libpq 會與伺服器協商連線類型（等同於 `sslmode` `prefer`）。只有在 PostgreSQL 編譯時有 SSL 支援的情況下，才能使用此選項。
 <a id="LIBPQ-CONNECT-SSLNEGOTIATION"></a>
 
 `sslnegotiation` [#](#LIBPQ-CONNECT-SSLNEGOTIATION)
-:   This option controls how SSL encryption is negotiated with the server,
-    if SSL is used. In the default `postgres` mode, the
-    client first asks the server if SSL is supported. In
-    `direct` mode, the client starts the standard SSL
-    handshake directly after establishing the TCP/IP connection. Traditional
-    PostgreSQL protocol negotiation is the most
-    flexible with different server configurations. If the server is known
-    to support direct SSL connections then the latter
-    requires one fewer round trip reducing connection latency and also
-    allows the use of protocol agnostic SSL network tools. The direct SSL
-    option was introduced in PostgreSQL version
-    17.
+:   如果使用 SSL，此選項控制如何與伺服器協商 SSL 加密。在預設的 `postgres` 模式中，用戶端會先詢問伺服器是否支援 SSL。在 `direct` 模式中，用戶端會在建立 TCP/IP 連線後直接開始標準的 SSL 交握。傳統的 PostgreSQL 協定協商對於各種伺服器設定最具彈性。如果已知伺服器支援直接 SSL 連線，後者可以少一次往返，降低連線延遲，也允許使用與協定無關的 SSL 網路工具。直接 SSL 選項是在 PostgreSQL 第 17 版引入的。
 
     `postgres`
-    :   perform PostgreSQL protocol
-        negotiation. This is the default if the option is not provided.
+    :   執行 PostgreSQL 協定協商。如果未提供此選項，這是預設值。
 
     `direct`
-    :   start SSL handshake directly after establishing the TCP/IP
-        connection. This is only allowed with
-        `sslmode=require` or higher, because the weaker
-        settings could lead to unintended fallback to plaintext
-        authentication when the server does not support direct SSL
-        handshake.
+    :   在建立 TCP/IP 連線後直接開始 SSL 交握。只有在 `sslmode=require` 或更高等級時才允許這麼做，因為較弱的設定可能在伺服器不支援直接 SSL 交握時，導致非預期地退回明文認證。
 <a id="LIBPQ-CONNECT-SSLCOMPRESSION"></a>
 
 `sslcompression` [#](#LIBPQ-CONNECT-SSLCOMPRESSION)
-:   If set to 1, data sent over SSL connections will be compressed. If
-    set to 0, compression will be disabled. The default is 0. This
-    parameter is ignored if a connection without SSL is made.
+:   如果設為 1，透過 SSL 連線傳送的資料會被壓縮。如果設為 0，則停用壓縮。預設值為 0。如果建立的是沒有 SSL 的連線，此參數會被忽略。
 
-    SSL compression is nowadays considered insecure and its use is no
-    longer recommended. OpenSSL 1.1.0 disabled
-    compression by default, and many operating system distributions
-    disabled it in prior versions as well, so setting this parameter to on
-    will not have any effect if the server does not accept compression.
-    PostgreSQL 14 disabled compression
-    completely in the backend.
+    SSL 壓縮如今被認為不安全，已不再建議使用。OpenSSL 1.1.0 預設停用壓縮，許多作業系統發行版在更早的版本中也停用了壓縮，因此如果伺服器不接受壓縮，將此參數設為開啟不會有任何效果。PostgreSQL 14 已在後端完全停用壓縮。
 
-    If security is not a primary concern, compression can improve
-    throughput if the network is the bottleneck. Disabling compression
-    can improve response time and throughput if CPU performance is the
-    limiting factor.
+    如果安全性不是首要考量，在網路是瓶頸的情況下，壓縮可以提升傳輸量。如果 CPU 效能是限制因素，停用壓縮可以改善回應時間與傳輸量。
 <a id="LIBPQ-CONNECT-SSLCERT"></a>
 
 `sslcert` [#](#LIBPQ-CONNECT-SSLCERT)
-:   This parameter specifies the file name of the client SSL
-    certificate, replacing the default
-    `~/.postgresql/postgresql.crt`.
-    This parameter is ignored if an SSL connection is not made.
+:   此參數指定用戶端 SSL 憑證的檔案名稱，取代預設的 `~/.postgresql/postgresql.crt`。如果沒有建立 SSL 連線，此參數會被忽略。
 <a id="LIBPQ-CONNECT-SSLKEY"></a>
 
 `sslkey` [#](#LIBPQ-CONNECT-SSLKEY)
-:   This parameter specifies the location for the secret key used for
-    the client certificate. It can either specify a file name that will
-    be used instead of the default
-    `~/.postgresql/postgresql.key`, or it can specify a key
-    obtained from an external “engine” (engines are
-    OpenSSL loadable modules). An external engine
-    specification should consist of a colon-separated engine name and
-    an engine-specific key identifier. This parameter is ignored if an
-    SSL connection is not made.
+:   此參數指定用戶端憑證所用之私密金鑰的位置。它可以指定一個檔案名稱，用來取代預設的 `~/.postgresql/postgresql.key`；也可以指定從外部「引擎」取得的金鑰（引擎是 OpenSSL 的可載入模組）。外部引擎的指定應由以冒號分隔的引擎名稱與引擎特定的金鑰識別碼組成。如果沒有建立 SSL 連線，此參數會被忽略。
 <a id="LIBPQ-CONNECT-SSLKEYLOGFILE"></a>
 
 `sslkeylogfile` [#](#LIBPQ-CONNECT-SSLKEYLOGFILE)
-:   This parameter specifies the location where libpq
-    will log keys used in this SSL context. This is useful for debugging
-    PostgreSQL protocol interactions or client
-    connections using network inspection tools like
-    Wireshark. This parameter is ignored if an
-    SSL connection is not made, or if LibreSSL
-    is used (LibreSSL does not support key
-    logging). Keys are logged using the NSS
-    format.
+:   此參數指定 libpq 記錄此 SSL 上下文中所用金鑰的位置。這對於使用 Wireshark 等網路檢測工具對 PostgreSQL 協定互動或用戶端連線進行除錯很有用。如果沒有建立 SSL 連線，或者使用的是 LibreSSL（LibreSSL 不支援金鑰記錄），此參數會被忽略。金鑰會以 NSS 格式記錄。
 
-    ### Warning
+    ### 警告
 
-    Key logging will expose potentially sensitive information in the
-    keylog file. Keylog files should be handled with the same care as
-    [sslkey](libpq-connect.md#LIBPQ-CONNECT-SSLKEY) files.
+    金鑰記錄會在金鑰記錄檔（keylog file）中暴露可能敏感的資訊。金鑰記錄檔應該與 [sslkey](libpq-connect.md#LIBPQ-CONNECT-SSLKEY) 檔案一樣謹慎處理。
 <a id="LIBPQ-CONNECT-SSLPASSWORD"></a>
 
 `sslpassword` [#](#LIBPQ-CONNECT-SSLPASSWORD)
-:   This parameter specifies the password for the secret key specified in
-    `sslkey`, allowing client certificate private keys
-    to be stored in encrypted form on disk even when interactive passphrase
-    input is not practical.
+:   此參數指定 `sslkey` 中所指定之私密金鑰的密碼，讓用戶端憑證的私鑰即使在無法實際以互動方式輸入通關密語時，也能以加密形式儲存在磁碟上。
 
-    Specifying this parameter with any non-empty value suppresses the
-    `Enter PEM pass phrase:`
-    prompt that OpenSSL will emit by default
-    when an encrypted client certificate key is provided to
-    libpq.
+    以任何非空值指定此參數，都會抑制 OpenSSL 在加密的用戶端憑證金鑰提供給 libpq 時預設會發出的 `Enter PEM pass phrase:` 提示。
 
-    If the key is not encrypted this parameter is ignored. The parameter
-    has no effect on keys specified by OpenSSL
-    engines unless the engine uses the OpenSSL
-    password callback mechanism for prompts.
+    如果金鑰沒有加密，此參數會被忽略。此參數對由 OpenSSL 引擎指定的金鑰沒有作用，除非該引擎使用 OpenSSL 的密碼回呼機制來進行提示。
 
-    There is no environment variable equivalent to this option, and no
-    facility for looking it up in `.pgpass`. It can be
-    used in a service file connection definition. Users with
-    more sophisticated uses should consider using OpenSSL engines and
-    tools like PKCS#11 or USB crypto offload devices.
+    此選項沒有對應的環境變數，也沒有在 `.pgpass` 中查詢它的機制。它可以用在服務檔的連線定義中。用途較複雜的使用者應該考慮使用 OpenSSL 引擎，以及 PKCS#11 或 USB 加密卸載裝置等工具。
 <a id="LIBPQ-CONNECT-SSLCERTMODE"></a>
 
 `sslcertmode` [#](#LIBPQ-CONNECT-SSLCERTMODE)
-:   This option determines whether a client certificate may be sent to the
-    server, and whether the server is required to request one. There are
-    three modes:
+:   此選項決定是否可以將用戶端憑證傳送給伺服器，以及伺服器是否必須要求憑證。共有三種模式：
 
     `disable`
-    :   A client certificate is never sent, even if one is available
-        (default location or provided via
-        [sslcert](libpq-connect.md#LIBPQ-CONNECT-SSLCERT)).
+    :   即使有可用的用戶端憑證（位於預設位置或透過 [sslcert](libpq-connect.md#LIBPQ-CONNECT-SSLCERT) 提供），也絕不傳送。
 
-    `allow` (default)
-    :   A certificate may be sent, if the server requests one and the
-        client has one to send.
+    `allow`（預設）
+    :   如果伺服器要求憑證，而且用戶端有憑證可傳送，就可以傳送憑證。
 
     `require`
-    :   The server *must* request a certificate. The
-        connection will fail if the client does not send a certificate and
-        the server successfully authenticates the client anyway.
+    :   伺服器*必須*要求憑證。如果用戶端沒有傳送憑證，而伺服器仍成功認證了用戶端，連線就會失敗。
 
-    ### Note
+    ### 注意
 
-    `sslcertmode=require` doesn't add any additional
-    security, since there is no guarantee that the server is validating
-    the certificate correctly; PostgreSQL servers generally request TLS
-    certificates from clients whether they validate them or not. The
-    option may be useful when troubleshooting more complicated TLS
-    setups.
+    `sslcertmode=require` 並不會增加任何額外的安全性，因為無法保證伺服器會正確驗證憑證；無論 PostgreSQL 伺服器是否驗證用戶端的 TLS 憑證，通常都會向用戶端要求憑證。在為較複雜的 TLS 設定進行疑難排解時，此選項可能有用。
 <a id="LIBPQ-CONNECT-SSLROOTCERT"></a>
 
 `sslrootcert` [#](#LIBPQ-CONNECT-SSLROOTCERT)
-:   This parameter specifies the name of a file containing SSL
-    certificate authority (CA) certificate(s).
-    If the file exists, the server's certificate will be verified
-    to be signed by one of these authorities. The default is
-    `~/.postgresql/root.crt`.
+:   此參數指定包含 SSL 憑證授權單位（CA）憑證的檔案名稱。如果該檔案存在，會驗證伺服器的憑證是否由這些授權單位之一所簽署。預設值為 `~/.postgresql/root.crt`。
 
-    The special value `system` may be specified instead, in
-    which case the trusted CA roots from the SSL implementation will be loaded. The exact
-    locations of these root certificates differ by SSL implementation and
-    platform. For OpenSSL in particular, the
-    locations may be further modified by the `SSL_CERT_DIR`
-    and `SSL_CERT_FILE` environment variables.
+    也可以改為指定特殊值 `system`，此時會載入 SSL 實作所提供的受信任 CA 根憑證。這些根憑證的確切位置因 SSL 實作與平台而異。特別是對 OpenSSL 而言，這些位置還可以再由 `SSL_CERT_DIR` 與 `SSL_CERT_FILE` 環境變數修改。
 
-    ### Note
+    ### 注意
 
-    When using `sslrootcert=system`, the default
-    `sslmode` is changed to `verify-full`,
-    and any weaker setting will result in an error. In most cases it is
-    trivial for anyone to obtain a certificate trusted by the system for a
-    hostname they control, rendering `verify-ca` and all
-    weaker modes useless.
+    使用 `sslrootcert=system` 時，預設的 `sslmode` 會改為 `verify-full`，而任何較弱的設定都會導致錯誤。在大多數情況下，任何人都能輕易地為自己所控制的主機名稱取得受系統信任的憑證，使得 `verify-ca` 及所有更弱的模式毫無用處。
 
-    The magic `system` value will take precedence over a
-    local certificate file with the same name. If for some reason you find
-    yourself in this situation, use an alternative path like
-    `sslrootcert=./system` instead.
+    特殊的 `system` 值會優先於同名的本機憑證檔。如果因為某些原因你遇到這種情況，請改用其他路徑，例如 `sslrootcert=./system`。
 <a id="LIBPQ-CONNECT-SSLCRL"></a>
 
 `sslcrl` [#](#LIBPQ-CONNECT-SSLCRL)
-:   This parameter specifies the file name of the SSL server certificate
-    revocation list (CRL). Certificates listed in this file, if it
-    exists, will be rejected while attempting to authenticate the
-    server's certificate. If neither
-    [sslcrl](libpq-connect.md#LIBPQ-CONNECT-SSLCRL) nor
-    [sslcrldir](libpq-connect.md#LIBPQ-CONNECT-SSLCRLDIR) is set, this setting is
-    taken as
-    `~/.postgresql/root.crl`.
+:   此參數指定 SSL 伺服器憑證撤銷清單（CRL）的檔案名稱。在嘗試認證伺服器憑證時，會拒絕此檔案（若存在）中所列的憑證。如果 [sslcrl](libpq-connect.md#LIBPQ-CONNECT-SSLCRL) 與 [sslcrldir](libpq-connect.md#LIBPQ-CONNECT-SSLCRLDIR) 都沒有設定，此設定會被視為 `~/.postgresql/root.crl`。
 <a id="LIBPQ-CONNECT-SSLCRLDIR"></a>
 
 `sslcrldir` [#](#LIBPQ-CONNECT-SSLCRLDIR)
-:   This parameter specifies the directory name of the SSL server certificate
-    revocation list (CRL). Certificates listed in the files in this
-    directory, if it exists, will be rejected while attempting to
-    authenticate the server's certificate.
+:   此參數指定 SSL 伺服器憑證撤銷清單（CRL）的目錄名稱。在嘗試認證伺服器憑證時，會拒絕此目錄（若存在）中各檔案所列的憑證。
 
-    The directory needs to be prepared with the
-    OpenSSL command
-    `openssl rehash` or `c_rehash`. See
-    its documentation for details.
+    此目錄需要以 OpenSSL 命令 `openssl rehash` 或 `c_rehash` 準備。詳細資訊請參閱其文件。
 
-    Both `sslcrl` and `sslcrldir` can be
-    specified together.
+    `sslcrl` 與 `sslcrldir` 可以同時指定。
 <a id="LIBPQ-CONNECT-SSLSNI"></a>
 
 `sslsni`<a id="id-1.7.3.8.4.2.1.34.1.2"></a> [#](#LIBPQ-CONNECT-SSLSNI)
-:   If set to 1 (default), libpq sets the TLS extension “Server Name
-    Indication” (SNI) on SSL-enabled connections.
-    By setting this parameter to 0, this is turned off.
+:   如果設為 1（預設），libpq 會在啟用 SSL 的連線上設定 TLS 擴充「伺服器名稱指示」（Server Name Indication，SNI）。將此參數設為 0 即可關閉此功能。
 
-    The Server Name Indication can be used by SSL-aware proxies to route
-    connections without having to decrypt the SSL stream. (Note that
-    unless the proxy is aware of the PostgreSQL protocol handshake this
-    would require setting `sslnegotiation`
-    to `direct`.)
-    However, SNI makes the destination host name appear
-    in cleartext in the network traffic, so it might be undesirable in
-    some cases.
+    支援 SSL 的代理伺服器可以利用伺服器名稱指示來路由連線，而不必解密 SSL 串流。（請注意，除非代理伺服器能夠識別 PostgreSQL 協定交握，否則這需要將 `sslnegotiation` 設為 `direct`。）不過，SNI 會讓目的主機名稱以明文出現在網路流量中，因此在某些情況下可能並不理想。
 <a id="LIBPQ-CONNECT-REQUIREPEER"></a>
 
 `requirepeer` [#](#LIBPQ-CONNECT-REQUIREPEER)
-:   This parameter specifies the operating-system user name of the
-    server, for example `requirepeer=postgres`.
-    When making a Unix-domain socket connection, if this
-    parameter is set, the client checks at the beginning of the
-    connection that the server process is running under the specified
-    user name; if it is not, the connection is aborted with an error.
-    This parameter can be used to provide server authentication similar
-    to that available with SSL certificates on TCP/IP connections.
-    (Note that if the Unix-domain socket is in
-    `/tmp` or another publicly writable location,
-    any user could start a server listening there. Use this parameter
-    to ensure that you are connected to a server run by a trusted user.)
-    This option is only supported on platforms for which the
-    `peer` authentication method is implemented; see
-    [Section 20.9](../../server-administration/client-authentication/auth-peer.md).
+:   此參數指定伺服器的作業系統使用者名稱，例如 `requirepeer=postgres`。建立 Unix 網域通訊端連線時，如果設定了此參數，用戶端會在連線開始時檢查伺服器程序是否以指定的使用者名稱執行；如果不是，連線會因錯誤而中止。此參數可用來提供伺服器認證，類似於 TCP/IP 連線上以 SSL 憑證所提供的認證。（請注意，如果 Unix 網域通訊端位於 `/tmp` 或其他可被公眾寫入的位置，任何使用者都可以啟動一個在該處監聽的伺服器。請使用此參數確保你所連線的是由受信任使用者執行的伺服器。）只有在已實作 `peer` 認證方法的平台上才支援此選項；請參閱[第 20.9 節](../../server-administration/client-authentication/auth-peer.md)。
 <a id="LIBPQ-CONNECT-SSL-MIN-PROTOCOL-VERSION"></a>
 
 `ssl_min_protocol_version` [#](#LIBPQ-CONNECT-SSL-MIN-PROTOCOL-VERSION)
-:   This parameter specifies the minimum SSL/TLS protocol version to allow
-    for the connection. Valid values are `TLSv1`,
-    `TLSv1.1`, `TLSv1.2` and
-    `TLSv1.3`. The supported protocols depend on the
-    version of OpenSSL used, older versions
-    not supporting the most modern protocol versions. If not specified,
-    the default is `TLSv1.2`, which satisfies industry
-    best practices as of this writing.
+:   此參數指定連線所允許的最低 SSL/TLS 協定版本。有效值為 `TLSv1`、`TLSv1.1`、`TLSv1.2` 與 `TLSv1.3`。所支援的協定取決於所使用的 OpenSSL 版本，較舊的版本不支援最新的協定版本。如果未指定，預設值為 `TLSv1.2`，這符合撰寫本文時的業界最佳實務。
 <a id="LIBPQ-CONNECT-SSL-MAX-PROTOCOL-VERSION"></a>
 
 `ssl_max_protocol_version` [#](#LIBPQ-CONNECT-SSL-MAX-PROTOCOL-VERSION)
-:   This parameter specifies the maximum SSL/TLS protocol version to allow
-    for the connection. Valid values are `TLSv1`,
-    `TLSv1.1`, `TLSv1.2` and
-    `TLSv1.3`. The supported protocols depend on the
-    version of OpenSSL used, older versions
-    not supporting the most modern protocol versions. If not set, this
-    parameter is ignored and the connection will use the maximum bound
-    defined by the backend, if set. Setting the maximum protocol version
-    is mainly useful for testing or if some component has issues working
-    with a newer protocol.
+:   此參數指定連線所允許的最高 SSL/TLS 協定版本。有效值為 `TLSv1`、`TLSv1.1`、`TLSv1.2` 與 `TLSv1.3`。所支援的協定取決於所使用的 OpenSSL 版本，較舊的版本不支援最新的協定版本。如果未設定，此參數會被忽略，連線將使用後端所定義的上限（如果有設定的話）。設定最高協定版本主要用於測試，或某些元件在使用較新的協定時有問題的情況。
 <a id="LIBPQ-CONNECT-MIN-PROTOCOL-VERSION"></a>
 
 `min_protocol_version` [#](#LIBPQ-CONNECT-MIN-PROTOCOL-VERSION)
-:   Specifies the minimum protocol version to allow for the connection.
-    The default is to allow any version of the
-    PostgreSQL protocol supported by libpq,
-    which currently means `3.0`. If the server
-    does not support at least this protocol version the connection will be
-    closed.
+:   指定連線所允許的最低協定版本。預設允許 libpq 所支援的任何 PostgreSQL 協定版本，目前也就是 `3.0`。如果伺服器連這個協定版本都不支援，連線將會被關閉。
 
-    The current supported values are
-    `3.0`, `3.2`,
-    and `latest`. The `latest` value is
-    equivalent to the latest protocol version supported by the libpq
-    version being used, which is currently `3.2`.
+    目前支援的值為 `3.0`、`3.2` 與 `latest`。`latest` 值等同於所使用之 libpq 版本所支援的最新協定版本，目前為 `3.2`。
 <a id="LIBPQ-CONNECT-MAX-PROTOCOL-VERSION"></a>
 
 `max_protocol_version` [#](#LIBPQ-CONNECT-MAX-PROTOCOL-VERSION)
-:   Specifies the protocol version to request from the server.
-    The default is to use version `3.0` of the
-    PostgreSQL protocol, unless the connection
-    string specifies a feature that relies on a higher protocol version,
-    in which case the latest version supported by libpq is used. If the
-    server does not support the protocol version requested by the client,
-    the connection is automatically downgraded to a lower minor protocol
-    version that the server supports. After the connection attempt has
-    completed you can use [`PQfullProtocolVersion`](libpq-status.md#LIBPQ-PQFULLPROTOCOLVERSION) to
-    find out which exact protocol version was negotiated.
+:   指定要向伺服器請求的協定版本。預設使用 PostgreSQL 協定的 `3.0` 版，除非連線字串指定了依賴更高協定版本的功能，此時會使用 libpq 所支援的最新版本。如果伺服器不支援用戶端所請求的協定版本，連線會自動降級為伺服器所支援的較低次要協定版本。連線嘗試完成後，你可以使用 [`PQfullProtocolVersion`](libpq-status.md#LIBPQ-PQFULLPROTOCOLVERSION) 找出實際協商出的確切協定版本。
 
-    The current supported values are
-    `3.0`, `3.2`,
-    and `latest`. The `latest` value is
-    equivalent to the latest protocol version supported by the libpq
-    version being used, which is currently `3.2`.
+    目前支援的值為 `3.0`、`3.2` 與 `latest`。`latest` 值等同於所使用之 libpq 版本所支援的最新協定版本，目前為 `3.2`。
 <a id="LIBPQ-CONNECT-KRBSRVNAME"></a>
 
 `krbsrvname` [#](#LIBPQ-CONNECT-KRBSRVNAME)
-:   Kerberos service name to use when authenticating with GSSAPI.
-    This must match the service name specified in the server
-    configuration for Kerberos authentication to succeed. (See also
-    [Section 20.6](../../server-administration/client-authentication/gssapi-auth.md).)
-    The default value is normally `postgres`,
-    but that can be changed when
-    building PostgreSQL via
-    the `--with-krb-srvnam` option
-    of configure.
-    In most environments, this parameter never needs to be changed.
-    Some Kerberos implementations might require a different service name,
-    such as Microsoft Active Directory which requires the service name
-    to be in upper case (`POSTGRES`).
+:   以 GSSAPI 進行認證時所使用的 Kerberos 服務名稱。它必須與伺服器設定中所指定的服務名稱相符，Kerberos 認證才能成功。（另請參閱[第 20.6 節](../../server-administration/client-authentication/gssapi-auth.md)。）預設值通常是 `postgres`，但可以在建置 PostgreSQL 時透過 configure 的 `--with-krb-srvnam` 選項變更。在大多數環境中，此參數從來不需要變更。某些 Kerberos 實作可能需要不同的服務名稱，例如 Microsoft Active Directory 要求服務名稱為大寫（`POSTGRES`）。
 <a id="LIBPQ-CONNECT-GSSLIB"></a>
 
 `gsslib` [#](#LIBPQ-CONNECT-GSSLIB)
-:   GSS library to use for GSSAPI authentication.
-    Currently this is disregarded except on Windows builds that include
-    both GSSAPI and SSPI support. In that case, set
-    this to `gssapi` to cause libpq to use the GSSAPI
-    library for authentication instead of the default SSPI.
+:   用於 GSSAPI 認證的 GSS 函式庫。目前除了同時包含 GSSAPI 與 SSPI 支援的 Windows 建置版本之外，此參數都會被忽略。在該情況下，將此參數設為 `gssapi`，可讓 libpq 使用 GSSAPI 函式庫進行認證，而不是使用預設的 SSPI。
 <a id="LIBPQ-CONNECT-GSSDELEGATION"></a>
 
 `gssdelegation` [#](#LIBPQ-CONNECT-GSSDELEGATION)
-:   Forward (delegate) GSS credentials to the server. The default is
-    `0` which means credentials will not be forwarded
-    to the server. Set this to `1` to have credentials
-    forwarded when possible.
+:   將 GSS 憑證轉送（委派）給伺服器。預設值為 `0`，表示不會將憑證轉送給伺服器。將此設為 `1`，可在可能時轉送憑證。
 <a id="LIBPQ-CONNECT-SCRAM-CLIENT-KEY"></a>
 
 `scram_client_key` [#](#LIBPQ-CONNECT-SCRAM-CLIENT-KEY)
-:   The base64-encoded SCRAM client key. This can be used by foreign-data
-    wrappers or similar middleware to enable pass-through SCRAM
-    authentication. See [Section F.38.1.10](../../appendixes/contrib/postgres-fdw.md#POSTGRES-FDW-OPTIONS-CONNECTION-MANAGEMENT) for one such
-    implementation. It is not meant to be specified directly by users or
-    client applications.
+:   以 base64 編碼的 SCRAM 用戶端金鑰。外部資料包裝器或類似的中介軟體可以用它來啟用 SCRAM 直通（pass-through）認證。其中一種實作請參閱[第 F.38.1.10 節](../../appendixes/contrib/postgres-fdw.md#POSTGRES-FDW-OPTIONS-CONNECTION-MANAGEMENT)。它並非供使用者或用戶端應用程式直接指定。
 <a id="LIBPQ-CONNECT-SCRAM-SERVER-KEY"></a>
 
 `scram_server_key` [#](#LIBPQ-CONNECT-SCRAM-SERVER-KEY)
-:   The base64-encoded SCRAM server key. This can be used by foreign-data
-    wrappers or similar middleware to enable pass-through SCRAM
-    authentication. See [Section F.38.1.10](../../appendixes/contrib/postgres-fdw.md#POSTGRES-FDW-OPTIONS-CONNECTION-MANAGEMENT) for one such
-    implementation. It is not meant to be specified directly by users or
-    client applications.
+:   以 base64 編碼的 SCRAM 伺服器金鑰。外部資料包裝器或類似的中介軟體可以用它來啟用 SCRAM 直通（pass-through）認證。其中一種實作請參閱[第 F.38.1.10 節](../../appendixes/contrib/postgres-fdw.md#POSTGRES-FDW-OPTIONS-CONNECTION-MANAGEMENT)。它並非供使用者或用戶端應用程式直接指定。
 <a id="LIBPQ-CONNECT-SERVICE"></a>
 
 `service` [#](#LIBPQ-CONNECT-SERVICE)
-:   Service name to use for additional parameters. It specifies a service
-    name in `pg_service.conf` that holds additional connection parameters.
-    This allows applications to specify only a service name so connection parameters
-    can be centrally maintained. See [Section 32.17](libpq-pgservice.md).
+:   用於取得額外參數的服務名稱。它指定 `pg_service.conf` 中保存額外連線參數的服務名稱。這讓應用程式只需指定服務名稱，連線參數便可集中維護。請參閱[第 32.17 節](libpq-pgservice.md)。
 <a id="LIBPQ-CONNECT-TARGET-SESSION-ATTRS"></a>
 
 `target_session_attrs` [#](#LIBPQ-CONNECT-TARGET-SESSION-ATTRS)
-:   This option determines whether the session must have certain
-    properties to be acceptable. It's typically used in combination
-    with multiple host names to select the first acceptable alternative
-    among several hosts. There are six modes:
+:   此選項決定工作階段是否必須具備某些屬性才可被接受。它通常與多個主機名稱搭配使用，以便在數個主機中選出第一個可接受的候選。共有六種模式：
 
-    `any` (default)
-    :   any successful connection is acceptable
+    `any`（預設）
+    :   任何成功的連線都可接受
 
     `read-write`
-    :   session must accept read-write transactions by default (that
-        is, the server must not be in hot standby mode and
-        the `default_transaction_read_only` parameter
-        must be `off`)
+    :   工作階段預設必須接受讀寫交易（也就是說，伺服器不得處於熱待命模式，而且 `default_transaction_read_only` 參數必須為 `off`）
 
     `read-only`
-    :   session must not accept read-write transactions by default (the
-        converse)
+    :   工作階段預設不得接受讀寫交易（與前者相反）
 
     `primary`
-    :   server must not be in hot standby mode
+    :   伺服器不得處於熱待命模式
 
     `standby`
-    :   server must be in hot standby mode
+    :   伺服器必須處於熱待命模式
 
     `prefer-standby`
-    :   first try to find a standby server, but if none of the listed
-        hosts is a standby server, try again in `any`
-        mode
+    :   先嘗試尋找待命伺服器，但如果所列的主機都不是待命伺服器，就以 `any` 模式再試一次
 <a id="LIBPQ-CONNECT-LOAD-BALANCE-HOSTS"></a>
 
 `load_balance_hosts` [#](#LIBPQ-CONNECT-LOAD-BALANCE-HOSTS)
-:   Controls the order in which the client tries to connect to the available
-    hosts and addresses. Once a connection attempt is successful no other
-    hosts and addresses will be tried. This parameter is typically used in
-    combination with multiple host names or a DNS record that returns
-    multiple IPs. This parameter can be used in combination with
-    [target_session_attrs](libpq-connect.md#LIBPQ-CONNECT-TARGET-SESSION-ATTRS)
-    to, for example, load balance over standby servers only. Once successfully
-    connected, subsequent queries on the returned connection will all be
-    sent to the same server. There are currently two modes:
+:   控制用戶端嘗試連線到可用主機與位址的順序。一旦某次連線嘗試成功，就不會再嘗試其他主機與位址。此參數通常與多個主機名稱，或會傳回多個 IP 的 DNS 紀錄搭配使用。此參數可以與 [target_session_attrs](libpq-connect.md#LIBPQ-CONNECT-TARGET-SESSION-ATTRS) 搭配使用，例如只在待命伺服器之間進行負載平衡。成功連線後，在傳回之連線上的後續查詢都會送到同一台伺服器。目前有兩種模式：
 
-    `disable` (default)
-    :   No load balancing across hosts is performed. Hosts are tried in
-        the order in which they are provided and addresses are tried in
-        the order they are received from DNS or a hosts file.
+    `disable`（預設）
+    :   不在主機之間進行負載平衡。主機會依提供的順序嘗試，位址則依從 DNS 或 hosts 檔案收到的順序嘗試。
 
     `random`
-    :   Hosts and addresses are tried in random order. This value is mostly
-        useful when opening multiple connections at the same time, possibly
-        from different machines. This way connections can be load balanced
-        across multiple PostgreSQL servers.
+    :   主機與位址會以隨機順序嘗試。此值主要適用於同時開啟多個連線的情況，這些連線可能來自不同的機器。如此一來，連線便可在多台 PostgreSQL 伺服器之間進行負載平衡。
 
-        While random load balancing, due to its random nature, will almost
-        never result in a completely uniform distribution, it statistically
-        gets quite close. One important aspect here is that this algorithm
-        uses two levels of random choices: First the hosts
-        will be resolved in random order. Then secondly, before resolving
-        the next host, all resolved addresses for the current host will be
-        tried in random order. This behaviour can skew the amount of
-        connections each node gets greatly in certain cases, for instance
-        when some hosts resolve to more addresses than others. But such a
-        skew can also be used on purpose, e.g. to increase the number of
-        connections a larger server gets by providing its hostname multiple
-        times in the host string.
+        雖然隨機負載平衡由於其隨機的本質，幾乎永遠不會產生完全均勻的分布，但在統計上會相當接近。這裡有一個重要的面向：此演算法使用兩層隨機選擇。首先，主機會以隨機順序解析。其次，在解析下一個主機之前，會以隨機順序嘗試目前主機的所有已解析位址。在某些情況下，這種行為可能會大幅扭曲每個節點所獲得的連線數量，例如某些主機解析出的位址比其他主機多的時候。但也可以刻意利用這種偏差，例如在主機字串中多次提供較大型伺服器的主機名稱，以增加它所獲得的連線數量。
 
-        When using this value it's recommended to also configure a reasonable
-        value for [connect_timeout](libpq-connect.md#LIBPQ-CONNECT-CONNECT-TIMEOUT). Because then,
-        if one of the nodes that are used for load balancing is not responding,
-        a new node will be tried.
+        使用此值時，建議同時為 [connect_timeout](libpq-connect.md#LIBPQ-CONNECT-CONNECT-TIMEOUT) 設定一個合理的值。如此一來，如果用於負載平衡的某個節點沒有回應，就會嘗試新的節點。
 <a id="LIBPQ-CONNECT-OAUTH-ISSUER"></a>
 
 `oauth_issuer` [#](#LIBPQ-CONNECT-OAUTH-ISSUER)
-:   The HTTPS URL of a trusted issuer to contact if the server requests an
-    OAuth token for the connection. This parameter is required for all OAuth
-    connections; it should exactly match the `issuer`
-    setting in [the server's HBA configuration](../../server-administration/client-authentication/auth-oauth.md).
+:   伺服器為此連線要求 OAuth 權杖時，所要聯繫之受信任核發者的 HTTPS URL。此參數對所有 OAuth 連線都是必要的；它應該與[伺服器 HBA 設定](../../server-administration/client-authentication/auth-oauth.md)中的 `issuer` 設定完全相符。
 
-    As part of the standard authentication handshake, libpq
-    will ask the server for a *discovery document:* a URL
-    providing a set of OAuth configuration parameters. The server must
-    provide a URL that is directly constructed from the components of the
-    `oauth_issuer`, and this value must exactly match the
-    issuer identifier that is declared in the discovery document itself, or
-    the connection will fail. This is required to prevent a class of
-    ["mix-up attacks"](https://mailarchive.ietf.org/arch/msg/oauth/JIVxFBGsJBVtm7ljwJhPUm3Fr-w/) on OAuth clients.
+    在標準認證交握的過程中，libpq 會向伺服器索取一份*發現文件（discovery document）：*也就是提供一組 OAuth 設定參數的 URL。伺服器必須提供一個直接由 `oauth_issuer` 的各組成部分建構而成的 URL，而且此值必須與發現文件本身所宣告的核發者識別碼完全相符，否則連線將會失敗。這是為了防範針對 OAuth 用戶端的一類[「混淆攻擊」（mix-up attacks）](https://mailarchive.ietf.org/arch/msg/oauth/JIVxFBGsJBVtm7ljwJhPUm3Fr-w/)所必需的。
 
-    You may also explicitly set `oauth_issuer` to the
-    `/.well-known/` URI used for OAuth discovery. In this
-    case, if the server asks for a different URL, the connection will fail,
-    but a [custom OAuth flow](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)
-    may be able to speed up the standard handshake by using previously
-    cached tokens. (In this case, it is recommended that
-    [oauth_scope](libpq-connect.md#LIBPQ-CONNECT-OAUTH-SCOPE) be set as well, since the
-    client will not have a chance to ask the server for a correct scope
-    setting, and the default scopes for a token may not be sufficient to
-    connect.) libpq currently supports the
-    following well-known endpoints:
+    你也可以將 `oauth_issuer` 明確設為用於 OAuth 發現的 `/.well-known/` URI。在這種情況下，如果伺服器要求不同的 URL，連線將會失敗，但[自訂 OAuth 流程](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)也許能透過使用先前快取的權杖來加快標準交握。（在這種情況下，建議也設定 [oauth_scope](libpq-connect.md#LIBPQ-CONNECT-OAUTH-SCOPE)，因為用戶端將沒有機會向伺服器詢問正確的範圍設定，而權杖的預設範圍可能不足以建立連線。）libpq 目前支援下列眾所周知的端點：
 
     * `/.well-known/openid-configuration`
     * `/.well-known/oauth-authorization-server`
 
-    ### Warning
+    ### 警告
 
-    Issuers are highly privileged during the OAuth connection handshake. As
-    a rule of thumb, if you would not trust the operator of a URL to handle
-    access to your servers, or to impersonate you directly, that URL should
-    not be trusted as an `oauth_issuer`.
+    在 OAuth 連線交握期間，核發者擁有很高的權限。根據經驗法則，如果你不信任某個 URL 的營運者處理對你伺服器的存取，或直接冒充你，那麼該 URL 就不應被信任為 `oauth_issuer`。
 <a id="LIBPQ-CONNECT-OAUTH-CLIENT-ID"></a>
 
 `oauth_client_id` [#](#LIBPQ-CONNECT-OAUTH-CLIENT-ID)
-:   An OAuth 2.0 client identifier, as issued by the authorization server.
-    If the PostgreSQL server
-    [requests an OAuth token](../../server-administration/client-authentication/auth-oauth.md) for the
-    connection (and if no [custom
-    OAuth hook](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS) is installed to provide one), then this parameter must
-    be set; otherwise, the connection will fail.
+:   由授權伺服器所核發的 OAuth 2.0 用戶端識別碼。如果 PostgreSQL 伺服器為此連線[要求 OAuth 權杖](../../server-administration/client-authentication/auth-oauth.md)（而且沒有安裝[自訂 OAuth 掛鉤](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)來提供權杖），就必須設定此參數；否則連線將會失敗。
 <a id="LIBPQ-CONNECT-OAUTH-CLIENT-SECRET"></a>
 
 `oauth_client_secret` [#](#LIBPQ-CONNECT-OAUTH-CLIENT-SECRET)
-:   The client password, if any, to use when contacting the OAuth
-    authorization server. Whether this parameter is required or not is
-    determined by the OAuth provider; "public" clients generally do not use
-    a secret, whereas "confidential" clients generally do.
+:   聯繫 OAuth 授權伺服器時所使用的用戶端密碼（如果有的話）。此參數是否為必要，由 OAuth 提供者決定；「公開」（public）用戶端通常不使用祕密（secret），而「機密」（confidential）用戶端通常會使用。
 <a id="LIBPQ-CONNECT-OAUTH-SCOPE"></a>
 
 `oauth_scope` [#](#LIBPQ-CONNECT-OAUTH-SCOPE)
-:   The scope of the access request sent to the authorization server,
-    specified as a (possibly empty) space-separated list of OAuth scope
-    identifiers. This parameter is optional and intended for advanced usage.
+:   傳送給授權伺服器之存取請求的範圍，以 OAuth 範圍識別碼組成、以空白分隔的清單（可能為空）來指定。此參數是選用的，供進階用途使用。
 
-    Usually the client will obtain appropriate scope settings from the
-    PostgreSQL server. If this parameter is used,
-    the server's requested scope list will be ignored. This can prevent a
-    less-trusted server from requesting inappropriate access scopes from the
-    end user. However, if the client's scope setting does not contain the
-    server's required scopes, the server is likely to reject the issued
-    token, and the connection will fail.
+    通常用戶端會從 PostgreSQL 伺服器取得適當的範圍設定。如果使用了此參數，伺服器所要求的範圍清單將被忽略。這可以防止較不受信任的伺服器向終端使用者要求不適當的存取範圍。不過，如果用戶端的範圍設定沒有包含伺服器所需的範圍，伺服器很可能會拒絕所核發的權杖，連線也將會失敗。
 
-    The meaning of an empty scope list is provider-dependent. An OAuth
-    authorization server may choose to issue a token with "default scope",
-    whatever that happens to be, or it may reject the token request
-    entirely.
+    空範圍清單的意義取決於提供者。OAuth 授權伺服器可以選擇核發具有「預設範圍」（無論那恰好是什麼）的權杖，也可能完全拒絕該權杖請求。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-connect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-connect.html)（原文版本：18.6；核對日期：2026-10-18）
