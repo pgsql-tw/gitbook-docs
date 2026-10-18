@@ -1,85 +1,59 @@
-## 34.4. Using Host Variables [#](#ECPG-VARIABLES)
+<a id="ECPG-VARIABLES"></a>
 
-[34.4.1. Overview](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
+## 34.4. 使用主機變數 [#](#ECPG-VARIABLES)
 
-[34.4.2. Declare Sections](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
+[34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
 
-[34.4.3. Retrieving Query Results](ecpg-variables.md#ECPG-RETRIEVING)
+[34.4.2. 宣告區段](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
 
-[34.4.4. Type Mapping](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
+[34.4.3. 取得查詢結果](ecpg-variables.md#ECPG-RETRIEVING)
 
-[34.4.5. Handling Nonprimitive SQL Data Types](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+[34.4.4. 型別對應](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
 
-[34.4.6. Indicators](ecpg-variables.md#ECPG-INDICATORS)
+[34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
 
-In [Section 34.3](ecpg-commands.md) you saw how you can execute SQL
-statements from an embedded SQL program. Some of those statements
-only used fixed values and did not provide a way to insert
-user-supplied values into statements or have the program process
-the values returned by the query. Those kinds of statements are
-not really useful in real applications. This section explains in
-detail how you can pass data between your C program and the
-embedded SQL statements using a simple mechanism called
-*host variables*. In an embedded SQL program we
-consider the SQL statements to be *guests* in the C
-program code which is the *host language*. Therefore
-the variables of the C program are called *host
-variables*.
+[34.4.6. 指示變數](ecpg-variables.md#ECPG-INDICATORS)
 
-Another way to exchange values between PostgreSQL backends and ECPG
-applications is the use of SQL descriptors, described
-in [Section 34.7](ecpg-descriptors.md).
+在[第 34.3 節](ecpg-commands.md)中，你已經看到如何從嵌入式 SQL 程式執行 SQL 陳述式。其中有些陳述式只使用固定的值，無法把使用者提供的值放進陳述式，也無法讓程式處理查詢傳回的值。這類陳述式在實際的應用程式中並不實用。本節將詳細說明如何透過一種稱為*主機變數*的簡單機制，在 C 程式與嵌入式 SQL 陳述式之間傳遞資料。在嵌入式 SQL 程式中，我們把 SQL 陳述式視為 C 程式碼中的*客人*，而 C 程式碼則是*主機語言*。因此，C 程式的變數稱為*主機變數*。
+
+在 PostgreSQL 後端與 ECPG 應用程式之間交換值的另一種方式是使用 SQL 描述區，詳見[第 34.7 節](ecpg-descriptors.md)。
 
 <a id="ECPG-VARIABLES-OVERVIEW"></a>
 
-### 34.4.1. Overview [#](#ECPG-VARIABLES-OVERVIEW)
+### 34.4.1. 概觀 [#](#ECPG-VARIABLES-OVERVIEW)
 
-Passing data between the C program and the SQL statements is
-particularly simple in embedded SQL. Instead of having the
-program paste the data into the statement, which entails various
-complications, such as properly quoting the value, you can simply
-write the name of a C variable into the SQL statement, prefixed by
-a colon. For example:
+在嵌入式 SQL 中，於 C 程式與 SQL 陳述式之間傳遞資料特別簡單。你不必讓程式把資料貼進陳述式（這會帶來各種麻煩，例如必須正確地為值加上引號），只要把 C 變數的名稱加上冒號前綴寫進 SQL 陳述式即可。例如：
 
 ```
 
 EXEC SQL INSERT INTO sometable VALUES (:v1, 'foo', :v2);
 ```
 
-This statement refers to two C variables named
-`v1` and `v2` and also uses a
-regular SQL string literal, to illustrate that you are not
-restricted to use one kind of data or the other.
+這個陳述式參照了兩個名為 `v1` 與 `v2` 的 C 變數，同時也使用了一般的 SQL 字串常數，以說明你並不受限於只能使用其中一種資料。
 
-This style of inserting C variables in SQL statements works
-anywhere a value expression is expected in an SQL statement.
+這種在 SQL 陳述式中插入 C 變數的寫法，在 SQL 陳述式中任何預期出現值表示式的地方都可以使用。
 
 <a id="ECPG-DECLARE-SECTIONS"></a>
 
-### 34.4.2. Declare Sections [#](#ECPG-DECLARE-SECTIONS)
+### 34.4.2. 宣告區段 [#](#ECPG-DECLARE-SECTIONS)
 
-To pass data from the program to the database, for example as
-parameters in a query, or to pass data from the database back to
-the program, the C variables that are intended to contain this
-data need to be declared in specially marked sections, so the
-embedded SQL preprocessor is made aware of them.
+若要把資料從程式傳給資料庫（例如作為查詢的參數），或把資料從資料庫傳回程式，用來存放這些資料的 C 變數必須宣告在特別標示的區段中，讓嵌入式 SQL 前置處理器得以知道它們。
 
-This section starts with:
+這個區段以下列敘述開始：
 
 ```
 
 EXEC SQL BEGIN DECLARE SECTION;
 ```
 
-and ends with:
+並以下列敘述結束：
 
 ```
 
 EXEC SQL END DECLARE SECTION;
 ```
 
-Between those lines, there must be normal C variable declarations,
-such as:
+在這兩行之間必須是一般的 C 變數宣告，例如：
 
 ```
 
@@ -87,44 +61,26 @@ int   x = 4;
 char  foo[16], bar[16];
 ```
 
-As you can see, you can optionally assign an initial value to the variable.
-The variable's scope is determined by the location of its declaring
-section within the program.
-You can also declare variables with the following syntax which implicitly
-creates a declare section:
+如你所見，你可以選擇為變數指定初始值。變數的作用範圍取決於其宣告區段在程式中的位置。你也可以使用下列語法宣告變數，這會隱含地建立一個宣告區段：
 
 ```
 
 EXEC SQL int i = 4;
 ```
 
-You can have as many declare sections in a program as you like.
+一個程式中可以有任意多個宣告區段。
 
-The declarations are also echoed to the output file as normal C
-variables, so there's no need to declare them again. Variables
-that are not intended to be used in SQL commands can be declared
-normally outside these special sections.
+這些宣告也會以一般 C 變數的形式輸出到輸出檔案中，因此不需要再宣告一次。不打算在 SQL 命令中使用的變數，可以在這些特殊區段之外以一般方式宣告。
 
-The definition of a structure or union also must be listed inside
-a `DECLARE` section. Otherwise the preprocessor cannot
-handle these types since it does not know the definition.
+結構（struct）或聯合（union）的定義也必須列在 `DECLARE` 區段之內。否則前置處理器無法處理這些型別，因為它不知道其定義。
 
 <a id="ECPG-RETRIEVING"></a>
 
-### 34.4.3. Retrieving Query Results [#](#ECPG-RETRIEVING)
+### 34.4.3. 取得查詢結果 [#](#ECPG-RETRIEVING)
 
-Now you should be able to pass data generated by your program into
-an SQL command. But how do you retrieve the results of a query?
-For that purpose, embedded SQL provides special variants of the
-usual commands `SELECT` and
-`FETCH`. These commands have a special
-`INTO` clause that specifies which host variables
-the retrieved values are to be stored in.
-`SELECT` is used for a query that returns only
-single row, and `FETCH` is used for a query that
-returns multiple rows, using a cursor.
+現在你應該已經能把程式產生的資料傳入 SQL 命令了。但要如何取得查詢的結果呢？為此，嵌入式 SQL 提供了常用命令 `SELECT` 與 `FETCH` 的特殊變體。這些命令有一個特殊的 `INTO` 子句，用來指定取得的值要存放到哪些主機變數中。`SELECT` 用於只傳回單一資料列的查詢，而 `FETCH` 則搭配游標，用於傳回多筆資料列的查詢。
 
-Here is an example:
+以下是一個範例：
 
 ```
 
@@ -143,13 +99,11 @@ EXEC SQL END DECLARE SECTION;
 EXEC SQL SELECT a, b INTO :v1, :v2 FROM test;
 ```
 
-So the `INTO` clause appears between the select
-list and the `FROM` clause. The number of
-elements in the select list and the list after
-`INTO` (also called the target list) must be
-equal.
+譯註：原文範例註解假設的資料表名稱為 test1，但 SELECT 陳述式查詢的是 test；範例程式碼依原文保留，實際使用時兩者應一致。
 
-Here is an example using the command `FETCH`:
+所以 `INTO` 子句出現在選取清單與 `FROM` 子句之間。選取清單中的元素數目必須與 `INTO` 之後的清單（也稱為目標清單）的元素數目相等。
+
+以下是使用 `FETCH` 命令的範例：
 
 ```
 
@@ -172,52 +126,33 @@ do
 } while (...);
 ```
 
-Here the `INTO` clause appears after all the
-normal clauses.
+這裡的 `INTO` 子句出現在所有一般子句之後。
 
 <a id="ECPG-VARIABLES-TYPE-MAPPING"></a>
 
-### 34.4.4. Type Mapping [#](#ECPG-VARIABLES-TYPE-MAPPING)
+### 34.4.4. 型別對應 [#](#ECPG-VARIABLES-TYPE-MAPPING)
 
-When ECPG applications exchange values between the PostgreSQL
-server and the C application, such as when retrieving query
-results from the server or executing SQL statements with input
-parameters, the values need to be converted between PostgreSQL
-data types and host language variable types (C language data
-types, concretely). One of the main points of ECPG is that it
-takes care of this automatically in most cases.
+當 ECPG 應用程式在 PostgreSQL 伺服器與 C 應用程式之間交換值時，例如從伺服器取得查詢結果，或執行帶有輸入參數的 SQL 陳述式時，這些值需要在 PostgreSQL 資料型別與主機語言變數型別（具體而言就是 C 語言資料型別）之間轉換。ECPG 的重點之一，就是在大多數情況下會自動處理這件事。
 
-In this respect, there are two kinds of data types: Some simple
-PostgreSQL data types, such as `integer`
-and `text`, can be read and written by the application
-directly. Other PostgreSQL data types, such
-as `timestamp` and `numeric` can only be
-accessed through special library functions; see
-[Section 34.4.4.2](ecpg-variables.md#ECPG-SPECIAL-TYPES).
+就這方面而言，資料型別分為兩類：一些簡單的 PostgreSQL 資料型別，例如 `integer` 與 `text`，應用程式可以直接讀寫。其他 PostgreSQL 資料型別，例如 `timestamp` 與 `numeric`，則只能透過特殊的函式庫函式存取；請參閱[第 34.4.4.2 節](ecpg-variables.md#ECPG-SPECIAL-TYPES)。
 
-[Table 34.1](ecpg-variables.md#ECPG-DATATYPE-HOSTVARS-TABLE) shows which PostgreSQL
-data types correspond to which C data types. When you wish to
-send or receive a value of a given PostgreSQL data type, you
-should declare a C variable of the corresponding C data type in
-the declare section.
+[表 34.1](ecpg-variables.md#ECPG-DATATYPE-HOSTVARS-TABLE) 列出哪些 PostgreSQL 資料型別對應到哪些 C 資料型別。當你想要傳送或接收某個 PostgreSQL 資料型別的值時，應該在宣告區段中宣告對應 C 資料型別的 C 變數。
 
 <a id="ECPG-DATATYPE-HOSTVARS-TABLE"></a>
 
-**Table 34.1. Mapping Between PostgreSQL Data Types and C Variable Types**
+**表 34.1. PostgreSQL 資料型別與 C 變數型別之間的對應**
 
-<table border="1" class="table" summary="Mapping Between PostgreSQL Data Types and C Variable Types"><colgroup><col/><col/></colgroup><thead><tr><th>PostgreSQL data type</th><th>Host variable type</th></tr></thead><tbody><tr><td><code class="type">smallint</code></td><td><code class="type">short</code></td></tr><tr><td><code class="type">integer</code></td><td><code class="type">int</code></td></tr><tr><td><code class="type">bigint</code></td><td><code class="type">long long int</code></td></tr><tr><td><code class="type">decimal</code></td><td><code class="type">decimal</code><a class="footnote" href="#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnote" id="ECPG-DATATYPE-TABLE-FN">[a]</sup></a></td></tr><tr><td><code class="type">numeric</code></td><td><code class="type">numeric</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">real</code></td><td><code class="type">float</code></td></tr><tr><td><code class="type">double precision</code></td><td><code class="type">double</code></td></tr><tr><td><code class="type">smallserial</code></td><td><code class="type">short</code></td></tr><tr><td><code class="type">serial</code></td><td><code class="type">int</code></td></tr><tr><td><code class="type">bigserial</code></td><td><code class="type">long long int</code></td></tr><tr><td><code class="type">oid</code></td><td><code class="type">unsigned int</code></td></tr><tr><td><code class="type">character(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">varchar(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">text</code></td><td><code class="type">char[<em class="replaceable"><code>n</code></em>+1]</code>, <code class="type">VARCHAR[<em class="replaceable"><code>n</code></em>+1]</code></td></tr><tr><td><code class="type">name</code></td><td><code class="type">char[NAMEDATALEN]</code></td></tr><tr><td><code class="type">timestamp</code></td><td><code class="type">timestamp</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">interval</code></td><td><code class="type">interval</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">date</code></td><td><code class="type">date</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">boolean</code></td><td><code class="type">bool</code><a class="footnote" href="#ftn.id-1.7.5.10.7.5.2.2.17.2.2"><sup class="footnote" id="id-1.7.5.10.7.5.2.2.17.2.2">[b]</sup></a></td></tr><tr><td><code class="type">bytea</code></td><td><code class="type">char *</code>, <code class="type">bytea[<em class="replaceable"><code>n</code></em>]</code></td></tr></tbody><tbody class="footnotes"><tr><td colspan="2"><div class="footnote" id="ftn.ECPG-DATATYPE-TABLE-FN"><p><a class="para" href="#ECPG-DATATYPE-TABLE-FN"><sup class="para">[a] </sup></a>This type can only be accessed through special library functions; see <a class="xref" href="ecpg-variables.md#ECPG-SPECIAL-TYPES">Section 34.4.4.2</a>.</p></div><div class="footnote" id="ftn.id-1.7.5.10.7.5.2.2.17.2.2"><p><a class="para" href="#id-1.7.5.10.7.5.2.2.17.2.2"><sup class="para">[b] </sup></a>declared in <code class="filename">ecpglib.h</code> if not native</p></div></td></tr></tbody></table>
+<table border="1" class="table" summary="PostgreSQL 資料型別與 C 變數型別之間的對應"><colgroup><col/><col/></colgroup><thead><tr><th>PostgreSQL 資料型別</th><th>主機變數型別</th></tr></thead><tbody><tr><td><code class="type">smallint</code></td><td><code class="type">short</code></td></tr><tr><td><code class="type">integer</code></td><td><code class="type">int</code></td></tr><tr><td><code class="type">bigint</code></td><td><code class="type">long long int</code></td></tr><tr><td><code class="type">decimal</code></td><td><code class="type">decimal</code><a class="footnote" href="#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnote" id="ECPG-DATATYPE-TABLE-FN">[a]</sup></a></td></tr><tr><td><code class="type">numeric</code></td><td><code class="type">numeric</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">real</code></td><td><code class="type">float</code></td></tr><tr><td><code class="type">double precision</code></td><td><code class="type">double</code></td></tr><tr><td><code class="type">smallserial</code></td><td><code class="type">short</code></td></tr><tr><td><code class="type">serial</code></td><td><code class="type">int</code></td></tr><tr><td><code class="type">bigserial</code></td><td><code class="type">long long int</code></td></tr><tr><td><code class="type">oid</code></td><td><code class="type">unsigned int</code></td></tr><tr><td><code class="type">character(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">varchar(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">text</code></td><td><code class="type">char[<em class="replaceable"><code>n</code></em>+1]</code>, <code class="type">VARCHAR[<em class="replaceable"><code>n</code></em>+1]</code></td></tr><tr><td><code class="type">name</code></td><td><code class="type">char[NAMEDATALEN]</code></td></tr><tr><td><code class="type">timestamp</code></td><td><code class="type">timestamp</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">interval</code></td><td><code class="type">interval</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">date</code></td><td><code class="type">date</code><a class="footnoteref" href="ecpg-variables.md#ftn.ECPG-DATATYPE-TABLE-FN"><sup class="footnoteref">[a]</sup></a></td></tr><tr><td><code class="type">boolean</code></td><td><code class="type">bool</code><a class="footnote" href="#ftn.id-1.7.5.10.7.5.2.2.17.2.2"><sup class="footnote" id="id-1.7.5.10.7.5.2.2.17.2.2">[b]</sup></a></td></tr><tr><td><code class="type">bytea</code></td><td><code class="type">char *</code>, <code class="type">bytea[<em class="replaceable"><code>n</code></em>]</code></td></tr></tbody><tbody class="footnotes"><tr><td colspan="2"><div class="footnote" id="ftn.ECPG-DATATYPE-TABLE-FN"><p><a class="para" href="#ECPG-DATATYPE-TABLE-FN"><sup class="para">[a] </sup></a>此型別只能透過特殊的函式庫函式存取；請參閱<a class="xref" href="ecpg-variables.md#ECPG-SPECIAL-TYPES">第 34.4.4.2 節</a>。</p></div><div class="footnote" id="ftn.id-1.7.5.10.7.5.2.2.17.2.2"><p><a class="para" href="#id-1.7.5.10.7.5.2.2.17.2.2"><sup class="para">[b] </sup></a>若非原生型別，則宣告於 <code class="filename">ecpglib.h</code></p></div></td></tr></tbody></table>
 
-<br><a id="ECPG-CHAR"></a>
+<br>
 
-#### 34.4.4.1. Handling Character Strings [#](#ECPG-CHAR)
+<a id="ECPG-CHAR"></a>
 
-To handle SQL character string data types, such
-as `varchar` and `text`, there are two
-possible ways to declare the host variables.
+#### 34.4.4.1. 處理字元字串 [#](#ECPG-CHAR)
 
-One way is using `char[]`, an array
-of `char`, which is the most common way to handle
-character data in C.
+若要處理 SQL 字元字串資料型別，例如 `varchar` 與 `text`，宣告主機變數有兩種可行的方式。
+
+一種是使用 `char[]`，也就是 `char` 的陣列，這是 C 語言中處理字元資料最常見的方式。
 
 ```
 
@@ -226,87 +161,50 @@ EXEC SQL BEGIN DECLARE SECTION;
 EXEC SQL END DECLARE SECTION;
 ```
 
-Note that you have to take care of the length yourself. If you
-use this host variable as the target variable of a query which
-returns a string with more than 49 characters, a buffer overflow
-occurs.
+請注意，你必須自行處理長度。如果你把這個主機變數用作某個查詢的目標變數，而該查詢傳回超過 49 個字元的字串，就會發生緩衝區溢位。
 
-The other way is using the `VARCHAR` type, which is a
-special type provided by ECPG. The definition on an array of
-type `VARCHAR` is converted into a
-named `struct` for every variable. A declaration like:
+另一種方式是使用 `VARCHAR` 型別，這是 ECPG 提供的特殊型別。`VARCHAR` 型別陣列的定義，會針對每個變數轉換成一個具名的 `struct`。像這樣的宣告：
 
 ```
 
 VARCHAR var[180];
 ```
 
-is converted into:
+會被轉換成：
 
 ```
 
 struct varchar_var { int len; char arr[180]; } var;
 ```
 
-The member `arr` hosts the string
-including a terminating zero byte. Thus, to store a string in
-a `VARCHAR` host variable, the host variable has to be
-declared with the length including the zero byte terminator. The
-member `len` holds the length of the
-string stored in the `arr` without the
-terminating zero byte. When a host variable is used as input for
-a query, if `strlen(arr)`
-and `len` are different, the shorter one
-is used.
+成員 `arr` 存放字串，包含結尾的零位元組。因此，若要在 `VARCHAR` 主機變數中存放字串，宣告該主機變數時，長度必須把零位元組結尾符號也算進去。成員 `len` 存放 `arr` 中所儲存字串的長度，不含結尾的零位元組。當主機變數用作查詢的輸入時，若 `strlen(arr)` 與 `len` 不同，會使用較短的那一個。
 
-`VARCHAR` can be written in upper or lower case, but
-not in mixed case.
+`VARCHAR` 可以全部大寫或全部小寫，但不能大小寫混用。
 
-`char` and `VARCHAR` host variables can
-also hold values of other SQL types, which will be stored in
-their string forms.
+`char` 與 `VARCHAR` 主機變數也可以存放其他 SQL 型別的值，這些值會以字串形式儲存。
 
 <a id="ECPG-SPECIAL-TYPES"></a>
 
-#### 34.4.4.2. Accessing Special Data Types [#](#ECPG-SPECIAL-TYPES)
+#### 34.4.4.2. 存取特殊資料型別 [#](#ECPG-SPECIAL-TYPES)
 
-ECPG contains some special types that help you to interact easily
-with some special data types from the PostgreSQL server. In
-particular, it has implemented support for the
-`numeric`, `decimal`, `date`, `timestamp`,
-and `interval` types. These data types cannot usefully be
-mapped to primitive host variable types (such
-as `int`, `long long int`,
-or `char[]`), because they have a complex internal
-structure. Applications deal with these types by declaring host
-variables in special types and accessing them using functions in
-the pgtypes library. The pgtypes library, described in detail
-in [Section 34.6](ecpg-pgtypes.md) contains basic functions to deal
-with those types, such that you do not need to send a query to
-the SQL server just for adding an interval to a time stamp for
-example.
+ECPG 包含一些特殊型別，可以幫助你輕鬆地與 PostgreSQL 伺服器的某些特殊資料型別互動。具體而言，它已實作對 `numeric`、`decimal`、`date`、`timestamp` 與 `interval` 型別的支援。這些資料型別因為內部結構複雜，無法有效地對應到基本的主機變數型別（例如 `int`、`long long int` 或 `char[]`）。應用程式處理這些型別的方式，是以特殊型別宣告主機變數，並使用 pgtypes 函式庫中的函式來存取它們。pgtypes 函式庫（詳見[第 34.6 節](ecpg-pgtypes.md)）包含處理這些型別的基本函式，例如，你不必只為了把一段時間間隔加到時間戳記上，就向 SQL 伺服器傳送查詢。
 
-The follow subsections describe these special data types. For
-more details about pgtypes library functions,
-see [Section 34.6](ecpg-pgtypes.md).
+以下各小節說明這些特殊資料型別。關於 pgtypes 函式庫函式的更多細節，請參閱[第 34.6 節](ecpg-pgtypes.md)。
 
 <a id="ECPG-SPECIAL-TYPES-TIMESTAMP-DATE"></a>
 
-##### 34.4.4.2.1. timestamp, date [#](#ECPG-SPECIAL-TYPES-TIMESTAMP-DATE)
+##### 34.4.4.2.1. timestamp、date [#](#ECPG-SPECIAL-TYPES-TIMESTAMP-DATE)
 
-Here is a pattern for handling `timestamp` variables
-in the ECPG host application.
+以下是在 ECPG 主機應用程式中處理 `timestamp` 變數的模式。
 
-First, the program has to include the header file for the
-`timestamp` type:
+首先，程式必須引入 `timestamp` 型別的標頭檔：
 
 ```
 
 #include <pgtypes_timestamp.h>
 ```
 
-Next, declare a host variable as type `timestamp` in
-the declare section:
+接著，在宣告區段中把主機變數宣告為 `timestamp` 型別：
 
 ```
 
@@ -315,11 +213,7 @@ timestamp ts;
 EXEC SQL END DECLARE SECTION;
 ```
 
-And after reading a value into the host variable, process it
-using pgtypes library functions. In following example, the
-`timestamp` value is converted into text (ASCII) form
-with the `PGTYPEStimestamp_to_asc()`
-function:
+把值讀入主機變數之後，再使用 pgtypes 函式庫函式處理它。在下列範例中，`timestamp` 值會以 `PGTYPEStimestamp_to_asc()` 函式轉換成文字（ASCII）形式：
 
 ```
 
@@ -328,31 +222,22 @@ EXEC SQL SELECT now()::timestamp INTO :ts;
 printf("ts = %s\n", PGTYPEStimestamp_to_asc(ts));
 ```
 
-This example will show some result like following:
+這個範例會顯示類似下面的結果：
 
 ```
 
 ts = 2010-06-27 18:03:56.949343
 ```
 
-In addition, the DATE type can be handled in the same way. The
-program has to include `pgtypes_date.h`, declare a host variable
-as the date type and convert a DATE value into a text form using
-`PGTYPESdate_to_asc()` function. For more details about the
-pgtypes library functions, see [Section 34.6](ecpg-pgtypes.md).
+此外，DATE 型別也可以用相同方式處理。程式必須引入 `pgtypes_date.h`，把主機變數宣告為 date 型別，並使用 `PGTYPESdate_to_asc()` 函式把 DATE 值轉換成文字形式。關於 pgtypes 函式庫函式的更多細節，請參閱[第 34.6 節](ecpg-pgtypes.md)。
 
 <a id="ECPG-TYPE-INTERVAL"></a>
 
-##### 34.4.4.2.2. interval [#](#ECPG-TYPE-INTERVAL)
+##### 34.4.4.2.2. interval [#](#ECPG-TYPE-INTERVAL)
 
-The handling of the `interval` type is also similar
-to the `timestamp` and `date` types. It
-is required, however, to allocate memory for
-an `interval` type value explicitly. In other words,
-the memory space for the variable has to be allocated in the
-heap memory, not in the stack memory.
+`interval` 型別的處理方式也與 `timestamp` 和 `date` 型別類似。不過，必須明確地為 `interval` 型別的值配置記憶體。換句話說，變數的記憶體空間必須配置在堆積記憶體中，而不是堆疊記憶體中。
 
-Here is an example program:
+以下是一個範例程式：
 
 ```
 
@@ -383,23 +268,13 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-TYPE-NUMERIC-DECIMAL"></a>
 
-##### 34.4.4.2.3. numeric, decimal [#](#ECPG-TYPE-NUMERIC-DECIMAL)
+##### 34.4.4.2.3. numeric、decimal [#](#ECPG-TYPE-NUMERIC-DECIMAL)
 
-The handling of the `numeric`
-and `decimal` types is similar to the
-`interval` type: It requires defining a pointer,
-allocating some memory space on the heap, and accessing the
-variable using the pgtypes library functions. For more details
-about the pgtypes library functions,
-see [Section 34.6](ecpg-pgtypes.md).
+`numeric` 與 `decimal` 型別的處理方式與 `interval` 型別類似：需要定義指標、在堆積上配置記憶體空間，並使用 pgtypes 函式庫函式存取該變數。關於 pgtypes 函式庫函式的更多細節，請參閱[第 34.6 節](ecpg-pgtypes.md)。
 
-No functions are provided specifically for
-the `decimal` type. An application has to convert it
-to a `numeric` variable using a pgtypes library
-function to do further processing.
+並沒有專門為 `decimal` 型別提供的函式。應用程式必須使用 pgtypes 函式庫函式把它轉換成 `numeric` 變數，才能做進一步處理。
 
-Here is an example program handling `numeric`
-and `decimal` type variables.
+以下是一個處理 `numeric` 與 `decimal` 型別變數的範例程式。
 
 ```
 
@@ -450,62 +325,41 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-SPECIAL-TYPES-BYTEA"></a>
 
-##### 34.4.4.2.4. bytea [#](#ECPG-SPECIAL-TYPES-BYTEA)
+##### 34.4.4.2.4. bytea [#](#ECPG-SPECIAL-TYPES-BYTEA)
 
-The handling of the `bytea` type is similar to
-that of `VARCHAR`. The definition on an array of type
-`bytea` is converted into a named struct for every
-variable. A declaration like:
+`bytea` 型別的處理方式與 `VARCHAR` 類似。`bytea` 型別陣列的定義，會針對每個變數轉換成一個具名的結構。像這樣的宣告：
 
 ```
 
 bytea var[180];
 ```
 
-is converted into:
+會被轉換成：
 
 ```
 
 struct bytea_var { int len; char arr[180]; } var;
 ```
 
-The member `arr` hosts binary format
-data. It can also handle `'\0'` as part of
-data, unlike `VARCHAR`.
-The data is converted from/to hex format and sent/received by
-ecpglib.
+成員 `arr` 存放二進位格式的資料。與 `VARCHAR` 不同，它也能把 `'\0'` 當作資料的一部分處理。資料由 ecpglib 轉換為十六進位格式或從十六進位格式轉換回來，並進行傳送與接收。
 
-### Note
+### 注意
 
-`bytea` variable can be used only when
-[bytea_output](../../server-administration/runtime-config/runtime-config-client.md#GUC-BYTEA-OUTPUT) is set to `hex`.
+只有在 [bytea_output](../../server-administration/runtime-config/runtime-config-client.md#GUC-BYTEA-OUTPUT) 設定為 `hex` 時，才能使用 `bytea` 變數。
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-C"></a>
 
-#### 34.4.4.3. Host Variables with Nonprimitive Types [#](#ECPG-VARIABLES-NONPRIMITIVE-C)
+#### 34.4.4.3. 非基本型別的主機變數 [#](#ECPG-VARIABLES-NONPRIMITIVE-C)
 
-As a host variable you can also use arrays, typedefs, structs, and
-pointers.
+你也可以使用陣列、typedef、結構與指標作為主機變數。
 
 <a id="ECPG-VARIABLES-ARRAYS"></a>
 
-##### 34.4.4.3.1. Arrays [#](#ECPG-VARIABLES-ARRAYS)
+##### 34.4.4.3.1. 陣列 [#](#ECPG-VARIABLES-ARRAYS)
 
-There are two use cases for arrays as host variables. The first
-is a way to store some text string in `char[]`
-or `VARCHAR[]`, as
-explained in [Section 34.4.4.1](ecpg-variables.md#ECPG-CHAR). The second use case is to
-retrieve multiple rows from a query result without using a
-cursor. Without an array, to process a query result consisting
-of multiple rows, it is required to use a cursor and
-the `FETCH` command. But with array host
-variables, multiple rows can be received at once. The length of
-the array has to be defined to be able to accommodate all rows,
-otherwise a buffer overflow will likely occur.
+陣列作為主機變數有兩種使用情境。第一種是把文字字串存放在 `char[]` 或 `VARCHAR[]` 中，如[第 34.4.4.1 節](ecpg-variables.md#ECPG-CHAR)所述。第二種使用情境是不使用游標，就從查詢結果中取得多筆資料列。如果不使用陣列，要處理由多筆資料列組成的查詢結果，就必須使用游標與 `FETCH` 命令。但使用陣列主機變數時，可以一次接收多筆資料列。陣列的長度必須定義得足以容納所有資料列，否則很可能會發生緩衝區溢位。
 
-Following example scans the `pg_database`
-system table and shows all OIDs and names of the available
-databases:
+下列範例會掃描 `pg_database` 系統資料表，並顯示所有可用資料庫的 OID 與名稱：
 
 ```
 
@@ -536,8 +390,7 @@ EXEC SQL END DECLARE SECTION;
 }
 ```
 
-This example shows following result. (The exact values depend on
-local circumstances.)
+這個範例會顯示下列結果。（確切的值取決於本機環境。）
 
 ```
 
@@ -550,24 +403,15 @@ oid=0, dbname=
 oid=0, dbname=
 ```
 
+譯註：範例程式的迴圈會印出 8 行（i 從 0 到 7），但原文的輸出範例只列出 7 行；輸出範例依原文保留。
+
 <a id="ECPG-VARIABLES-STRUCT"></a>
 
-##### 34.4.4.3.2. Structures [#](#ECPG-VARIABLES-STRUCT)
+##### 34.4.4.3.2. 結構 [#](#ECPG-VARIABLES-STRUCT)
 
-A structure whose member names match the column names of a query
-result, can be used to retrieve multiple columns at once. The
-structure enables handling multiple column values in a single
-host variable.
+成員名稱與查詢結果欄位名稱相符的結構，可以用來一次取得多個欄位。結構讓你能在單一主機變數中處理多個欄位的值。
 
-The following example retrieves OIDs, names, and sizes of the
-available databases from the `pg_database`
-system table and using
-the `pg_database_size()` function. In this
-example, a structure variable `dbinfo_t` with
-members whose names match each column in
-the `SELECT` result is used to retrieve one
-result row without putting multiple host variables in
-the `FETCH` statement.
+下列範例從 `pg_database` 系統資料表並使用 `pg_database_size()` 函式，取得可用資料庫的 OID、名稱與大小。在此範例中，使用了結構型別 `dbinfo_t` 的結構變數 dbval（原文此處寫作「結構變數 dbinfo_t」，但 dbinfo_t 是以 typedef 定義的型別名稱，實際的結構變數是 dbval）（其成員名稱與 `SELECT` 結果的各欄位相符）來取得一筆結果資料列，而不必在 `FETCH` 陳述式中放入多個主機變數。
 
 ```
 
@@ -602,8 +446,7 @@ EXEC SQL END DECLARE SECTION;
     EXEC SQL CLOSE cur1;
 ```
 
-This example shows following result. (The exact values depend on
-local circumstances.)
+這個範例會顯示下列結果。（確切的值取決於本機環境。）
 
 ```
 
@@ -613,11 +456,7 @@ oid=11511, datname=postgres, size=4324580
 oid=313780, datname=testdb, size=8183012
 ```
 
-Structure host variables “absorb” as many columns
-as the structure as fields. Additional columns can be assigned
-to other host variables. For example, the above program could
-also be restructured like this, with the `size`
-variable outside the structure:
+結構主機變數會「吸收」與結構欄位數目相同的欄位。其他的欄位可以指派給其他主機變數。例如，上面的程式也可以改寫成下面這樣，把 `size` 變數放在結構之外：
 
 ```
 
@@ -654,12 +493,11 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-C-TYPEDEFS"></a>
 
-##### 34.4.4.3.3. Typedefs [#](#ECPG-VARIABLES-NONPRIMITIVE-C-TYPEDEFS)
+##### 34.4.4.3.3. 型別定義（typedef） [#](#ECPG-VARIABLES-NONPRIMITIVE-C-TYPEDEFS)
 
 <a id="id-1.7.5.10.7.8.5.2"></a>
 
-Use the `typedef` keyword to map new types to already
-existing types.
+使用 `typedef` 關鍵字把新型別對應到既有的型別。
 
 ```
 
@@ -669,19 +507,16 @@ EXEC SQL BEGIN DECLARE SECTION;
 EXEC SQL END DECLARE SECTION;
 ```
 
-Note that you could also use:
+請注意，你也可以使用：
 
 ```
 
 EXEC SQL TYPE serial_t IS long;
 ```
 
-This declaration does not need to be part of a declare section;
-that is, you can also write typedefs as normal C statements.
+這個宣告不需要放在宣告區段中；也就是說，你也可以把 typedef 寫成一般的 C 陳述式。
 
-Any word you declare as a `typedef` cannot be used as
-an SQL keyword in `EXEC SQL` commands later in the same
-program. For example, this won't work:
+你宣告為 `typedef` 的任何字詞，之後在同一程式的 `EXEC SQL` 命令中都不能當作 SQL 關鍵字使用。例如，下面的寫法無法運作：
 
 ```
 
@@ -692,32 +527,18 @@ EXEC SQL END DECLARE SECTION;
 EXEC SQL START TRANSACTION;
 ```
 
-ECPG will report a syntax error for `START
-TRANSACTION`, because it no longer
-recognizes `START` as an SQL keyword,
-only as a typedef.
-(If you have such a conflict, and renaming the typedef
-seems impractical, you could write the SQL command
-using [dynamic SQL](ecpg-dynamic.md).)
+ECPG 會對 `START
+TRANSACTION` 回報語法錯誤，因為它不再把 `START` 視為 SQL 關鍵字，而只視為 typedef。（如果遇到這種衝突，而重新命名該 typedef 又不太實際，你可以改用[動態 SQL](ecpg-dynamic.md) 撰寫該 SQL 命令。）
 
-### Note
+### 注意
 
-In PostgreSQL releases before v16, use
-of SQL keywords as typedef names was likely to result in syntax
-errors associated with use of the typedef itself, rather than use
-of the name as an SQL keyword. The new behavior is less likely to
-cause problems when an existing ECPG application is recompiled in
-a new PostgreSQL release with new
-keywords.
+在 v16 之前的 PostgreSQL 版本中，把 SQL 關鍵字用作 typedef 名稱，很可能會在使用該 typedef 本身時產生語法錯誤，而不是在把該名稱當作 SQL 關鍵字使用時才產生。新的行為在既有的 ECPG 應用程式於新增了關鍵字的新版 PostgreSQL 中重新編譯時，比較不容易造成問題。
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-C-POINTERS"></a>
 
-##### 34.4.4.3.4. Pointers [#](#ECPG-VARIABLES-NONPRIMITIVE-C-POINTERS)
+##### 34.4.4.3.4. 指標 [#](#ECPG-VARIABLES-NONPRIMITIVE-C-POINTERS)
 
-You can declare pointers to the most common types. Note however
-that you cannot use pointers as target variables of queries
-without auto-allocation. See [Section 34.7](ecpg-descriptors.md)
-for more information on auto-allocation.
+你可以宣告指向最常見型別的指標。不過請注意，若沒有自動配置，就不能把指標用作查詢的目標變數。關於自動配置的更多資訊，請參閱[第 34.7 節](ecpg-descriptors.md)。
 
 ```
 
@@ -729,35 +550,19 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL"></a>
 
-### 34.4.5. Handling Nonprimitive SQL Data Types [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+### 34.4.5. 處理非基本 SQL 資料型別 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL)
 
-This section contains information on how to handle nonscalar and
-user-defined SQL-level data types in ECPG applications. Note that
-this is distinct from the handling of host variables of
-nonprimitive types, described in the previous section.
+本節說明如何在 ECPG 應用程式中處理非純量與使用者自訂的 SQL 層級資料型別。請注意，這與上一節所述的非基本型別主機變數的處理方式不同。
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-ARRAYS"></a>
 
-#### 34.4.5.1. Arrays [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-ARRAYS)
+#### 34.4.5.1. 陣列 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-ARRAYS)
 
-Multi-dimensional SQL-level arrays are not directly supported in ECPG.
-One-dimensional SQL-level arrays can be mapped into C array host
-variables and vice-versa. However, when creating a statement ecpg does
-not know the types of the columns, so that it cannot check if a C array
-is input into a corresponding SQL-level array. When processing the
-output of an SQL statement, ecpg has the necessary information and thus
-checks if both are arrays.
+ECPG 並不直接支援多維的 SQL 層級陣列。一維的 SQL 層級陣列可以對應到 C 陣列主機變數，反之亦然。不過，在建立陳述式時，ecpg 並不知道欄位的型別，因此無法檢查 C 陣列是否輸入到對應的 SQL 層級陣列中。在處理 SQL 陳述式的輸出時，ecpg 擁有必要的資訊，因此會檢查兩者是否都是陣列。
 
-If a query accesses *elements* of an array
-separately, then this avoids the use of arrays in ECPG. Then, a
-host variable with a type that can be mapped to the element type
-should be used. For example, if a column type is array of
-`integer`, a host variable of type `int`
-can be used. Also if the element type is `varchar`
-or `text`, a host variable of type `char[]`
-or `VARCHAR[]` can be used.
+如果查詢分別存取陣列的各個*元素*，就可以避免在 ECPG 中使用陣列。此時應該使用型別可以對應到元素型別的主機變數。例如，若欄位型別是 `integer` 陣列，可以使用 `int` 型別的主機變數。另外，若元素型別是 `varchar` 或 `text`，可以使用 `char[]` 或 `VARCHAR[]` 型別的主機變數。
 
-Here is an example. Assume the following table:
+以下是一個範例。假設有下列資料表：
 
 ```
 
@@ -772,9 +577,7 @@ testdb=> SELECT * FROM t3;
 (1 row)
 ```
 
-The following example program retrieves the 4th element of the
-array and stores it into a host variable of
-type `int`:
+下列範例程式取得陣列的第 4 個元素，並把它存放到 `int` 型別的主機變數中：
 
 ```
 
@@ -796,17 +599,14 @@ while (1)
 EXEC SQL CLOSE cur1;
 ```
 
-This example shows the following result:
+這個範例會顯示下列結果：
 
 ```
 
 ii=4
 ```
 
-To map multiple array elements to the multiple elements in an
-array type host variables each element of array column and each
-element of the host variable array have to be managed separately,
-for example:
+若要把多個陣列元素對應到陣列型別主機變數中的多個元素，陣列欄位的每個元素與主機變數陣列的每個元素都必須分別處理，例如：
 
 ```
 
@@ -826,7 +626,7 @@ while (1)
 }
 ```
 
-Note again that
+再次提醒，
 
 ```
 
@@ -847,28 +647,17 @@ while (1)
 }
 ```
 
-would not work correctly in this case, because you cannot map an
-array type column to an array host variable directly.
+在這種情況下無法正確運作，因為你不能把陣列型別的欄位直接對應到陣列主機變數。
 
-Another workaround is to store arrays in their external string
-representation in host variables of type `char[]`
-or `VARCHAR[]`. For more details about this
-representation, see [Section 8.15.2](../../the-sql-language/datatype/arrays.md#ARRAYS-INPUT). Note that
-this means that the array cannot be accessed naturally as an
-array in the host program (without further processing that parses
-the text representation).
+另一種變通方法是把陣列以其外部字串表示形式存放在 `char[]` 或 `VARCHAR[]` 型別的主機變數中。關於這種表示形式的更多細節，請參閱[第 8.15.2 節](../../the-sql-language/datatype/arrays.md#ARRAYS-INPUT)。請注意，這表示在主機程式中無法自然地把該陣列當作陣列來存取（除非再做剖析文字表示形式的進一步處理）。
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-COMPOSITE"></a>
 
-#### 34.4.5.2. Composite Types [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-COMPOSITE)
+#### 34.4.5.2. 複合型別 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-COMPOSITE)
 
-Composite types are not directly supported in ECPG, but an easy workaround is possible.
-The
-available workarounds are similar to the ones described for
-arrays above: Either access each attribute separately or use the
-external string representation.
+ECPG 並不直接支援複合型別，但可以採用簡單的變通方法。可用的變通方法與上面針對陣列所述的方法類似：分別存取每個屬性，或使用外部字串表示形式。
 
-For the following examples, assume the following type and table:
+在下列範例中，假設有下列型別與資料表：
 
 ```
 
@@ -877,10 +666,7 @@ CREATE TABLE t4 (compval comp_t);
 INSERT INTO t4 VALUES ( (256, 'PostgreSQL') );
 ```
 
-The most obvious solution is to access each attribute separately.
-The following program retrieves data from the example table by
-selecting each attribute of the type `comp_t`
-separately:
+最直接的解法是分別存取每個屬性。下列程式分別選取 `comp_t` 型別的每個屬性，從範例資料表取得資料：
 
 ```
 
@@ -906,15 +692,7 @@ while (1)
 EXEC SQL CLOSE cur1;
 ```
 
-To enhance this example, the host variables to store values in
-the `FETCH` command can be gathered into one
-structure. For more details about the host variable in the
-structure form, see [Section 34.4.4.3.2](ecpg-variables.md#ECPG-VARIABLES-STRUCT).
-To switch to the structure, the example can be modified as below.
-The two host variables, `intval`
-and `textval`, become members of
-the `comp_t` structure, and the structure
-is specified on the `FETCH` command.
+為了改進這個範例，可以把用來存放 `FETCH` 命令中值的主機變數集中到一個結構中。關於結構形式主機變數的更多細節，請參閱[第 34.4.4.3.2 節](ecpg-variables.md#ECPG-VARIABLES-STRUCT)。若要改用結構，可以把範例修改如下。兩個主機變數 `intval` 與 `textval` 成為 `comp_t` 結構的成員，並在 `FETCH` 命令中指定該結構。
 
 ```
 
@@ -945,11 +723,7 @@ while (1)
 EXEC SQL CLOSE cur1;
 ```
 
-Although a structure is used in the `FETCH`
-command, the attribute names in the `SELECT`
-clause are specified one by one. This can be enhanced by using
-a `*` to ask for all attributes of the composite
-type value.
+雖然 `FETCH` 命令中使用了結構，但 `SELECT` 子句中的屬性名稱仍是逐一指定的。這可以改用 `*` 來要求取得複合型別值的所有屬性，加以改進。
 
 ```
 
@@ -969,36 +743,17 @@ while (1)
 ...
 ```
 
-This way, composite types can be mapped into structures almost
-seamlessly, even though ECPG does not understand the composite
-type itself.
+如此一來，即使 ECPG 本身並不理解複合型別，複合型別也幾乎可以無縫地對應到結構。
 
-Finally, it is also possible to store composite type values in
-their external string representation in host variables of
-type `char[]` or `VARCHAR[]`. But that
-way, it is not easily possible to access the fields of the value
-from the host program.
+最後，也可以把複合型別的值以其外部字串表示形式存放在 `char[]` 或 `VARCHAR[]` 型別的主機變數中。但用這種方式，從主機程式存取該值的各個欄位就不太容易。
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-USER-DEFINED-BASE-TYPES"></a>
 
-#### 34.4.5.3. User-Defined Base Types [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-USER-DEFINED-BASE-TYPES)
+#### 34.4.5.3. 使用者自訂基本型別 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-USER-DEFINED-BASE-TYPES)
 
-New user-defined base types are not directly supported by ECPG.
-You can use the external string representation and host variables
-of type `char[]` or `VARCHAR[]`, and this
-solution is indeed appropriate and sufficient for many types.
+ECPG 並不直接支援新的使用者自訂基本型別。你可以使用外部字串表示形式與 `char[]` 或 `VARCHAR[]` 型別的主機變數，而這個解法對許多型別而言確實恰當且足夠。
 
-Here is an example using the data type `complex` from
-the example in [Section 36.13](../../server-programming/extend/xtypes.md). The external string
-representation of that type is `(%f,%f)`,
-which is defined in the
-functions `complex_in()`
-and `complex_out()`
-in [Section 36.13](../../server-programming/extend/xtypes.md). The following example inserts the
-complex type values `(1,1)`
-and `(3,3)` into the
-columns `a` and `b`, and select
-them from the table after that.
+以下範例使用[第 36.13 節](../../server-programming/extend/xtypes.md)範例中的 `complex` 資料型別。該型別的外部字串表示形式是 `(%f,%f)`，定義於[第 36.13 節](../../server-programming/extend/xtypes.md)中的函式 `complex_in()` 與 `complex_out()`。下列範例把 complex 型別的值 `(1,1)` 與 `(3,3)` 插入欄位 `a` 與 `b`，之後再從資料表中把它們選取出來。
 
 ```
 
@@ -1023,20 +778,16 @@ EXEC SQL END DECLARE SECTION;
     EXEC SQL CLOSE cur1;
 ```
 
-This example shows following result:
+這個範例會顯示下列結果：
 
 ```
 
 a=(1,1), b=(3,3)
 ```
 
-Another workaround is avoiding the direct use of the user-defined
-types in ECPG and instead create a function or cast that converts
-between the user-defined type and a primitive type that ECPG can
-handle. Note, however, that type casts, especially implicit
-ones, should be introduced into the type system very carefully.
+另一種變通方法是避免在 ECPG 中直接使用使用者自訂型別，改為建立一個函式或型別轉換，在使用者自訂型別與 ECPG 能處理的基本型別之間進行轉換。不過請注意，型別轉換（尤其是隱含轉換）應該非常謹慎地引入型別系統。
 
-For example,
+例如：
 
 ```
 
@@ -1046,7 +797,9 @@ IMMUTABLE
 AS $$ SELECT $1 * complex '(1,0')' + $2 * complex '(0,1)' $$;
 ```
 
-After this definition, the following
+譯註：原文此範例有兩處問題，範例程式碼依原文保留：一是字串常數 '(1,0')' 引號位置有誤，正確應為 '(1,0)'；二是 create_complex 的參數型別寫作 double，但 PostgreSQL 內建的 SQL 型別名稱是 double precision（SQL 中沒有單獨的 double 型別），正確寫法為 create_complex(r double precision, i double precision)。
+
+在這個定義之後，下列程式
 
 ```
 
@@ -1062,7 +815,7 @@ d = 4;
 EXEC SQL INSERT INTO test_complex VALUES (create_complex(:a, :b), create_complex(:c, :d));
 ```
 
-has the same effect as
+的效果等同於
 
 ```
 
@@ -1071,18 +824,9 @@ EXEC SQL INSERT INTO test_complex VALUES ('(1,2)', '(3,4)');
 
 <a id="ECPG-INDICATORS"></a>
 
-### 34.4.6. Indicators [#](#ECPG-INDICATORS)
+### 34.4.6. 指示變數 [#](#ECPG-INDICATORS)
 
-The examples above do not handle null values. In fact, the
-retrieval examples will raise an error if they fetch a null value
-from the database. To be able to pass null values to the database
-or retrieve null values from the database, you need to append a
-second host variable specification to each host variable that
-contains data. This second host variable is called the
-*indicator* and contains a flag that tells
-whether the datum is null, in which case the value of the real
-host variable is ignored. Here is an example that handles the
-retrieval of null values correctly:
+上面的範例都沒有處理空值。事實上，如果取得資料的範例從資料庫取得空值，就會引發錯誤。為了能把空值傳給資料庫，或從資料庫取得空值，你需要為每個存放資料的主機變數再附加第二個主機變數規格。這第二個主機變數稱為*指示變數*（indicator），其中包含一個旗標，指出該資料是否為空值；若為空值，實際主機變數的值會被忽略。以下是一個正確處理取得空值的範例：
 
 ```
 
@@ -1096,23 +840,14 @@ EXEC SQL END DECLARE SECTION:
 EXEC SQL SELECT b INTO :val :val_ind FROM test1;
 ```
 
-The indicator variable `val_ind` will be zero if
-the value was not null, and it will be negative if the value was
-null. (See [Section 34.16](ecpg-oracle-compat.md) to enable
-Oracle-specific behavior.)
+譯註：原文此範例中 END DECLARE SECTION 之後的冒號應為分號；範例程式碼依原文保留。
 
-The indicator has another function: if the indicator value is
-positive, it means that the value is not null, but it was
-truncated when it was stored in the host variable.
+若值不是空值，指示變數 `val_ind` 會是零；若值是空值，則會是負數。（若要啟用 Oracle 特有的行為，請參閱[第 34.16 節](ecpg-oracle-compat.md)。）
 
-If the argument `-r no_indicator` is passed to
-the preprocessor `ecpg`, it works in
-“no-indicator” mode. In no-indicator mode, if no
-indicator variable is specified, null values are signaled (on
-input and output) for character string types as empty string and
-for integer types as the lowest possible value for type (for
-example, `INT_MIN` for `int`).
+指示變數還有另一項功能：若指示變數的值為正數，表示該值不是空值，但在存入主機變數時被截斷了。
+
+如果把引數 `-r no_indicator` 傳給前置處理器 `ecpg`，它會以「無指示變數」模式運作。在無指示變數模式下，若未指定指示變數，空值會（在輸入與輸出時）以下列方式表示：字元字串型別以空字串表示，整數型別則以該型別可能的最小值表示（例如 `int` 的 `INT_MIN`）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-variables.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-variables.html)（原文版本：18.6；核對日期：2026-10-18）
