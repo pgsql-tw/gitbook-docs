@@ -1,6 +1,7 @@
+<a id="INFOSCHEMA-COLLATIONS"></a>
 ## 35.10. `collations` [#](#INFOSCHEMA-COLLATIONS)
 
-檢視表 `collations` 包含目前資料庫中可用的排序規則。
+檢視表 `collations` 包含目前資料庫中可用的定序。
 
 <a id="id-1.7.6.14.3"></a>
 
@@ -15,22 +16,22 @@
 <code class="structfield">collation_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含此排序規則的資料庫名稱（一律為目前資料庫）
+       包含該定序的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">collation_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含此排序規則的 schema 名稱
+       包含該定序的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">collation_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       預設排序規則的名稱
+       預設定序的名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">pad_attribute</code> <code class="type">character_data</code>
 </p>
 <p>
-       一律為 <code class="literal">NO PAD</code>（PostgreSQL 不支援替代值 <code class="literal">PAD
+       一律為 <code class="literal">NO PAD</code>（PostgreSQL 不支援另一個值 <code class="literal">PAD
        SPACE</code>。）
       </p></td></tr></tbody></table>
 
@@ -38,4 +39,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-collations.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-collations.html)（原文版本：18.6；核對日期：2026-10-18）
