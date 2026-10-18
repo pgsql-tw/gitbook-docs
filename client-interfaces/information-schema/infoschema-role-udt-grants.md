@@ -1,64 +1,56 @@
+<a id="INFOSCHEMA-ROLE-UDT-GRANTS"></a>
 ## 35.38. `role_udt_grants` [#](#INFOSCHEMA-ROLE-UDT-GRANTS)
 
-The view `role_udt_grants` is intended to identify
-`USAGE` privileges granted on user-defined types
-where the grantor or grantee is a currently enabled role. Further
-information can be found under
-`udt_privileges`. The only effective difference
-between this view and `udt_privileges` is that
-this view omits objects that have been made accessible to the
-current user by way of a grant to `PUBLIC`. Since
-data types do not have real privileges in PostgreSQL, but only an
-implicit grant to `PUBLIC`, this view is empty.
+檢視表 `role_udt_grants` 旨在列出在使用者定義型別上授與、且授與者或受授與者為目前已啟用角色的 `USAGE` 權限。更多資訊可在 `udt_privileges` 中找到。此檢視表與 `udt_privileges` 唯一的實質差異在於，此檢視表會省略透過授與 `PUBLIC` 而讓目前使用者可存取的物件。由於 PostgreSQL 中的資料型別沒有真正的權限，只有對 `PUBLIC` 的隱含授與，因此此檢視表是空的。
 
 <a id="id-1.7.6.42.3"></a>
 
-**Table 35.36. `role_udt_grants` Columns**
+**表 35.36. `role_udt_grants` 欄位**
 
-<table border="1" class="table" summary="role_udt_grants Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="role_udt_grants 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">grantor</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       The name of the role that granted the privilege
+       授與該權限的角色名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">grantee</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       The name of the role that the privilege was granted to
+       被授與該權限的角色名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">udt_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database containing the type (always the current database)
+       包含該型別的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">udt_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema containing the type
+       包含該型別的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">udt_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the type
+       型別名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">privilege_type</code> <code class="type">character_data</code>
 </p>
 <p>
-       Always <code class="literal">TYPE USAGE</code>
+       一律為 <code class="literal">TYPE USAGE</code>
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">is_grantable</code> <code class="type">yes_or_no</code>
 </p>
 <p>
-<code class="literal">YES</code> if the privilege is grantable, <code class="literal">NO</code> if not
+若該權限可再授與他人，則為 <code class="literal">YES</code>；否則為 <code class="literal">NO</code>
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-role-udt-grants.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-role-udt-grants.html)（原文版本：18.6；核對日期：2026-10-18）
