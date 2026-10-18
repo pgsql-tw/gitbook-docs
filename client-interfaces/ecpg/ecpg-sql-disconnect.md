@@ -1,3 +1,5 @@
+<a id="ECPG-SQL-DISCONNECT"></a>
+
 ## DISCONNECT
 
 DISCONNECT — 結束資料庫連線
@@ -15,7 +17,7 @@ DISCONNECT ALL
 
 ## 說明
 
-`DISCONNECT` 關閉資料庫的一個連線（或所有連線）。
+`DISCONNECT` 會關閉與資料庫之間的一個連線（或所有連線）。
 
 <a id="id-1.7.5.20.9.4"></a>
 
@@ -28,7 +30,7 @@ DISCONNECT ALL
 <a id="ECPG-SQL-DISCONNECT-CURRENT"></a>
 
 `CURRENT` [#](#ECPG-SQL-DISCONNECT-CURRENT)
-:   關閉「目前」連線；它是最近開啟的連線，或由 `SET CONNECTION` 命令設定的連線。若未向 `DISCONNECT` 命令提供引數，這也是預設值。
+:   關閉「目前」連線，也就是最近開啟的連線，或由 `SET CONNECTION` 命令設定的連線。若未向 `DISCONNECT` 命令提供任何引數，這也是預設行為。
 <a id="ECPG-SQL-DISCONNECT-ALL"></a>
 
 `ALL` [#](#ECPG-SQL-DISCONNECT-ALL)
@@ -68,4 +70,4 @@ SQL 標準規定了 `DISCONNECT`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-disconnect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-disconnect.html)（原文版本：18.6；核對日期：2026-10-18）

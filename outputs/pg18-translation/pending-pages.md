@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：91 頁。
+待譯頁面：90 頁。
 
 ## 根目錄
 
@@ -162,7 +162,7 @@
 - [x] `client-interfaces/ecpg/ecpg-sql-declare-statement.md` — DECLARE STATEMENT
 - [x] `client-interfaces/ecpg/ecpg-sql-declare.md` — DECLARE
 - [x] `client-interfaces/ecpg/ecpg-sql-describe.md` — DESCRIBE
-- [ ] `client-interfaces/ecpg/ecpg-sql-disconnect.md` — DISCONNECT
+- [x] `client-interfaces/ecpg/ecpg-sql-disconnect.md` — DISCONNECT
 - [ ] `client-interfaces/ecpg/ecpg-sql-execute-immediate.md` — EXECUTE IMMEDIATE
 - [ ] `client-interfaces/ecpg/ecpg-sql-get-descriptor.md` — GET DESCRIPTOR
 - [ ] `client-interfaces/ecpg/ecpg-sql-open.md` — OPEN
