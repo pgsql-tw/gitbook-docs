@@ -1,3 +1,5 @@
+<a id="ECPG-SQL-TYPE"></a>
+
 ## TYPE
 
 TYPE — 定義新的資料型別
@@ -13,9 +15,9 @@ TYPE type_name IS ctype
 
 ## 說明
 
-`TYPE` 命令定義新的 C 型別。它等同於在宣告區段中放入 `typedef`。
+`TYPE` 命令會定義新的 C 型別。它等同於在宣告區段中放入 `typedef`。
 
-只有以 `-c` 選項執行 `ecpg` 時，才會識別此命令。
+只有在以 `-c` 選項執行 `ecpg` 時，才會識別此命令。
 
 <a id="id-1.7.5.20.17.4"></a>
 
@@ -24,7 +26,7 @@ TYPE type_name IS ctype
 <a id="ECPG-SQL-TYPE-TYPE-NAME"></a>
 
 *`type_name`* [#](#ECPG-SQL-TYPE-TYPE-NAME)
-:   新型別的名稱，必須是有效的 C 型別名稱。
+:   新型別的名稱。必須是有效的 C 型別名稱。
 <a id="ECPG-SQL-TYPE-CTYPE"></a>
 
 *`ctype`* [#](#ECPG-SQL-TYPE-CTYPE)
@@ -115,8 +117,8 @@ t_ind.i_ind = 0
 
 ## 相容性
 
-`TYPE` 命令是 PostgreSQL 擴充功能。
+`TYPE` 命令是 PostgreSQL 的擴充語法。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-type.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-type.html)（原文版本：18.6；核對日期：2026-10-18）
