@@ -1,76 +1,66 @@
+<a id="INFOSCHEMA-KEY-COLUMN-USAGE"></a>
 ## 35.32. `key_column_usage` [#](#INFOSCHEMA-KEY-COLUMN-USAGE)
 
-The view `key_column_usage` identifies all columns
-in the current database that are restricted by some unique, primary
-key, or foreign key constraint. Check constraints are not included
-in this view. Only those columns are shown that the current user
-has access to, by way of being the owner or having some privilege.
+檢視表 `key_column_usage` 列出目前資料庫中受某個唯一、主鍵或外鍵限制條件所限制的所有欄位。檢查限制條件不包含在此檢視表中。只有目前使用者可存取（身為擁有者或具有某種權限）的欄位才會顯示。
 
 <a id="id-1.7.6.36.3"></a>
 
-**Table 35.30. `key_column_usage` Columns**
+**表 35.30. `key_column_usage` 欄位**
 
-<table border="1" class="table" summary="key_column_usage Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="key_column_usage 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database that contains the constraint (always the current database)
+       包含該限制條件的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema that contains the constraint
+       包含該限制條件的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the constraint
+       限制條件名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database that contains the table that contains the
-       column that is restricted by this constraint (always the
-       current database)
+       包含受此限制條件所限制之欄位所屬資料表的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema that contains the table that contains the
-       column that is restricted by this constraint
+       包含受此限制條件所限制之欄位所屬資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the table that contains the column that is restricted
-       by this constraint
+       包含受此限制條件所限制之欄位的資料表名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">column_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the column that is restricted by this constraint
+       受此限制條件所限制的欄位名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">ordinal_position</code> <code class="type">cardinal_number</code>
 </p>
 <p>
-       Ordinal position of the column within the constraint key (count
-       starts at 1)
+       該欄位在限制條件鍵中的序數位置（從 1 起算）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">position_in_unique_constraint</code> <code class="type">cardinal_number</code>
 </p>
 <p>
-       For a foreign-key constraint, ordinal position of the referenced
-       column within its unique constraint (count starts at 1);
-       otherwise null
+       對外鍵限制條件而言，為被參照欄位在其唯一限制條件中的序數位置（從 1 起算）；否則為 null
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-key-column-usage.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-key-column-usage.html)（原文版本：18.6；核對日期：2026-10-18）
