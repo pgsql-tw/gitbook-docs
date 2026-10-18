@@ -1,77 +1,71 @@
+<a id="INFOSCHEMA-USAGE-PRIVILEGES"></a>
 ## 35.59. `usage_privileges` [#](#INFOSCHEMA-USAGE-PRIVILEGES)
 
-The view `usage_privileges` identifies
-`USAGE` privileges granted on various kinds of
-objects to a currently enabled role or by a currently enabled role.
-In PostgreSQL, this currently applies to
-collations, domains, foreign-data wrappers, foreign servers, and sequences. There is one
-row for each combination of object, grantor, and grantee.
+檢視表 `usage_privileges` 列出在各類物件上授與目前已啟用的角色、
+或由目前已啟用的角色授與的 `USAGE` 權限。在 PostgreSQL 中，目前適用於
+定序、網域、外部資料包裝器、外部伺服器與序列。每個物件、授與者與受授與者的
+組合各有一列。
 
-Since collations do not have real privileges
-in PostgreSQL, this view shows implicit
-non-grantable `USAGE` privileges granted by the
-owner to `PUBLIC` for all collations. The other
-object types, however, show real privileges.
+由於定序在 PostgreSQL 中並沒有真正的權限，此檢視表會針對所有定序，
+顯示由擁有者授與 `PUBLIC`、不可再授與他人的隱含 `USAGE` 權限。
+不過，其他物件型別顯示的是真正的權限。
 
-In PostgreSQL, sequences also support `SELECT`
-and `UPDATE` privileges in addition to
-the `USAGE` privilege. These are nonstandard and therefore
-not visible in the information schema.
+在 PostgreSQL 中，序列除了 `USAGE` 權限之外，也支援 `SELECT`
+與 `UPDATE` 權限。這些權限不屬於標準，因此不會出現在資訊綱要中。
 
 <a id="id-1.7.6.63.5"></a>
 
-**Table 35.57. `usage_privileges` Columns**
+**表 35.57. `usage_privileges` 欄位**
 
-<table border="1" class="table" summary="usage_privileges Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="usage_privileges 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">grantor</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the role that granted the privilege
+       授與此權限的角色名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">grantee</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the role that the privilege was granted to
+       被授與此權限的角色名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">object_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database containing the object (always the current database)
+       包含物件的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">object_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema containing the object, if applicable,
-       else an empty string
+       包含物件的綱要名稱（若適用）；否則為空字串
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">object_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the object
+       物件名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">object_type</code> <code class="type">character_data</code>
 </p>
 <p>
-<code class="literal">COLLATION</code> or <code class="literal">DOMAIN</code> or <code class="literal">FOREIGN DATA WRAPPER</code> or <code class="literal">FOREIGN SERVER</code> or <code class="literal">SEQUENCE</code>
+<code class="literal">COLLATION</code>、<code class="literal">DOMAIN</code>、<code class="literal">FOREIGN DATA WRAPPER</code>、<code class="literal">FOREIGN SERVER</code> 或 <code class="literal">SEQUENCE</code>
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">privilege_type</code> <code class="type">character_data</code>
 </p>
 <p>
-       Always <code class="literal">USAGE</code>
+       一律為 <code class="literal">USAGE</code>
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">is_grantable</code> <code class="type">yes_or_no</code>
 </p>
 <p>
-<code class="literal">YES</code> if the privilege is grantable, <code class="literal">NO</code> if not
+若此權限可再授與他人，則為 <code class="literal">YES</code>；否則為 <code class="literal">NO</code>
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-usage-privileges.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-usage-privileges.html)（原文版本：18.6；核對日期：2026-10-18）
