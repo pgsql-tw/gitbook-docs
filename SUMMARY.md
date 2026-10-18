@@ -374,7 +374,7 @@
     * [35.4. administrable_role_authorizations](client-interfaces/information-schema/infoschema-administrable-role-authorizations.md)
     * [35.5. `applicable_roles` #](client-interfaces/information-schema/infoschema-applicable-roles.md)
     * [35.6. `attributes` #](client-interfaces/information-schema/infoschema-attributes.md)
-    * [35.7. character_sets #](client-interfaces/information-schema/infoschema-character-sets.md)
+    * [35.7. `character_sets` #](client-interfaces/information-schema/infoschema-character-sets.md)
     * [35.8. check_constraint_routine_usage #](client-interfaces/information-schema/infoschema-check-constraint-routine-usage.md)
     * [35.9. check_constraints #](client-interfaces/information-schema/infoschema-check-constraints.md)
     * [35.10. `collations` #](client-interfaces/information-schema/infoschema-collations.md)
