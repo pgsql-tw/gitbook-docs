@@ -1,163 +1,150 @@
+<a id="INFOSCHEMA-TRIGGERS"></a>
 ## 35.57. `triggers` [#](#INFOSCHEMA-TRIGGERS)
 
-The view `triggers` contains all triggers defined
-in the current database on tables and views that the current user owns
-or has some privilege other than `SELECT` on.
+檢視表 `triggers` 包含目前資料庫中，定義在目前使用者所擁有、或具有
+`SELECT` 以外某項權限之資料表與檢視表上的所有觸發程序。
 
 <a id="id-1.7.6.61.3"></a>
 
-**Table 35.55. `triggers` Columns**
+**表 35.55. `triggers` 欄位**
 
-<table border="1" class="table" summary="triggers Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="triggers 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trigger_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database that contains the trigger (always the current database)
+       包含觸發程序的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trigger_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema that contains the trigger
+       包含觸發程序的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">trigger_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the trigger
+       觸發程序名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">event_manipulation</code> <code class="type">character_data</code>
 </p>
 <p>
-       Event that fires the trigger (<code class="literal">INSERT</code>,
-       <code class="literal">UPDATE</code>, or <code class="literal">DELETE</code>)
+       引發此觸發程序的事件（<code class="literal">INSERT</code>、
+       <code class="literal">UPDATE</code> 或 <code class="literal">DELETE</code>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">event_object_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the database that contains the table that the trigger
-       is defined on (always the current database)
+       包含定義此觸發程序之資料表的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">event_object_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the schema that contains the table that the trigger is defined on
+       包含定義此觸發程序之資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">event_object_table</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the table that the trigger is defined on
+       定義此觸發程序的資料表名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_order</code> <code class="type">cardinal_number</code>
 </p>
 <p>
-       Firing order among triggers on the same table having the same
-       <code class="literal">event_manipulation</code>,
-       <code class="literal">action_timing</code>, and
-       <code class="literal">action_orientation</code>.  In
-       <span class="productname">PostgreSQL</span>, triggers are fired in name
-       order, so this column reflects that.
+       同一資料表上具有相同
+       <code class="literal">event_manipulation</code>、
+       <code class="literal">action_timing</code> 與
+       <code class="literal">action_orientation</code> 的觸發程序之間的觸發順序。在
+       <span class="productname">PostgreSQL</span> 中，觸發程序依名稱順序觸發，
+       因此此欄位反映的就是該順序。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_condition</code> <code class="type">character_data</code>
 </p>
 <p>
-<code class="literal">WHEN</code> condition of the trigger, null if none
-       (also null if the table is not owned by a currently enabled
-       role)
+觸發程序的 <code class="literal">WHEN</code> 條件；若無則為 null
+       （若資料表並非由目前已啟用的角色擁有，也為 null）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_statement</code> <code class="type">character_data</code>
 </p>
 <p>
-       Statement that is executed by the trigger (currently always
+       觸發程序所執行的陳述式（目前一律為
        <code class="literal">EXECUTE FUNCTION
-       <em class="replaceable"><code>function</code></em>(...)</code>)
+       <em class="replaceable"><code>function</code></em>(...)</code>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_orientation</code> <code class="type">character_data</code>
 </p>
 <p>
-       Identifies whether the trigger fires once for each processed
-       row or once for each statement (<code class="literal">ROW</code> or
-       <code class="literal">STATEMENT</code>)
+       表示觸發程序是對每個處理的資料列各觸發一次，還是對每個陳述式各觸發一次
+       （<code class="literal">ROW</code> 或
+       <code class="literal">STATEMENT</code>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_timing</code> <code class="type">character_data</code>
 </p>
 <p>
-       Time at which the trigger fires (<code class="literal">BEFORE</code>,
-       <code class="literal">AFTER</code>, or <code class="literal">INSTEAD OF</code>)
+       觸發程序的觸發時機（<code class="literal">BEFORE</code>、
+       <code class="literal">AFTER</code> 或 <code class="literal">INSTEAD OF</code>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_reference_old_table</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the <span class="quote">“<span class="quote">old</span>”</span> transition table, or null if none
+       <span class="quote">「<span class="quote">old</span>」</span>轉換資料表的名稱；若無則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_reference_new_table</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Name of the <span class="quote">“<span class="quote">new</span>”</span> transition table, or null if none
+       <span class="quote">「<span class="quote">new</span>」</span>轉換資料表的名稱；若無則為 null
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_reference_old_row</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Applies to a feature not available in <span class="productname">PostgreSQL</span>
+       適用於 <span class="productname">PostgreSQL</span> 未提供的功能
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">action_reference_new_row</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       Applies to a feature not available in <span class="productname">PostgreSQL</span>
+       適用於 <span class="productname">PostgreSQL</span> 未提供的功能
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">created</code> <code class="type">time_stamp</code>
 </p>
 <p>
-       Applies to a feature not available in <span class="productname">PostgreSQL</span>
+       適用於 <span class="productname">PostgreSQL</span> 未提供的功能
 </p></td></tr></tbody></table>
 
 <br>
 
-Triggers in PostgreSQL have two
-incompatibilities with the SQL standard that affect the
-representation in the information schema. First, trigger names are
-local to each table in PostgreSQL, rather
-than being independent schema objects. Therefore there can be duplicate
-trigger names defined in one schema, so long as they belong to
-different tables. (`trigger_catalog` and
-`trigger_schema` are really the values pertaining
-to the table that the trigger is defined on.) Second, triggers can
-be defined to fire on multiple events in
-PostgreSQL (e.g., `ON INSERT OR
-UPDATE`), whereas the SQL standard only allows one. If a
-trigger is defined to fire on multiple events, it is represented as
-multiple rows in the information schema, one for each type of
-event. As a consequence of these two issues, the primary key of
-the view `triggers` is really
+PostgreSQL 中的觸發程序與 SQL 標準有兩處不相容，會影響其在資訊綱要中的
+呈現方式。第一，在 PostgreSQL 中，觸發程序名稱是各資料表的區域名稱，而不是
+獨立的綱要物件。因此，只要分屬不同的資料表，同一綱要中就可以定義名稱重複的
+觸發程序。（`trigger_catalog` 與
+`trigger_schema` 實際上是與定義該觸發程序之資料表相關的值。）第二，在
+PostgreSQL 中，觸發程序可以定義為在多個事件上觸發（例如 `ON INSERT OR
+UPDATE`），而 SQL 標準只允許一個事件。若觸發程序定義為在多個事件上觸發，
+它在資訊綱要中會以多個資料列表示，每種事件型別各一列。由於這兩個問題，
+檢視表 `triggers` 的主鍵實際上是
 `(trigger_catalog, trigger_schema, event_object_table,
-trigger_name, event_manipulation)` instead of
-`(trigger_catalog, trigger_schema, trigger_name)`,
-which is what the SQL standard specifies. Nonetheless, if you
-define your triggers in a manner that conforms with the SQL
-standard (trigger names unique in the schema and only one event
-type per trigger), this will not affect you.
+trigger_name, event_manipulation)`，而不是 SQL 標準所規定的
+`(trigger_catalog, trigger_schema, trigger_name)`。
+儘管如此，若你以符合 SQL 標準的方式定義觸發程序（觸發程序名稱在綱要中唯一，
+且每個觸發程序只有一種事件型別），就不會受到影響。
 
-### Note
+### 注意
 
-Prior to PostgreSQL 9.1, this view's columns
-`action_timing`,
-`action_reference_old_table`,
-`action_reference_new_table`,
-`action_reference_old_row`, and
+在 PostgreSQL 9.1 之前，此檢視表的欄位
+`action_timing`、
+`action_reference_old_table`、
+`action_reference_new_table`、
+`action_reference_old_row` 與
 `action_reference_new_row`
-were named
-`condition_timing`,
-`condition_reference_old_table`,
-`condition_reference_new_table`,
-`condition_reference_old_row`, and
-`condition_reference_new_row`
-respectively.
-That was how they were named in the SQL:1999 standard.
-The new naming conforms to SQL:2003 and later.
+分別命名為
+`condition_timing`、
+`condition_reference_old_table`、
+`condition_reference_new_table`、
+`condition_reference_old_row` 與
+`condition_reference_new_row`。
+這是它們在 SQL:1999 標準中的名稱；新的命名則符合 SQL:2003 及之後的標準。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-triggers.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-triggers.html)（原文版本：18.6；核對日期：2026-10-18）

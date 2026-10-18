@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：131 頁。
+待譯頁面：130 頁。
 
 ## 根目錄
 
@@ -231,7 +231,7 @@
 - [x] `client-interfaces/information-schema/infoschema-tables.md` — 35.54. `tables` #
 - [x] `client-interfaces/information-schema/infoschema-transforms.md` — 35.55. `transforms` #
 - [x] `client-interfaces/information-schema/infoschema-triggered-update-columns.md` — 35.56. `triggered_update_columns` #
-- [ ] `client-interfaces/information-schema/infoschema-triggers.md` — 35.57. triggers #
+- [x] `client-interfaces/information-schema/infoschema-triggers.md` — 35.57. `triggers` #
 - [ ] `client-interfaces/information-schema/infoschema-udt-privileges.md` — 35.58. udt_privileges #
 - [ ] `client-interfaces/information-schema/infoschema-usage-privileges.md` — 35.59. usage_privileges #
 - [ ] `client-interfaces/information-schema/infoschema-user-defined-types.md` — 35.60. user_defined_types #

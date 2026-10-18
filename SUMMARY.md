@@ -424,7 +424,7 @@
     * [35.54. `tables` #](client-interfaces/information-schema/infoschema-tables.md)
     * [35.55. `transforms` #](client-interfaces/information-schema/infoschema-transforms.md)
     * [35.56. `triggered_update_columns` #](client-interfaces/information-schema/infoschema-triggered-update-columns.md)
-    * [35.57. triggers #](client-interfaces/information-schema/infoschema-triggers.md)
+    * [35.57. `triggers` #](client-interfaces/information-schema/infoschema-triggers.md)
     * [35.58. udt_privileges #](client-interfaces/information-schema/infoschema-udt-privileges.md)
     * [35.59. usage_privileges #](client-interfaces/information-schema/infoschema-usage-privileges.md)
     * [35.60. user_defined_types #](client-interfaces/information-schema/infoschema-user-defined-types.md)
