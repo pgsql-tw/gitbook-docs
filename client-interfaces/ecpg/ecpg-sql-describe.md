@@ -1,6 +1,8 @@
+<a id="ECPG-SQL-DESCRIBE"></a>
+
 ## DESCRIBE
 
-DESCRIBE — 取得備妥陳述式或結果集的資訊
+DESCRIBE — 取得預備陳述式或結果集的相關資訊
 
 ## 語法
 
@@ -15,7 +17,7 @@ DESCRIBE [ OUTPUT ] prepared_name INTO sqlda_name
 
 ## 說明
 
-`DESCRIBE` 取得備妥陳述式所含結果欄位的中繼資料資訊，而不會實際擷取資料列。
+`DESCRIBE` 會取得預備陳述式所含結果欄位的中繼資料資訊，而不實際擷取任何資料列。
 
 <a id="id-1.7.5.20.8.4"></a>
 
@@ -24,15 +26,15 @@ DESCRIBE [ OUTPUT ] prepared_name INTO sqlda_name
 <a id="ECPG-SQL-DESCRIBE-PREPARED-NAME"></a>
 
 *`prepared_name`* [#](#ECPG-SQL-DESCRIBE-PREPARED-NAME)
-:   備妥陳述式的名稱。可以是 SQL 識別字或主機變數。
+:   預備陳述式的名稱。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DESCRIBE-DESCRIPTOR-NAME"></a>
 
 *`descriptor_name`* [#](#ECPG-SQL-DESCRIBE-DESCRIPTOR-NAME)
-:   描述區名稱，區分大小寫。可以是 SQL 識別字或主機變數。
+:   描述區名稱。區分大小寫。可以是 SQL 識別字或主機變數。
 <a id="ECPG-SQL-DESCRIBE-SQLDA-NAME"></a>
 
 *`sqlda_name`* [#](#ECPG-SQL-DESCRIBE-SQLDA-NAME)
-:   SQLDA 變數名稱。
+:   SQLDA 變數的名稱。
 
 <a id="id-1.7.5.20.8.5"></a>
 
@@ -61,4 +63,4 @@ SQL 標準規定了 `DESCRIBE`。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-describe.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-describe.html)（原文版本：18.6；核對日期：2026-10-18）
