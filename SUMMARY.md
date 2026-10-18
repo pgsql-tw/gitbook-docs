@@ -383,7 +383,7 @@
     * [35.13. `column_domain_usage` #](client-interfaces/information-schema/infoschema-column-domain-usage.md)
     * [35.14. `column_options` #](client-interfaces/information-schema/infoschema-column-options.md)
     * [35.15. `column_privileges` #](client-interfaces/information-schema/infoschema-column-privileges.md)
-    * [35.16. column_udt_usage #](client-interfaces/information-schema/infoschema-column-udt-usage.md)
+    * [35.16. `column_udt_usage` #](client-interfaces/information-schema/infoschema-column-udt-usage.md)
     * [35.17. columns #](client-interfaces/information-schema/infoschema-columns.md)
     * [35.18. constraint_column_usage #](client-interfaces/information-schema/infoschema-constraint-column-usage.md)
     * [35.19. constraint_table_usage #](client-interfaces/information-schema/infoschema-constraint-table-usage.md)
