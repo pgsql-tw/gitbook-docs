@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：97 頁。
+待譯頁面：96 頁。
 
 ## 根目錄
 
@@ -154,7 +154,7 @@
 - [x] `client-interfaces/ecpg/ecpg-oracle-compat.md` — 34.16. Oracle 相容模式
 - [ ] `client-interfaces/ecpg/ecpg-pgtypes.md` — 34.6. pgtypes Library #
 - [x] `client-interfaces/ecpg/ecpg-preproc.md` — 34.9. 前置處理器指令 #
-- [ ] `client-interfaces/ecpg/ecpg-process.md` — 34.10. Processing Embedded SQL Programs #
+- [x] `client-interfaces/ecpg/ecpg-process.md` — 34.10. 處理嵌入式 SQL 程式 #
 - [x] `client-interfaces/ecpg/ecpg-sql-allocate-descriptor.md` — ALLOCATE DESCRIPTOR — 配置 SQL 描述區
 - [ ] `client-interfaces/ecpg/ecpg-sql-commands.md` — 34.14. Embedded SQL Commands #
 - [ ] `client-interfaces/ecpg/ecpg-sql-connect.md` — CONNECT

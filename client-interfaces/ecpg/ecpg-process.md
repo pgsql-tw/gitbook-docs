@@ -1,66 +1,39 @@
-## 34.10. Processing Embedded SQL Programs [#](#ECPG-PROCESS)
+<a id="ECPG-PROCESS"></a>
 
-Now that you have an idea how to form embedded SQL C programs, you
-probably want to know how to compile them. Before compiling you
-run the file through the embedded SQL
-C preprocessor, which converts the
-SQL statements you used to special function
-calls. After compiling, you must link with a special library that
-contains the needed functions. These functions fetch information
-from the arguments, perform the SQL command using
-the libpq interface, and put the result
-in the arguments specified for output.
+## 34.10. 處理嵌入式 SQL 程式 [#](#ECPG-PROCESS)
 
-The preprocessor program is called `ecpg` and is
-included in a normal PostgreSQL installation.
-Embedded SQL programs are typically named with an extension
-`.pgc`. If you have a program file called
-`prog1.pgc`, you can preprocess it by simply
-calling:
+現在你已經大致了解如何撰寫嵌入式 SQL C 程式，你可能會想知道如何編譯它們。編譯之前，要先讓檔案通過嵌入式 SQL C 前置處理器，它會把你使用的 SQL 陳述式轉換成特殊的函式呼叫。編譯之後，必須與一個包含所需函式的特殊函式庫連結。這些函式會從引數中取得資訊，透過 libpq 介面執行 SQL 命令，並將結果放入指定用於輸出的引數中。
+
+前置處理器程式名為 `ecpg`，包含在一般的 PostgreSQL 安裝中。嵌入式 SQL 程式通常以 `.pgc` 作為副檔名。如果你有一個名為 `prog1.pgc` 的程式檔，只要如下呼叫即可對它進行前置處理：
 
 ```
 
 ecpg prog1.pgc
 ```
 
-This will create a file called `prog1.c`. If
-your input files do not follow the suggested naming pattern, you
-can specify the output file explicitly using the
-`-o` option.
+這會建立名為 `prog1.c` 的檔案。如果你的輸入檔未遵循建議的命名模式，可以使用 `-o` 選項明確指定輸出檔。
 
-The preprocessed file can be compiled normally, for example:
+前置處理後的檔案可以照常編譯，例如：
 
 ```
 
 cc -c prog1.c
 ```
 
-The generated C source files include header files from the
-PostgreSQL installation, so if you installed
-PostgreSQL in a location that is not searched by
-default, you have to add an option such as
-`-I/usr/local/pgsql/include` to the compilation
-command line.
+產生的 C 原始檔會引入 PostgreSQL 安裝中的標頭檔，因此如果你把 PostgreSQL 安裝在預設不會搜尋的位置，就必須在編譯命令列中加入 `-I/usr/local/pgsql/include` 之類的選項。
 
-To link an embedded SQL program, you need to include the
-`libecpg` library, like so:
+要連結嵌入式 SQL 程式，你需要納入 `libecpg` 函式庫，如下所示：
 
 ```
 
 cc -o myprog prog1.o prog2.o ... -lecpg
 ```
 
-Again, you might have to add an option like
-`-L/usr/local/pgsql/lib` to that command line.
+同樣地，你可能需要在該命令列中加入 `-L/usr/local/pgsql/lib` 之類的選項。
 
-You can
-use `pg_config`<a id="id-1.7.5.16.6.2"></a>
-or `pkg-config`<a id="id-1.7.5.16.6.4"></a> with package name `libecpg` to
-get the paths for your installation.
+你可以使用 `pg_config`<a id="id-1.7.5.16.6.2"></a> 或 `pkg-config`<a id="id-1.7.5.16.6.4"></a>（套件名稱為 `libecpg`）取得你的安裝所使用的路徑。
 
-If you manage the build process of a larger project using
-make, it might be convenient to include
-the following implicit rule to your makefiles:
+如果你使用 make 管理較大型專案的建置流程，在 makefile（make 的設定檔）中加入下列隱含規則可能會很方便：
 
 ```
 
@@ -70,13 +43,10 @@ ECPG = ecpg
         $(ECPG) $<
 ```
 
-The complete syntax of the `ecpg` command is
-detailed in [ecpg](../../reference/reference-client/app-ecpg.md).
+`ecpg` 命令的完整語法詳見 [ecpg](../../reference/reference-client/app-ecpg.md)。
 
-The ecpg library is thread-safe by
-default. However, you might need to use some threading
-command-line options to compile your client code.
+ecpg 函式庫預設是執行緒安全的。不過，你可能需要使用一些與執行緒相關的命令列選項來編譯你的用戶端程式碼。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-process.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-process.html)（原文版本：18.6；核對日期：2026-10-18）
