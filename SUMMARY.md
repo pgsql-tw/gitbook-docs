@@ -320,7 +320,7 @@
     * [32.15. Environment Variables #](client-interfaces/libpq/libpq-envars.md)
     * [32.16. 密碼檔 #](client-interfaces/libpq/libpq-pgpass.md)
     * [32.17. 連線服務檔 #](client-interfaces/libpq/libpq-pgservice.md)
-    * [32.18. LDAP Lookup of Connection Parameters #](client-interfaces/libpq/libpq-ldap.md)
+    * [32.18. 以 LDAP 查詢連線參數 #](client-interfaces/libpq/libpq-ldap.md)
     * [32.19. SSL 支援 #](client-interfaces/libpq/libpq-ssl.md)
     * [32.20. OAuth 支援 #](client-interfaces/libpq/libpq-oauth.md)
     * [32.21. 多執行緒程式中的行為 #](client-interfaces/libpq/libpq-threading.md)

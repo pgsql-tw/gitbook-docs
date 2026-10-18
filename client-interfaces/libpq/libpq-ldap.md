@@ -1,42 +1,24 @@
-## 32.18. LDAP Lookup of Connection Parameters [#](#LIBPQ-LDAP)
+<a id="LIBPQ-LDAP"></a>
+
+## 32.18. 以 LDAP 查詢連線參數 [#](#LIBPQ-LDAP)
 
 <a id="id-1.7.3.25.2"></a>
 
-If libpq has been compiled with LDAP support (option
-`--with-ldap` for `configure`)
-it is possible to retrieve connection options like `host`
-or `dbname` via LDAP from a central server.
-The advantage is that if the connection parameters for a database change,
-the connection information doesn't have to be updated on all client machines.
+若 libpq 在編譯時加入了 LDAP 支援（`configure` 的選項 `--with-ldap`），就可以透過 LDAP 從中央伺服器取得 `host` 或 `dbname` 之類的連線選項。其優點是，當資料庫的連線參數變更時，不必在所有用戶端機器上更新連線資訊。
 
-LDAP connection parameter lookup uses the connection service file
-`pg_service.conf` (see [Section 32.17](libpq-pgservice.md)). A line in a
-`pg_service.conf` stanza that starts with
-`ldap://` will be recognized as an LDAP URL and an
-LDAP query will be performed. The result must be a list of
-`keyword = value` pairs which will be used to set
-connection options. The URL must conform to
-[RFC 1959](https://datatracker.ietf.org/doc/html/rfc1959)
-and be of the form
+LDAP 連線參數查詢使用連線服務檔 `pg_service.conf`（請參閱[第 32.17 節](libpq-pgservice.md)）。`pg_service.conf` 的區段（stanza）中，以 `ldap://` 開頭的行會被識別為 LDAP URL，並據以執行 LDAP 查詢。查詢結果必須是一串 `keyword = value` 配對，用來設定連線選項。URL 必須符合 [RFC 1959](https://datatracker.ietf.org/doc/html/rfc1959)，格式如下
 
 ```
 
 ldap://[hostname[:port]]/search_base?attribute?search_scope?filter
 ```
 
-where *`hostname`* defaults to
-`localhost` and *`port`*
-defaults to 389.
+其中 *`hostname`* 預設為 `localhost`，*`port`* 預設為 389。
 
-Processing of `pg_service.conf` is terminated after
-a successful LDAP lookup, but is continued if the LDAP server cannot
-be contacted. This is to provide a fallback with further LDAP URL
-lines that point to different LDAP servers, classical `keyword
-= value` pairs, or default connection options. If you would
-rather get an error message in this case, add a syntactically incorrect
-line after the LDAP URL.
+LDAP 查詢成功後，`pg_service.conf` 的處理即告終止；但若無法連上 LDAP 伺服器，則會繼續處理。這是為了提供備援：後面可以再放指向其他 LDAP 伺服器的 LDAP URL 行、傳統的 `keyword
+= value` 配對，或者使用預設連線選項。若你希望在這種情況下改為收到錯誤訊息，請在該 LDAP URL 之後加上一行語法錯誤的內容。
 
-A sample LDAP entry that has been created with the LDIF file
+以下列 LDIF 檔建立的範例 LDAP 項目
 
 ```
 
@@ -53,16 +35,14 @@ description:user=mydb_user
 description:sslmode=require
 ```
 
-might be queried with the following LDAP URL:
+可以用下列 LDAP URL 查詢：
 
 ```
 
 ldap://ldap.mycompany.com/dc=mycompany,dc=com?description?one?(cn=mydatabase)
 ```
 
-You can also mix regular service file entries with LDAP lookups.
-A complete example for a stanza in `pg_service.conf`
-would be:
+你也可以將一般的服務檔項目與 LDAP 查詢混合使用。`pg_service.conf` 中一個區段的完整範例如下：
 
 ```
 
@@ -75,4 +55,4 @@ ldap://ldap.acme.com/cn=dbserver,cn=hosts?pgconnectinfo?base?(objectclass=*)
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-ldap.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq-ldap.html)（原文版本：18.6；核對日期：2026-10-18）
