@@ -317,7 +317,7 @@
     * [32.12. 其他函式 #](client-interfaces/libpq/libpq-misc.md)
     * [32.13. 通知訊息處理 #](client-interfaces/libpq/libpq-notice-processing.md)
     * [32.14. 事件系統 #](client-interfaces/libpq/libpq-events.md)
-    * [32.15. Environment Variables #](client-interfaces/libpq/libpq-envars.md)
+    * [32.15. 環境變數 #](client-interfaces/libpq/libpq-envars.md)
     * [32.16. 密碼檔 #](client-interfaces/libpq/libpq-pgpass.md)
     * [32.17. 連線服務檔 #](client-interfaces/libpq/libpq-pgservice.md)
     * [32.18. 以 LDAP 查詢連線參數 #](client-interfaces/libpq/libpq-ldap.md)
