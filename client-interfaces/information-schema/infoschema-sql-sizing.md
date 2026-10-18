@@ -1,8 +1,9 @@
+<a id="INFOSCHEMA-SQL-SIZING"></a>
 ## 35.51. `sql_sizing` [#](#INFOSCHEMA-SQL-SIZING)
 
 資料表 `sql_sizing` 包含 PostgreSQL 中各種大小限制與最大值的資訊。此資訊主要
-供 ODBC 介面使用；其他介面的使用者可能很少需要使用。因此，這裡不會說明個別的
-大小項目；請參閱 ODBC 介面的說明。
+供 ODBC 介面使用；其他介面的使用者可能會覺得此資訊用處不大。因此，這裡不說明
+個別的大小項目；你可以在 ODBC 介面的說明中找到它們。
 
 <a id="id-1.7.6.55.3"></a>
 
@@ -40,4 +41,4 @@
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-sql-sizing.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-sql-sizing.html)（原文版本：18.6；核對日期：2026-10-18）
