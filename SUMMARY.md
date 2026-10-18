@@ -376,7 +376,7 @@
     * [35.6. `attributes` #](client-interfaces/information-schema/infoschema-attributes.md)
     * [35.7. `character_sets` #](client-interfaces/information-schema/infoschema-character-sets.md)
     * [35.8. `check_constraint_routine_usage` #](client-interfaces/information-schema/infoschema-check-constraint-routine-usage.md)
-    * [35.9. check_constraints #](client-interfaces/information-schema/infoschema-check-constraints.md)
+    * [35.9. `check_constraints` #](client-interfaces/information-schema/infoschema-check-constraints.md)
     * [35.10. `collations` #](client-interfaces/information-schema/infoschema-collations.md)
     * [35.11. `collation_character_set_​applicability` #](client-interfaces/information-schema/infoschema-collation-character-set-applicab.md)
     * [35.12. `column_column_usage` #](client-interfaces/information-schema/infoschema-column-column-usage.md)

@@ -1,10 +1,11 @@
+<a id="INFOSCHEMA-CHECK-CONSTRAINTS"></a>
 ## 35.9. `check_constraints` [#](#INFOSCHEMA-CHECK-CONSTRAINTS)
 
-檢視表 `check_constraints` 包含目前已啟用角色所擁有、定義於資料表或 domain
-上的所有檢查約束。（資料表或 domain 的擁有者即為約束的擁有者。）
+檢視表 `check_constraints` 包含由目前已啟用角色所擁有的所有檢查限制條件，無論是
+定義在資料表上或網域上。（資料表或網域的擁有者即為限制條件的擁有者。）
 
-SQL 標準將非空值約束視為具有 `CHECK (column_name IS NOT
-NULL)` 表示式的檢查約束。因此非空值約束也包含在此處，沒有專屬的檢視表。
+SQL 標準將非空值限制條件視為具有 `CHECK (column_name IS NOT
+NULL)` 表示式的檢查限制條件。因此，非空值限制條件也包含在這裡，而沒有獨立的檢視表。
 
 <a id="id-1.7.6.13.4"></a>
 
@@ -19,26 +20,26 @@ NULL)` 表示式的檢查約束。因此非空值約束也包含在此處，沒�
 <code class="structfield">constraint_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含約束的資料庫名稱（一律為目前資料庫）
+       包含該限制條件的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含約束的 schema 名稱
+       包含該限制條件的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">constraint_name</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       約束名稱
+       限制條件名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">check_clause</code> <code class="type">character_data</code>
 </p>
 <p>
-       檢查約束的檢查表示式
+       檢查限制條件的檢查表示式
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-check-constraints.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-check-constraints.html)（原文版本：18.6；核對日期：2026-10-18）
