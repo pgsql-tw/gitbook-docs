@@ -1,124 +1,126 @@
-## Chapter 32. libpq — C Library
+<a id="LIBPQ"></a>
 
-**Table of Contents**
+## 第 32 章 libpq — C 函式庫
 
-[32.1. Database Connection Control Functions](libpq-connect.md)
-:   [32.1.1. Connection Strings](libpq-connect.md#LIBPQ-CONNSTRING)
+**目錄**
 
-    [32.1.2. Parameter Key Words](libpq-connect.md#LIBPQ-PARAMKEYWORDS)
+[32.1. 資料庫連線控制函式](libpq-connect.md)
+:   [32.1.1. 連線字串](libpq-connect.md#LIBPQ-CONNSTRING)
 
-[32.2. Connection Status Functions](libpq-status.md)
+    [32.1.2. 參數關鍵字](libpq-connect.md#LIBPQ-PARAMKEYWORDS)
 
-[32.3. Command Execution Functions](libpq-exec.md)
-:   [32.3.1. Main Functions](libpq-exec.md#LIBPQ-EXEC-MAIN)
+[32.2. 連線狀態函式](libpq-status.md)
 
-    [32.3.2. Retrieving Query Result Information](libpq-exec.md#LIBPQ-EXEC-SELECT-INFO)
+[32.3. 命令執行函式](libpq-exec.md)
+:   [32.3.1. 主要函式](libpq-exec.md#LIBPQ-EXEC-MAIN)
 
-    [32.3.3. Retrieving Other Result Information](libpq-exec.md#LIBPQ-EXEC-NONSELECT)
+    [32.3.2. 取得查詢結果資訊](libpq-exec.md#LIBPQ-EXEC-SELECT-INFO)
 
-    [32.3.4. Escaping Strings for Inclusion in SQL Commands](libpq-exec.md#LIBPQ-EXEC-ESCAPE-STRING)
+    [32.3.3. 取得其他結果資訊](libpq-exec.md#LIBPQ-EXEC-NONSELECT)
 
-[32.4. Asynchronous Command Processing](libpq-async.md)
+    [32.3.4. 跳脫要放入 SQL 命令中的字串](libpq-exec.md#LIBPQ-EXEC-ESCAPE-STRING)
 
-[32.5. Pipeline Mode](libpq-pipeline-mode.md)
-:   [32.5.1. Using Pipeline Mode](libpq-pipeline-mode.md#LIBPQ-PIPELINE-USING)
+[32.4. 非同步命令處理](libpq-async.md)
 
-    [32.5.2. Functions Associated with Pipeline Mode](libpq-pipeline-mode.md#LIBPQ-PIPELINE-FUNCTIONS)
+[32.5. 管線模式](libpq-pipeline-mode.md)
+:   [32.5.1. 使用管線模式](libpq-pipeline-mode.md#LIBPQ-PIPELINE-USING)
 
-    [32.5.3. When to Use Pipeline Mode](libpq-pipeline-mode.md#LIBPQ-PIPELINE-TIPS)
+    [32.5.2. 與管線模式相關的函式](libpq-pipeline-mode.md#LIBPQ-PIPELINE-FUNCTIONS)
 
-[32.6. Retrieving Query Results in Chunks](libpq-single-row-mode.md)
+    [32.5.3. 何時使用管線模式](libpq-pipeline-mode.md#LIBPQ-PIPELINE-TIPS)
 
-[32.7. Canceling Queries in Progress](libpq-cancel.md)
-:   [32.7.1. Functions for Sending Cancel Requests](libpq-cancel.md#LIBPQ-CANCEL-FUNCTIONS)
+[32.6. 分塊取得查詢結果](libpq-single-row-mode.md)
 
-    [32.7.2. Obsolete Functions for Sending Cancel Requests](libpq-cancel.md#LIBPQ-CANCEL-DEPRECATED)
+[32.7. 取消進行中的查詢](libpq-cancel.md)
+:   [32.7.1. 傳送取消請求的函式](libpq-cancel.md#LIBPQ-CANCEL-FUNCTIONS)
 
-[32.8. The Fast-Path Interface](libpq-fastpath.md)
+    [32.7.2. 已過時的傳送取消請求函式](libpq-cancel.md#LIBPQ-CANCEL-DEPRECATED)
 
-[32.9. Asynchronous Notification](libpq-notify.md)
+[32.8. 快速路徑介面](libpq-fastpath.md)
 
-[32.10. Functions Associated with the `COPY` Command](libpq-copy.md)
-:   [32.10.1. Functions for Sending `COPY` Data](libpq-copy.md#LIBPQ-COPY-SEND)
+[32.9. 非同步通知](libpq-notify.md)
 
-    [32.10.2. Functions for Receiving `COPY` Data](libpq-copy.md#LIBPQ-COPY-RECEIVE)
+[32.10. 與 `COPY` 命令相關的函式](libpq-copy.md)
+:   [32.10.1. 傳送 `COPY` 資料的函式](libpq-copy.md#LIBPQ-COPY-SEND)
 
-    [32.10.3. Obsolete Functions for `COPY`](libpq-copy.md#LIBPQ-COPY-DEPRECATED)
+    [32.10.2. 接收 `COPY` 資料的函式](libpq-copy.md#LIBPQ-COPY-RECEIVE)
 
-[32.11. Control Functions](libpq-control.md)
+    [32.10.3. 已過時的 `COPY` 函式](libpq-copy.md#LIBPQ-COPY-DEPRECATED)
 
-[32.12. Miscellaneous Functions](libpq-misc.md)
+[32.11. 控制函式](libpq-control.md)
 
-[32.13. Notice Processing](libpq-notice-processing.md)
+[32.12. 其他函式](libpq-misc.md)
 
-[32.14. Event System](libpq-events.md)
-:   [32.14.1. Event Types](libpq-events.md#LIBPQ-EVENTS-TYPES)
+[32.13. 通知訊息處理](libpq-notice-processing.md)
 
-    [32.14.2. Event Callback Procedure](libpq-events.md#LIBPQ-EVENTS-PROC)
+[32.14. 事件系統](libpq-events.md)
+:   [32.14.1. 事件類型](libpq-events.md#LIBPQ-EVENTS-TYPES)
 
-    [32.14.3. Event Support Functions](libpq-events.md#LIBPQ-EVENTS-FUNCS)
+    [32.14.2. 事件回呼程序](libpq-events.md#LIBPQ-EVENTS-PROC)
 
-    [32.14.4. Event Example](libpq-events.md#LIBPQ-EVENTS-EXAMPLE)
+    [32.14.3. 事件支援函式](libpq-events.md#LIBPQ-EVENTS-FUNCS)
 
-[32.15. Environment Variables](libpq-envars.md)
+    [32.14.4. 事件範例](libpq-events.md#LIBPQ-EVENTS-EXAMPLE)
 
-[32.16. The Password File](libpq-pgpass.md)
+[32.15. 環境變數](libpq-envars.md)
 
-[32.17. The Connection Service File](libpq-pgservice.md)
+[32.16. 密碼檔](libpq-pgpass.md)
 
-[32.18. LDAP Lookup of Connection Parameters](libpq-ldap.md)
+[32.17. 連線服務檔](libpq-pgservice.md)
 
-[32.19. SSL Support](libpq-ssl.md)
-:   [32.19.1. Client Verification of Server Certificates](libpq-ssl.md#LIBQ-SSL-CERTIFICATES)
+[32.18. 以 LDAP 查詢連線參數](libpq-ldap.md)
 
-    [32.19.2. Client Certificates](libpq-ssl.md#LIBPQ-SSL-CLIENTCERT)
+[32.19. SSL 支援](libpq-ssl.md)
+:   [32.19.1. 用戶端驗證伺服器憑證](libpq-ssl.md#LIBQ-SSL-CERTIFICATES)
 
-    [32.19.3. Protection Provided in Different Modes](libpq-ssl.md#LIBPQ-SSL-PROTECTION)
+    [32.19.2. 用戶端憑證](libpq-ssl.md#LIBPQ-SSL-CLIENTCERT)
 
-    [32.19.4. SSL Client File Usage](libpq-ssl.md#LIBPQ-SSL-FILEUSAGE)
+    [32.19.3. 不同模式所提供的保護](libpq-ssl.md#LIBPQ-SSL-PROTECTION)
 
-    [32.19.5. SSL Library Initialization](libpq-ssl.md#LIBPQ-SSL-INITIALIZE)
+    [32.19.4. SSL 用戶端檔案用途](libpq-ssl.md#LIBPQ-SSL-FILEUSAGE)
 
-[32.20. OAuth Support](libpq-oauth.md)
-:   [32.20.1. Authdata Hooks](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)
+    [32.19.5. SSL 函式庫初始化](libpq-ssl.md#LIBPQ-SSL-INITIALIZE)
 
-    [32.20.2. Debugging and Developer Settings](libpq-oauth.md#LIBPQ-OAUTH-DEBUGGING)
+[32.20. OAuth 支援](libpq-oauth.md)
+:   [32.20.1. 認證資料（authdata）掛鉤](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)
 
-[32.21. Behavior in Threaded Programs](libpq-threading.md)
+    [32.20.2. 除錯與開發者設定](libpq-oauth.md#LIBPQ-OAUTH-DEBUGGING)
 
-[32.22. Building libpq Programs](libpq-build.md)
+[32.21. 多執行緒程式中的行為](libpq-threading.md)
 
-[32.23. Example Programs](libpq-example.md)
+[32.22. 建置 libpq 程式](libpq-build.md)
+
+[32.23. 範例程式](libpq-example.md)
 
 <a id="id-1.7.3.2"></a><a id="id-1.7.3.3"></a>
 
-libpq is the C
-application programmer's interface to PostgreSQL.
-libpq is a set of library functions that allow
-client programs to pass queries to the PostgreSQL
-backend server and to receive the results of these queries.
+libpq 是 PostgreSQL 的 C
+應用程式設計介面。
+libpq 是一組函式庫函式，讓
+用戶端程式能將查詢傳給 PostgreSQL
+後端伺服器，並接收這些查詢的結果。
 
-libpq is also the underlying engine for several
-other PostgreSQL application interfaces, including
-those written for C++, Perl, Python, Tcl and ECPG.
-So some aspects of libpq's behavior will be
-important to you if you use one of those packages. In particular,
-[Section 32.15](libpq-envars.md),
-[Section 32.16](libpq-pgpass.md) and
-[Section 32.19](libpq-ssl.md)
-describe behavior that is visible to the user of any application
-that uses libpq.
+libpq 也是其他數個
+PostgreSQL 應用程式介面的底層引擎，包括
+為 C++、Perl、Python、Tcl 與 ECPG 所撰寫的介面。
+因此，若你使用這些套件之一，libpq 行為的某些面向
+對你而言會很重要。特別是，
+[第 32.15 節](libpq-envars.md)、
+[第 32.16 節](libpq-pgpass.md)與
+[第 32.19 節](libpq-ssl.md)
+說明了任何使用 libpq 之應用程式的使用者
+都看得到的行為。
 
-Some short programs are included at the end of this chapter ([Section 32.23](libpq-example.md)) to show how
-to write programs that use libpq. There are also several
-complete examples of libpq applications in the
-directory `src/test/examples` in the source code distribution.
+本章結尾收錄了一些簡短的程式（[第 32.23 節](libpq-example.md)），示範
+如何撰寫使用 libpq 的程式。在原始碼發行版的
+`src/test/examples` 目錄中，也有數個
+完整的 libpq 應用程式範例。
 
-Client programs that use libpq must
-include the header file
-`libpq-fe.h`<a id="id-1.7.3.7.3"></a>
-and must link with the libpq library.
+使用 libpq 的用戶端程式必須
+引入標頭檔
+`libpq-fe.h`<a id="id-1.7.3.7.3"></a>，
+並且必須與 libpq 函式庫連結。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/libpq.html)（原文版本：18.6；核對日期：2026-10-18）

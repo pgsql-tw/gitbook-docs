@@ -302,7 +302,7 @@
     * [31.4. TAP 測試 #](server-administration/regress/regress-tap.md)
     * [31.5. 測試涵蓋率檢驗 #](server-administration/regress/regress-coverage.md)
 * [Part IV. Client Interfaces](client-interfaces/README.md)
-  * [Chapter 32. libpq — C Library](client-interfaces/libpq/README.md)
+  * [第 32 章 libpq — C 函式庫](client-interfaces/libpq/README.md)
     * [32.1. Database Connection Control Functions #](client-interfaces/libpq/libpq-connect.md)
     * [32.2. 連線狀態函式 #](client-interfaces/libpq/libpq-status.md)
     * [32.3. 命令執行函式 #](client-interfaces/libpq/libpq-exec.md)

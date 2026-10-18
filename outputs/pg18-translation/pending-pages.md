@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：139 頁。
+待譯頁面：138 頁。
 
 ## 根目錄
 
@@ -247,7 +247,7 @@
 - [x] `client-interfaces/largeobjects/lo-implementation.md` — 33.2. 實作特性 #
 - [ ] `client-interfaces/largeobjects/lo-interfaces.md` — 33.3. Client Interfaces #
 - [x] `client-interfaces/largeobjects/lo-intro.md` — 33.1. 簡介
-- [ ] `client-interfaces/libpq/README.md` — Chapter 32. libpq — C Library
+- [x] `client-interfaces/libpq/README.md` — 第 32 章 libpq — C 函式庫
 - [x] `client-interfaces/libpq/libpq-async.md` — 32.4. 非同步命令處理 #
 - [ ] `client-interfaces/libpq/libpq-build.md` — 32.22. Building libpq Programs #
 - [ ] `client-interfaces/libpq/libpq-cancel.md` — 32.7. Canceling Queries in Progress #
