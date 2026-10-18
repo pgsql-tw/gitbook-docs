@@ -397,7 +397,7 @@
     * [35.27. `foreign_data_wrappers` #](client-interfaces/information-schema/infoschema-foreign-data-wrappers.md)
     * [35.28. `foreign_server_options` #](client-interfaces/information-schema/infoschema-foreign-server-options.md)
     * [35.29. `foreign_servers` #](client-interfaces/information-schema/infoschema-foreign-servers.md)
-    * [35.30. foreign_table_options #](client-interfaces/information-schema/infoschema-foreign-table-options.md)
+    * [35.30. `foreign_table_options` #](client-interfaces/information-schema/infoschema-foreign-table-options.md)
     * [35.31. foreign_tables #](client-interfaces/information-schema/infoschema-foreign-tables.md)
     * [35.32. key_column_usage #](client-interfaces/information-schema/infoschema-key-column-usage.md)
     * [35.33. parameters #](client-interfaces/information-schema/infoschema-parameters.md)
