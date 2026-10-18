@@ -1,3 +1,5 @@
+<a id="ECPG-SQL-DECLARE-STATEMENT"></a>
+
 ## DECLARE STATEMENT
 
 DECLARE STATEMENT — 宣告 SQL 陳述式識別字
@@ -13,7 +15,7 @@ EXEC SQL [ AT connection_name ] DECLARE statement_name STATEMENT
 
 ## 說明
 
-`DECLARE STATEMENT` 宣告 SQL 陳述式識別字。SQL 陳述式識別字可與連線相關聯；動態 SQL 陳述式使用該識別字時，會使用相關聯的連線執行。宣告的命名空間是預編譯單元，不允許對同一 SQL 陳述式識別字進行多次宣告。請注意，若預編譯器以 Informix 相容模式執行且已宣告 SQL 陳述式，便不能將 `database` 用作游標名稱。
+`DECLARE STATEMENT` 會宣告 SQL 陳述式識別字。SQL 陳述式識別字可以與連線相關聯。當動態 SQL 陳述式使用該識別字時，這些陳述式會使用相關聯的連線執行。宣告的命名空間是預編譯單元，不允許對同一個 SQL 陳述式識別字重複宣告。請注意，若預編譯器以 Informix 相容模式執行，且宣告了某個 SQL 陳述式，便不能使用 `database` 作為游標名稱。
 
 <a id="id-1.7.5.20.7.4"></a>
 
@@ -24,18 +26,18 @@ EXEC SQL [ AT connection_name ] DECLARE statement_name STATEMENT
 *`connection_name`* [#](#ECPG-SQL-DECLARE-STATEMENT-CONNECTION-NAME)
 :   由 `CONNECT` 命令建立的資料庫連線名稱。
 
-    可省略 `AT` 子句，但這樣的陳述式沒有意義。
+    `AT` 子句可以省略，但這樣的陳述式沒有意義。
 
 <a id="ECPG-SQL-DECLARE-STATEMENT-STATEMENT-NAME"></a>
 
 *`statement_name`* [#](#ECPG-SQL-DECLARE-STATEMENT-STATEMENT-NAME)
-:   SQL 陳述式識別字名稱，可以是 SQL 識別字或主機變數。
+:   SQL 陳述式識別字的名稱，可以是 SQL 識別字或主機變數。
 
 <a id="id-1.7.5.20.7.5"></a>
 
 ## 注意事項
 
-只有在宣告實際放在動態陳述式之前時，此關聯才有效。
+只有在宣告實際放置於動態陳述式之前（上方）時，此關聯才有效。
 
 <a id="id-1.7.5.20.7.6"></a>
 
@@ -56,7 +58,7 @@ EXEC SQL CLOSE cursor_name;
 
 ## 相容性
 
-`DECLARE STATEMENT` 是 SQL 標準的擴充功能，但可用於知名的資料庫管理系統。
+`DECLARE STATEMENT` 是 SQL 標準的擴充，但可以在知名的資料庫管理系統中使用。
 
 <a id="id-1.7.5.20.7.8"></a>
 
@@ -66,4 +68,4 @@ EXEC SQL CLOSE cursor_name;
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-declare-statement.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-sql-declare-statement.html)（原文版本：18.6；核對日期：2026-10-18）
