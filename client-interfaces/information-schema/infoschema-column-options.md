@@ -1,8 +1,7 @@
+<a id="INFOSCHEMA-COLUMN-OPTIONS"></a>
 ## 35.14. `column_options` [#](#INFOSCHEMA-COLUMN-OPTIONS)
 
-檢視表 `column_options` 包含目前資料庫中為外部資料表欄位定義的所有選項。只有
-目前使用者可存取的外部資料表欄位會顯示在此檢視表中（使用者為其擁有者或具有某項
-權限時即可存取）。
+檢視表 `column_options` 包含目前資料庫中為外部資料表欄位所定義的所有選項。只會顯示目前使用者有權存取（身為擁有者或具有某種權限）的外部資料表欄位。
 
 <a id="id-1.7.6.18.3"></a>
 
@@ -17,12 +16,12 @@
 <code class="structfield">table_catalog</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含外部資料表的資料庫名稱（一律為目前資料庫）
+       包含該外部資料表的資料庫名稱（一律為目前資料庫）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_schema</code> <code class="type">sql_identifier</code>
 </p>
 <p>
-       包含外部資料表的 schema 名稱
+       包含該外部資料表的綱要名稱
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">table_name</code> <code class="type">sql_identifier</code>
 </p>
@@ -42,11 +41,11 @@
 <code class="structfield">option_value</code> <code class="type">character_data</code>
 </p>
 <p>
-       選項值
+       選項的值
       </p></td></tr></tbody></table>
 
 <br>
 
 ---
 
-【[PostgreSQL 18.6 文件](https://www.postgresql.org/docs/18/infoschema-column-options.html)】
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/infoschema-column-options.html)（原文版本：18.6；核對日期：2026-10-18）
