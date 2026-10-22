@@ -366,7 +366,7 @@
       * [WHENEVER](client-interfaces/ecpg/ecpg-sql-whenever.md)
     * [34.15. Informix Compatibility Mode #](client-interfaces/ecpg/ecpg-informix-compat.md)
     * [34.16. Oracle 相容模式](client-interfaces/ecpg/ecpg-oracle-compat.md)
-    * [34.17. Internals #](client-interfaces/ecpg/ecpg-develop.md)
+    * [34.17. 內部運作 #](client-interfaces/ecpg/ecpg-develop.md)
   * [第 35 章 資訊綱要](client-interfaces/information-schema/README.md)
     * [35.1. The Schema #](client-interfaces/information-schema/infoschema-schema.md)
     * [35.2. Data Types #](client-interfaces/information-schema/infoschema-datatypes.md)

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：35 頁。
+待譯頁面：34 頁。
 
 ## 根目錄
 
@@ -145,7 +145,7 @@
 - [x] `client-interfaces/ecpg/ecpg-connect.md` — 34.2. 管理資料庫連線 #
 - [x] `client-interfaces/ecpg/ecpg-cpp.md` — 34.13. C++ 應用程式 #
 - [ ] `client-interfaces/ecpg/ecpg-descriptors.md` — 34.7. Using Descriptor Areas #
-- [ ] `client-interfaces/ecpg/ecpg-develop.md` — 34.17. Internals #
+- [x] `client-interfaces/ecpg/ecpg-develop.md` — 34.17. 內部運作 #
 - [ ] `client-interfaces/ecpg/ecpg-dynamic.md` — 34.5. Dynamic SQL #
 - [ ] `client-interfaces/ecpg/ecpg-errors.md` — 34.8. Error Handling #
 - [ ] `client-interfaces/ecpg/ecpg-informix-compat.md` — 34.15. Informix Compatibility Mode #

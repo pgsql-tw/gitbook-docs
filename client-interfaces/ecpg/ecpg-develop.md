@@ -1,96 +1,68 @@
-## 34.17. Internals [#](#ECPG-DEVELOP)
+<a id="ECPG-DEVELOP"></a>
 
-This section explains how ECPG works
-internally. This information can occasionally be useful to help
-users understand how to use ECPG.
+## 34.17. 內部運作 [#](#ECPG-DEVELOP)
 
-The first four lines written by `ecpg` to the
-output are fixed lines. Two are comments and two are include
-lines necessary to interface to the library. Then the
-preprocessor reads through the file and writes output. Normally
-it just echoes everything to the output.
+本節說明 ECPG 的內部運作方式。這些資訊有時可以幫助使用者理解如何使用 ECPG。
 
-When it sees an `EXEC SQL` statement, it
-intervenes and changes it. The command starts with `EXEC
-SQL` and ends with `;`. Everything in
-between is treated as an SQL statement and
-parsed for variable substitution.
+`ecpg` 寫入輸出的前四行是固定的。其中兩行是註解，兩行是與函式庫介接所需的 include 行。接著前置處理器會讀過整個檔案並寫出輸出。通常它只是將所有內容原樣輸出。
 
-Variable substitution occurs when a symbol starts with a colon
-(`:`). The variable with that name is looked up
-among the variables that were previously declared within a
-`EXEC SQL DECLARE` section.
+當它看到 `EXEC SQL` 陳述式時，就會介入並加以改寫。該命令以 `EXEC
+SQL` 開頭，以 `;` 結尾。兩者之間的所有內容都會被視為 SQL 陳述式，並為了變數代換而進行剖析。
 
-The most important function in the library is
-`ECPGdo`, which takes care of executing most
-commands. It takes a variable number of arguments. This can easily
-add up to 50 or so arguments, and we hope this will not be a
-problem on any platform.
+當符號以冒號（`:`）開頭時，就會進行變數代換。前置處理器會在先前於 `EXEC SQL DECLARE` 區段中宣告的變數裡，查找具有該名稱的變數。
 
-The arguments are:
+函式庫中最重要的函式是 `ECPGdo`，它負責執行大多數的命令。它接受可變數量的引數。引數數量很容易就累積到 50 個左右，我們希望這在任何平台上都不會造成問題。
+
+引數如下：
 
 <a id="ECPG-DEVELOP-LINE-NUMBER"></a>
 
-A line number [#](#ECPG-DEVELOP-LINE-NUMBER)
-:   This is the line number of the original line; used in error
-    messages only.
+行號 [#](#ECPG-DEVELOP-LINE-NUMBER)
+:   這是原始程式行的行號；只用於錯誤訊息。
 <a id="ECPG-DEVELOP-STRING"></a>
 
-A string [#](#ECPG-DEVELOP-STRING)
-:   This is the SQL command that is to be issued.
-    It is modified by the input variables, i.e., the variables that
-    where not known at compile time but are to be entered in the
-    command. Where the variables should go the string contains
-    `?`.
+字串 [#](#ECPG-DEVELOP-STRING)
+:   這是要發出的 SQL 命令。它會依輸入變數而修改；輸入變數是指編譯時尚未得知、但要填入命令中的變數。字串中應放入變數的位置會是 `?`。
 <a id="ECPG-DEVELOP-INPUT-VARIABLES"></a>
 
-Input variables [#](#ECPG-DEVELOP-INPUT-VARIABLES)
-:   Every input variable causes ten arguments to be created. (See below.)
+輸入變數 [#](#ECPG-DEVELOP-INPUT-VARIABLES)
+:   每個輸入變數都會產生十個引數。（見下文。）
 <a id="ECPG-DEVELOP-ECPGT-EOIT"></a>
 
 *`ECPGt_EOIT`* [#](#ECPG-DEVELOP-ECPGT-EOIT)
-:   An `enum` telling that there are no more input
-    variables.
+:   一個 `enum` 值，表示後面已沒有其他輸入變數。
 <a id="ECPG-DEVELOP-OUTPUT-VARIABLES"></a>
 
-Output variables [#](#ECPG-DEVELOP-OUTPUT-VARIABLES)
-:   Every output variable causes ten arguments to be created.
-    (See below.) These variables are filled by the function.
+輸出變數 [#](#ECPG-DEVELOP-OUTPUT-VARIABLES)
+:   每個輸出變數都會產生十個引數。（見下文。）這些變數由該函式填入。
 <a id="ECPG-DEVELOP-ECPGT-EORT"></a>
 
 *`ECPGt_EORT`* [#](#ECPG-DEVELOP-ECPGT-EORT)
-:   An `enum` telling that there are no more variables.
+:   一個 `enum` 值，表示後面已沒有其他變數。
 
-For every variable that is part of the SQL
-command, the function gets ten arguments:
+對於 SQL 命令中的每個變數，此函式都會收到十個引數：
 
-1. The type as a special symbol.
-2. A pointer to the value or a pointer to the pointer.
-3. The size of the variable if it is a `char` or `varchar`.
-4. The number of elements in the array (for array fetches).
-5. The offset to the next element in the array (for array fetches).
-6. The type of the indicator variable as a special symbol.
-7. A pointer to the indicator variable.
+1. 以特殊符號表示的型別。
+2. 指向值的指標，或指向該指標的指標。
+3. 若變數為 `char` 或 `varchar`，則為變數的大小。
+4. 陣列中的元素個數（用於陣列擷取）。
+5. 到陣列中下一個元素的位移量（用於陣列擷取）。
+6. 以特殊符號表示的指示變數型別。
+7. 指向指示變數的指標。
 8. 0
-9. The number of elements in the indicator array (for array fetches).
-10. The offset to the next element in the indicator array (for
-    array fetches).
+9. 指示變數陣列中的元素個數（用於陣列擷取）。
+10. 到指示變數陣列中下一個元素的位移量（用於陣列擷取）。
 
-Note that not all SQL commands are treated in this way. For
-instance, an open cursor statement like:
+請注意，並非所有 SQL 命令都以這種方式處理。例如，像下面這樣開啟游標的陳述式：
 
 ```
 
 EXEC SQL OPEN cursor;
 ```
 
-is not copied to the output. Instead, the cursor's
-`DECLARE` command is used at the position of the `OPEN` command
-because it indeed opens the cursor.
+並不會被複製到輸出中。取而代之的是，在 `OPEN` 命令的位置使用該游標的 `DECLARE` 命令，因為實際開啟游標的正是它。
 
-Here is a complete example describing the output of the
-preprocessor of a file `foo.pgc` (details might
-change with each particular version of the preprocessor):
+以下是一個完整範例，說明前置處理器處理檔案 `foo.pgc` 後的輸出（細節可能會隨前置處理器的版本而改變）：
 
 ```
 
@@ -102,7 +74,7 @@ EXEC SQL END DECLARE SECTION;
 EXEC SQL SELECT res INTO :result FROM mytable WHERE index = :index;
 ```
 
-is translated into:
+會被轉換為：
 
 ```
 
@@ -127,9 +99,10 @@ ECPGdo(__LINE__, NULL, "SELECT res FROM mytable WHERE index = ?     ",
 #line 147 "foo.pgc"
 ```
 
-(The indentation here is added for readability and not
-something the preprocessor does.)
+（此處的縮排是為了便於閱讀而加上的，並不是前置處理器產生的。）
+
+譯註：上方輸出範例依原文保留，僅在此說明兩點：一是兩行 #include 指令的行尾多了分號，這不是正確的前置處理指令寫法（C 編譯器通常會對此發出警告），正確寫法行尾不應有分號；二是範例中 ECPGdo 在 __LINE__ 之後的 NULL 引數（連線名稱）並未列在上文的引數清單中，而目前版本的 ecpg 實際產生的 ECPGdo 呼叫在 SQL 字串之前還有更多引數，與此範例不同（如原文所述，細節會隨前置處理器版本而改變）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-develop.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-develop.html)（原文版本：18.6；核對日期：2026-10-22）
