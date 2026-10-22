@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：24 頁。
+待譯頁面：23 頁。
 
 ## 根目錄
 
@@ -148,7 +148,7 @@
 - [x] `client-interfaces/ecpg/ecpg-develop.md` — 34.17. 內部運作 #
 - [x] `client-interfaces/ecpg/ecpg-dynamic.md` — 34.5. 動態 SQL #
 - [x] `client-interfaces/ecpg/ecpg-errors.md` — 34.8. 錯誤處理 #
-- [ ] `client-interfaces/ecpg/ecpg-informix-compat.md` — 34.15. Informix Compatibility Mode #
+- [x] `client-interfaces/ecpg/ecpg-informix-compat.md` — 34.15. Informix 相容模式 #
 - [x] `client-interfaces/ecpg/ecpg-library.md` — 34.11. 函式庫函式 #
 - [x] `client-interfaces/ecpg/ecpg-lo.md` — 34.12. 大型物件 #
 - [x] `client-interfaces/ecpg/ecpg-oracle-compat.md` — 34.16. Oracle 相容模式
