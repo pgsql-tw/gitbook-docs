@@ -1,54 +1,41 @@
-## F.46. tsm_system_rows — the `SYSTEM_ROWS` sampling method for `TABLESAMPLE` [#](#TSM-SYSTEM-ROWS)
+<a id="TSM-SYSTEM-ROWS"></a>
 
-[F.46.1. Examples](tsm-system-rows.md#TSM-SYSTEM-ROWS-EXAMPLES)
+## F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 [#](#TSM-SYSTEM-ROWS)
+
+[F.46.1. 範例](tsm-system-rows.md#TSM-SYSTEM-ROWS-EXAMPLES)
 
 <a id="id-1.11.7.56.2"></a>
 
-The `tsm_system_rows` module provides the table sampling method
-`SYSTEM_ROWS`, which can be used in
-the `TABLESAMPLE` clause of a [`SELECT`](../../reference/sql-commands/sql-select.md)
-command.
+`tsm_system_rows` 模組提供資料表取樣方法 `SYSTEM_ROWS`，可用於 [`SELECT`](../../reference/sql-commands/sql-select.md) 命令的 `TABLESAMPLE` 子句。
 
-This table sampling method accepts a single integer argument that is the
-maximum number of rows to read. The resulting sample will always contain
-exactly that many rows, unless the table does not contain enough rows, in
-which case the whole table is selected.
+此資料表取樣方法接受單一整數引數，表示要讀取的最大資料列數。產生的樣本一定會恰好包含該數量的資料列，除非資料表沒有足夠的資料列，此時會選取整個資料表。
 
-Like the built-in `SYSTEM` sampling
-method, `SYSTEM_ROWS` performs block-level sampling, so
-that the sample is not completely random but may be subject to clustering
-effects, especially if only a small number of rows are requested.
+與內建的 `SYSTEM` 取樣方法一樣，`SYSTEM_ROWS` 執行區塊層級的取樣，因此樣本並非完全隨機，而可能受到群聚效應影響，尤其是只要求少量資料列時。
 
-`SYSTEM_ROWS` does not support
-the `REPEATABLE` clause.
+`SYSTEM_ROWS` 不支援 `REPEATABLE` 子句。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
 <a id="TSM-SYSTEM-ROWS-EXAMPLES"></a>
 
-### F.46.1. Examples [#](#TSM-SYSTEM-ROWS-EXAMPLES)
+### F.46.1. 範例 [#](#TSM-SYSTEM-ROWS-EXAMPLES)
 
-Here is an example of selecting a sample of a table with
-`SYSTEM_ROWS`. First install the extension:
+以下是使用 `SYSTEM_ROWS` 選取資料表樣本的範例。首先安裝擴充功能：
 
 ```
 
 CREATE EXTENSION tsm_system_rows;
 ```
 
-Then you can use it in a `SELECT` command, for instance:
+接著即可在 `SELECT` 命令中使用它，例如：
 
 ```
 
 SELECT * FROM my_table TABLESAMPLE SYSTEM_ROWS(100);
 ```
 
-This command will return a sample of 100 rows from the
-table `my_table` (unless the table does not have 100
-visible rows, in which case all its rows are returned).
+此命令會從資料表 `my_table` 傳回 100 筆資料列的樣本（除非該資料表沒有 100 筆可見的資料列，此時會傳回其所有資料列）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tsm-system-rows.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tsm-system-rows.html)（原文版本：18.6；核對日期：2026-10-22）
