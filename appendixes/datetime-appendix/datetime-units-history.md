@@ -1,59 +1,61 @@
-## B.6. History of Units [#](#DATETIME-UNITS-HISTORY)
+<a id="DATETIME-UNITS-HISTORY"></a>
+
+## B.6. 單位的歷史 [#](#DATETIME-UNITS-HISTORY)
 
 <a id="id-1.11.3.9.2"></a>
 
-The SQL standard states that “Within the definition of a
-‘datetime literal’, the ‘datetime
-values’ are constrained by the natural rules for dates and
-times according to the Gregorian calendar”.
-PostgreSQL follows the SQL
-standard's lead by counting dates exclusively in the Gregorian
-calendar, even for years before that calendar was in use.
-This rule is known as the *proleptic Gregorian calendar*.
+SQL 標準規定：「在『日期時間字面值』（datetime literal）
+的定義中，『日期時間值』（datetime
+values）受到格里曆中日期與
+時間的自然規則所限制」。
+PostgreSQL 遵循 SQL
+標準的做法，一律以格里曆計算日期，
+即使是在該曆法開始使用之前的年份也是如此。
+此規則稱為*外推格里曆*（proleptic Gregorian calendar）。
 
-The Julian calendar was introduced by Julius Caesar in 45 BC.
-It was in common use in the Western world
-until the year 1582, when countries started changing to the Gregorian
-calendar. In the Julian calendar, the tropical year is
-approximated as 365 1/4 days = 365.25 days. This gives an error of
-about 1 day in 128 years.
+儒略曆由尤利烏斯·凱撒於西元前 45 年制定。
+在西方世界中，它一直普遍使用
+到 1582 年，那一年各國開始改用格里曆。
+在儒略曆中，回歸年的長度
+近似為 365 1/4 天 = 365.25 天。這會造成
+每 128 年約 1 天的誤差。
 
-The accumulating calendar error prompted
-Pope Gregory XIII to reform the calendar in accordance with
-instructions from the Council of Trent.
-In the Gregorian calendar, the tropical year is approximated as
-365 + 97 / 400 days = 365.2425 days. Thus it takes approximately 3300
-years for the tropical year to shift one day with respect to the
-Gregorian calendar.
+日益累積的曆法誤差促使
+教宗額我略十三世依照
+特利騰大公會議的指示改革曆法。
+在格里曆中，回歸年的長度近似為
+365 + 97 / 400 天 = 365.2425 天。因此，回歸年
+大約需要 3300 年，才會相對於
+格里曆偏移一天。
 
-The approximation 365+97/400 is achieved by having 97 leap years
-every 400 years, using the following rules:
+365+97/400 這個近似值是藉由每 400 年
+設置 97 個閏年達成的，規則如下：
 
 <table border="0" class="simplelist" summary="Simple list"><tr><td>
-     Every year divisible by 4 is a leap year.
+     每個可被 4 整除的年份都是閏年。
     </td></tr><tr><td>
-     However, every year divisible by 100 is not a leap year.
+     然而，每個可被 100 整除的年份都不是閏年。
     </td></tr><tr><td>
-     However, every year divisible by 400 is a leap year after all.
+     然而，每個可被 400 整除的年份終究還是閏年。
     </td></tr></table>
 
-So, 1700, 1800, 1900, 2100, and 2200 are not leap years. But 1600,
-2000, and 2400 are leap years.
-By contrast, in the older Julian calendar all years divisible by 4 are leap
-years.
+因此，1700、1800、1900、2100 與 2200 年都不是閏年。但 1600、
+2000 與 2400 年是閏年。
+相較之下，在較早的儒略曆中，所有可被 4 整除的年份都是
+閏年。
 
-The papal bull of February 1582 decreed that 10 days should be dropped
-from October 1582 so that 15 October should follow immediately after
-4 October.
-This was observed in Italy, Poland, Portugal, and Spain. Other Catholic
-countries followed shortly after, but Protestant countries were
-reluctant to change, and the Greek Orthodox countries didn't change
-until the start of the 20th century.
-The reform was observed by Great Britain and its dominions (including what
-is now the USA) in 1752.
-Thus 2 September 1752 was followed by 14 September 1752.
-This is why Unix systems that have the `cal` program
-produce the following:
+1582 年 2 月的教宗詔書頒令自
+1582 年 10 月刪去 10 天，使 10 月 15 日緊接在
+10 月 4 日之後。
+義大利、波蘭、葡萄牙與西班牙遵行了此規定。其他天主教
+國家隨後不久也跟進，但新教國家
+不願改變，而希臘正教國家直到
+20 世紀初才改變。
+大不列顛及其屬地（包括現今的
+美國）於 1752 年遵行此改革。
+因此，1752 年 9 月 2 日的下一天是 1752 年 9 月 14 日。
+這就是為什麼具有 `cal` 程式的 Unix 系統
+會產生下列結果：
 
 ```
 
@@ -65,24 +67,24 @@ $ cal 9 1752
 24 25 26 27 28 29 30
 ```
 
-But, of course, this calendar is only valid for Great Britain and
-dominions, not other places.
-Since it would be difficult and confusing to try to track the actual
-calendars that were in use in various places at various times,
-PostgreSQL does not try, but rather follows the Gregorian
-calendar rules for all dates, even though this method is not historically
-accurate.
+不過，當然，此日曆只對大不列顛及其
+屬地有效，對其他地方並不適用。
+由於要追蹤各地在不同時期實際使用的
+曆法既困難又容易混淆，
+PostgreSQL 並不嘗試這麼做，而是對所有日期
+都遵循格里曆規則，即使此方法在歷史上
+並不精確。
 
-Different calendars have been developed in various parts of the
-world, many predating the Gregorian system.
-For example,
-the beginnings of the Chinese calendar can be traced back to the 14th
-century BC. Legend has it that the Emperor Huangdi invented that
-calendar in 2637 BC.
-The People's Republic of China uses the Gregorian calendar
-for civil purposes. The Chinese calendar is used for determining
-festivals.
+世界各地發展出了不同的曆法，
+其中許多早於格里曆系統。
+例如，
+中國曆法的起源可以追溯到西元前 14
+世紀。傳說黃帝於西元前 2637 年
+發明了該曆法。
+中華人民共和國在民用上使用格里曆。
+中國曆法則用於決定
+節日。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-units-history.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-units-history.html)（原文版本：18.6；核對日期：2026-10-22）
