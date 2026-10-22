@@ -1,64 +1,64 @@
-## B.1. Date/Time Input Interpretation [#](#DATETIME-INPUT-RULES)
+<a id="DATETIME-INPUT-RULES"></a>
 
-Date/time input strings are decoded using the following procedure.
+## B.1. 日期／時間輸入解讀 [#](#DATETIME-INPUT-RULES)
 
-1. Break the input string into tokens and categorize each token as
-   a string, time, time zone, or number.
+日期／時間輸入字串會依照下列程序解碼。
 
-   1. If the numeric token contains a colon (`:`), this is
-      a time string. Include all subsequent digits and colons.
-   2. If the numeric token contains a dash (`-`), slash
-      (`/`), or two or more dots (`.`), this is
-      a date string which might have a text month. If a date token has
-      already been seen, it is instead interpreted as a time zone
-      name (e.g., `America/New_York`).
-   3. If the token is numeric only, then it is either a single field
-      or an ISO 8601 concatenated date (e.g.,
-      `19990113` for January 13, 1999) or time
-      (e.g., `141516` for 14:15:16).
-   4. If the token starts with a plus (`+`) or minus
-      (`-`), then it is either a numeric time zone or a special
-      field.
-2. If the token is an alphabetic string, match up with possible strings:
+1. 將輸入字串拆分為記號（token），並將每個記號歸類為
+   字串、時間、時區或數字。
 
-   1. See if the token matches any known time zone abbreviation.
-      These abbreviations are determined by the configuration settings
-      described in [Section B.4](datetime-config-files.md).
-   2. If not found, search an internal table to match
-      the token as either a special string (e.g., `today`),
-      day (e.g., `Thursday`),
-      month (e.g., `January`),
-      or noise word (e.g., `at`, `on`).
-   3. If still not found, throw an error.
-3. When the token is a number or number field:
+   1. 若數字記號包含冒號（`:`），則為
+      時間字串。其後所有的數字與冒號都包含在內。
+   2. 若數字記號包含連字號（`-`）、斜線
+      （`/`），或兩個以上的句點（`.`），則為
+      可能含有文字月份的日期字串。若先前已經出現過日期記號，
+      則改為將它解讀為時區名稱（例如 `America/New_York`）。
+   3. 若記號只由數字組成，則它不是單一欄位，
+      就是 ISO 8601 的連寫日期（例如
+      `19990113` 表示 1999 年 1 月 13 日）或連寫時間
+      （例如 `141516` 表示 14:15:16）。
+   4. 若記號以加號（`+`）或減號
+      （`-`）開頭，則它不是數字時區，就是特殊
+      欄位。
+2. 若記號是英文字母字串，則與可能的字串比對：
 
-   1. If there are eight or six digits,
-      and if no other date fields have been previously read, then interpret
-      as a “concatenated date” (e.g.,
-      `19990118` or `990118`).
-      The interpretation is `YYYYMMDD` or `YYMMDD`.
-   2. If the token is three digits
-      and a year has already been read, then interpret as day of year.
-   3. If four or six digits and a year has already been read, then
-      interpret as a time (`HHMM` or `HHMMSS`).
-   4. If three or more digits and no date fields have yet been found,
-      interpret as a year (this forces yy-mm-dd ordering of the remaining
-      date fields).
-   5. Otherwise the date field ordering is assumed to follow the
-      `DateStyle` setting: mm-dd-yy, dd-mm-yy, or yy-mm-dd.
-      Throw an error if a month or day field is found to be out of range.
-4. If BC has been specified, negate the year and add one for
-   internal storage. (There is no year zero in the Gregorian
-   calendar, so numerically 1 BC becomes year zero.)
-5. If BC was not specified, and if the year field was two digits in length,
-   then adjust the year to four digits. If the field is less than 70, then
-   add 2000, otherwise add 1900.
+   1. 檢查該記號是否符合任何已知的時區縮寫。
+      這些縮寫由[第 B.4 節](datetime-config-files.md)
+      所述的設定決定。
+   2. 若找不到，則搜尋內部查詢表，
+      將該記號比對為特殊字串（例如 `today`）、
+      星期（例如 `Thursday`）、
+      月份（例如 `January`），
+      或無意義字（例如 `at`、`on`）。
+   3. 若仍然找不到，則擲出錯誤。
+3. 當記號為數字或數字欄位時：
 
-   ### Tip
+   1. 若有八位或六位數字，
+      且先前尚未讀到其他日期欄位，則解讀為
+      「連寫日期」（例如
+      `19990118` 或 `990118`）。
+      其解讀方式為 `YYYYMMDD` 或 `YYMMDD`。
+   2. 若記號為三位數字，
+      且已經讀到年份，則解讀為一年中的第幾天。
+   3. 若為四位或六位數字，且已經讀到年份，則
+      解讀為時間（`HHMM` 或 `HHMMSS`）。
+   4. 若為三位以上的數字，且尚未找到任何日期欄位，
+      則解讀為年份（這會強制其餘日期欄位採用 yy-mm-dd 順序）。
+   5. 否則，日期欄位的順序會假定依循
+      `DateStyle` 設定：mm-dd-yy、dd-mm-yy 或 yy-mm-dd。
+      若發現月份或日期欄位超出範圍，則擲出錯誤。
+4. 若指定了 BC（西元前），則將年份取負值再加一，作為
+   內部儲存值。（格里曆中沒有西元 0 年，
+   因此在數值上，西元前 1 年會成為第 0 年。）
+5. 若未指定 BC，且年份欄位長度為兩位數，
+   則將年份調整為四位數。若該欄位小於 70，則
+   加上 2000，否則加上 1900。
 
-   Gregorian years AD 1–99 can be entered by using 4 digits with leading
-   zeros (e.g., `0099` is AD 99).
+   ### 提示
+
+   格里曆西元 1～99 年可以用帶前置零的 4 位數字輸入
+   （例如 `0099` 表示西元 99 年）。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-input-rules.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-input-rules.html)（原文版本：18.6；核對日期：2026-10-22）
