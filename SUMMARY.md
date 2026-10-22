@@ -1025,7 +1025,7 @@
   * [Appendix A. PostgreSQL Error Codes](appendixes/errcodes-appendix/README.md)
   * [附錄 B. 日期／時間支援](appendixes/datetime-appendix/README.md)
     * [B.1. 日期／時間輸入解讀 #](appendixes/datetime-appendix/datetime-input-rules.md)
-    * [B.2. Handling of Invalid or Ambiguous Timestamps #](appendixes/datetime-appendix/datetime-invalid-input.md)
+    * [B.2. 處理無效或模稜兩可的時間戳記 #](appendixes/datetime-appendix/datetime-invalid-input.md)
     * [B.3. Date/Time Key Words #](appendixes/datetime-appendix/datetime-keywords.md)
     * [B.4. 日期／時間設定檔 #](appendixes/datetime-appendix/datetime-config-files.md)
     * [B.5. POSIX Time Zone Specifications #](appendixes/datetime-appendix/datetime-posix-timezone-specs.md)
