@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：48 頁。
+待譯頁面：47 頁。
 
 ## 根目錄
 
@@ -86,7 +86,7 @@
 - [ ] `appendixes/contrib/pgvisibility.md` — F.36. pg_visibility — visibility map information and utilities #
 - [x] `appendixes/contrib/pgwalinspect.md` — F.37. pg_walinspect — 低階 WAL 檢視 #
 - [ ] `appendixes/contrib/postgres-fdw.md` — F.38. postgres_fdw — access data stored in external PostgreSQL servers #
-- [ ] `appendixes/contrib/seg.md` — F.39. seg — a datatype for line segments or floating point intervals #
+- [x] `appendixes/contrib/seg.md` — F.39. seg — 線段或浮點數區間的資料型別 #
 - [ ] `appendixes/contrib/sepgsql.md` — F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #
 - [ ] `appendixes/contrib/sslinfo.md` — F.42. sslinfo — obtain client SSL information #
 - [ ] `appendixes/contrib/tablefunc.md` — F.43. tablefunc — functions that return tables ( crosstab and others) #

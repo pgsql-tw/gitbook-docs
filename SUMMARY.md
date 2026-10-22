@@ -1102,7 +1102,7 @@
     * [F.36. pg_visibility — visibility map information and utilities #](appendixes/contrib/pgvisibility.md)
     * [F.37. pg_walinspect — 低階 WAL 檢視 #](appendixes/contrib/pgwalinspect.md)
     * [F.38. postgres_fdw — access data stored in external PostgreSQL servers #](appendixes/contrib/postgres-fdw.md)
-    * [F.39. seg — a datatype for line segments or floating point intervals #](appendixes/contrib/seg.md)
+    * [F.39. seg — 線段或浮點數區間的資料型別 #](appendixes/contrib/seg.md)
     * [F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #](appendixes/contrib/sepgsql.md)
     * [F.41. spi — Server Programming Interface 功能與範例 #](appendixes/contrib/contrib-spi.md)
     * [F.42. sslinfo — obtain client SSL information #](appendixes/contrib/sslinfo.md)
