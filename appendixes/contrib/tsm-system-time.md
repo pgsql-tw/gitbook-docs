@@ -1,56 +1,41 @@
-## F.47. tsm_system_time — the `SYSTEM_TIME` sampling method for `TABLESAMPLE` [#](#TSM-SYSTEM-TIME)
+<a id="TSM-SYSTEM-TIME"></a>
 
-[F.47.1. Examples](tsm-system-time.md#TSM-SYSTEM-TIME-EXAMPLES)
+## F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 [#](#TSM-SYSTEM-TIME)
+
+[F.47.1. 範例](tsm-system-time.md#TSM-SYSTEM-TIME-EXAMPLES)
 
 <a id="id-1.11.7.57.2"></a>
 
-The `tsm_system_time` module provides the table sampling method
-`SYSTEM_TIME`, which can be used in
-the `TABLESAMPLE` clause of a [`SELECT`](../../reference/sql-commands/sql-select.md)
-command.
+`tsm_system_time` 模組提供資料表取樣方法 `SYSTEM_TIME`，可用於 [`SELECT`](../../reference/sql-commands/sql-select.md) 命令的 `TABLESAMPLE` 子句。
 
-This table sampling method accepts a single floating-point argument that
-is the maximum number of milliseconds to spend reading the table. This
-gives you direct control over how long the query takes, at the price that
-the size of the sample becomes hard to predict. The resulting sample will
-contain as many rows as could be read in the specified time, unless the
-whole table has been read first.
+此資料表取樣方法接受單一浮點數引數，表示讀取資料表時最多可花費的毫秒數。這讓你可以直接控制查詢所需的時間，代價是樣本的大小變得難以預測。產生的樣本會包含在指定時間內能讀取的所有資料列，除非整個資料表已先讀取完畢。
 
-Like the built-in `SYSTEM` sampling
-method, `SYSTEM_TIME` performs block-level sampling, so
-that the sample is not completely random but may be subject to clustering
-effects, especially if only a small number of rows are selected.
+與內建的 `SYSTEM` 取樣方法一樣，`SYSTEM_TIME` 執行區塊層級的取樣，因此樣本並非完全隨機，而可能受到群聚效應影響，尤其是只選取少量資料列時。
 
-`SYSTEM_TIME` does not support
-the `REPEATABLE` clause.
+`SYSTEM_TIME` 不支援 `REPEATABLE` 子句。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
 <a id="TSM-SYSTEM-TIME-EXAMPLES"></a>
 
-### F.47.1. Examples [#](#TSM-SYSTEM-TIME-EXAMPLES)
+### F.47.1. 範例 [#](#TSM-SYSTEM-TIME-EXAMPLES)
 
-Here is an example of selecting a sample of a table with
-`SYSTEM_TIME`. First install the extension:
+以下是使用 `SYSTEM_TIME` 選取資料表樣本的範例。首先安裝擴充功能：
 
 ```
 
 CREATE EXTENSION tsm_system_time;
 ```
 
-Then you can use it in a `SELECT` command, for instance:
+接著即可在 `SELECT` 命令中使用它，例如：
 
 ```
 
 SELECT * FROM my_table TABLESAMPLE SYSTEM_TIME(1000);
 ```
 
-This command will return as large a sample of `my_table` as
-it can read in 1 second (1000 milliseconds). Of course, if the whole
-table can be read in under 1 second, all its rows will be returned.
+此命令會傳回 `my_table` 在 1 秒（1000 毫秒）內所能讀取的最大樣本。當然，若整個資料表能在小於 1 秒的時間內讀完，就會傳回其所有資料列。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tsm-system-time.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tsm-system-time.html)（原文版本：18.6；核對日期：2026-10-22）

@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：40 頁。
+待譯頁面：39 頁。
 
 ## 根目錄
 
@@ -93,7 +93,7 @@
 - [x] `appendixes/contrib/tcn.md` — F.44. tcn — 通知監聽者資料表內容變更的觸發程序函式 #
 - [x] `appendixes/contrib/test-decoding.md` — F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 #
 - [x] `appendixes/contrib/tsm-system-rows.md` — F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 #
-- [ ] `appendixes/contrib/tsm-system-time.md` — F.47. tsm_system_time — the SYSTEM_TIME sampling method for TABLESAMPLE #
+- [x] `appendixes/contrib/tsm-system-time.md` — F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 #
 - [ ] `appendixes/contrib/unaccent.md` — F.48. unaccent — a text search dictionary which removes diacritics #
 - [ ] `appendixes/contrib/uuid-ossp.md` — F.49. uuid-ossp — a UUID generator #
 - [ ] `appendixes/contrib/xml2.md` — F.50. xml2 — XPath querying and XSLT functionality #
