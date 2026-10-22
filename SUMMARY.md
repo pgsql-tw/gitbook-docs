@@ -1039,7 +1039,7 @@
   * [附錄 E. 版本說明](appendixes/release/README.md)
     * [E.1. Release 18.6 #](appendixes/release/release-18-6.md)
     * [E.2. Release 18.4 #](appendixes/release/release-18-4.md)
-    * [E.3. Release 18.3 #](appendixes/release/release-18-3.md)
+    * [E.3. 18.3 版 #](appendixes/release/release-18-3.md)
     * [E.4. 18.2 版 #](appendixes/release/release-18-2.md)
     * [E.5. Release 18.1 #](appendixes/release/release-18-1.md)
     * [E.6. 18 版 #](appendixes/release/release-18.md)
