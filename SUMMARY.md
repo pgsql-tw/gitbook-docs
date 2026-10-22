@@ -1128,7 +1128,7 @@
     * [I.1. Getting the Source via Git #](appendixes/sourcerepo/git.md)
   * [附錄 J. 文件](appendixes/docguide/README.md)
     * [J.1. DocBook](appendixes/docguide/docguide-docbook.md)
-    * [J.2. Tool Sets #](appendixes/docguide/docguide-toolsets.md)
+    * [J.2. 工具組 #](appendixes/docguide/docguide-toolsets.md)
     * [J.3. Building the Documentation with Make #](appendixes/docguide/docguide-build.md)
     * [J.4. 使用 Meson 建置文件](appendixes/docguide/docguide-build-meson.md)
     * [J.5. 文件撰寫](appendixes/docguide/docguide-authoring.md)
