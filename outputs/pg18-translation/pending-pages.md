@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：33 頁。
+待譯頁面：32 頁。
 
 ## 根目錄
 
@@ -138,7 +138,7 @@
 
 ## client-interfaces
 
-- [ ] `client-interfaces/README.md` — Part IV. Client Interfaces
+- [x] `client-interfaces/README.md` — 第四部分：用戶端介面
 - [ ] `client-interfaces/ecpg/README.md` — Chapter 34. ECPG — Embedded SQL in C
 - [x] `client-interfaces/ecpg/ecpg-commands.md` — 34.3. 執行 SQL 命令 #
 - [x] `client-interfaces/ecpg/ecpg-concept.md` — 34.1. 概念 #

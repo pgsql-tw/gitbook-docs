@@ -301,7 +301,7 @@
     * [31.3. 變體比對檔案 #](server-administration/regress/regress-variant.md)
     * [31.4. TAP 測試 #](server-administration/regress/regress-tap.md)
     * [31.5. 測試涵蓋率檢驗 #](server-administration/regress/regress-coverage.md)
-* [Part IV. Client Interfaces](client-interfaces/README.md)
+* [第四部分：用戶端介面](client-interfaces/README.md)
   * [第 32 章 libpq — C 函式庫](client-interfaces/libpq/README.md)
     * [32.1. 資料庫連線控制函式 #](client-interfaces/libpq/libpq-connect.md)
     * [32.2. 連線狀態函式 #](client-interfaces/libpq/libpq-status.md)
