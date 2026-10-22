@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：22 頁。
+待譯頁面：21 頁。
 
 ## 根目錄
 
@@ -134,7 +134,7 @@
 - [x] `appendixes/release/release-prior.md` — E.7. 舊版本
 - [x] `appendixes/sourcerepo/README.md` — 附錄 I. 原始碼儲存庫
 - [x] `appendixes/sourcerepo/git.md` — I.1. 透過 Git 取得原始碼
-- [ ] `appendixes/sql-keywords-appendix/README.md` — Appendix C. SQL Key Words
+- [x] `appendixes/sql-keywords-appendix/README.md` — 附錄 C. SQL 關鍵字
 
 ## client-interfaces
 

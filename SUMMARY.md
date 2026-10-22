@@ -1031,7 +1031,7 @@
     * [B.5. POSIX 時區規格 #](appendixes/datetime-appendix/datetime-posix-timezone-specs.md)
     * [B.6. 單位的歷史 #](appendixes/datetime-appendix/datetime-units-history.md)
     * [B.7. 儒略日期 #](appendixes/datetime-appendix/datetime-julian-dates.md)
-  * [Appendix C. SQL Key Words](appendixes/sql-keywords-appendix/README.md)
+  * [附錄 C. SQL 關鍵字](appendixes/sql-keywords-appendix/README.md)
   * [附錄 D. SQL 符合性](appendixes/features/README.md)
     * [D.1. Supported Features #](appendixes/features/features-sql-standard.md)
     * [D.2. Unsupported Features #](appendixes/features/unsupported-features-sql-standard.md)
