@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：49 頁。
+待譯頁面：48 頁。
 
 ## 根目錄
 
@@ -84,7 +84,7 @@
 - [x] `appendixes/contrib/pgsurgery.md` — F.34. pg_surgery — perform low-level surgery on relation data #
 - [ ] `appendixes/contrib/pgtrgm.md` — F.35. pg_trgm — support for similarity of text using trigram matching #
 - [ ] `appendixes/contrib/pgvisibility.md` — F.36. pg_visibility — visibility map information and utilities #
-- [ ] `appendixes/contrib/pgwalinspect.md` — F.37. pg_walinspect — low-level WAL inspection #
+- [x] `appendixes/contrib/pgwalinspect.md` — F.37. pg_walinspect — 低階 WAL 檢視 #
 - [ ] `appendixes/contrib/postgres-fdw.md` — F.38. postgres_fdw — access data stored in external PostgreSQL servers #
 - [ ] `appendixes/contrib/seg.md` — F.39. seg — a datatype for line segments or floating point intervals #
 - [ ] `appendixes/contrib/sepgsql.md` — F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #

@@ -1,61 +1,47 @@
-## F.37. pg_walinspect — low-level WAL inspection [#](#PGWALINSPECT)
+<a id="PGWALINSPECT"></a>
 
-[F.37.1. General Functions](pgwalinspect.md#PGWALINSPECT-FUNCS)
+## F.37. pg_walinspect — 低階 WAL 檢視 [#](#PGWALINSPECT)
 
-[F.37.2. Author](pgwalinspect.md#PGWALINSPECT-AUTHOR)
+[F.37.1. 一般函式](pgwalinspect.md#PGWALINSPECT-FUNCS)
+
+[F.37.2. 作者](pgwalinspect.md#PGWALINSPECT-AUTHOR)
 
 <a id="id-1.11.7.47.2"></a>
 
-The `pg_walinspect` module provides SQL functions that
-allow you to inspect the contents of write-ahead log of
-a running PostgreSQL database cluster at a low
-level, which is useful for debugging, analytical, reporting or
-educational purposes. It is similar to [pg_waldump](../../reference/reference-server/pgwaldump.md), but
-accessible through SQL rather than a separate utility.
+`pg_walinspect` 模組提供 SQL 函式，讓你以低階方式檢視執行中
+PostgreSQL 資料庫叢集的預寫式日誌內容，可用於除錯、分析、報告或教學用途。它與
+[pg_waldump](../../reference/reference-server/pgwaldump.md) 類似，但是透過 SQL 存取，而不是另一個獨立的公用程式。
 
-All the functions of this module will provide the WAL information using the
-server's current timeline ID.
+此模組的所有函式都會使用伺服器目前的時間軸 ID 提供 WAL 資訊。
 
-### Note
+### 注意
 
-The `pg_walinspect` functions are often called
-using an LSN argument that specifies the location at which a known
-WAL record of interest *begins*. However, some
-functions, such as
-`pg_logical_emit_message`,
-return the LSN *after* the record that was just
-inserted.
+呼叫 `pg_walinspect` 函式時，通常會使用一個 LSN 引數，指定某筆已知且感興趣的
+WAL 紀錄*開始*的位置。然而，有些函式（例如
+`pg_logical_emit_message`）傳回的是剛插入之紀錄*之後*的 LSN。
 
-### Tip
+### 提示
 
-All of the `pg_walinspect` functions that show
-information about records that fall within a certain LSN range are
-permissive about accepting *`end_lsn`*
-arguments that are after the server's current LSN. Using an
-*`end_lsn`* “from the future”
-will not raise an error.
+所有顯示某個 LSN 範圍內紀錄資訊的 `pg_walinspect` 函式，都允許
+*`end_lsn`* 引數位於伺服器目前 LSN 之後。使用「來自未來」的
+*`end_lsn`* 不會引發錯誤。
 
-It may be convenient to provide the value
-`FFFFFFFF/FFFFFFFF` (the maximum valid
-`pg_lsn` value) as an *`end_lsn`*
-argument. This is equivalent to providing an
-*`end_lsn`* argument matching the server's
-current LSN.
+將值 `FFFFFFFF/FFFFFFFF`（最大的有效
+`pg_lsn` 值）作為 *`end_lsn`*
+引數傳入可能較為方便。這等同於傳入與伺服器目前 LSN 相符的
+*`end_lsn`* 引數。
 
-By default, use of these functions is restricted to superusers and members of
-the `pg_read_server_files` role. Access may be granted by
-superusers to others using `GRANT`.
+預設情況下，只有超級使用者與 `pg_read_server_files` 角色的成員可以使用這些函式。超級使用者可以使用
+`GRANT` 將存取權授與其他人。
 
 <a id="PGWALINSPECT-FUNCS"></a>
 
-### F.37.1. General Functions [#](#PGWALINSPECT-FUNCS)
+### F.37.1. 一般函式 [#](#PGWALINSPECT-FUNCS)
 
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-RECORD-INFO"></a>
 
 `pg_get_wal_record_info(in_lsn pg_lsn) returns record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-RECORD-INFO)
-:   Gets WAL record information about a record that is located at or
-    after the *`in_lsn`* argument. For
-    example:
+:   取得位於 *`in_lsn`* 引數所指位置或其後之紀錄的 WAL 紀錄資訊。例如：
 
     ```
 
@@ -74,16 +60,13 @@ superusers to others using `GRANT`.
     block_ref        | blkref #0: rel 1663/16385/1249 fork main blk 364
     ```
 
-    If *`in_lsn`* isn't at the start of a WAL
-    record, information about the next valid WAL record is shown
-    instead. If there is no next valid WAL record, the function
-    raises an error.
+    若 *`in_lsn`* 不在某筆 WAL 紀錄的開頭，則改為顯示下一筆有效 WAL
+    紀錄的資訊。若沒有下一筆有效的 WAL 紀錄，此函式會引發錯誤。
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-RECORDS-INFO"></a>
 
 `pg_get_wal_records_info(start_lsn pg_lsn, end_lsn pg_lsn) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-RECORDS-INFO)
-:   Gets information of all the valid WAL records between
-    *`start_lsn`* and *`end_lsn`*.
-    Returns one row per WAL record. For example:
+:   取得 *`start_lsn`* 與 *`end_lsn`*
+    之間所有有效 WAL 紀錄的資訊。每筆 WAL 紀錄傳回一個資料列。例如：
 
     ```
 
@@ -102,16 +85,14 @@ superusers to others using `GRANT`.
     block_ref        |
     ```
 
-    The function raises an error if
-    *`start_lsn`* is not available.
+    若 *`start_lsn`* 無法使用，此函式會引發錯誤。
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-BLOCK-INFO"></a>
 
 `pg_get_wal_block_info(start_lsn pg_lsn, end_lsn pg_lsn, show_data boolean DEFAULT true) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-BLOCK-INFO)
-:   Gets information about each block reference from all the valid
-    WAL records between *`start_lsn`* and
-    *`end_lsn`* with one or more block
-    references. Returns one row per block reference per WAL record.
-    For example:
+:   從 *`start_lsn`* 與
+    *`end_lsn`* 之間所有具有一個或多個區塊參照的有效 WAL
+    紀錄中，取得每個區塊參照的資訊。每筆 WAL 紀錄的每個區塊參照各傳回一個資料列。
+    例如：
 
     ```
 
@@ -139,69 +120,52 @@ superusers to others using `GRANT`.
     block_fpi_data    |
     ```
 
-    This example involves a WAL record that only contains one block
-    reference, but many WAL records contain several block
-    references. Rows output by
-    `pg_get_wal_block_info` are guaranteed to
-    have a unique combination of
-    *`start_lsn`* and
-    *`block_id`* values.
+    此範例涉及的 WAL 紀錄只包含一個區塊參照，但許多 WAL
+    紀錄包含多個區塊參照。保證
+    `pg_get_wal_block_info` 輸出的資料列中，
+    *`start_lsn`* 與
+    *`block_id`* 值的組合都是唯一的。
 
-    Much of the information shown here matches the output that
-    `pg_get_wal_records_info` would show, given
-    the same arguments. However,
-    `pg_get_wal_block_info` unnests the
-    information from each WAL record into an expanded form by
-    outputting one row per block reference, so certain details are
-    tracked at the block reference level rather than at the
-    whole-record level. This structure is useful with queries that
-    track how individual blocks changed over time. Note that
-    records with no block references (e.g.,
-    `COMMIT` WAL records) will have no rows
-    returned, so `pg_get_wal_block_info` may
-    actually return *fewer* rows than
-    `pg_get_wal_records_info`.
+    此處顯示的大部分資訊，與給定相同引數時
+    `pg_get_wal_records_info` 會顯示的輸出相符。然而，
+    `pg_get_wal_block_info` 會將每筆 WAL
+    紀錄的資訊展開，對每個區塊參照輸出一個資料列，因此某些細節是在區塊參照層級、而不是整筆紀錄層級追蹤。這種結構適用於追蹤個別區塊如何隨時間變化的查詢。請注意，沒有區塊參照的紀錄（例如
+    `COMMIT` WAL 紀錄）不會傳回任何資料列，因此 `pg_get_wal_block_info`
+    實際傳回的資料列可能比
+    `pg_get_wal_records_info` *更少*。
 
-    The `reltablespace`,
-    `reldatabase`, and
-    `relfilenode` parameters reference
-    [`pg_tablespace`](../../internals/catalogs/catalog-pg-tablespace.md).`oid`,
-    [`pg_database`](../../internals/catalogs/catalog-pg-database.md).`oid`, and
-    [`pg_class`](../../internals/catalogs/catalog-pg-class.md).`relfilenode`
-    respectively. The `relforknumber`
-    field is the fork number within the relation for the block
-    reference; see `common/relpath.h` for
-    details.
+    `reltablespace`、
+    `reldatabase` 與
+    `relfilenode` 參數分別參照
+    [`pg_tablespace`](../../internals/catalogs/catalog-pg-tablespace.md).`oid`、
+    [`pg_database`](../../internals/catalogs/catalog-pg-database.md).`oid` 與
+    [`pg_class`](../../internals/catalogs/catalog-pg-class.md).`relfilenode`。
+    `relforknumber`
+    欄位是該區塊參照在關聯內的分支（fork）編號；詳細資訊請參閱 `common/relpath.h`。
 
-    ### Tip
+    ### 提示
 
-    The `pg_filenode_relation` function (see
-    [Table 9.103](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-DBLOCATION)) can help you to
-    determine which relation was modified during original execution.
+    `pg_filenode_relation` 函式（請參閱
+    [表 9.103](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-DBLOCATION)）可以協助你判斷原本執行期間修改的是哪個關聯。
 
-    It is possible for clients to avoid the overhead of
-    materializing block data. This may make function execution
-    significantly faster. When *`show_data`*
-    is set to `false`, `block_data`
-    and `block_fpi_data` values are omitted
-    (that is, the `block_data` and
-    `block_fpi_data` `OUT`
-    arguments are `NULL` for all rows returned).
-    Obviously, this optimization is only feasible with queries where
-    block data isn't truly required.
+    用戶端可以避免具體化區塊資料的額外負擔，這可能使函式執行明顯加快。當
+    *`show_data`* 設為 `false` 時，會省略 `block_data`
+    與 `block_fpi_data` 值（也就是說，對所有傳回的資料列，
+    `block_data` 與
+    `block_fpi_data` 這兩個 `OUT`
+    引數都是 `NULL`）。
+    顯然，此最佳化只適用於並非真正需要區塊資料的查詢。
 
-    The function raises an error if
-    *`start_lsn`* is not available.
+    若 *`start_lsn`* 無法使用，此函式會引發錯誤。
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-STATS"></a>
 
 `pg_get_wal_stats(start_lsn pg_lsn, end_lsn pg_lsn, per_record boolean DEFAULT false) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-STATS)
-:   Gets statistics of all the valid WAL records between
-    *`start_lsn`* and
-    *`end_lsn`*. By default, it returns one row per
-    *`resource_manager`* type. When
-    *`per_record`* is set to `true`,
-    it returns one row per *`record_type`*.
-    For example:
+:   取得 *`start_lsn`* 與
+    *`end_lsn`* 之間所有有效 WAL 紀錄的統計資訊。預設情況下，每種
+    *`resource_manager`* 類型傳回一個資料列。當
+    *`per_record`* 設為 `true` 時，
+    每種 *`record_type`* 傳回一個資料列。
+    例如：
 
     ```
 
@@ -221,15 +185,14 @@ superusers to others using `GRANT`.
     combined_size_percentage     | 2.8634072910530795
     ```
 
-    The function raises an error if
-    *`start_lsn`* is not available.
+    若 *`start_lsn`* 無法使用，此函式會引發錯誤。
 
 <a id="PGWALINSPECT-AUTHOR"></a>
 
-### F.37.2. Author [#](#PGWALINSPECT-AUTHOR)
+### F.37.2. 作者 [#](#PGWALINSPECT-AUTHOR)
 
 Bharath Rupireddy `<bharath.rupireddyforpostgres@gmail.com>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgwalinspect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgwalinspect.html)（原文版本：18.6；核對日期：2026-10-22）
