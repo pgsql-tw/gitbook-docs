@@ -1,35 +1,37 @@
-## B.7. Julian Dates [#](#DATETIME-JULIAN-DATES)
+<a id="DATETIME-JULIAN-DATES"></a>
+
+## B.7. 儒略日期 [#](#DATETIME-JULIAN-DATES)
 
 <a id="id-1.11.3.10.2"></a>
 
-The *Julian Date* system is a method for
-numbering days. It is
-unrelated to the Julian calendar, though it is confusingly
-named similarly to that calendar.
-The Julian Date system was invented by the French scholar
-Joseph Justus Scaliger (1540–1609)
-and probably takes its name from Scaliger's father,
-the Italian scholar Julius Caesar Scaliger (1484–1558).
+*儒略日期*（Julian Date）系統是一種
+為日子編號的方法。它
+與儒略曆無關，雖然它的名稱容易令人混淆，
+與該曆法相似。
+儒略日期系統由法國學者
+約瑟夫·尤斯圖斯·斯卡利傑（Joseph Justus Scaliger，1540–1609）
+發明，其名稱可能取自斯卡利傑的父親，
+義大利學者尤利烏斯·凱撒·斯卡利傑（Julius Caesar Scaliger，1484–1558）。
 
-In the Julian Date system, each day has a sequential number, starting
-from JD 0 (which is sometimes called *the* Julian Date).
-JD 0 corresponds to 1 January 4713 BC in the Julian calendar, or
-24 November 4714 BC in the Gregorian calendar. Julian Date counting
-is most often used by astronomers for labeling their nightly observations,
-and therefore a date runs from noon UTC to the next noon UTC, rather than
-from midnight to midnight: JD 0 designates the 24 hours from noon UTC on
-24 November 4714 BC to noon UTC on 25 November 4714 BC.
+在儒略日期系統中，每一天都有一個連續的編號，從
+JD 0 開始（JD 0 有時被稱為*那個*儒略日期）。
+JD 0 對應儒略曆的西元前 4713 年 1 月 1 日，或
+格里曆的西元前 4714 年 11 月 24 日。儒略日期計數
+最常由天文學家用來標記夜間觀測，
+因此一個日期是從 UTC 正午持續到下一個 UTC 正午，而不是
+從午夜到午夜：JD 0 表示從西元前 4714 年 11 月 24 日
+UTC 正午到西元前 4714 年 11 月 25 日 UTC 正午的 24 小時。
 
-Although PostgreSQL supports Julian Date notation for
-input and output of dates (and also uses Julian dates for some internal
-datetime calculations), it does not observe the nicety of having dates
-run from noon to noon. PostgreSQL treats a Julian Date
-as running from local midnight to local midnight, the same as a normal
-date.
+雖然 PostgreSQL 支援以儒略日期表示法
+輸入與輸出日期（而且在某些內部
+日期時間計算中也使用儒略日期），但它並未遵循
+日期從正午到正午這項細節。PostgreSQL 將儒略日期
+視為從當地午夜持續到當地午夜，與一般
+日期相同。
 
-This definition does, however, provide a way to obtain the astronomical
-definition when you need it: do the arithmetic in time
-zone `UTC+12`. For example,
+不過，當你需要天文學上的定義時，此定義也提供了
+取得的方法：在時區 `UTC+12` 中進行
+運算。例如：
 
 ```
 
@@ -52,4 +54,4 @@ zone `UTC+12`. For example,
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-julian-dates.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-julian-dates.html)（原文版本：18.6；核對日期：2026-10-22）

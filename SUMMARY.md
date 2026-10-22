@@ -1030,7 +1030,7 @@
     * [B.4. 日期／時間設定檔 #](appendixes/datetime-appendix/datetime-config-files.md)
     * [B.5. POSIX Time Zone Specifications #](appendixes/datetime-appendix/datetime-posix-timezone-specs.md)
     * [B.6. History of Units #](appendixes/datetime-appendix/datetime-units-history.md)
-    * [B.7. Julian Dates #](appendixes/datetime-appendix/datetime-julian-dates.md)
+    * [B.7. 儒略日期 #](appendixes/datetime-appendix/datetime-julian-dates.md)
   * [Appendix C. SQL Key Words](appendixes/sql-keywords-appendix/README.md)
   * [附錄 D. SQL 符合性](appendixes/features/README.md)
     * [D.1. Supported Features #](appendixes/features/features-sql-standard.md)
