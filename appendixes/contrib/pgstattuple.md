@@ -1,33 +1,28 @@
-## F.33. pgstattuple — obtain tuple-level statistics [#](#PGSTATTUPLE)
+<a id="PGSTATTUPLE"></a>
 
-[F.33.1. Functions](pgstattuple.md#PGSTATTUPLE-FUNCS)
+## F.33. pgstattuple — 取得元組層級的統計資訊 [#](#PGSTATTUPLE)
 
-[F.33.2. Authors](pgstattuple.md#PGSTATTUPLE-AUTHORS)
+[F.33.1. 函式](pgstattuple.md#PGSTATTUPLE-FUNCS)
+
+[F.33.2. 作者](pgstattuple.md#PGSTATTUPLE-AUTHORS)
 
 <a id="id-1.11.7.43.2"></a>
 
-The `pgstattuple` module provides various functions to
-obtain tuple-level statistics.
+`pgstattuple` 模組提供多種函式，用來取得元組（tuple）層級的統計資訊。
 
-Because these functions return detailed page-level information, access is
-restricted by default. By default, only the
-role `pg_stat_scan_tables` has `EXECUTE`
-privilege. Superusers of course bypass this restriction. After the
-extension has been installed, users may issue `GRANT`
-commands to change the privileges on the functions to allow others to
-execute them. However, it might be preferable to add those users to
-the `pg_stat_scan_tables` role instead.
+由於這些函式會傳回詳細的頁面層級資訊，預設會限制存取。預設情況下，只有
+`pg_stat_scan_tables` 角色具有 `EXECUTE`
+權限。超級使用者當然不受此限制。安裝擴充功能之後，使用者可以執行 `GRANT`
+命令變更這些函式的權限，讓其他人也能執行它們。不過，改為將這些使用者加入
+`pg_stat_scan_tables` 角色可能是較好的做法。
 
 <a id="PGSTATTUPLE-FUNCS"></a>
 
-### F.33.1. Functions [#](#PGSTATTUPLE-FUNCS)
+### F.33.1. 函式 [#](#PGSTATTUPLE-FUNCS)
 
 <a id="id-1.11.7.43.5.2.1.1.1"></a> `pgstattuple(regclass) returns record`
-:   `pgstattuple` returns a relation's physical length,
-    percentage of “dead” tuples, and other info. This may help users
-    to determine whether vacuum is necessary or not. The argument is the
-    target relation's name (optionally schema-qualified) or OID.
-    For example:
+:   `pgstattuple` 會傳回關聯的實體長度、「死亡」資料列的百分比，以及其他資訊。這可以協助使用者判斷是否需要清理（vacuum）。引數是目標關聯的名稱（可選擇以綱要限定）或 OID。
+    例如：
 
     ```
 
@@ -44,40 +39,32 @@ the `pg_stat_scan_tables` role instead.
     free_percent       | 1.95
     ```
 
-    The output columns are described in [Table F.24](pgstattuple.md#PGSTATTUPLE-COLUMNS).
+    輸出欄位說明請參閱[表 F.24](pgstattuple.md#PGSTATTUPLE-COLUMNS).
 
     <a id="PGSTATTUPLE-COLUMNS"></a>
 
-    **Table F.24. `pgstattuple` Output Columns**
+    **表 F.24. `pgstattuple` 輸出欄位**
 
-    <table border="1" class="table" summary="pgstattuple Output Columns"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code class="structfield">table_len</code></td><td><code class="type">bigint</code></td><td>Physical relation length in bytes</td></tr><tr><td><code class="structfield">tuple_count</code></td><td><code class="type">bigint</code></td><td>Number of live tuples</td></tr><tr><td><code class="structfield">tuple_len</code></td><td><code class="type">bigint</code></td><td>Total length of live tuples in bytes</td></tr><tr><td><code class="structfield">tuple_percent</code></td><td><code class="type">float8</code></td><td>Percentage of live tuples</td></tr><tr><td><code class="structfield">dead_tuple_count</code></td><td><code class="type">bigint</code></td><td>Number of dead tuples</td></tr><tr><td><code class="structfield">dead_tuple_len</code></td><td><code class="type">bigint</code></td><td>Total length of dead tuples in bytes</td></tr><tr><td><code class="structfield">dead_tuple_percent</code></td><td><code class="type">float8</code></td><td>Percentage of dead tuples</td></tr><tr><td><code class="structfield">free_space</code></td><td><code class="type">bigint</code></td><td>Total free space in bytes</td></tr><tr><td><code class="structfield">free_percent</code></td><td><code class="type">float8</code></td><td>Percentage of free space</td></tr></tbody></table>
+    <table border="1" class="table" summary="pgstattuple 輸出欄位"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">table_len</code></td><td><code class="type">bigint</code></td><td>關聯的實體長度，以位元組為單位</td></tr><tr><td><code class="structfield">tuple_count</code></td><td><code class="type">bigint</code></td><td>存活資料列數</td></tr><tr><td><code class="structfield">tuple_len</code></td><td><code class="type">bigint</code></td><td>存活資料列的總長度，以位元組為單位</td></tr><tr><td><code class="structfield">tuple_percent</code></td><td><code class="type">float8</code></td><td>存活資料列的百分比</td></tr><tr><td><code class="structfield">dead_tuple_count</code></td><td><code class="type">bigint</code></td><td>死亡資料列數</td></tr><tr><td><code class="structfield">dead_tuple_len</code></td><td><code class="type">bigint</code></td><td>死亡資料列的總長度，以位元組為單位</td></tr><tr><td><code class="structfield">dead_tuple_percent</code></td><td><code class="type">float8</code></td><td>死亡資料列的百分比</td></tr><tr><td><code class="structfield">free_space</code></td><td><code class="type">bigint</code></td><td>可用空間總量，以位元組為單位</td></tr><tr><td><code class="structfield">free_percent</code></td><td><code class="type">float8</code></td><td>可用空間的百分比</td></tr></tbody></table>
 
     <br>
 
-    ### Note
+    ### 注意
 
-    The `table_len` will always be greater than the sum
-    of the `tuple_len`, `dead_tuple_len`
-    and `free_space`. The difference is accounted for by
-    fixed page overhead, the per-page table of pointers to tuples, and
-    padding to ensure that tuples are correctly aligned.
+    `table_len` 一定會大於
+    `tuple_len`、`dead_tuple_len`
+    與 `free_space` 的總和。差額來自固定的頁面額外負擔、每個頁面中指向元組的指標表，以及確保元組正確對齊的填補。
 
-    `pgstattuple` acquires only a read lock on the
-    relation. So the results do not reflect an instantaneous snapshot;
-    concurrent updates will affect them.
+    `pgstattuple` 只會對關聯取得讀取鎖定。因此結果並不反映瞬間的快照；並行的更新會影響結果。
 
-    `pgstattuple` judges a tuple is “dead” if
-    `HeapTupleSatisfiesDirty` returns false.
+    若 `HeapTupleSatisfiesDirty` 傳回 false，
+    `pgstattuple` 就判定該元組為「死亡」。
 
 `pgstattuple(text) returns record`
-:   This is the same as `pgstattuple(regclass)`, except
-    that the target relation is specified as TEXT. This function is kept
-    because of backward-compatibility so far, and will be deprecated in
-    some future release.
+:   此函式與 `pgstattuple(regclass)` 相同，只是目標關聯以 TEXT 指定。此函式目前是為了向後相容性而保留，並將在未來的某個版本中棄用。
 
 <a id="id-1.11.7.43.5.2.3.1.1"></a> `pgstatindex(regclass) returns record`
-:   `pgstatindex` returns a record showing information
-    about a B-tree index. For example:
+:   `pgstatindex` 會傳回一筆紀錄，顯示 B-tree 索引的相關資訊。例如：
 
     ```
 
@@ -95,28 +82,20 @@ the `pg_stat_scan_tables` role instead.
     leaf_fragmentation | 0
     ```
 
-    The output columns are:
+    輸出欄位如下：
 
-    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code class="structfield">version</code></td><td><code class="type">integer</code></td><td>B-tree version number</td></tr><tr><td><code class="structfield">tree_level</code></td><td><code class="type">integer</code></td><td>Tree level of the root page</td></tr><tr><td><code class="structfield">index_size</code></td><td><code class="type">bigint</code></td><td>Total index size in bytes</td></tr><tr><td><code class="structfield">root_block_no</code></td><td><code class="type">bigint</code></td><td>Location of root page (zero if none)</td></tr><tr><td><code class="structfield">internal_pages</code></td><td><code class="type">bigint</code></td><td>Number of <span class="quote">“<span class="quote">internal</span>”</span> (upper-level) pages</td></tr><tr><td><code class="structfield">leaf_pages</code></td><td><code class="type">bigint</code></td><td>Number of leaf pages</td></tr><tr><td><code class="structfield">empty_pages</code></td><td><code class="type">bigint</code></td><td>Number of empty pages</td></tr><tr><td><code class="structfield">deleted_pages</code></td><td><code class="type">bigint</code></td><td>Number of deleted pages</td></tr><tr><td><code class="structfield">avg_leaf_density</code></td><td><code class="type">float8</code></td><td>Average density of leaf pages</td></tr><tr><td><code class="structfield">leaf_fragmentation</code></td><td><code class="type">float8</code></td><td>Leaf page fragmentation</td></tr></tbody></table>
+    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">version</code></td><td><code class="type">integer</code></td><td>B-tree 版本編號</td></tr><tr><td><code class="structfield">tree_level</code></td><td><code class="type">integer</code></td><td>根頁面的樹層級</td></tr><tr><td><code class="structfield">index_size</code></td><td><code class="type">bigint</code></td><td>索引總大小，以位元組為單位</td></tr><tr><td><code class="structfield">root_block_no</code></td><td><code class="type">bigint</code></td><td>根頁面的位置（若無則為零）</td></tr><tr><td><code class="structfield">internal_pages</code></td><td><code class="type">bigint</code></td><td><span class="quote">「<span class="quote">內部</span>」</span>（上層）頁面數</td></tr><tr><td><code class="structfield">leaf_pages</code></td><td><code class="type">bigint</code></td><td>葉頁面數</td></tr><tr><td><code class="structfield">empty_pages</code></td><td><code class="type">bigint</code></td><td>空頁面數</td></tr><tr><td><code class="structfield">deleted_pages</code></td><td><code class="type">bigint</code></td><td>已刪除頁面數</td></tr><tr><td><code class="structfield">avg_leaf_density</code></td><td><code class="type">float8</code></td><td>葉頁面的平均密度</td></tr><tr><td><code class="structfield">leaf_fragmentation</code></td><td><code class="type">float8</code></td><td>葉頁面的碎片化程度</td></tr></tbody></table>
 
-    The reported `index_size` will normally correspond to one more
-    page than is accounted for by `internal_pages + leaf_pages +
-    empty_pages + deleted_pages`, because it also includes the
-    index's metapage.
+    回報的 `index_size` 通常會比 `internal_pages + leaf_pages +
+    empty_pages + deleted_pages` 所計入的頁面多一個頁面，因為它還包含索引的中繼頁面（metapage）。
 
-    As with `pgstattuple`, the results are accumulated
-    page-by-page, and should not be expected to represent an
-    instantaneous snapshot of the whole index.
+    與 `pgstattuple` 相同，結果是逐頁累計的，不應預期它代表整個索引的瞬間快照。
 
 `pgstatindex(text) returns record`
-:   This is the same as `pgstatindex(regclass)`, except
-    that the target index is specified as TEXT. This function is kept
-    because of backward-compatibility so far, and will be deprecated in
-    some future release.
+:   此函式與 `pgstatindex(regclass)` 相同，只是目標索引以 TEXT 指定。此函式目前是為了向後相容性而保留，並將在未來的某個版本中棄用。
 
 <a id="id-1.11.7.43.5.2.5.1.1"></a> `pgstatginindex(regclass) returns record`
-:   `pgstatginindex` returns a record showing information
-    about a GIN index. For example:
+:   `pgstatginindex` 會傳回一筆紀錄，顯示 GIN 索引的相關資訊。例如：
 
     ```
 
@@ -127,13 +106,12 @@ the `pg_stat_scan_tables` role instead.
     pending_tuples | 0
     ```
 
-    The output columns are:
+    輸出欄位如下：
 
-    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code class="structfield">version</code></td><td><code class="type">integer</code></td><td>GIN version number</td></tr><tr><td><code class="structfield">pending_pages</code></td><td><code class="type">integer</code></td><td>Number of pages in the pending list</td></tr><tr><td><code class="structfield">pending_tuples</code></td><td><code class="type">bigint</code></td><td>Number of tuples in the pending list</td></tr></tbody></table>
+    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">version</code></td><td><code class="type">integer</code></td><td>GIN 版本編號</td></tr><tr><td><code class="structfield">pending_pages</code></td><td><code class="type">integer</code></td><td>待處理清單中的頁面數</td></tr><tr><td><code class="structfield">pending_tuples</code></td><td><code class="type">bigint</code></td><td>待處理清單中的元組數</td></tr></tbody></table>
 
 <a id="id-1.11.7.43.5.2.6.1.1"></a> `pgstathashindex(regclass) returns record`
-:   `pgstathashindex` returns a record showing information
-    about a HASH index. For example:
+:   `pgstathashindex` 會傳回一筆紀錄，顯示 HASH 索引的相關資訊。例如：
 
     ```
 
@@ -149,25 +127,23 @@ the `pg_stat_scan_tables` role instead.
     free_percent   | 61.8005949100872
     ```
 
-    The output columns are:
+    輸出欄位如下：
 
-    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code class="structfield">version</code></td><td><code class="type">integer</code></td><td>HASH version number</td></tr><tr><td><code class="structfield">bucket_pages</code></td><td><code class="type">bigint</code></td><td>Number of bucket pages</td></tr><tr><td><code class="structfield">overflow_pages</code></td><td><code class="type">bigint</code></td><td>Number of overflow pages</td></tr><tr><td><code class="structfield">bitmap_pages</code></td><td><code class="type">bigint</code></td><td>Number of bitmap pages</td></tr><tr><td><code class="structfield">unused_pages</code></td><td><code class="type">bigint</code></td><td>Number of unused pages</td></tr><tr><td><code class="structfield">live_items</code></td><td><code class="type">bigint</code></td><td>Number of live tuples</td></tr><tr><td><code class="structfield">dead_tuples</code></td><td><code class="type">bigint</code></td><td>Number of dead tuples</td></tr><tr><td><code class="structfield">free_percent</code></td><td><code class="type">float</code></td><td>Percentage of free space</td></tr></tbody></table>
+    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">version</code></td><td><code class="type">integer</code></td><td>HASH 版本編號</td></tr><tr><td><code class="structfield">bucket_pages</code></td><td><code class="type">bigint</code></td><td>桶（bucket）頁面數</td></tr><tr><td><code class="structfield">overflow_pages</code></td><td><code class="type">bigint</code></td><td>溢位頁面數</td></tr><tr><td><code class="structfield">bitmap_pages</code></td><td><code class="type">bigint</code></td><td>點陣圖頁面數</td></tr><tr><td><code class="structfield">unused_pages</code></td><td><code class="type">bigint</code></td><td>未使用頁面數</td></tr><tr><td><code class="structfield">live_items</code></td><td><code class="type">bigint</code></td><td>存活資料列數</td></tr><tr><td><code class="structfield">dead_tuples</code></td><td><code class="type">bigint</code></td><td>死亡資料列數</td></tr><tr><td><code class="structfield">free_percent</code></td><td><code class="type">float</code></td><td>可用空間的百分比</td></tr></tbody></table>
+
+    譯註：上表中第七個欄位的名稱寫作 dead_tuples，但上方範例輸出顯示的是 dead_items。經核對 REL_18_STABLE 的 contrib/pgstattuple/pgstattuple--1.4--1.5.sql，pgstathashindex 實際傳回的欄位名稱為 dead_items（bigint），表中 dead_tuples 為原文誤植；表格內容依原文保留。
 
 <a id="id-1.11.7.43.5.2.7.1.1"></a> `pg_relpages(regclass) returns bigint`
-:   `pg_relpages` returns the number of pages in the
-    relation.
+:   `pg_relpages` 會傳回關聯中的頁面數。
 
 `pg_relpages(text) returns bigint`
-:   This is the same as `pg_relpages(regclass)`, except
-    that the target relation is specified as TEXT. This function is kept
-    because of backward-compatibility so far, and will be deprecated in
-    some future release.
+:   此函式與 `pg_relpages(regclass)` 相同，只是目標關聯以 TEXT 指定。此函式目前是為了向後相容性而保留，並將在未來的某個版本中棄用。
 
 <a id="id-1.11.7.43.5.2.9.1.1"></a> `pgstattuple_approx(regclass) returns record`
-:   `pgstattuple_approx` is a faster alternative to
-    `pgstattuple` that returns approximate results.
-    The argument is the target relation's name or OID.
-    For example:
+:   `pgstattuple_approx` 是
+    `pgstattuple` 的較快替代方案，會傳回近似的結果。
+    引數是目標關聯的名稱或 OID。
+    例如：
 
     ```
 
@@ -185,47 +161,32 @@ the `pg_stat_scan_tables` role instead.
     approx_free_percent  | 2.09
     ```
 
-    The output columns are described in [Table F.25](pgstattuple.md#PGSTATAPPROX-COLUMNS).
+    輸出欄位說明請參閱[表 F.25](pgstattuple.md#PGSTATAPPROX-COLUMNS).
 
-    Whereas `pgstattuple` always performs a
-    full-table scan and returns an exact count of live and dead tuples
-    (and their sizes) and free space, `pgstattuple_approx`
-    tries to avoid the full-table scan and returns exact dead tuple
-    statistics along with an approximation of the number and
-    size of live tuples and free space.
+    `pgstattuple` 一律執行全資料表掃描，並傳回存活與死亡資料列的精確數量（及其大小）與可用空間；`pgstattuple_approx`
+    則會盡量避免全資料表掃描，傳回精確的死亡資料列統計資訊，以及存活資料列數量與大小和可用空間的近似值。
 
-    It does this by skipping pages that have only visible tuples
-    according to the visibility map (if a page has the corresponding VM
-    bit set, then it is assumed to contain no dead tuples). For such
-    pages, it derives the free space value from the free space map, and
-    assumes that the rest of the space on the page is taken up by live
-    tuples.
+    它的做法是依據可見性對應表略過只包含可見元組的頁面（若某頁面已設定對應的 VM 位元，就假設它不包含任何死亡資料列）。對於這類頁面，它會從可用空間對應表取得可用空間的值，並假設頁面上其餘的空間都由存活資料列占用。
 
-    For pages that cannot be skipped, it scans each tuple, recording its
-    presence and size in the appropriate counters, and adding up the
-    free space on the page. At the end, it estimates the total number of
-    live tuples based on the number of pages and tuples scanned (in the
-    same way that VACUUM estimates pg_class.reltuples).
+    對於無法略過的頁面，它會掃描每個元組，將其存在與大小記錄到相應的計數器中，並累加頁面上的可用空間。最後，它會根據已掃描的頁面數與元組數估計存活資料列的總數（方式與 VACUUM 估計 pg_class.reltuples 相同）。
 
     <a id="PGSTATAPPROX-COLUMNS"></a>
 
-    **Table F.25. `pgstattuple_approx` Output Columns**
+    **表 F.25. `pgstattuple_approx` 輸出欄位**
 
-    <table border="1" class="table" summary="pgstattuple_approx Output Columns"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code class="structfield">table_len</code></td><td><code class="type">bigint</code></td><td>Physical relation length in bytes (exact)</td></tr><tr><td><code class="structfield">scanned_percent</code></td><td><code class="type">float8</code></td><td>Percentage of table scanned</td></tr><tr><td><code class="structfield">approx_tuple_count</code></td><td><code class="type">bigint</code></td><td>Number of live tuples (estimated)</td></tr><tr><td><code class="structfield">approx_tuple_len</code></td><td><code class="type">bigint</code></td><td>Total length of live tuples in bytes (estimated)</td></tr><tr><td><code class="structfield">approx_tuple_percent</code></td><td><code class="type">float8</code></td><td>Percentage of live tuples</td></tr><tr><td><code class="structfield">dead_tuple_count</code></td><td><code class="type">bigint</code></td><td>Number of dead tuples (exact)</td></tr><tr><td><code class="structfield">dead_tuple_len</code></td><td><code class="type">bigint</code></td><td>Total length of dead tuples in bytes (exact)</td></tr><tr><td><code class="structfield">dead_tuple_percent</code></td><td><code class="type">float8</code></td><td>Percentage of dead tuples</td></tr><tr><td><code class="structfield">approx_free_space</code></td><td><code class="type">bigint</code></td><td>Total free space in bytes (estimated)</td></tr><tr><td><code class="structfield">approx_free_percent</code></td><td><code class="type">float8</code></td><td>Percentage of free space</td></tr></tbody></table>
+    <table border="1" class="table" summary="pgstattuple_approx 輸出欄位"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">table_len</code></td><td><code class="type">bigint</code></td><td>關聯的實體長度，以位元組為單位（精確值）</td></tr><tr><td><code class="structfield">scanned_percent</code></td><td><code class="type">float8</code></td><td>已掃描資料表的百分比</td></tr><tr><td><code class="structfield">approx_tuple_count</code></td><td><code class="type">bigint</code></td><td>存活資料列數（估計值）</td></tr><tr><td><code class="structfield">approx_tuple_len</code></td><td><code class="type">bigint</code></td><td>存活資料列的總長度，以位元組為單位（估計值）</td></tr><tr><td><code class="structfield">approx_tuple_percent</code></td><td><code class="type">float8</code></td><td>存活資料列的百分比</td></tr><tr><td><code class="structfield">dead_tuple_count</code></td><td><code class="type">bigint</code></td><td>死亡資料列數（精確值）</td></tr><tr><td><code class="structfield">dead_tuple_len</code></td><td><code class="type">bigint</code></td><td>死亡資料列的總長度，以位元組為單位（精確值）</td></tr><tr><td><code class="structfield">dead_tuple_percent</code></td><td><code class="type">float8</code></td><td>死亡資料列的百分比</td></tr><tr><td><code class="structfield">approx_free_space</code></td><td><code class="type">bigint</code></td><td>可用空間總量，以位元組為單位（估計值）</td></tr><tr><td><code class="structfield">approx_free_percent</code></td><td><code class="type">float8</code></td><td>可用空間的百分比</td></tr></tbody></table>
 
     <br>
 
-    In the above output, the free space figures may not match the
-    `pgstattuple` output exactly, because the free
-    space map gives us an exact figure, but is not guaranteed to be
-    accurate to the byte.
+    在上述輸出中，可用空間的數字可能與
+    `pgstattuple` 的輸出不完全相符，因為可用空間對應表雖然提供確切的數字，但不保證精確到位元組。
 
 <a id="PGSTATTUPLE-AUTHORS"></a>
 
-### F.33.2. Authors [#](#PGSTATTUPLE-AUTHORS)
+### F.33.2. 作者 [#](#PGSTATTUPLE-AUTHORS)
 
-Tatsuo Ishii, Satoshi Nagayasu and Abhijit Menon-Sen
+Tatsuo Ishii、Satoshi Nagayasu 與 Abhijit Menon-Sen
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgstattuple.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgstattuple.html)（原文版本：18.6；核對日期：2026-10-23）
