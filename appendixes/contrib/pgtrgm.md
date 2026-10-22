@@ -1,149 +1,114 @@
-## F.35. pg_trgm — support for similarity of text using trigram matching [#](#PGTRGM)
+<a id="PGTRGM"></a>
 
-[F.35.1. Trigram (or Trigraph) Concepts](pgtrgm.md#PGTRGM-CONCEPTS)
+## F.35. pg_trgm — 支援以三元組比對文字相似度 [#](#PGTRGM)
 
-[F.35.2. Functions and Operators](pgtrgm.md#PGTRGM-FUNCS-OPS)
+[F.35.1. 三元組（或三字圖）概念](pgtrgm.md#PGTRGM-CONCEPTS)
 
-[F.35.3. GUC Parameters](pgtrgm.md#PGTRGM-GUC)
+[F.35.2. 函式與運算子](pgtrgm.md#PGTRGM-FUNCS-OPS)
 
-[F.35.4. Index Support](pgtrgm.md#PGTRGM-INDEX)
+[F.35.3. GUC 參數](pgtrgm.md#PGTRGM-GUC)
 
-[F.35.5. Text Search Integration](pgtrgm.md#PGTRGM-TEXT-SEARCH)
+[F.35.4. 索引支援](pgtrgm.md#PGTRGM-INDEX)
 
-[F.35.6. References](pgtrgm.md#PGTRGM-REFERENCES)
+[F.35.5. 文字檢索整合](pgtrgm.md#PGTRGM-TEXT-SEARCH)
 
-[F.35.7. Authors](pgtrgm.md#PGTRGM-AUTHORS)
+[F.35.6. 參考資料](pgtrgm.md#PGTRGM-REFERENCES)
+
+[F.35.7. 作者](pgtrgm.md#PGTRGM-AUTHORS)
 
 <a id="id-1.11.7.45.2"></a>
 
-The `pg_trgm` module provides functions and operators
-for determining the similarity of
-alphanumeric text based on trigram matching, as
-well as index operator classes that support fast searching for similar
-strings.
+`pg_trgm` 模組提供依據三元組（trigram）比對來判定英數文字相似度的函式與運算子，以及支援快速搜尋相似字串的索引運算子類別。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，也就是可由在目前資料庫中具有 `CREATE` 權限的非超級使用者安裝。
 
 <a id="PGTRGM-CONCEPTS"></a>
 
-### F.35.1. Trigram (or Trigraph) Concepts [#](#PGTRGM-CONCEPTS)
+### F.35.1. 三元組（或三字圖）概念 [#](#PGTRGM-CONCEPTS)
 
-A trigram is a group of three consecutive characters taken
-from a string. We can measure the similarity of two strings by
-counting the number of trigrams they share. This simple idea
-turns out to be very effective for measuring the similarity of
-words in many natural languages.
+三元組是從字串中取出的一組三個連續字元。我們可以計算兩個字串共有的三元組數量，藉此衡量它們的相似度。事實證明，這個簡單的想法在衡量許多自然語言中單字的相似度時非常有效。
 
-### Note
+### 注意
 
-`pg_trgm` ignores non-word characters
-(non-alphanumerics) when extracting trigrams from a string.
-Each word is considered to have two spaces
-prefixed and one space suffixed when determining the set
-of trigrams contained in the string.
-For example, the set of trigrams in the string
-“`cat`” is
-“ `c`”,
-“ `ca`”,
-“`cat`”, and
-“`at` ”.
-The set of trigrams in the string
-“`foo|bar`” is
-“ `f`”,
-“ `fo`”,
-“`foo`”,
-“`oo` ”,
-“ `b`”,
-“ `ba`”,
-“`bar`”, and
-“`ar` ”.
+`pg_trgm` 從字串擷取三元組時，會忽略非單字字元（非英數字元）。在決定字串所含的三元組集合時，每個單字都視為前面加上兩個空格、後面加上一個空格。例如，字串“`cat`”的三元組集合為
+“ `c`”、
+“ `ca`”、
+“`cat`”與
+“`at` ”。
+字串“`foo|bar`”的三元組集合為
+“ `f`”、
+“ `fo`”、
+“`foo`”、
+“`oo` ”、
+“ `b`”、
+“ `ba`”、
+“`bar`”與
+“`ar` ”。
 
 <a id="PGTRGM-FUNCS-OPS"></a>
 
-### F.35.2. Functions and Operators [#](#PGTRGM-FUNCS-OPS)
+### F.35.2. 函式與運算子 [#](#PGTRGM-FUNCS-OPS)
 
-The functions provided by the `pg_trgm` module
-are shown in [Table F.26](pgtrgm.md#PGTRGM-FUNC-TABLE), the operators
-in [Table F.27](pgtrgm.md#PGTRGM-OP-TABLE).
+`pg_trgm` 模組提供的函式列於[表 F.26](pgtrgm.md#PGTRGM-FUNC-TABLE)，運算子則列於[表 F.27](pgtrgm.md#PGTRGM-OP-TABLE)。
 
 <a id="PGTRGM-FUNC-TABLE"></a>
 
-**Table F.26. `pg_trgm` Functions**
+**表 F.26. `pg_trgm` 函式**
 
-<table border="1" class="table" summary="pg_trgm Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+<table border="1" class="table" summary="pg_trgm 函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
+        函式
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.45.6.3.2.2.1.1.1.1"></a>
 <code class="function">similarity</code> ( <code class="type">text</code>, <code class="type">text</code> )
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Returns a number that indicates how similar the two arguments are.
-        The range of the result is zero (indicating that the two strings are
-        completely dissimilar) to one (indicating that the two strings are
-        identical).
+        傳回一個表示兩個引數相似程度的數字。結果的範圍從 0（表示兩個字串完全不相似）到 1（表示兩個字串完全相同）。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.45.6.3.2.2.2.1.1.1"></a>
 <code class="function">show_trgm</code> ( <code class="type">text</code> )
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        Returns an array of all the trigrams in the given string.
-        (In practice this is seldom useful except for debugging.)
+        傳回給定字串中所有三元組所組成的陣列。（實務上，除了除錯之外很少用到。）
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.45.6.3.2.2.3.1.1.1"></a>
 <code class="function">word_similarity</code> ( <code class="type">text</code>, <code class="type">text</code> )
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Returns a number that indicates the greatest similarity between
-        the set of trigrams in the first string and any continuous extent
-        of an ordered set of trigrams in the second string.  For details, see
-        the explanation below.
+        傳回一個數字，表示第一個字串的三元組集合，與第二個字串的有序三元組集合中任一連續範圍之間的最大相似度。詳細說明請參閱下文。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.45.6.3.2.2.4.1.1.1"></a>
 <code class="function">strict_word_similarity</code> ( <code class="type">text</code>, <code class="type">text</code> )
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Same as <code class="function">word_similarity</code>, but forces
-        extent boundaries to match word boundaries.  Since we don't have
-        cross-word trigrams, this function actually returns greatest similarity
-        between first string and any continuous extent of words of the second
-        string.
+        與 <code class="function">word_similarity</code> 相同，但強制範圍邊界必須與單字邊界一致。由於我們沒有跨單字的三元組，此函式實際上傳回的是第一個字串與第二個字串中任一連續單字範圍之間的最大相似度。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.45.6.3.2.2.5.1.1.1"></a>
 <code class="function">show_limit</code> ()
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Returns the current similarity threshold used by the <code class="literal">%</code>
-        operator.  This sets the minimum similarity between
-        two words for them to be considered similar enough to
-        be misspellings of each other, for example.
-        (<span class="emphasis"><em>Deprecated</em></span>; instead use <code class="command">SHOW</code>
-<code class="varname">pg_trgm.similarity_threshold</code>.)
+        傳回 <code class="literal">%</code> 運算子目前使用的相似度門檻。此值設定兩個單字之間的最小相似度，達到此值才會被視為足夠相似，例如可視為彼此的拼寫錯誤。（<span class="emphasis"><em>已棄用</em></span>；請改用 <code class="command">SHOW</code>
+<code class="varname">pg_trgm.similarity_threshold</code>。）
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.45.6.3.2.2.6.1.1.1"></a>
 <code class="function">set_limit</code> ( <code class="type">real</code> )
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Sets the current similarity threshold that is used by the <code class="literal">%</code>
-        operator.  The threshold must be between 0 and 1 (default is 0.3).
-        Returns the same value passed in.
-        (<span class="emphasis"><em>Deprecated</em></span>; instead use <code class="command">SET</code>
-<code class="varname">pg_trgm.similarity_threshold</code>.)
+        設定 <code class="literal">%</code> 運算子目前使用的相似度門檻。門檻必須介於 0 與 1 之間（預設為 0.3）。傳回所傳入的同一個值。（<span class="emphasis"><em>已棄用</em></span>；請改用 <code class="command">SET</code>
+<code class="varname">pg_trgm.similarity_threshold</code>。）
        </p></td></tr></tbody></table>
 
 <br>
 
-Consider the following example:
+請看以下範例：
 
 ```
 
@@ -154,25 +119,17 @@ Consider the following example:
 (1 row)
 ```
 
-In the first string, the set of trigrams is
-`{" w"," wo","wor","ord","rd "}`.
-In the second string, the ordered set of trigrams is
-`{" t"," tw","two","wo "," w"," wo","wor","ord","rds","ds "}`.
-The most similar extent of an ordered set of trigrams in the second string
-is `{" w"," wo","wor","ord"}`, and the similarity is
-`0.8`.
+在第一個字串中，三元組集合為
+`{" w"," wo","wor","ord","rd "}`。
+在第二個字串中，有序三元組集合為
+`{" t"," tw","two","wo "," w"," wo","wor","ord","rds","ds "}`。
+第二個字串中最相似的有序三元組集合範圍是 `{" w"," wo","wor","ord"}`，相似度為
+`0.8`。
 
-This function returns a value that can be approximately understood as the
-greatest similarity between the first string and any substring of the second
-string. However, this function does not add padding to the boundaries of
-the extent. Thus, the number of additional characters present in the
-second string is not considered, except for the mismatched word boundaries.
+此函式傳回的值，可大致理解為第一個字串與第二個字串任一子字串之間的最大相似度。不過，此函式不會在範圍的邊界加上填補。因此，除了不相符的單字邊界之外，第二個字串中額外出現的字元數量不會納入考量。
 
-At the same time, `strict_word_similarity`
-selects an extent of words in the second string. In the example above,
-`strict_word_similarity` would select the
-extent of a single word `'words'`, whose set of trigrams is
-`{" w"," wo","wor","ord","rds","ds "}`.
+另一方面，`strict_word_similarity` 會在第二個字串中選取一個單字範圍。在上例中，`strict_word_similarity` 會選取單一單字 `'words'` 的範圍，其三元組集合為
+`{" w"," wo","wor","ord","rds","ds "}`。
 
 ```
 
@@ -183,136 +140,107 @@ extent of a single word `'words'`, whose set of trigrams is
 (1 row)
 ```
 
-Thus, the `strict_word_similarity` function
-is useful for finding the similarity to whole words, while
-`word_similarity` is more suitable for
-finding the similarity for parts of words.
+因此，`strict_word_similarity` 函式適用於找出與完整單字的相似度，而 `word_similarity` 較適合找出與單字局部的相似度。
 
 <a id="PGTRGM-OP-TABLE"></a>
 
-**Table F.27. `pg_trgm` Operators**
+**表 F.27. `pg_trgm` 運算子**
 
-<table border="1" class="table" summary="pg_trgm Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Operator
+<table border="1" class="table" summary="pg_trgm 運算子"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
+        運算子
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">%</code> <code class="type">text</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns <code class="literal">true</code> if its arguments have a similarity
-        that is greater than the current similarity threshold set by
-        <code class="varname">pg_trgm.similarity_threshold</code>.
+        傳回 <code class="literal">true</code> 的條件是：兩個引數的相似度大於由 <code class="varname">pg_trgm.similarity_threshold</code> 所設定的目前相似度門檻。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;%</code> <code class="type">text</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns <code class="literal">true</code> if the similarity between the trigram
-        set in the first argument and a continuous extent of an ordered trigram
-        set in the second argument is greater than the current word similarity
-        threshold set by <code class="varname">pg_trgm.word_similarity_threshold</code>
-        parameter.
+        傳回 <code class="literal">true</code> 的條件是：第一個引數中的三元組集合，與第二個引數中有序三元組集合的某個連續範圍之間的相似度，大於由 <code class="varname">pg_trgm.word_similarity_threshold</code> 參數所設定的目前單字相似度門檻。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">%&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Commutator of the <code class="literal">&lt;%</code> operator.
+        <code class="literal">&lt;%</code> 運算子的交換運算子。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;&lt;%</code> <code class="type">text</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Returns <code class="literal">true</code> if its second argument has a continuous
-        extent of an ordered trigram set that matches word boundaries,
-        and its similarity to the trigram set of the first argument is greater
-        than the current strict word similarity threshold set by the
-        <code class="varname">pg_trgm.strict_word_similarity_threshold</code> parameter.
+        傳回 <code class="literal">true</code> 的條件是：第二個引數中有一個符合單字邊界的有序三元組集合連續範圍，且該範圍與第一個引數之三元組集合的相似度，大於由 <code class="varname">pg_trgm.strict_word_similarity_threshold</code> 參數所設定的目前嚴格單字相似度門檻。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">%&gt;&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Commutator of the <code class="literal">&lt;&lt;%</code> operator.
+        <code class="literal">&lt;&lt;%</code> 運算子的交換運算子。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;-&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Returns the <span class="quote">“<span class="quote">distance</span>”</span> between the arguments, that is
-        one minus the <code class="function">similarity()</code> value.
+        傳回兩個引數之間的<span class="quote">“<span class="quote">距離</span>”</span>，也就是 1 減去 <code class="function">similarity()</code> 的值。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;&lt;-&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Returns the <span class="quote">“<span class="quote">distance</span>”</span> between the arguments, that is
-        one minus the <code class="function">word_similarity()</code> value.
+        傳回兩個引數之間的<span class="quote">“<span class="quote">距離</span>”</span>，也就是 1 減去 <code class="function">word_similarity()</code> 的值。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;-&gt;&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Commutator of the <code class="literal">&lt;&lt;-&gt;</code> operator.
+        <code class="literal">&lt;&lt;-&gt;</code> 運算子的交換運算子。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;&lt;&lt;-&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Returns the <span class="quote">“<span class="quote">distance</span>”</span> between the arguments, that is
-        one minus the <code class="function">strict_word_similarity()</code> value.
+        傳回兩個引數之間的<span class="quote">“<span class="quote">距離</span>”</span>，也就是 1 減去 <code class="function">strict_word_similarity()</code> 的值。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="type">text</code> <code class="literal">&lt;-&gt;&gt;&gt;</code> <code class="type">text</code>
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        Commutator of the <code class="literal">&lt;&lt;&lt;-&gt;</code> operator.
+        <code class="literal">&lt;&lt;&lt;-&gt;</code> 運算子的交換運算子。
        </p></td></tr></tbody></table>
 
 <br>
 
+譯註：上表說明 %、<%、<<% 等運算子在相似度「大於」目前門檻時傳回 true；但依 PostgreSQL 18 原始碼（contrib/pg_trgm/trgm_op.c），實際判斷條件是相似度「大於或等於」門檻。
+
 <a id="PGTRGM-GUC"></a>
 
-### F.35.3. GUC Parameters [#](#PGTRGM-GUC)
+### F.35.3. GUC 參數 [#](#PGTRGM-GUC)
 
 <a id="GUC-PGTRGM-SIMILARITY-THRESHOLD"></a>
 
 `pg_trgm.similarity_threshold` (`real`) <a id="id-1.11.7.45.7.2.1.1.3"></a> [#](#GUC-PGTRGM-SIMILARITY-THRESHOLD)
-:   Sets the current similarity threshold that is used by the `%`
-    operator. The threshold must be between 0 and 1 (default is 0.3).
+:   設定 `%` 運算子目前使用的相似度門檻。門檻必須介於 0 與 1 之間（預設為 0.3）。
 <a id="GUC-PGTRGM-WORD-SIMILARITY-THRESHOLD"></a>
 
 `pg_trgm.word_similarity_threshold` (`real`) <a id="id-1.11.7.45.7.2.2.1.3"></a> [#](#GUC-PGTRGM-WORD-SIMILARITY-THRESHOLD)
-:   Sets the current word similarity threshold that is used by the
-    `<%` and `%>` operators. The threshold
-    must be between 0 and 1 (default is 0.6).
+:   設定 `<%` 與 `%>` 運算子目前使用的單字相似度門檻。門檻必須介於 0 與 1 之間（預設為 0.6）。
 <a id="GUC-PGTRGM-STRICT-WORD-SIMILARITY-THRESHOLD"></a>
 
 `pg_trgm.strict_word_similarity_threshold` (`real`) <a id="id-1.11.7.45.7.2.3.1.3"></a> [#](#GUC-PGTRGM-STRICT-WORD-SIMILARITY-THRESHOLD)
-:   Sets the current strict word similarity threshold that is used by the
-    `<<%` and `%>>` operators. The threshold
-    must be between 0 and 1 (default is 0.5).
+:   設定 `<<%` 與 `%>>` 運算子目前使用的嚴格單字相似度門檻。門檻必須介於 0 與 1 之間（預設為 0.5）。
 
 <a id="PGTRGM-INDEX"></a>
 
-### F.35.4. Index Support [#](#PGTRGM-INDEX)
+### F.35.4. 索引支援 [#](#PGTRGM-INDEX)
 
-The `pg_trgm` module provides GiST and GIN index
-operator classes that allow you to create an index over a text column for
-the purpose of very fast similarity searches. These index types support
-the above-described similarity operators, and additionally support
-trigram-based index searches for `LIKE`, `ILIKE`,
-`~`, `~*` and `=` queries.
-The similarity comparisons are case-insensitive in a default build of
-`pg_trgm`.
-Inequality operators are not supported.
-Note that those indexes may not be as efficient as regular B-tree indexes
-for equality operator.
+`pg_trgm` 模組提供 GiST 與 GIN 索引運算子類別，讓你可以在文字欄位上建立索引，以進行非常快速的相似度搜尋。這些索引類型支援上述的相似度運算子，此外也支援以三元組為基礎、用於 `LIKE`、`ILIKE`、`~`、`~*` 與 `=` 查詢的索引搜尋。在預設建置的 `pg_trgm` 中，相似度比較不區分大小寫。不支援不等式運算子。請注意，對於等值運算子，這些索引的效率可能不如一般的 B-tree 索引。
 
-Example:
+範例：
 
 ```
 
@@ -320,30 +248,23 @@ CREATE TABLE test_trgm (t text);
 CREATE INDEX trgm_idx ON test_trgm USING GIST (t gist_trgm_ops);
 ```
 
-or
+或
 
 ```
 
 CREATE INDEX trgm_idx ON test_trgm USING GIN (t gin_trgm_ops);
 ```
 
-`gist_trgm_ops` GiST opclass approximates a set of
-trigrams as a bitmap signature. Its optional integer parameter
-`siglen` determines the
-signature length in bytes. The default length is 12 bytes.
-Valid values of signature length are between 1 and 2024 bytes. Longer
-signatures lead to a more precise search (scanning a smaller fraction of the index and
-fewer heap pages), at the cost of a larger index.
+`gist_trgm_ops` GiST 運算子類別（opclass）將一組三元組近似表示為點陣圖簽章。其選用的整數參數 `siglen` 決定簽章長度（以位元組計）。預設長度為 12 位元組。簽章長度的有效值介於 1 至 2024 位元組之間。較長的簽章可帶來更精確的搜尋（掃描索引中較小的部分與較少的堆積頁面），代價是索引較大。
 
-Example of creating such an index with a signature length of 32 bytes:
+使用 32 位元組簽章長度建立此類索引的範例：
 
 ```
 
 CREATE INDEX trgm_idx ON test_trgm USING GIST (t gist_trgm_ops(siglen=32));
 ```
 
-At this point, you will have an index on the `t` column that
-you can use for similarity searching. A typical query is
+此時，你就有了 `t` 欄位上的索引，可用於相似度搜尋。典型的查詢如下：
 
 ```
 
@@ -353,12 +274,9 @@ SELECT t, similarity(t, 'word') AS sml
   ORDER BY sml DESC, t;
 ```
 
-This will return all values in the text column that are sufficiently
-similar to *`word`*, sorted from best match to worst. The
-index will be used to make this a fast operation even over very large data
-sets.
+這會傳回文字欄位中所有與 *`word`* 足夠相似的值，並依比對程度由最佳到最差排序。即使資料集非常大，也會使用索引讓此操作快速完成。
 
-A variant of the above query is
+上述查詢的一種變形是：
 
 ```
 
@@ -367,12 +285,9 @@ SELECT t, t <-> 'word' AS dist
   ORDER BY dist LIMIT 10;
 ```
 
-This can be implemented quite efficiently by GiST indexes, but not
-by GIN indexes. It will usually beat the first formulation when only
-a small number of the closest matches is wanted.
+GiST 索引可以相當有效率地實作此查詢，但 GIN 索引不行。當只需要少數幾個最接近的比對結果時，它通常會勝過第一種寫法。
 
-Also you can use an index on the `t` column for word
-similarity or strict word similarity. Typical queries are:
+你也可以將 `t` 欄位上的索引用於單字相似度或嚴格單字相似度。典型的查詢如下：
 
 ```
 
@@ -382,7 +297,7 @@ SELECT t, word_similarity('word', t) AS sml
   ORDER BY sml DESC, t;
 ```
 
-and
+以及
 
 ```
 
@@ -392,13 +307,9 @@ SELECT t, strict_word_similarity('word', t) AS sml
   ORDER BY sml DESC, t;
 ```
 
-This will return all values in the text column for which there is a
-continuous extent in the corresponding ordered trigram set that is
-sufficiently similar to the trigram set of *`word`*,
-sorted from best match to worst. The index will be used to make this
-a fast operation even over very large data sets.
+這會傳回文字欄位中所有符合下列條件的值：其對應的有序三元組集合中，存在與 *`word`* 的三元組集合足夠相似的連續範圍；結果依比對程度由最佳到最差排序。即使資料集非常大，也會使用索引讓此操作快速完成。
 
-Possible variants of the above queries are:
+上述查詢可能的變形有：
 
 ```
 
@@ -407,7 +318,7 @@ SELECT t, 'word' <<-> t AS dist
   ORDER BY dist LIMIT 10;
 ```
 
-and
+以及
 
 ```
 
@@ -416,55 +327,37 @@ SELECT t, 'word' <<<-> t AS dist
   ORDER BY dist LIMIT 10;
 ```
 
-This can be implemented quite efficiently by GiST indexes, but not
-by GIN indexes.
+GiST 索引可以相當有效率地實作此查詢，但 GIN 索引不行。
 
-Beginning in PostgreSQL 9.1, these index types also support
-index searches for `LIKE` and `ILIKE`, for example
+從 PostgreSQL 9.1 開始，這些索引類型也支援 `LIKE` 與 `ILIKE` 的索引搜尋，例如：
 
 ```
 
 SELECT * FROM test_trgm WHERE t LIKE '%foo%bar';
 ```
 
-The index search works by extracting trigrams from the search string
-and then looking these up in the index. The more trigrams in the search
-string, the more effective the index search is. Unlike B-tree based
-searches, the search string need not be left-anchored.
+索引搜尋的運作方式是從搜尋字串中擷取三元組，再到索引中查找這些三元組。搜尋字串中的三元組越多，索引搜尋就越有效。與以 B-tree 為基礎的搜尋不同，搜尋字串不需要左錨定（left-anchored）。
 
-Beginning in PostgreSQL 9.3, these index types also support
-index searches for regular-expression matches
-(`~` and `~*` operators), for example
+從 PostgreSQL 9.3 開始，這些索引類型也支援正規表示式比對（`~` 與 `~*` 運算子）的索引搜尋，例如：
 
 ```
 
 SELECT * FROM test_trgm WHERE t ~ '(foo|bar)';
 ```
 
-The index search works by extracting trigrams from the regular expression
-and then looking these up in the index. The more trigrams that can be
-extracted from the regular expression, the more effective the index search
-is. Unlike B-tree based searches, the search string need not be
-left-anchored.
+索引搜尋的運作方式是從正規表示式中擷取三元組，再到索引中查找這些三元組。能從正規表示式中擷取出的三元組越多，索引搜尋就越有效。與以 B-tree 為基礎的搜尋不同，搜尋字串不需要左錨定。
 
-For both `LIKE` and regular-expression searches, keep in mind
-that a pattern with no extractable trigrams will degenerate to a full-index
-scan.
+不論是 `LIKE` 還是正規表示式搜尋，都請記住：無法從中擷取出任何三元組的模式，會退化為完整索引掃描。
 
-The choice between GiST and GIN indexing depends on the relative
-performance characteristics of GiST and GIN, which are discussed elsewhere.
+要選擇 GiST 還是 GIN 索引，取決於 GiST 與 GIN 的相對效能特性，這部分在其他地方另有討論。
 
 <a id="PGTRGM-TEXT-SEARCH"></a>
 
-### F.35.5. Text Search Integration [#](#PGTRGM-TEXT-SEARCH)
+### F.35.5. 文字檢索整合 [#](#PGTRGM-TEXT-SEARCH)
 
-Trigram matching is a very useful tool when used in conjunction
-with a full text index. In particular it can help to recognize
-misspelled input words that will not be matched directly by the
-full text search mechanism.
+三元組比對與全文索引搭配使用時，是非常有用的工具。特別是，它可以幫助辨識拼錯的輸入單字，這些單字無法由全文檢索機制直接比對到。
 
-The first step is to generate an auxiliary table containing all
-the unique words in the documents:
+第一步是產生一個輔助資料表，其中包含文件中所有不重複的單字：
 
 ```
 
@@ -472,55 +365,45 @@ CREATE TABLE words AS SELECT word FROM
         ts_stat('SELECT to_tsvector(''simple'', bodytext) FROM documents');
 ```
 
-where `documents` is a table that has a text field
-`bodytext` that we wish to search. The reason for using
-the `simple` configuration with the `to_tsvector`
-function, instead of using a language-specific configuration,
-is that we want a list of the original (unstemmed) words.
+其中 `documents` 是一個資料表，含有我們想要搜尋的文字欄位 `bodytext`。之所以對 `to_tsvector` 函式使用 `simple` 設定，而不使用特定語言的設定，是因為我們想要取得原始（未經詞幹處理）單字的清單。
 
-Next, create a trigram index on the word column:
+接著，在單字欄位上建立三元組索引：
 
 ```
 
 CREATE INDEX words_idx ON words USING GIN (word gin_trgm_ops);
 ```
 
-Now, a `SELECT` query similar to the previous example can
-be used to suggest spellings for misspelled words in user search terms.
-A useful extra test is to require that the selected words are also of
-similar length to the misspelled word.
+現在，就可以使用類似前一個範例的 `SELECT` 查詢，為使用者搜尋詞中拼錯的單字建議正確拼法。一個有用的額外檢查，是要求選出的單字長度也與拼錯的單字相近。
 
-### Note
+### 注意
 
-Since the `words` table has been generated as a separate,
-static table, it will need to be periodically regenerated so that
-it remains reasonably up-to-date with the document collection.
-Keeping it exactly current is usually unnecessary.
+由於 `words` 資料表是以獨立的靜態資料表產生，因此需要定期重新產生，才能與文件集合保持相當程度的同步。通常不需要讓它保持完全即時。
 
 <a id="PGTRGM-REFERENCES"></a>
 
-### F.35.6. References [#](#PGTRGM-REFERENCES)
+### F.35.6. 參考資料 [#](#PGTRGM-REFERENCES)
 
-GiST Development Site
+GiST 開發網站
 <http://www.sai.msu.su/~megera/postgres/gist/>
 
-Tsearch2 Development Site
+Tsearch2 開發網站
 <http://www.sai.msu.su/~megera/postgres/gist/tsearch/V2/>
 
 <a id="PGTRGM-AUTHORS"></a>
 
-### F.35.7. Authors [#](#PGTRGM-AUTHORS)
+### F.35.7. 作者 [#](#PGTRGM-AUTHORS)
 
-Oleg Bartunov `<oleg@sai.msu.su>`, Moscow, Moscow University, Russia
+Oleg Bartunov `<oleg@sai.msu.su>`，莫斯科，Moscow University，俄羅斯
 
-Teodor Sigaev `<teodor@sigaev.ru>`, Moscow, Delta-Soft Ltd.,Russia
+Teodor Sigaev `<teodor@sigaev.ru>`，莫斯科，Delta-Soft Ltd.，俄羅斯
 
-Alexander Korotkov `<a.korotkov@postgrespro.ru>`, Moscow, Postgres Professional, Russia
+Alexander Korotkov `<a.korotkov@postgrespro.ru>`，莫斯科，Postgres Professional，俄羅斯
 
-Documentation: Christopher Kings-Lynne
+文件：Christopher Kings-Lynne
 
-This module is sponsored by Delta-Soft Ltd., Moscow, Russia.
+本模組由 Delta-Soft Ltd.（俄羅斯莫斯科）贊助。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgtrgm.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgtrgm.html)（原文版本：18.6；核對日期：2026-10-23）
