@@ -1,40 +1,41 @@
-## E.2. Release 18.4 [#](#RELEASE-18-4)
+<a id="RELEASE-18-4"></a>
+## E.2. 18.4 版 [#](#RELEASE-18-4)
 
-[E.2.1. Migration to Version 18.4](release-18-4.md#RELEASE-18-4-MIGRATION)
+[E.2.1. 遷移至 18.4 版](release-18-4.md#RELEASE-18-4-MIGRATION)
 
-[E.2.2. Changes](release-18-4.md#RELEASE-18-4-CHANGES)
+[E.2.2. 變更內容](release-18-4.md#RELEASE-18-4-CHANGES)
 
-**Release date:**2026-05-14
+**發佈日期：**2026-05-14
 
-This release contains a variety of fixes from 18.3.
-For information about new features in major release 18, see
-[Section E.6](release-18.md).
+此版本包含自 18.3 以來的多項修正。
+關於主要版本 18 的新功能，請參閱
+[第 E.6 節](release-18.md)。
 
 <a id="RELEASE-18-4-MIGRATION"></a>
 
-### E.2.1. Migration to Version 18.4 [#](#RELEASE-18-4-MIGRATION)
+### E.2.1. 遷移至 18.4 版 [#](#RELEASE-18-4-MIGRATION)
 
-A dump/restore is not required for those running 18.X.
+執行 18.X 版者不需要進行傾印／還原。
 
-However, if you are upgrading from a version earlier than 18.2,
-see [Section E.4](release-18-2.md).
+不過，若你是從早於 18.2 的版本升級，
+請參閱[第 E.4 節](release-18-2.md)。
 
 <a id="RELEASE-18-4-CHANGES"></a>
 
-### E.2.2. Changes [#](#RELEASE-18-4-CHANGES)
+### E.2.2. 變更內容 [#](#RELEASE-18-4-CHANGES)
 
-* Prevent unbounded recursion while processing startup packets
+* 防止處理啟動封包時發生無限制的遞迴
   (Michael Paquier)
   [§](https://postgr.es/c/f7a191f53)
 
-  A malicious client could crash the connected backend by alternating
-  rejected SSL and GSS encryption requests indefinitely.
+  惡意用戶端可以藉由無限次交替送出會被拒絕的 SSL 與 GSS 加密請求，
+  使所連線的後端程序當機。
 
-  The PostgreSQL Project thanks Calif.io
-  (in collaboration with Claude and Anthropic Research) for reporting
-  this problem.
+  PostgreSQL 專案感謝 Calif.io
+  （與 Claude 及 Anthropic Research 合作）回報
+  此問題。
   (CVE-2026-6479)
-* Fix assorted integer overflows in memory-allocation calculations
+* 修正記憶體配置計算中的多項整數溢位
   (Tom Lane, Nathan Bossart, Heikki Linnakangas)
   [§](https://postgr.es/c/e1c30458a)
   [§](https://postgr.es/c/01e568b8c)
@@ -46,171 +47,165 @@ see [Section E.4](release-18-2.md).
   [§](https://postgr.es/c/c7fb9f765)
   [§](https://postgr.es/c/3fbec9e50)
 
-  Various places were incautious about the possibility of integer
-  overflow in calculations of how much memory to allocate. Overflow
-  would lead to allocating a too-small buffer which the caller would
-  then write past the end of. This would at least trigger server
-  crashes, and probably could be exploited for arbitrary code
-  execution. In many but by no means all cases, the hazard exists
-  only in 32-bit builds.
+  有多處在計算要配置多少記憶體時，未充分考慮整數
+  溢位的可能性。溢位會導致配置過小的緩衝區，而呼叫端
+  接著會寫入超出其結尾的位置。這至少會觸發伺服器
+  當機，而且很可能被利用來執行任意程式碼。
+  在許多（但絕非全部）情況下，此風險只存在於
+  32 位元建置中。
 
-  The PostgreSQL Project thanks Xint Code,
-  Bruce Dang, Sven Klemm, and Pavel Kohout for reporting these problems.
+  PostgreSQL 專案感謝 Xint Code、
+  Bruce Dang、Sven Klemm 與 Pavel Kohout 回報這些問題。
   (CVE-2026-6473)
-* Properly quote subscription names
-  in pg_createsubscriber (Nathan Bossart)
+* 在 pg_createsubscriber 中
+  正確地為訂閱名稱加上引號 (Nathan Bossart)
   [§](https://postgr.es/c/c2e44c370)
 
-  The given subscription name was inserted into SQL commands without
-  quoting, so that SQL injection could be achieved in the (perhaps
-  unlikely) case that the subscription name comes from an untrusted
-  source.
+  所給定的訂閱名稱未加引號就被插入 SQL 命令中，
+  因此在訂閱名稱來自不受信任來源的（或許不太可能發生的）
+  情況下，可能遭到 SQL 注入攻擊。
 
-  The PostgreSQL Project thanks
-  Yu Kunpeng for reporting this problem.
+  PostgreSQL 專案感謝
+  Yu Kunpeng 回報此問題。
   (CVE-2026-6476)
-* Properly quote object names in logical replication origin checks
+* 在邏輯複寫來源檢查中，正確地為物件名稱加上引號
   (Pavel Kohout)
   [§](https://postgr.es/c/cb35d7306)
 
   `ALTER SUBSCRIPTION ... REFRESH PUBLICATION`
-  interpolated schema and relation names into SQL commands without
-  quoting them, allowing execution of arbitrary SQL on the publisher.
+  將綱要與關聯名稱未加引號就插入 SQL 命令中，
+  使得在發佈者上執行任意 SQL 成為可能。
 
-  The PostgreSQL Project thanks
-  Pavel Kohout for reporting this problem.
+  PostgreSQL 專案感謝
+  Pavel Kohout 回報此問題。
   (CVE-2026-6638)
-* Reject over-length options in `ts_headline()`
+* 拒絕 `ts_headline()` 中過長的選項
   (Michael Paquier)
   [§](https://postgr.es/c/62ad26266)
 
-  The `StartSel`, `StopSel`
-  and `FragmentDelimiter` strings must not exceed
-  32Kb in length, but this was not checked for. An over-length value
-  would typically crash the server.
+  `StartSel`、`StopSel`
+  與 `FragmentDelimiter` 字串的長度不得超過
+  32Kb，但先前並未檢查這一點。過長的值
+  通常會使伺服器當機。
 
-  The PostgreSQL Project thanks
-  Xint Code for reporting this problem.
+  PostgreSQL 專案感謝
+  Xint Code 回報此問題。
   (CVE-2026-6473)
-* Detect faulty input when restoring attribute MCV statistics
+* 還原屬性 MCV 統計資訊時偵測有誤的輸入
   (Michael Paquier)
   [§](https://postgr.es/c/661095c40)
 
-  The statistics restore functions were insufficiently careful about
-  validating most-common-value statistics, and would accept values
-  that could crash the planner later on.
+  統計資訊還原函式在驗證最常見值（most-common-value）統計資訊時
+  不夠謹慎，會接受
+  之後可能使規劃器當機的值。
 
-  The PostgreSQL Project thanks
-  Jeroen Gui for reporting this problem.
+  PostgreSQL 專案感謝
+  Jeroen Gui 回報此問題。
   (CVE-2026-6575)
-* Guard against malicious time zone names
-  in `timeofday()`
-  and `pg_strftime()` (Tom Lane)
+* 在 `timeofday()`
+  與 `pg_strftime()` 中防範惡意的時區名稱 (Tom Lane)
   [§](https://postgr.es/c/ba27389c2)
   [§](https://postgr.es/c/c6e7a9ef3)
 
-  A crafted time zone setting could pass `%`
-  sequences to `snprintf()`, potentially causing
-  crashes or disclosure of server memory. Another path to similar
-  results was to overflow the limited-size output buffer used
-  by `pg_strftime()`.
+  特製的時區設定可能將 `%`
+  序列傳給 `snprintf()`，可能造成
+  當機或洩漏伺服器記憶體內容。另一條導致類似
+  結果的途徑，是使 `pg_strftime()` 所用的
+  有限大小輸出緩衝區溢位。
 
-  The PostgreSQL Project thanks
-  Xint Code for reporting this problem.
+  PostgreSQL 專案感謝
+  Xint Code 回報此問題。
   (CVE-2026-6474)
-* When creating a multirange type, ensure the user
-  has `CREATE` privilege on the schema specified for
-  the multirange type (Jelte Fennema-Nio)
+* 建立多重範圍（multirange）型別時，確保使用者
+  在為該多重範圍型別指定的綱要上具有 `CREATE` 權限
+  (Jelte Fennema-Nio)
   [§](https://postgr.es/c/a44780f41)
 
-  The multirange type can be put into a different schema than its
-  parent range type, but we neglected to apply the required privilege
-  check when doing so.
+  多重範圍型別可以放在與其
+  上層範圍型別不同的綱要中，但這樣做時我們忽略了套用必要的權限
+  檢查。
 
-  The PostgreSQL Project thanks
-  Jelte Fennema-Nio for reporting this problem.
+  PostgreSQL 專案感謝
+  Jelte Fennema-Nio 回報此問題。
   (CVE-2026-6472)
-* Use timing-safe string comparisons in authentication code
+* 在認證程式碼中使用時間安全（timing-safe）的字串比較
   (Michael Paquier)
   [§](https://postgr.es/c/d93ef4131)
 
-  Use `timingsafe_bcmp()` instead
-  of `memcmp()` or `strcmp()`
-  when checking passwords, hashes, etc. It is not known whether the
-  data dependency of those functions is usefully exploitable in any of
-  these places, but in the interests of safety, replace them.
+  檢查密碼、雜湊值等時，改用 `timingsafe_bcmp()`，
+  取代 `memcmp()` 或 `strcmp()`。
+  目前不清楚在這些地方，這些函式的資料相依性
+  是否可以被有效利用，但為了安全起見，仍將其替換。
 
-  The PostgreSQL Project thanks
-  Joe Conway for reporting this problem.
+  PostgreSQL 專案感謝
+  Joe Conway 回報此問題。
   (CVE-2026-6478)
-* Mark `PQfn()` as unsafe, and avoid using it
-  within libpq (Nathan Bossart)
+* 將 `PQfn()` 標記為不安全，並避免在
+  libpq 內部使用它 (Nathan Bossart)
   [§](https://postgr.es/c/be0136440)
 
-  For a non-integral result type, `PQfn()` is not
-  passed the size of the output buffer, so it cannot check that the
-  data returned by the server will fit. A malicious server could
-  therefore overwrite client memory. This is unfixable without an
-  API change, so mark the function as deprecated. Internally
-  to libpq, use a variant version that can
-  apply the missing check.
+  對於非整數的結果型別，`PQfn()` 不會
+  被傳入輸出緩衝區的大小，因此無法檢查
+  伺服器傳回的資料是否放得下。惡意伺服器因此
+  可能覆寫用戶端記憶體。不變更 API 就無法修正此問題，
+  因此將該函式標記為已棄用。在
+  libpq 內部，則改用一個可以
+  套用缺少之檢查的變體版本。
 
-  The PostgreSQL Project thanks
-  Yu Kunpeng and Martin Heistermann for reporting this problem.
+  PostgreSQL 專案感謝
+  Yu Kunpeng 與 Martin Heistermann 回報此問題。
   (CVE-2026-6477)
-* Prevent path traversal in pg_basebackup
-  and pg_rewind (Michael Paquier)
+* 防止 pg_basebackup
+  與 pg_rewind 中的路徑穿越 (Michael Paquier)
   [§](https://postgr.es/c/6a67c540a)
 
-  These applications failed to validate output file paths read from
-  their input, so that a malicious source could overwrite any file
-  writable by these applications. Constrain where data can be written
-  by rejecting paths that are absolute or contain parent-directory
-  references.
+  這些應用程式未驗證從其輸入讀取的輸出檔案路徑，
+  因此惡意來源可以覆寫這些應用程式
+  可寫入的任何檔案。現在藉由拒絕絕對路徑或含有上層目錄
+  參照的路徑，限制資料可以寫入的位置。
 
-  The PostgreSQL Project thanks XlabAI Team
-  of Tencent Xuanwu Lab and Valery Gubanov for reporting this problem.
+  PostgreSQL 專案感謝 Tencent Xuanwu Lab 的
+  XlabAI Team 與 Valery Gubanov 回報此問題。
   (CVE-2026-6475)
-* Guard against field overflow
-  within `contrib/intarray`'s `query_int`
-  type and `contrib/ltree`'s `ltxtquery`
-  type (Tom Lane)
+* 防範 `contrib/intarray` 的 `query_int`
+  型別與 `contrib/ltree` 的 `ltxtquery`
+  型別中的欄位溢位 (Tom Lane)
   [§](https://postgr.es/c/c5790ec4f)
   [§](https://postgr.es/c/05e73b5c3)
 
-  Parsing of these query structures did not check for overflow of
-  16-bit fields, so that construction of an invalid query tree was
-  possible. This can crash the server when executing the query.
+  剖析這些查詢結構時並未檢查 16 位元欄位
+  是否溢位，因此可能建構出無效的查詢樹。
+  執行該查詢時可能使伺服器當機。
 
-  The PostgreSQL Project thanks
-  Xint Code for reporting this problem.
+  PostgreSQL 專案感謝
+  Xint Code 回報此問題。
   (CVE-2026-6473)
-* Guard against overly long values
-  of `contrib/ltree`'s `lquery` type
+* 防範 `contrib/ltree` 的 `lquery` 型別
+  出現過長的值
   (Michael Paquier)
   [§](https://postgr.es/c/7f019f341)
 
-  Values with more than 64K items caused internal overflows,
-  potentially resulting in stack smashes or wrong answers.
+  超過 64K 個項目的值會造成內部溢位，
+  可能導致堆疊破壞或錯誤的結果。
 
-  The PostgreSQL Project thanks
-  Vergissmeinnicht, A1ex, and Jihe Wang
-  for reporting this problem.
+  PostgreSQL 專案感謝
+  Vergissmeinnicht、A1ex 與 Jihe Wang
+  回報此問題。
   (CVE-2026-6473)
-* Prevent SQL injection and buffer overruns
-  in `contrib/spi` (Nathan Bossart)
+* 防止 `contrib/spi` 中的 SQL 注入與緩衝區溢位
+  (Nathan Bossart)
   [§](https://postgr.es/c/1ebda7da9)
 
-  `check_foreign_key()` was insufficiently careful
-  about quoting key values, and also used fixed-length buffers for
-  constructing queries. While this module is only meant as example
-  code, it still shouldn't contain such dangerous errors.
+  `check_foreign_key()` 在為鍵值加上引號時
+  不夠謹慎，而且使用固定長度的緩衝區來
+  建構查詢。雖然此模組只是作為範例
+  程式碼，但仍不應該包含如此危險的錯誤。
 
-  The PostgreSQL Project thanks
-  Nikolay Samokhvalov for reporting this problem.
+  PostgreSQL 專案感謝
+  Nikolay Samokhvalov 回報此問題。
   (CVE-2026-6637)
-* Check for nondeterministic collations before assuming that an
-  equality condition on a collatable type implies uniqueness
+* 在假設可定序型別上的相等條件蘊含唯一性之前，
+  先檢查是否為非確定性定序
   (Richard Guo)
   [§](https://postgr.es/c/e8fd5e579)
   [§](https://postgr.es/c/1132af22c)
@@ -218,434 +213,422 @@ see [Section E.4](release-18-2.md).
   [§](https://postgr.es/c/b62f514ac)
   [§](https://postgr.es/c/bed3ffbf9)
 
-  Numerous planner optimizations assume that, for example, at most one
-  table row can satisfy `WHERE x = 'abc'` if there is
-  a unique index on `x`. However this conclusion is
-  unsafe in general if the index and the `WHERE`
-  clause have different collations attached. It is safe when both
-  collations are deterministic, because that property essentially
-  requires that equality of two strings means bitwise equality. But
-  nondeterministic collations don't act that way, so that optimizing
-  on the assumption of unique matches can give wrong query answers if
-  either the `WHERE` clause or the index has a
-  nondeterministic collation.
-* Fix incomplete removal of relation references
-  in `RestrictInfo` structs during join removal
+  許多規劃器最佳化都假設，例如，若 `x` 上有
+  唯一值索引，則至多只有一個資料表資料列能滿足 `WHERE x = 'abc'`。然而，若索引與 `WHERE`
+  子句附有不同的定序，此結論一般而言並不
+  安全。當兩個定序都是確定性定序時是安全的，因為該性質本質上
+  要求兩個字串相等即表示逐位元相等。但
+  非確定性定序並非如此，因此只要
+  `WHERE` 子句或索引其中之一使用
+  非確定性定序，基於唯一相符的假設進行最佳化就可能產生錯誤的查詢結果。
+* 修正在連接移除期間，未完整移除
+  `RestrictInfo` 結構中關聯參照的問題
   (Tom Lane)
   [§](https://postgr.es/c/16fb94605)
 
-  This oversight has been shown to result in planner failures such as
-  unexpected “FULL JOIN is only supported with merge-joinable or
-  hash-joinable join conditions” errors. It may also have
-  caused failure to consider valid plans in other cases.
-* Improve planner's matching of partition key columns to sub-query
-  outputs (Richard Guo)
+  已證實此疏忽會導致規劃器失敗，例如
+  非預期的「FULL JOIN is only supported with merge-joinable or
+  hash-joinable join conditions」錯誤。它也可能
+  在其他情況下導致未能考慮有效的計畫。
+* 改進規劃器將分割鍵欄位比對到子查詢
+  輸出的處理 (Richard Guo)
   [§](https://postgr.es/c/8e8b2bef7)
 
-  Strip no-op PlaceHolderVars from operands before comparing them to
-  partition keys. This change enables partition pruning to succeed in
-  some cases where it previously failed to recognize that a partition
-  need not be scanned.
-* Fix self-join removal to handle join clauses that are bare boolean
-  columns, e.g. `ON t1.boolcol` (Andrei Lepikhov,
+  在將運算元與分割鍵比較之前，先剝除運算元中無作用的 PlaceHolderVar。
+  此變更使分割區修剪在
+  某些先前未能辨識出某個分割區
+  不需要被掃描的情況下得以成功。
+* 修正自我連接移除，使其能處理本身就是布林
+  欄位的連接子句，例如 `ON t1.boolcol` (Andrei Lepikhov,
   Tender Wang, Alexander Korotkov)
   [§](https://postgr.es/c/e8b9d6497)
 
-  Previously such a case led to a “no relation entry
-  for relid *`N`*” error.
-* Fix `UPDATE/DELETE ... WHERE CURRENT OF` to work on
-  tables with virtual generated columns (Satyanarayana Narlapuram,
+  先前這種情況會導致「no relation entry
+  for relid *`N`*」錯誤。
+* 修正 `UPDATE/DELETE ... WHERE CURRENT OF`，使其可用於
+  具有虛擬產生欄位的資料表 (Satyanarayana Narlapuram,
   Dean Rasheed)
   [§](https://postgr.es/c/f3d03fbd5)
-* Fix expansion of virtual generated columns
-  in `EXCLUDED` column references in `INSERT
-  ... ON CONFLICT` (Satyanarayana Narlapuram, Dean Rasheed)
+* 修正 `INSERT
+  ... ON CONFLICT` 中 `EXCLUDED` 欄位參照裡
+  虛擬產生欄位的展開 (Satyanarayana Narlapuram, Dean Rasheed)
   [§](https://postgr.es/c/cf38dedf6)
-* Fix incorrect handling of `NEW` generated columns
-  in rule actions and rule qualifications (Richard Guo, Dean Rasheed)
+* 修正規則動作與規則條件中對 `NEW` 產生欄位的
+  錯誤處理 (Richard Guo, Dean Rasheed)
   [§](https://postgr.es/c/e528bfe97)
 
-  Previously, such column references would produce NULL
-  in `INSERT` cases, or be equivalent to
-  the `OLD` value in `UPDATE` cases.
-* Fix spurious “indexes on virtual generated columns are not
-  supported” errors (Robert Haas)
+  先前，這類欄位參照在 `INSERT` 的情況下會產生 NULL，
+  在 `UPDATE` 的情況下則等同於
+  `OLD` 的值。
+* 修正不實的「indexes on virtual generated columns are not
+  supported」錯誤 (Robert Haas)
   [§](https://postgr.es/c/cceb9c18a)
 
-  Creation of an expression index could sometimes incorrectly report
-  this error.
-* Fix spurious “generated columns are not supported in COPY FROM
-  WHERE conditions” errors (Tom Lane)
+  建立運算式索引時，有時會錯誤地回報
+  此錯誤。
+* 修正不實的「generated columns are not supported in COPY FROM
+  WHERE conditions」錯誤 (Tom Lane)
   [§](https://postgr.es/c/11c2c0cc8)
 
-  Use of a system column in a `COPY FROM WHERE`
-  condition could sometimes incorrectly report this error.
-* Correctly report a serialization failure
-  when `MERGE` encounters a concurrently-updated
-  tuple in repeatable-read or serializable mode (Tender Wang)
+  在 `COPY FROM WHERE`
+  條件中使用系統欄位時，有時會錯誤地回報此錯誤。
+* 當 `MERGE` 在可重複讀取或可序列化模式下
+  遇到被並行更新的元組時，正確地回報序列化失敗
+  (Tender Wang)
   [§](https://postgr.es/c/13fab378e)
 
-  Previously, such cases behaved the same as in lower isolation
-  levels.
-* Fix `CREATE TABLE ... LIKE ... INCLUDING
-  STATISTICS` for cases where the source table has dropped
-  column(s) (Julien Tachoires)
+  先前，這類情況的行為與較低隔離
+  層級時相同。
+* 修正來源資料表有已刪除欄位時的
+  `CREATE TABLE ... LIKE ... INCLUDING
+  STATISTICS` (Julien Tachoires)
   [§](https://postgr.es/c/149c875fc)
 
-  In such cases, extended statistics objects could be copied
-  incorrectly, or the command could give an incorrect error.
-* Allow `ALTER INDEX ... ATTACH PARTITION` to mark
-  the parent index valid if appropriate (Sami Imseih)
+  在這類情況下，擴充統計資訊物件可能被錯誤地複製，
+  或命令可能給出不正確的錯誤。
+* 允許 `ALTER INDEX ... ATTACH PARTITION` 在適當時
+  將上層索引標記為有效 (Sami Imseih)
   [§](https://postgr.es/c/5713ac248)
 
-  There are edge cases in which a partitioned index might remain
-  marked as invalid even when all its leaf indexes are valid. This
-  change provides a mechanism whereby a user can correct such a
-  situation without resorting to manual catalog updates.
-* Fix `ALTER TABLE ... SET NOT NULL` to invoke
-  object-access hook functions only after completing the catalog
-  change (Artur Zakirov)
+  在某些邊界情況下，即使分割索引的所有葉節點索引都有效，
+  它仍可能維持被標記為無效。此
+  變更提供一種機制，讓使用者無須
+  手動更新系統目錄就能修正這種情況。
+* 修正 `ALTER TABLE ... SET NOT NULL`，使其只在完成系統目錄
+  變更之後才呼叫物件存取掛鉤函式
+  (Artur Zakirov)
   [§](https://postgr.es/c/6958077ce)
-* Fix `ALTER FOREIGN DATA WRAPPER` to not drop the
-  wrapper object's dependency on its handler function (Jeff Davis)
+* 修正 `ALTER FOREIGN DATA WRAPPER`，使其不會刪除
+  包裝器物件對其處理函式的相依關係 (Jeff Davis)
   [§](https://postgr.es/c/c11f87b1a)
-* Fix loss of deferrability of foreign-key triggers (Yasuo Honda)
+* 修正外鍵觸發程序遺失可延遲性的問題 (Yasuo Honda)
   [§](https://postgr.es/c/5db5e3396)
 
-  Previously, a foreign key defined as `DEFERRABLE INITIALLY
-  DEFERRED` would behave as `NOT DEFERRABLE`
-  after being set to `NOT ENFORCED` status and then
-  back to `ENFORCED`.
+  先前，定義為 `DEFERRABLE INITIALLY
+  DEFERRED` 的外鍵，在被設為 `NOT ENFORCED` 狀態、
+  然後再設回 `ENFORCED` 之後，
+  其行為會如同 `NOT DEFERRABLE`。
 
-  If you have a foreign key with this problem, it can be repaired
-  (after installing this update) by again setting it to `NOT
-  ENFORCED` and then back to `ENFORCED`.
-* Fix `WITHOUT OVERLAPS` to allow domains (Jian He)
+  若你有外鍵遇到此問題，可以（在安裝此更新之後）
+  再次將其設為 `NOT
+  ENFORCED`，然後再設回 `ENFORCED` 來修復。
+* 修正 `WITHOUT OVERLAPS`，使其允許網域 (Jian He)
   [§](https://postgr.es/c/49f3cb453)
 
-  `UNIQUE/PRIMARY KEY ... WITHOUT OVERLAPS` requires
-  the no-overlap column to be a range or multirange, but it should
-  allow a domain over such a type too.
-* Disallow making a composite type be a member of itself via a
-  multirange (Heikki Linnakangas)
+  `UNIQUE/PRIMARY KEY ... WITHOUT OVERLAPS` 要求
+  不重疊欄位必須是範圍或多重範圍，但它也應該
+  允許建立在這類型別之上的網域。
+* 禁止透過多重範圍使複合型別成為其自身的成員
+  (Heikki Linnakangas)
   [§](https://postgr.es/c/ff8f27d6e)
 
-  We already forbade such cases when the intermediate type is a
-  domain, array, composite type, or range; but multiranges were
-  overlooked.
-* Fix datum-image comparisons to be insensitive to sign-extension
-  variations (David Rowley)
+  當中間型別是網域、陣列、複合型別或範圍時，
+  我們早已禁止這類情況；但先前遺漏了多重範圍。
+* 修正 datum 映像比較，使其不受符號擴展
+  差異的影響 (David Rowley)
   [§](https://postgr.es/c/49315de0c)
 
-  This fixes some situations that previously led to “could not
-  find memoization table entry” errors or wrong query results.
-* Fix incorrect logic for hashed `IN`/`NOT
-  IN` with non-strict equality operator (Chengpeng Yan)
+  這修正了一些先前會導致「could not
+  find memoization table entry」錯誤或錯誤查詢結果的情況。
+* 修正搭配非嚴格（non-strict）相等運算子時，雜湊 `IN`／`NOT
+  IN` 的錯誤邏輯 (Chengpeng Yan)
   [§](https://postgr.es/c/035c520db)
 
-  The previous coding could crash or give wrong answers. All built-in
-  data types have strict equality operators, so that this issue could
-  only arise with an extension data type.
-* Truncate overly-long locale-specific numeric symbols
-  in `to_char()` (Tom Lane)
+  先前的程式碼可能當機或給出錯誤的結果。所有內建
+  資料型別都具有嚴格的相等運算子，因此此問題
+  只可能發生在擴充功能的資料型別上。
+* 截斷 `to_char()` 中過長的語系特定數字符號
+  (Tom Lane)
   [§](https://postgr.es/c/580e7be88)
 
-  If a locale specified a currency symbol, thousands separator, or
-  decimal or sign symbol more than 8 bytes long, a buffer overrun was
-  possible. No such locales exist in the real world, and it's
-  impractical for an unprivileged attacker to install a malicious
-  locale definition underneath a Postgres server; but for safety's
-  sake check for overlength symbols and truncate if needed.
-* Prevent buffer overruns when parsing an affix file for
-  an `Ispell` dictionary (Tom Lane)
+  若某個語系指定的貨幣符號、千分位分隔符號、
+  小數點符號或正負號符號超過 8 個位元組，就可能發生緩衝區溢位。
+  現實中並不存在這樣的語系，而且
+  無特權的攻擊者在實務上也難以在 Postgres 伺服器底下安裝惡意的
+  語系定義；但為了安全起見，
+  仍檢查是否有過長的符號，並在必要時加以截斷。
+* 剖析 `Ispell` 字典的 affix 檔時，
+  防止緩衝區溢位 (Tom Lane)
   [§](https://postgr.es/c/00c6e0819)
   [§](https://postgr.es/c/c2bfeb3bb)
 
-  A corrupt or malicious affix file could crash the server.
-  This is not considered a security issue because text search
-  configuration files are presumed trustworthy, but it still seems
-  worth fixing.
-* Guard against integer overflow in calculations of frame start and
-  end positions for window aggregates (Richard Guo)
+  損毀或惡意的 affix 檔可能使伺服器當機。
+  由於文字搜尋設定檔被假定為可信任的，這不被視為安全性問題，
+  但仍值得修正。
+* 防範計算視窗彙總函式的框架起始與結束位置時
+  發生整數溢位 (Richard Guo)
   [§](https://postgr.es/c/bfc7dff26)
 
-  Very large user-specified offsets (close to INT64_MAX) could result
-  in errors or incorrect query results.
-* Fix `array_agg_array_combine()` to combine the
-  arrays' null bitmaps correctly (Dmytro Astapov)
+  使用者指定的非常大的偏移量（接近 INT64_MAX）可能導致
+  錯誤或不正確的查詢結果。
+* 修正 `array_agg_array_combine()`，使其正確合併
+  各陣列的 null 位元映像 (Dmytro Astapov)
   [§](https://postgr.es/c/14bf2c39e)
 
-  This mistake resulted in sometimes-incorrect output from
-  parallelized `array_agg(anyarray)` calculations.
-* Retry `sync_file_range()` if it returns error
-  code `EINTR` (DaeMyung Kang)
+  此錯誤使平行化的 `array_agg(anyarray)` 計算
+  有時產生不正確的輸出。
+* 當 `sync_file_range()` 傳回錯誤
+  代碼 `EINTR` 時重試 (DaeMyung Kang)
   [§](https://postgr.es/c/6cb307251)
-* Fix incorrect behavior
-  of `pg_stat_reset_single_table_counters()` on a
-  shared catalog (Chao Li)
+* 修正 `pg_stat_reset_single_table_counters()` 用於
+  共享系統目錄時的錯誤行為 (Chao Li)
   [§](https://postgr.es/c/b081c5b07)
 
-  Such cases had a side-effect of resetting the
-  current database's `stat_reset_timestamp`, which
-  was unintended.
-* Update activity statistics when a parallel apply worker is idle
+  這類情況會產生重設
+  目前資料庫之 `stat_reset_timestamp` 的副作用，
+  而這並非預期的行為。
+* 在平行套用工作程序閒置時更新活動統計資訊
   (Zhijie Hou)
   [§](https://postgr.es/c/44c8dc280)
 
-  Previously, statistics from a recently-completed transaction might
-  go unreported for long intervals, particularly if the workload is
-  light.
-* Fix “no relation entry for relid 0” failure while
-  estimating array lengths in set operations (Tender Wang)
+  先前，最近完成之交易的統計資訊可能
+  長時間未被回報，在工作負載較輕時尤其如此。
+* 修正在估算集合運算中的陣列長度時發生的
+  「no relation entry for relid 0」失敗 (Tender Wang)
   [§](https://postgr.es/c/13e20d1c9)
-* Fix buffer overread when `pglz_decompress()`
-  receives corrupt input (Andrew Dunstan)
+* 修正 `pglz_decompress()` 收到損毀輸入時的
+  緩衝區過度讀取 (Andrew Dunstan)
   [§](https://postgr.es/c/c3e436b1c)
 
-  It was possible to read a few bytes past the end of the input, which
-  in very unlucky cases might cause a crash.
-* Fix incremental JSON parser's handling of numeric tokens that cross
-  input buffer boundaries (Andrew Dunstan)
+  它可能讀取超出輸入結尾的數個位元組，
+  在非常不幸的情況下可能導致當機。
+* 修正增量 JSON 剖析器對跨越輸入緩衝區邊界之數字詞元的處理
+  (Andrew Dunstan)
   [§](https://postgr.es/c/3e4955630)
 
-  It was possible to accept an incorrectly-formatted number, leading
-  to failures later.
-* Prevent bloating relation visibility maps during restore of an
-  incremental backup (Robert Haas)
+  先前可能接受格式不正確的數字，導致
+  之後發生失敗。
+* 防止還原增量備份期間關聯的可見性對應表膨脹
+  (Robert Haas)
   [§](https://postgr.es/c/9540c0e5d)
 
-  Restore could append many blocks of zeroes to a visibility map, due
-  to incorrect computation of the expected file length. This does not
-  result in data corruption, but it could waste a substantial amount
-  of disk space.
-* Use C collation, not the database's default collation, in catalog
-  cache lookups on text columns (Jeff Davis)
+  由於預期檔案長度的計算錯誤，還原可能會在可見性對應表後面
+  附加許多全零區塊。這不會
+  造成資料損毀，但可能浪費大量
+  磁碟空間。
+* 在文字欄位的系統目錄快取查找中，使用 C 定序，而非資料庫的預設定序
+  (Jeff Davis)
   [§](https://postgr.es/c/03c4f243e)
 
-  This avoids failures in edge cases such as physical replication
-  startup, where there is no identified database so that a default
-  collation cannot be determined.
-* Prevent stuck slotsync worker processes from blocking promotion of a
-  standby server (Nisha Moond, Ajin Cherian)
+  這可避免在實體複寫啟動等邊界情況下發生失敗；
+  在這類情況下沒有已識別的資料庫，因此無法決定預設
+  定序。
+* 防止卡住的插槽同步（slotsync）工作程序阻擋待命伺服器的
+  提升 (Nisha Moond, Ajin Cherian)
   [§](https://postgr.es/c/58c1188a3)
   [§](https://postgr.es/c/acf49bfed)
   [§](https://postgr.es/c/94efd308b)
 
-  A worker process that was vainly waiting for a response from the
-  primary would delay promotion for an unreasonable amount of time.
-* Fix excessive log output from idle slotsync worker processes
+  徒勞等待主伺服器回應的工作程序，
+  會將提升延遲過長的時間。
+* 修正閒置的插槽同步工作程序產生過多日誌輸出的問題
   (Zhijie Hou)
   [§](https://postgr.es/c/540fe8fb5)
-* Ensure that tuplestore data structures are internally consistent
-  even after an error (Tom Lane)
+* 確保 tuplestore 資料結構即使在發生錯誤之後，內部仍保持一致
+  (Tom Lane)
   [§](https://postgr.es/c/adb7873bb)
 
-  The code was previously careless about this, which is fine most of
-  the time but is problematic for the tuplestore backing
-  a `WITH HOLD` cursor. In v15 and before this
-  leads to easily-reproducible crashes; later branches are not known
-  to be vulnerable, but it seems best to preserve consistency in all.
-* Make the `pg_aios` system
-  view's `pid` column show NULL not
-  0 when an entry has no owning process (ChangAo Chen)
+  先前的程式碼對此並不謹慎；這在大多數
+  時候沒有問題，但對於支撐
+  `WITH HOLD` 游標的 tuplestore 則會出問題。在 v15 及之前的版本中，這
+  會導致容易重現的當機；之後的分支目前未知
+  有此弱點，但最好在所有分支中都維持一致性。
+* 讓 `pg_aios` 系統
+  檢視表的 `pid` 欄位，在項目沒有所屬程序時
+  顯示 NULL 而非 0 (ChangAo Chen)
   [§](https://postgr.es/c/882bdcf9f)
-* Fix premature NULL lag reporting
-  in `pg_stat_replication` (Shinya Kato)
+* 修正 `pg_stat_replication` 中過早回報 NULL 延遲的問題
+  (Shinya Kato)
   [§](https://postgr.es/c/98e96e579)
 
-  The lag columns frequently read as NULL even while replication
-  activity was happening.
-* Fix under-allocation of shared memory used for parallel btree index
-  scans (Siddharth Kothari)
+  即使正在進行複寫活動，延遲欄位也經常讀到 NULL。
+* 修正平行 btree 索引掃描所用共享記憶體配置不足的問題
+  (Siddharth Kothari)
   [§](https://postgr.es/c/1e71970d2)
 
-  In edge cases this could result in a server crash.
-* Avoid rare flush failure when working with non-WAL-logged GiST
-  indexes (Tomas Vondra)
+  在邊界情況下，這可能導致伺服器當機。
+* 避免使用不寫入 WAL 的 GiST 索引時罕見的刷寫失敗
+  (Tomas Vondra)
   [§](https://postgr.es/c/5b3f63a1b)
 
-  A non-logged GiST index could nonetheless sometimes
-  produce “xlog flush request *`n/nnnn`*
-  is not satisfied” errors, due to incorrect selection of
-  a “fake LSN” to represent an insertion point.
-* Fix underestimate of required size of DSA page maps for odd-size
-  segments (Paul Bunn)
+  不寫入日誌的 GiST 索引，有時仍可能
+  產生「xlog flush request *`n/nnnn`*
+  is not satisfied」錯誤，原因是在選擇代表插入點的
+  「fake LSN」時有誤。
+* 修正對非規則大小區段之 DSA 頁面對應表所需大小的低估
+  (Paul Bunn)
   [§](https://postgr.es/c/a0f38604d)
 
-  This miscalculation led to out-of-bounds accesses and hence server
-  crashes.
-* Fix indexing of oldest-multixact arrays in shared memory
+  此計算錯誤會導致越界存取，進而造成伺服器
+  當機。
+* 修正共享記憶體中最舊 multixact 陣列的索引計算
   (Yura Sokolov)
   [§](https://postgr.es/c/0a50ef094)
   [§](https://postgr.es/c/fa3b328e6)
 
-  This mistake could cause a prepared-but-not-yet-committed
-  transaction's row locks to appear invisible to other sessions, or
-  other visibility issues for the results of such a transaction.
-  With a very small max_connections setting, memory stomps were also
-  possible.
-* Fix array overrun when too many `EXPLAIN` extension
-  options are installed (Joel Jacobson)
+  此錯誤可能使已準備但尚未提交之
+  交易的資料列鎖定對其他工作階段不可見，或使
+  此類交易的結果出現其他可見性問題。
+  在 max_connections 設定非常小時，還可能發生記憶體踩踏。
+* 修正安裝過多 `EXPLAIN` 擴充
+  選項時的陣列溢位 (Joel Jacobson)
   [§](https://postgr.es/c/730c98d03)
-* Fix possible server crash when processing extended statistics on
-  expressions of extension data types (Michael Paquier)
+* 修正處理擴充功能資料型別之運算式上的擴充統計資訊時，
+  伺服器可能當機的問題 (Michael Paquier)
   [§](https://postgr.es/c/83671c0da)
 
-  NULL pointer dereferences were possible if the data type's
-  typanalyze function does not compute any useful statistics.
-  No in-core typanalyze function behaves that way, but extensions
-  could.
-* Correctly display join alias Vars that are used in `GROUP
-  BY` (Tom Lane)
+  若資料型別的 typanalyze 函式未計算出任何有用的統計資訊，
+  可能發生 NULL 指標解參照。
+  核心內建的 typanalyze 函式都不會這樣，但擴充功能
+  有可能。
+* 正確顯示用於 `GROUP
+  BY` 的連接別名 Var (Tom Lane)
   [§](https://postgr.es/c/c2c1962a6)
 
-  In views containing queries like `SELECT ... t1 LEFT JOIN t2
-  USING (x) GROUP BY x`, the `GROUP BY`
-  clause could be displayed incorrectly by deparsing, leading to
-  dump/restore failures. Failures occurred only
-  if `t1.x` and `t2.x` were not of
-  identical data types and `t1.x` was the side that
-  required an implicit coercion.
-* Fix minor memory leaks in ICU-based string processing (Jeff Davis)
+  在包含類似 `SELECT ... t1 LEFT JOIN t2
+  USING (x) GROUP BY x` 查詢的檢視表中，`GROUP BY`
+  子句在反剖析時可能被錯誤地顯示，導致
+  傾印／還原失敗。只有在
+  `t1.x` 與 `t2.x` 的資料型別
+  不完全相同，且 `t1.x` 是
+  需要隱含強制轉型的那一側時，才會發生失敗。
+* 修正以 ICU 為基礎的字串處理中的輕微記憶體洩漏 (Jeff Davis)
   [§](https://postgr.es/c/4abf63c62)
-* If the startup process fails, properly shut down other child
-  processes before exiting the postmaster (Ayush Tiwari)
+* 若啟動程序失敗，在結束 postmaster 之前，
+  正確地關閉其他子程序 (Ayush Tiwari)
   [§](https://postgr.es/c/affdb2dd5)
 
-  The handling of this situation relied on a long-obsolete assumption
-  that no other postmaster children exist while the startup process is
-  running, so that immediate postmaster exit is acceptable.
-  Orphaned children would eventually notice the postmaster's death and
-  exit on their own, but a cleaner shutdown procedure is desirable.
-* Fix race condition between WAL replay of checkpoints and multixact
-  ID creations (Heikki Linnakangas)
+  對此情況的處理，仰賴一個早已過時的假設：
+  啟動程序執行期間不存在其他 postmaster 子程序，
+  因此 postmaster 立即結束是可以接受的。
+  孤立的子程序最終會察覺 postmaster 已終止並
+  自行結束，但較乾淨的關閉程序是比較理想的做法。
+* 修正檢查點的 WAL 重播與 multixact
+  ID 建立之間的競爭條件 (Heikki Linnakangas)
   [§](https://postgr.es/c/0852643e1)
 
-  A standby server following WAL from a primary of an older minor
-  version could get into a crash-and-restart loop complaining
-  about “could not access status of transaction”.
-* Prevent indefinite wait in shutdown of a walsender process
+  追隨較舊次要版本主伺服器之 WAL 的待命伺服器，
+  可能陷入「當機後重新啟動」的循環，並抱怨
+  「could not access status of transaction」。
+* 防止 walsender 程序在關閉時無限期等待
   (Anthonin Bonnefoy)
   [§](https://postgr.es/c/3eb2fecdb)
   [§](https://postgr.es/c/980498138)
 
-  At shutdown of a cluster that is publishing logical replication
-  data, the walsender waits for all pending WAL to be written out.
-  But it did not correctly request that to happen, so that in some
-  cases this could become an indefinite wait.
-* Ensure that changes to tables' free space maps are persisted during
-  recovery (Alexey Makhmutov)
+  在關閉正在發佈邏輯複寫資料的叢集時，
+  walsender 會等待所有待處理的 WAL 寫出。
+  但它並未正確地要求進行寫出，因此在某些
+  情況下可能變成無限期等待。
+* 確保復原期間對資料表可用空間對應表的變更會被持久保存
+  (Alexey Makhmutov)
   [§](https://postgr.es/c/ac3b97db3)
 
-  Previously, while WAL replay did update the free space map while
-  replaying operations that should change it, the map page buffer did
-  not get marked dirty if checksums are enabled, so that the changes
-  might never get written out. On a standby server, over time this
-  would result in a map wildly at variance with the table's actual
-  contents. While the map is only used as a hint, this condition
-  could cause significant performance degradation for some period of
-  time after the standby server is promoted to be active, until most
-  of the map has been repaired by updates.
-* Fix crashes in some ecpg functions when
-  called without any established connection (Shruthi Gowda)
+  先前，雖然 WAL 重播在重播應該改變可用空間對應表的操作時
+  確實會更新它，但若啟用了檢查碼，對應表頁面的緩衝區
+  不會被標記為髒（dirty），因此這些變更
+  可能永遠不會被寫出。在待命伺服器上，隨著時間經過，這
+  會使對應表與資料表的實際
+  內容大相逕庭。雖然對應表只被用作提示，但這種狀況
+  可能在待命伺服器被提升為作用中伺服器之後的一段時間內，
+  造成顯著的效能下降，直到
+  對應表大部分已被更新修復為止。
+* 修正某些 ecpg 函式在
+  未建立任何連線的情況下被呼叫時的當機 (Shruthi Gowda)
   [§](https://postgr.es/c/e2688ea5e)
-* Harden tar-file parsing logic against archives it can't handle
+* 強化 tar 檔剖析邏輯，以因應無法處理的封存檔
   (Tom Lane)
   [§](https://postgr.es/c/698eae7db)
 
-  The tar-file reading code used
-  in pg_basebackup
-  and pg_verifybackup failed to verify that
-  the input is a tar file at all, let alone that it fits into the
-  subset of valid tar files that we can handle. This isn't a problem
-  for the normal scenario where the input file was generated
-  by PostgreSQL code, but it can be an
-  issue if the input has been generated by some
-  other tar program.
-* Fix assorted bugs in backup decompression and tar-parsing code
+  pg_basebackup
+  與 pg_verifybackup 所使用的 tar 檔讀取程式碼，
+  完全沒有驗證輸入是否為 tar 檔，
+  更不用說是否屬於我們能處理的有效 tar 檔子集。在輸入檔案
+  是由 PostgreSQL 程式碼產生的一般情境下，
+  這不是問題，但若輸入是由其他 tar 程式產生的，
+  就可能成為
+  問題。
+* 修正備份解壓縮與 tar 剖析程式碼中的多項錯誤
   (Andrew Dunstan, Tom Lane, Chao Li)
   [§](https://postgr.es/c/5095f3f4a)
   [§](https://postgr.es/c/a01a592b1)
   [§](https://postgr.es/c/78dc9a808)
 
-  The decompression and tar-file reading code used
-  in pg_basebackup
-  and pg_verifybackup mishandled tar-file
-  padding data, could corrupt LZ4-compressed data in edge cases,
-  failed to check for some unusual error conditions, failed to exit
-  after compression/decompression errors (leading to cascading error
-  reports), and leaked memory.
-* In pg_dump, preserve `NO
-  INHERIT` property of `NOT NULL`
-  constraints (Jian He)
+  pg_basebackup
+  與 pg_verifybackup 所使用的解壓縮與 tar 檔讀取程式碼，
+  會錯誤處理 tar 檔的填補資料、在邊界情況下可能損毀 LZ4 壓縮資料、
+  未檢查某些不尋常的錯誤狀況、在壓縮／解壓縮錯誤後
+  未能結束（導致連鎖的錯誤回報），
+  而且有記憶體洩漏。
+* 在 pg_dump 中，保留 `NOT NULL`
+  限制條件的 `NO
+  INHERIT` 屬性 (Jian He)
   [§](https://postgr.es/c/c3c8b63d7)
 
-  Some cases missed printing the `NO INHERIT` clause.
-* In pg_dumpall, don't skip
-  role `GRANT`s with dangling grantor OIDs
+  某些情況下遺漏了輸出 `NO INHERIT` 子句。
+* 在 pg_dumpall 中，不要略過
+  具有懸空授與者 OID 的角色 `GRANT`
   (Tom Lane)
   [§](https://postgr.es/c/b09158cc7)
 
-  Instead, handle such cases by emitting `GRANT`
-  without any `GRANTED BY` clause, as we did before
-  v16. This avoids losing the grant in foreseeable cases, since
-  pre-v16 servers didn't prevent dropping the grantor role. Continue
-  to emit a warning about the missing grantor, but only if the source
-  server is v16 or later.
-* In pg_upgrade, take care to use the
-  correct protocol version when connecting to older source servers
+  改為以輸出不帶任何 `GRANTED BY` 子句的 `GRANT`
+  來處理這類情況，就像 v16 之前的做法一樣。
+  這可以在可預見的情況下避免遺失授權，因為
+  v16 之前的伺服器不會阻止刪除授與者角色。仍會繼續
+  針對缺少的授與者發出警告，但只在來源
+  伺服器為 v16 或更新版本時才這麼做。
+* 在 pg_upgrade 中，連線到較舊的來源伺服器時，
+  注意使用正確的協定版本
   (Jacob Champion)
   [§](https://postgr.es/c/1b2773179)
 
-  This could be problematic when attempting to upgrade from a pre-2018
-  server.
-* In `contrib/basic_archive`, allow the archive
-  directory to be missing at startup (Nathan Bossart)
+  嘗試從 2018 年之前的伺服器升級時，
+  這可能造成問題。
+* 在 `contrib/basic_archive` 中，允許封存
+  目錄在啟動時不存在 (Nathan Bossart)
   [§](https://postgr.es/c/bde9ad315)
 
-  Previously, the setting
-  of `basic_archive.archive_directory` was rejected
-  if it didn't point to an existing directory. This is undesirable
-  because archiving will be stuck indefinitely, even if the directory
-  appears later.
-* Fix `contrib/ltree` to cope when case-folding
-  changes a string's byte length (Jeff Davis)
+  先前，若
+  `basic_archive.archive_directory` 的設定
+  未指向既有的目錄，就會被拒絕。這並不理想，
+  因為即使該目錄之後出現，封存仍會無限期卡住。
+* 修正 `contrib/ltree`，使其能因應大小寫摺疊
+  改變字串位元組長度的情況 (Jeff Davis)
   [§](https://postgr.es/c/b3c2a3d38)
   [§](https://postgr.es/c/53a57cae1)
 
-  Previously, `lquery` patterns specifying case-insensitive
-  matching might fail to match labels they should match.
-* Fix mis-structured output
-  from `contrib/pg_overexplain`'s
-  `RANGE_TABLE` option (Satyanarayana Narlapuram)
+  先前，指定不分大小寫比對的 `lquery` 模式，
+  可能無法比對到應該相符的標籤。
+* 修正
+  `contrib/pg_overexplain` 的
+  `RANGE_TABLE` 選項輸出結構錯誤的問題 (Satyanarayana Narlapuram)
   [§](https://postgr.es/c/6723d462d)
 
-  Some fields were misplaced in JSON, YAML, and XML formats, resulting
-  in structurally invalid output.
-* In `contrib/pg_stat_statements`, don't leak
-  memory if an error occurs while parsing the
-  `pgss_query_texts.stat` file (Heikki Linnakangas)
+  在 JSON、YAML 與 XML 格式中，有些欄位放錯了位置，
+  導致輸出的結構無效。
+* 在 `contrib/pg_stat_statements` 中，剖析
+  `pgss_query_texts.stat` 檔案時若發生錯誤，
+  不要洩漏記憶體 (Heikki Linnakangas)
   [§](https://postgr.es/c/25b02320e)
-* In `contrib/postgres_fdw`, avoid crash due to
-  premature cleanup of a failed connection (Etsuro Fujita)
+* 在 `contrib/postgres_fdw` 中，避免因過早清理
+  失敗的連線而當機 (Etsuro Fujita)
   [§](https://postgr.es/c/c318777da)
 
-  If a remote connection fails abort cleanup, we can't use it any
-  longer. But delay closing the connection object until end of
-  transaction, because there might still be references to it within
-  data structures such as open cursors.
-* Update time zone data files to tzdata
-  release 2026b (Tom Lane)
+  若遠端連線在中止清理時失敗，我們就無法再
+  使用它。但要將關閉連線物件延後到交易結束時，
+  因為在開啟中的游標等資料結構內
+  可能仍有對它的參照。
+* 將時區資料檔更新為 tzdata
+  2026b 版 (Tom Lane)
   [§](https://postgr.es/c/8a431b6d6)
 
-  British Columbia (America/Vancouver) will be on year-round UTC-07
-  (effectively, permanent DST) beginning in November 2026. This
-  release assumes that their TZ abbreviation will
-  be `MST` from that time forward. That seems likely
-  to change, but it's unclear what new abbreviation will be used.
-  Also a historical correction for Moldova: they have followed EU DST
-  transition times since 2022.
+  英屬哥倫比亞（America/Vancouver）自 2026 年 11 月起將全年採用 UTC-07
+  （實質上即永久日光節約時間）。此
+  版本假設其時區縮寫自該時起將
+  為 `MST`。這很可能
+  會改變，但目前還不清楚將使用什麼新的縮寫。
+  另外也對摩爾多瓦做了歷史修正：自 2022 年起，他們一直遵循歐盟的日光節約時間
+  轉換時間。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/release-18-4.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/release-18-4.html)（原文版本：18.6；核對日期：2026-10-22）

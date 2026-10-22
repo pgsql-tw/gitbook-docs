@@ -1038,7 +1038,7 @@
     * [D.3. XML 限制與 SQL/XML 符合性 #](appendixes/features/xml-limits-conformance.md)
   * [附錄 E. 版本說明](appendixes/release/README.md)
     * [E.1. 18.6 版 #](appendixes/release/release-18-6.md)
-    * [E.2. Release 18.4 #](appendixes/release/release-18-4.md)
+    * [E.2. 18.4 版 #](appendixes/release/release-18-4.md)
     * [E.3. 18.3 版 #](appendixes/release/release-18-3.md)
     * [E.4. 18.2 版 #](appendixes/release/release-18-2.md)
     * [E.5. 18.1 版 #](appendixes/release/release-18-1.md)
