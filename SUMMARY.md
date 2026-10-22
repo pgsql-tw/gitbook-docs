@@ -1105,7 +1105,7 @@
     * [F.39. seg — 線段或浮點數區間的資料型別 #](appendixes/contrib/seg.md)
     * [F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #](appendixes/contrib/sepgsql.md)
     * [F.41. spi — Server Programming Interface 功能與範例 #](appendixes/contrib/contrib-spi.md)
-    * [F.42. sslinfo — obtain client SSL information #](appendixes/contrib/sslinfo.md)
+    * [F.42. sslinfo — 取得用戶端 SSL 資訊 #](appendixes/contrib/sslinfo.md)
     * [F.43. tablefunc — functions that return tables ( crosstab and others) #](appendixes/contrib/tablefunc.md)
     * [F.44. tcn — a trigger function to notify listeners of changes to table content #](appendixes/contrib/tcn.md)
     * [F.45. test_decoding — SQL-based test/example module for WAL logical decoding #](appendixes/contrib/test-decoding.md)

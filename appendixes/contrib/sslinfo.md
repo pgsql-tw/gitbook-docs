@@ -1,82 +1,54 @@
-## F.42. sslinfo — obtain client SSL information [#](#SSLINFO)
+<a id="SSLINFO"></a>
 
-[F.42.1. Functions Provided](sslinfo.md#SSLINFO-FUNCTIONS)
+## F.42. sslinfo — 取得用戶端 SSL 資訊 [#](#SSLINFO)
 
-[F.42.2. Author](sslinfo.md#SSLINFO-AUTHOR)
+[F.42.1. 提供的函式](sslinfo.md#SSLINFO-FUNCTIONS)
+
+[F.42.2. 作者](sslinfo.md#SSLINFO-AUTHOR)
 
 <a id="id-1.11.7.52.2"></a>
 
-The `sslinfo` module provides information about the SSL
-certificate that the current client provided when connecting to
-PostgreSQL. The module is useless (most functions
-will return NULL) if the current connection does not use SSL.
+`sslinfo` 模組提供目前用戶端連線至 PostgreSQL 時所提供之 SSL 憑證的相關資訊。若目前連線未使用 SSL，此模組就沒有用處（大多數函式會傳回 NULL）。
 
-Some of the information available through this module can also be obtained
-using the built-in system view [`pg_stat_ssl`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-SSL-VIEW).
+透過此模組取得的部分資訊，也可以使用內建系統檢視表 [`pg_stat_ssl`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-SSL-VIEW) 取得。
 
-This extension won't build at all unless the installation was
-configured with `--with-ssl=openssl`.
+除非安裝時以 `--with-ssl=openssl` 進行設定，否則此擴充功能完全無法建置。
 
 <a id="SSLINFO-FUNCTIONS"></a>
 
-### F.42.1. Functions Provided [#](#SSLINFO-FUNCTIONS)
+### F.42.1. 提供的函式 [#](#SSLINFO-FUNCTIONS)
 
 `ssl_is_used() returns boolean` <a id="id-1.11.7.52.6.2.1.1.2"></a>
-:   Returns true if current connection to server uses SSL, and false
-    otherwise.
+:   若目前與伺服器的連線使用 SSL 則傳回 true，否則傳回 false。
 
 `ssl_version() returns text` <a id="id-1.11.7.52.6.2.2.1.2"></a>
-:   Returns the name of the protocol used for the SSL connection (e.g., TLSv1.0,
-    TLSv1.1, TLSv1.2 or TLSv1.3).
+:   傳回 SSL 連線所使用之通訊協定的名稱（例如 TLSv1.0、TLSv1.1、TLSv1.2 或 TLSv1.3）。
 
 `ssl_cipher() returns text` <a id="id-1.11.7.52.6.2.3.1.2"></a>
-:   Returns the name of the cipher used for the SSL connection
-    (e.g., DHE-RSA-AES256-SHA).
+:   傳回 SSL 連線所使用之加密演算法（cipher）的名稱（例如 DHE-RSA-AES256-SHA）。
 
 `ssl_client_cert_present() returns boolean` <a id="id-1.11.7.52.6.2.4.1.2"></a>
-:   Returns true if current client has presented a valid SSL client
-    certificate to the server, and false otherwise. (The server
-    might or might not be configured to require a client certificate.)
+:   若目前用戶端已向伺服器出示有效的 SSL 用戶端憑證則傳回 true，否則傳回 false。（伺服器可能設定為要求用戶端憑證，也可能沒有。）
 
 `ssl_client_serial() returns numeric` <a id="id-1.11.7.52.6.2.5.1.2"></a>
-:   Returns serial number of current client certificate. The combination of
-    certificate serial number and certificate issuer is guaranteed to
-    uniquely identify a certificate (but not its owner — the owner
-    ought to regularly change their keys, and get new certificates from the
-    issuer).
+:   傳回目前用戶端憑證的序號。憑證序號與憑證簽發者的組合保證能唯一識別一張憑證（但無法識別其擁有者——擁有者理應定期更換金鑰，並向簽發者取得新憑證）。
 
-    So, if you run your own CA and allow only certificates from this CA to
-    be accepted by the server, the serial number is the most reliable (albeit
-    not very mnemonic) means to identify a user.
+    因此，若你自行經營 CA，並只允許伺服器接受此 CA 簽發的憑證，序號就是識別使用者最可靠（雖然不太好記）的方式。
 
 `ssl_client_dn() returns text` <a id="id-1.11.7.52.6.2.6.1.2"></a>
-:   Returns the full subject of the current client certificate, converting
-    character data into the current database encoding. It is assumed that
-    if you use non-ASCII characters in the certificate names, your
-    database is able to represent these characters, too. If your database
-    uses the SQL_ASCII encoding, non-ASCII characters in the name will be
-    represented as UTF-8 sequences.
+:   傳回目前用戶端憑證的完整主體（subject），並將字元資料轉換為目前資料庫的編碼。此處假設若你在憑證名稱中使用非 ASCII 字元，你的資料庫也能表示這些字元。若你的資料庫使用 SQL_ASCII 編碼，名稱中的非 ASCII 字元會以 UTF-8 序列表示。
 
-    The result looks like `/CN=Somebody /C=Some country/O=Some organization`.
+    結果看起來類似 `/CN=Somebody /C=Some country/O=Some organization`。
 
 `ssl_issuer_dn() returns text` <a id="id-1.11.7.52.6.2.7.1.2"></a>
-:   Returns the full issuer name of the current client certificate, converting
-    character data into the current database encoding. Encoding conversions
-    are handled the same as for `ssl_client_dn`.
+:   傳回目前用戶端憑證的完整簽發者名稱，並將字元資料轉換為目前資料庫的編碼。編碼轉換的處理方式與 `ssl_client_dn` 相同。
 
-    The combination of the return value of this function with the
-    certificate serial number uniquely identifies the certificate.
+    此函式的傳回值與憑證序號的組合可唯一識別該憑證。
 
-    This function is really useful only if you have more than one trusted CA
-    certificate in your server's certificate authority file, or if this CA
-    has issued some intermediate certificate authority certificates.
+    只有在伺服器的憑證授權單位檔案中有超過一個受信任的 CA 憑證，或此 CA 曾簽發一些中繼憑證授權單位憑證時，此函式才真正有用。
 
 `ssl_client_dn_field(fieldname text) returns text` <a id="id-1.11.7.52.6.2.8.1.2"></a>
-:   This function returns the value of the specified field in the
-    certificate subject, or NULL if the field is not present.
-    Field names are string constants that are converted into ASN1 object
-    identifiers using the OpenSSL object
-    database. The following values are acceptable:
+:   此函式傳回憑證主體中指定欄位的值；若該欄位不存在，則傳回 NULL。欄位名稱是字串常數，會使用 OpenSSL 物件資料庫轉換為 ASN1 物件識別碼。可接受下列值：
 
     ```
 
@@ -103,32 +75,27 @@ configured with `--with-ssl=openssl`.
     emailAddress
     ```
 
-    All of these fields are optional, except `commonName`.
-    It depends
-    entirely on your CA's policy which of them would be included and which
-    wouldn't. The meaning of these fields, however, is strictly defined by
-    the X.500 and X.509 standards, so you cannot just assign arbitrary
-    meaning to them.
+    除了 `commonName` 以外，這些欄位都是選用的。要包含哪些欄位、不包含哪些欄位，完全取決於你的 CA 政策。不過，這些欄位的意義由 X.500 與 X.509 標準嚴格定義，因此你不能任意賦予它們意義。
+
+    譯註：上列清單中 description 出現兩次，為原文重複列出，並非兩個不同的欄位。
 
 `ssl_issuer_field(fieldname text) returns text` <a id="id-1.11.7.52.6.2.9.1.2"></a>
-:   Same as `ssl_client_dn_field`, but for the certificate issuer
-    rather than the certificate subject.
+:   與 `ssl_client_dn_field` 相同，但對象是憑證簽發者，而非憑證主體。
 
 `ssl_extension_info() returns setof record` <a id="id-1.11.7.52.6.2.10.1.2"></a>
-:   Provide information about extensions of client certificate: extension name,
-    extension value, and if it is a critical extension.
+:   提供用戶端憑證擴充項目（extension）的相關資訊：擴充項目名稱、擴充項目值，以及它是否為關鍵（critical）擴充項目。
 
 <a id="SSLINFO-AUTHOR"></a>
 
-### F.42.2. Author [#](#SSLINFO-AUTHOR)
+### F.42.2. 作者 [#](#SSLINFO-AUTHOR)
 
 Victor Wagner `<vitus@cryptocom.ru>`, Cryptocom LTD
 
 Dmitry Voronin `<carriingfate92@yandex.ru>`
 
-E-Mail of Cryptocom OpenSSL development group:
+Cryptocom OpenSSL 開發小組的電子郵件：
 `<openssl@cryptocom.ru>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sslinfo.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sslinfo.html)（原文版本：18.6；核對日期：2026-10-22）

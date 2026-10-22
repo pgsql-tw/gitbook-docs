@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：44 頁。
+待譯頁面：43 頁。
 
 ## 根目錄
 
@@ -88,7 +88,7 @@
 - [ ] `appendixes/contrib/postgres-fdw.md` — F.38. postgres_fdw — access data stored in external PostgreSQL servers #
 - [x] `appendixes/contrib/seg.md` — F.39. seg — 線段或浮點數區間的資料型別 #
 - [ ] `appendixes/contrib/sepgsql.md` — F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #
-- [ ] `appendixes/contrib/sslinfo.md` — F.42. sslinfo — obtain client SSL information #
+- [x] `appendixes/contrib/sslinfo.md` — F.42. sslinfo — 取得用戶端 SSL 資訊 #
 - [ ] `appendixes/contrib/tablefunc.md` — F.43. tablefunc — functions that return tables ( crosstab and others) #
 - [ ] `appendixes/contrib/tcn.md` — F.44. tcn — a trigger function to notify listeners of changes to table content #
 - [ ] `appendixes/contrib/test-decoding.md` — F.45. test_decoding — SQL-based test/example module for WAL logical decoding #
