@@ -1,133 +1,94 @@
-## F.29. pg_overexplain — allow EXPLAIN to dump even more details [#](#PGOVEREXPLAIN)
+<a id="PGOVEREXPLAIN"></a>
+
+## F.29. pg_overexplain — 允許 EXPLAIN 傾印更多細節 [#](#PGOVEREXPLAIN)
 
 [F.29.1. EXPLAIN (DEBUG)](pgoverexplain.md#PGOVEREXPLAIN-DEBUG)
 
 [F.29.2. EXPLAIN (RANGE_TABLE)](pgoverexplain.md#PGOVEREXPLAIN-RANGE-TABLE)
 
-[F.29.3. Author](pgoverexplain.md#PGOVEREXPLAIN-AUTHOR)
+[F.29.3. 作者](pgoverexplain.md#PGOVEREXPLAIN-AUTHOR)
 
 <a id="id-1.11.7.39.2"></a>
 
-The `pg_overexplain` module extends `EXPLAIN`
-with new options that provide additional output. It is mostly intended to
-assist with debugging of and development of the planner, rather than for
-general use. Since this module displays internal details of planner data
-structures, it may be necessary to refer to the source code to make sense
-of the output. Furthermore, the output is likely to change whenever (and as
-often as) those data structures change.
+`pg_overexplain` 模組以提供額外輸出的新選項擴充 `EXPLAIN`。
+它主要用於協助規劃器的除錯與開發，而非一般用途。由於此模組會顯示規劃器資料結構的內部細節，可能需要參閱原始碼才能理解其輸出。此外，每當這些資料結構變更時，輸出很可能也會隨之變更（而且變更頻率與之相同）。
 
-To use it, simply load it into the server. You can load it into an
-individual session:
+要使用它，只需將它載入伺服器即可。你可以將它載入個別的工作階段：
 
 ```
 
 LOAD 'pg_overexplain';
 ```
 
-You can also preload it into some or all sessions by including
-`pg_overexplain` in
-[session_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES) or
-[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) in
-`postgresql.conf`.
+你也可以在 `postgresql.conf` 中將
+`pg_overexplain` 加入
+[session_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES) 或
+[shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)，
+以便將它預先載入部分或所有工作階段。
 
 <a id="PGOVEREXPLAIN-DEBUG"></a>
 
 ### F.29.1. EXPLAIN (DEBUG) [#](#PGOVEREXPLAIN-DEBUG)
 
-The `DEBUG` option displays miscellaneous information from
-the plan tree that is not normally shown because it is not expected to be
-of general interest. For each individual plan node, it will display the
-following fields. See `Plan` in
-`nodes/plannodes.h` for additional documentation of these
-fields.
+`DEBUG` 選項會顯示計畫樹中的各種資訊，這些資訊通常不會顯示，因為一般認為多數人不會感興趣。對每個個別的計畫節點，它會顯示下列欄位。這些欄位的其他說明，請參閱
+`nodes/plannodes.h` 中的 `Plan`。
 
-* `Disabled Nodes`. Normal `EXPLAIN`
-  determines whether a node is disabled by checking whether the node's
-  count of disabled nodes is larger than the sum of the counts for the
-  underlying nodes. This option shows the raw counter value.
-* `Parallel Safe`. Indicates whether it would be safe for
-  a plan tree node to appear beneath a `Gather` or
-  `Gather Merge` node, regardless of whether it is
-  actually below such a node.
-* `Plan Node ID`. An internal ID number that should be
-  unique for every node in the plan tree. It is used to coordinate parallel
-  query activity.
-* `extParam` and `allParam`. Information
-  about which numbered parameters affect this plan node or its children. In
-  text mode, these fields are only displayed if they are non-empty sets.
+* `Disabled Nodes`。一般的 `EXPLAIN`
+  會檢查節點的停用節點計數是否大於其下層節點計數的總和，藉此判斷該節點是否已停用。此選項會顯示原始的計數器值。
+* `Parallel Safe`。表示計畫樹節點出現在 `Gather` 或
+  `Gather Merge` 節點之下是否安全，不論它實際上是否位於這類節點之下。
+* `Plan Node ID`。內部 ID 編號，對計畫樹中的每個節點應該都是唯一的。它用於協調平行查詢的活動。
+* `extParam` 與 `allParam`。關於哪些編號參數會影響此計畫節點或其子節點的資訊。在文字模式下，只有當這些欄位為非空集合時才會顯示。
 
-Once per query, the `DEBUG` option will display the
-following fields. See `PlannedStmt` in
-`nodes/plannodes.h` for additional detail.
+每個查詢一次，`DEBUG` 選項會顯示下列欄位。其他細節請參閱
+`nodes/plannodes.h` 中的 `PlannedStmt`。
 
-* `Command Type`. For example, `select`
-  or `update`.
-* `Flags`. A comma-separated list of Boolean structure
-  member names from the `PlannedStmt` that are set to
-  `true`. It covers the following structure members:
-  `hasReturning`, `hasModifyingCTE`,
-  `canSetTag`, `transientPlan`,
-  `dependsOnRole`, `parallelModeNeeded`.
-* `Subplans Needing Rewind`. Integer IDs of subplans that
-  may need to be rewound by the executor.
-* `Relation OIDs`. OIDs of relations upon which this plan
-  depends.
-* `Executor Parameter Types`. Type OID for each executor parameter
-  (e.g. when a nested loop is chosen and a parameter is used to pass a value down
-  to an inner index scan). Does not include parameters supplied to a prepared
-  statement by the user.
-* `Parse Location`. Location within the query string
-  supplied to the planner where this query's text can be found. May be
-  `Unknown` in some contexts. Otherwise, may be
-  `NNN to end` for some integer `NNN` or
-  `NNN for MMM bytes` for some integers
-  `NNN` and `MMM`.
+* `Command Type`。例如 `select`
+  或 `update`。
+* `Flags`。以逗號分隔的清單，列出 `PlannedStmt` 中被設為
+  `true` 的布林結構成員名稱。它涵蓋下列結構成員：
+  `hasReturning`、`hasModifyingCTE`、
+  `canSetTag`、`transientPlan`、
+  `dependsOnRole`、`parallelModeNeeded`。
+* `Subplans Needing Rewind`。可能需要由執行器倒回（rewind）之子計畫的整數 ID。
+* `Relation OIDs`。此計畫所相依之關聯的 OID。
+* `Executor Parameter Types`。每個執行器參數的型別 OID
+  （例如選擇了巢狀迴圈，並使用參數將值向下傳遞給內側索引掃描時）。不包括使用者提供給預備陳述式的參數。
+* `Parse Location`。在提供給規劃器的查詢字串中，可找到此查詢文字的位置。在某些情境下可能是
+  `Unknown`。否則，可能是某個整數 `NNN` 的
+  `NNN to end`，或某些整數
+  `NNN` 與 `MMM` 的
+  `NNN for MMM bytes`。
 
 <a id="PGOVEREXPLAIN-RANGE-TABLE"></a>
 
 ### F.29.2. EXPLAIN (RANGE_TABLE) [#](#PGOVEREXPLAIN-RANGE-TABLE)
 
-The `RANGE_TABLE` option displays information from the
-plan tree specifically concerning the query's range table. Range table
-entries correspond roughly to items appearing in the query's
-`FROM` clause, but with numerous exceptions. For example,
-subqueries that are proved unnecessary may be deleted from the range table
-entirely, while inheritance expansion adds range table entries for child
-tables that are not named directly in the query.
+`RANGE_TABLE` 選項會顯示計畫樹中特別與查詢的範圍表（range table）相關的資訊。範圍表項目大致對應出現在查詢之
+`FROM` 子句中的項目，但有許多例外。例如，經證明不需要的子查詢可能會從範圍表中完全刪除，而繼承展開則會為查詢中未直接指名的子資料表加入範圍表項目。
 
-Range table entries are generally referenced within the query plan by a
-range table index, or RTI. Plan nodes that reference one or more RTIs will
-be labelled accordingly, using one of the following fields: `Scan
-RTI`, `Nominal RTI`, `Exclude Relation
-RTI`, `Append RTIs`.
+在查詢計畫中，範圍表項目通常以範圍表索引（range table index，RTI）參照。參照一個或多個 RTI 的計畫節點，會使用下列其中一個欄位相應地標示：`Scan
+RTI`、`Nominal RTI`、`Exclude Relation
+RTI`、`Append RTIs`。
 
-In addition, the query as a whole may maintain lists of range table indexes
-that are needed for various purposes. These lists will be displayed once
-per query, labelled as appropriate as `Unprunable RTIs` or
-`Result RTIs`. In text mode, these fields are only
-displayed if they are non-empty sets.
+此外，整個查詢可能會為各種用途維護範圍表索引的清單。這些清單每個查詢顯示一次，並視情況標示為 `Unprunable RTIs` 或
+`Result RTIs`。在文字模式下，只有當這些欄位為非空集合時才會顯示。
 
-Finally, but most importantly, the `RANGE_TABLE` option
-will display a dump of the query's entire range table. Each range table
-entry is labelled with the appropriate range table index, the kind of range
-table entry (e.g. `relation`,
-`subquery`, or `join`), followed by the
-contents of various range table entry fields that are not normally part of
-`EXPLAIN` output. Some of these fields are only displayed
-for certain kinds of range table entries. For example,
-`Eref` is displayed for all types of range table entries,
-but `CTE Name` is displayed only for range table entries
-of type `cte`.
+最後，也是最重要的一點，`RANGE_TABLE` 選項
+會顯示查詢整個範圍表的傾印。每個範圍表項目都會標示對應的範圍表索引、範圍表項目的種類（例如 `relation`、
+`subquery` 或 `join`），接著是各種範圍表項目欄位的內容，這些欄位通常不屬於
+`EXPLAIN` 輸出的一部分。其中部分欄位只會針對特定種類的範圍表項目顯示。例如，
+`Eref` 會針對所有類型的範圍表項目顯示，
+但 `CTE Name` 只會針對類型為 `cte` 的範圍表項目顯示。
 
-For more information about range table entries, see the definition of
-`RangeTblEntry` in `nodes/parsenodes.h`.
+關於範圍表項目的更多資訊，請參閱 `nodes/parsenodes.h` 中 `RangeTblEntry` 的定義。
 
 <a id="PGOVEREXPLAIN-AUTHOR"></a>
 
-### F.29.3. Author [#](#PGOVEREXPLAIN-AUTHOR)
+### F.29.3. 作者 [#](#PGOVEREXPLAIN-AUTHOR)
 
 Robert Haas `<rhaas@postgresql.org>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgoverexplain.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgoverexplain.html)（原文版本：18.6；核對日期：2026-10-23）

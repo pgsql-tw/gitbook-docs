@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：18 頁。
+待譯頁面：17 頁。
 
 ## 根目錄
 
@@ -76,7 +76,7 @@
 - [ ] `appendixes/contrib/pgcrypto.md` — F.26. pgcrypto — cryptographic functions #
 - [x] `appendixes/contrib/pgfreespacemap.md` — F.27. pg_freespacemap — 檢視可用空間對應表 #
 - [x] `appendixes/contrib/pglogicalinspect.md` — F.28. pg_logicalinspect — 邏輯解碼元件檢查 #
-- [ ] `appendixes/contrib/pgoverexplain.md` — F.29. pg_overexplain — allow EXPLAIN to dump even more details #
+- [x] `appendixes/contrib/pgoverexplain.md` — F.29. pg_overexplain — 允許 EXPLAIN 傾印更多細節 #
 - [ ] `appendixes/contrib/pgprewarm.md` — F.30. pg_prewarm — preload relation data into buffer caches #
 - [ ] `appendixes/contrib/pgrowlocks.md` — F.31. pgrowlocks — show a table's row locking information #
 - [ ] `appendixes/contrib/pgstatstatements.md` — F.32. pg_stat_statements — track statistics of SQL planning and execution #
