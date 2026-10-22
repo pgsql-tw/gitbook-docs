@@ -1,47 +1,23 @@
-## Appendix K. PostgreSQL Limits
+<a id="LIMITS"></a>
 
-[Table K.1](README.md#LIMITS-TABLE) describes various hard limits of
-PostgreSQL. However, practical limits, such as
-performance limitations or available disk space may apply before absolute
-hard limits are reached.
+## 附錄 K. PostgreSQL 限制
+
+[表 K.1](README.md#LIMITS-TABLE) 說明 PostgreSQL 的各種硬性限制。不過，在達到絕對的硬性限制之前，可能就會先遇到實務上的限制，例如效能限制或可用磁碟空間。
 
 <a id="LIMITS-TABLE"></a>
 
-**Table K.1. PostgreSQL Limitations**
+**表 K.1. PostgreSQL 限制**
 
-<table border="1" class="table" summary="PostgreSQL Limitations"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Item</th><th>Upper Limit</th><th>Comment</th></tr></thead><tbody><tr><td>database size</td><td>unlimited</td><td> </td></tr><tr><td>number of databases</td><td>4,294,950,911</td><td> </td></tr><tr><td>relations per database</td><td>1,431,650,303</td><td> </td></tr><tr><td>relation size</td><td>32 TB</td><td>with the default <code class="symbol">BLCKSZ</code> of 8192 bytes</td></tr><tr><td>rows per table</td><td>limited by the number of tuples that can fit onto 4,294,967,295 pages</td><td> </td></tr><tr><td>columns per table</td><td>1,600</td><td>further limited by tuple size fitting on a single page; see note
-     below</td></tr><tr><td>columns in a result set</td><td>1,664</td><td> </td></tr><tr><td>field size</td><td>1 GB</td><td> </td></tr><tr><td>indexes per table</td><td>unlimited</td><td>constrained by maximum relations per database</td></tr><tr><td>columns per index</td><td>32</td><td>can be increased by recompiling <span class="productname">PostgreSQL</span></td></tr><tr><td>partition keys</td><td>32</td><td>can be increased by recompiling <span class="productname">PostgreSQL</span></td></tr><tr><td>identifier length</td><td>63 bytes</td><td>can be increased by recompiling <span class="productname">PostgreSQL</span></td></tr><tr><td>function arguments</td><td>100</td><td>can be increased by recompiling <span class="productname">PostgreSQL</span></td></tr><tr><td>query parameters</td><td>65,535</td><td> </td></tr></tbody></table>
+<table border="1" class="table" summary="PostgreSQL 限制"><colgroup><col/><col/><col/></colgroup><thead><tr><th>項目</th><th>上限</th><th>備註</th></tr></thead><tbody><tr><td>資料庫大小</td><td>無限制</td><td> </td></tr><tr><td>資料庫數量</td><td>4,294,950,911</td><td> </td></tr><tr><td>每個資料庫的關聯數</td><td>1,431,650,303</td><td> </td></tr><tr><td>關聯大小</td><td>32 TB</td><td><code class="symbol">BLCKSZ</code> 為預設值 8192 位元組時</td></tr><tr><td>每個資料表的資料列數</td><td>受限於 4,294,967,295 個頁面所能容納的元組數</td><td> </td></tr><tr><td>每個資料表的欄位數</td><td>1,600</td><td>還會進一步受限於元組大小必須能放入單一頁面；請參閱下方說明</td></tr><tr><td>結果集的欄位數</td><td>1,664</td><td> </td></tr><tr><td>欄位大小</td><td>1 GB</td><td> </td></tr><tr><td>每個資料表的索引數</td><td>無限制</td><td>受每個資料庫的最大關聯數限制</td></tr><tr><td>每個索引的欄位數</td><td>32</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>分割鍵數</td><td>32</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>識別字長度</td><td>63 位元組</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>函式參數數</td><td>100</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>查詢參數數</td><td>65,535</td><td> </td></tr></tbody></table>
 
 <br>
 
-The maximum number of columns for a table is further reduced as the tuple
-being stored must fit in a single 8192-byte heap page. For example,
-excluding the tuple header, a tuple made up of 1,600 `int` columns
-would consume 6400 bytes and could be stored in a heap page, but a tuple of
-1,600 `bigint` columns would consume 12800 bytes and would
-therefore not fit inside a heap page.
-Variable-length fields of
-types such as `text`, `varchar`, and `char`
-can have their values stored out of line in the table's TOAST table when the
-values are large enough to require it. Only an 18-byte pointer must remain
-inside the tuple in the table's heap. For shorter length variable-length
-fields, either a 4-byte or 1-byte field header is used and the value is
-stored inside the heap tuple.
+由於要儲存的元組必須能放入單一 8192 位元組的堆積頁面，資料表的最大欄位數還會進一步減少。例如，不計元組標頭，由 1,600 個 `int` 欄位組成的元組會佔用 6400 位元組，可以存放在一個堆積頁面中；但由 1,600 個 `bigint` 欄位組成的元組會佔用 12800 位元組，因此無法放入一個堆積頁面。`text`、`varchar`、`char` 等型別的變動長度欄位，在值大到有需要時，可以將值以行外（out of line）方式存放在該資料表的 TOAST 資料表中，只有一個 18 位元組的指標必須留在資料表堆積中的元組內。較短的變動長度欄位則使用 4 位元組或 1 位元組的欄位標頭，值直接存放在堆積元組內。
 
-Columns that have been dropped from the table also contribute to the maximum
-column limit. Moreover, although the dropped column values for newly
-created tuples are internally marked as null in the tuple's null bitmap, the
-null bitmap also occupies space.
+已從資料表中移除的欄位，也會計入最大欄位數限制。此外，雖然新建立的元組中已移除欄位的值，在內部會於元組的 null 位元圖中標記為 null，但 null 位元圖本身也會佔用空間。
 
-Each table can store a theoretical maximum of 2^32 out-of-line values; see
-[Section 66.2](../../internals/storage/storage-toast.md) for a detailed discussion of out-of-line
-storage. This limit arises from the use of a 32-bit OID to identify each
-such value. The practical limit is significantly less than the theoretical
-limit, because as the OID space fills up, finding an OID that is still free
-can become expensive, in turn slowing down INSERT/UPDATE statements.
-Typically, this is only an issue for tables containing many terabytes
-of data; partitioning is a possible workaround.
+每個資料表理論上最多可以存放 2^32 個行外值；關於行外儲存的詳細討論，請參閱[第 66.2 節](../../internals/storage/storage-toast.md)。這個限制源自於使用 32 位元的 OID 來識別每個這類值。實際限制遠低於理論限制，因為隨著 OID 空間逐漸填滿，尋找仍可用的 OID 可能變得很耗費資源，進而拖慢 INSERT/UPDATE 陳述式。這通常只對包含數 TB 資料的資料表才會成為問題；分割是一種可行的因應方式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/limits.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/limits.html)（原文版本：18.6；核對日期：2026-10-22）

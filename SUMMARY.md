@@ -1133,7 +1133,7 @@
     * [J.4. 使用 Meson 建置文件](appendixes/docguide/docguide-build-meson.md)
     * [J.5. 文件撰寫](appendixes/docguide/docguide-authoring.md)
     * [J.6. 風格指南 #](appendixes/docguide/docguide-style.md)
-  * [Appendix K. PostgreSQL Limits](appendixes/limits/README.md)
+  * [附錄 K. PostgreSQL 限制](appendixes/limits/README.md)
   * [附錄 L：縮寫](appendixes/acronyms/README.md)
   * [Appendix M. Glossary](appendixes/glossary/README.md)
   * [附錄 N. 色彩支援](appendixes/color/README.md)
