@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：38 頁。
+待譯頁面：37 頁。
 
 ## 根目錄
 
@@ -95,7 +95,7 @@
 - [x] `appendixes/contrib/tsm-system-rows.md` — F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 #
 - [x] `appendixes/contrib/tsm-system-time.md` — F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 #
 - [x] `appendixes/contrib/unaccent.md` — F.48. unaccent — 移除變音符號的文字搜尋字典 #
-- [ ] `appendixes/contrib/uuid-ossp.md` — F.49. uuid-ossp — a UUID generator #
+- [x] `appendixes/contrib/uuid-ossp.md` — F.49. uuid-ossp — UUID 產生器 #
 - [ ] `appendixes/contrib/xml2.md` — F.50. xml2 — XPath querying and XSLT functionality #
 - [x] `appendixes/datetime-appendix/README.md` — 附錄 B. 日期／時間支援
 - [x] `appendixes/datetime-appendix/datetime-config-files.md` — B.4. 日期／時間設定檔 #

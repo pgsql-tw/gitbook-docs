@@ -1112,7 +1112,7 @@
     * [F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 #](appendixes/contrib/tsm-system-rows.md)
     * [F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 #](appendixes/contrib/tsm-system-time.md)
     * [F.48. unaccent — 移除變音符號的文字搜尋字典 #](appendixes/contrib/unaccent.md)
-    * [F.49. uuid-ossp — a UUID generator #](appendixes/contrib/uuid-ossp.md)
+    * [F.49. uuid-ossp — UUID 產生器 #](appendixes/contrib/uuid-ossp.md)
     * [F.50. xml2 — XPath querying and XSLT functionality #](appendixes/contrib/xml2.md)
   * [附錄 G. 額外提供的程式](appendixes/contrib-prog/README.md)
     * [G.1. 用戶端應用程式](appendixes/contrib-prog/contrib-prog-client.md)
