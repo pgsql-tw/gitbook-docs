@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：57 頁。
+待譯頁面：56 頁。
 
 ## 根目錄
 
@@ -110,7 +110,7 @@
 - [x] `appendixes/docguide/docguide-build-meson.md` — J.4. 使用 Meson 建置文件
 - [ ] `appendixes/docguide/docguide-build.md` — J.3. Building the Documentation with Make #
 - [x] `appendixes/docguide/docguide-docbook.md` — J.1. DocBook
-- [ ] `appendixes/docguide/docguide-style.md` — J.6. Style Guide #
+- [x] `appendixes/docguide/docguide-style.md` — J.6. 風格指南 #
 - [ ] `appendixes/docguide/docguide-toolsets.md` — J.2. Tool Sets #
 - [ ] `appendixes/errcodes-appendix/README.md` — Appendix A. PostgreSQL Error Codes
 - [x] `appendixes/external-projects/README.md` — 附錄 H. 外部專案
