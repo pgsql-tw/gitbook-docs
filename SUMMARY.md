@@ -1091,7 +1091,7 @@
     * [F.25. pg_buffercache — inspect PostgreSQL buffer cache state #](appendixes/contrib/pgbuffercache.md)
     * [F.26. pgcrypto — cryptographic functions #](appendixes/contrib/pgcrypto.md)
     * [F.27. pg_freespacemap — 檢視可用空間對應表 #](appendixes/contrib/pgfreespacemap.md)
-    * [F.28. pg_logicalinspect — logical decoding components inspection #](appendixes/contrib/pglogicalinspect.md)
+    * [F.28. pg_logicalinspect — 邏輯解碼元件檢查 #](appendixes/contrib/pglogicalinspect.md)
     * [F.29. pg_overexplain — allow EXPLAIN to dump even more details #](appendixes/contrib/pgoverexplain.md)
     * [F.30. pg_prewarm — preload relation data into buffer caches #](appendixes/contrib/pgprewarm.md)
     * [F.31. pgrowlocks — show a table's row locking information #](appendixes/contrib/pgrowlocks.md)

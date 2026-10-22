@@ -1,33 +1,27 @@
-## F.28. pg_logicalinspect — logical decoding components inspection [#](#PGLOGICALINSPECT)
+<a id="PGLOGICALINSPECT"></a>
 
-[F.28.1. Functions](pglogicalinspect.md#PGLOGICALINSPECT-FUNCS)
+## F.28. pg_logicalinspect — 邏輯解碼元件檢查 [#](#PGLOGICALINSPECT)
 
-[F.28.2. Author](pglogicalinspect.md#PGLOGICALINSPECT-AUTHOR)
+[F.28.1. 函式](pglogicalinspect.md#PGLOGICALINSPECT-FUNCS)
+
+[F.28.2. 作者](pglogicalinspect.md#PGLOGICALINSPECT-AUTHOR)
 
 <a id="id-1.11.7.38.2"></a>
 
-The `pg_logicalinspect` module provides SQL functions
-that allow you to inspect the contents of logical decoding components. It
-allows the inspection of serialized logical snapshots of a running
-PostgreSQL database cluster, which is useful
-for debugging or educational purposes.
+`pg_logicalinspect` 模組提供 SQL 函式，讓你可以檢查邏輯解碼元件的內容。它可以檢查執行中 PostgreSQL 資料庫叢集的序列化邏輯快照，這對除錯或教學用途很有幫助。
 
-By default, use of these functions is restricted to superusers and members of
-the `pg_read_server_files` role. Access may be granted by
-superusers to others using `GRANT`.
+預設情況下，只有超級使用者與 `pg_read_server_files` 角色的成員可以使用這些函式。超級使用者可以使用 `GRANT` 將存取權授與其他人。
 
 <a id="PGLOGICALINSPECT-FUNCS"></a>
 
-### F.28.1. Functions [#](#PGLOGICALINSPECT-FUNCS)
+### F.28.1. 函式 [#](#PGLOGICALINSPECT-FUNCS)
 
 <a id="PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-META"></a>
 
 `pg_get_logical_snapshot_meta(filename text) returns record` [#](#PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-META)
-:   Gets logical snapshot metadata about a snapshot file that is located in
-    the server's `pg_logical/snapshots` directory.
-    The *`filename`* argument represents the snapshot
-    file name.
-    For example:
+:   取得位於伺服器 `pg_logical/snapshots` 目錄中某個快照檔的邏輯快照中繼資料。
+    *`filename`* 引數代表快照檔名。
+    例如：
 
     ```
 
@@ -52,16 +46,14 @@ superusers to others using `GRANT`.
     version  | 6
     ```
 
-    If *`filename`* does not match a snapshot file, the
-    function raises an error.
+    若 *`filename`* 不符合任何快照檔，
+    此函式會擲出錯誤。
 <a id="PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-INFO"></a>
 
 `pg_get_logical_snapshot_info(filename text) returns record` [#](#PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-INFO)
-:   Gets logical snapshot information about a snapshot file that is located in
-    the server's `pg_logical/snapshots` directory.
-    The *`filename`* argument represents the snapshot
-    file name.
-    For example:
+:   取得位於伺服器 `pg_logical/snapshots` 目錄中某個快照檔的邏輯快照資訊。
+    *`filename`* 引數代表快照檔名。
+    例如：
 
     ```
 
@@ -108,15 +100,15 @@ superusers to others using `GRANT`.
     catchange_xip            | {751,752}
     ```
 
-    If *`filename`* does not match a snapshot file, the
-    function raises an error.
+    若 *`filename`* 不符合任何快照檔，
+    此函式會擲出錯誤。
 
 <a id="PGLOGICALINSPECT-AUTHOR"></a>
 
-### F.28.2. Author [#](#PGLOGICALINSPECT-AUTHOR)
+### F.28.2. 作者 [#](#PGLOGICALINSPECT-AUTHOR)
 
 Bertrand Drouvot `<bertranddrouvot.pg@gmail.com>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pglogicalinspect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pglogicalinspect.html)（原文版本：18.6；核對日期：2026-10-23）
