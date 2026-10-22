@@ -1036,7 +1036,7 @@
     * [D.1. Supported Features #](appendixes/features/features-sql-standard.md)
     * [D.2. Unsupported Features #](appendixes/features/unsupported-features-sql-standard.md)
     * [D.3. XML 限制與 SQL/XML 符合性 #](appendixes/features/xml-limits-conformance.md)
-  * [Appendix E. Release Notes](appendixes/release/README.md)
+  * [附錄 E. 版本說明](appendixes/release/README.md)
     * [E.1. Release 18.6 #](appendixes/release/release-18-6.md)
     * [E.2. Release 18.4 #](appendixes/release/release-18-4.md)
     * [E.3. Release 18.3 #](appendixes/release/release-18-3.md)
