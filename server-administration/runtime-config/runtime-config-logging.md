@@ -1,61 +1,62 @@
-## 19.8. Error Reporting and Logging [#](#RUNTIME-CONFIG-LOGGING)
+<a id="RUNTIME-CONFIG-LOGGING"></a>
 
-[19.8.1. Where to Log](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)
+## 19.8. 錯誤回報與日誌記錄 [#](#RUNTIME-CONFIG-LOGGING)
 
-[19.8.2. When to Log](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHEN)
+[19.8.1. 記錄位置](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)
 
-[19.8.3. What to Log](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHAT)
+[19.8.2. 記錄時機](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHEN)
 
-[19.8.4. Using CSV-Format Log Output](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)
+[19.8.3. 記錄內容](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHAT)
 
-[19.8.5. Using JSON-Format Log Output](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG)
+[19.8.4. 使用 CSV 格式日誌輸出](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)
 
-[19.8.6. Process Title](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-PROC-TITLE)
+[19.8.5. 使用 JSON 格式日誌輸出](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG)
 
-<a id="id-1.6.6.11.2"></a><a id="RUNTIME-CONFIG-LOGGING-WHERE"></a>
+[19.8.6. 程序標題](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-PROC-TITLE)
 
-### 19.8.1. Where to Log [#](#RUNTIME-CONFIG-LOGGING-WHERE)
+<a id="id-1.6.6.11.2"></a>
+
+<a id="RUNTIME-CONFIG-LOGGING-WHERE"></a>
+
+### 19.8.1. 記錄位置 [#](#RUNTIME-CONFIG-LOGGING-WHERE)
 
 <a id="id-1.6.6.11.3.2"></a><a id="id-1.6.6.11.3.3"></a>
 
 <a id="GUC-LOG-DESTINATION"></a>
 
 `log_destination` (`string`) <a id="id-1.6.6.11.3.4.1.1.3"></a> [#](#GUC-LOG-DESTINATION)
-:   PostgreSQL supports several methods
-    for logging server messages, including
-    stderr, csvlog,
-    jsonlog, and
-    syslog. On Windows,
-    eventlog is also supported. Set this
-    parameter to a list of desired log destinations separated by
-    commas. The default is to log to stderr
-    only.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   PostgreSQL 支援多種
+    記錄伺服器訊息的方法，包括
+    stderr、csvlog、
+    jsonlog，以及
+    syslog。在 Windows 上，
+    也支援 eventlog。請將此
+    參數設為以逗號分隔的所需記錄目的地清單。
+    預設只會記錄到 stderr。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 
-    If csvlog is included in `log_destination`,
-    log entries are output in “comma-separated
-    value” (CSV) format, which is convenient for
-    loading logs into programs.
-    See [Section 19.8.4](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG) for details.
-    [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR) must be enabled to generate
-    CSV-format log output.
+    若 `log_destination` 中包含 csvlog，
+    日誌項目會以「逗號分隔值」（CSV）格式輸出，
+    方便匯入其他程式使用。
+    詳情請參閱 [第 19.8.4 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)。
+    必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
+    才能產生 CSV 格式的日誌輸出。
 
-    If jsonlog is included in
-    `log_destination`, log entries are output in
-    JSON format, which is convenient for loading logs
-    into programs.
-    See [Section 19.8.5](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG) for details.
-    [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR) must be enabled to generate
-    JSON-format log output.
+    若 `log_destination` 中包含
+    jsonlog，日誌項目會以
+    JSON 格式輸出，方便匯入其他程式使用。
+    詳情請參閱 [第 19.8.5 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG)。
+    必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
+    才能產生 JSON 格式的日誌輸出。
 
-    When either stderr,
-    csvlog or jsonlog are
-    included, the file `current_logfiles` is created to
-    record the location of the log file(s) currently in use by the logging
-    collector and the associated logging destination. This provides a
-    convenient way to find the logs currently in use by the instance. Here
-    is an example of this file's content:
+    當 stderr、
+    csvlog 或 jsonlog
+    其中之一被包含在內時，就會建立 `current_logfiles`
+    檔案，用來記錄日誌收集器目前使用中的日誌檔案位置，
+    以及對應的記錄目的地。這提供了一個方便的方式，
+    可用來找出此執行個體目前正在使用的日誌檔。以下是
+    此檔案內容的範例：
 
     ```
 
@@ -64,681 +65,659 @@
     jsonlog log/postgresql.json
     ```
 
-    `current_logfiles` is recreated when a new log file
-    is created as an effect of rotation, and
-    when `log_destination` is reloaded. It is removed when
-    none of stderr,
-    csvlog or jsonlog are
-    included in `log_destination`, and when the logging
-    collector is disabled.
+    `current_logfiles` 會在因輪替而建立新日誌檔案時，
+    以及 `log_destination` 被重新載入時重新建立。
+    當 `log_destination` 中不再包含
+    stderr、csvlog
+    或 jsonlog 任何一項，
+    或日誌收集器被停用時，此檔案就會被移除。
 
-    ### Note
+    ### 注意
 
-    On most Unix systems, you will need to alter the configuration of
-    your system's syslog daemon in order
-    to make use of the syslog option for
-    `log_destination`. PostgreSQL
-    can log to syslog facilities
-    `LOCAL0` through `LOCAL7` (see [syslog_facility](runtime-config-logging.md#GUC-SYSLOG-FACILITY)), but the default
-    syslog configuration on most platforms
-    will discard all such messages. You will need to add something like:
+    在大多數 Unix 系統上，你需要變更系統 syslog
+    守護程序的組態，才能使用
+    `log_destination` 的 syslog 選項。
+    PostgreSQL 可以記錄到 syslog 的
+    `LOCAL0` 到 `LOCAL7` 設施
+    （請參閱 [syslog_facility](runtime-config-logging.md#GUC-SYSLOG-FACILITY)），
+    但大多數平台上 syslog 的預設組態，
+    會捨棄所有這類訊息。你需要加入類似下列的內容：
 
     ```
 
     local0.*    /var/log/postgresql
     ```
 
-    to the syslog daemon's configuration file
-    to make it work.
+    到 syslog 守護程序的組態檔中，才能使其運作。
 
-    On Windows, when you use the `eventlog`
-    option for `log_destination`, you should
-    register an event source and its library with the operating
-    system so that the Windows Event Viewer can display event
-    log messages cleanly.
-    See [Section 18.12](../runtime/event-log-registration.md) for details.
+    在 Windows 上，當你為 `log_destination` 使用
+    `eventlog` 選項時，你應該向作業系統
+    註冊事件來源及其程式庫，讓 Windows 事件檢視器
+    能夠正確地顯示事件日誌訊息。
+    詳情請參閱 [第 18.12 節](../runtime/event-log-registration.md)。
 <a id="GUC-LOGGING-COLLECTOR"></a>
 
 `logging_collector` (`boolean`) <a id="id-1.6.6.11.3.4.2.1.3"></a> [#](#GUC-LOGGING-COLLECTOR)
-:   This parameter enables the *logging collector*, which
-    is a background process that captures log messages
-    sent to stderr and redirects them into log files.
-    This approach is often more useful than
-    logging to syslog, since some types of messages
-    might not appear in syslog output. (One common
-    example is dynamic-linker failure messages; another is error messages
-    produced by scripts such as `archive_command`.)
-    This parameter can only be set at server start.
+:   此參數會啟用*日誌收集器*，這是一個背景程序，
+    負責擷取傳送到 stderr 的日誌訊息，
+    並將其重新導向至日誌檔案。這種做法通常比
+    記錄到 syslog 更實用，因為有些類型的訊息
+    可能不會出現在 syslog 輸出中。
+    （常見的例子之一是動態連結器失敗訊息；
+    另一個例子則是由 `archive_command` 等
+    指令碼所產生的錯誤訊息。）
+    此參數只能在伺服器啟動時設定。
 
-    ### Note
+    ### 注意
 
-    It is possible to log to stderr without using the
-    logging collector; the log messages will just go to wherever the
-    server's stderr is directed. However, that method is
-    only suitable for low log volumes, since it provides no convenient
-    way to rotate log files. Also, on some platforms not using the
-    logging collector can result in lost or garbled log output, because
-    multiple processes writing concurrently to the same log file can
-    overwrite each other's output.
+    你可以在不使用日誌收集器的情況下記錄到 stderr；
+    日誌訊息就只會送往伺服器 stderr 導向的目的地。
+    然而，此方法只適合日誌量較低的情況，
+    因為它沒有提供方便輪替日誌檔案的方式。此外，
+    在某些平台上，不使用日誌收集器可能會導致日誌輸出遺失或
+    內容混亂，因為多個程序同時寫入同一個日誌檔案時，
+    可能會互相覆寫彼此的輸出。
 
-    ### Note
+    ### 注意
 
-    The logging collector is designed to never lose messages. This means
-    that in case of extremely high load, server processes could be
-    blocked while trying to send additional log messages when the
-    collector has fallen behind. In contrast, syslog
-    prefers to drop messages if it cannot write them, which means it
-    may fail to log some messages in such cases but it will not block
-    the rest of the system.
+    日誌收集器的設計目標是絕不遺失訊息。這代表
+    在負載極高的情況下，當收集器的處理進度落後時，
+    伺服器程序在嘗試傳送更多日誌訊息時可能會被阻塞。
+    相較之下，syslog 在無法寫入訊息時
+    傾向於直接捨棄，這代表它在這類情況下
+    可能無法記錄部分訊息，但不會阻塞系統其他部分。
 <a id="GUC-LOG-DIRECTORY"></a>
 
 `log_directory` (`string`) <a id="id-1.6.6.11.3.4.3.1.3"></a> [#](#GUC-LOG-DIRECTORY)
-:   When `logging_collector` is enabled,
-    this parameter determines the directory in which log files will be created.
-    It can be specified as an absolute path, or relative to the
-    cluster data directory.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
-    The default is `log`.
+:   當 `logging_collector` 啟用時，
+    此參數決定日誌檔案要建立在哪個目錄中。
+    可以指定為絕對路徑，或相對於叢集資料目錄的路徑。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
+    預設值為 `log`。
 <a id="GUC-LOG-FILENAME"></a>
 
 `log_filename` (`string`) <a id="id-1.6.6.11.3.4.4.1.3"></a> [#](#GUC-LOG-FILENAME)
-:   When `logging_collector` is enabled,
-    this parameter sets the file names of the created log files. The value
-    is treated as a `strftime` pattern,
-    so `%`-escapes can be used to specify time-varying
-    file names. (Note that if there are
-    any time-zone-dependent `%`-escapes, the computation
-    is done in the zone specified
-    by [log_timezone](runtime-config-logging.md#GUC-LOG-TIMEZONE).)
-    The supported `%`-escapes are similar to those
-    listed in the Open Group's [strftime](https://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) specification.
-    Note that the system's `strftime` is not used
-    directly, so platform-specific (nonstandard) extensions do not work.
-    The default is `postgresql-%Y-%m-%d_%H%M%S.log`.
+:   當 `logging_collector` 啟用時，
+    此參數設定所建立日誌檔案的檔名。此值會被視為
+    `strftime` 樣式字串，因此可使用
+    `%`-逸出序列來指定隨時間變化的檔名。
+    （請注意，若含有任何與時區相關的
+    `%`-逸出序列，計算時會採用
+    [log_timezone](runtime-config-logging.md#GUC-LOG-TIMEZONE) 所指定的時區。）
+    所支援的 `%`-逸出序列，
+    與 Open Group 的 [strftime](https://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) 規格
+    中所列出的類似。請注意，並不會直接使用
+    系統的 `strftime`，因此平台特有（非標準）
+    的擴充功能無法運作。
+    預設值為 `postgresql-%Y-%m-%d_%H%M%S.log`。
 
-    If you specify a file name without escapes, you should plan to
-    use a log rotation utility to avoid eventually filling the
-    entire disk. In releases prior to 8.4, if
-    no `%` escapes were
-    present, PostgreSQL would append
-    the epoch of the new log file's creation time, but this is no
-    longer the case.
+    若你指定的檔名沒有逸出序列，就應規劃使用日誌輪替工具，
+    以避免最終塞滿整個磁碟。在 8.4
+    之前的版本中，若沒有任何 `%` 逸出序列，
+    PostgreSQL 會附加新日誌檔案建立時間的
+    epoch 值，但現在已不再如此。
 
-    If CSV-format output is enabled in `log_destination`,
-    `.csv` will be appended to the timestamped
-    log file name to create the file name for CSV-format output.
-    (If `log_filename` ends in `.log`, the suffix is
-    replaced instead.)
+    若 `log_destination` 中啟用了 CSV 格式輸出，
+    系統會在加上時間戳記的日誌檔名後附加
+    `.csv`，作為 CSV 格式輸出的檔名。
+    （若 `log_filename` 以 `.log` 結尾，
+    則會改為替換該副檔名。）
 
-    If JSON-format output is enabled in `log_destination`,
-    `.json` will be appended to the timestamped
-    log file name to create the file name for JSON-format output.
-    (If `log_filename` ends in `.log`, the suffix is
-    replaced instead.)
+    若 `log_destination` 中啟用了 JSON 格式輸出，
+    系統會在加上時間戳記的日誌檔名後附加
+    `.json`，作為 JSON 格式輸出的檔名。
+    （若 `log_filename` 以 `.log` 結尾，
+    則會改為替換該副檔名。）
 
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-FILE-MODE"></a>
 
 `log_file_mode` (`integer`) <a id="id-1.6.6.11.3.4.5.1.3"></a> [#](#GUC-LOG-FILE-MODE)
-:   On Unix systems this parameter sets the permissions for log files
-    when `logging_collector` is enabled. (On Microsoft
-    Windows this parameter is ignored.)
-    The parameter value is expected to be a numeric mode
-    specified in the format accepted by the
-    `chmod` and `umask`
-    system calls. (To use the customary octal format the number
-    must start with a `0` (zero).)
+:   在 Unix 系統上，此參數會在 `logging_collector`
+    啟用時，設定日誌檔案的權限。（在 Microsoft
+    Windows 上此參數會被忽略。）
+    此參數值應為一個數值模式，
+    格式須符合
+    `chmod` 與 `umask`
+    系統呼叫所接受的格式。（若要使用慣用的八進位格式，
+    數字必須以 `0`（零）開頭。）
 
-    The default permissions are `0600`, meaning only the
-    server owner can read or write the log files. The other commonly
-    useful setting is `0640`, allowing members of the owner's
-    group to read the files. Note however that to make use of such a
-    setting, you'll need to alter [log_directory](runtime-config-logging.md#GUC-LOG-DIRECTORY) to
-    store the files somewhere outside the cluster data directory. In
-    any case, it's unwise to make the log files world-readable, since
-    they might contain sensitive data.
+    預設權限為 `0600`，代表只有
+    伺服器擁有者能讀寫日誌檔案。另一個常見且實用的設定是
+    `0640`，允許擁有者所屬群組的成員讀取這些檔案。
+    然而請注意，若要使用這類設定，你需要變更
+    [log_directory](runtime-config-logging.md#GUC-LOG-DIRECTORY)，
+    將檔案儲存在叢集資料目錄之外的位置。無論如何，
+    將日誌檔案設為所有人皆可讀取並不明智，
+    因為其中可能含有敏感資料。
 
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-ROTATION-AGE"></a>
 
 `log_rotation_age` (`integer`) <a id="id-1.6.6.11.3.4.6.1.3"></a> [#](#GUC-LOG-ROTATION-AGE)
-:   When `logging_collector` is enabled,
-    this parameter determines the maximum amount of time to use an
-    individual log file, after which a new log file will be created.
-    If this value is specified without units, it is taken as minutes.
-    The default is 24 hours.
-    Set to zero to disable time-based creation of new log files.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   當 `logging_collector` 啟用時，
+    此參數決定單一日誌檔案的最長使用時間，超過此時間後
+    就會建立新的日誌檔案。
+    若此值未指定單位，則以分鐘為單位。
+    預設值為 24 小時。
+    設為零可停用以時間為基礎建立新日誌檔案的功能。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-ROTATION-SIZE"></a>
 
 `log_rotation_size` (`integer`) <a id="id-1.6.6.11.3.4.7.1.3"></a> [#](#GUC-LOG-ROTATION-SIZE)
-:   When `logging_collector` is enabled,
-    this parameter determines the maximum size of an individual log file.
-    After this amount of data has been emitted into a log file,
-    a new log file will be created.
-    If this value is specified without units, it is taken as kilobytes.
-    The default is 10 megabytes.
-    Set to zero to disable size-based creation of new log files.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   當 `logging_collector` 啟用時，
+    此參數決定單一日誌檔案的最大大小。
+    當日誌檔案已寫入此數量的資料後，
+    就會建立新的日誌檔案。
+    若此值未指定單位，則以 KB 為單位。
+    預設值為 10 MB。
+    設為零可停用以大小為基礎建立新日誌檔案的功能。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-TRUNCATE-ON-ROTATION"></a>
 
 `log_truncate_on_rotation` (`boolean`) <a id="id-1.6.6.11.3.4.8.1.3"></a> [#](#GUC-LOG-TRUNCATE-ON-ROTATION)
-:   When `logging_collector` is enabled,
-    this parameter will cause PostgreSQL to truncate (overwrite),
-    rather than append to, any existing log file of the same name.
-    However, truncation will occur only when a new file is being opened
-    due to time-based rotation, not during server startup or size-based
-    rotation. When off, pre-existing files will be appended to in
-    all cases. For example, using this setting in combination with
-    a `log_filename` like `postgresql-%H.log`
-    would result in generating twenty-four hourly log files and then
-    cyclically overwriting them.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   當 `logging_collector` 啟用時，
+    此參數會使 PostgreSQL 截斷（覆寫）任何同名的既有日誌檔案，
+    而不是附加寫入其後。然而，只有在因時間基礎輪替而開啟
+    新檔案時才會發生截斷，伺服器啟動時或因大小基礎輪替時則不會。
+    當此參數為 off 時，既有檔案在所有情況下都會被附加寫入。
+    舉例來說，若將此設定與類似
+    `postgresql-%H.log` 的 `log_filename`
+    搭配使用，就會產生二十四個逐小時的日誌檔案，
+    並依循環方式覆寫它們。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 
-    Example: To keep 7 days of logs, one log file per day named
-    `server_log.Mon`, `server_log.Tue`,
-    etc., and automatically overwrite last week's log with this week's log,
-    set `log_filename` to `server_log.%a`,
-    `log_truncate_on_rotation` to `on`, and
-    `log_rotation_age` to `1440`.
+    範例：若要保留 7 天的日誌，每天一個日誌檔案，
+    分別命名為 `server_log.Mon`、`server_log.Tue`
+    等，並自動以本週的日誌覆寫上週的日誌，
+    請將 `log_filename` 設為 `server_log.%a`，
+    `log_truncate_on_rotation` 設為 `on`，
+    並將 `log_rotation_age` 設為 `1440`。
 
-    Example: To keep 24 hours of logs, one log file per hour, but
-    also rotate sooner if the log file size exceeds 1GB, set
-    `log_filename` to `server_log.%H%M`,
-    `log_truncate_on_rotation` to `on`,
-    `log_rotation_age` to `60`, and
-    `log_rotation_size` to `1000000`.
-    Including `%M` in `log_filename` allows
-    any size-driven rotations that might occur to select a file name
-    different from the hour's initial file name.
+    範例：若要保留 24 小時的日誌，每小時一個日誌檔案，
+    但當日誌檔案大小超過 1GB 時也提早輪替，
+    請將 `log_filename` 設為 `server_log.%H%M`，
+    `log_truncate_on_rotation` 設為 `on`，
+    `log_rotation_age` 設為 `60`，
+    並將 `log_rotation_size` 設為 `1000000`。
+    在 `log_filename` 中加入 `%M`，
+    可讓任何因大小觸發的輪替，選用與該小時初始檔名不同的檔名。
 <a id="GUC-SYSLOG-FACILITY"></a>
 
 `syslog_facility` (`enum`) <a id="id-1.6.6.11.3.4.9.1.3"></a> [#](#GUC-SYSLOG-FACILITY)
-:   When logging to syslog is enabled, this parameter
-    determines the syslog
-    “facility” to be used. You can choose
-    from `LOCAL0`, `LOCAL1`,
-    `LOCAL2`, `LOCAL3`, `LOCAL4`,
-    `LOCAL5`, `LOCAL6`, `LOCAL7`;
-    the default is `LOCAL0`. See also the
-    documentation of your system's
-    syslog daemon.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   當啟用記錄到 syslog 時，此參數決定
+    所使用的 syslog「設施（facility）」。
+    你可以從 `LOCAL0`、`LOCAL1`、
+    `LOCAL2`、`LOCAL3`、`LOCAL4`、
+    `LOCAL5`、`LOCAL6`、`LOCAL7`
+    中選擇；預設值為 `LOCAL0`。
+    另請參閱你系統上
+    syslog 守護程序的文件。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-SYSLOG-IDENT"></a>
 
 `syslog_ident` (`string`) <a id="id-1.6.6.11.3.4.10.1.3"></a> [#](#GUC-SYSLOG-IDENT)
-:   When logging to syslog is enabled, this parameter
-    determines the program name used to identify
-    PostgreSQL messages in
-    syslog logs. The default is
-    `postgres`.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   當啟用記錄到 syslog 時，此參數決定用於在
+    syslog 日誌中識別
+    PostgreSQL 訊息的程式名稱。預設值為
+    `postgres`。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-SYSLOG-SEQUENCE-NUMBERS"></a>
 
 `syslog_sequence_numbers` (`boolean`) <a id="id-1.6.6.11.3.4.11.1.3"></a> [#](#GUC-SYSLOG-SEQUENCE-NUMBERS)
-:   When logging to syslog and this is on (the
-    default), then each message will be prefixed by an increasing
-    sequence number (such as `[2]`). This circumvents
-    the “--- last message repeated N times ---” suppression
-    that many syslog implementations perform by default. In more modern
-    syslog implementations, repeated message suppression can be configured
-    (for example, `$RepeatedMsgReduction`
-    in rsyslog), so this might not be
-    necessary. Also, you could turn this off if you actually want to
-    suppress repeated messages.
+:   當記錄到 syslog 且此設定為 on（預設值）時，
+    每則訊息前面都會加上遞增的序號
+    （例如 `[2]`）。這能避免許多
+    syslog 實作預設會執行的
+    「--- last message repeated N times ---」抑制行為。
+    在較新版的 syslog 實作中，重複訊息的抑制是可設定的
+    （例如 rsyslog 中的
+    `$RepeatedMsgReduction`），
+    因此可能不需要這麼做。此外，
+    若你確實想要抑制重複訊息，也可以將此設定關閉。
 
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-SYSLOG-SPLIT-MESSAGES"></a>
 
 `syslog_split_messages` (`boolean`) <a id="id-1.6.6.11.3.4.12.1.3"></a> [#](#GUC-SYSLOG-SPLIT-MESSAGES)
-:   When logging to syslog is enabled, this parameter
-    determines how messages are delivered to syslog. When on (the
-    default), messages are split by lines, and long lines are split so
-    that they will fit into 1024 bytes, which is a typical size limit for
-    traditional syslog implementations. When off, PostgreSQL server log
-    messages are delivered to the syslog service as is, and it is up to
-    the syslog service to cope with the potentially bulky messages.
+:   當啟用記錄到 syslog 時，此參數決定訊息傳遞給
+    syslog 的方式。當此設定為 on（預設值）時，
+    訊息會依行分割，過長的行也會被切分，
+    使其符合傳統 syslog 實作常見的 1024 位元組大小限制。
+    當設為 off 時，PostgreSQL 伺服器日誌訊息
+    會依原樣傳遞給 syslog 服務，
+    至於如何處理可能很龐大的訊息，則由 syslog 服務自行負責。
 
-    If syslog is ultimately logging to a text file, then the effect will
-    be the same either way, and it is best to leave the setting on, since
-    most syslog implementations either cannot handle large messages or
-    would need to be specially configured to handle them. But if syslog
-    is ultimately writing into some other medium, it might be necessary or
-    more useful to keep messages logically together.
+    若 syslog 最終是記錄到文字檔案，
+    則不論哪種設定，結果都會相同，此時最好保持此設定為開啟，
+    因為大多數 syslog 實作要嘛無法處理大型訊息，
+    要嘛需要特別設定才能處理。但若 syslog
+    最終是寫入其他媒介，將訊息在邏輯上保持完整，
+    可能有其必要性或更為實用。
 
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-EVENT-SOURCE"></a>
 
 `event_source` (`string`) <a id="id-1.6.6.11.3.4.13.1.3"></a> [#](#GUC-EVENT-SOURCE)
-:   When logging to event log is enabled, this parameter
-    determines the program name used to identify
-    PostgreSQL messages in
-    the log. The default is `PostgreSQL`.
-    This parameter can only be set at server start.
+:   當啟用記錄到事件日誌時，此參數決定用於在
+    日誌中識別 PostgreSQL 訊息的程式名稱。
+    預設值為 `PostgreSQL`。
+    此參數只能在伺服器啟動時設定。
 
 <a id="RUNTIME-CONFIG-LOGGING-WHEN"></a>
 
-### 19.8.2. When to Log [#](#RUNTIME-CONFIG-LOGGING-WHEN)
+### 19.8.2. 記錄時機 [#](#RUNTIME-CONFIG-LOGGING-WHEN)
 
 <a id="GUC-LOG-MIN-MESSAGES"></a>
 
 `log_min_messages` (`enum`) <a id="id-1.6.6.11.4.2.1.1.3"></a> [#](#GUC-LOG-MIN-MESSAGES)
-:   Controls which [message
-    levels](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS) are written to the server log.
-    Valid values are `DEBUG5`, `DEBUG4`,
-    `DEBUG3`, `DEBUG2`, `DEBUG1`,
-    `INFO`, `NOTICE`, `WARNING`,
-    `ERROR`, `LOG`, `FATAL`, and
-    `PANIC`. Each level includes all the levels that
-    follow it. The later the level, the fewer messages are sent
-    to the log. The default is `WARNING`. Note that
-    `LOG` has a different rank here than in
-    [client_min_messages](runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES).
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   控制哪些[訊息層級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+    會被寫入伺服器日誌。
+    有效值為 `DEBUG5`、`DEBUG4`、
+    `DEBUG3`、`DEBUG2`、`DEBUG1`、
+    `INFO`、`NOTICE`、`WARNING`、
+    `ERROR`、`LOG`、`FATAL`，以及
+    `PANIC`。每個層級都涵蓋其後所有層級。
+    層級越晚，送到日誌的訊息就越少。
+    預設值為 `WARNING`。請注意，
+    `LOG` 在此處的層級順序，
+    與在 [client_min_messages](runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) 中不同。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 <a id="GUC-LOG-MIN-ERROR-STATEMENT"></a>
 
 `log_min_error_statement` (`enum`) <a id="id-1.6.6.11.4.2.2.1.3"></a> [#](#GUC-LOG-MIN-ERROR-STATEMENT)
-:   Controls which SQL statements that cause an error
-    condition are recorded in the server log. The current
-    SQL statement is included in the log entry for any message of
-    the specified
-    [severity](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
-    or higher.
-    Valid values are `DEBUG5`,
-    `DEBUG4`, `DEBUG3`,
-    `DEBUG2`, `DEBUG1`,
-    `INFO`, `NOTICE`,
-    `WARNING`, `ERROR`,
-    `LOG`,
-    `FATAL`, and `PANIC`.
-    The default is `ERROR`, which means statements
-    causing errors, log messages, fatal errors, or panics will be logged.
-    To effectively turn off logging of failing statements,
-    set this parameter to `PANIC`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   控制哪些導致錯誤情況的 SQL 陳述式，會被記錄在
+    伺服器日誌中。對於達到指定
+    [嚴重性](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+    或更高層級的任何訊息，目前的
+    SQL 陳述式都會被包含在該日誌項目中。
+    有效值為 `DEBUG5`、
+    `DEBUG4`、`DEBUG3`、
+    `DEBUG2`、`DEBUG1`、
+    `INFO`、`NOTICE`、
+    `WARNING`、`ERROR`、
+    `LOG`、
+    `FATAL`，以及 `PANIC`。
+    預設值為 `ERROR`，代表會記錄導致 ERROR、LOG、
+    FATAL 或 PANIC 層級訊息的陳述式。
+    若要實質上關閉失敗陳述式的記錄，
+    請將此參數設為 `PANIC`。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 <a id="GUC-LOG-MIN-DURATION-STATEMENT"></a>
 
 `log_min_duration_statement` (`integer`) <a id="id-1.6.6.11.4.2.3.1.3"></a> [#](#GUC-LOG-MIN-DURATION-STATEMENT)
-:   Causes the duration of each completed statement to be logged
-    if the statement ran for at least the specified amount of time.
-    For example, if you set it to `250ms`
-    then all SQL statements that run 250ms or longer will be
-    logged. Enabling this parameter can be helpful in tracking down
-    unoptimized queries in your applications.
-    If this value is specified without units, it is taken as milliseconds.
-    Setting this to zero prints all statement durations.
-    `-1` (the default) disables logging statement
-    durations.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   若某個已完成陳述式的執行時間達到指定的時間長度，
+    就會記錄其耗時。例如，若你將此值設為
+    `250ms`，則所有執行時間達 250 毫秒
+    或以上的 SQL 陳述式都會被記錄。啟用此參數，
+    有助於找出應用程式中未經最佳化的查詢。
+    若此值未指定單位，則以毫秒為單位。
+    將此值設為零會印出所有陳述式的耗時。
+    `-1`（預設值）會停用記錄陳述式耗時。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
-    This overrides [log_min_duration_sample](runtime-config-logging.md#GUC-LOG-MIN-DURATION-SAMPLE),
-    meaning that queries with duration exceeding this setting are not
-    subject to sampling and are always logged.
+    此設定會覆寫 [log_min_duration_sample](runtime-config-logging.md#GUC-LOG-MIN-DURATION-SAMPLE)，
+    也就是說，耗時超過此設定的查詢，不受取樣限制，
+    一律都會被記錄。
 
-    For clients using extended query protocol, durations of the Parse,
-    Bind, and Execute steps are logged independently.
+    對於使用延伸查詢協定的用戶端，
+    剖析（Parse）、綁定（Bind）與執行（Execute）步驟的耗時，
+    會被各自獨立記錄。
 
-    ### Note
+    ### 注意
 
-    When using this option together with
-    [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT),
-    the text of statements that are logged because of
-    `log_statement` will not be repeated in the
-    duration log message.
-    If you are not using syslog, it is recommended
-    that you log the PID or session ID using
+    當此選項與
+    [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
+    搭配使用時，因 `log_statement`
+    而被記錄的陳述式文字，不會在耗時日誌訊息中重複出現。
+    若你並未使用 syslog，
+    建議你透過
     [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX)
-    so that you can link the statement message to the later
-    duration message using the process ID or session ID.
+    記錄程序 ID 或工作階段 ID，
+    以便日後可利用程序 ID 或工作階段 ID，
+    將該陳述式訊息與稍後的耗時訊息連結起來。
 <a id="GUC-LOG-MIN-DURATION-SAMPLE"></a>
 
 `log_min_duration_sample` (`integer`) <a id="id-1.6.6.11.4.2.4.1.3"></a> [#](#GUC-LOG-MIN-DURATION-SAMPLE)
-:   Allows sampling the duration of completed statements that ran for
-    at least the specified amount of time. This produces the same
-    kind of log entries as
-    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT), but only for a
-    subset of the executed statements, with sample rate controlled by
-    [log_statement_sample_rate](runtime-config-logging.md#GUC-LOG-STATEMENT-SAMPLE-RATE).
-    For example, if you set it to `100ms` then all
-    SQL statements that run 100ms or longer will be considered for
-    sampling. Enabling this parameter can be helpful when the
-    traffic is too high to log all queries.
-    If this value is specified without units, it is taken as milliseconds.
-    Setting this to zero samples all statement durations.
-    `-1` (the default) disables sampling statement
-    durations.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   允許對執行時間達到指定時間長度的已完成陳述式進行耗時取樣。
+    這會產生與
+    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) 相同種類的日誌項目，
+    但僅針對已執行陳述式的一部分子集合，
+    取樣率由
+    [log_statement_sample_rate](runtime-config-logging.md#GUC-LOG-STATEMENT-SAMPLE-RATE)
+    控制。例如，若你將此值設為 `100ms`，
+    則所有執行時間達 100 毫秒或以上的
+    SQL 陳述式都會被納入取樣考量。當流量過高、
+    無法記錄所有查詢時，啟用此參數會很有幫助。
+    若此值未指定單位，則以毫秒為單位。
+    將此值設為零會對所有陳述式耗時進行取樣。
+    `-1`（預設值）會停用陳述式耗時取樣。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
-    This setting has lower priority
-    than `log_min_duration_statement`, meaning that
-    statements with durations
-    exceeding `log_min_duration_statement` are not
-    subject to sampling and are always logged.
+    此設定的優先順序低於
+    `log_min_duration_statement`，
+    也就是說，耗時超過 `log_min_duration_statement`
+    的陳述式，不受取樣限制，一律都會被記錄。
 
-    Other notes for `log_min_duration_statement`
-    apply also to this setting.
+    適用於 `log_min_duration_statement`
+    的其他注意事項，同樣適用於此設定。
 <a id="GUC-LOG-STATEMENT-SAMPLE-RATE"></a>
 
 `log_statement_sample_rate` (`floating point`) <a id="id-1.6.6.11.4.2.5.1.3"></a> [#](#GUC-LOG-STATEMENT-SAMPLE-RATE)
-:   Determines the fraction of statements with duration exceeding
-    [log_min_duration_sample](runtime-config-logging.md#GUC-LOG-MIN-DURATION-SAMPLE) that will be logged.
-    Sampling is stochastic, for example `0.5` means
-    there is statistically one chance in two that any given statement
-    will be logged.
-    The default is `1.0`, meaning to log all sampled
-    statements.
-    Setting this to zero disables sampled statement-duration logging,
-    the same as setting
-    `log_min_duration_sample` to
-    `-1`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   決定耗時超過
+    [log_min_duration_sample](runtime-config-logging.md#GUC-LOG-MIN-DURATION-SAMPLE)
+    的陳述式中，會被記錄的比例。
+    取樣是隨機性的，例如 `0.5` 代表
+    統計上任何給定陳述式，有二分之一的機率會被記錄。
+    預設值為 `1.0`，代表會記錄所有被取樣到的
+    陳述式。將此值設為零會停用取樣式陳述式耗時記錄，
+    效果等同於將
+    `log_min_duration_sample` 設為
+    `-1`。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 <a id="GUC-LOG-TRANSACTION-SAMPLE-RATE"></a>
 
 `log_transaction_sample_rate` (`floating point`) <a id="id-1.6.6.11.4.2.6.1.3"></a> [#](#GUC-LOG-TRANSACTION-SAMPLE-RATE)
-:   Sets the fraction of transactions whose statements are all logged,
-    in addition to statements logged for other reasons. It applies to
-    each new transaction regardless of its statements' durations.
-    Sampling is stochastic, for example `0.1` means
-    there is statistically one chance in ten that any given transaction
-    will be logged.
-    `log_transaction_sample_rate` can be helpful to
-    construct a sample of transactions.
-    The default is `0`, meaning not to log
-    statements from any additional transactions. Setting this
-    to `1` logs all statements of all transactions.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   設定除了因其他原因而被記錄的陳述式之外，
+    其所有陳述式都會被記錄的交易比例。
+    這適用於每一筆新交易，不論其陳述式的耗時為何。
+    取樣是隨機性的，例如 `0.1` 代表
+    統計上任何給定交易，有十分之一的機率會被記錄。
+    `log_transaction_sample_rate` 有助於
+    建構交易樣本。
+    預設值為 `0`，代表不記錄任何額外交易的陳述式。
+    將此值設為 `1` 會記錄所有交易的所有陳述式。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
-    ### Note
+    ### 注意
 
-    Like all statement-logging options, this option can add significant
-    overhead.
+    如同所有陳述式記錄選項一樣，此選項可能會增加可觀的額外負擔。
 <a id="GUC-LOG-STARTUP-PROGRESS-INTERVAL"></a>
 
 `log_startup_progress_interval` (`integer`) <a id="id-1.6.6.11.4.2.7.1.3"></a> [#](#GUC-LOG-STARTUP-PROGRESS-INTERVAL)
-:   Sets the amount of time after which the startup process will log
-    a message about a long-running operation that is still in progress,
-    as well as the interval between further progress messages for that
-    operation. The default is 10 seconds. A setting of `0`
-    disables the feature. If this value is specified without units,
-    it is taken as milliseconds. This setting is applied separately to
-    each operation.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   設定啟動程序在多久之後，
+    會針對仍在進行中的長時間執行作業記錄一則訊息，
+    以及該作業後續進度訊息之間的間隔時間。
+    預設值為 10 秒。設為 `0`
+    會停用此功能。若此值未指定單位，
+    則以毫秒為單位。此設定會分別套用於每項作業。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 
-    For example, if syncing the data directory takes 25 seconds and
-    thereafter resetting unlogged relations takes 8 seconds, and if this
-    setting has the default value of 10 seconds, then a messages will be
-    logged for syncing the data directory after it has been in progress
-    for 10 seconds and again after it has been in progress for 20 seconds,
-    but nothing will be logged for resetting unlogged relations.
+    舉例來說，若同步資料目錄花費 25 秒，
+    接著重設未記錄（unlogged）的關聯又花費 8 秒，
+    而此設定為預設值 10 秒，
+    則在同步資料目錄進行 10 秒後，
+    以及進行 20 秒後，各會記錄一則訊息，
+    但重設未記錄（unlogged）的關聯則不會記錄任何訊息。
 
-[Table 19.2](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS) explains the message
-severity levels used by PostgreSQL. If logging output
-is sent to syslog or Windows'
-eventlog, the severity levels are translated
-as shown in the table.
+[表 19.2](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS) 說明了
+PostgreSQL 所使用的訊息嚴重性層級。若日誌輸出
+被送往 syslog 或 Windows 的
+eventlog，嚴重性層級會依表中所示進行轉換。
 
 <a id="RUNTIME-CONFIG-SEVERITY-LEVELS"></a>
 
-**Table 19.2. Message Severity Levels**
+**表 19.2. 訊息嚴重性層級**
 
-<table border="1" class="table" summary="Message Severity Levels"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>Severity</th><th>Usage</th><th><span class="systemitem">syslog</span></th><th><span class="systemitem">eventlog</span></th></tr></thead><tbody><tr><td><code class="literal">DEBUG1 .. DEBUG5</code></td><td>Provides successively-more-detailed information for use by
-         developers.</td><td><code class="literal">DEBUG</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">INFO</code></td><td>Provides information implicitly requested by the user,
-         e.g., output from <code class="command">VACUUM VERBOSE</code>.</td><td><code class="literal">INFO</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">NOTICE</code></td><td>Provides information that might be helpful to users, e.g.,
-         notice of truncation of long identifiers.</td><td><code class="literal">NOTICE</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">WARNING</code></td><td>Provides warnings of likely problems, e.g., <code class="command">COMMIT</code>
-         outside a transaction block.</td><td><code class="literal">NOTICE</code></td><td><code class="literal">WARNING</code></td></tr><tr><td><code class="literal">ERROR</code></td><td>Reports an error that caused the current command to
-         abort.</td><td><code class="literal">WARNING</code></td><td><code class="literal">ERROR</code></td></tr><tr><td><code class="literal">LOG</code></td><td>Reports information of interest to administrators, e.g.,
-         checkpoint activity.</td><td><code class="literal">INFO</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">FATAL</code></td><td>Reports an error that caused the current session to
-         abort.</td><td><code class="literal">ERR</code></td><td><code class="literal">ERROR</code></td></tr><tr><td><code class="literal">PANIC</code></td><td>Reports an error that caused all database sessions to abort.</td><td><code class="literal">CRIT</code></td><td><code class="literal">ERROR</code></td></tr></tbody></table>
+<table border="1" class="table" summary="訊息嚴重性層級"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>嚴重性</th><th>用途</th><th><span class="systemitem">syslog</span></th><th><span class="systemitem">eventlog</span></th></tr></thead><tbody><tr><td><code class="literal">DEBUG1 .. DEBUG5</code></td><td>提供逐漸更詳細的資訊，供開發人員使用。</td><td><code class="literal">DEBUG</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">INFO</code></td><td>提供使用者隱含要求的資訊，
+         例如 <code class="command">VACUUM VERBOSE</code> 的輸出。</td><td><code class="literal">INFO</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">NOTICE</code></td><td>提供可能對使用者有幫助的資訊，
+         例如長識別字被截斷的通知。</td><td><code class="literal">NOTICE</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">WARNING</code></td><td>提供可能發生問題的警告，
+         例如在交易區塊之外執行 <code class="command">COMMIT</code>。</td><td><code class="literal">NOTICE</code></td><td><code class="literal">WARNING</code></td></tr><tr><td><code class="literal">ERROR</code></td><td>回報導致目前命令中止的錯誤。</td><td><code class="literal">WARNING</code></td><td><code class="literal">ERROR</code></td></tr><tr><td><code class="literal">LOG</code></td><td>回報管理人員感興趣的資訊，
+         例如檢查點活動。</td><td><code class="literal">INFO</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">FATAL</code></td><td>回報導致目前工作階段中止的錯誤。</td><td><code class="literal">ERR</code></td><td><code class="literal">ERROR</code></td></tr><tr><td><code class="literal">PANIC</code></td><td>回報導致所有資料庫工作階段皆中止的錯誤。</td><td><code class="literal">CRIT</code></td><td><code class="literal">ERROR</code></td></tr></tbody></table>
 
 <br>
 
 <a id="RUNTIME-CONFIG-LOGGING-WHAT"></a>
 
-### 19.8.3. What to Log [#](#RUNTIME-CONFIG-LOGGING-WHAT)
+### 19.8.3. 記錄內容 [#](#RUNTIME-CONFIG-LOGGING-WHAT)
 
-### Note
+### 注意
 
-What you choose to log can have security implications; see
-[Section 24.3](../maintenance/logfile-maintenance.md).
+你選擇記錄的內容可能涉及安全性議題；請參閱
+[第 24.3 節](../maintenance/logfile-maintenance.md)。
 
 <a id="GUC-APPLICATION-NAME"></a>
 
 `application_name` (`string`) <a id="id-1.6.6.11.5.3.1.1.3"></a> [#](#GUC-APPLICATION-NAME)
-:   The `application_name` can be any string of less than
-    `NAMEDATALEN` characters (64 characters in a standard build).
-    It is typically set by an application upon connection to the server.
-    The name will be displayed in the `pg_stat_activity` view
-    and included in CSV log entries. It can also be included in regular
-    log entries via the [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) parameter.
-    Only printable ASCII characters may be used in the
-    `application_name` value.
-    Other characters are replaced with [C-style hexadecimal escapes](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE).
+:   `application_name` 可以是任何長度小於
+    `NAMEDATALEN` 個字元（標準組建中為 64 個字元）的字串。
+    通常由應用程式在連線至伺服器時進行設定。
+    此名稱會顯示在 `pg_stat_activity` 檢視表中，
+    並包含在 CSV 日誌項目裡。也可透過
+    [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) 參數，
+    將其納入一般日誌項目中。
+    `application_name` 值只能使用
+    可列印的 ASCII 字元。
+    其他字元會被替換為
+    [C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
 <a id="GUC-DEBUG-PRINT-PARSE"></a>
 
 `debug_print_parse` (`boolean`) <a id="id-1.6.6.11.5.3.2.1.3"></a> <br>`debug_print_rewritten` (`boolean`) <a id="id-1.6.6.11.5.3.2.2.3"></a> <br>`debug_print_plan` (`boolean`) <a id="id-1.6.6.11.5.3.2.3.3"></a> [#](#GUC-DEBUG-PRINT-PARSE)
-:   These parameters enable various debugging output to be emitted.
-    When set, they print the resulting parse tree, the query rewriter
-    output, or the execution plan for each executed query.
-    These messages are emitted at `LOG` message level, so by
-    default they will appear in the server log but will not be sent to the
-    client. You can change that by adjusting
-    [client_min_messages](runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) and/or
-    [log_min_messages](runtime-config-logging.md#GUC-LOG-MIN-MESSAGES).
-    These parameters are off by default.
+:   這些參數會啟用各種除錯輸出。
+    設定後，它們會印出每個已執行查詢
+    所產生的剖析樹、查詢重寫器輸出，
+    或執行計畫。這些訊息會以 `LOG`
+    訊息層級發出，因此依預設會出現在伺服器日誌中，
+    但不會傳送給用戶端。你可以透過調整
+    [client_min_messages](runtime-config-client.md#GUC-CLIENT-MIN-MESSAGES) 及／或
+    [log_min_messages](runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 來改變這一點。
+    這些參數預設為關閉。
 <a id="GUC-DEBUG-PRETTY-PRINT"></a>
 
 `debug_pretty_print` (`boolean`) <a id="id-1.6.6.11.5.3.3.1.3"></a> [#](#GUC-DEBUG-PRETTY-PRINT)
-:   When set, `debug_pretty_print` indents the messages
-    produced by `debug_print_parse`,
-    `debug_print_rewritten`, or
-    `debug_print_plan`. This results in more readable
-    but much longer output than the “compact” format used when
-    it is off. It is on by default.
+:   設定後，`debug_pretty_print` 會將
+    `debug_print_parse`、
+    `debug_print_rewritten`，或
+    `debug_print_plan` 所產生的訊息加上縮排。
+    這會產生比關閉時所使用「精簡」格式更易讀，
+    但也更長的輸出。此參數預設為開啟。
 <a id="GUC-LOG-AUTOVACUUM-MIN-DURATION"></a>
 
 `log_autovacuum_min_duration` (`integer`) <a id="id-1.6.6.11.5.3.4.1.3"></a> [#](#GUC-LOG-AUTOVACUUM-MIN-DURATION)
-:   Causes each action executed by autovacuum to be logged if it ran for at
-    least the specified amount of time. Setting this to zero logs
-    all autovacuum actions. `-1` disables logging autovacuum
-    actions. If this value is specified without units, it is taken as milliseconds.
-    For example, if you set this to
-    `250ms` then all automatic vacuums and analyzes that run
-    250ms or longer will be logged. In addition, when this parameter is
-    set to any value other than `-1`, a message will be
-    logged if an autovacuum action is skipped due to a conflicting lock or a
-    concurrently dropped relation. The default is `10min`.
-    Enabling this parameter can be helpful in tracking autovacuum activity.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line; but the setting can be overridden for
-    individual tables by changing table storage parameters.
+:   若自動 vacuum 所執行的動作耗時達到指定的時間長度，
+    就會記錄該動作。將此值設為零會記錄
+    所有自動 vacuum 動作。`-1` 會停用
+    自動 vacuum 動作記錄。若此值未指定單位，
+    則以毫秒為單位。例如，若你將此值設為
+    `250ms`，則所有耗時達 250 毫秒
+    或以上的自動 vacuum 與 analyze 都會被記錄。此外，
+    當此參數設為除 `-1` 以外的任何值時，
+    若某個自動 vacuum 動作因鎖定衝突或關聯被同時捨棄
+    而被略過，也會記錄一則訊息。預設值為 `10min`。
+    啟用此參數有助於追蹤自動 vacuum 活動。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定；但可以透過變更資料表儲存參數，
+    針對個別資料表覆寫此設定。
 <a id="GUC-LOG-CHECKPOINTS"></a>
 
 `log_checkpoints` (`boolean`) <a id="id-1.6.6.11.5.3.5.1.3"></a> [#](#GUC-LOG-CHECKPOINTS)
-:   Causes checkpoints and restartpoints to be logged in the server log.
-    Some statistics are included in the log messages, including the number
-    of buffers written and the time spent writing them.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line. The default is on.
+:   使檢查點與重新啟動點被記錄在伺服器日誌中。
+    日誌訊息中會包含一些統計資訊，
+    包括已寫入的緩衝區數量，以及寫入所花費的時間。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。預設值為 on。
 <a id="GUC-LOG-CONNECTIONS"></a>
 
 `log_connections` (`string`) <a id="id-1.6.6.11.5.3.6.1.3"></a> [#](#GUC-LOG-CONNECTIONS)
-:   Causes aspects of each connection to the server to be logged.
-    The default is the empty string, `''`, which
-    disables all connection logging. The following options may be
-    specified alone or in a comma-separated list:
+:   使每個連線到伺服器的連線各方面資訊都被記錄。
+    預設值為空字串 `''`，
+    會停用所有連線記錄。以下選項可單獨指定，
+    也可以逗號分隔清單的形式指定：
 
     <a id="LOG-CONNECTIONS-OPTIONS"></a>
 
-    **Table 19.3. Log Connection Options**
+    **表 19.3. 連線記錄選項**
 
-    <table border="1" class="table" summary="Log Connection Options"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody><tr><td><code class="literal">receipt</code></td><td>Logs receipt of a connection.</td></tr><tr><td><code class="literal">authentication</code></td><td>
-                Logs the original identity used by an authentication method
-                to identify a user. In most cases, the identity string
-                matches the <span class="productname">PostgreSQL</span> username,
-                but some third-party authentication methods may alter the
-                original user identifier before the server stores it. Failed
-                authentication is always logged regardless of the value of
-                this setting.
+    <table border="1" class="table" summary="連線記錄選項"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>名稱</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">receipt</code></td><td>記錄連線的接收。</td></tr><tr><td><code class="literal">authentication</code></td><td>
+                記錄驗證方法用來識別使用者的原始身分。
+                在多數情況下，此身分字串
+                會與 <span class="productname">PostgreSQL</span> 使用者名稱相符，
+                但有些第三方驗證方法，
+                可能會在伺服器儲存之前變更原始使用者識別字。
+                無論此設定為何值，驗證失敗一律會被記錄。
                </td></tr><tr><td><code class="literal">authorization</code></td><td>
-                Logs successful completion of authorization. At this point
-                the connection has been established but the backend is not
-                yet fully set up. The log message includes the authorized
-                username as well as the database name and application name,
-                if applicable.
+                記錄授權成功完成的情形。此時
+                連線已經建立，但後端尚未完全設定完成。
+                日誌訊息中包含已授權的使用者名稱、
+                資料庫名稱，以及應用程式名稱（若適用）。
                </td></tr><tr><td><code class="literal">setup_durations</code></td><td>
-                Logs the time spent establishing the connection and setting up the
-                backend until the connection is ready to execute its first
-                query. The log message includes three durations:  the total
-                setup duration (starting from the postmaster accepting the
-                incoming connection and ending when the connection is ready
-                for query), the time it took to fork the new backend, and
-                the time it took to authenticate the user.
+                記錄建立連線，以及設定後端直到連線
+                準備好執行第一個查詢為止所花費的時間。
+                日誌訊息中包含三項耗時：總設定耗時
+                （從 postmaster 接受傳入連線開始，
+                到連線準備好接受查詢為止）、
+                分岔（fork）新後端所花費的時間，
+                以及驗證使用者所花費的時間。
                </td></tr><tr><td><code class="literal">all</code></td><td>
-                A convenience alias equivalent to specifying all options. If
-                <code class="literal">all</code> is specified in a list of other
-                options, all connection aspects will be logged.
+                一個方便使用的別名，等同於指定所有選項。若
+                <code class="literal">all</code> 與其他選項一併列於清單中，
+                所有連線相關的資訊都會被記錄。
                </td></tr></tbody></table>
 
     <br>
 
-    Disconnection logging is separately controlled by [log_disconnections](runtime-config-logging.md#GUC-LOG-DISCONNECTIONS).
+    中斷連線記錄則由 [log_disconnections](runtime-config-logging.md#GUC-LOG-DISCONNECTIONS)
+    另外控制。
 
-    For the purposes of backwards compatibility, `on`,
-    `off`, `true`,
-    `false`, `yes`,
-    `no`, `1`, and `0`
-    are still supported. The positive values are equivalent to specifying
-    the `receipt`, `authentication`, and
-    `authorization` options.
+    為了向後相容，`on`、
+    `off`、`true`、
+    `false`、`yes`、
+    `no`、`1`，以及 `0`
+    目前仍受到支援。其中的啟用值（肯定值）等同於指定
+    `receipt`、`authentication`，與
+    `authorization` 選項。
 
-    Only superusers and users with the appropriate `SET`
-    privilege can change this parameter at session start,
-    and it cannot be changed at all within a session.
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能在工作階段開始時變更此參數，
+    且在工作階段內完全無法變更。
 
-    ### Note
+    ### 注意
 
-    Some client programs, like psql, attempt
-    to connect twice while determining if a password is required, so
-    duplicate “connection received” messages do not
-    necessarily indicate a problem.
+    某些用戶端程式（例如 psql）在判斷
+    是否需要密碼時，會嘗試連線兩次，
+    因此重複出現「connection received」訊息，
+    未必代表發生了問題。
 <a id="GUC-LOG-DISCONNECTIONS"></a>
 
 `log_disconnections` (`boolean`) <a id="id-1.6.6.11.5.3.7.1.3"></a> [#](#GUC-LOG-DISCONNECTIONS)
-:   Causes session terminations to be logged. The log output
-    provides information similar to `log_connections`,
-    plus the duration of the session.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this parameter at session start,
-    and it cannot be changed at all within a session.
-    The default is `off`.
+:   使工作階段終止被記錄。日誌輸出
+    提供與 `log_connections` 類似的資訊，
+    並額外加上工作階段的持續時間。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能在工作階段開始時變更此參數，
+    且在工作階段內完全無法變更。
+    預設值為 `off`。
 <a id="GUC-LOG-DURATION"></a>
 
 `log_duration` (`boolean`) <a id="id-1.6.6.11.5.3.8.1.3"></a> [#](#GUC-LOG-DURATION)
-:   Causes the duration of every completed statement to be logged.
-    The default is `off`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   使每個已完成陳述式的耗時都被記錄。
+    預設值為 `off`。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
-    For clients using extended query protocol, durations of the Parse,
-    Bind, and Execute steps are logged independently.
+    對於使用延伸查詢協定的用戶端，
+    剖析（Parse）、綁定（Bind）與執行（Execute）步驟的耗時，
+    會被各自獨立記錄。
 
-    ### Note
+    ### 注意
 
-    The difference between enabling `log_duration` and setting
-    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) to zero is that
-    exceeding `log_min_duration_statement` forces the text of
-    the query to be logged, but this option doesn't. Thus, if
-    `log_duration` is `on` and
-    `log_min_duration_statement` has a positive value, all
-    durations are logged but the query text is included only for
-    statements exceeding the threshold. This behavior can be useful for
-    gathering statistics in high-load installations.
+    啟用 `log_duration` 與將
+    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) 設為零，
+    兩者之間的差異在於：超過
+    `log_min_duration_statement` 會強制記錄
+    查詢文字，但此選項不會。因此，
+    若 `log_duration` 為 `on`，
+    而 `log_min_duration_statement` 為正值，
+    則所有耗時都會被記錄，但查詢文字只會針對
+    超過門檻值的陳述式加入記錄。這種行為，
+    對於在高負載環境中蒐集統計資訊很有幫助。
 <a id="GUC-LOG-ERROR-VERBOSITY"></a>
 
 `log_error_verbosity` (`enum`) <a id="id-1.6.6.11.5.3.9.1.3"></a> [#](#GUC-LOG-ERROR-VERBOSITY)
-:   Controls the amount of detail written in the server log for each
-    message that is logged. Valid values are `TERSE`,
-    `DEFAULT`, and `VERBOSE`, each adding more
-    fields to displayed messages. `TERSE` excludes
-    the logging of `DETAIL`, `HINT`,
-    `QUERY`, and `CONTEXT` error information.
-    `VERBOSE` output includes the `SQLSTATE` error
-    code (see also [Appendix A](../../appendixes/errcodes-appendix/README.md)) and the source code file name, function name,
-    and line number that generated the error.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   控制伺服器日誌中，每則被記錄訊息所寫入的詳細程度。
+    有效值為 `TERSE`、
+    `DEFAULT`，以及 `VERBOSE`，
+    各自為顯示的訊息加入更多欄位。`TERSE`
+    會排除 `DETAIL`、`HINT`、
+    `QUERY`，以及 `CONTEXT`
+    錯誤資訊的記錄。`VERBOSE` 輸出
+    包含 `SQLSTATE` 錯誤代碼
+    （另請參閱 [附錄 A](../../appendixes/errcodes-appendix/README.md)），
+    以及產生此錯誤的原始碼檔名、函式名稱，
+    與行號。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 <a id="GUC-LOG-HOSTNAME"></a>
 
 `log_hostname` (`boolean`) <a id="id-1.6.6.11.5.3.10.1.3"></a> [#](#GUC-LOG-HOSTNAME)
-:   By default, connection log messages only show the IP address of the
-    connecting host. Turning this parameter on causes logging of the
-    host name as well. Note that depending on your host name resolution
-    setup this might impose a non-negligible performance penalty.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   依預設，連線日誌訊息只會顯示連線主機的 IP 位址。
+    開啟此參數會一併記錄主機名稱。請注意，
+    依你主機名稱解析的設定而定，這可能會帶來不容忽視的
+    效能損耗。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-LINE-PREFIX"></a>
 
 `log_line_prefix` (`string`) <a id="id-1.6.6.11.5.3.11.1.3"></a> [#](#GUC-LOG-LINE-PREFIX)
-:   This is a `printf`-style string that is output at the
-    beginning of each log line.
-    `%` characters begin “escape sequences”
-    that are replaced with status information as outlined below.
-    Unrecognized escapes are ignored. Other
-    characters are copied straight to the log line. Some escapes are
-    only recognized by session processes, and will be treated as empty by
-    background processes such as the main server process. Status
-    information may be aligned either left or right by specifying a
-    numeric literal after the % and before the option. A negative
-    value will cause the status information to be padded on the
-    right with spaces to give it a minimum width, whereas a positive
-    value will pad on the left. Padding can be useful to aid human
-    readability in log files.
+:   這是一個 `printf` 樣式的字串，
+    會輸出於每一行日誌的開頭。
+    `%` 字元開始「逸出序列」，
+    會被替換為如下所述的狀態資訊。
+    無法識別的逸出序列會被忽略。其他
+    字元則會直接複製到日誌行中。有些逸出序列
+    僅會被工作階段程序識別，
+    在主要伺服器程序等背景程序中，會被視為空字串，不產生任何輸出。
+    可在 % 之後、選項之前指定一個數字字面值，
+    藉此讓狀態資訊靠左或靠右對齊。負值
+    會使狀態資訊在右側以空白填補，
+    以達到最小寬度，而正值則會在左側填補。
+    填補有助於提升日誌檔案的人工可讀性。
 
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line. The default is
-    `'%m [%p] '` which logs a time stamp and the process ID.
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。預設值為
+    `'%m [%p] '`，會記錄時間戳記與程序 ID。
 
-    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Escape</th><th>Effect</th><th>Session only</th></tr></thead><tbody><tr><td><code class="literal">%a</code></td><td>Application name</td><td>yes</td></tr><tr><td><code class="literal">%u</code></td><td>User name</td><td>yes</td></tr><tr><td><code class="literal">%d</code></td><td>Database name</td><td>yes</td></tr><tr><td><code class="literal">%r</code></td><td>Remote host name or IP address, and remote port</td><td>yes</td></tr><tr><td><code class="literal">%h</code></td><td>Remote host name or IP address</td><td>yes</td></tr><tr><td><code class="literal">%L</code></td><td>Local address (the IP address on the server that the
-                 client connected to)</td><td>yes</td></tr><tr><td><code class="literal">%b</code></td><td>Backend type</td><td>no</td></tr><tr><td><code class="literal">%p</code></td><td>Process ID</td><td>no</td></tr><tr><td><code class="literal">%P</code></td><td>Process ID of the parallel group leader, if this process
-                  is a parallel query worker</td><td>no</td></tr><tr><td><code class="literal">%t</code></td><td>Time stamp without milliseconds</td><td>no</td></tr><tr><td><code class="literal">%m</code></td><td>Time stamp with milliseconds</td><td>no</td></tr><tr><td><code class="literal">%n</code></td><td>Time stamp with milliseconds (as a Unix epoch)</td><td>no</td></tr><tr><td><code class="literal">%i</code></td><td>Command tag: type of session's current command</td><td>yes</td></tr><tr><td><code class="literal">%e</code></td><td>SQLSTATE error code</td><td>no</td></tr><tr><td><code class="literal">%c</code></td><td>Session ID: see below</td><td>no</td></tr><tr><td><code class="literal">%l</code></td><td>Number of the log line for each session or process, starting at 1</td><td>no</td></tr><tr><td><code class="literal">%s</code></td><td>Process start time stamp</td><td>no</td></tr><tr><td><code class="literal">%v</code></td><td>Virtual transaction ID (procNumber/localXID);  see
-                 <a class="xref" href="../../internals/transactions/transaction-id.md">Section 67.1</a></td><td>no</td></tr><tr><td><code class="literal">%x</code></td><td>Transaction ID (0 if none is assigned);  see
-                 <a class="xref" href="../../internals/transactions/transaction-id.md">Section 67.1</a></td><td>no</td></tr><tr><td><code class="literal">%q</code></td><td>Produces no output, but tells non-session
-                 processes to stop at this point in the string; ignored by
-                 session processes</td><td>no</td></tr><tr><td><code class="literal">%Q</code></td><td>Query identifier of the current query.  Query
-                 identifiers are not computed by default, so this field
-                 will be zero unless <a class="xref" href="runtime-config-statistics.md#GUC-COMPUTE-QUERY-ID">compute_query_id</a>
-                 parameter is enabled or a third-party module that computes
-                 query identifiers is configured.</td><td>yes</td></tr><tr><td><code class="literal">%%</code></td><td>Literal <code class="literal">%</code></td><td>no</td></tr></tbody></table>
+    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>逸出序列</th><th>作用</th><th>僅限工作階段</th></tr></thead><tbody><tr><td><code class="literal">%a</code></td><td>應用程式名稱</td><td>是</td></tr><tr><td><code class="literal">%u</code></td><td>使用者名稱</td><td>是</td></tr><tr><td><code class="literal">%d</code></td><td>資料庫名稱</td><td>是</td></tr><tr><td><code class="literal">%r</code></td><td>遠端主機名稱或 IP 位址，及遠端連接埠</td><td>是</td></tr><tr><td><code class="literal">%h</code></td><td>遠端主機名稱或 IP 位址</td><td>是</td></tr><tr><td><code class="literal">%L</code></td><td>本機位址（用戶端所連線之伺服器上的
+                 IP 位址）</td><td>是</td></tr><tr><td><code class="literal">%b</code></td><td>後端類型</td><td>否</td></tr><tr><td><code class="literal">%p</code></td><td>程序 ID</td><td>否</td></tr><tr><td><code class="literal">%P</code></td><td>若此程序為平行查詢工作者，
+                  則為其平行群組領導者的程序 ID</td><td>否</td></tr><tr><td><code class="literal">%t</code></td><td>不含毫秒的時間戳記</td><td>否</td></tr><tr><td><code class="literal">%m</code></td><td>含毫秒的時間戳記</td><td>否</td></tr><tr><td><code class="literal">%n</code></td><td>含毫秒的時間戳記（以 Unix epoch 表示）</td><td>否</td></tr><tr><td><code class="literal">%i</code></td><td>命令標籤：工作階段目前命令的類型</td><td>是</td></tr><tr><td><code class="literal">%e</code></td><td>SQLSTATE 錯誤代碼</td><td>否</td></tr><tr><td><code class="literal">%c</code></td><td>工作階段 ID：請參閱下文</td><td>否</td></tr><tr><td><code class="literal">%l</code></td><td>每個工作階段或程序的日誌行編號，從 1 開始</td><td>否</td></tr><tr><td><code class="literal">%s</code></td><td>程序啟動時間戳記</td><td>否</td></tr><tr><td><code class="literal">%v</code></td><td>虛擬交易 ID（procNumber/localXID）；請參閱
+                 <a class="xref" href="../../internals/transactions/transaction-id.md">第 67.1 節</a></td><td>否</td></tr><tr><td><code class="literal">%x</code></td><td>交易 ID（若未指派則為 0）；請參閱
+                 <a class="xref" href="../../internals/transactions/transaction-id.md">第 67.1 節</a></td><td>否</td></tr><tr><td><code class="literal">%q</code></td><td>不產生任何輸出，但會告知非工作階段
+                 程序在字串中此處停止；工作階段
+                 程序則會忽略此逸出序列</td><td>否</td></tr><tr><td><code class="literal">%Q</code></td><td>目前查詢的查詢識別碼。查詢
+                 識別碼預設不會被計算，因此除非啟用
+                 <a class="xref" href="runtime-config-statistics.md#GUC-COMPUTE-QUERY-ID">compute_query_id</a>
+                 參數，或設定了會計算查詢識別碼的第三方模組，
+                 否則此欄位會為零。</td><td>是</td></tr><tr><td><code class="literal">%%</code></td><td>字面值 <code class="literal">%</code></td><td>否</td></tr></tbody></table>
 
-    The backend type corresponds to the column
-    `backend_type` in the view
-    [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW),
-    but additional types can appear
-    in the log that don't show in that view.
+    後端類型對應於
+    [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
+    檢視表中的 `backend_type` 欄，
+    但日誌中可能會出現該檢視表未顯示的其他類型。
 
-    The `%c` escape prints a quasi-unique session identifier,
-    consisting of two 4-byte hexadecimal numbers (without leading zeros)
-    separated by a dot. The numbers are the process start time and the
-    process ID, so `%c` can also be used as a space saving way
-    of printing those items. For example, to generate the session
-    identifier from `pg_stat_activity`, use this query:
+    `%c` 逸出序列會印出一個近乎唯一的工作階段識別碼，
+    由兩個以點號分隔的 4 位元組十六進位數字（不含前導零）組成。
+    這兩個數字分別是程序啟動時間與
+    程序 ID，因此 `%c` 也可用來作為
+    印出這兩項資訊的節省空間寫法。舉例來說，
+    若要從 `pg_stat_activity` 產生工作階段識別碼，
+    可使用下列查詢：
 
     ```
 
@@ -747,211 +726,213 @@ What you choose to log can have security implications; see
     FROM pg_stat_activity;
     ```
 
-    ### Tip
+    ### 提示
 
-    If you set a nonempty value for `log_line_prefix`,
-    you should usually make its last character be a space, to provide
-    visual separation from the rest of the log line. A punctuation
-    character can be used too.
+    若你將 `log_line_prefix` 設為非空值，
+    通常應讓其最後一個字元為空白，
+    以與日誌行的其餘部分做視覺上的區隔。
+    也可以使用標點符號。
 
-    ### Tip
+    ### 提示
 
-    Syslog produces its own
-    time stamp and process ID information, so you probably do not want to
-    include those escapes if you are logging to syslog.
+    Syslog 會產生自己的
+    時間戳記與程序 ID 資訊，因此若你將日誌記錄到 syslog，
+    可能不會想要一併包含這些逸出序列。
 
-    ### Tip
+    ### 提示
 
-    The `%q` escape is useful when including information that is
-    only available in session (backend) context like user or database
-    name. For example:
+    `%q` 逸出序列，適合用於加入僅在工作階段
+    （後端）情境下才可取得的資訊，例如使用者或資料庫
+    名稱。例如：
 
     ```
 
     log_line_prefix = '%m [%p] %q%u@%d/%a '
     ```
 
-    ### Note
+    ### 注意
 
-    The `%Q` escape always reports a zero identifier
-    for lines output by [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT) because
-    `log_statement` generates output before an
-    identifier can be calculated, including invalid statements for
-    which an identifier cannot be calculated.
+    對於因 [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
+    而輸出的行，`%Q` 逸出序列一律會回報零識別碼，
+    因為 `log_statement` 會在
+    識別碼能被計算之前就產生輸出，
+    包括那些無法計算出識別碼的無效陳述式。
 <a id="GUC-LOG-LOCK-WAITS"></a>
 
 `log_lock_waits` (`boolean`) <a id="id-1.6.6.11.5.3.12.1.3"></a> [#](#GUC-LOG-LOCK-WAITS)
-:   Controls whether a log message is produced when a session waits
-    longer than [deadlock_timeout](runtime-config-locks.md#GUC-DEADLOCK-TIMEOUT) to acquire a
-    lock. This is useful in determining if lock waits are causing
-    poor performance. The default is `off`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   控制當某個工作階段等待取得鎖定的時間，
+    超過 [deadlock_timeout](runtime-config-locks.md#GUC-DEADLOCK-TIMEOUT)
+    時，是否要產生日誌訊息。這對於判斷鎖定等待
+    是否導致效能不佳很有用。預設值為 `off`。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 <a id="GUC-LOG-LOCK-FAILURES"></a>
 
 `log_lock_failures` (`boolean`) <a id="id-1.6.6.11.5.3.13.1.3"></a> [#](#GUC-LOG-LOCK-FAILURES)
-:   Controls whether a detailed log message is produced
-    when a lock acquisition fails. This is useful for analyzing
-    the causes of lock failures. Currently, only lock failures
-    due to `SELECT NOWAIT` is supported.
-    The default is `off`. Only superusers and
-    users with the appropriate `SET` privilege
-    can change this setting.
+:   控制當鎖定取得失敗時，是否要產生詳細的日誌訊息。
+    這對於分析鎖定失敗的原因很有用。
+    目前僅支援因 `SELECT NOWAIT`
+    而導致的鎖定失敗。
+    預設值為 `off`。只有超級使用者，
+    以及具備適當 `SET` 權限的
+    使用者，才能變更此設定。
 <a id="GUC-LOG-RECOVERY-CONFLICT-WAITS"></a>
 
 `log_recovery_conflict_waits` (`boolean`) <a id="id-1.6.6.11.5.3.14.1.3"></a> [#](#GUC-LOG-RECOVERY-CONFLICT-WAITS)
-:   Controls whether a log message is produced when the startup process
-    waits longer than `deadlock_timeout`
-    for recovery conflicts. This is useful in determining if recovery
-    conflicts prevent the recovery from applying WAL.
+:   控制當啟動程序因復原衝突而等待的時間，
+    超過 `deadlock_timeout` 時，
+    是否要產生日誌訊息。這對於判斷復原衝突
+    是否阻礙了復原套用 WAL 很有用。
 
-    The default is `off`. This parameter can only be set
-    in the `postgresql.conf` file or on the server
-    command line.
+    預設值為 `off`。此參數只能在
+    `postgresql.conf` 檔案中或伺服器
+    命令列上設定。
 <a id="GUC-LOG-PARAMETER-MAX-LENGTH"></a>
 
 `log_parameter_max_length` (`integer`) <a id="id-1.6.6.11.5.3.15.1.3"></a> [#](#GUC-LOG-PARAMETER-MAX-LENGTH)
-:   If greater than zero, each bind parameter value logged with a
-    non-error statement-logging message is trimmed to this many bytes.
-    Zero disables logging of bind parameters for non-error statement logs.
-    `-1` (the default) allows bind parameters to be
-    logged in full.
-    If this value is specified without units, it is taken as bytes.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   若大於零，每個隨非錯誤陳述式記錄訊息一併記錄的
+    綁定參數值，都會被裁剪至此位元組數。
+    零會停用非錯誤陳述式日誌中的綁定參數記錄。
+    `-1`（預設值）允許完整記錄綁定參數。
+    若此值未指定單位，則以位元組為單位。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
-    This setting only affects log messages printed as a result of
-    [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT),
-    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT), and related settings.
-    Non-zero values of this setting add some overhead, particularly
-    if parameters are sent in binary form, since then conversion to
-    text is required.
+    此設定僅影響因
+    [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)、
+    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT)
+    及相關設定而印出的日誌訊息。
+    此設定的非零值會增加一些額外負擔，
+    尤其是當參數以二進位形式傳送時，
+    因為此時需要進行轉換為文字的動作。
 <a id="GUC-LOG-PARAMETER-MAX-LENGTH-ON-ERROR"></a>
 
 `log_parameter_max_length_on_error` (`integer`) <a id="id-1.6.6.11.5.3.16.1.3"></a> [#](#GUC-LOG-PARAMETER-MAX-LENGTH-ON-ERROR)
-:   If greater than zero, each bind parameter value reported in error
-    messages is trimmed to this many bytes.
-    Zero (the default) disables including bind parameters in error
-    messages.
-    `-1` allows bind parameters to be printed in full.
-    If this value is specified without units, it is taken as bytes.
+:   若大於零，每個在錯誤訊息中回報的
+    綁定參數值，都會被裁剪至此位元組數。
+    零（預設值）會停用在錯誤訊息中包含綁定參數。
+    `-1` 允許完整印出綁定參數。
+    若此值未指定單位，則以位元組為單位。
 
-    Non-zero values of this setting add overhead, as
-    PostgreSQL will need to store textual
-    representations of parameter values in memory at the start of each
-    statement, whether or not an error eventually occurs. The overhead
-    is greater when bind parameters are sent in binary form than when
-    they are sent as text, since the former case requires data
-    conversion while the latter only requires copying the string.
+    此設定的非零值會增加額外負擔，
+    因為 PostgreSQL 需要在每個陳述式開始時，
+    就將參數值的文字表示形式儲存在記憶體中，
+    無論最終是否發生錯誤都一樣。當綁定參數
+    以二進位形式傳送時，額外負擔會比以文字形式傳送時更大，
+    因為前者需要進行資料轉換，
+    而後者只需要複製字串。
 <a id="GUC-LOG-STATEMENT"></a>
 
 `log_statement` (`enum`) <a id="id-1.6.6.11.5.3.17.1.3"></a> [#](#GUC-LOG-STATEMENT)
-:   Controls which SQL statements are logged. Valid values are
-    `none` (off), `ddl`, `mod`, and
-    `all` (all statements). `ddl` logs all data definition
-    statements, such as `CREATE`, `ALTER`, and
-    `DROP` statements. `mod` logs all
-    `ddl` statements, plus data-modifying statements
-    such as `INSERT`,
-    `UPDATE`, `DELETE`, `TRUNCATE`,
-    and `COPY FROM`.
-    `PREPARE`, `EXECUTE`, and
-    `EXPLAIN ANALYZE` statements are also logged if their
-    contained command is of an appropriate type. For clients using
-    extended query protocol, logging occurs when an Execute message
-    is received, and values of the Bind parameters are included
-    (with any embedded single-quote marks doubled).
+:   控制哪些 SQL 陳述式會被記錄。有效值為
+    `none`（關閉）、`ddl`、`mod`，
+    以及 `all`（所有陳述式）。`ddl`
+    會記錄所有資料定義陳述式，例如
+    `CREATE`、`ALTER`，以及
+    `DROP` 陳述式。`mod` 會記錄所有
+    `ddl` 陳述式，再加上資料異動陳述式，
+    例如 `INSERT`、
+    `UPDATE`、`DELETE`、`TRUNCATE`，
+    以及 `COPY FROM`。
+    `PREPARE`、`EXECUTE`，以及
+    `EXPLAIN ANALYZE` 陳述式，
+    若其內含命令屬於適當類型，也會被記錄。
+    對於使用延伸查詢協定的用戶端，
+    記錄動作會在收到 Execute 訊息時發生，
+    並會包含 Bind 參數的值
+    （其中任何內嵌的單引號會加倍）。
 
-    The default is `none`.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+    預設值為 `none`。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
-    ### Note
+    ### 注意
 
-    Statements that contain simple syntax errors are not logged
-    even by the `log_statement` = `all` setting,
-    because the log message is emitted only after basic parsing has
-    been done to determine the statement type. In the case of extended
-    query protocol, this setting likewise does not log statements that
-    fail before the Execute phase (i.e., during parse analysis or
-    planning). Set `log_min_error_statement` to
-    `ERROR` (or lower) to log such statements.
+    即使 `log_statement` 設為
+    `all`，含有單純語法錯誤的陳述式
+    仍不會被記錄，因為日誌訊息只有在完成基本剖析、
+    判斷出陳述式類型之後才會發出。在延伸查詢協定的
+    情況下，此設定同樣不會記錄在 Execute 階段之前
+    就失敗的陳述式（也就是在剖析分析或規劃階段失敗的情況）。
+    請將 `log_min_error_statement` 設為
+    `ERROR`（或更低），以記錄這類陳述式。
 
-    Logged statements might reveal sensitive data and even contain
-    plaintext passwords.
+    被記錄的陳述式可能會洩漏敏感資料，
+    甚至包含明文密碼。
 <a id="GUC-LOG-REPLICATION-COMMANDS"></a>
 
 `log_replication_commands` (`boolean`) <a id="id-1.6.6.11.5.3.18.1.3"></a> [#](#GUC-LOG-REPLICATION-COMMANDS)
-:   Causes each replication command and `walsender`
-    process's replication slot acquisition/release to be logged in the
-    server log. See [Section 54.4](../../internals/protocol/protocol-replication.md) for more
-    information about replication command. The default value is
-    `off`. Only superusers and users with the appropriate
-    `SET` privilege can change this setting.
+:   使每個複寫命令，以及 `walsender`
+    程序的複寫插槽取得／釋放動作，
+    都被記錄在伺服器日誌中。關於複寫命令的
+    更多資訊，請參閱 [第 54.4 節](../../internals/protocol/protocol-replication.md)。
+    預設值為
+    `off`。只有超級使用者，以及具備適當
+    `SET` 權限的使用者，才能變更此設定。
 <a id="GUC-LOG-TEMP-FILES"></a>
 
 `log_temp_files` (`integer`) <a id="id-1.6.6.11.5.3.19.1.3"></a> [#](#GUC-LOG-TEMP-FILES)
-:   Controls logging of temporary file names and sizes.
-    Temporary files can be
-    created for sorts, hashes, and temporary query results.
-    If enabled by this setting, a log entry is emitted for each
-    temporary file, with the file size specified in bytes, when it is deleted.
-    A value of zero logs all temporary file information, while positive
-    values log only files whose size is greater than or equal to
-    the specified amount of data.
-    If this value is specified without units, it is taken as kilobytes.
-    The default setting is -1, which disables such logging.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   控制暫存檔案名稱與大小的記錄。
+    暫存檔案可能會因排序、雜湊，
+    以及暫存查詢結果而建立。
+    若此設定已啟用，則每個暫存檔案在被刪除時，
+    都會發出一則日誌項目，其中含有以位元組表示的檔案大小。
+    設為零會記錄所有暫存檔案資訊，正值
+    則只會記錄大小達到或超過指定資料量的檔案。
+    若此值未指定單位，則以 KB 為單位。
+    預設值為 -1，會停用此類記錄。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 <a id="GUC-LOG-TIMEZONE"></a>
 
 `log_timezone` (`string`) <a id="id-1.6.6.11.5.3.20.1.3"></a> [#](#GUC-LOG-TIMEZONE)
-:   Sets the time zone used for timestamps written in the server log.
-    Unlike [TimeZone](runtime-config-client.md#GUC-TIMEZONE), this value is cluster-wide,
-    so that all sessions will report timestamps consistently.
-    The built-in default is `GMT`, but that is typically
-    overridden in `postgresql.conf`; initdb
-    will install a setting there corresponding to its system environment.
-    See [Section 8.5.3](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES) for more information.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   設定伺服器日誌中寫入時間戳記所使用的時區。
+    與 [TimeZone](runtime-config-client.md#GUC-TIMEZONE) 不同，
+    此值是全叢集適用的，因此所有工作階段
+    回報的時間戳記都會保持一致。內建的預設值為
+    `GMT`，但通常會在 `postgresql.conf`
+    中被覆寫；initdb 會依系統環境
+    安裝對應的設定。
+    詳情請參閱 [第 8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 
 <a id="RUNTIME-CONFIG-LOGGING-CSVLOG"></a>
 
-### 19.8.4. Using CSV-Format Log Output [#](#RUNTIME-CONFIG-LOGGING-CSVLOG)
+### 19.8.4. 使用 CSV 格式日誌輸出 [#](#RUNTIME-CONFIG-LOGGING-CSVLOG)
 
-Including `csvlog` in the `log_destination` list
-provides a convenient way to import log files into a database table.
-This option emits log lines in comma-separated-values
-(CSV) format,
-with these columns:
-time stamp with milliseconds,
-user name,
-database name,
-process ID,
-client host:port number,
-session ID,
-per-session line number,
-command tag,
-session start time,
-virtual transaction ID,
-regular transaction ID,
-error severity,
-SQLSTATE code,
-error message,
-error message detail,
-hint,
-internal query that led to the error (if any),
-character count of the error position therein,
-error context,
-user query that led to the error (if any and enabled by
-`log_min_error_statement`),
-character count of the error position therein,
-location of the error in the PostgreSQL source code
-(if `log_error_verbosity` is set to `verbose`),
-application name, backend type, process ID of parallel group leader,
-and query id.
-Here is a sample table definition for storing CSV-format log output:
+在 `log_destination` 清單中包含
+`csvlog`，能提供一種方便的方式，
+將日誌檔案匯入資料庫資料表。此選項會以逗號分隔值
+（CSV）格式輸出日誌行，
+包含下列欄位：
+含毫秒的時間戳記、
+使用者名稱、
+資料庫名稱、
+程序 ID、
+用戶端主機：連接埠號碼、
+工作階段 ID、
+每個工作階段的行編號、
+命令標籤、
+工作階段開始時間、
+虛擬交易 ID、
+一般交易 ID、
+錯誤嚴重性、
+SQLSTATE 代碼、
+錯誤訊息、
+錯誤訊息詳情、
+提示、
+導致此錯誤的內部查詢（若有）、
+其中錯誤位置的字元數、
+錯誤上下文、
+導致此錯誤的使用者查詢（若有，且已由
+`log_min_error_statement` 啟用）、
+其中錯誤位置的字元數、
+此錯誤在 PostgreSQL 原始碼中的位置
+（若 `log_error_verbosity` 設為 `verbose`）、
+應用程式名稱、後端類型、平行群組領導者的程序 ID，
+以及查詢識別碼。
+以下是用於儲存 CSV 格式日誌輸出的資料表定義範例：
 
 ```
 
@@ -987,101 +968,104 @@ CREATE TABLE postgres_log
 );
 ```
 
-To import a log file into this table, use the `COPY FROM`
-command:
+若要將日誌檔案匯入此資料表，請使用
+`COPY FROM` 命令：
 
 ```
 
 COPY postgres_log FROM '/full/path/to/logfile.csv' WITH csv;
 ```
 
-It is also possible to access the file as a foreign table, using
-the supplied [file_fdw](../../appendixes/contrib/file-fdw.md) module.
+也可以使用所提供的 [file_fdw](../../appendixes/contrib/file-fdw.md)
+模組，將此檔案作為外部資料表來存取。
 
-There are a few things you need to do to simplify importing CSV log
-files:
+要簡化匯入 CSV 日誌檔案的作業，有幾件事你需要做：
 
-1. Set `log_filename` and
-   `log_rotation_age` to provide a consistent,
-   predictable naming scheme for your log files. This lets you
-   predict what the file name will be and know when an individual log
-   file is complete and therefore ready to be imported.
-2. Set `log_rotation_size` to 0 to disable
-   size-based log rotation, as it makes the log file name difficult
-   to predict.
-3. Set `log_truncate_on_rotation` to `on` so
-   that old log data isn't mixed with the new in the same file.
-4. The table definition above includes a primary key specification.
-   This is useful to protect against accidentally importing the same
-   information twice. The `COPY` command commits all of the
-   data it imports at one time, so any error will cause the entire
-   import to fail. If you import a partial log file and later import
-   the file again when it is complete, the primary key violation will
-   cause the import to fail. Wait until the log is complete and
-   closed before importing. This procedure will also protect against
-   accidentally importing a partial line that hasn't been completely
-   written, which would also cause `COPY` to fail.
+1. 設定 `log_filename` 與
+   `log_rotation_age`，
+   為你的日誌檔案提供一致、可預測的命名方式。
+   這能讓你預測檔名，並得知某個日誌檔案何時完成，
+   因而可以匯入。
+2. 將 `log_rotation_size` 設為 0，
+   以停用以大小為基礎的日誌輪替，
+   因為這會使日誌檔名難以預測。
+3. 將 `log_truncate_on_rotation` 設為
+   `on`，讓舊日誌資料不會與新資料混雜在
+   同一個檔案中。
+4. 上方的資料表定義中包含主鍵規格。這有助於
+   防止意外重複匯入同一份資訊。`COPY`
+   命令會一次提交其匯入的所有資料，
+   因此任何錯誤都會導致整個匯入失敗。若你匯入了
+   部分日誌檔案，之後在其完成後又再次匯入該檔案，
+   主鍵違反就會導致匯入失敗。請等到日誌完成並關閉後
+   再進行匯入。這種做法也能防止意外匯入
+   尚未完全寫入的部分行，這同樣會導致
+   `COPY` 失敗。
 
 <a id="RUNTIME-CONFIG-LOGGING-JSONLOG"></a>
 
-### 19.8.5. Using JSON-Format Log Output [#](#RUNTIME-CONFIG-LOGGING-JSONLOG)
+### 19.8.5. 使用 JSON 格式日誌輸出 [#](#RUNTIME-CONFIG-LOGGING-JSONLOG)
 
-Including `jsonlog` in the
-`log_destination` list provides a convenient way to
-import log files into many different programs. This option emits log
-lines in JSON format.
+在 `log_destination` 清單中包含
+`jsonlog`，能提供一種方便的方式，
+將日誌檔案匯入許多不同的程式。此選項會以
+JSON 格式輸出日誌行。
 
-String fields with null values are excluded from output.
-Additional fields may be added in the future. User applications that
-process `jsonlog` output should ignore unknown fields.
+值為 null 的字串欄位不會出現在輸出中。
+未來可能會加入更多欄位。處理
+`jsonlog` 輸出的使用者應用程式，
+應忽略未知的欄位。
 
-Each log line is serialized as a JSON object with the set of keys and
-their associated values shown in [Table 19.4](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG-KEYS-VALUES).
+每一行日誌都會序列化為一個 JSON 物件，其中包含
+[表 19.4](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG-KEYS-VALUES)
+所示的鍵集合及其對應的值。
 
 <a id="RUNTIME-CONFIG-LOGGING-JSONLOG-KEYS-VALUES"></a>
 
-**Table 19.4. Keys and Values of JSON Log Entries**
+**表 19.4. JSON 日誌項目的鍵與值**
 
-<table border="1" class="table" summary="Keys and Values of JSON Log Entries"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Key name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code class="literal">timestamp</code></td><td>string</td><td>Time stamp with milliseconds</td></tr><tr><td><code class="literal">user</code></td><td>string</td><td>User name</td></tr><tr><td><code class="literal">dbname</code></td><td>string</td><td>Database name</td></tr><tr><td><code class="literal">pid</code></td><td>number</td><td>Process ID</td></tr><tr><td><code class="literal">remote_host</code></td><td>string</td><td>Client host</td></tr><tr><td><code class="literal">remote_port</code></td><td>number</td><td>Client port</td></tr><tr><td><code class="literal">session_id</code></td><td>string</td><td>Session ID</td></tr><tr><td><code class="literal">line_num</code></td><td>number</td><td>Per-session line number</td></tr><tr><td><code class="literal">ps</code></td><td>string</td><td>Current ps display</td></tr><tr><td><code class="literal">session_start</code></td><td>string</td><td>Session start time</td></tr><tr><td><code class="literal">vxid</code></td><td>string</td><td>Virtual transaction ID</td></tr><tr><td><code class="literal">txid</code></td><td>string</td><td>Regular transaction ID</td></tr><tr><td><code class="literal">error_severity</code></td><td>string</td><td>Error severity</td></tr><tr><td><code class="literal">state_code</code></td><td>string</td><td>SQLSTATE code</td></tr><tr><td><code class="literal">message</code></td><td>string</td><td>Error message</td></tr><tr><td><code class="literal">detail</code></td><td>string</td><td>Error message detail</td></tr><tr><td><code class="literal">hint</code></td><td>string</td><td>Error message hint</td></tr><tr><td><code class="literal">internal_query</code></td><td>string</td><td>Internal query that led to the error</td></tr><tr><td><code class="literal">internal_position</code></td><td>number</td><td>Cursor index into internal query</td></tr><tr><td><code class="literal">context</code></td><td>string</td><td>Error context</td></tr><tr><td><code class="literal">statement</code></td><td>string</td><td>Client-supplied query string</td></tr><tr><td><code class="literal">cursor_position</code></td><td>number</td><td>Cursor index into query string</td></tr><tr><td><code class="literal">func_name</code></td><td>string</td><td>Error location function name</td></tr><tr><td><code class="literal">file_name</code></td><td>string</td><td>File name of error location</td></tr><tr><td><code class="literal">file_line_num</code></td><td>number</td><td>File line number of the error location</td></tr><tr><td><code class="literal">application_name</code></td><td>string</td><td>Client application name</td></tr><tr><td><code class="literal">backend_type</code></td><td>string</td><td>Type of backend</td></tr><tr><td><code class="literal">leader_pid</code></td><td>number</td><td>Process ID of leader for active parallel workers</td></tr><tr><td><code class="literal">query_id</code></td><td>number</td><td>Query ID</td></tr></tbody></table>
+<table border="1" class="table" summary="JSON 日誌項目的鍵與值"><colgroup><col/><col/><col/></colgroup><thead><tr><th>鍵名稱</th><th>類型</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">timestamp</code></td><td>string</td><td>含毫秒的時間戳記</td></tr><tr><td><code class="literal">user</code></td><td>string</td><td>使用者名稱</td></tr><tr><td><code class="literal">dbname</code></td><td>string</td><td>資料庫名稱</td></tr><tr><td><code class="literal">pid</code></td><td>number</td><td>程序 ID</td></tr><tr><td><code class="literal">remote_host</code></td><td>string</td><td>用戶端主機</td></tr><tr><td><code class="literal">remote_port</code></td><td>number</td><td>用戶端連接埠</td></tr><tr><td><code class="literal">session_id</code></td><td>string</td><td>工作階段 ID</td></tr><tr><td><code class="literal">line_num</code></td><td>number</td><td>每個工作階段的行編號</td></tr><tr><td><code class="literal">ps</code></td><td>string</td><td>目前的 ps 顯示內容</td></tr><tr><td><code class="literal">session_start</code></td><td>string</td><td>工作階段開始時間</td></tr><tr><td><code class="literal">vxid</code></td><td>string</td><td>虛擬交易 ID</td></tr><tr><td><code class="literal">txid</code></td><td>string</td><td>一般交易 ID</td></tr><tr><td><code class="literal">error_severity</code></td><td>string</td><td>錯誤嚴重性</td></tr><tr><td><code class="literal">state_code</code></td><td>string</td><td>SQLSTATE 代碼</td></tr><tr><td><code class="literal">message</code></td><td>string</td><td>錯誤訊息</td></tr><tr><td><code class="literal">detail</code></td><td>string</td><td>錯誤訊息詳情</td></tr><tr><td><code class="literal">hint</code></td><td>string</td><td>錯誤訊息提示</td></tr><tr><td><code class="literal">internal_query</code></td><td>string</td><td>導致此錯誤的內部查詢</td></tr><tr><td><code class="literal">internal_position</code></td><td>number</td><td>內部查詢中的游標索引</td></tr><tr><td><code class="literal">context</code></td><td>string</td><td>錯誤上下文</td></tr><tr><td><code class="literal">statement</code></td><td>string</td><td>用戶端提供的查詢字串</td></tr><tr><td><code class="literal">cursor_position</code></td><td>number</td><td>查詢字串中的游標索引</td></tr><tr><td><code class="literal">func_name</code></td><td>string</td><td>錯誤位置的函式名稱</td></tr><tr><td><code class="literal">file_name</code></td><td>string</td><td>錯誤位置的檔案名稱</td></tr><tr><td><code class="literal">file_line_num</code></td><td>number</td><td>錯誤位置的檔案行號</td></tr><tr><td><code class="literal">application_name</code></td><td>string</td><td>用戶端應用程式名稱</td></tr><tr><td><code class="literal">backend_type</code></td><td>string</td><td>後端類型</td></tr><tr><td><code class="literal">leader_pid</code></td><td>number</td><td>作用中平行工作者之領導者的程序 ID</td></tr><tr><td><code class="literal">query_id</code></td><td>number</td><td>查詢 ID</td></tr></tbody></table>
 
 <br>
 
 <a id="RUNTIME-CONFIG-LOGGING-PROC-TITLE"></a>
 
-### 19.8.6. Process Title [#](#RUNTIME-CONFIG-LOGGING-PROC-TITLE)
+### 19.8.6. 程序標題 [#](#RUNTIME-CONFIG-LOGGING-PROC-TITLE)
 
-These settings control how process titles of server processes are
-modified. Process titles are typically viewed using programs like
-ps or, on Windows, Process Explorer.
-See [Section 27.1](../monitoring/monitoring-ps.md) for details.
+這些設定控制伺服器程序的程序標題會如何被修改。
+程序標題通常透過 ps 等程式檢視，
+或在 Windows 上，透過 Process Explorer 檢視。
+詳情請參閱 [第 27.1 節](../monitoring/monitoring-ps.md)。
 
 <a id="GUC-CLUSTER-NAME"></a>
 
 `cluster_name` (`string`) <a id="id-1.6.6.11.8.3.1.1.3"></a> [#](#GUC-CLUSTER-NAME)
-:   Sets a name that identifies this database cluster (instance) for
-    various purposes. The cluster name appears in the process title for
-    all server processes in this cluster. Moreover, it is the default
-    application name for a standby connection (see [synchronous_standby_names](runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES)).
+:   設定一個用於各種用途、識別此資料庫叢集（執行個體）
+    的名稱。叢集名稱會出現在此叢集所有伺服器程序的
+    程序標題中。此外，它也是待命連線的
+    預設應用程式名稱（請參閱
+    [synchronous_standby_names](runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES)）。
 
-    The name can be any string of less
-    than `NAMEDATALEN` characters (64 characters in a standard
-    build). Only printable ASCII characters may be used in the
-    `cluster_name` value.
-    Other characters are replaced with [C-style hexadecimal escapes](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE).
-    No name is shown if this parameter is set to the empty string
-    `''` (which is the default).
-    This parameter can only be set at server start.
+    此名稱可以是任何長度小於
+    `NAMEDATALEN` 個字元（標準組建中為 64 個字元）的字串。
+    `cluster_name` 值只能使用
+    可列印的 ASCII 字元。
+    其他字元會被替換為
+    [C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
+    若此參數設為空字串
+    `''`（此為預設值），則不會顯示任何名稱。
+    此參數只能在伺服器啟動時設定。
 <a id="GUC-UPDATE-PROCESS-TITLE"></a>
 
 `update_process_title` (`boolean`) <a id="id-1.6.6.11.8.3.2.1.3"></a> [#](#GUC-UPDATE-PROCESS-TITLE)
-:   Enables updating of the process title every time a new SQL command
-    is received by the server.
-    This setting defaults to `on` on most platforms, but it
-    defaults to `off` on Windows due to that platform's larger
-    overhead for updating the process title.
-    Only superusers and users with the appropriate `SET`
-    privilege can change this setting.
+:   啟用每當伺服器收到新的 SQL 命令時，
+    就更新程序標題的功能。
+    此設定在多數平台上預設為 `on`，
+    但在 Windows 上，由於該平台更新程序標題的
+    額外負擔較大，因此預設為 `off`。
+    只有超級使用者，以及具備適當 `SET`
+    權限的使用者，才能變更此設定。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-logging.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/runtime-config-logging.html)（原文版本：18.6；核對日期：2026-10-23）

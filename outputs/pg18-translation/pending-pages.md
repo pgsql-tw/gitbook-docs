@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：7 頁。
+待譯頁面：6 頁。
 
 ## 根目錄
 
@@ -801,7 +801,7 @@
 - [x] `server-administration/runtime-config/runtime-config-error-handling.md` — 19.14. 錯誤處理 #
 - [x] `server-administration/runtime-config/runtime-config-file-locations.md` — 19.2. 檔案位置 #
 - [x] `server-administration/runtime-config/runtime-config-locks.md` — 19.12. 鎖定管理 #
-- [ ] `server-administration/runtime-config/runtime-config-logging.md` — 19.8. Error Reporting and Logging #
+- [x] `server-administration/runtime-config/runtime-config-logging.md` — 19.8. 錯誤回報與日誌記錄 #
 - [x] `server-administration/runtime-config/runtime-config-preset.md` — 19.15. 預設選項 #
 - [x] `server-administration/runtime-config/runtime-config-query.md` — 19.7. 查詢規劃 #
 - [x] `server-administration/runtime-config/runtime-config-replication.md` — 19.6. 複寫 #

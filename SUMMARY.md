@@ -202,7 +202,7 @@
     * [19.5. 預寫式日誌 (WAL) #](server-administration/runtime-config/runtime-config-wal.md)
     * [19.6. 複寫 #](server-administration/runtime-config/runtime-config-replication.md)
     * [19.7. 查詢規劃 #](server-administration/runtime-config/runtime-config-query.md)
-    * [19.8. Error Reporting and Logging #](server-administration/runtime-config/runtime-config-logging.md)
+    * [19.8. 錯誤回報與日誌記錄 #](server-administration/runtime-config/runtime-config-logging.md)
     * [19.9. 執行時期統計資訊 #](server-administration/runtime-config/runtime-config-statistics.md)
     * [19.10. Vacuum 處理 #](server-administration/runtime-config/runtime-config-vacuum.md)
     * [19.11. 用戶端連線預設值 #](server-administration/runtime-config/runtime-config-client.md)
