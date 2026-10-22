@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：11 頁。
+待譯頁面：10 頁。
 
 ## 根目錄
 
@@ -79,7 +79,7 @@
 - [x] `appendixes/contrib/pgoverexplain.md` — F.29. pg_overexplain — 允許 EXPLAIN 傾印更多細節 #
 - [x] `appendixes/contrib/pgprewarm.md` — F.30. pg_prewarm — 將關聯資料預先載入緩衝區快取 #
 - [x] `appendixes/contrib/pgrowlocks.md` — F.31. pgrowlocks — 顯示資料表的資料列鎖定資訊 #
-- [ ] `appendixes/contrib/pgstatstatements.md` — F.32. pg_stat_statements — track statistics of SQL planning and execution #
+- [x] `appendixes/contrib/pgstatstatements.md` — F.32. pg_stat_statements — 追蹤 SQL 規劃與執行的統計資訊 #
 - [x] `appendixes/contrib/pgstattuple.md` — F.33. pgstattuple — 取得元組層級的統計資訊 #
 - [x] `appendixes/contrib/pgsurgery.md` — F.34. pg_surgery — perform low-level surgery on relation data #
 - [ ] `appendixes/contrib/pgtrgm.md` — F.35. pg_trgm — support for similarity of text using trigram matching #
