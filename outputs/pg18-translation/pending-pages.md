@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：55 頁。
+待譯頁面：54 頁。
 
 ## 根目錄
 
@@ -112,7 +112,7 @@
 - [x] `appendixes/docguide/docguide-docbook.md` — J.1. DocBook
 - [x] `appendixes/docguide/docguide-style.md` — J.6. 風格指南 #
 - [ ] `appendixes/docguide/docguide-toolsets.md` — J.2. Tool Sets #
-- [ ] `appendixes/errcodes-appendix/README.md` — Appendix A. PostgreSQL Error Codes
+- [x] `appendixes/errcodes-appendix/README.md` — 附錄 A. PostgreSQL 錯誤碼
 - [x] `appendixes/external-projects/README.md` — 附錄 H. 外部專案
 - [x] `appendixes/external-projects/external-admin-tools.md` — H.2. 管理工具
 - [x] `appendixes/external-projects/external-extensions.md` — H.4. 擴充套件
