@@ -1,78 +1,59 @@
-## F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module [#](#SEPGSQL)
+<a id="SEPGSQL"></a>
 
-[F.40.1. Overview](sepgsql.md#SEPGSQL-OVERVIEW)
+## F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 [#](#SEPGSQL)
 
-[F.40.2. Installation](sepgsql.md#SEPGSQL-INSTALLATION)
+[F.40.1. 概觀](sepgsql.md#SEPGSQL-OVERVIEW)
 
-[F.40.3. Regression Tests](sepgsql.md#SEPGSQL-REGRESSION)
+[F.40.2. 安裝](sepgsql.md#SEPGSQL-INSTALLATION)
 
-[F.40.4. GUC Parameters](sepgsql.md#SEPGSQL-PARAMETERS)
+[F.40.3. 迴歸測試](sepgsql.md#SEPGSQL-REGRESSION)
 
-[F.40.5. Features](sepgsql.md#SEPGSQL-FEATURES)
+[F.40.4. GUC 參數](sepgsql.md#SEPGSQL-PARAMETERS)
 
-[F.40.6. Sepgsql Functions](sepgsql.md#SEPGSQL-FUNCTIONS)
+[F.40.5. 功能](sepgsql.md#SEPGSQL-FEATURES)
 
-[F.40.7. Limitations](sepgsql.md#SEPGSQL-LIMITATIONS)
+[F.40.6. sepgsql 函式](sepgsql.md#SEPGSQL-FUNCTIONS)
 
-[F.40.8. External Resources](sepgsql.md#SEPGSQL-RESOURCES)
+[F.40.7. 限制](sepgsql.md#SEPGSQL-LIMITATIONS)
 
-[F.40.9. Author](sepgsql.md#SEPGSQL-AUTHOR)
+[F.40.8. 外部資源](sepgsql.md#SEPGSQL-RESOURCES)
+
+[F.40.9. 作者](sepgsql.md#SEPGSQL-AUTHOR)
 
 <a id="id-1.11.7.50.2"></a>
 
-`sepgsql` is a loadable module that supports label-based
-mandatory access control (MAC) based on SELinux security
-policy.
+`sepgsql` 是一個可載入模組，依據 SELinux 安全政策，支援以標籤為基礎的強制存取控制（MAC）。
 
-### Warning
+### 警告
 
-The current implementation has significant limitations, and does not
-enforce mandatory access control for all actions. See
-[Section F.40.7](sepgsql.md#SEPGSQL-LIMITATIONS).
+目前的實作有重大限制，並未對所有動作強制執行強制存取控制。請參閱
+[第 F.40.7 節](sepgsql.md#SEPGSQL-LIMITATIONS)。
 
 <a id="SEPGSQL-OVERVIEW"></a>
 
-### F.40.1. Overview [#](#SEPGSQL-OVERVIEW)
+### F.40.1. 概觀 [#](#SEPGSQL-OVERVIEW)
 
-This module integrates with SELinux to provide an
-additional layer of security checking above and beyond what is normally
-provided by PostgreSQL. From the perspective of
-SELinux, this module allows
-PostgreSQL to function as a user-space object
-manager. Each table or function access initiated by a DML query will be
-checked against the system security policy. This check is in addition to
-the usual SQL permissions checking performed by
-PostgreSQL.
+此模組與 SELinux 整合，在 PostgreSQL 通常提供的安全檢查之外，再額外提供一層安全檢查。從
+SELinux 的角度來看，此模組讓
+PostgreSQL 能作為使用者空間的物件管理器運作。由 DML 查詢發起的每一次資料表或函式存取，都會依據系統安全政策進行檢查。這項檢查是在
+PostgreSQL 執行的一般 SQL 權限檢查之外額外進行的。
 
-SELinux access control decisions are made using
-security labels, which are represented by strings such as
-`system_u:object_r:sepgsql_table_t:s0`. Each access control
-decision involves two labels: the label of the subject attempting to
-perform the action, and the label of the object on which the operation is
-to be performed. Since these labels can be applied to any sort of object,
-access control decisions for objects stored within the database can be
-(and, with this module, are) subjected to the same general criteria used
-for objects of any other type, such as files. This design is intended to
-allow a centralized security policy to protect information assets
-independent of the particulars of how those assets are stored.
+SELinux 的存取控制決策是使用安全標籤做出的，安全標籤以字串表示，例如
+`system_u:object_r:sepgsql_table_t:s0`。每項存取控制決策都涉及兩個標籤：嘗試執行動作之主體的標籤，以及要對其執行操作之物件的標籤。由於這些標籤可以套用到任何種類的物件，因此資料庫內所儲存物件的存取控制決策，可以（而且使用此模組時確實會）採用與其他任何類型物件（例如檔案）相同的一般準則。此設計的目的，是讓集中式的安全政策能夠保護資訊資產，而與這些資產的儲存細節無關。
 
-The [`SECURITY LABEL`](../../reference/sql-commands/sql-security-label.md) statement allows assignment of
-a security label to a database object.
+[`SECURITY LABEL`](../../reference/sql-commands/sql-security-label.md) 陳述式可以為資料庫物件指定安全標籤。
 
 <a id="SEPGSQL-INSTALLATION"></a>
 
-### F.40.2. Installation [#](#SEPGSQL-INSTALLATION)
+### F.40.2. 安裝 [#](#SEPGSQL-INSTALLATION)
 
-`sepgsql` can only be used on Linux
-2.6.28 or higher with SELinux enabled.
-It is not available on any other platform. You will also need
-libselinux 2.1.10 or higher and
-selinux-policy 3.9.13 or higher (although some
-distributions may backport the necessary rules into older policy
-versions).
+`sepgsql` 只能在已啟用 SELinux 的 Linux
+2.6.28 或更新版本上使用，在其他任何平台上都無法使用。你還需要
+libselinux 2.1.10 或更新版本，以及
+selinux-policy 3.9.13 或更新版本（不過有些發行版可能會將必要的規則向後移植到較舊的政策版本中）。
 
-The `sestatus` command allows you to check the status of
-SELinux. A typical display is:
+`sestatus` 命令可讓你檢查
+SELinux 的狀態。典型的顯示如下：
 
 ```
 
@@ -85,24 +66,19 @@ Policy version:                 24
 Policy from config file:        targeted
 ```
 
-If SELinux is disabled or not installed, you must set
-that product up first before installing this module.
+若 SELinux 已停用或尚未安裝，你必須先設定好該產品，才能安裝此模組。
 
-To build this module, specify [`--with-selinux`](../../server-administration/installation/install-make.md#CONFIGURE-OPTION-WITH-SEPGSQL) (when using [make and autoconf](../../server-administration/installation/install-make.md) ) or [`-Dselinux={ auto | enabled | disabled }`](../../server-administration/installation/install-meson.md#CONFIGURE-WITH-SEPGSQL-MESON) (when using [meson](../../server-administration/installation/install-meson.md)).
-Be sure that the `libselinux-devel` RPM is installed at
-build time.
+要建置此模組，請指定 [`--with-selinux`](../../server-administration/installation/install-make.md#CONFIGURE-OPTION-WITH-SEPGSQL)（使用 [make 與 autoconf](../../server-administration/installation/install-make.md) 時）或 [`-Dselinux={ auto | enabled | disabled }`](../../server-administration/installation/install-meson.md#CONFIGURE-WITH-SEPGSQL-MESON)（使用 [meson](../../server-administration/installation/install-meson.md) 時）。
+請確認建置時已安裝 `libselinux-devel` RPM。
 
-To use this module, you must include `sepgsql`
-in the [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) parameter in
-`postgresql.conf`. The module will not function correctly
-if loaded in any other manner. Once the module is loaded, you
-should execute `sepgsql.sql` in each database.
-This will install functions needed for security label management, and
-assign initial security labels.
+要使用此模組，你必須在
+`postgresql.conf` 的 [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) 參數中加入 `sepgsql`。若以其他任何方式載入，此模組將無法正確運作。模組載入後，你應該在每個資料庫中執行
+`sepgsql.sql`。
+這會安裝管理安全標籤所需的函式，並指定初始的安全標籤。
 
-Here is an example showing how to initialize a fresh database cluster
-with `sepgsql` functions and security labels installed.
-Adjust the paths shown as appropriate for your installation:
+以下範例說明如何初始化一個全新的資料庫叢集，並安裝
+`sepgsql` 函式與安全標籤。
+請依你的安裝情況適當調整所示路徑：
 
 ```
 
@@ -119,9 +95,8 @@ $ for DBNAME in template0 template1 postgres; do
   done
 ```
 
-Please note that you may see some or all of the following notifications
-depending on the particular versions you have of
-libselinux and selinux-policy:
+請注意，依你所使用的
+libselinux 與 selinux-policy 版本而定，你可能會看到下列部分或全部通知訊息：
 
 ```
 
@@ -133,53 +108,42 @@ libselinux and selinux-policy:
 /etc/selinux/targeted/contexts/sepgsql_contexts:  line 40 has invalid object type db_language
 ```
 
-These messages are harmless and should be ignored.
+這些訊息無害，應予忽略。
 
-If the installation process completes without error, you can now start the
-server normally.
+若安裝過程完成且沒有錯誤，現在就可以正常啟動伺服器。
 
 <a id="SEPGSQL-REGRESSION"></a>
 
-### F.40.3. Regression Tests [#](#SEPGSQL-REGRESSION)
+### F.40.3. 迴歸測試 [#](#SEPGSQL-REGRESSION)
 
-The `sepgsql` test suite is run if
-`PG_TEST_EXTRA` contains `sepgsql` (see
-[Section 31.1.3](../../server-administration/regress/regress-run.md#REGRESS-ADDITIONAL)). This method is suitable during
-development of PostgreSQL. Alternatively, there
-is a way to run the tests to checks whether a database instance has been
-set up properly for `sepgsql`.
+若 `PG_TEST_EXTRA` 包含 `sepgsql`，就會執行
+`sepgsql` 測試套件（請參閱
+[第 31.1.3 節](../../server-administration/regress/regress-run.md#REGRESS-ADDITIONAL)）。這種方法適用於
+PostgreSQL 的開發期間。另外，也有一種執行測試的方式，可用來檢查資料庫執行個體是否已為
+`sepgsql` 正確設定。
 
-Due to the nature of SELinux, running the
-regression tests for `sepgsql` requires several extra
-configuration steps, some of which must be done as root.
+由於 SELinux 的特性，執行
+`sepgsql` 的迴歸測試需要幾個額外的設定步驟，其中有些必須以 root 身分執行。
 
-The manual tests must be run in the `contrib/sepgsql` directory
-of a configured PostgreSQL build tree. Although they require a build tree,
-the tests are designed to be executed against an installed server,
-that is they are comparable to `make installcheck` not
-`make check`.
+手動測試必須在已完成組態設定的 PostgreSQL 建置樹之 `contrib/sepgsql` 目錄中執行。雖然需要建置樹，但這些測試是設計為針對已安裝的伺服器執行，也就是說，它們相當於 `make installcheck`，而不是
+`make check`。
 
-First, set up `sepgsql` in a working database
-according to the instructions in [Section F.40.2](sepgsql.md#SEPGSQL-INSTALLATION).
-Note that the current operating system user must be able to connect to the
-database as superuser without password authentication.
+首先，依照[第 F.40.2 節](sepgsql.md#SEPGSQL-INSTALLATION)的說明，在運作中的資料庫裡設定 `sepgsql`。
+請注意，目前的作業系統使用者必須能夠不經密碼驗證，以超級使用者身分連線到資料庫。
 
-Second, build and install the policy package for the regression test.
-The `sepgsql-regtest` policy is a special purpose policy package
-which provides a set of rules to be allowed during the regression tests.
-It should be built from the policy source file
-`sepgsql-regtest.te`, which is done using
-`make` with a Makefile supplied by SELinux.
-You will need to locate the appropriate
-Makefile on your system; the path shown below is only an example.
-(This Makefile is usually supplied by the
-`selinux-policy-devel` or
-`selinux-policy` RPM.)
-Once built, install this policy package using the
-`semodule` command, which loads supplied policy packages
-into the kernel. If the package is correctly installed,
-`semodule -l` should list `sepgsql-regtest` as an
-available policy package:
+其次，建置並安裝迴歸測試用的政策套件。
+`sepgsql-regtest` 政策是一個特殊用途的政策套件，提供一組在迴歸測試期間允許的規則。
+它應該從政策原始檔
+`sepgsql-regtest.te` 建置，建置方式是以 SELinux 提供的 Makefile 執行
+`make`。
+你需要在系統上找到適當的
+Makefile；下方所示的路徑只是一個範例。
+（此 Makefile 通常由
+`selinux-policy-devel` 或
+`selinux-policy` RPM 提供。）
+建置完成後，使用
+`semodule` 命令安裝此政策套件，該命令會將提供的政策套件載入核心。若套件安裝正確，
+`semodule -l` 應會將 `sepgsql-regtest` 列為可用的政策套件：
 
 ```
 
@@ -190,12 +154,10 @@ $ sudo semodule -l | grep sepgsql
 sepgsql-regtest 1.07
 ```
 
-Third, turn on `sepgsql_regression_test_mode`.
-For security reasons, the rules in `sepgsql-regtest`
-are not enabled by default;
-the `sepgsql_regression_test_mode` parameter enables
-the rules needed to launch the regression tests.
-It can be turned on using the `setsebool` command:
+第三，開啟 `sepgsql_regression_test_mode`。
+基於安全理由，`sepgsql-regtest` 中的規則預設不會啟用；
+`sepgsql_regression_test_mode` 參數會啟用執行迴歸測試所需的規則。
+可以使用 `setsebool` 命令開啟它：
 
 ```
 
@@ -204,8 +166,8 @@ $ getsebool sepgsql_regression_test_mode
 sepgsql_regression_test_mode --> on
 ```
 
-Fourth, verify your shell is operating in the `unconfined_t`
-domain:
+第四，確認你的 shell 是在 `unconfined_t`
+網域（domain）中運作：
 
 ```
 
@@ -213,30 +175,27 @@ $ id -Z
 unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
-See [Section F.40.8](sepgsql.md#SEPGSQL-RESOURCES) for details on adjusting your
-working domain, if necessary.
+若有必要調整你的工作網域，詳細資訊請參閱[第 F.40.8 節](sepgsql.md#SEPGSQL-RESOURCES)。
 
-Finally, run the regression test script:
+最後，執行迴歸測試指令稿：
 
 ```
 
 $ ./test_sepgsql
 ```
 
-This script will attempt to verify that you have done all the configuration
-steps correctly, and then it will run the regression tests for the
-`sepgsql` module.
+此指令稿會嘗試驗證你是否已正確完成所有設定步驟，然後執行
+`sepgsql` 模組的迴歸測試。
 
-After completing the tests, it's recommended you disable
-the `sepgsql_regression_test_mode` parameter:
+完成測試後，建議你停用
+`sepgsql_regression_test_mode` 參數：
 
 ```
 
 $ sudo setsebool sepgsql_regression_test_mode off
 ```
 
-You might prefer to remove the `sepgsql-regtest` policy
-entirely:
+你也可以選擇完全移除 `sepgsql-regtest` 政策：
 
 ```
 
@@ -245,200 +204,132 @@ $ sudo semodule -r sepgsql-regtest
 
 <a id="SEPGSQL-PARAMETERS"></a>
 
-### F.40.4. GUC Parameters [#](#SEPGSQL-PARAMETERS)
+### F.40.4. GUC 參數 [#](#SEPGSQL-PARAMETERS)
 
 <a id="GUC-SEPGSQL-PERMISSIVE"></a>
 
 `sepgsql.permissive` (`boolean`) <a id="id-1.11.7.50.8.2.1.1.3"></a> [#](#GUC-SEPGSQL-PERMISSIVE)
-:   This parameter enables `sepgsql` to function
-    in permissive mode, regardless of the system setting.
-    The default is off.
-    This parameter can only be set in the `postgresql.conf`
-    file or on the server command line.
+:   此參數讓 `sepgsql` 不論系統設定為何，都以寬鬆（permissive）模式運作。
+    預設為關閉。
+    此參數只能在 `postgresql.conf`
+    檔案中或伺服器命令列上設定。
 
-    When this parameter is on, `sepgsql` functions
-    in permissive mode, even if SELinux in general is working in enforcing
-    mode. This parameter is primarily useful for testing purposes.
+    此參數開啟時，即使 SELinux 整體是以強制（enforcing）模式運作，`sepgsql`
+    仍會以寬鬆模式運作。此參數主要用於測試目的。
 <a id="GUC-SEPGSQL-DEBUG-AUDIT"></a>
 
 `sepgsql.debug_audit` (`boolean`) <a id="id-1.11.7.50.8.2.2.1.3"></a> [#](#GUC-SEPGSQL-DEBUG-AUDIT)
-:   This parameter enables the printing of audit messages regardless of
-    the system policy settings.
-    The default is off, which means that messages will be printed according
-    to the system settings.
+:   此參數讓稽核訊息不論系統政策設定為何都會輸出。
+    預設為關閉，表示訊息會依系統設定輸出。
 
-    The security policy of SELinux also has rules to
-    control whether or not particular accesses are logged.
-    By default, access violations are logged, but allowed
-    accesses are not.
+    SELinux 的安全政策也有規則，用來控制特定存取是否要記錄。
+    預設情況下，存取違規會被記錄，但允許的存取不會。
 
-    This parameter forces all possible logging to be turned on, regardless
-    of the system policy.
+    此參數會強制開啟所有可能的記錄，而不論系統政策為何。
 
 <a id="SEPGSQL-FEATURES"></a>
 
-### F.40.5. Features [#](#SEPGSQL-FEATURES)
+### F.40.5. 功能 [#](#SEPGSQL-FEATURES)
 
 <a id="SEPGSQL-FEATURES-CONTROLLED-OBJ-CLASSES"></a>
 
-#### F.40.5.1. Controlled Object Classes [#](#SEPGSQL-FEATURES-CONTROLLED-OBJ-CLASSES)
+#### F.40.5.1. 受控制的物件類別 [#](#SEPGSQL-FEATURES-CONTROLLED-OBJ-CLASSES)
 
-The security model of SELinux describes all the access
-control rules as relationships between a subject entity (typically,
-a client of the database) and an object entity (such as a database
-object), each of which is
-identified by a security label. If access to an unlabeled object is
-attempted, the object is treated as if it were assigned the label
-`unlabeled_t`.
+SELinux 的安全模型將所有存取控制規則描述為主體實體（通常是資料庫的用戶端）與客體實體（例如資料庫物件）之間的關係，兩者各自由一個安全標籤識別。若嘗試存取未加標籤的物件，該物件會被視為已被指定標籤
+`unlabeled_t`。
 
-Currently, `sepgsql` allows security labels to be
-assigned to schemas, tables, columns, sequences, views, and functions.
-When `sepgsql` is in use, security labels are
-automatically assigned to supported database objects at creation time.
-This label is called a default security label, and is decided according
-to the system security policy, which takes as input the creator's label,
-the label assigned to the new object's parent object and optionally name
-of the constructed object.
+目前，`sepgsql` 允許將安全標籤指定給綱要、資料表、欄位、序列、檢視表與函式。
+使用 `sepgsql` 時，系統會在支援的資料庫物件建立時自動為其指定安全標籤。
+此標籤稱為預設安全標籤，依據系統安全政策決定；該政策的輸入包括建立者的標籤、指定給新物件之父物件的標籤，以及（選擇性地）所建立物件的名稱。
 
-A new database object basically inherits the security label of the parent
-object, except when the security policy has special rules known as
-type-transition rules, in which case a different label may be applied.
-For schemas, the parent object is the current database; for tables,
-sequences, views, and functions, it is the containing schema; for columns,
-it is the containing table.
+新的資料庫物件基本上會繼承父物件的安全標籤，但若安全政策有稱為型別轉換（type-transition）規則的特殊規則，則可能套用不同的標籤。
+對綱要而言，父物件是目前的資料庫；對資料表、序列、檢視表與函式而言，父物件是其所屬的綱要；對欄位而言，父物件是其所屬的資料表。
 
 <a id="SEPGSQL-FEATURES-DML-PERMISSIONS"></a>
 
-#### F.40.5.2. DML Permissions [#](#SEPGSQL-FEATURES-DML-PERMISSIONS)
+#### F.40.5.2. DML 權限 [#](#SEPGSQL-FEATURES-DML-PERMISSIONS)
 
-For tables, `db_table:select`, `db_table:insert`,
-`db_table:update` or `db_table:delete` are
-checked for all the referenced target tables depending on the kind of
-statement; in addition, `db_table:select` is also checked for
-all the tables that contain columns referenced in the
-`WHERE` or `RETURNING` clause, as a data source
-for `UPDATE`, and so on.
+對資料表而言，會依陳述式的種類，對所有被參照的目標資料表檢查 `db_table:select`、`db_table:insert`、
+`db_table:update` 或 `db_table:delete`；此外，對於所有包含在
+`WHERE` 或 `RETURNING` 子句中被參照之欄位的資料表、作為
+`UPDATE` 資料來源的資料表等，也會檢查 `db_table:select`。
 
-Column-level permissions will also be checked for each referenced column.
-`db_column:select` is checked on not only the columns being
-read using `SELECT`, but those being referenced in other DML
-statements; `db_column:update` or `db_column:insert`
-will also be checked for columns being modified by `UPDATE` or
-`INSERT`.
+也會對每個被參照的欄位檢查欄位層級的權限。
+`db_column:select` 不僅會對使用 `SELECT` 讀取的欄位進行檢查，也會對其他 DML
+陳述式中被參照的欄位進行檢查；對於被 `UPDATE` 或
+`INSERT` 修改的欄位，也會檢查 `db_column:update` 或 `db_column:insert`。
 
-For example, consider:
+例如，考慮以下陳述式：
 
 ```
 
 UPDATE t1 SET x = 2, y = func1(y) WHERE z = 100;
 ```
 
-Here, `db_column:update` will be checked for
-`t1.x`, since it is being updated,
-`db_column:{select update}` will be checked for
-`t1.y`, since it is both updated and referenced, and
-`db_column:select` will be checked for `t1.z`, since
-it is only referenced.
-`db_table:{select update}` will also be checked
-at the table level.
+此處，會對
+`t1.x` 檢查 `db_column:update`，因為它被更新；會對
+`t1.y` 檢查 `db_column:{select update}`，因為它既被更新也被參照；並對 `t1.z` 檢查
+`db_column:select`，因為它只被參照。
+在資料表層級也會檢查 `db_table:{select update}`。
 
-For sequences, `db_sequence:get_value` is checked when we
-reference a sequence object using `SELECT`; however, note that we
-do not currently check permissions on execution of corresponding functions
-such as `lastval()`.
+對序列而言，使用 `SELECT` 參照序列物件時會檢查 `db_sequence:get_value`；不過請注意，目前並不會在執行對應的函式（例如
+`lastval()`）時檢查權限。
 
-For views, `db_view:expand` will be checked, then any other
-required permissions will be checked on the objects being
-expanded from the view, individually.
+對檢視表而言，會檢查 `db_view:expand`，然後再對從該檢視表展開的物件分別檢查其他任何所需的權限。
 
-For functions, `db_procedure:{execute}` will be checked when
-user tries to execute a function as a part of query, or using fast-path
-invocation. If this function is a trusted procedure, it also checks
-`db_procedure:{entrypoint}` permission to check whether it
-can perform as entry point of trusted procedure.
+對函式而言，當使用者嘗試在查詢中執行函式，或透過快速路徑（fast-path）呼叫執行函式時，會檢查 `db_procedure:{execute}`。若此函式是受信任程序，還會檢查
+`db_procedure:{entrypoint}` 權限，以確認它是否可以作為受信任程序的進入點。
 
-In order to access any schema object, `db_schema:search`
-permission is required on the containing schema. When an object is
-referenced without schema qualification, schemas on which this
-permission is not present will not be searched (just as if the user did
-not have `USAGE` privilege on the schema). If an explicit schema
-qualification is present, an error will occur if the user does not have
-the requisite permission on the named schema.
+要存取任何綱要物件，都需要具有其所屬綱要的 `db_schema:search`
+權限。當參照物件而未以綱要限定時，不會搜尋沒有此權限的綱要（就如同使用者沒有該綱要的
+`USAGE` 權限一樣）。若有明確的綱要限定，而使用者沒有所指名綱要的必要權限，就會發生錯誤。
 
-The client must be allowed to access all referenced tables and
-columns, even if they originated from views which were then expanded,
-so that we apply consistent access control rules independent of the manner
-in which the table contents are referenced.
+用戶端必須被允許存取所有被參照的資料表與欄位，即使它們來自之後被展開的檢視表也一樣，如此一來，不論以何種方式參照資料表內容，都會套用一致的存取控制規則。
 
-The default database privilege system allows database superusers to
-modify system catalogs using DML commands, and reference or modify
-toast tables. These operations are prohibited when
-`sepgsql` is enabled.
+預設的資料庫權限系統允許資料庫超級使用者使用 DML 命令修改系統目錄，以及參照或修改
+TOAST 資料表。啟用 `sepgsql` 時，這些操作會被禁止。
 
 <a id="SEPGSQL-FEATURES-DDL-PERMISSIONS"></a>
 
-#### F.40.5.3. DDL Permissions [#](#SEPGSQL-FEATURES-DDL-PERMISSIONS)
+#### F.40.5.3. DDL 權限 [#](#SEPGSQL-FEATURES-DDL-PERMISSIONS)
 
-SELinux defines several permissions to control common
-operations for each object type; such as creation, alter, drop and
-relabel of security label. In addition, several object types have
-special permissions to control their characteristic operations; such as
-addition or deletion of name entries within a particular schema.
+SELinux 為每種物件類型定義了數種權限，用來控制常見的操作，例如建立、修改、刪除，以及重新標記安全標籤。此外，有幾種物件類型具有特殊權限，用來控制其特有的操作，例如在特定綱要內新增或刪除名稱項目。
 
-Creating a new database object requires `create` permission.
-SELinux will grant or deny this permission based on the
-client's security label and the proposed security label for the new
-object. In some cases, additional privileges are required:
+建立新的資料庫物件需要 `create` 權限。
+SELinux 會依據用戶端的安全標籤與新物件的擬定安全標籤，授與或拒絕此權限。在某些情況下，還需要額外的權限：
 
-* [`CREATE DATABASE`](../../reference/sql-commands/sql-createdatabase.md) additionally requires
-  `getattr` permission for the source or template database.
-* Creating a schema object additionally requires `add_name`
-  permission on the parent schema.
-* Creating a table additionally requires permission to create each
-  individual table column, just as if each table column were a
-  separate top-level object.
-* Creating a function marked as `LEAKPROOF` additionally
-  requires `install` permission. (This permission is also
-  checked when `LEAKPROOF` is set for an existing function.)
+* [`CREATE DATABASE`](../../reference/sql-commands/sql-createdatabase.md) 還需要對來源資料庫或範本資料庫具有
+  `getattr` 權限。
+* 建立綱要物件還需要對父綱要具有 `add_name`
+  權限。
+* 建立資料表還需要建立每個個別資料表欄位的權限，就如同每個資料表欄位都是獨立的頂層物件一樣。
+* 建立標記為 `LEAKPROOF` 的函式還需要
+  `install` 權限。（為既有函式設定 `LEAKPROOF` 時，
+  也會檢查此權限。）
 
-When `DROP` command is executed, `drop` will be
-checked on the object being removed. Permissions will be also checked for
-objects dropped indirectly via `CASCADE`. Deletion of objects
-contained within a particular schema (tables, views, sequences and
-procedures) additionally requires `remove_name` on the schema.
+執行 `DROP` 命令時，會對被移除的物件檢查 `drop`。對於透過 `CASCADE`
+間接刪除的物件也會檢查權限。刪除特定綱要內所含的物件（資料表、檢視表、序列與程序）時，還需要該綱要的 `remove_name`。
 
-When `ALTER` command is executed, `setattr` will be
-checked on the object being modified for each object types, except for
-subsidiary objects such as the indexes or triggers of a table, where
-permissions are instead checked on the parent object. In some cases,
-additional permissions are required:
+執行 `ALTER` 命令時，對每種物件類型，都會對被修改的物件檢查 `setattr`；但資料表的索引或觸發程序等附屬物件除外，對它們改為檢查父物件的權限。在某些情況下，還需要額外的權限：
 
-* Moving an object to a new schema additionally requires
-  `remove_name` permission on the old schema and
-  `add_name` permission on the new one.
-* Setting the `LEAKPROOF` attribute on a function requires
-  `install` permission.
-* Using [`SECURITY LABEL`](../../reference/sql-commands/sql-security-label.md) on an object additionally
-  requires `relabelfrom` permission for the object in
-  conjunction with its old security label and `relabelto`
-  permission for the object in conjunction with its new security label.
-  (In cases where multiple label providers are installed and the user
-  tries to set a security label, but it is not managed by
-  SELinux, only `setattr` should be checked here.
-  This is currently not done due to implementation restrictions.)
+* 將物件移到新的綱要，還需要對舊綱要具有
+  `remove_name` 權限，以及對新綱要具有
+  `add_name` 權限。
+* 為函式設定 `LEAKPROOF` 屬性需要
+  `install` 權限。
+* 對物件使用 [`SECURITY LABEL`](../../reference/sql-commands/sql-security-label.md)，還需要該物件搭配其舊安全標籤的
+  `relabelfrom` 權限，以及該物件搭配其新安全標籤的 `relabelto`
+  權限。
+  （在安裝了多個標籤提供者、而使用者嘗試設定的安全標籤並非由
+  SELinux 管理的情況下，此處應該只檢查 `setattr`。
+  由於實作上的限制，目前並未這樣做。）
 
 <a id="SEPGSQL-FEATURES-TRUSTED-PROCEDURES"></a>
 
-#### F.40.5.4. Trusted Procedures [#](#SEPGSQL-FEATURES-TRUSTED-PROCEDURES)
+#### F.40.5.4. 受信任程序 [#](#SEPGSQL-FEATURES-TRUSTED-PROCEDURES)
 
-Trusted procedures are similar to security definer functions or setuid
-commands. SELinux provides a feature to allow trusted
-code to run using a security label different from that of the client,
-generally for the purpose of providing highly controlled access to
-sensitive data (e.g., rows might be omitted, or the precision of stored
-values might be reduced). Whether or not a function acts as a trusted
-procedure is controlled by its security label and the operating system
-security policy. For example:
+受信任程序類似於安全性定義者（security definer）函式或 setuid
+命令。SELinux 提供一項功能，允許受信任的程式碼使用與用戶端不同的安全標籤執行，通常是為了對敏感資料提供高度受控的存取（例如，可能省略某些資料列，或降低所儲存值的精確度）。函式是否作為受信任程序運作，由其安全標籤與作業系統安全政策控制。例如：
 
 ```
 
@@ -461,7 +352,7 @@ postgres=# SECURITY LABEL ON FUNCTION show_credit(int)
 SECURITY LABEL
 ```
 
-The above operations should be performed by an administrative user.
+上述操作應由管理用途的使用者執行。
 
 ```
 
@@ -475,28 +366,19 @@ postgres=# SELECT cid, cname, show_credit(cid) FROM customer;
 (2 rows)
 ```
 
-In this case, a regular user cannot reference `customer.credit`
-directly, but a trusted procedure `show_credit` allows the user
-to print the credit card numbers of customers with some of the digits
-masked out.
+在此情況下，一般使用者無法直接參照 `customer.credit`，但受信任程序 `show_credit`
+讓使用者能夠印出部分數字已遮蔽的顧客信用卡號碼。
 
 <a id="SEPGSQL-FEATURES-DYNAMIC-DOMAIN-TRANSITIONS"></a>
 
-#### F.40.5.5. Dynamic Domain Transitions [#](#SEPGSQL-FEATURES-DYNAMIC-DOMAIN-TRANSITIONS)
+#### F.40.5.5. 動態網域轉換 [#](#SEPGSQL-FEATURES-DYNAMIC-DOMAIN-TRANSITIONS)
 
-It is possible to use SELinux's dynamic domain transition feature
-to switch the security label of the client process, the client domain,
-to a new context, if that is allowed by the security policy.
-The client domain needs the `setcurrent` permission and also
-`dyntransition` from the old to the new domain.
+若安全政策允許，可以使用 SELinux 的動態網域轉換功能，將用戶端程序的安全標籤（即用戶端網域）切換到新的上下文（context）。
+用戶端網域需要 `setcurrent` 權限，以及從舊網域到新網域的
+`dyntransition` 權限。
 
-Dynamic domain transitions should be considered carefully, because they
-allow users to switch their label, and therefore their privileges,
-at their option, rather than (as in the case of a trusted procedure)
-as mandated by the system.
-Thus, the `dyntransition` permission is only considered
-safe when used to switch to a domain with a smaller set of privileges than
-the original one. For example:
+動態網域轉換應審慎考量，因為它讓使用者能夠依自己的選擇切換其標籤，進而切換其權限，而不是（如受信任程序的情況）由系統強制決定。
+因此，只有在用來切換到權限集合比原本更小的網域時，`dyntransition` 權限才被視為安全。例如：
 
 ```
 
@@ -516,142 +398,111 @@ regression=# SELECT sepgsql_setcon('unconfined_u:unconfined_r:unconfined_t:s0-s0
 ERROR:  SELinux: security policy violation
 ```
 
-In this example above we were allowed to switch from the larger MCS
-range `c1.c1023` to the smaller range `c1.c4`, but
-switching back was denied.
+在上述範例中，我們被允許從較大的 MCS
+範圍 `c1.c1023` 切換到較小的範圍 `c1.c4`，但切換回去則被拒絕。（譯註：依範例中 sepgsql_getcon() 的輸出，切換前的範圍實為 c0.c1023；c1.c1023 是最後一次嘗試、被拒絕的目標範圍。）
 
-A combination of dynamic domain transition and trusted procedure
-enables an interesting use case that fits the typical process life-cycle
-of connection pooling software.
-Even if your connection pooling software is not allowed to run most
-of SQL commands, you can allow it to switch the security label
-of the client using the `sepgsql_setcon()` function
-from within a trusted procedure; that should take some
-credential to authorize the request to switch the client label.
-After that, this session will have the privileges of the target user,
-rather than the connection pooler.
-The connection pooler can later revert the security label change by
-again using `sepgsql_setcon()` with
-`NULL` argument, again invoked from within a trusted
-procedure with appropriate permissions checks.
-The point here is that only the trusted procedure actually has permission
-to change the effective security label, and only does so when given proper
-credentials. Of course, for secure operation, the credential store
-(table, procedure definition, or whatever) must be protected from
-unauthorized access.
+結合動態網域轉換與受信任程序，可以實現一種有趣的使用情境，符合連線池軟體典型的程序生命週期。
+即使你的連線池軟體不被允許執行大部分的 SQL 命令，你仍可允許它在受信任程序內使用 `sepgsql_setcon()` 函式切換用戶端的安全標籤；該程序應接受某種憑據，以授權切換用戶端標籤的要求。
+之後，此工作階段將擁有目標使用者的權限，而不是連線池程式的權限。
+連線池程式之後可以再次以
+`NULL` 引數使用 `sepgsql_setcon()`，還原安全標籤的變更；這同樣是在具有適當權限檢查的受信任程序內呼叫。
+重點在於，只有受信任程序實際具有變更有效安全標籤的權限，而且只有在獲得適當憑據時才會這麼做。當然，為了安全運作，必須保護憑據的儲存處（資料表、程序定義或其他任何形式）免於未經授權的存取。
 
 <a id="SEPGSQL-FEATURES-MISC"></a>
 
-#### F.40.5.6. Miscellaneous [#](#SEPGSQL-FEATURES-MISC)
+#### F.40.5.6. 其他 [#](#SEPGSQL-FEATURES-MISC)
 
-We reject the [`LOAD`](../../reference/sql-commands/sql-load.md) command across the board, because
-any module loaded could easily circumvent security policy enforcement.
+我們一律拒絕 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令，因為任何被載入的模組都可以輕易規避安全政策的強制執行。
 
 <a id="SEPGSQL-FUNCTIONS"></a>
 
-### F.40.6. Sepgsql Functions [#](#SEPGSQL-FUNCTIONS)
+### F.40.6. sepgsql 函式 [#](#SEPGSQL-FUNCTIONS)
 
-[Table F.32](sepgsql.md#SEPGSQL-FUNCTIONS-TABLE) shows the available functions.
+[表 F.32](sepgsql.md#SEPGSQL-FUNCTIONS-TABLE) 列出可用的函式。
 
 <a id="SEPGSQL-FUNCTIONS-TABLE"></a>
 
-**Table F.32. Sepgsql Functions**
+**表 F.32. sepgsql 函式**
 
-<table border="1" class="table" summary="Sepgsql Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+<table border="1" class="table" summary="sepgsql 函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
+        函式
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">sepgsql_getcon</code> ()
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Returns the client domain, the current security label of the client.
+        傳回用戶端網域，也就是用戶端目前的安全標籤。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">sepgsql_setcon</code> ( <code class="type">text</code> )
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Switches the client domain of the current session to the new domain,
-        if allowed by the security policy.
-        It also accepts <code class="literal">NULL</code> input as a request to transition
-        to the client's original domain.
+        若安全政策允許，將目前工作階段的用戶端網域切換到新的網域。
+        它也接受 <code class="literal">NULL</code> 輸入，作為轉換回用戶端原本網域的要求。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">sepgsql_mcstrans_in</code> ( <code class="type">text</code> )
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Translates the given qualified MLS/MCS range into raw format if
-        the mcstrans daemon is running.
+        若 mcstrans 常駐程式正在執行，將給定的限定格式 MLS/MCS 範圍轉換為原始格式。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">sepgsql_mcstrans_out</code> ( <code class="type">text</code> )
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        Translates the given raw MLS/MCS range into qualified format if
-        the mcstrans daemon is running.
+        若 mcstrans 常駐程式正在執行，將給定的原始格式 MLS/MCS 範圍轉換為限定格式。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">sepgsql_restorecon</code> ( <code class="type">text</code> )
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        Sets up initial security labels for all objects within the
-        current database. The argument may be <code class="literal">NULL</code>, or the
-        name of a specfile to be used as alternative of the system default.
+        為目前資料庫內的所有物件設定初始安全標籤。引數可以是 <code class="literal">NULL</code>，或是用來取代系統預設值的 specfile 名稱。
        </p></td></tr></tbody></table>
 
 <br>
 
 <a id="SEPGSQL-LIMITATIONS"></a>
 
-### F.40.7. Limitations [#](#SEPGSQL-LIMITATIONS)
+### F.40.7. 限制 [#](#SEPGSQL-LIMITATIONS)
 
-Data Definition Language (DDL) Permissions
-:   Due to implementation restrictions, some DDL operations do not
-    check permissions.
+資料定義語言（DDL）權限
+:   由於實作上的限制，有些 DDL 操作不會檢查權限。
 
-Data Control Language (DCL) Permissions
-:   Due to implementation restrictions, DCL operations do not check
-    permissions.
+資料控制語言（DCL）權限
+:   由於實作上的限制，DCL 操作不會檢查權限。
 
-Row-level access control
-:   PostgreSQL supports row-level access, but
-    `sepgsql` does not.
+資料列層級存取控制
+:   PostgreSQL 支援資料列層級的存取，但
+    `sepgsql` 不支援。
 
-Covert channels
-:   `sepgsql` does not try to hide the existence of
-    a certain object, even if the user is not allowed to reference it.
-    For example, we can infer the existence of an invisible object as
-    a result of primary key conflicts, foreign key violations, and so on,
-    even if we cannot obtain the contents of the object. The existence
-    of a top secret table cannot be hidden; we only hope to conceal its
-    contents.
+隱蔽通道（covert channel）
+:   即使使用者不被允許參照某個物件，`sepgsql` 也不會嘗試隱藏該物件的存在。
+    例如，即使我們無法取得物件的內容，仍可從主鍵衝突、外部鍵違規等結果推斷出不可見物件的存在。極機密資料表的存在無法隱藏；我們只希望能隱藏其內容。
 
 <a id="SEPGSQL-RESOURCES"></a>
 
-### F.40.8. External Resources [#](#SEPGSQL-RESOURCES)
+### F.40.8. 外部資源 [#](#SEPGSQL-RESOURCES)
 
-[SE-PostgreSQL Introduction](https://wiki.postgresql.org/wiki/SEPostgreSQL_Introduction)
-:   This wiki page provides a brief overview, security design, architecture,
-    administration and upcoming features.
+[SE-PostgreSQL 簡介](https://wiki.postgresql.org/wiki/SEPostgreSQL_Introduction)
+:   此 wiki 頁面提供簡要概觀，以及安全設計、架構、管理與即將推出的功能。
 
-[SELinux User's and Administrator's Guide](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/index)
-:   This document provides a wide spectrum of knowledge to administer
-    SELinux on your systems.
-    It focuses primarily on Red Hat operating systems, but is not limited to them.
+[SELinux 使用者與管理員指南](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/index)
+:   此文件提供在你的系統上管理 SELinux 所需的廣泛知識。
+    它主要著重於 Red Hat 作業系統，但並不限於這些系統。
 
 [Fedora SELinux FAQ](https://fedoraproject.org/wiki/SELinux_FAQ)
-:   This document answers frequently asked questions about
-    SELinux.
-    It focuses primarily on Fedora, but is not limited to Fedora.
+:   此文件回答關於 SELinux 的常見問題。
+    它主要著重於 Fedora，但並不限於 Fedora。
 
 <a id="SEPGSQL-AUTHOR"></a>
 
-### F.40.9. Author [#](#SEPGSQL-AUTHOR)
+### F.40.9. 作者 [#](#SEPGSQL-AUTHOR)
 
 KaiGai Kohei `<kaigai@ak.jp.nec.com>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sepgsql.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/sepgsql.html)（原文版本：18.6；核對日期：2026-10-22）

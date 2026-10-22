@@ -1103,7 +1103,7 @@
     * [F.37. pg_walinspect — 低階 WAL 檢視 #](appendixes/contrib/pgwalinspect.md)
     * [F.38. postgres_fdw — 存取儲存在外部 PostgreSQL 伺服器中的資料 #](appendixes/contrib/postgres-fdw.md)
     * [F.39. seg — 線段或浮點數區間的資料型別 #](appendixes/contrib/seg.md)
-    * [F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #](appendixes/contrib/sepgsql.md)
+    * [F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 #](appendixes/contrib/sepgsql.md)
     * [F.41. spi — Server Programming Interface 功能與範例 #](appendixes/contrib/contrib-spi.md)
     * [F.42. sslinfo — 取得用戶端 SSL 資訊 #](appendixes/contrib/sslinfo.md)
     * [F.43. tablefunc — functions that return tables ( crosstab and others) #](appendixes/contrib/tablefunc.md)
