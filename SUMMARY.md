@@ -1129,7 +1129,7 @@
   * [附錄 J. 文件](appendixes/docguide/README.md)
     * [J.1. DocBook](appendixes/docguide/docguide-docbook.md)
     * [J.2. 工具組 #](appendixes/docguide/docguide-toolsets.md)
-    * [J.3. Building the Documentation with Make #](appendixes/docguide/docguide-build.md)
+    * [J.3. 使用 Make 建置文件 #](appendixes/docguide/docguide-build.md)
     * [J.4. 使用 Meson 建置文件](appendixes/docguide/docguide-build-meson.md)
     * [J.5. 文件撰寫](appendixes/docguide/docguide-authoring.md)
     * [J.6. 風格指南 #](appendixes/docguide/docguide-style.md)
