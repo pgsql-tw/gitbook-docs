@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：67 頁。
+待譯頁面：66 頁。
 
 ## 根目錄
 
@@ -126,7 +126,7 @@
 - [ ] `appendixes/limits/README.md` — Appendix K. PostgreSQL Limits
 - [ ] `appendixes/release/README.md` — Appendix E. Release Notes
 - [ ] `appendixes/release/release-18-1.md` — E.5. Release 18.1 #
-- [ ] `appendixes/release/release-18-2.md` — E.4. Release 18.2 #
+- [x] `appendixes/release/release-18-2.md` — E.4. 18.2 版 #
 - [ ] `appendixes/release/release-18-3.md` — E.3. Release 18.3 #
 - [ ] `appendixes/release/release-18-4.md` — E.2. Release 18.4 #
 - [ ] `appendixes/release/release-18-6.md` — E.1. Release 18.6 #
