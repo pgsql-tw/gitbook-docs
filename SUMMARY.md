@@ -332,7 +332,7 @@
     * [33.3. 用戶端介面 #](client-interfaces/largeobjects/lo-interfaces.md)
     * [33.4. 伺服器端函式 #](client-interfaces/largeobjects/lo-funcs.md)
     * [33.5. 範例程式 #](client-interfaces/largeobjects/lo-examplesect.md)
-  * [Chapter 34. ECPG — Embedded SQL in C](client-interfaces/ecpg/README.md)
+  * [第 34 章 ECPG — C 語言中的嵌入式 SQL](client-interfaces/ecpg/README.md)
     * [34.1. 概念 #](client-interfaces/ecpg/ecpg-concept.md)
     * [34.2. 管理資料庫連線 #](client-interfaces/ecpg/ecpg-connect.md)
     * [34.3. 執行 SQL 命令 #](client-interfaces/ecpg/ecpg-commands.md)

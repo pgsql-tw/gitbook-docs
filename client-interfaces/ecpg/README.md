@@ -1,155 +1,150 @@
-## Chapter 34. ECPG — Embedded SQL in C
+<a id="ECPG"></a>
 
-**Table of Contents**
+## 第 34 章 ECPG — C 語言中的嵌入式 SQL
 
-[34.1. The Concept](ecpg-concept.md)
+**目錄**
 
-[34.2. Managing Database Connections](ecpg-connect.md)
-:   [34.2.1. Connecting to the Database Server](ecpg-connect.md#ECPG-CONNECTING)
+[34.1. 概念](ecpg-concept.md)
 
-    [34.2.2. Choosing a Connection](ecpg-connect.md#ECPG-SET-CONNECTION)
+[34.2. 管理資料庫連線](ecpg-connect.md)
+:   [34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ECPG-CONNECTING)
 
-    [34.2.3. Closing a Connection](ecpg-connect.md#ECPG-DISCONNECT)
+    [34.2.2. 選擇連線](ecpg-connect.md#ECPG-SET-CONNECTION)
 
-[34.3. Running SQL Commands](ecpg-commands.md)
-:   [34.3.1. Executing SQL Statements](ecpg-commands.md#ECPG-EXECUTING)
+    [34.2.3. 關閉連線](ecpg-connect.md#ECPG-DISCONNECT)
 
-    [34.3.2. Using Cursors](ecpg-commands.md#ECPG-CURSORS)
+[34.3. 執行 SQL 命令](ecpg-commands.md)
+:   [34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ECPG-EXECUTING)
 
-    [34.3.3. Managing Transactions](ecpg-commands.md#ECPG-TRANSACTIONS)
+    [34.3.2. 使用游標](ecpg-commands.md#ECPG-CURSORS)
 
-    [34.3.4. Prepared Statements](ecpg-commands.md#ECPG-PREPARED)
+    [34.3.3. 管理交易](ecpg-commands.md#ECPG-TRANSACTIONS)
 
-[34.4. Using Host Variables](ecpg-variables.md)
-:   [34.4.1. Overview](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
+    [34.3.4. 預備陳述式](ecpg-commands.md#ECPG-PREPARED)
 
-    [34.4.2. Declare Sections](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
+[34.4. 使用主機變數](ecpg-variables.md)
+:   [34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
 
-    [34.4.3. Retrieving Query Results](ecpg-variables.md#ECPG-RETRIEVING)
+    [34.4.2. 宣告區段](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
 
-    [34.4.4. Type Mapping](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
+    [34.4.3. 取得查詢結果](ecpg-variables.md#ECPG-RETRIEVING)
 
-    [34.4.5. Handling Nonprimitive SQL Data Types](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+    [34.4.4. 型別對應](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
 
-    [34.4.6. Indicators](ecpg-variables.md#ECPG-INDICATORS)
+    [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
 
-[34.5. Dynamic SQL](ecpg-dynamic.md)
-:   [34.5.1. Executing Statements without a Result Set](ecpg-dynamic.md#ECPG-DYNAMIC-WITHOUT-RESULT)
+    [34.4.6. 指示變數](ecpg-variables.md#ECPG-INDICATORS)
 
-    [34.5.2. Executing a Statement with Input Parameters](ecpg-dynamic.md#ECPG-DYNAMIC-INPUT)
+[34.5. 動態 SQL](ecpg-dynamic.md)
+:   [34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITHOUT-RESULT)
 
-    [34.5.3. Executing a Statement with a Result Set](ecpg-dynamic.md#ECPG-DYNAMIC-WITH-RESULT)
+    [34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-INPUT)
 
-[34.6. pgtypes Library](ecpg-pgtypes.md)
-:   [34.6.1. Character Strings](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
+    [34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITH-RESULT)
 
-    [34.6.2. The numeric Type](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
+[34.6. pgtypes 函式庫](ecpg-pgtypes.md)
+:   [34.6.1. 字串](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
 
-    [34.6.3. The date Type](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
+    [34.6.2. numeric 型別](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
 
-    [34.6.4. The timestamp Type](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
+    [34.6.3. date 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
 
-    [34.6.5. The interval Type](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
+    [34.6.4. timestamp 型別](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
 
-    [34.6.6. The decimal Type](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
+    [34.6.5. interval 型別](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
 
-    [34.6.7. errno Values of pgtypeslib](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
+    [34.6.6. decimal 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
 
-    [34.6.8. Special Constants of pgtypeslib](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
+    [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
 
-[34.7. Using Descriptor Areas](ecpg-descriptors.md)
-:   [34.7.1. Named SQL Descriptor Areas](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
+    [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
 
-    [34.7.2. SQLDA Descriptor Areas](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+[34.7. 使用描述區](ecpg-descriptors.md)
+:   [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
 
-[34.8. Error Handling](ecpg-errors.md)
-:   [34.8.1. Setting Callbacks](ecpg-errors.md#ECPG-WHENEVER)
+    [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+
+[34.8. 錯誤處理](ecpg-errors.md)
+:   [34.8.1. 設定回呼](ecpg-errors.md#ECPG-WHENEVER)
 
     [34.8.2. sqlca](ecpg-errors.md#ECPG-SQLCA)
 
-    [34.8.3. `SQLSTATE` vs. `SQLCODE`](ecpg-errors.md#ECPG-SQLSTATE-SQLCODE)
+    [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ECPG-SQLSTATE-SQLCODE)
 
-[34.9. Preprocessor Directives](ecpg-preproc.md)
-:   [34.9.1. Including Files](ecpg-preproc.md#ECPG-INCLUDE)
+[34.9. 前置處理器指令](ecpg-preproc.md)
+:   [34.9.1. 引入檔案](ecpg-preproc.md#ECPG-INCLUDE)
 
-    [34.9.2. The define and undef Directives](ecpg-preproc.md#ECPG-DEFINE)
+    [34.9.2. define 與 undef 指令](ecpg-preproc.md#ECPG-DEFINE)
 
-    [34.9.3. ifdef, ifndef, elif, else, and endif Directives](ecpg-preproc.md#ECPG-IFDEF)
+    [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ECPG-IFDEF)
 
-[34.10. Processing Embedded SQL Programs](ecpg-process.md)
+[34.10. 處理嵌入式 SQL 程式](ecpg-process.md)
 
-[34.11. Library Functions](ecpg-library.md)
+[34.11. 函式庫函式](ecpg-library.md)
 
-[34.12. Large Objects](ecpg-lo.md)
+[34.12. 大型物件](ecpg-lo.md)
 
-[34.13. C++ Applications](ecpg-cpp.md)
-:   [34.13.1. Scope for Host Variables](ecpg-cpp.md#ECPG-CPP-SCOPE)
+[34.13. C++ 應用程式](ecpg-cpp.md)
+:   [34.13.1. 主機變數的作用域](ecpg-cpp.md#ECPG-CPP-SCOPE)
 
-    [34.13.2. C++ Application Development with External C Module](ecpg-cpp.md#ECPG-CPP-AND-C)
+    [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ECPG-CPP-AND-C)
 
-[34.14. Embedded SQL Commands](ecpg-sql-commands.md)
-:   [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — allocate an SQL descriptor area
+[34.14. 嵌入式 SQL 命令](ecpg-sql-commands.md)
+:   [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
 
-    [CONNECT](ecpg-sql-connect.md) — establish a database connection
+    [CONNECT](ecpg-sql-connect.md) — 建立資料庫連線
 
-    [DEALLOCATE DESCRIPTOR](ecpg-sql-deallocate-descriptor.md) — deallocate an SQL descriptor area
+    [DEALLOCATE DESCRIPTOR](ecpg-sql-deallocate-descriptor.md) — 釋放 SQL 描述區
 
-    [DECLARE](ecpg-sql-declare.md) — define a cursor
+    [DECLARE](ecpg-sql-declare.md) — 定義游標
 
-    [DECLARE STATEMENT](ecpg-sql-declare-statement.md) — declare SQL statement identifier
+    [DECLARE STATEMENT](ecpg-sql-declare-statement.md) — 宣告 SQL 陳述式識別字
 
-    [DESCRIBE](ecpg-sql-describe.md) — obtain information about a prepared statement or result set
+    [DESCRIBE](ecpg-sql-describe.md) — 取得預備陳述式或結果集的相關資訊
 
-    [DISCONNECT](ecpg-sql-disconnect.md) — terminate a database connection
+    [DISCONNECT](ecpg-sql-disconnect.md) — 結束資料庫連線
 
-    [EXECUTE IMMEDIATE](ecpg-sql-execute-immediate.md) — dynamically prepare and execute a statement
+    [EXECUTE IMMEDIATE](ecpg-sql-execute-immediate.md) — 動態準備並執行陳述式
 
-    [GET DESCRIPTOR](ecpg-sql-get-descriptor.md) — get information from an SQL descriptor area
+    [GET DESCRIPTOR](ecpg-sql-get-descriptor.md) — 從 SQL 描述區取得資訊
 
-    [OPEN](ecpg-sql-open.md) — open a dynamic cursor
+    [OPEN](ecpg-sql-open.md) — 開啟動態游標
 
-    [PREPARE](ecpg-sql-prepare.md) — prepare a statement for execution
+    [PREPARE](ecpg-sql-prepare.md) — 準備陳述式以供執行
 
-    [SET AUTOCOMMIT](ecpg-sql-set-autocommit.md) — set the autocommit behavior of the current session
+    [SET AUTOCOMMIT](ecpg-sql-set-autocommit.md) — 設定目前工作階段的自動提交行為
 
-    [SET CONNECTION](ecpg-sql-set-connection.md) — select a database connection
+    [SET CONNECTION](ecpg-sql-set-connection.md) — 選取資料庫連線
 
-    [SET DESCRIPTOR](ecpg-sql-set-descriptor.md) — set information in an SQL descriptor area
+    [SET DESCRIPTOR](ecpg-sql-set-descriptor.md) — 在 SQL 描述區中設定資訊
 
-    [TYPE](ecpg-sql-type.md) — define a new data type
+    [TYPE](ecpg-sql-type.md) — 定義新的資料型別
 
-    [VAR](ecpg-sql-var.md) — define a variable
+    [VAR](ecpg-sql-var.md) — 定義變數
 
-    [WHENEVER](ecpg-sql-whenever.md) — specify the action to be taken when an SQL statement causes a specific class condition to be raised
+    [WHENEVER](ecpg-sql-whenever.md) — 指定 SQL 陳述式引發特定類別條件時要採取的動作
 
-[34.15. Informix Compatibility Mode](ecpg-informix-compat.md)
-:   [34.15.1. Additional Types](ecpg-informix-compat.md#ECPG-INFORMIX-TYPES)
+[34.15. Informix 相容模式](ecpg-informix-compat.md)
+:   [34.15.1. 額外的型別](ecpg-informix-compat.md#ECPG-INFORMIX-TYPES)
 
-    [34.15.2. Additional/Missing Embedded SQL Statements](ecpg-informix-compat.md#ECPG-INFORMIX-STATEMENTS)
+    [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ECPG-INFORMIX-STATEMENTS)
 
-    [34.15.3. Informix-compatible SQLDA Descriptor Areas](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
+    [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
 
-    [34.15.4. Additional Functions](ecpg-informix-compat.md#ECPG-INFORMIX-FUNCTIONS)
+    [34.15.4. 額外的函式](ecpg-informix-compat.md#ECPG-INFORMIX-FUNCTIONS)
 
-    [34.15.5. Additional Constants](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
+    [34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
 
-[34.16. Oracle Compatibility Mode](ecpg-oracle-compat.md)
+[34.16. Oracle 相容模式](ecpg-oracle-compat.md)
 
-[34.17. Internals](ecpg-develop.md)
+[34.17. 內部運作](ecpg-develop.md)
 
 <a id="id-1.7.5.2"></a><a id="id-1.7.5.3"></a><a id="id-1.7.5.4"></a>
 
-This chapter describes the embedded SQL package
-for PostgreSQL. It was written by
-Linus Tolke (`<linus@epact.se>`) and Michael Meskes
-(`<meskes@postgresql.org>`). Originally it was written to work with
-C. It also works with C++, but
-it does not recognize all C++ constructs yet.
+本章說明 PostgreSQL 的嵌入式 SQL 套件。它由 Linus Tolke（`<linus@epact.se>`）與 Michael Meskes（`<meskes@postgresql.org>`）撰寫。它原本是為搭配 C 使用而撰寫的，也可以搭配 C++ 使用，但目前還無法辨識所有的 C++ 語法結構。
 
-This documentation is quite incomplete. But since this
-interface is standardized, additional information can be found in
-many resources about SQL.
+這份文件相當不完整。不過，由於此介面已經標準化，你可以在許多關於 SQL 的資源中找到更多資訊。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg.html)（原文版本：18.6；核對日期：2026-10-22）
