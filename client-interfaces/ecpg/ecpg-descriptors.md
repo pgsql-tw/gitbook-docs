@@ -1,58 +1,43 @@
-## 34.7. Using Descriptor Areas [#](#ECPG-DESCRIPTORS)
+<a id="ECPG-DESCRIPTORS"></a>
 
-[34.7.1. Named SQL Descriptor Areas](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
+## 34.7. 使用描述區 [#](#ECPG-DESCRIPTORS)
 
-[34.7.2. SQLDA Descriptor Areas](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+[34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
 
-An SQL descriptor area is a more sophisticated method for processing
-the result of a `SELECT`, `FETCH` or
-a `DESCRIBE` statement. An SQL descriptor area groups
-the data of one row of data together with metadata items into one
-data structure. The metadata is particularly useful when executing
-dynamic SQL statements, where the nature of the result columns might
-not be known ahead of time. PostgreSQL provides two ways to use
-Descriptor Areas: the named SQL Descriptor Areas and the C-structure
-SQLDAs.
+[34.7.2. SQLDA 描述區](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+
+SQL 描述區是處理 `SELECT`、`FETCH` 或 `DESCRIBE` 陳述式結果的一種較進階的方法。SQL 描述區會把一個資料列的資料連同中繼資料項目，一起歸入同一個資料結構中。執行動態 SQL 陳述式時，結果欄位的性質可能無法事先得知，因此中繼資料特別有用。PostgreSQL 提供兩種使用描述區的方式：具名 SQL 描述區，以及 C 結構形式的 SQLDA。
 
 <a id="ECPG-NAMED-DESCRIPTORS"></a>
 
-### 34.7.1. Named SQL Descriptor Areas [#](#ECPG-NAMED-DESCRIPTORS)
+### 34.7.1. 具名 SQL 描述區 [#](#ECPG-NAMED-DESCRIPTORS)
 
-A named SQL descriptor area consists of a header, which contains
-information concerning the entire descriptor, and one or more item
-descriptor areas, which basically each describe one column in the
-result row.
+具名 SQL 描述區由一個標頭，以及一個或多個項目描述區組成；標頭包含與整個描述區有關的資訊，而每個項目描述區基本上描述結果資料列中的一個欄位。
 
-Before you can use an SQL descriptor area, you need to allocate one:
+使用 SQL 描述區之前，你需要先配置一個：
 
 ```
 
 EXEC SQL ALLOCATE DESCRIPTOR identifier;
 ```
 
-The identifier serves as the “variable name” of the
-descriptor area.
-When you don't need the descriptor anymore, you should deallocate
-it:
+該識別字的作用相當於描述區的「變數名稱」。不再需要該描述區時，你應該將它釋放：
 
 ```
 
 EXEC SQL DEALLOCATE DESCRIPTOR identifier;
 ```
 
-To use a descriptor area, specify it as the storage target in an
-`INTO` clause, instead of listing host variables:
+若要使用描述區，請在 `INTO` 子句中將它指定為儲存目標，而不是列出主機變數：
 
 ```
 
 EXEC SQL FETCH NEXT FROM mycursor INTO SQL DESCRIPTOR mydesc;
 ```
 
-If the result set is empty, the Descriptor Area will still contain
-the metadata from the query, i.e., the field names.
+若結果集是空的，描述區仍然會包含查詢的中繼資料，也就是欄位名稱。
 
-For not yet executed prepared queries, the `DESCRIBE`
-statement can be used to get the metadata of the result set:
+對於尚未執行的預備查詢，可以使用 `DESCRIBE` 陳述式取得結果集的中繼資料：
 
 ```
 
@@ -64,126 +49,95 @@ EXEC SQL PREPARE stmt1 FROM :sql_stmt;
 EXEC SQL DESCRIBE stmt1 INTO SQL DESCRIPTOR mydesc;
 ```
 
-Before PostgreSQL 9.0, the `SQL` keyword was optional,
-so using `DESCRIPTOR` and `SQL DESCRIPTOR`
-produced named SQL Descriptor Areas. Now it is mandatory, omitting
-the `SQL` keyword produces SQLDA Descriptor Areas,
-see [Section 34.7.2](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS).
+在 PostgreSQL 9.0 之前，`SQL` 關鍵字是選用的，因此使用 `DESCRIPTOR` 與 `SQL DESCRIPTOR` 都會產生具名 SQL 描述區。現在它是必要的；省略 `SQL` 關鍵字會產生 SQLDA 描述區，請參閱[第 34.7.2 節](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)。
 
-In `DESCRIBE` and `FETCH` statements,
-the `INTO` and `USING` keywords can be
-used to similarly: they produce the result set and the metadata in a
-Descriptor Area.
+在 `DESCRIBE` 與 `FETCH` 陳述式中，`INTO` 與 `USING` 關鍵字可以同樣地使用：它們會在描述區中產生結果集與中繼資料。
 
-Now how do you get the data out of the descriptor area? You can
-think of the descriptor area as a structure with named fields. To
-retrieve the value of a field from the header and store it into a
-host variable, use the following command:
+那麼，要如何從描述區取出資料呢？你可以把描述區想成一個具有具名欄位的結構。若要從標頭取得某個欄位的值並存入主機變數，請使用下列命令：
 
 ```
 
 EXEC SQL GET DESCRIPTOR name :hostvar = field;
 ```
 
-Currently, there is only one header field defined:
-*`COUNT`*, which tells how many item
-descriptor areas exist (that is, how many columns are contained in
-the result). The host variable needs to be of an integer type. To
-get a field from the item descriptor area, use the following
-command:
+目前只定義了一個標頭欄位：*`COUNT`*，它表示有多少個項目描述區（也就是結果中包含多少個欄位）。主機變數需要是整數型別。若要從項目描述區取得某個欄位，請使用下列命令：
 
 ```
 
 EXEC SQL GET DESCRIPTOR name VALUE num :hostvar = field;
 ```
 
-*`num`* can be a literal integer or a host
-variable containing an integer. Possible fields are:
+*`num`* 可以是整數常數，或內容為整數的主機變數。可用的欄位如下：
 
 <a id="ECPG-NAMED-DESCRIPTORS-CARDINALITY"></a>
 
-`CARDINALITY` (integer) [#](#ECPG-NAMED-DESCRIPTORS-CARDINALITY)
-:   number of rows in the result set
+`CARDINALITY`（整數） [#](#ECPG-NAMED-DESCRIPTORS-CARDINALITY)
+:   結果集中的資料列數
 <a id="ECPG-NAMED-DESCRIPTORS-DATA"></a>
 
 `DATA` [#](#ECPG-NAMED-DESCRIPTORS-DATA)
-:   actual data item (therefore, the data type of this field
-    depends on the query)
+:   實際的資料項目（因此，此欄位的資料型別取決於查詢）
 <a id="ECPG-NAMED-DESCRIPTORS-DATETIME-INTERVAL-CODE"></a>
 
-`DATETIME_INTERVAL_CODE` (integer) [#](#ECPG-NAMED-DESCRIPTORS-DATETIME-INTERVAL-CODE)
-:   When `TYPE` is `9`,
-    `DATETIME_INTERVAL_CODE` will have a value of
-    `1` for `DATE`,
-    `2` for `TIME`,
-    `3` for `TIMESTAMP`,
-    `4` for `TIME WITH TIME ZONE`, or
-    `5` for `TIMESTAMP WITH TIME ZONE`.
+`DATETIME_INTERVAL_CODE`（整數） [#](#ECPG-NAMED-DESCRIPTORS-DATETIME-INTERVAL-CODE)
+:   當 `TYPE` 為 `9` 時，`DATETIME_INTERVAL_CODE` 的值為：`DATE` 是 `1`、`TIME` 是 `2`、`TIMESTAMP` 是 `3`、`TIME WITH TIME ZONE` 是 `4`，或 `TIMESTAMP WITH TIME ZONE` 是 `5`。
 <a id="ECPG-NAMED-DESCRIPTORS-DATETIME-INTERVAL-PRECISION"></a>
 
-`DATETIME_INTERVAL_PRECISION` (integer) [#](#ECPG-NAMED-DESCRIPTORS-DATETIME-INTERVAL-PRECISION)
-:   not implemented
+`DATETIME_INTERVAL_PRECISION`（整數） [#](#ECPG-NAMED-DESCRIPTORS-DATETIME-INTERVAL-PRECISION)
+:   未實作
 <a id="ECPG-NAMED-DESCRIPTORS-INDICATOR"></a>
 
-`INDICATOR` (integer) [#](#ECPG-NAMED-DESCRIPTORS-INDICATOR)
-:   the indicator (indicating a null value or a value truncation)
+`INDICATOR`（整數） [#](#ECPG-NAMED-DESCRIPTORS-INDICATOR)
+:   指示值（表示空值或值遭到截斷）
 <a id="ECPG-NAMED-DESCRIPTORS-KEY-MEMBER"></a>
 
-`KEY_MEMBER` (integer) [#](#ECPG-NAMED-DESCRIPTORS-KEY-MEMBER)
-:   not implemented
+`KEY_MEMBER`（整數） [#](#ECPG-NAMED-DESCRIPTORS-KEY-MEMBER)
+:   未實作
 <a id="ECPG-NAMED-DESCRIPTORS-LENGTH"></a>
 
-`LENGTH` (integer) [#](#ECPG-NAMED-DESCRIPTORS-LENGTH)
-:   length of the datum in characters
+`LENGTH`（整數） [#](#ECPG-NAMED-DESCRIPTORS-LENGTH)
+:   資料值的長度（以字元計）
 <a id="ECPG-NAMED-DESCRIPTORS-NAME"></a>
 
-`NAME` (string) [#](#ECPG-NAMED-DESCRIPTORS-NAME)
-:   name of the column
+`NAME`（字串） [#](#ECPG-NAMED-DESCRIPTORS-NAME)
+:   欄位名稱
 <a id="ECPG-NAMED-DESCRIPTORS-NULLABLE"></a>
 
-`NULLABLE` (integer) [#](#ECPG-NAMED-DESCRIPTORS-NULLABLE)
-:   not implemented
+`NULLABLE`（整數） [#](#ECPG-NAMED-DESCRIPTORS-NULLABLE)
+:   未實作
 <a id="ECPG-NAMED-DESCRIPTORS-OCTET-LENGTH"></a>
 
-`OCTET_LENGTH` (integer) [#](#ECPG-NAMED-DESCRIPTORS-OCTET-LENGTH)
-:   length of the character representation of the datum in bytes
+`OCTET_LENGTH`（整數） [#](#ECPG-NAMED-DESCRIPTORS-OCTET-LENGTH)
+:   資料值之字元表示法的長度（以位元組計）
 <a id="ECPG-NAMED-DESCRIPTORS-PRECISION"></a>
 
-`PRECISION` (integer) [#](#ECPG-NAMED-DESCRIPTORS-PRECISION)
-:   precision (for type `numeric`)
+`PRECISION`（整數） [#](#ECPG-NAMED-DESCRIPTORS-PRECISION)
+:   精確度（用於 `numeric` 型別）
 <a id="ECPG-NAMED-DESCRIPTORS-RETURNED-LENGTH"></a>
 
-`RETURNED_LENGTH` (integer) [#](#ECPG-NAMED-DESCRIPTORS-RETURNED-LENGTH)
-:   length of the datum in characters
+`RETURNED_LENGTH`（整數） [#](#ECPG-NAMED-DESCRIPTORS-RETURNED-LENGTH)
+:   資料值的長度（以字元計）
 <a id="ECPG-NAMED-DESCRIPTORS-RETURNED-OCTET-LENGTH"></a>
 
-`RETURNED_OCTET_LENGTH` (integer) [#](#ECPG-NAMED-DESCRIPTORS-RETURNED-OCTET-LENGTH)
-:   length of the character representation of the datum in bytes
+`RETURNED_OCTET_LENGTH`（整數） [#](#ECPG-NAMED-DESCRIPTORS-RETURNED-OCTET-LENGTH)
+:   資料值之字元表示法的長度（以位元組計）
 <a id="ECPG-NAMED-DESCRIPTORS-SCALE"></a>
 
-`SCALE` (integer) [#](#ECPG-NAMED-DESCRIPTORS-SCALE)
-:   scale (for type `numeric`)
+`SCALE`（整數） [#](#ECPG-NAMED-DESCRIPTORS-SCALE)
+:   小數位數（用於 `numeric` 型別）
 <a id="ECPG-NAMED-DESCRIPTORS-TYPE"></a>
 
-`TYPE` (integer) [#](#ECPG-NAMED-DESCRIPTORS-TYPE)
-:   numeric code of the data type of the column
+`TYPE`（整數） [#](#ECPG-NAMED-DESCRIPTORS-TYPE)
+:   欄位資料型別的數值代碼
 
-In `EXECUTE`, `DECLARE` and `OPEN`
-statements, the effect of the `INTO` and `USING`
-keywords are different. A Descriptor Area can also be manually built to
-provide the input parameters for a query or a cursor and
-`USING SQL DESCRIPTOR name`
-is the way to pass the input parameters into a parameterized query. The statement
-to build a named SQL Descriptor Area is below:
+在 `EXECUTE`、`DECLARE` 與 `OPEN` 陳述式中，`INTO` 與 `USING` 關鍵字的作用不同。描述區也可以手動建立，用來為查詢或游標提供輸入參數，而 `USING SQL DESCRIPTOR name` 就是將輸入參數傳入參數化查詢的方式。建立具名 SQL 描述區的陳述式如下：
 
 ```
 
 EXEC SQL SET DESCRIPTOR name VALUE num field = :hostvar;
 ```
 
-PostgreSQL supports retrieving more that one record in one `FETCH`
-statement and storing the data in host variables in this case assumes that the
-variable is an array. E.g.:
+PostgreSQL 支援在一個 `FETCH` 陳述式中擷取超過一筆記錄；在這種情況下，將資料存入主機變數時，會假設該變數是陣列。例如：
 
 ```
 
@@ -198,11 +152,9 @@ EXEC SQL GET DESCRIPTOR mydesc VALUE 1 :id = DATA;
 
 <a id="ECPG-SQLDA-DESCRIPTORS"></a>
 
-### 34.7.2. SQLDA Descriptor Areas [#](#ECPG-SQLDA-DESCRIPTORS)
+### 34.7.2. SQLDA 描述區 [#](#ECPG-SQLDA-DESCRIPTORS)
 
-An SQLDA Descriptor Area is a C language structure which can be also used
-to get the result set and the metadata of a query. One structure stores one
-record from the result set.
+SQLDA 描述區是一種 C 語言結構，同樣可以用來取得查詢的結果集與中繼資料。一個結構儲存結果集中的一筆記錄。
 
 ```
 
@@ -212,57 +164,41 @@ sqlda_t         *mysqlda;
 EXEC SQL FETCH 3 FROM mycursor INTO DESCRIPTOR mysqlda;
 ```
 
-Note that the `SQL` keyword is omitted. The paragraphs about
-the use cases of the `INTO` and `USING`
-keywords in [Section 34.7.1](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS) also apply here with an addition.
-In a `DESCRIBE` statement the `DESCRIPTOR`
-keyword can be completely omitted if the `INTO` keyword is used:
+請注意，這裡省略了 `SQL` 關鍵字。[第 34.7.1 節](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)中關於 `INTO` 與 `USING` 關鍵字使用情境的段落也適用於此，另外還有一點補充：在 `DESCRIBE` 陳述式中，若使用 `INTO` 關鍵字，則可以完全省略 `DESCRIPTOR` 關鍵字：
 
 ```
 
 EXEC SQL DESCRIBE prepared_statement INTO mysqlda;
 ```
 
-The general flow of a program that uses SQLDA is:
+使用 SQLDA 的程式，一般流程如下：
 
-1. Prepare a query, and declare a cursor for it.
-2. Declare an SQLDA for the result rows.
-3. Declare an SQLDA for the input parameters, and initialize them (memory allocation, parameter settings).
-4. Open a cursor with the input SQLDA.
-5. Fetch rows from the cursor, and store them into an output SQLDA.
-6. Read values from the output SQLDA into the host variables (with conversion if necessary).
-7. Close the cursor.
-8. Free the memory area allocated for the input SQLDA.
+1. 準備查詢，並為它宣告游標。
+2. 為結果資料列宣告 SQLDA。
+3. 為輸入參數宣告 SQLDA，並將其初始化（配置記憶體、設定參數）。
+4. 以輸入 SQLDA 開啟游標。
+5. 從游標擷取資料列，並存入輸出 SQLDA。
+6. 從輸出 SQLDA 將值讀入主機變數（必要時進行轉換）。
+7. 關閉游標。
+8. 釋放為輸入 SQLDA 配置的記憶體區域。
 
 <a id="ECPG-SQLDA-DESCRIPTORS-SQLDA"></a>
 
-#### 34.7.2.1. SQLDA Data Structure [#](#ECPG-SQLDA-DESCRIPTORS-SQLDA)
+#### 34.7.2.1. SQLDA 資料結構 [#](#ECPG-SQLDA-DESCRIPTORS-SQLDA)
 
-SQLDA uses three data structure
-types: `sqlda_t`, `sqlvar_t`,
-and `struct sqlname`.
+SQLDA 使用三種資料結構型別：`sqlda_t`、`sqlvar_t` 與 `struct sqlname`。
 
-### Tip
+### 提示
 
-PostgreSQL's SQLDA has a similar data structure to the one in
-IBM DB2 Universal Database, so some technical information on
-DB2's SQLDA could help understanding PostgreSQL's one better.
+PostgreSQL 的 SQLDA 與 IBM DB2 Universal Database 中的 SQLDA 資料結構相似，因此一些關於 DB2 SQLDA 的技術資訊，可能有助於更深入理解 PostgreSQL 的 SQLDA。
 
 <a id="ECPG-SQLDA-SQLDA"></a>
 
-##### 34.7.2.1.1. sqlda_t Structure [#](#ECPG-SQLDA-SQLDA)
+##### 34.7.2.1.1. sqlda_t 結構 [#](#ECPG-SQLDA-SQLDA)
 
-The structure type `sqlda_t` is the type of the
-actual SQLDA. It holds one record. And two or
-more `sqlda_t` structures can be connected in a
-linked list with the pointer in
-the `desc_next` field, thus
-representing an ordered collection of rows. So, when two or
-more rows are fetched, the application can read them by
-following the `desc_next` pointer in
-each `sqlda_t` node.
+結構型別 `sqlda_t` 是實際 SQLDA 的型別。它存放一筆記錄。兩個或更多 `sqlda_t` 結構可以透過 `desc_next` 欄位中的指標連成鏈結串列，藉此表示有序的資料列集合。因此，擷取到兩個或更多資料列時，應用程式可以沿著每個 `sqlda_t` 節點中的 `desc_next` 指標讀取這些資料列。
 
-The definition of `sqlda_t` is:
+`sqlda_t` 的定義如下：
 
 ```
 
@@ -279,48 +215,38 @@ struct sqlda_struct
 typedef struct sqlda_struct sqlda_t;
 ```
 
-The meaning of the fields is:
+各欄位的意義如下：
 
 <a id="ECPG-SQLDA-SQLDA-SQLDAID"></a>
 
 `sqldaid` [#](#ECPG-SQLDA-SQLDA-SQLDAID)
-:   It contains the literal string `"SQLDA "`.
+:   包含字串常數 `"SQLDA "`。
 <a id="ECPG-SQLDA-SQLDA-SQLDABC"></a>
 
 `sqldabc` [#](#ECPG-SQLDA-SQLDA-SQLDABC)
-:   It contains the size of the allocated space in bytes.
+:   包含已配置空間的大小（以位元組計）。
 <a id="ECPG-SQLDA-SQLDA-SQLN"></a>
 
 `sqln` [#](#ECPG-SQLDA-SQLDA-SQLN)
-:   It contains the number of input parameters for a parameterized query in
-    case it's passed into `OPEN`, `DECLARE` or
-    `EXECUTE` statements using the `USING`
-    keyword. In case it's used as output of `SELECT`,
-    `EXECUTE` or `FETCH` statements,
-    its value is the same as `sqld`
-    statement
+:   若此 SQLDA 是以 `USING` 關鍵字傳入 `OPEN`、`DECLARE` 或 `EXECUTE` 陳述式，此欄位包含參數化查詢的輸入參數數目。若此 SQLDA 用作 `SELECT`、`EXECUTE` 或 `FETCH` 陳述式的輸出，其值與 `sqld` 相同（原文此處在 sqld 之後多了一個 statement 字樣，屬贅字）。
 <a id="ECPG-SQLDA-SQLDA-SQLD"></a>
 
 `sqld` [#](#ECPG-SQLDA-SQLDA-SQLD)
-:   It contains the number of fields in a result set.
+:   包含結果集中的欄位數。
 <a id="ECPG-SQLDA-SQLDA-DESC-NEXT"></a>
 
 `desc_next` [#](#ECPG-SQLDA-SQLDA-DESC-NEXT)
-:   If the query returns more than one record, multiple linked
-    SQLDA structures are returned, and `desc_next` holds
-    a pointer to the next entry in the list.
+:   若查詢傳回超過一筆記錄，就會傳回多個相互鏈結的 SQLDA 結構，而 `desc_next` 存放指向串列中下一個項目的指標。
 <a id="ECPG-SQLDA-SQLDA-SQLVAR"></a>
 
 `sqlvar` [#](#ECPG-SQLDA-SQLDA-SQLVAR)
-:   This is the array of the columns in the result set.
+:   這是結果集中各欄位的陣列。
 
 <a id="ECPG-SQLDA-SQLVAR"></a>
 
-##### 34.7.2.1.2. sqlvar_t Structure [#](#ECPG-SQLDA-SQLVAR)
+##### 34.7.2.1.2. sqlvar_t 結構 [#](#ECPG-SQLDA-SQLVAR)
 
-The structure type `sqlvar_t` holds a column value
-and metadata such as type and length. The definition of the type
-is:
+結構型別 `sqlvar_t` 存放一個欄位的值，以及型別與長度等中繼資料。此型別的定義如下：
 
 ```
 
@@ -336,39 +262,34 @@ struct sqlvar_struct
 typedef struct sqlvar_struct sqlvar_t;
 ```
 
-The meaning of the fields is:
+各欄位的意義如下：
 
 <a id="ECPG-SQLDA-SQLVAR-SQLTYPE"></a>
 
 `sqltype` [#](#ECPG-SQLDA-SQLVAR-SQLTYPE)
-:   Contains the type identifier of the field. For values,
-    see `enum ECPGttype` in `ecpgtype.h`.
+:   包含欄位的型別識別碼。可能的值請參閱 `ecpgtype.h` 中的 `enum ECPGttype`。
 <a id="ECPG-SQLDA-SQLVAR-SQLLEN"></a>
 
 `sqllen` [#](#ECPG-SQLDA-SQLVAR-SQLLEN)
-:   Contains the binary length of the field. e.g., 4 bytes for `ECPGt_int`.
+:   包含欄位的二進位長度，例如 `ECPGt_int` 為 4 個位元組。
 <a id="ECPG-SQLDA-SQLVAR-SQLDATA"></a>
 
 `sqldata` [#](#ECPG-SQLDA-SQLVAR-SQLDATA)
-:   Points to the data. The format of the data is described
-    in [Section 34.4.4](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING).
+:   指向資料。資料的格式說明請參閱[第 34.4.4 節](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)。
 <a id="ECPG-SQLDA-SQLVAR-SQLIND"></a>
 
 `sqlind` [#](#ECPG-SQLDA-SQLVAR-SQLIND)
-:   Points to the null indicator. 0 means not null, -1 means
-    null.
+:   指向空值指示值。0 表示非空值，-1 表示空值。
 <a id="ECPG-SQLDA-SQLVAR-SQLNAME"></a>
 
 `sqlname` [#](#ECPG-SQLDA-SQLVAR-SQLNAME)
-:   The name of the field.
+:   欄位的名稱。
 
 <a id="ECPG-SQLDA-SQLNAME"></a>
 
-##### 34.7.2.1.3. struct sqlname Structure [#](#ECPG-SQLDA-SQLNAME)
+##### 34.7.2.1.3. struct sqlname 結構 [#](#ECPG-SQLDA-SQLNAME)
 
-A `struct sqlname` structure holds a column name. It
-is used as a member of the `sqlvar_t` structure. The
-definition of the structure is:
+`struct sqlname` 結構存放一個欄位名稱。它用作 `sqlvar_t` 結構的成員。此結構的定義如下：
 
 ```
 
@@ -381,49 +302,47 @@ struct sqlname
 };
 ```
 
-The meaning of the fields is:
+各欄位的意義如下：
 
 <a id="ECPG-SQLDA-SQLNAME-LENGTH"></a>
 
 `length` [#](#ECPG-SQLDA-SQLNAME-LENGTH)
-:   Contains the length of the field name.
+:   包含欄位名稱的長度。
 <a id="ECPG-SQLDA-SQLNAME-DATA"></a>
 
 `data` [#](#ECPG-SQLDA-SQLNAME-DATA)
-:   Contains the actual field name.
+:   包含實際的欄位名稱。
 
 <a id="ECPG-SQLDA-OUTPUT"></a>
 
-#### 34.7.2.2. Retrieving a Result Set Using an SQLDA [#](#ECPG-SQLDA-OUTPUT)
+#### 34.7.2.2. 使用 SQLDA 取得結果集 [#](#ECPG-SQLDA-OUTPUT)
 
-The general steps to retrieve a query result set through an
-SQLDA are:
+透過 SQLDA 取得查詢結果集的一般步驟如下：
 
-1. Declare an `sqlda_t` structure to receive the result set.
-2. Execute `FETCH`/`EXECUTE`/`DESCRIBE` commands to process a query specifying the declared SQLDA.
-3. Check the number of records in the result set by looking at `sqln`, a member of the `sqlda_t` structure.
-4. Get the values of each column from `sqlvar[0]`, `sqlvar[1]`, etc., members of the `sqlda_t` structure.
-5. Go to next row (`sqlda_t` structure) by following the `desc_next` pointer, a member of the `sqlda_t` structure.
-6. Repeat above as you need.
+1. 宣告一個 `sqlda_t` 結構來接收結果集。
+2. 執行指定了所宣告 SQLDA 的 `FETCH`／`EXECUTE`／`DESCRIBE` 命令來處理查詢。
+3. 查看 `sqlda_t` 結構的成員 `sqln`，以檢查結果集中的記錄數（原文此處寫作「記錄數」；但依上文 sqln 與 sqld 的欄位說明，用於輸出時 sqln 的值與 sqld 相同，表示的是結果集的欄位數，而不是記錄數；各筆記錄須沿著 desc_next 指標逐一走訪）。
+4. 從 `sqlda_t` 結構的成員 `sqlvar[0]`、`sqlvar[1]` 等取得各欄位的值。
+5. 沿著 `sqlda_t` 結構的成員 `desc_next` 指標，移到下一個資料列（`sqlda_t` 結構）。
+6. 視需要重複上述步驟。
 
-Here is an example retrieving a result set through an SQLDA.
+以下是透過 SQLDA 取得結果集的範例。
 
-First, declare a `sqlda_t` structure to receive the result set.
+首先，宣告一個 `sqlda_t` 結構來接收結果集。
 
 ```
 
 sqlda_t *sqlda1;
 ```
 
-Next, specify the SQLDA in a command. This is
-a `FETCH` command example.
+接著，在命令中指定該 SQLDA。這是一個 `FETCH` 命令的範例。
 
 ```
 
 EXEC SQL FETCH NEXT FROM cur1 INTO DESCRIPTOR sqlda1;
 ```
 
-Run a loop following the linked list to retrieve the rows.
+執行迴圈，沿著鏈結串列取得各資料列。
 
 ```
 
@@ -437,8 +356,7 @@ for (cur_sqlda = sqlda1;
 }
 ```
 
-Inside the loop, run another loop to retrieve each column data
-(`sqlvar_t` structure) of the row.
+在該迴圈內，再執行另一個迴圈，取得該資料列的每個欄位資料（`sqlvar_t` 結構）。
 
 ```
 
@@ -451,10 +369,7 @@ for (i = 0; i < cur_sqlda->sqld; i++)
 }
 ```
 
-To get a column value, check the `sqltype` value,
-a member of the `sqlvar_t` structure. Then, switch
-to an appropriate way, depending on the column type, to copy
-data from the `sqlvar` field to a host variable.
+若要取得欄位值，請檢查 `sqlvar_t` 結構的成員 `sqltype` 的值。接著依欄位型別切換到適當的方式，將資料從 `sqlvar` 欄位複製到主機變數。
 
 ```
 
@@ -478,20 +393,19 @@ switch (v.sqltype)
 
 <a id="ECPG-SQLDA-INPUT"></a>
 
-#### 34.7.2.3. Passing Query Parameters Using an SQLDA [#](#ECPG-SQLDA-INPUT)
+#### 34.7.2.3. 使用 SQLDA 傳遞查詢參數 [#](#ECPG-SQLDA-INPUT)
 
-The general steps to use an SQLDA to pass input
-parameters to a prepared query are:
+使用 SQLDA 將輸入參數傳給預備查詢的一般步驟如下：
 
-1. Create a prepared query (prepared statement)
-2. Declare an sqlda_t structure as an input SQLDA.
-3. Allocate memory area (as sqlda_t structure) for the input SQLDA.
-4. Set (copy) input values in the allocated memory.
-5. Open a cursor with specifying the input SQLDA.
+1. 建立預備查詢（預備陳述式）
+2. 宣告一個 sqlda_t 結構作為輸入 SQLDA。
+3. 為輸入 SQLDA 配置記憶體區域（作為 sqlda_t 結構）。
+4. 在已配置的記憶體中設定（複製）輸入值。
+5. 指定輸入 SQLDA 來開啟游標。
 
-Here is an example.
+以下是一個範例。
 
-First, create a prepared statement.
+首先，建立預備陳述式。
 
 ```
 
@@ -502,13 +416,7 @@ EXEC SQL END DECLARE SECTION;
 EXEC SQL PREPARE stmt1 FROM :query;
 ```
 
-Next, allocate memory for an SQLDA, and set the number of input
-parameters in `sqln`, a member variable of
-the `sqlda_t` structure. When two or more input
-parameters are required for the prepared query, the application
-has to allocate additional memory space which is calculated by
-(nr. of params - 1) \* sizeof(sqlvar_t). The example shown here
-allocates memory space for two input parameters.
+接著，為 SQLDA 配置記憶體，並在 `sqlda_t` 結構的成員變數 `sqln` 中設定輸入參數的數目。當預備查詢需要兩個或更多輸入參數時，應用程式必須配置額外的記憶體空間，其大小的計算方式為 (參數數目 - 1) \* sizeof(sqlvar_t)。此處所示的範例為兩個輸入參數配置記憶體空間。
 
 ```
 
@@ -520,12 +428,7 @@ memset(sqlda2, 0, sizeof(sqlda_t) + sizeof(sqlvar_t));
 sqlda2->sqln = 2; /* number of input variables */
 ```
 
-After memory allocation, store the parameter values into the
-`sqlvar[]` array. (This is same array used for
-retrieving column values when the SQLDA is receiving a result
-set.) In this example, the input parameters
-are `"postgres"`, having a string type,
-and `1`, having an integer type.
+配置記憶體之後，將參數值存入 `sqlvar[]` 陣列。（SQLDA 接收結果集時，用來取得欄位值的也是同一個陣列。）在此範例中，輸入參數為字串型別的 `"postgres"`，以及整數型別的 `1`。
 
 ```
 
@@ -539,18 +442,14 @@ sqlda2->sqlvar[1].sqldata = (char *) &intval;
 sqlda2->sqlvar[1].sqllen  = sizeof(intval);
 ```
 
-By opening a cursor and specifying the SQLDA that was set up
-beforehand, the input parameters are passed to the prepared
-statement.
+開啟游標並指定事先設定好的 SQLDA，輸入參數就會傳給預備陳述式。
 
 ```
 
 EXEC SQL OPEN cur1 USING DESCRIPTOR sqlda2;
 ```
 
-Finally, after using input SQLDAs, the allocated memory space
-must be freed explicitly, unlike SQLDAs used for receiving query
-results.
+最後，使用完輸入 SQLDA 之後，必須明確釋放所配置的記憶體空間；這一點與用來接收查詢結果的 SQLDA 不同。
 
 ```
 
@@ -559,18 +458,13 @@ free(sqlda2);
 
 <a id="ECPG-SQLDA-EXAMPLE"></a>
 
-#### 34.7.2.4. A Sample Application Using SQLDA [#](#ECPG-SQLDA-EXAMPLE)
+#### 34.7.2.4. 使用 SQLDA 的範例應用程式 [#](#ECPG-SQLDA-EXAMPLE)
 
-Here is an example program, which describes how to fetch access
-statistics of the databases, specified by the input parameters,
-from the system catalogs.
+以下是一個範例程式，說明如何從系統目錄擷取由輸入參數所指定之資料庫的存取統計資訊。
 
-This application joins two system tables, pg_database and
-pg_stat_database on the database OID, and also fetches and shows
-the database statistics which are retrieved by two input
-parameters (a database `postgres`, and OID `1`).
+此應用程式以資料庫 OID 連接 pg_database 與 pg_stat_database 這兩個系統資料表，並擷取及顯示依兩個輸入參數（資料庫 `postgres` 與 OID `1`）取得的資料庫統計資訊。
 
-First, declare an SQLDA for input and an SQLDA for output.
+首先，宣告一個輸入用的 SQLDA 與一個輸出用的 SQLDA。
 
 ```
 
@@ -580,8 +474,7 @@ sqlda_t *sqlda1; /* an output descriptor */
 sqlda_t *sqlda2; /* an input descriptor  */
 ```
 
-Next, connect to the database, prepare a statement, and declare a
-cursor for the prepared statement.
+接著，連線到資料庫、準備陳述式，並為該預備陳述式宣告游標。
 
 ```
 
@@ -599,12 +492,7 @@ main(void)
     EXEC SQL DECLARE cur1 CURSOR FOR stmt1;
 ```
 
-Next, put some values in the input SQLDA for the input
-parameters. Allocate memory for the input SQLDA, and set the
-number of input parameters to `sqln`. Store
-type, value, and value length into `sqltype`,
-`sqldata`, and `sqllen` in the
-`sqlvar` structure.
+接著，在輸入 SQLDA 中放入輸入參數的值。為輸入 SQLDA 配置記憶體，並將輸入參數的數目設定到 `sqln`。將型別、值與值的長度存入 `sqlvar` 結構中的 `sqltype`、`sqldata` 與 `sqllen`。
 
 ```
 
@@ -623,8 +511,7 @@ type, value, and value length into `sqltype`,
     sqlda2->sqlvar[1].sqllen  = sizeof(intval);
 ```
 
-After setting up the input SQLDA, open a cursor with the input
-SQLDA.
+設定好輸入 SQLDA 之後，以該輸入 SQLDA 開啟游標。
 
 ```
 
@@ -632,9 +519,7 @@ SQLDA.
     EXEC SQL OPEN cur1 USING DESCRIPTOR sqlda2;
 ```
 
-Fetch rows into the output SQLDA from the opened cursor.
-(Generally, you have to call `FETCH` repeatedly
-in the loop, to fetch all rows in the result set.)
+從已開啟的游標將資料列擷取到輸出 SQLDA。（一般而言，你必須在迴圈中重複呼叫 `FETCH`，才能擷取結果集中的所有資料列。）
 
 ```
 
@@ -646,8 +531,7 @@ in the loop, to fetch all rows in the result set.)
         EXEC SQL FETCH NEXT FROM cur1 INTO DESCRIPTOR sqlda1;
 ```
 
-Next, retrieve the fetched records from the SQLDA, by following
-the linked list of the `sqlda_t` structure.
+接著，沿著 `sqlda_t` 結構的鏈結串列，從 SQLDA 取出已擷取的記錄。
 
 ```
 
@@ -658,10 +542,7 @@ the linked list of the `sqlda_t` structure.
         ...
 ```
 
-Read each columns in the first record. The number of columns is
-stored in `sqld`, the actual data of the first
-column is stored in `sqlvar[0]`, both members of
-the `sqlda_t` structure.
+讀取第一筆記錄中的每個欄位。欄位數存放在 `sqld`，第一個欄位的實際資料存放在 `sqlvar[0]`，兩者都是 `sqlda_t` 結構的成員。
 
 ```
 
@@ -676,9 +557,9 @@ the `sqlda_t` structure.
             name_buf[v.sqlname.length] = '\0';
 ```
 
-Now, the column data is stored in the variable `v`.
-Copy every datum into host variables, looking
-at `v.sqltype` for the type of the column.
+譯註：上方程式片段依原文保留。它位於走訪 cur_sqlda 的迴圈內，卻讀取 sqlda1->sqld 與 sqlda1->sqlvar[i]，因此每一輪都只會讀到第一筆記錄；若要依序處理每一筆記錄，應改用 cur_sqlda->sqld 與 cur_sqlda->sqlvar[i]，範例 34.1 的完整程式即是如此。
+
+現在，欄位資料已存放在變數 `v` 中。請依據 `v.sqltype` 判斷欄位的型別，將每個資料值複製到主機變數。
 
 ```
 
@@ -707,8 +588,7 @@ at `v.sqltype` for the type of the column.
         }
 ```
 
-Close the cursor after processing all of records, and disconnect
-from the database.
+處理完所有記錄後，關閉游標並中斷與資料庫的連線。
 
 ```
 
@@ -718,12 +598,11 @@ from the database.
     EXEC SQL DISCONNECT ALL;
 ```
 
-The whole program is shown
-in [Example 34.1](ecpg-descriptors.md#ECPG-SQLDA-EXAMPLE-EXAMPLE).
+完整的程式請見[範例 34.1](ecpg-descriptors.md#ECPG-SQLDA-EXAMPLE-EXAMPLE)。
 
 <a id="ECPG-SQLDA-EXAMPLE-EXAMPLE"></a>
 
-**Example 34.1. Example SQLDA Program**
+**範例 34.1. SQLDA 範例程式**
 
 ```
 
@@ -846,8 +725,13 @@ main(void)
 }
 ```
 
-The output of this example should look something like the
-following (some numbers will vary).
+譯註：上方範例程式依原文保留，僅在此說明三點：
+
+- 程式在 main 之前就宣告了 EXEC SQL WHENEVER NOT FOUND DO BREAK;，此設定會作用於其後的所有 SQL 陳述式。ecpg 會在 SELECT 等陳述式之後，產生「sqlca.sqlcode 等於 ECPG_NOT_FOUND 時執行 break」的檢查程式碼，而 main 開頭的 EXEC SQL SELECT pg_catalog.set_config(...) 並不在迴圈內，因此經前置處理後的 C 程式會因 break 不在迴圈或 switch 之中而無法編譯。應將 WHENEVER NOT FOUND DO BREAK 移到 while 迴圈之前（例如 OPEN 之後）。
+- default 分支中的 strncat(var_buf, tmpbuf, sizeof(var_buf)) 以整個緩衝區大小作為上限，並未扣除 var_buf 已使用的長度，當 sqllen 很大時可能寫出緩衝區範圍；上限應為 sizeof(var_buf) - strlen(var_buf) - 1。
+- 程式將 longlongval 宣告為無號（unsigned）的長整數型別，卻以 %lld 格式輸出；%lld 對應的是有號整數，型別與格式不符。應使用相符的格式，例如改用 %llu 輸出無號值。
+
+此範例的輸出應該類似下列內容（部分數字會有所不同）。
 
 ```
 
@@ -902,8 +786,10 @@ tup_updated = 0 (type: 9)
 tup_deleted = 0 (type: 9)
 ```
 
+譯註：上方輸出依原文保留，但其中的 datconfig 欄位在 PostgreSQL 18 的 pg_database 目錄中已不存在（資料庫層級的設定改存於 pg_db_role_setting）。這是官方文件沿用舊版的輸出範例，並非在 PostgreSQL 18 上執行此程式的實際完整輸出；實際輸出的欄位會依 PostgreSQL 18 的 pg_database 定義而有所不同。
+
 <br>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-descriptors.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-descriptors.html)（原文版本：18.6；核對日期：2026-10-23）
