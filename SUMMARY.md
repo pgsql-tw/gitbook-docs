@@ -1107,7 +1107,7 @@
     * [F.41. spi — Server Programming Interface 功能與範例 #](appendixes/contrib/contrib-spi.md)
     * [F.42. sslinfo — 取得用戶端 SSL 資訊 #](appendixes/contrib/sslinfo.md)
     * [F.43. tablefunc — functions that return tables ( crosstab and others) #](appendixes/contrib/tablefunc.md)
-    * [F.44. tcn — a trigger function to notify listeners of changes to table content #](appendixes/contrib/tcn.md)
+    * [F.44. tcn — 通知監聽者資料表內容變更的觸發程序函式 #](appendixes/contrib/tcn.md)
     * [F.45. test_decoding — SQL-based test/example module for WAL logical decoding #](appendixes/contrib/test-decoding.md)
     * [F.46. tsm_system_rows — the SYSTEM_ROWS sampling method for TABLESAMPLE #](appendixes/contrib/tsm-system-rows.md)
     * [F.47. tsm_system_time — the SYSTEM_TIME sampling method for TABLESAMPLE #](appendixes/contrib/tsm-system-time.md)

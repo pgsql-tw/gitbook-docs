@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：43 頁。
+待譯頁面：42 頁。
 
 ## 根目錄
 
@@ -90,7 +90,7 @@
 - [ ] `appendixes/contrib/sepgsql.md` — F.40. sepgsql — SELinux-, label-based mandatory access control (MAC) security module #
 - [x] `appendixes/contrib/sslinfo.md` — F.42. sslinfo — 取得用戶端 SSL 資訊 #
 - [ ] `appendixes/contrib/tablefunc.md` — F.43. tablefunc — functions that return tables ( crosstab and others) #
-- [ ] `appendixes/contrib/tcn.md` — F.44. tcn — a trigger function to notify listeners of changes to table content #
+- [x] `appendixes/contrib/tcn.md` — F.44. tcn — 通知監聽者資料表內容變更的觸發程序函式 #
 - [ ] `appendixes/contrib/test-decoding.md` — F.45. test_decoding — SQL-based test/example module for WAL logical decoding #
 - [ ] `appendixes/contrib/tsm-system-rows.md` — F.46. tsm_system_rows — the SYSTEM_ROWS sampling method for TABLESAMPLE #
 - [ ] `appendixes/contrib/tsm-system-time.md` — F.47. tsm_system_time — the SYSTEM_TIME sampling method for TABLESAMPLE #
