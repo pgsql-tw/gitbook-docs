@@ -1032,7 +1032,7 @@
     * [B.6. History of Units #](appendixes/datetime-appendix/datetime-units-history.md)
     * [B.7. Julian Dates #](appendixes/datetime-appendix/datetime-julian-dates.md)
   * [Appendix C. SQL Key Words](appendixes/sql-keywords-appendix/README.md)
-  * [Appendix D. SQL Conformance](appendixes/features/README.md)
+  * [附錄 D. SQL 符合性](appendixes/features/README.md)
     * [D.1. Supported Features #](appendixes/features/features-sql-standard.md)
     * [D.2. Unsupported Features #](appendixes/features/unsupported-features-sql-standard.md)
     * [D.3. XML Limits and Conformance to SQL/XML #](appendixes/features/xml-limits-conformance.md)
