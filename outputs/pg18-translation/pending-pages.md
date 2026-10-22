@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：8 頁。
+待譯頁面：7 頁。
 
 ## 根目錄
 
@@ -715,7 +715,7 @@
 - [x] `server-administration/charset/README.md` — 第 23 章 在地化
 - [x] `server-administration/charset/collation.md` — 23.2. 定序支援 #
 - [x] `server-administration/charset/locale.md` — 23.1. 區域設定支援 #
-- [ ] `server-administration/charset/multibyte.md` — 23.3. Character Set Support #
+- [x] `server-administration/charset/multibyte.md` — 23.3. 字元集支援 #
 - [x] `server-administration/client-authentication/README.md` — 第 20 章 用戶端認證
 - [x] `server-administration/client-authentication/auth-bsd.md` — 20.14. BSD 驗證
 - [x] `server-administration/client-authentication/auth-cert.md` — 20.12. 憑證驗證
