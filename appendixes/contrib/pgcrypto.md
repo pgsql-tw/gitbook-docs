@@ -1,38 +1,36 @@
-## F.26. pgcrypto — cryptographic functions [#](#PGCRYPTO)
+<a id="PGCRYPTO"></a>
 
-[F.26.1. General Hashing Functions](pgcrypto.md#PGCRYPTO-GENERAL-HASHING-FUNCS)
+## F.26. pgcrypto — 密碼學函式 [#](#PGCRYPTO)
 
-[F.26.2. Password Hashing Functions](pgcrypto.md#PGCRYPTO-PASSWORD-HASHING-FUNCS)
+[F.26.1. 一般雜湊函式](pgcrypto.md#PGCRYPTO-GENERAL-HASHING-FUNCS)
 
-[F.26.3. PGP Encryption Functions](pgcrypto.md#PGCRYPTO-PGP-ENC-FUNCS)
+[F.26.2. 密碼雜湊函式](pgcrypto.md#PGCRYPTO-PASSWORD-HASHING-FUNCS)
 
-[F.26.4. Raw Encryption Functions](pgcrypto.md#PGCRYPTO-RAW-ENC-FUNCS)
+[F.26.3. PGP 加密函式](pgcrypto.md#PGCRYPTO-PGP-ENC-FUNCS)
 
-[F.26.5. Random-Data Functions](pgcrypto.md#PGCRYPTO-RANDOM-DATA-FUNCS)
+[F.26.4. 原始加密函式](pgcrypto.md#PGCRYPTO-RAW-ENC-FUNCS)
 
-[F.26.6. OpenSSL Support Functions](pgcrypto.md#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)
+[F.26.5. 隨機資料函式](pgcrypto.md#PGCRYPTO-RANDOM-DATA-FUNCS)
 
-[F.26.7. Configuration Parameters](pgcrypto.md#PGCRYPTO-CONFIGURATION-PARAMETERS)
+[F.26.6. OpenSSL 支援函式](pgcrypto.md#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)
 
-[F.26.8. Notes](pgcrypto.md#PGCRYPTO-NOTES)
+[F.26.7. 設定參數](pgcrypto.md#PGCRYPTO-CONFIGURATION-PARAMETERS)
 
-[F.26.9. Author](pgcrypto.md#PGCRYPTO-AUTHOR)
+[F.26.8. 注意事項](pgcrypto.md#PGCRYPTO-NOTES)
+
+[F.26.9. 作者](pgcrypto.md#PGCRYPTO-AUTHOR)
 
 <a id="id-1.11.7.36.2"></a><a id="id-1.11.7.36.3"></a>
 
-The `pgcrypto` module provides cryptographic functions for
-PostgreSQL.
+`pgcrypto` 模組為 PostgreSQL 提供密碼學函式。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
-`pgcrypto` requires OpenSSL and won't be installed if
-OpenSSL support was not selected when PostgreSQL was built.
+`pgcrypto` 需要 OpenSSL；若建置 PostgreSQL 時未選擇 OpenSSL 支援，就不會安裝此模組。
 
 <a id="PGCRYPTO-GENERAL-HASHING-FUNCS"></a>
 
-### F.26.1. General Hashing Functions [#](#PGCRYPTO-GENERAL-HASHING-FUNCS)
+### F.26.1. 一般雜湊函式 [#](#PGCRYPTO-GENERAL-HASHING-FUNCS)
 
 <a id="PGCRYPTO-GENERAL-HASHING-FUNCS-DIGEST"></a>
 
@@ -46,16 +44,9 @@ digest(data text, type text) returns bytea
 digest(data bytea, type text) returns bytea
 ```
 
-Computes a binary hash of the given *`data`*.
-*`type`* is the algorithm to use.
-Standard algorithms are `md5`, `sha1`,
-`sha224`, `sha256`,
-`sha384` and `sha512`.
-Moreover, any digest algorithm OpenSSL supports
-is automatically picked up.
+計算給定 *`data`* 的二進位雜湊值。*`type`* 是要使用的演算法。標準演算法有 `md5`、`sha1`、`sha224`、`sha256`、`sha384` 與 `sha512`。此外，OpenSSL 所支援的任何摘要演算法都會自動被採用。
 
-If you want the digest as a hexadecimal string, use
-`encode()` on the result. For example:
+若你希望摘要以十六進位字串表示，請對結果使用 `encode()`。例如：
 
 ```
 
@@ -76,55 +67,42 @@ hmac(data text, key text, type text) returns bytea
 hmac(data bytea, key bytea, type text) returns bytea
 ```
 
-Calculates hashed MAC for *`data`* with key *`key`*.
-*`type`* is the same as in `digest()`.
+以金鑰 *`key`* 計算 *`data`* 的雜湊 MAC。*`type`* 與 `digest()` 中的相同。
 
-This is similar to `digest()` but the hash can only be
-recalculated knowing the key. This prevents the scenario of someone
-altering data and also changing the hash to match.
+這與 `digest()` 類似，但只有知道金鑰才能重新計算雜湊值。這可以防止有人竄改資料、同時也修改雜湊值使其相符的情況。
 
-If the key is larger than the hash block size it will first be hashed and
-the result will be used as key.
+若金鑰大於雜湊區塊大小，會先對金鑰進行雜湊，再以其結果作為金鑰。
 
 <a id="PGCRYPTO-PASSWORD-HASHING-FUNCS"></a>
 
-### F.26.2. Password Hashing Functions [#](#PGCRYPTO-PASSWORD-HASHING-FUNCS)
+### F.26.2. 密碼雜湊函式 [#](#PGCRYPTO-PASSWORD-HASHING-FUNCS)
 
-The functions `crypt()` and `gen_salt()`
-are specifically designed for hashing passwords.
-`crypt()` does the hashing and `gen_salt()`
-prepares algorithm parameters for it.
+函式 `crypt()` 與 `gen_salt()` 是專為雜湊密碼而設計的。`crypt()` 負責進行雜湊，`gen_salt()` 則為其準備演算法參數。
 
-The algorithms in `crypt()` differ from the usual
-MD5 or SHA-1 hashing algorithms in the following respects:
+`crypt()` 中的演算法在以下幾個方面與一般的 MD5 或 SHA-1 雜湊演算法不同：
 
-1. They are slow. As the amount of data is so small, this is the only
-   way to make brute-forcing passwords hard.
-2. They use a random value, called the *salt*, so that users
-   having the same password will have different encrypted passwords.
-   This is also an additional defense against reversing the algorithm.
-3. They include the algorithm type in the result, so passwords hashed with
-   different algorithms can co-exist.
-4. Some of them are adaptive — that means when computers get
-   faster, you can tune the algorithm to be slower, without
-   introducing incompatibility with existing passwords.
+1. 它們很慢。由於資料量很小，這是讓暴力破解密碼變得困難的唯一方法。
+2. 它們使用一個稱為*鹽值*（salt）的隨機值，讓密碼相同的使用者具有不同的加密後密碼。這也是防止演算法被反推的額外防禦。
+3. 它們會在結果中包含演算法類型，因此以不同演算法雜湊的密碼可以並存。
+4. 其中有些是可調適的——也就是說，當電腦變得更快時，你可以調整演算法使其變慢，而不會與現有密碼產生不相容。
 
-[Table F.18](pgcrypto.md#PGCRYPTO-CRYPT-ALGORITHMS) lists the algorithms
-supported by the `crypt()` function.
+[表 F.18](pgcrypto.md#PGCRYPTO-CRYPT-ALGORITHMS)列出 `crypt()` 函式所支援的演算法。
 
 <a id="PGCRYPTO-CRYPT-ALGORITHMS"></a>
 
-**Table F.18. Supported Algorithms for `crypt()`**
+**表 F.18. `crypt()` 支援的演算法**
 
-<table border="1" class="table" summary="Supported Algorithms for crypt()"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/><col class="col5"/><col class="col6"/></colgroup><thead><tr><th>Algorithm</th><th>Max Password Length</th><th>Adaptive?</th><th>Salt Bits</th><th>Output Length</th><th>Description</th></tr></thead><tbody><tr><td><code class="literal">bf</code></td><td>72</td><td>yes</td><td>128</td><td>60</td><td>Blowfish-based, variant 2a</td></tr><tr><td><code class="literal">md5</code></td><td>unlimited</td><td>no</td><td>48</td><td>34</td><td>MD5-based crypt</td></tr><tr><td><code class="literal">xdes</code></td><td>8</td><td>yes</td><td>24</td><td>20</td><td>Extended DES</td></tr><tr><td><code class="literal">des</code></td><td>8</td><td>no</td><td>12</td><td>13</td><td>Original UNIX crypt</td></tr><tr><td><code class="literal">sha256crypt</code></td><td>unlimited</td><td>yes</td><td>up to 32</td><td>80</td><td>Adapted from publicly available reference implementation
-       <a class="ulink" href="https://www.akkadia.org/drepper/SHA-crypt.txt" target="_top">Unix crypt using SHA-256 and SHA-512
+<table border="1" class="table" summary="表 F.18. crypt() 支援的演算法"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/><col class="col5"/><col class="col6"/></colgroup><thead><tr><th>演算法</th><th>密碼最大長度</th><th>可調適？</th><th>鹽值位元數</th><th>輸出長度</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">bf</code></td><td>72</td><td>是</td><td>128</td><td>60</td><td>以 Blowfish 為基礎，2a 變體</td></tr><tr><td><code class="literal">md5</code></td><td>無限制</td><td>否</td><td>48</td><td>34</td><td>以 MD5 為基礎的 crypt</td></tr><tr><td><code class="literal">xdes</code></td><td>8</td><td>是</td><td>24</td><td>20</td><td>擴充 DES</td></tr><tr><td><code class="literal">des</code></td><td>8</td><td>否</td><td>12</td><td>13</td><td>原始的 UNIX crypt</td></tr><tr><td><code class="literal">sha256crypt</code></td><td>無限制</td><td>是</td><td>最多 32</td><td>80</td><td>改編自公開的參考實作
+       <a class="ulink" href="https://www.akkadia.org/drepper/SHA-crypt.txt" target="_top">使用 SHA-256 與 SHA-512 的 Unix crypt
        </a>
-</td></tr><tr><td><code class="literal">sha512crypt</code></td><td>unlimited</td><td>yes</td><td>up to 32</td><td>123</td><td>Adapted from publicly available reference implementation
-       <a class="ulink" href="https://www.akkadia.org/drepper/SHA-crypt.txt" target="_top">Unix crypt using SHA-256 and SHA-512
+</td></tr><tr><td><code class="literal">sha512crypt</code></td><td>無限制</td><td>是</td><td>最多 32</td><td>123</td><td>改編自公開的參考實作
+       <a class="ulink" href="https://www.akkadia.org/drepper/SHA-crypt.txt" target="_top">使用 SHA-256 與 SHA-512 的 Unix crypt
        </a>
 </td></tr></tbody></table>
 
-<br><a id="PGCRYPTO-PASSWORD-HASHING-FUNCS-CRYPT"></a>
+<br>
+
+<a id="PGCRYPTO-PASSWORD-HASHING-FUNCS-CRYPT"></a>
 
 #### F.26.2.1. `crypt()` [#](#PGCRYPTO-PASSWORD-HASHING-FUNCS-CRYPT)
 
@@ -135,27 +113,23 @@ supported by the `crypt()` function.
 crypt(password text, salt text) returns text
 ```
 
-Calculates a crypt(3)-style hash of *`password`*.
-When storing a new password, you need to use
-`gen_salt()` to generate a new *`salt`* value.
-To check a password, pass the stored hash value as *`salt`*,
-and test whether the result matches the stored value.
+計算 *`password`* 的 crypt(3) 風格雜湊值。儲存新密碼時，你需要使用 `gen_salt()` 產生新的 *`salt`* 值。要檢查密碼時，請將儲存的雜湊值作為 *`salt`* 傳入，並測試結果是否與儲存的值相符。
 
-Example of setting a new password:
+設定新密碼的範例：
 
 ```
 
 UPDATE ... SET pswhash = crypt('new password', gen_salt('md5'));
 ```
 
-Example of authentication:
+驗證的範例：
 
 ```
 
 SELECT (pswhash = crypt('entered password', pswhash)) AS pswmatch FROM ... ;
 ```
 
-This returns `true` if the entered password is correct.
+若輸入的密碼正確，這會傳回 `true`。
 
 <a id="PGCRYPTO-PASSWORD-HASHING-FUNCS-GEN-SALT"></a>
 
@@ -168,129 +142,76 @@ This returns `true` if the entered password is correct.
 gen_salt(type text [, iter_count integer ]) returns text
 ```
 
-Generates a new random salt string for use in `crypt()`.
-The salt string also tells `crypt()` which algorithm to use.
+產生新的隨機鹽值字串，供 `crypt()` 使用。鹽值字串也會告訴 `crypt()` 要使用哪一種演算法。
 
-The *`type`* parameter specifies the hashing algorithm.
-The accepted types are: `des`, `xdes`,
-`md5`, `bf`, `sha256crypt` and
-`sha512crypt`. The last two, `sha256crypt` and
-`sha512crypt` are modern `SHA-2` based password hashes.
+*`type`* 參數指定雜湊演算法。可接受的類型有：`des`、`xdes`、`md5`、`bf`、`sha256crypt` 與 `sha512crypt`。最後兩種 `sha256crypt` 與 `sha512crypt`，是以 `SHA-2` 為基礎的現代密碼雜湊。
 
-The *`iter_count`* parameter lets the user specify the iteration
-count, for algorithms that have one.
-The higher the count, the more time it takes to hash
-the password and therefore the more time to break it. Although with
-too high a count the time to calculate a hash may be several years
-— which is somewhat impractical. If the *`iter_count`*
-parameter is omitted, the default iteration count is used.
-Allowed values for *`iter_count`* depend on the algorithm and
-are shown in [Table F.19](pgcrypto.md#PGCRYPTO-ICFC-TABLE).
+對於具有迭代次數的演算法，*`iter_count`* 參數讓使用者指定迭代次數。次數越高，雜湊密碼所需的時間就越長，因此破解所需的時間也越長。不過，若次數過高，計算一次雜湊的時間可能長達數年——這有點不切實際。若省略 *`iter_count`* 參數，則使用預設的迭代次數。*`iter_count`* 的允許值取決於演算法，列於[表 F.19](pgcrypto.md#PGCRYPTO-ICFC-TABLE)。
 
 <a id="PGCRYPTO-ICFC-TABLE"></a>
 
-**Table F.19. Iteration Counts for `crypt()`**
+**表 F.19. `crypt()` 的迭代次數**
 
-<table border="1" class="table" summary="Iteration Counts for crypt()"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>Algorithm</th><th>Default</th><th>Min</th><th>Max</th></tr></thead><tbody><tr><td><code class="literal">xdes</code></td><td>725</td><td>1</td><td>16777215</td></tr><tr><td><code class="literal">bf</code></td><td>6</td><td>4</td><td>31</td></tr><tr><td><code class="literal">sha256crypt, sha512crypt</code></td><td>5000</td><td>1000</td><td>999999999</td></tr></tbody></table>
+<table border="1" class="table" summary="表 F.19. crypt() 的迭代次數"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>演算法</th><th>預設值</th><th>最小值</th><th>最大值</th></tr></thead><tbody><tr><td><code class="literal">xdes</code></td><td>725</td><td>1</td><td>16777215</td></tr><tr><td><code class="literal">bf</code></td><td>6</td><td>4</td><td>31</td></tr><tr><td><code class="literal">sha256crypt, sha512crypt</code></td><td>5000</td><td>1000</td><td>999999999</td></tr></tbody></table>
 
 <br>
 
-For `xdes` there is an additional limitation that the
-iteration count must be an odd number.
+對於 `xdes`，還有一項額外限制：迭代次數必須是奇數。
 
-To pick an appropriate iteration count, consider that
-the original DES crypt was designed to have the speed of 4 hashes per
-second on the hardware of that time.
-Slower than 4 hashes per second would probably dampen usability.
-Faster than 100 hashes per second is probably too fast.
+要選擇適當的迭代次數，請考慮原始的 DES crypt 在設計上，是讓當時的硬體每秒執行 4 次雜湊。比每秒 4 次雜湊更慢，可能會降低可用性；比每秒 100 次雜湊更快，則可能太快了。
 
-[Table F.20](pgcrypto.md#PGCRYPTO-HASH-SPEED-TABLE) gives an overview of the relative slowness
-of different hashing algorithms.
-The table shows how much time it would take to try all
-combinations of characters in an 8-character password, assuming
-that the password contains either only lower case letters, or
-upper- and lower-case letters and numbers.
-In the `crypt-bf` entries, the number after a slash is
-the *`iter_count`* parameter of
-`gen_salt`.
+[表 F.20](pgcrypto.md#PGCRYPTO-HASH-SPEED-TABLE)概述不同雜湊演算法的相對緩慢程度。此表顯示，在假設密碼只包含小寫字母，或包含大小寫字母與數字的情況下，嘗試 8 個字元之密碼的所有字元組合需要多少時間。在 `crypt-bf` 項目中，斜線後面的數字是 `gen_salt` 的 *`iter_count`* 參數。
 
-The default *`iter_count`* for `sha256crypt` and
-`sha512crypt` of `5000` is considered too low for modern
-hardware, but can be adjusted to generate stronger password hashes.
-Otherwise both hashes, `sha256crypt` and `sha512crypt` are
-considered safe.
+`sha256crypt` 與 `sha512crypt` 的預設 *`iter_count`* 為 `5000`，對現代硬體而言被認為過低，但可以調整以產生更強的密碼雜湊。除此之外，`sha256crypt` 與 `sha512crypt` 這兩種雜湊都被認為是安全的。
 
 <a id="PGCRYPTO-HASH-SPEED-TABLE"></a>
 
-**Table F.20. Hash Algorithm Speeds**
+**表 F.20. 雜湊演算法速度**
 
-<table border="1" class="table" summary="Hash Algorithm Speeds"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Algorithm</th><th>Hashes/sec</th><th>For <code class="literal">[a-z]</code></th><th>For <code class="literal">[A-Za-z0-9]</code></th><th>Duration relative to <code class="literal">md5 hash</code></th></tr></thead><tbody><tr><td><code class="literal">crypt-bf/8</code></td><td>1792</td><td>4 years</td><td>3927 years</td><td>100k</td></tr><tr><td><code class="literal">crypt-bf/7</code></td><td>3648</td><td>2 years</td><td>1929 years</td><td>50k</td></tr><tr><td><code class="literal">crypt-bf/6</code></td><td>7168</td><td>1 year</td><td>982 years</td><td>25k</td></tr><tr><td><code class="literal">crypt-bf/5</code></td><td>13504</td><td>188 days</td><td>521 years</td><td>12.5k</td></tr><tr><td><code class="literal">crypt-md5</code></td><td>171584</td><td>15 days</td><td>41 years</td><td>1k</td></tr><tr><td><code class="literal">crypt-des</code></td><td>23221568</td><td>157.5 minutes</td><td>108 days</td><td>7</td></tr><tr><td><code class="literal">sha1</code></td><td>37774272</td><td>90 minutes</td><td>68 days</td><td>4</td></tr><tr><td><code class="literal">md5</code> (hash)</td><td>150085504</td><td>22.5 minutes</td><td>17 days</td><td>1</td></tr></tbody></table>
+<table border="1" class="table" summary="表 F.20. 雜湊演算法速度"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>演算法</th><th>每秒雜湊次數</th><th><code class="literal">[a-z]</code> 所需時間</th><th><code class="literal">[A-Za-z0-9]</code> 所需時間</th><th>相對於 <code class="literal">md5 hash</code> 的耗時</th></tr></thead><tbody><tr><td><code class="literal">crypt-bf/8</code></td><td>1792</td><td>4 年</td><td>3927 年</td><td>100k</td></tr><tr><td><code class="literal">crypt-bf/7</code></td><td>3648</td><td>2 年</td><td>1929 年</td><td>50k</td></tr><tr><td><code class="literal">crypt-bf/6</code></td><td>7168</td><td>1 年</td><td>982 年</td><td>25k</td></tr><tr><td><code class="literal">crypt-bf/5</code></td><td>13504</td><td>188 天</td><td>521 年</td><td>12.5k</td></tr><tr><td><code class="literal">crypt-md5</code></td><td>171584</td><td>15 天</td><td>41 年</td><td>1k</td></tr><tr><td><code class="literal">crypt-des</code></td><td>23221568</td><td>157.5 分鐘</td><td>108 天</td><td>7</td></tr><tr><td><code class="literal">sha1</code></td><td>37774272</td><td>90 分鐘</td><td>68 天</td><td>4</td></tr><tr><td><code class="literal">md5</code>（雜湊）</td><td>150085504</td><td>22.5 分鐘</td><td>17 天</td><td>1</td></tr></tbody></table>
 
 <br>
 
-Notes:
+附註：
 
-* The machine used is an Intel Mobile Core i3.
-* `crypt-des` and `crypt-md5` algorithm numbers are
-  taken from John the Ripper v1.6.38 `-test` output.
-* `md5 hash` numbers are from mdcrack 1.2.
-* `sha1` numbers are from lcrack-20031130-beta.
-* `crypt-bf` numbers are taken using a simple program that
-  loops over 1000 8-character passwords. That way the speed
-  with different numbers of iterations can be shown. For reference: `john
-  -test` shows 13506 loops/sec for `crypt-bf/5`.
-  (The very small
-  difference in results is in accordance with the fact that the
-  `crypt-bf` implementation in `pgcrypto`
-  is the same one used in John the Ripper.)
 
-Note that “try all combinations” is not a realistic exercise.
-Usually password cracking is done with the help of dictionaries, which
-contain both regular words and various mutations of them. So, even
-somewhat word-like passwords could be cracked much faster than the above
-numbers suggest, while a 6-character non-word-like password may escape
-cracking. Or not.
+* 所使用的機器為 Intel Mobile Core i3。
+* `crypt-des` 與 `crypt-md5` 演算法的數據取自「John the Ripper」v1.6.38 的 `-test` 輸出。
+* `md5 hash` 的數據來自 mdcrack 1.2。
+* `sha1` 的數據來自 lcrack-20031130-beta。
+* `crypt-bf` 的數據是使用一個對 1000 組 8 字元密碼執行迴圈的簡單程式測得的。如此便能呈現不同迭代次數下的速度。作為參考：`john
+  -test` 顯示 `crypt-bf/5` 為每秒 13506 次迴圈。（結果之間的差異非常小，這與 `pgcrypto` 中的 `crypt-bf` 實作和「John the Ripper」所使用的是同一套實作相符。）
+
+請注意，「嘗試所有組合」並不是符合實際的做法。密碼破解通常會借助字典進行，字典中既包含一般單字，也包含這些單字的各種變形。因此，即使是有點像單字的密碼，被破解的速度也可能遠比上述數字所示快得多；而一個 6 個字元、不像單字的密碼則可能逃過破解。也可能逃不過。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS"></a>
 
-### F.26.3. PGP Encryption Functions [#](#PGCRYPTO-PGP-ENC-FUNCS)
+### F.26.3. PGP 加密函式 [#](#PGCRYPTO-PGP-ENC-FUNCS)
 
-The functions here implement the encryption part of the OpenPGP
-([RFC 4880](https://datatracker.ietf.org/doc/html/rfc4880))
-standard. Supported are both symmetric-key and public-key encryption.
+這裡的函式實作了 OpenPGP（[RFC 4880](https://datatracker.ietf.org/doc/html/rfc4880)）標準中的加密部分。對稱金鑰加密與公開金鑰加密都有支援。
 
-An encrypted PGP message consists of 2 parts, or *packets*:
+一則加密的 PGP 訊息由 2 個部分（或稱*封包*）組成：
 
-* Packet containing a session key — either symmetric-key or public-key
-  encrypted.
-* Packet containing data encrypted with the session key.
+* 包含工作階段金鑰的封包——以對稱金鑰或公開金鑰加密。
+* 包含以工作階段金鑰加密之資料的封包。
 
-When encrypting with a symmetric key (i.e., a password):
+以對稱金鑰（亦即密碼）加密時：
 
-1. The given password is hashed using a String2Key (S2K) algorithm. This is
-   rather similar to `crypt()` algorithms — purposefully
-   slow and with random salt — but it produces a full-length binary
-   key.
-2. If a separate session key is requested, a new random key will be
-   generated. Otherwise the S2K key will be used directly as the session
-   key.
-3. If the S2K key is to be used directly, then only S2K settings will be put
-   into the session key packet. Otherwise the session key will be encrypted
-   with the S2K key and put into the session key packet.
+1. 給定的密碼會使用 String2Key（S2K）演算法進行雜湊。這與 `crypt()` 的演算法相當類似——刻意設計得很慢，並使用隨機鹽值——但它會產生完整長度的二進位金鑰。
+2. 若要求使用獨立的工作階段金鑰，會產生一個新的隨機金鑰。否則，S2K 金鑰會直接作為工作階段金鑰使用。
+3. 若要直接使用 S2K 金鑰，則只會將 S2K 設定放入工作階段金鑰封包中。否則，工作階段金鑰會以 S2K 金鑰加密，再放入工作階段金鑰封包中。
 
-When encrypting with a public key:
+以公開金鑰加密時：
 
-1. A new random session key is generated.
-2. It is encrypted using the public key and put into the session key packet.
+1. 產生新的隨機工作階段金鑰。
+2. 以公開金鑰將其加密，並放入工作階段金鑰封包中。
 
-In either case the data to be encrypted is processed as follows:
+無論哪一種情況，要加密的資料都會依下列方式處理：
 
-1. Optional data-manipulation: compression, conversion to UTF-8,
-   and/or conversion of line-endings.
-2. The data is prefixed with a block of random bytes. This is equivalent
-   to using a random IV.
-3. A SHA-1 hash of the random prefix and data is appended.
-4. All this is encrypted with the session key and placed in the data packet.
+1. 選擇性的資料處理：壓縮、轉換為 UTF-8，以及／或轉換行尾字元。
+2. 在資料前面加上一個由隨機位元組組成的區塊。這相當於使用隨機的 IV（初始化向量）。
+3. 附加隨機前綴與資料的 SHA-1 雜湊值。
+4. 以上全部內容會以工作階段金鑰加密，並放入資料封包中。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-PGP-SYM-ENCRYPT"></a>
 
@@ -304,9 +225,8 @@ pgp_sym_encrypt(data text, psw text [, options text ]) returns bytea
 pgp_sym_encrypt_bytea(data bytea, psw text [, options text ]) returns bytea
 ```
 
-Encrypt *`data`* with a symmetric PGP key *`psw`*.
-The *`options`* parameter can contain option settings,
-as described below.
+以對稱 PGP 金鑰 *`psw`* 加密 *`data`*。
+*`options`* 參數可以包含選項設定，如下文所述。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-PGP-SYM-DECRYPT"></a>
 
@@ -320,14 +240,11 @@ pgp_sym_decrypt(msg bytea, psw text [, options text ]) returns text
 pgp_sym_decrypt_bytea(msg bytea, psw text [, options text ]) returns bytea
 ```
 
-Decrypt a symmetric-key-encrypted PGP message.
+解密以對稱金鑰加密的 PGP 訊息。
 
-Decrypting `bytea` data with `pgp_sym_decrypt` is disallowed.
-This is to avoid outputting invalid character data. Decrypting
-originally textual data with `pgp_sym_decrypt_bytea` is fine.
+不允許使用 `pgp_sym_decrypt` 解密 `bytea` 資料。這是為了避免輸出無效的字元資料。使用 `pgp_sym_decrypt_bytea` 解密原本為文字的資料則沒有問題。
 
-The *`options`* parameter can contain option settings,
-as described below.
+*`options`* 參數可以包含選項設定，如下文所述。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-PGP-PUB-ENCRYPT"></a>
 
@@ -341,11 +258,9 @@ pgp_pub_encrypt(data text, key bytea [, options text ]) returns bytea
 pgp_pub_encrypt_bytea(data bytea, key bytea [, options text ]) returns bytea
 ```
 
-Encrypt *`data`* with a public PGP key *`key`*.
-Giving this function a secret key will produce an error.
+以 PGP 公開金鑰 *`key`* 加密 *`data`*。若傳給此函式的是私密金鑰（secret key），會產生錯誤。
 
-The *`options`* parameter can contain option settings,
-as described below.
+*`options`* 參數可以包含選項設定，如下文所述。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-PGP-PUB-DECRYPT"></a>
 
@@ -359,18 +274,11 @@ pgp_pub_decrypt(msg bytea, key bytea [, psw text [, options text ]]) returns tex
 pgp_pub_decrypt_bytea(msg bytea, key bytea [, psw text [, options text ]]) returns bytea
 ```
 
-Decrypt a public-key-encrypted message. *`key`* must be the
-secret key corresponding to the public key that was used to encrypt.
-If the secret key is password-protected, you must give the password in
-*`psw`*. If there is no password, but you want to specify
-options, you need to give an empty password.
+解密以公開金鑰加密的訊息。*`key`* 必須是與加密時所用公開金鑰相對應的私密金鑰。若私密金鑰受密碼保護，你必須在 *`psw`* 中提供密碼。若沒有密碼，但你想要指定選項，則需要提供空密碼。
 
-Decrypting `bytea` data with `pgp_pub_decrypt` is disallowed.
-This is to avoid outputting invalid character data. Decrypting
-originally textual data with `pgp_pub_decrypt_bytea` is fine.
+不允許使用 `pgp_pub_decrypt` 解密 `bytea` 資料。這是為了避免輸出無效的字元資料。使用 `pgp_pub_decrypt_bytea` 解密原本為文字的資料則沒有問題。
 
-The *`options`* parameter can contain option settings,
-as described below.
+*`options`* 參數可以包含選項設定，如下文所述。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-PGP-KEY-ID"></a>
 
@@ -383,25 +291,18 @@ as described below.
 pgp_key_id(bytea) returns text
 ```
 
-`pgp_key_id` extracts the key ID of a PGP public or secret key.
-Or it gives the key ID that was used for encrypting the data, if given
-an encrypted message.
+`pgp_key_id` 會擷取 PGP 公開金鑰或私密金鑰的金鑰 ID。若給定的是加密訊息，則會傳回加密該資料時所用的金鑰 ID。
 
-It can return 2 special key IDs:
+它可能傳回 2 個特殊的金鑰 ID：
 
 * `SYMKEY`
 
-  The message is encrypted with a symmetric key.
+  該訊息以對稱金鑰加密。
 * `ANYKEY`
 
-  The message is public-key encrypted, but the key ID has been removed.
-  That means you will need to try all your secret keys on it to see
-  which one decrypts it. `pgcrypto` itself does not produce
-  such messages.
+  該訊息以公開金鑰加密，但金鑰 ID 已被移除。這表示你必須用你所有的私密金鑰逐一嘗試，才能知道哪一把可以解密。`pgcrypto` 本身不會產生這種訊息。
 
-Note that different keys may have the same ID. This is rare but a normal
-event. The client application should then try to decrypt with each one,
-to see which fits — like handling `ANYKEY`.
+請注意，不同的金鑰可能具有相同的 ID。這種情況很少見，但屬於正常現象。此時用戶端應用程式應該逐一嘗試以每把金鑰解密，看看哪一把適用——就像處理 `ANYKEY` 一樣。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-ARMOR"></a>
 
@@ -415,14 +316,9 @@ armor(data bytea [ , keys text[], values text[] ]) returns text
 dearmor(data text) returns bytea
 ```
 
-These functions wrap/unwrap binary data into PGP ASCII-armor format,
-which is basically Base64 with CRC and additional formatting.
+這些函式將二進位資料包裝成 PGP ASCII-armor 格式，或從該格式解開；此格式基本上就是附帶 CRC 與額外格式的 Base64。
 
-If the *`keys`* and *`values`* arrays are specified,
-an *armor header* is added to the armored format for each
-key/value pair. Both arrays must be single-dimensional, and they must
-be of the same length. The keys and values cannot contain any non-ASCII
-characters.
+若指定了 *`keys`* 與 *`values`* 陣列，則會針對每一組鍵／值，在 armor 格式中加入一個 *armor 標頭*（armor header）。兩個陣列都必須是一維的，而且長度必須相同。鍵與值不能包含任何非 ASCII 字元。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-PGP-ARMOR-HEADERS"></a>
 
@@ -435,278 +331,224 @@ characters.
 pgp_armor_headers(data text, key out text, value out text) returns setof record
 ```
 
-`pgp_armor_headers()` extracts the armor headers from
-*`data`*. The return value is a set of rows with two columns,
-key and value. If the keys or values contain any non-ASCII characters,
-they are treated as UTF-8.
+`pgp_armor_headers()` 會從 *`data`* 中擷取 armor 標頭。傳回值是一組資料列，具有鍵（key）與值（value）兩個欄位。若鍵或值包含任何非 ASCII 字元，會被視為 UTF-8。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS"></a>
 
-#### F.26.3.8. Options for PGP Functions [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS)
+#### F.26.3.8. PGP 函式的選項 [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS)
 
-Options are named to be similar to GnuPG. An option's value should be
-given after an equal sign; separate options from each other with commas.
-For example:
+選項的命名與 GnuPG 類似。選項的值應該寫在等號之後；各選項之間以逗號分隔。例如：
 
 ```
 
 pgp_sym_encrypt(data, psw, 'compress-algo=1, cipher-algo=aes256')
 ```
 
-All of the options except `convert-crlf` apply only to
-encrypt functions. Decrypt functions get the parameters from the PGP
-data.
+除了 `convert-crlf` 之外，所有選項都只適用於加密函式。解密函式會從 PGP 資料中取得參數。
 
-The most interesting options are probably
-`compress-algo` and `unicode-mode`.
-The rest should have reasonable defaults.
+譯註：原文此句未將下文的 ignore-cipher-failure 選項列為例外；依該選項的「適用於」說明（F.26.3.8.12），它只適用於 pgp_sym_decrypt 與 pgp_pub_decrypt 這兩個解密函式。
+
+最值得關注的選項大概是 `compress-algo` 與 `unicode-mode`。其餘選項應該都有合理的預設值。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-CIPHER-ALGO"></a>
 
 ##### F.26.3.8.1. cipher-algo [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-CIPHER-ALGO)
 
-Which cipher algorithm to use.
+要使用的加密演算法。
 
 <br>
-Values: bf, aes128, aes192, aes256, 3des, cast5<br>
-Default: aes128<br>
-Applies to: pgp_sym_encrypt, pgp_pub_encrypt<br>
+值：bf, aes128, aes192, aes256, 3des, cast5<br>
+預設：aes128<br>
+適用於：pgp_sym_encrypt, pgp_pub_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-COMPRESS-ALGO"></a>
 
 ##### F.26.3.8.2. compress-algo [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-COMPRESS-ALGO)
 
-Which compression algorithm to use. Only available if
-PostgreSQL was built with zlib.
+要使用的壓縮演算法。只有在 PostgreSQL 以 zlib 建置時才可使用。
 
 <br>
-Values:<br>
-  0 - no compression<br>
-  1 - ZIP compression<br>
-  2 - ZLIB compression (= ZIP plus meta-data and block CRCs)<br>
-Default: 0<br>
-Applies to: pgp_sym_encrypt, pgp_pub_encrypt<br>
+值：<br>
+  0 - 不壓縮<br>
+  1 - ZIP 壓縮<br>
+  2 - ZLIB 壓縮（= ZIP 加上中繼資料與區塊 CRC）<br>
+預設：0<br>
+適用於：pgp_sym_encrypt, pgp_pub_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-COMPRESS-LEVEL"></a>
 
 ##### F.26.3.8.3. compress-level [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-COMPRESS-LEVEL)
 
-How much to compress. Higher levels compress smaller but are slower.
-0 disables compression.
+壓縮的程度。等級越高，壓縮後越小，但速度較慢。0 會停用壓縮。
 
 <br>
-Values: 0, 1-9<br>
-Default: 6<br>
-Applies to: pgp_sym_encrypt, pgp_pub_encrypt<br>
+值：0, 1-9<br>
+預設：6<br>
+適用於：pgp_sym_encrypt, pgp_pub_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-CONVERT-CRLF"></a>
 
 ##### F.26.3.8.4. convert-crlf [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-CONVERT-CRLF)
 
-Whether to convert `\n` into `\r\n` when
-encrypting and `\r\n` to `\n` when
-decrypting. RFC 4880 specifies that text data should be stored using
-`\r\n` line-feeds. Use this to get fully RFC-compliant
-behavior.
+是否在加密時將 `\n` 轉換為 `\r\n`，並在解密時將 `\r\n` 轉換為 `\n`。RFC 4880 規定文字資料應該使用 `\r\n` 換行字元儲存。使用此選項可獲得完全符合 RFC 的行為。
 
 <br>
-Values: 0, 1<br>
-Default: 0<br>
-Applies to: pgp_sym_encrypt, pgp_pub_encrypt, pgp_sym_decrypt, pgp_pub_decrypt<br>
+值：0, 1<br>
+預設：0<br>
+適用於：pgp_sym_encrypt, pgp_pub_encrypt, pgp_sym_decrypt, pgp_pub_decrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-DISABLE-MDC"></a>
 
 ##### F.26.3.8.5. disable-mdc [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-DISABLE-MDC)
 
-Do not protect data with SHA-1. The only good reason to use this
-option is to achieve compatibility with ancient PGP products, predating
-the addition of SHA-1 protected packets to RFC 4880.
-Recent gnupg.org and pgp.com software supports it fine.
+不使用 SHA-1 保護資料。使用此選項唯一的正當理由，是為了與早於 RFC 4880 加入受 SHA-1 保護之封包的老舊 PGP 產品相容。近期的 gnupg.org 與 pgp.com 軟體都能良好支援受 SHA-1 保護的封包。
 
 <br>
-Values: 0, 1<br>
-Default: 0<br>
-Applies to: pgp_sym_encrypt, pgp_pub_encrypt<br>
+值：0, 1<br>
+預設：0<br>
+適用於：pgp_sym_encrypt, pgp_pub_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-SESS-KEY"></a>
 
 ##### F.26.3.8.6. sess-key [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-SESS-KEY)
 
-Use separate session key. Public-key encryption always uses a separate
-session key; this option is for symmetric-key encryption, which by default
-uses the S2K key directly.
+使用獨立的工作階段金鑰。公開金鑰加密一律使用獨立的工作階段金鑰；此選項是供對稱金鑰加密使用，對稱金鑰加密預設會直接使用 S2K 金鑰。
 
 <br>
-Values: 0, 1<br>
-Default: 0<br>
-Applies to: pgp_sym_encrypt<br>
+值：0, 1<br>
+預設：0<br>
+適用於：pgp_sym_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-MODE"></a>
 
 ##### F.26.3.8.7. s2k-mode [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-MODE)
 
-Which S2K algorithm to use.
+要使用的 S2K 演算法。
 
 <br>
-Values:<br>
-  0 - Without salt.  Dangerous!<br>
-  1 - With salt but with fixed iteration count.<br>
-  3 - Variable iteration count.<br>
-Default: 3<br>
-Applies to: pgp_sym_encrypt<br>
+值：<br>
+  0 - 不使用鹽值。危險！<br>
+  1 - 使用鹽值，但迭代次數固定。<br>
+  3 - 可變迭代次數。<br>
+預設：3<br>
+適用於：pgp_sym_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-COUNT"></a>
 
 ##### F.26.3.8.8. s2k-count [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-COUNT)
 
-The number of iterations of the S2K algorithm to use. It must
-be a value between 1024 and 65011712, inclusive.
+S2K 演算法要使用的迭代次數。它必須是介於 1024 與 65011712 之間（含兩端）的值。
 
 <br>
-Default: A random value between 65536 and 253952<br>
-Applies to: pgp_sym_encrypt, only with s2k-mode=3<br>
+預設：介於 65536 與 253952 之間的隨機值<br>
+適用於：pgp_sym_encrypt，且僅限 s2k-mode=3 時<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-DIGEST-ALGO"></a>
 
 ##### F.26.3.8.9. s2k-digest-algo [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-DIGEST-ALGO)
 
-Which digest algorithm to use in S2K calculation.
+S2K 計算中要使用的摘要演算法。
 
 <br>
-Values: md5, sha1<br>
-Default: sha1<br>
-Applies to: pgp_sym_encrypt<br>
+值：md5, sha1<br>
+預設：sha1<br>
+適用於：pgp_sym_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-CIPHER-ALGO"></a>
 
 ##### F.26.3.8.10. s2k-cipher-algo [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-S2K-CIPHER-ALGO)
 
-Which cipher to use for encrypting separate session key.
+加密獨立工作階段金鑰時要使用的加密演算法。
 
 <br>
-Values: bf, aes, aes128, aes192, aes256<br>
-Default: use cipher-algo<br>
-Applies to: pgp_sym_encrypt<br>
+值：bf, aes, aes128, aes192, aes256<br>
+預設：使用 cipher-algo 的設定<br>
+適用於：pgp_sym_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-UNICODE-MODE"></a>
 
 ##### F.26.3.8.11. unicode-mode [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-UNICODE-MODE)
 
-Whether to convert textual data from database internal encoding to
-UTF-8 and back. If your database already is UTF-8, no conversion will
-be done, but the message will be tagged as UTF-8. Without this option
-it will not be.
+是否將文字資料從資料庫內部編碼轉換為 UTF-8，以及反向轉換回來。若你的資料庫已經是 UTF-8，則不會進行轉換，但訊息會被標記為 UTF-8。若未使用此選項，則不會加上此標記。
 
 <br>
-Values: 0, 1<br>
-Default: 0<br>
-Applies to: pgp_sym_encrypt, pgp_pub_encrypt<br>
+值：0, 1<br>
+預設：0<br>
+適用於：pgp_sym_encrypt, pgp_pub_encrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-OPTS-IGNORE-CIPHER-FAILURE"></a>
 
 ##### F.26.3.8.12. ignore-cipher-failure [#](#PGCRYPTO-PGP-ENC-FUNCS-OPTS-IGNORE-CIPHER-FAILURE)
 
-Dangerous! Instructs pgcrypto to use an incorrect decryption algorithm
-matching the historical behavior prior to the fix for CVE-2026-14663, by
-completely ignoring failures from the OpenSSL cipher in use. This is
-intended only for users who need to recover incorrectly-encrypted messages
-created when the `cipher-algo` was unavailable under the
-OpenSSL configuration in use. Such faulty messages do not require the
-correct decryption key when `ignore-cipher-failure` is
-enabled, so there is no guarantee that the decrypted plaintext actually
-originated from a holder of the key.
+危險！指示 pgcrypto 完全忽略所用 OpenSSL 加密演算法的失敗，藉此使用一種不正確的解密演算法，其行為與 CVE-2026-14663 修正之前的歷史行為相符。此選項僅供需要復原錯誤加密訊息的使用者使用；這類訊息是在當時指定的 `cipher-algo` 於所用的 OpenSSL 設定下無法使用時所建立的。啟用 `ignore-cipher-failure` 時，此類有缺陷的訊息不需要正確的解密金鑰即可解密，因此無法保證解密後的明文確實出自金鑰持有者。
 
-Contrast the case of a message which was correctly encrypted, but the cipher
-that produced it is unavailable under the current OpenSSL
-configuration. Recovering such plaintext via `pgcrypto`
-requires making the actual cipher available to OpenSSL by, for example,
-enabling the appropriate provider. `ignore-cipher-failure`
-is not necessary or helpful for that scenario. If “decryption”
-of a correctly encrypted message with this option happens to pass PGP
-integrity checks, that result is coincidental and does not make the
-recovered plaintext trustworthy.
+與此相對的情況是：訊息已正確加密，但產生它的加密演算法在目前的 OpenSSL 設定下無法使用。要透過 `pgcrypto` 復原這類明文，必須讓 OpenSSL 能使用實際的加密演算法，例如啟用適當的提供者（provider）。在這種情況下，`ignore-cipher-failure` 既非必要，也沒有幫助。若使用此選項對正確加密之訊息所做的「解密」碰巧通過了 PGP 完整性檢查，該結果只是巧合，並不代表復原的明文值得信任。
 
 <br>
-Values: 0, 1<br>
-Default: 0<br>
-Applies to: pgp_sym_decrypt, pgp_pub_decrypt<br>
+值：0, 1<br>
+預設：0<br>
+適用於：pgp_sym_decrypt, pgp_pub_decrypt<br>
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-GNUPG"></a>
 
-#### F.26.3.9. Generating PGP Keys with GnuPG [#](#PGCRYPTO-PGP-ENC-FUNCS-GNUPG)
+#### F.26.3.9. 使用 GnuPG 產生 PGP 金鑰 [#](#PGCRYPTO-PGP-ENC-FUNCS-GNUPG)
 
-To generate a new key:
+產生新金鑰：
 
 ```
 
 gpg --gen-key
 ```
 
-The preferred key type is “DSA and Elgamal”.
+建議的金鑰類型為「DSA and Elgamal」。
 
-For RSA encryption you must create either DSA or RSA sign-only key
-as master and then add an RSA encryption subkey with
-`gpg --edit-key`.
+若要使用 RSA 加密，你必須先建立 DSA 或 RSA 的僅簽章金鑰作為主金鑰，然後使用 `gpg --edit-key` 加入 RSA 加密子金鑰。
 
-To list keys:
+列出金鑰：
 
 ```
 
 gpg --list-secret-keys
 ```
 
-To export a public key in ASCII-armor format:
+以 ASCII-armor 格式匯出公開金鑰：
 
 ```
 
 gpg -a --export KEYID > public.key
 ```
 
-To export a secret key in ASCII-armor format:
+以 ASCII-armor 格式匯出私密金鑰：
 
 ```
 
 gpg -a --export-secret-keys KEYID > secret.key
 ```
 
-You need to use `dearmor()` on these keys before giving them to
-the PGP functions. Or if you can handle binary data, you can drop
-`-a` from the command.
+將這些金鑰交給 PGP 函式之前，你需要先對它們使用 `dearmor()`。或者，若你能處理二進位資料，也可以從命令中省略 `-a`。
 
-For more details see `man gpg`,
-[The GNU
-Privacy Handbook](https://www.gnupg.org/gph/en/manual.html) and other documentation on
-<https://www.gnupg.org/>.
+更多細節請參閱 `man gpg`、[The GNU Privacy Handbook](https://www.gnupg.org/gph/en/manual.html)，以及 <https://www.gnupg.org/> 上的其他文件。
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS-LIMITATIONS"></a>
 
-#### F.26.3.10. Limitations of PGP Code [#](#PGCRYPTO-PGP-ENC-FUNCS-LIMITATIONS)
+#### F.26.3.10. PGP 程式碼的限制 [#](#PGCRYPTO-PGP-ENC-FUNCS-LIMITATIONS)
 
-* No support for signing. That also means that it is not checked
-  whether the encryption subkey belongs to the master key.
-* No support for encryption key as master key. As such practice
-  is generally discouraged, this should not be a problem.
-* No support for several subkeys. This may seem like a problem, as this
-  is common practice. On the other hand, you should not use your regular
-  GPG/PGP keys with `pgcrypto`, but create new ones,
-  as the usage scenario is rather different.
+* 不支援簽章。這也表示不會檢查加密子金鑰是否屬於主金鑰。
+* 不支援以加密金鑰作為主金鑰。由於一般不建議這種做法，這應該不成問題。
+* 不支援多個子金鑰。由於這是常見的做法，這看起來可能是個問題。另一方面，你不應該將平常使用的 GPG/PGP 金鑰用於 `pgcrypto`，而應該建立新的金鑰，因為使用情境相當不同。
 
 <a id="PGCRYPTO-RAW-ENC-FUNCS"></a>
 
-### F.26.4. Raw Encryption Functions [#](#PGCRYPTO-RAW-ENC-FUNCS)
+### F.26.4. 原始加密函式 [#](#PGCRYPTO-RAW-ENC-FUNCS)
 
-These functions only run a cipher over data; they don't have any advanced
-features of PGP encryption. Therefore they have some major problems:
+這些函式只會對資料執行加密演算法，不具備 PGP 加密的任何進階功能。因此它們有幾個主要問題：
 
-1. They use user key directly as cipher key.
-2. They don't provide any integrity checking, to see
-   if the encrypted data was modified.
-3. They expect that users manage all encryption parameters
-   themselves, even IV.
-4. They don't handle text.
+1. 它們直接將使用者金鑰作為加密金鑰。
+2. 它們不提供任何完整性檢查，無法得知加密資料是否遭到修改。
+3. 它們預期使用者自行管理所有加密參數，甚至包括 IV。
+4. 它們不處理文字。
 
-So, with the introduction of PGP encryption, usage of raw
-encryption functions is discouraged.
+因此，在引入 PGP 加密之後，不建議使用原始加密函式。
 
 <a id="id-1.11.7.36.10.5"></a><a id="id-1.11.7.36.10.6"></a><a id="id-1.11.7.36.10.7"></a><a id="id-1.11.7.36.10.8"></a>
 
@@ -719,33 +561,30 @@ encrypt_iv(data bytea, key bytea, iv bytea, type text) returns bytea
 decrypt_iv(data bytea, key bytea, iv bytea, type text) returns bytea
 ```
 
-Encrypt/decrypt data using the cipher method specified by
-*`type`*. The syntax of the
-*`type`* string is:
+使用 *`type`* 所指定的加密方法加密／解密資料。*`type`* 字串的語法為：
 
 ```
 
 algorithm [ - mode ] [ /pad: padding ]
 ```
 
-where *`algorithm`* is one of:
+其中 *`algorithm`* 為下列之一：
 
 * `bf` — Blowfish
-* `aes` — AES (Rijndael-128, -192 or -256)
+* `aes` — AES（Rijndael-128、-192 或 -256）
 
-and *`mode`* is one of:
+而 *`mode`* 為下列之一：
 
-* `cbc` — next block depends on previous (default)
-* `cfb` — next block depends on previous encrypted block
-* `ecb` — each block is encrypted separately (for
-  testing only)
+* `cbc` — 下一個區塊取決於前一個區塊（預設）
+* `cfb` — 下一個區塊取決於前一個已加密的區塊
+* `ecb` — 每個區塊分別加密（僅供測試）
 
-and *`padding`* is one of:
+而 *`padding`* 為下列之一：
 
-* `pkcs` — data may be any length (default)
-* `none` — data must be multiple of cipher block size
+* `pkcs` — 資料可以是任意長度（預設）
+* `none` — 資料長度必須是加密區塊大小的倍數
 
-So, for example, these are equivalent:
+因此，舉例來說，以下兩者是等價的：
 
 ```
 
@@ -753,16 +592,11 @@ encrypt(data, 'fooz', 'bf')
 encrypt(data, 'fooz', 'bf-cbc/pad:pkcs')
 ```
 
-In `encrypt_iv` and `decrypt_iv`, the
-*`iv`* parameter is the initial value for the CBC and
-CFB mode;
-it is ignored for ECB.
-It is clipped or padded with zeroes if not exactly block size.
-It defaults to all zeroes in the functions without this parameter.
+在 `encrypt_iv` 與 `decrypt_iv` 中，*`iv`* 參數是 CBC 與 CFB 模式的初始值；ECB 模式會忽略此參數。若其長度不恰好等於區塊大小，會被截斷或以零填補。在沒有此參數的函式中，其預設為全零。
 
 <a id="PGCRYPTO-RANDOM-DATA-FUNCS"></a>
 
-### F.26.5. Random-Data Functions [#](#PGCRYPTO-RANDOM-DATA-FUNCS)
+### F.26.5. 隨機資料函式 [#](#PGCRYPTO-RANDOM-DATA-FUNCS)
 
 <a id="id-1.11.7.36.11.2"></a>
 
@@ -771,9 +605,7 @@ It defaults to all zeroes in the functions without this parameter.
 gen_random_bytes(count integer) returns bytea
 ```
 
-Returns *`count`* cryptographically strong random bytes.
-At most 1024 bytes can be extracted at a time. This is to avoid
-draining the randomness generator pool.
+傳回 *`count`* 個密碼學強度的隨機位元組。每次最多可以取出 1024 個位元組。這是為了避免耗盡隨機數產生器的熵池。
 
 <a id="id-1.11.7.36.11.5"></a>
 
@@ -782,13 +614,11 @@ draining the randomness generator pool.
 gen_random_uuid() returns uuid
 ```
 
-Returns a version 4 (random) UUID. (Obsolete, this function
-internally calls the [core
-function](../../the-sql-language/functions/functions-uuid.md) of the same name.)
+傳回第 4 版（隨機）UUID。（已過時，此函式在內部會呼叫同名的[核心函式](../../the-sql-language/functions/functions-uuid.md)。）
 
 <a id="PGCRYPTO-OPENSSL-SUPPORT-FUNCS"></a>
 
-### F.26.6. OpenSSL Support Functions [#](#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)
+### F.26.6. OpenSSL 支援函式 [#](#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)
 
 <a id="id-1.11.7.36.12.2"></a>
 
@@ -797,96 +627,68 @@ function](../../the-sql-language/functions/functions-uuid.md) of the same name.)
 fips_mode() returns boolean
 ```
 
-Returns `true` if OpenSSL is
-running with FIPS mode enabled, otherwise `false`.
+若 OpenSSL 在啟用 FIPS 模式下執行，則傳回 `true`，否則傳回 `false`。
 
 <a id="PGCRYPTO-CONFIGURATION-PARAMETERS"></a>
 
-### F.26.7. Configuration Parameters [#](#PGCRYPTO-CONFIGURATION-PARAMETERS)
+### F.26.7. 設定參數 [#](#PGCRYPTO-CONFIGURATION-PARAMETERS)
 
-There is one configuration parameter that controls the behavior of
-`pgcrypto`.
+有一個設定參數可控制 `pgcrypto` 的行為。
 
 <a id="PGCRYPTO-CONFIGURATION-PARAMETERS-BUILTIN_CRYPTO_ENABLED"></a>
 
 `pgcrypto.builtin_crypto_enabled` (`enum`) <a id="id-1.11.7.36.13.3.1.1.3"></a> [#](#PGCRYPTO-CONFIGURATION-PARAMETERS-BUILTIN_CRYPTO_ENABLED)
-:   `pgcrypto.builtin_crypto_enabled` determines if the
-    built in crypto functions `gen_salt()`, and
-    `crypt()` are available for use. Setting this to
-    `off` disables these functions. `on`
-    (the default) enables these functions to work normally.
-    `fips` disables these functions if
-    OpenSSL is detected to operate in FIPS mode.
+:   `pgcrypto.builtin_crypto_enabled` 決定內建的密碼學函式 `gen_salt()` 與 `crypt()` 是否可供使用。設為 `off` 會停用這些函式。`on`（預設值）讓這些函式正常運作。`fips` 則會在偵測到 OpenSSL 以 FIPS 模式運作時停用這些函式。
 
-    `pgp_sym_encrypt()` and
-    `pgp_pub_encrypt()` do not use built in crypto so
-    they are not affected.
+    `pgp_sym_encrypt()` 與 `pgp_pub_encrypt()` 不使用內建的密碼學實作，因此不受影響。
 
-In ordinary usage, this parameter is set
-in `postgresql.conf`, although superusers can alter it
-on-the-fly within their own sessions.
+一般使用時，此參數是在 `postgresql.conf` 中設定，不過超級使用者也可以在自己的工作階段中即時變更它。
 
 <a id="PGCRYPTO-NOTES"></a>
 
-### F.26.8. Notes [#](#PGCRYPTO-NOTES)
+### F.26.8. 注意事項 [#](#PGCRYPTO-NOTES)
 
 <a id="PGCRYPTO-NOTES-CONFIG"></a>
 
-#### F.26.8.1. Configuration [#](#PGCRYPTO-NOTES-CONFIG)
+#### F.26.8.1. 設定 [#](#PGCRYPTO-NOTES-CONFIG)
 
-`pgcrypto` configures itself according to the findings of the
-main PostgreSQL `configure` script. The options that
-affect it are `--with-zlib` and
-`--with-ssl=openssl`.
+`pgcrypto` 會依據 PostgreSQL 主要 `configure` 指令碼的偵測結果自行設定。會影響它的選項有 `--with-zlib` 與 `--with-ssl=openssl`。
 
-When compiled with zlib, PGP encryption functions are able to
-compress data before encrypting.
+以 zlib 編譯時，PGP 加密函式可以在加密前先壓縮資料。
 
-`pgcrypto` requires OpenSSL.
-Otherwise, it will not be built or installed.
+`pgcrypto` 需要 OpenSSL。否則，它不會被建置或安裝。
 
-When compiled against OpenSSL 3.0.0 and later
-versions, the legacy provider must be activated in the
-`openssl.cnf` configuration file in order to use older
-ciphers like DES or Blowfish.
+以 OpenSSL 3.0.0 及之後的版本編譯時，必須在 `openssl.cnf` 設定檔中啟用名為 legacy 的提供者（provider），才能使用 DES 或 Blowfish 等較舊的加密演算法。
 
 <a id="PGCRYPTO-NOTES-NULL-HANDLING"></a>
 
-#### F.26.8.2. NULL Handling [#](#PGCRYPTO-NOTES-NULL-HANDLING)
+#### F.26.8.2. NULL 處理 [#](#PGCRYPTO-NOTES-NULL-HANDLING)
 
-As is standard in SQL, all functions return NULL, if any of the arguments
-are NULL. This may create security risks on careless usage.
+依照 SQL 的標準做法，只要有任何引數為 NULL，所有函式都會傳回 NULL。若使用時不夠謹慎，這可能造成安全風險。
 
 <a id="PGCRYPTO-NOTES-SEC-LIMITS"></a>
 
-#### F.26.8.3. Security Limitations [#](#PGCRYPTO-NOTES-SEC-LIMITS)
+#### F.26.8.3. 安全性限制 [#](#PGCRYPTO-NOTES-SEC-LIMITS)
 
-All `pgcrypto` functions run inside the database server.
-That means that all
-the data and passwords move between `pgcrypto` and client
-applications in clear text. Thus you must:
+所有 `pgcrypto` 函式都在資料庫伺服器內執行。這表示所有資料與密碼都會以明文在 `pgcrypto` 與用戶端應用程式之間傳遞。因此你必須：
 
-1. Connect locally or use SSL connections.
-2. Trust both system and database administrator.
+1. 在本機連線，或使用 SSL 連線。
+2. 同時信任系統管理員與資料庫管理員。
 
-If you cannot, then better do crypto inside client application.
+若無法做到，最好在用戶端應用程式內進行加解密。
 
-The implementation does not resist
-[side-channel
-attacks](https://en.wikipedia.org/wiki/Side-channel_attack). For example, the time required for
-a `pgcrypto` decryption function to complete varies among
-ciphertexts of a given size.
+此實作無法抵禦[旁通道攻擊](https://en.wikipedia.org/wiki/Side-channel_attack)。例如，對於給定大小的不同密文，`pgcrypto` 解密函式完成所需的時間會有所不同。
 
 <a id="PGCRYPTO-AUTHOR"></a>
 
-### F.26.9. Author [#](#PGCRYPTO-AUTHOR)
+### F.26.9. 作者 [#](#PGCRYPTO-AUTHOR)
 
 Marko Kreen `<markokr@gmail.com>`
 
-`pgcrypto` uses code from the following sources:
+`pgcrypto` 使用了下列來源的程式碼：
 
-<table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Algorithm</th><th>Author</th><th>Source origin</th></tr></thead><tbody><tr><td>DES crypt</td><td>David Burren and others</td><td>FreeBSD libcrypt</td></tr><tr><td>MD5 crypt</td><td>Poul-Henning Kamp</td><td>FreeBSD libcrypt</td></tr><tr><td>Blowfish crypt</td><td>Solar Designer</td><td>www.openwall.com</td></tr></tbody></table>
+<table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>演算法</th><th>作者</th><th>來源</th></tr></thead><tbody><tr><td>DES crypt</td><td>David Burren 等人</td><td>FreeBSD libcrypt</td></tr><tr><td>MD5 crypt</td><td>Poul-Henning Kamp</td><td>FreeBSD libcrypt</td></tr><tr><td>Blowfish crypt</td><td>Solar Designer</td><td>www.openwall.com</td></tr></tbody></table>
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgcrypto.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgcrypto.html)（原文版本：18.6；核對日期：2026-10-23）
