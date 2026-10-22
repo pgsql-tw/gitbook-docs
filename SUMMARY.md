@@ -1099,7 +1099,7 @@
     * [F.33. pgstattuple — 取得元組層級的統計資訊 #](appendixes/contrib/pgstattuple.md)
     * [F.34. `pg_surgery` — 對關聯資料執行低階修復 #](appendixes/contrib/pgsurgery.md)
     * [F.35. pg_trgm — support for similarity of text using trigram matching #](appendixes/contrib/pgtrgm.md)
-    * [F.36. pg_visibility — visibility map information and utilities #](appendixes/contrib/pgvisibility.md)
+    * [F.36. pg_visibility — 可見性對應表資訊與工具 #](appendixes/contrib/pgvisibility.md)
     * [F.37. pg_walinspect — 低階 WAL 檢視 #](appendixes/contrib/pgwalinspect.md)
     * [F.38. postgres_fdw — 存取儲存在外部 PostgreSQL 伺服器中的資料 #](appendixes/contrib/postgres-fdw.md)
     * [F.39. seg — 線段或浮點數區間的資料型別 #](appendixes/contrib/seg.md)

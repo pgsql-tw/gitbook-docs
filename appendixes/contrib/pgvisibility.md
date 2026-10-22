@@ -1,94 +1,61 @@
-## F.36. pg_visibility — visibility map information and utilities [#](#PGVISIBILITY)
+<a id="PGVISIBILITY"></a>
 
-[F.36.1. Functions](pgvisibility.md#PGVISIBILITY-FUNCS)
+## F.36. pg_visibility — 可見性對應表資訊與工具 [#](#PGVISIBILITY)
 
-[F.36.2. Author](pgvisibility.md#PGVISIBILITY-AUTHOR)
+[F.36.1. 函式](pgvisibility.md#PGVISIBILITY-FUNCS)
+
+[F.36.2. 作者](pgvisibility.md#PGVISIBILITY-AUTHOR)
 
 <a id="id-1.11.7.46.2"></a>
 
-The `pg_visibility` module provides a means for examining the
-visibility map (VM) and page-level visibility information of a table.
-It also provides functions to check the integrity of a visibility map and to
-force it to be rebuilt.
+`pg_visibility` 模組提供檢視資料表的可見性對應表（VM）與頁面層級可見性資訊的方法。它也提供檢查可見性對應表完整性以及強制重建可見性對應表的函式。
 
-Three different bits are used to store information about page-level
-visibility. The all-visible bit in the visibility map indicates that every
-tuple in the corresponding page of the relation is visible to every current
-and future transaction. The all-frozen bit in the visibility map indicates
-that every tuple in the page is frozen; that is, no future vacuum will need
-to modify the page until such time as a tuple is inserted, updated, deleted,
-or locked on that page.
-The page header's `PD_ALL_VISIBLE` bit has the
-same meaning as the all-visible bit in the visibility map, but is stored
-within the data page itself rather than in a separate data structure.
-These two bits will normally agree, but the page's all-visible bit can
-sometimes be set while the visibility map bit is clear after a crash
-recovery. The reported values can also disagree because of a change that
-occurs after `pg_visibility` examines the visibility map and
-before it examines the data page. Any event that causes data corruption
-can also cause these bits to disagree.
+頁面層級的可見性資訊以三個不同的位元儲存。可見性對應表中的全部可見（all-visible）位元表示關聯中對應頁面裡的每個元組，對目前與未來的每個交易都可見。可見性對應表中的全部凍結（all-frozen）位元表示該頁面中的每個元組都已凍結；也就是說，在該頁面上有元組被插入、更新、刪除或鎖定之前，未來的任何清理都不需要修改該頁面。
+頁面標頭的 `PD_ALL_VISIBLE` 位元與可見性對應表中的全部可見位元意義相同，但它儲存在資料頁面本身，而不是獨立的資料結構中。
+這兩個位元通常一致，但在當機復原之後，有時可能出現頁面的全部可見位元已設定、可見性對應表的位元卻已清除的情況。若在 `pg_visibility` 檢查可見性對應表之後、檢查資料頁面之前發生變更，回報的值也可能不一致。任何造成資料毀損的事件也都可能使這兩個位元不一致。
 
-Functions that display information about `PD_ALL_VISIBLE` bits
-are much more costly than those that only consult the visibility map,
-because they must read the relation's data blocks rather than only the
-(much smaller) visibility map. Functions that check the relation's
-data blocks are similarly expensive.
+顯示 `PD_ALL_VISIBLE` 位元資訊的函式，成本遠高於只查閱可見性對應表的函式，因為它們必須讀取關聯的資料區塊，而不只是（小得多的）可見性對應表。檢查關聯資料區塊的函式同樣成本高昂。
 
 <a id="PGVISIBILITY-FUNCS"></a>
 
-### F.36.1. Functions [#](#PGVISIBILITY-FUNCS)
+### F.36.1. 函式 [#](#PGVISIBILITY-FUNCS)
 
 `pg_visibility_map(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean) returns record`
-:   Returns the all-visible and all-frozen bits in the visibility map for
-    the given block of the given relation.
+:   傳回可見性對應表中，指定關聯之指定區塊的全部可見與全部凍結位元。
 
 `pg_visibility(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean, pd_all_visible OUT boolean) returns record`
-:   Returns the all-visible and all-frozen bits in the visibility map for
-    the given block of the given relation, plus the
-    `PD_ALL_VISIBLE` bit of that block.
+:   傳回可見性對應表中，指定關聯之指定區塊的全部可見與全部凍結位元，以及該區塊的
+    `PD_ALL_VISIBLE` 位元。
 
 `pg_visibility_map(relation regclass, blkno OUT bigint, all_visible OUT boolean, all_frozen OUT boolean) returns setof record`
-:   Returns the all-visible and all-frozen bits in the visibility map for
-    each block of the given relation.
+:   傳回可見性對應表中，指定關聯之每個區塊的全部可見與全部凍結位元。
 
 `pg_visibility(relation regclass, blkno OUT bigint, all_visible OUT boolean, all_frozen OUT boolean, pd_all_visible OUT boolean) returns setof record`
-:   Returns the all-visible and all-frozen bits in the visibility map for
-    each block of the given relation, plus the `PD_ALL_VISIBLE`
-    bit of each block.
+:   傳回可見性對應表中，指定關聯之每個區塊的全部可見與全部凍結位元，以及每個區塊的 `PD_ALL_VISIBLE`
+    位元。
 
 `pg_visibility_map_summary(relation regclass, all_visible OUT bigint, all_frozen OUT bigint) returns record`
-:   Returns the number of all-visible pages and the number of all-frozen
-    pages in the relation according to the visibility map.
+:   依據可見性對應表，傳回關聯中全部可見頁面的數量與全部凍結頁面的數量。
 
 `pg_check_frozen(relation regclass, t_ctid OUT tid) returns setof tid`
-:   Returns the TIDs of non-frozen tuples stored in pages marked all-frozen
-    in the visibility map. If this function returns a non-empty set of
-    TIDs, the visibility map is corrupt.
+:   傳回儲存在可見性對應表中標記為全部凍結之頁面裡、但尚未凍結的元組 TID。若此函式傳回非空的 TID 集合，表示可見性對應表已毀損。
 
 `pg_check_visible(relation regclass, t_ctid OUT tid) returns setof tid`
-:   Returns the TIDs of non-all-visible tuples stored in pages marked
-    all-visible in the visibility map. If this function returns a non-empty
-    set of TIDs, the visibility map is corrupt.
+:   傳回儲存在可見性對應表中標記為全部可見之頁面裡、但並非全部可見的元組 TID。若此函式傳回非空的 TID 集合，表示可見性對應表已毀損。
 
 `pg_truncate_visibility_map(relation regclass) returns void`
-:   Truncates the visibility map for the given relation. This function is
-    useful if you believe that the visibility map for the relation is
-    corrupt and wish to force rebuilding it. The first `VACUUM`
-    executed on the given relation after this function is executed will scan
-    every page in the relation and rebuild the visibility map. (Until that
-    is done, queries will treat the visibility map as containing all zeroes.)
+:   截斷指定關聯的可見性對應表。若你認為該關聯的可見性對應表已毀損，並希望強制重建它，此函式很有用。執行此函式之後，在該關聯上執行的第一次 `VACUUM`
+    會掃描關聯中的每個頁面並重建可見性對應表。（在此之前，查詢會將可見性對應表視為全部為零。）
 
-By default, these functions are executable only by superusers and roles with privileges
-of the `pg_stat_scan_tables` role, with the exception of
-`pg_truncate_visibility_map(relation regclass)` which can only
-be executed by superusers.
+預設情況下，這些函式只有超級使用者與具有 `pg_stat_scan_tables` 角色權限的角色可以執行，唯一的例外是
+`pg_truncate_visibility_map(relation regclass)`，它只有超級使用者可以執行。
 
 <a id="PGVISIBILITY-AUTHOR"></a>
 
-### F.36.2. Author [#](#PGVISIBILITY-AUTHOR)
+### F.36.2. 作者 [#](#PGVISIBILITY-AUTHOR)
 
 Robert Haas `<rhaas@postgresql.org>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgvisibility.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgvisibility.html)（原文版本：18.6；核對日期：2026-10-23）
