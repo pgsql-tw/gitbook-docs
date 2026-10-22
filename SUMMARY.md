@@ -1027,7 +1027,7 @@
     * [B.1. Date/Time Input Interpretation #](appendixes/datetime-appendix/datetime-input-rules.md)
     * [B.2. Handling of Invalid or Ambiguous Timestamps #](appendixes/datetime-appendix/datetime-invalid-input.md)
     * [B.3. Date/Time Key Words #](appendixes/datetime-appendix/datetime-keywords.md)
-    * [B.4. Date/Time Configuration Files #](appendixes/datetime-appendix/datetime-config-files.md)
+    * [B.4. 日期／時間設定檔 #](appendixes/datetime-appendix/datetime-config-files.md)
     * [B.5. POSIX Time Zone Specifications #](appendixes/datetime-appendix/datetime-posix-timezone-specs.md)
     * [B.6. History of Units #](appendixes/datetime-appendix/datetime-units-history.md)
     * [B.7. Julian Dates #](appendixes/datetime-appendix/datetime-julian-dates.md)

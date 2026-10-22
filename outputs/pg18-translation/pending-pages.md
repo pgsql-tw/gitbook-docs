@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：64 頁。
+待譯頁面：63 頁。
 
 ## 根目錄
 
@@ -98,7 +98,7 @@
 - [ ] `appendixes/contrib/uuid-ossp.md` — F.49. uuid-ossp — a UUID generator #
 - [ ] `appendixes/contrib/xml2.md` — F.50. xml2 — XPath querying and XSLT functionality #
 - [x] `appendixes/datetime-appendix/README.md` — 附錄 B. 日期／時間支援
-- [ ] `appendixes/datetime-appendix/datetime-config-files.md` — B.4. Date/Time Configuration Files #
+- [x] `appendixes/datetime-appendix/datetime-config-files.md` — B.4. 日期／時間設定檔 #
 - [ ] `appendixes/datetime-appendix/datetime-input-rules.md` — B.1. Date/Time Input Interpretation #
 - [ ] `appendixes/datetime-appendix/datetime-invalid-input.md` — B.2. Handling of Invalid or Ambiguous Timestamps #
 - [ ] `appendixes/datetime-appendix/datetime-julian-dates.md` — B.7. Julian Dates #
