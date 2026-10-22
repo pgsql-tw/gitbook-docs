@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：60 頁。
+待譯頁面：59 頁。
 
 ## 根目錄
 
@@ -102,7 +102,7 @@
 - [x] `appendixes/datetime-appendix/datetime-input-rules.md` — B.1. 日期／時間輸入解讀 #
 - [x] `appendixes/datetime-appendix/datetime-invalid-input.md` — B.2. 處理無效或模稜兩可的時間戳記 #
 - [x] `appendixes/datetime-appendix/datetime-julian-dates.md` — B.7. 儒略日期 #
-- [ ] `appendixes/datetime-appendix/datetime-keywords.md` — B.3. Date/Time Key Words #
+- [x] `appendixes/datetime-appendix/datetime-keywords.md` — B.3. 日期／時間關鍵字 #
 - [ ] `appendixes/datetime-appendix/datetime-posix-timezone-specs.md` — B.5. POSIX Time Zone Specifications #
 - [ ] `appendixes/datetime-appendix/datetime-units-history.md` — B.6. History of Units #
 - [ ] `appendixes/docguide/README.md` — Appendix J. Documentation
