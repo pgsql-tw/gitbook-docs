@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：5 頁。
+待譯頁面：4 頁。
 
 ## 根目錄
 
@@ -783,7 +783,7 @@
 - [x] `server-administration/monitoring/dynamic-trace.md` — 27.5. 動態追蹤 #
 - [x] `server-administration/monitoring/monitoring-locks.md` — 27.3. 檢視鎖定
 - [x] `server-administration/monitoring/monitoring-ps.md` — 27.1. 標準 Unix 工具 #
-- [ ] `server-administration/monitoring/monitoring-stats.md` — 27.2. The Cumulative Statistics System #
+- [x] `server-administration/monitoring/monitoring-stats.md` — 27.2. 累計統計系統 #
 - [x] `server-administration/monitoring/progress-reporting.md` — 27.4. 進度回報 #
 - [x] `server-administration/regress/README.md` — 第 31 章 迴歸測試
 - [x] `server-administration/regress/regress-coverage.md` — 31.5. 測試涵蓋率檢驗 #

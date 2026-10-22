@@ -263,7 +263,7 @@
     * [26.4. 熱備援 #](server-administration/high-availability/hot-standby.md)
   * [第 27 章 監控資料庫活動](server-administration/monitoring/README.md)
     * [27.1. 標準 Unix 工具 #](server-administration/monitoring/monitoring-ps.md)
-    * [27.2. The Cumulative Statistics System #](server-administration/monitoring/monitoring-stats.md)
+    * [27.2. 累計統計系統 #](server-administration/monitoring/monitoring-stats.md)
     * [27.3. 檢視鎖定](server-administration/monitoring/monitoring-locks.md)
     * [27.4. 進度回報 #](server-administration/monitoring/progress-reporting.md)
     * [27.5. 動態追蹤 #](server-administration/monitoring/dynamic-trace.md)
