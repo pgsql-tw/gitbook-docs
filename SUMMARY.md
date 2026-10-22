@@ -1126,7 +1126,7 @@
     * [H.4. 擴充套件](appendixes/external-projects/external-extensions.md)
   * [附錄 I. 原始碼儲存庫](appendixes/sourcerepo/README.md)
     * [I.1. Getting the Source via Git #](appendixes/sourcerepo/git.md)
-  * [Appendix J. Documentation](appendixes/docguide/README.md)
+  * [附錄 J. 文件](appendixes/docguide/README.md)
     * [J.1. DocBook](appendixes/docguide/docguide-docbook.md)
     * [J.2. Tool Sets #](appendixes/docguide/docguide-toolsets.md)
     * [J.3. Building the Documentation with Make #](appendixes/docguide/docguide-build.md)
