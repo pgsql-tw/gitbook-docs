@@ -1111,7 +1111,7 @@
     * [F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 #](appendixes/contrib/test-decoding.md)
     * [F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 #](appendixes/contrib/tsm-system-rows.md)
     * [F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 #](appendixes/contrib/tsm-system-time.md)
-    * [F.48. unaccent — a text search dictionary which removes diacritics #](appendixes/contrib/unaccent.md)
+    * [F.48. unaccent — 移除變音符號的文字搜尋字典 #](appendixes/contrib/unaccent.md)
     * [F.49. uuid-ossp — a UUID generator #](appendixes/contrib/uuid-ossp.md)
     * [F.50. xml2 — XPath querying and XSLT functionality #](appendixes/contrib/xml2.md)
   * [附錄 G. 額外提供的程式](appendixes/contrib-prog/README.md)

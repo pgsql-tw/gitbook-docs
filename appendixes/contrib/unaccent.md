@@ -1,45 +1,32 @@
-## F.48. unaccent — a text search dictionary which removes diacritics [#](#UNACCENT)
+<a id="UNACCENT"></a>
 
-[F.48.1. Configuration](unaccent.md#UNACCENT-CONFIGURATION)
+## F.48. unaccent — 移除變音符號的文字搜尋字典 [#](#UNACCENT)
 
-[F.48.2. Usage](unaccent.md#UNACCENT-USAGE)
+[F.48.1. 設定](unaccent.md#UNACCENT-CONFIGURATION)
 
-[F.48.3. Functions](unaccent.md#UNACCENT-FUNCTIONS)
+[F.48.2. 用法](unaccent.md#UNACCENT-USAGE)
+
+[F.48.3. 函式](unaccent.md#UNACCENT-FUNCTIONS)
 
 <a id="id-1.11.7.58.2"></a>
 
-`unaccent` is a text search dictionary that removes accents
-(diacritic signs) from lexemes.
-It's a filtering dictionary, which means its output is
-always passed to the next dictionary (if any), unlike the normal
-behavior of dictionaries. This allows accent-insensitive processing
-for full text search.
+`unaccent` 是一種文字搜尋字典，會從詞素中移除重音符號（變音符號）。它是一種過濾字典，也就是說，與字典的一般行為不同，它的輸出一律會傳給下一個字典（若有的話）。這使全文檢索得以進行不區分重音符號的處理。
 
-The current implementation of `unaccent` cannot be used as a
-normalizing dictionary for the `thesaurus` dictionary.
+目前的 `unaccent` 實作無法作為 `thesaurus` 字典的正規化字典使用。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
 <a id="UNACCENT-CONFIGURATION"></a>
 
-### F.48.1. Configuration [#](#UNACCENT-CONFIGURATION)
+### F.48.1. 設定 [#](#UNACCENT-CONFIGURATION)
 
-An `unaccent` dictionary accepts the following options:
+`unaccent` 字典接受下列選項：
 
-* `RULES` is the base name of the file containing the list of
-  translation rules. This file must be stored in
-  `$SHAREDIR/tsearch_data/` (where `$SHAREDIR` means
-  the PostgreSQL installation's shared-data directory).
-  Its name must end in `.rules` (which is not to be included in
-  the `RULES` parameter).
+* `RULES` 是包含轉換規則清單之檔案的基本名稱。此檔案必須存放在 `$SHAREDIR/tsearch_data/`（其中 `$SHAREDIR` 表示 PostgreSQL 安裝的共用資料目錄）。其名稱必須以 `.rules` 結尾（此結尾不應包含在 `RULES` 參數中）。
 
-The rules file has the following format:
+規則檔的格式如下：
 
-* Each line represents one translation rule, consisting of a character with
-  accent followed by a character without accent. The first is translated
-  into the second. For example,
+* 每一行代表一條轉換規則，由一個帶重音符號的字元與其後一個不帶重音符號的字元組成。前者會被轉換為後者。例如：
 
   ```
 
@@ -52,18 +39,10 @@ The rules file has the following format:
   Æ        AE
   ```
 
-  The two characters must be separated by whitespace, and any leading or
-  trailing whitespace on a line is ignored.
-* Alternatively, if only one character is given on a line, instances of
-  that character are deleted; this is useful in languages where accents
-  are represented by separate characters.
-* Actually, each “character” can be any string not containing
-  whitespace, so `unaccent` dictionaries could be used for
-  other sorts of substring substitutions besides diacritic removal.
-* Some characters, like numeric symbols, may require whitespaces in their
-  translation rule. It is possible to use double quotes around the translated
-  characters in this case. A double quote needs to be escaped with a second
-  double quote when including one in the translated character. For example:
+  兩個字元之間必須以空白分隔，且一行開頭或結尾的任何空白都會被忽略。
+* 或者，若一行只給定一個字元，該字元的所有出現處都會被刪除；這在以獨立字元表示重音符號的語言中很有用。
+* 事實上，每個「字元」都可以是任何不含空白的字串，因此除了移除變音符號之外，`unaccent` 字典也可以用於其他種類的子字串替換。
+* 有些字元（例如數字符號）的轉換規則可能需要空白。此時可以在轉換後的字元前後加上雙引號。若要在轉換後的字元中包含雙引號，該雙引號必須以第二個雙引號跳脫。例如：
 
   ```
 
@@ -73,40 +52,24 @@ The rules file has the following format:
   “       """"
   ”       """"
   ```
-* As with other PostgreSQL text search configuration files,
-  the rules file must be stored in UTF-8 encoding. The data is
-  automatically translated into the current database's encoding when
-  loaded. Any lines containing untranslatable characters are silently
-  ignored, so that rules files can contain rules that are not applicable in
-  the current encoding.
+* 與其他 PostgreSQL 文字搜尋設定檔一樣，規則檔必須以 UTF-8 編碼儲存。載入時，資料會自動轉換為目前資料庫的編碼。任何含有無法轉換之字元的行都會被靜默忽略，因此規則檔可以包含不適用於目前編碼的規則。
 
-A more complete example, which is directly useful for most European
-languages, can be found in `unaccent.rules`, which is installed
-in `$SHAREDIR/tsearch_data/` when the `unaccent`
-module is installed. This rules file translates characters with accents
-to the same characters without accents, and it also expands ligatures
-into the equivalent series of simple characters (for example, Æ to
-AE).
+更完整的範例可在 `unaccent.rules` 中找到，它可直接用於大多數歐洲語言，並會在安裝 `unaccent` 模組時安裝於 `$SHAREDIR/tsearch_data/`。此規則檔會將帶重音符號的字元轉換為不帶重音符號的相同字元，也會將連字展開為等效的一串簡單字元（例如將 Æ 展開為 AE）。
 
 <a id="UNACCENT-USAGE"></a>
 
-### F.48.2. Usage [#](#UNACCENT-USAGE)
+### F.48.2. 用法 [#](#UNACCENT-USAGE)
 
-Installing the `unaccent` extension creates a text
-search template `unaccent` and a dictionary `unaccent`
-based on it. The `unaccent` dictionary has the default
-parameter setting `RULES='unaccent'`, which makes it immediately
-usable with the standard `unaccent.rules` file.
-If you wish, you can alter the parameter, for example
+安裝 `unaccent` 擴充功能時，會建立文字搜尋範本 `unaccent`，以及以它為基礎的字典 `unaccent`。`unaccent` 字典的預設參數設定為 `RULES='unaccent'`，因此可立即搭配標準的 `unaccent.rules` 檔案使用。若有需要，你可以修改此參數，例如
 
 ```
 
 mydb=# ALTER TEXT SEARCH DICTIONARY unaccent (RULES='my_rules');
 ```
 
-or create new dictionaries based on the template.
+或是以此範本為基礎建立新的字典。
 
-To test the dictionary, you can try:
+若要測試此字典，可以試試：
 
 ```
 
@@ -117,8 +80,7 @@ mydb=# select ts_lexize('unaccent','Hôtel');
 (1 row)
 ```
 
-Here is an example showing how to insert the
-`unaccent` dictionary into a text search configuration:
+以下範例說明如何將 `unaccent` 字典加入文字搜尋設定：
 
 ```
 
@@ -147,12 +109,9 @@ mydb=# select ts_headline('fr','Hôtel de la Mer',to_tsquery('fr','Hotels'));
 
 <a id="UNACCENT-FUNCTIONS"></a>
 
-### F.48.3. Functions [#](#UNACCENT-FUNCTIONS)
+### F.48.3. 函式 [#](#UNACCENT-FUNCTIONS)
 
-The `unaccent()` function removes accents (diacritic signs) from
-a given string. Basically, it's a wrapper around
-`unaccent`-type dictionaries, but it can be used outside normal
-text search contexts.
+`unaccent()` 函式會從給定的字串中移除重音符號（變音符號）。基本上，它是 `unaccent` 型字典的包裝函式，但可以在一般的文字搜尋情境之外使用。
 
 <a id="id-1.11.7.58.8.3"></a>
 
@@ -161,12 +120,9 @@ text search contexts.
 unaccent([dictionary regdictionary, ] string text) returns text
 ```
 
-If the *`dictionary`* argument is
-omitted, the text search dictionary named `unaccent` and
-appearing in the same schema as the `unaccent()`
-function itself is used.
+若省略 *`dictionary`* 引數，則會使用名為 `unaccent`、且與 `unaccent()` 函式本身位於同一綱要中的文字搜尋字典。
 
-For example:
+例如：
 
 ```
 
@@ -176,4 +132,4 @@ SELECT unaccent('Hôtel');
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/unaccent.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/unaccent.html)（原文版本：18.6；核對日期：2026-10-22）
