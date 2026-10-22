@@ -1041,7 +1041,7 @@
     * [E.2. Release 18.4 #](appendixes/release/release-18-4.md)
     * [E.3. 18.3 版 #](appendixes/release/release-18-3.md)
     * [E.4. 18.2 版 #](appendixes/release/release-18-2.md)
-    * [E.5. Release 18.1 #](appendixes/release/release-18-1.md)
+    * [E.5. 18.1 版 #](appendixes/release/release-18-1.md)
     * [E.6. 18 版 #](appendixes/release/release-18.md)
     * [E.7. 舊版本](appendixes/release/release-prior.md)
   * [附錄 F：額外提供的模組與擴充功能](appendixes/contrib/README.md)
