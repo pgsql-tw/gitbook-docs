@@ -1108,7 +1108,7 @@
     * [F.42. sslinfo — 取得用戶端 SSL 資訊 #](appendixes/contrib/sslinfo.md)
     * [F.43. tablefunc — functions that return tables ( crosstab and others) #](appendixes/contrib/tablefunc.md)
     * [F.44. tcn — 通知監聽者資料表內容變更的觸發程序函式 #](appendixes/contrib/tcn.md)
-    * [F.45. test_decoding — SQL-based test/example module for WAL logical decoding #](appendixes/contrib/test-decoding.md)
+    * [F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 #](appendixes/contrib/test-decoding.md)
     * [F.46. tsm_system_rows — the SYSTEM_ROWS sampling method for TABLESAMPLE #](appendixes/contrib/tsm-system-rows.md)
     * [F.47. tsm_system_time — the SYSTEM_TIME sampling method for TABLESAMPLE #](appendixes/contrib/tsm-system-time.md)
     * [F.48. unaccent — a text search dictionary which removes diacritics #](appendixes/contrib/unaccent.md)
