@@ -335,7 +335,7 @@
   * [Chapter 34. ECPG — Embedded SQL in C](client-interfaces/ecpg/README.md)
     * [34.1. The Concept #](client-interfaces/ecpg/ecpg-concept.md)
     * [34.2. Managing Database Connections #](client-interfaces/ecpg/ecpg-connect.md)
-    * [34.3. Running SQL Commands #](client-interfaces/ecpg/ecpg-commands.md)
+    * [34.3. 執行 SQL 命令 #](client-interfaces/ecpg/ecpg-commands.md)
     * [34.4. 使用主機變數 #](client-interfaces/ecpg/ecpg-variables.md)
     * [34.5. Dynamic SQL #](client-interfaces/ecpg/ecpg-dynamic.md)
     * [34.6. pgtypes 函式庫 #](client-interfaces/ecpg/ecpg-pgtypes.md)
