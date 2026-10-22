@@ -1,145 +1,146 @@
-## B.5. POSIX Time Zone Specifications [#](#DATETIME-POSIX-TIMEZONE-SPECS)
+<a id="DATETIME-POSIX-TIMEZONE-SPECS"></a>
+
+## B.5. POSIX 時區規格 [#](#DATETIME-POSIX-TIMEZONE-SPECS)
 
 <a id="id-1.11.3.8.2"></a>
 
-PostgreSQL can accept time zone specifications
-that are written according to the POSIX standard's rules
-for the `TZ` environment
-variable. POSIX time zone specifications are
-inadequate to deal with the complexity of real-world time zone history,
-but there are sometimes reasons to use them.
+PostgreSQL 可以接受依照 POSIX 標準
+對 `TZ` 環境變數所訂規則撰寫的
+時區規格。POSIX 時區規格
+不足以處理真實世界時區歷史的複雜性，
+但有時仍有使用它們的理由。
 
-A POSIX time zone specification has the form
+POSIX 時區規格的形式為
 
 ```
 
 STD offset [ DST [ dstoffset ] [ , rule ] ]
 ```
 
-(For readability, we show spaces between the fields, but spaces should
-not be used in practice.) The fields are:
+（為了方便閱讀，我們在欄位之間加上空格，但實際使用時
+不應使用空格。）各欄位如下：
 
-* *`STD`* is the zone abbreviation to be used
-  for standard time.
-* *`offset`* is the zone's standard-time offset
-  from UTC.
-* *`DST`* is the zone abbreviation to be used
-  for daylight-savings time. If this field and the following ones are
-  omitted, the zone uses a fixed UTC offset with no daylight-savings
-  rule.
-* *`dstoffset`* is the daylight-savings offset
-  from UTC. This field is typically omitted, since it defaults to one
-  hour less than the standard-time *`offset`*,
-  which is usually the right thing.
-* *`rule`* defines the rule for when daylight
-  savings is in effect, as described below.
+* *`STD`* 是用於
+  標準時間的時區縮寫。
+* *`offset`* 是該時區的標準時間
+  與 UTC 的偏移量。
+* *`DST`* 是用於
+  日光節約時間的時區縮寫。若省略此欄位及其後的欄位，
+  該時區會使用固定的 UTC 偏移量，沒有日光節約時間
+  規則。
+* *`dstoffset`* 是日光節約時間
+  與 UTC 的偏移量。此欄位通常會省略，因為其預設值比
+  標準時間的 *`offset`* 少一小時，
+  這通常就是正確的值。
+* *`rule`* 定義日光
+  節約時間何時生效的規則，如下文所述。
 
-In this syntax, a zone abbreviation can be a string of letters, such
-as `EST`, or an arbitrary string surrounded by angle
-brackets, such as `<UTC-05>`.
-Note that the zone abbreviations given here are only used for output,
-and even then only in some timestamp output formats. The zone
-abbreviations recognized in timestamp input are determined as explained
-in [Section B.4](datetime-config-files.md).
+在此語法中，時區縮寫可以是一串英文字母，例如
+`EST`，或是以角
+括號括住的任意字串，例如 `<UTC-05>`。
+請注意，這裡給定的時區縮寫只用於輸出，
+而且即使是輸出，也只用於某些時間戳記輸出格式。時間戳記輸入中
+可辨識的時區縮寫，其決定方式如
+[第 B.4 節](datetime-config-files.md)所述。
 
-The offset fields specify the hours, and optionally minutes and seconds,
-difference from UTC. They have the format
-*`hh`*[`:`*`mm`*[`:`*`ss`*]]
-optionally with a leading sign (`+`
-or `-`). The positive sign is used for
-zones *west* of Greenwich. (Note that this is the
-opposite of the ISO-8601 sign convention used elsewhere in
-PostgreSQL.) *`hh`*
-can have one or two digits; *`mm`*
-and *`ss`* (if used) must have two.
+偏移量欄位指定與 UTC 相差的小時數，以及可選的分鐘數與秒數。
+其格式為
+*`hh`*[`:`*`mm`*[`:`*`ss`*]]，
+前面可以選擇加上正負號（`+`
+或 `-`）。正號用於
+格林威治以*西*的時區。（請注意，這與
+PostgreSQL 其他地方所使用的 ISO-8601 正負號慣例
+相反。）*`hh`*
+可以是一位或兩位數字；*`mm`*
+與 *`ss`*（若有使用）必須是兩位數字。
 
-The daylight-savings transition *`rule`* has the
-format
+日光節約時間轉換 *`rule`* 的
+格式為
 
 ```
 
 dstdate [ / dsttime ] , stddate [ / stdtime ]
 ```
 
-(As before, spaces should not be included in practice.)
-The *`dstdate`*
-and *`dsttime`* fields define when daylight-savings
-time starts, while *`stddate`*
-and *`stdtime`* define when standard time
-starts. (In some cases, notably in zones south of the equator, the
-former might be later in the year than the latter.) The date fields
-have one of these formats:
+（與前述相同，實際使用時不應包含空格。）
+*`dstdate`*
+與 *`dsttime`* 欄位定義日光節約
+時間何時開始，而 *`stddate`*
+與 *`stdtime`* 則定義標準時間
+何時開始。（在某些情況下，特別是赤道以南的時區，
+前者在一年中的日期可能晚於後者。）日期欄位
+採用下列其中一種格式：
 
 *`n`*
-:   A plain integer denotes a day of the year, counting from zero to
-    364, or to 365 in leap years.
+:   單純的整數表示一年中的第幾天，從零計數到
+    364，閏年則到 365。
 
 `J`*`n`*
-:   In this form, *`n`* counts from 1 to 365,
-    and February 29 is not counted even if it is present. (Thus, a
-    transition occurring on February 29 could not be specified this
-    way. However, days after February have the same numbers whether
-    it's a leap year or not, so that this form is usually more useful
-    than the plain-integer form for transitions on fixed dates.)
+:   在此形式中，*`n`* 從 1 計數到 365，
+    且即使當年有 2 月 29 日也不計入。（因此，
+    發生在 2 月 29 日的轉換無法以此方式
+    指定。不過，2 月之後的日子無論是否為閏年，
+    編號都相同，因此對於固定日期的轉換，此形式通常
+    比單純整數形式更有用。）
 
 `M`*`m`*`.`*`n`*`.`*`d`*
-:   This form specifies a transition that always happens during the same
-    month and on the same day of the week. *`m`*
-    identifies the month, from 1 to 12. *`n`*
-    specifies the *`n`*'th occurrence of the
-    weekday identified by *`d`*.
-    *`n`* is a number between 1 and 4, or 5
-    meaning the last occurrence of that weekday in the month (which
-    could be the fourth or the fifth). *`d`* is
-    a number between 0 and 6, with 0 indicating Sunday.
-    For example, `M3.2.0` means “the second
-    Sunday in March”.
+:   此形式指定一個總是在同一個
+    月份、同一個星期幾發生的轉換。*`m`*
+    指定月份，從 1 到 12。*`n`*
+    指定由 *`d`* 所指定的星期幾的第
+    *`n`* 次出現。
+    *`n`* 是介於 1 到 4 之間的數字，或是 5，
+    表示該星期幾在該月中的最後一次出現（可能
+    是第四次或第五次）。*`d`* 是
+    介於 0 到 6 之間的數字，0 表示星期日。
+    例如，`M3.2.0` 表示「3 月的第二個
+    星期日」。
 
-### Note
+### 注意
 
-The `M` format is sufficient to describe many common
-daylight-savings transition laws. But note that none of these variants
-can deal with daylight-savings law changes, so in practice the
-historical data stored for named time zones (in the IANA time zone
-database) is necessary to interpret past time stamps correctly.
+`M` 格式足以描述許多常見的
+日光節約時間轉換法規。但請注意，這些變化形式都
+無法處理日光節約時間法規的變更，因此實務上，
+需要具名時區所儲存的歷史資料（位於 IANA 時區
+資料庫中），才能正確解讀過去的時間戳記。
 
-The time fields in a transition rule have the same format as the offset
-fields described previously, except that they cannot contain signs.
-They define the current local time at which the change to the other
-time occurs. If omitted, they default to `02:00:00`.
+轉換規則中的時間欄位，格式與前面所述的偏移量
+欄位相同，只是不能包含正負號。
+它們定義切換到另一種
+時間時的當前當地時間。若省略，預設為 `02:00:00`。
 
-If a daylight-savings abbreviation is given but the
-transition *`rule`* field is omitted,
-the fallback behavior is to use the
-rule `M3.2.0,M11.1.0`, which corresponds to USA
-practice as of 2020 (that is, spring forward on the second Sunday of
-March, fall back on the first Sunday of November, both transitions
-occurring at 2AM prevailing time). Note that this rule does not
-give correct USA transition dates for years before 2007.
+若給定了日光節約時間縮寫，但省略了
+轉換 *`rule`* 欄位，
+後備行為是使用
+規則 `M3.2.0,M11.1.0`，它對應美國
+截至 2020 年的做法（也就是在 3 月的第二個星期日撥快時鐘，
+在 11 月的第一個星期日撥回時鐘，兩次轉換都
+發生在當時通行時間的凌晨 2 點）。請注意，此規則
+無法為 2007 年以前的年份提供正確的美國轉換日期。
 
-As an example, `CET-1CEST,M3.5.0,M10.5.0/3` describes
-the current (as of 2020) timekeeping practice in Paris. This specification
-says that standard time has the abbreviation `CET` and
-is one hour ahead (east) of UTC; daylight savings time has the
-abbreviation `CEST` and is implicitly two hours ahead
-of UTC; daylight savings time begins on the last Sunday in March at 2AM
-CET and ends on the last Sunday in October at 3AM CEST.
+舉例來說，`CET-1CEST,M3.5.0,M10.5.0/3` 描述了
+巴黎目前（截至 2020 年）的計時做法。此規格
+表示標準時間的縮寫為 `CET`，
+比 UTC 快一小時（位於東方）；日光節約時間的
+縮寫為 `CEST`，隱含比 UTC 快兩小時；
+日光節約時間從 3 月的最後一個星期日 CET 凌晨 2 點
+開始，並於 10 月的最後一個星期日 CEST 凌晨 3 點結束。
 
-The four timezone names `EST5EDT`,
-`CST6CDT`, `MST7MDT`,
-and `PST8PDT` look like they are POSIX zone
-specifications. However, they actually are treated as named time zones
-because (for historical reasons) there are files by those names in the
-IANA time zone database. The practical implication of this is that
-these zone names will produce valid historical USA daylight-savings
-transitions, even when a plain POSIX specification would not.
+`EST5EDT`、
+`CST6CDT`、`MST7MDT`
+與 `PST8PDT` 這四個時區名稱看起來像是 POSIX 時區
+規格。然而，它們實際上會被視為具名時區，
+因為（由於歷史因素）IANA 時區資料庫中
+有以這些名稱命名的檔案。其實際影響是，
+這些時區名稱會產生有效的美國歷史日光節約時間
+轉換，即使單純的 POSIX 規格無法做到。
 
-One should be wary that it is easy to misspell a POSIX-style time zone
-specification, since there is no check on the reasonableness of the
-zone abbreviation(s). For example, `SET TIMEZONE TO
-FOOBAR0` will work, leaving the system effectively using a
-rather peculiar abbreviation for UTC.
+需要留意的是，POSIX 風格的時區規格很容易拼錯，
+因為系統不會檢查
+時區縮寫是否合理。例如，`SET TIMEZONE TO
+FOOBAR0` 可以運作，結果系統實際上會使用一個
+相當奇特的 UTC 縮寫。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-posix-timezone-specs.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/datetime-posix-timezone-specs.html)（原文版本：18.6；核對日期：2026-10-22）

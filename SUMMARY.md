@@ -1028,7 +1028,7 @@
     * [B.2. 處理無效或模稜兩可的時間戳記 #](appendixes/datetime-appendix/datetime-invalid-input.md)
     * [B.3. 日期／時間關鍵字 #](appendixes/datetime-appendix/datetime-keywords.md)
     * [B.4. 日期／時間設定檔 #](appendixes/datetime-appendix/datetime-config-files.md)
-    * [B.5. POSIX Time Zone Specifications #](appendixes/datetime-appendix/datetime-posix-timezone-specs.md)
+    * [B.5. POSIX 時區規格 #](appendixes/datetime-appendix/datetime-posix-timezone-specs.md)
     * [B.6. History of Units #](appendixes/datetime-appendix/datetime-units-history.md)
     * [B.7. 儒略日期 #](appendixes/datetime-appendix/datetime-julian-dates.md)
   * [Appendix C. SQL Key Words](appendixes/sql-keywords-appendix/README.md)
