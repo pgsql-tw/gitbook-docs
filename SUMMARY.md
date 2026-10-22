@@ -1106,7 +1106,7 @@
     * [F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 #](appendixes/contrib/sepgsql.md)
     * [F.41. spi — Server Programming Interface 功能與範例 #](appendixes/contrib/contrib-spi.md)
     * [F.42. sslinfo — 取得用戶端 SSL 資訊 #](appendixes/contrib/sslinfo.md)
-    * [F.43. tablefunc — functions that return tables ( crosstab and others) #](appendixes/contrib/tablefunc.md)
+    * [F.43. tablefunc — 傳回資料表的函式（`crosstab` 等） #](appendixes/contrib/tablefunc.md)
     * [F.44. tcn — 通知監聽者資料表內容變更的觸發程序函式 #](appendixes/contrib/tcn.md)
     * [F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 #](appendixes/contrib/test-decoding.md)
     * [F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 #](appendixes/contrib/tsm-system-rows.md)

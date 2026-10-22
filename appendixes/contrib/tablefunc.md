@@ -1,76 +1,62 @@
-## F.43. tablefunc — functions that return tables (`crosstab` and others) [#](#TABLEFUNC)
+<a id="TABLEFUNC"></a>
 
-[F.43.1. Functions Provided](tablefunc.md#TABLEFUNC-FUNCTIONS-SECT)
+## F.43. tablefunc — 傳回資料表的函式（`crosstab` 等） [#](#TABLEFUNC)
 
-[F.43.2. Author](tablefunc.md#TABLEFUNC-AUTHOR)
+[F.43.1. 提供的函式](tablefunc.md#TABLEFUNC-FUNCTIONS-SECT)
+
+[F.43.2. 作者](tablefunc.md#TABLEFUNC-AUTHOR)
 
 <a id="id-1.11.7.53.2"></a>
 
-The `tablefunc` module includes various functions that return
-tables (that is, multiple rows). These functions are useful both in their
-own right and as examples of how to write C functions that return
-multiple rows.
+`tablefunc` 模組包含各種傳回資料表（也就是多筆資料列）的函式。這些函式本身就很有用，也可以作為如何撰寫傳回多筆資料列之 C 函式的範例。
 
-This module is considered “trusted”, that is, it can be
-installed by non-superusers who have `CREATE` privilege
-on the current database.
+此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
 <a id="TABLEFUNC-FUNCTIONS-SECT"></a>
 
-### F.43.1. Functions Provided [#](#TABLEFUNC-FUNCTIONS-SECT)
+### F.43.1. 提供的函式 [#](#TABLEFUNC-FUNCTIONS-SECT)
 
-[Table F.33](tablefunc.md#TABLEFUNC-FUNCTIONS) summarizes the functions provided
-by the `tablefunc` module.
+[表 F.33](tablefunc.md#TABLEFUNC-FUNCTIONS) 摘要列出 `tablefunc` 模組提供的函式。
 
 <a id="TABLEFUNC-FUNCTIONS"></a>
 
-**Table F.33. `tablefunc` Functions**
+**表 F.33. `tablefunc` 函式**
 
-<table border="1" class="table" summary="tablefunc Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        Function
+<table border="1" class="table" summary="tablefunc 函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
+        函式
        </p>
 <p>
-        Description
+        說明
        </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">normal_rand</code> ( <em class="parameter"><code>numvals</code></em> <code class="type">integer</code>, <em class="parameter"><code>mean</code></em> <code class="type">float8</code>, <em class="parameter"><code>stddev</code></em> <code class="type">float8</code> )
         → <code class="returnvalue">setof float8</code>
 </p>
 <p>
-        Produces a set of normally distributed random values.
+        產生一組常態分布的隨機值。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">crosstab</code> ( <em class="parameter"><code>sql</code></em> <code class="type">text</code> )
         → <code class="returnvalue">setof record</code>
 </p>
 <p>
-        Produces a <span class="quote">“<span class="quote">pivot table</span>”</span> containing
-        row names plus <em class="replaceable"><code>N</code></em> value columns, where
-        <em class="replaceable"><code>N</code></em> is determined by the row type specified
-        in the calling query.
+        產生包含資料列名稱以及 <em class="replaceable"><code>N</code></em> 個值欄位的<span class="quote">“<span class="quote">樞紐表</span>”</span>，其中 <em class="replaceable"><code>N</code></em> 由呼叫查詢中指定的資料列型別決定。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">crosstab<em class="replaceable"><code>N</code></em></code> ( <em class="parameter"><code>sql</code></em> <code class="type">text</code> )
         → <code class="returnvalue">setof table_crosstab_<em class="replaceable"><code>N</code></em></code>
 </p>
 <p>
-        Produces a <span class="quote">“<span class="quote">pivot table</span>”</span> containing
-        row names plus <em class="replaceable"><code>N</code></em> value columns.
-        <code class="function">crosstab2</code>, <code class="function">crosstab3</code>, and
-        <code class="function">crosstab4</code> are predefined, but you can create additional
-        <code class="function">crosstab<em class="replaceable"><code>N</code></em></code> functions as described below.
+        產生包含資料列名稱以及 <em class="replaceable"><code>N</code></em> 個值欄位的<span class="quote">“<span class="quote">樞紐表</span>”</span>。<code class="function">crosstab2</code>、<code class="function">crosstab3</code> 與 <code class="function">crosstab4</code> 已預先定義，但你可以依下文所述建立其他 <code class="function">crosstab<em class="replaceable"><code>N</code></em></code> 函式。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">crosstab</code> ( <em class="parameter"><code>source_sql</code></em> <code class="type">text</code>, <em class="parameter"><code>category_sql</code></em> <code class="type">text</code> )
         → <code class="returnvalue">setof record</code>
 </p>
 <p>
-        Produces a <span class="quote">“<span class="quote">pivot table</span>”</span>
-        with the value columns specified by a second query.
+        產生<span class="quote">“<span class="quote">樞紐表</span>”</span>，其值欄位由第二個查詢指定。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">crosstab</code> ( <em class="parameter"><code>sql</code></em> <code class="type">text</code>, <em class="parameter"><code>N</code></em> <code class="type">integer</code> )
         → <code class="returnvalue">setof record</code>
 </p>
 <p>
-        Obsolete version of <code class="function">crosstab(text)</code>.
-        The parameter <em class="parameter"><code>N</code></em> is now ignored, since the
-        number of value columns is always determined by the calling query.
+        <code class="function">crosstab(text)</code> 的過時版本。參數 <em class="parameter"><code>N</code></em> 現在會被忽略，因為值欄位的數量一律由呼叫查詢決定。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.11.7.53.5.3.2.2.6.1.1.1"></a>
 <code class="function">connectby</code> ( <em class="parameter"><code>relname</code></em> <code class="type">text</code>, <em class="parameter"><code>keyid_fld</code></em> <code class="type">text</code>, <em class="parameter"><code>parent_keyid_fld</code></em> <code class="type">text</code>
@@ -79,10 +65,14 @@ by the `tablefunc` module.
         → <code class="returnvalue">setof record</code>
 </p>
 <p>
-        Produces a representation of a hierarchical tree structure.
+        產生階層式樹狀結構的表示。
         </p></td></tr></tbody></table>
 
-<br><a id="TABLEFUNC-FUNCTIONS-NORMAL-RAND"></a>
+<br>
+
+譯註：上表 crosstabN 一列的傳回型別寫作 setof table_crosstab_N，但 tablefunc 擴充功能實際定義的複合型別名稱是 tablefunc_crosstab_N（例如 crosstab2 傳回 setof tablefunc_crosstab_2），與 F.43.1.3 節的 CREATE TYPE 說明一致。
+
+<a id="TABLEFUNC-FUNCTIONS-NORMAL-RAND"></a>
 
 #### F.43.1.1. `normal_rand` [#](#TABLEFUNC-FUNCTIONS-NORMAL-RAND)
 
@@ -93,16 +83,11 @@ by the `tablefunc` module.
 normal_rand(int numvals, float8 mean, float8 stddev) returns setof float8
 ```
 
-`normal_rand` produces a set of normally distributed random
-values (Gaussian distribution).
+`normal_rand` 會產生一組常態分布（高斯分布）的隨機值。
 
-*`numvals`* is the number of values to be returned
-from the function. *`mean`* is the mean of the normal
-distribution of values and *`stddev`* is the standard
-deviation of the normal distribution of values.
+*`numvals`* 是函式要傳回的值的個數。*`mean`* 是值之常態分布的平均值，*`stddev`* 是值之常態分布的標準差。
 
-For example, this call requests 1000 values with a mean of 5 and a
-standard deviation of 3:
+例如，下列呼叫要求 1000 個平均值為 5、標準差為 3 的值：
 
 ```
 
@@ -135,9 +120,7 @@ crosstab(text sql)
 crosstab(text sql, int N)
 ```
 
-The `crosstab` function is used to produce “pivot”
-displays, wherein data is listed across the page rather than down.
-For example, we might have data like
+`crosstab` 函式用於產生「樞紐」顯示，其中資料是橫向列出，而非縱向往下列出。例如，我們可能有如下的資料
 
 ```
 
@@ -151,7 +134,7 @@ row2    val23
 ...
 ```
 
-which we wish to display like
+而我們希望顯示成如下形式
 
 ```
 
@@ -160,20 +143,11 @@ row2    val21   val22   val23   ...
 ...
 ```
 
-The `crosstab` function takes a text parameter that is an SQL
-query producing raw data formatted in the first way, and produces a table
-formatted in the second way.
+`crosstab` 函式接受一個文字參數，該參數是一個 SQL 查詢，會產生以第一種方式排列的原始資料；函式則會產生以第二種方式排列的資料表。
 
-The *`sql`* parameter is an SQL statement that produces
-the source set of data. This statement must return one
-`row_name` column, one
-`category` column, and one
-`value` column. *`N`* is an
-obsolete parameter, ignored if supplied (formerly this had to match the
-number of output value columns, but now that is determined by the
-calling query).
+*`sql`* 參數是產生來源資料集的 SQL 陳述式。此陳述式必須傳回一個 `row_name` 欄位、一個 `category` 欄位，以及一個 `value` 欄位。*`N`* 是過時的參數，若有提供會被忽略（以前它必須與輸出值欄位的數量相符，但現在該數量由呼叫查詢決定）。
 
-For example, the provided query might produce a set something like:
+例如，所提供的查詢可能產生類似下面的資料集：
 
 ```
 
@@ -189,17 +163,15 @@ For example, the provided query might produce a set something like:
   row2      cat4    val8
 ```
 
-The `crosstab` function is declared to return `setof
-record`, so the actual names and types of the output columns must be
-defined in the `FROM` clause of the calling `SELECT`
-statement, for example:
+`crosstab` 函式宣告為傳回 `setof
+record`，因此輸出欄位的實際名稱與型別必須在呼叫端 `SELECT` 陳述式的 `FROM` 子句中定義，例如：
 
 ```
 
 SELECT * FROM crosstab('...') AS ct(row_name text, category_1 text, category_2 text);
 ```
 
-This example produces a set something like:
+此範例產生的資料集類似下面這樣：
 
 ```
 
@@ -210,31 +182,13 @@ This example produces a set something like:
   row2        val5         val6
 ```
 
-The `FROM` clause must define the output as one
-`row_name` column (of the same data type as the first result
-column of the SQL query) followed by N `value` columns
-(all of the same data type as the third result column of the SQL query).
-You can set up as many output value columns as you wish. The names of the
-output columns are up to you.
+`FROM` 子句必須將輸出定義為一個 `row_name` 欄位（資料型別與 SQL 查詢的第一個結果欄位相同），後接 N 個 `value` 欄位（資料型別皆與 SQL 查詢的第三個結果欄位相同）。你可以設定任意數量的輸出值欄位。輸出欄位的名稱由你決定。
 
-The `crosstab` function produces one output row for each
-consecutive group of input rows with the same
-`row_name` value. It fills the output
-`value` columns, left to right, with the
-`value` fields from these rows. If there
-are fewer rows in a group than there are output `value`
-columns, the extra output columns are filled with nulls; if there are
-more rows, the extra input rows are skipped.
+`crosstab` 函式會為每一組具有相同 `row_name` 值的連續輸入資料列產生一筆輸出資料列。它會以這些資料列的 `value` 欄位，由左至右填入輸出的 `value` 欄位。若群組中的資料列少於輸出 `value` 欄位的數量，多出的輸出欄位會填入 null；若資料列較多，多出的輸入資料列會被略過。
 
-In practice the SQL query should always specify `ORDER BY 1,2`
-to ensure that the input rows are properly ordered, that is, values with
-the same `row_name` are brought together and
-correctly ordered within the row. Notice that `crosstab`
-itself does not pay any attention to the second column of the query
-result; it's just there to be ordered by, to control the order in which
-the third-column values appear across the page.
+實務上，SQL 查詢應該一律指定 `ORDER BY 1,2`，以確保輸入資料列的順序正確，也就是讓具有相同 `row_name` 的值集中在一起，並在該列中正確排序。請注意，`crosstab` 本身完全不理會查詢結果的第二個欄位；該欄位只是用來排序，以控制第三欄的值橫向出現的順序。
 
-Here is a complete example:
+以下是完整的範例：
 
 ```
 
@@ -263,17 +217,11 @@ AS ct(row_name text, category_1 text, category_2 text, category_3 text);
 (2 rows)
 ```
 
-You can avoid always having to write out a `FROM` clause to
-define the output columns, by setting up a custom crosstab function that
-has the desired output row type wired into its definition. This is
-described in the next section. Another possibility is to embed the
-required `FROM` clause in a view definition.
+你可以設定一個自訂的 crosstab 函式，將所需的輸出資料列型別寫入其定義中，以免每次都必須寫出 `FROM` 子句來定義輸出欄位。下一節會說明這種做法。另一種可能的做法是將所需的 `FROM` 子句嵌入檢視表定義中。
 
-### Note
+### 注意
 
-See also the `\crosstabview`
-command in psql, which provides functionality similar
-to `crosstab()`.
+另請參閱 psql 中的 `\crosstabview` 命令，它提供類似 `crosstab()` 的功能。
 
 <a id="TABLEFUNC-FUNCTIONS-CROSSTAB-N-TEXT"></a>
 
@@ -286,12 +234,7 @@ to `crosstab()`.
 crosstabN(text sql)
 ```
 
-The `crosstabN` functions are examples of how
-to set up custom wrappers for the general `crosstab` function,
-so that you need not write out column names and types in the calling
-`SELECT` query. The `tablefunc` module includes
-`crosstab2`, `crosstab3`, and
-`crosstab4`, whose output row types are defined as
+`crosstabN` 函式是示範如何為通用 `crosstab` 函式設定自訂包裝函式的範例，讓你不必在呼叫端 `SELECT` 查詢中寫出欄位名稱與型別。`tablefunc` 模組包含 `crosstab2`、`crosstab3` 與 `crosstab4`，其輸出資料列型別定義如下
 
 ```
 
@@ -306,14 +249,9 @@ CREATE TYPE tablefunc_crosstab_N AS (
 );
 ```
 
-Thus, these functions can be used directly when the input query produces
-`row_name` and `value` columns of type
-`text`, and you want 2, 3, or 4 output values columns.
-In all other ways they behave exactly as described above for the
-general `crosstab` function.
+因此，當輸入查詢產生型別為 `text` 的 `row_name` 與 `value` 欄位，而你需要 2、3 或 4 個輸出值欄位時，就可以直接使用這些函式。在其他所有方面，它們的行為都與上文所述的通用 `crosstab` 函式完全相同。
 
-For instance, the example given in the previous section would also
-work as
+例如，上一節所舉的範例也可以寫成
 
 ```
 
@@ -325,20 +263,9 @@ FROM crosstab3(
    order by 1,2');
 ```
 
-These functions are provided mostly for illustration purposes. You
-can create your own return types and functions based on the
-underlying `crosstab()` function. There are two ways
-to do it:
+這些函式主要是為了示範而提供。你可以根據底層的 `crosstab()` 函式建立自己的傳回型別與函式。有兩種做法：
 
-* Create a composite type describing the desired output columns,
-  similar to the examples in
-  `contrib/tablefunc/tablefunc--1.0.sql`.
-  Then define a
-  unique function name accepting one `text` parameter and returning
-  `setof your_type_name`, but linking to the same underlying
-  `crosstab` C function. For example, if your source data
-  produces row names that are `text`, and values that are
-  `float8`, and you want 5 value columns:
+* 建立描述所需輸出欄位的複合型別，類似 `contrib/tablefunc/tablefunc--1.0.sql` 中的範例。接著定義一個唯一的函式名稱，接受一個 `text` 參數並傳回 `setof your_type_name`，但連結到同一個底層 `crosstab` C 函式。例如，若你的來源資料產生的資料列名稱為 `text`、值為 `float8`，而你需要 5 個值欄位：
 
   ```
 
@@ -355,8 +282,7 @@ to do it:
       RETURNS setof my_crosstab_float8_5_cols
       AS '$libdir/tablefunc','crosstab' LANGUAGE C STABLE STRICT;
   ```
-* Use `OUT` parameters to define the return type implicitly.
-  The same example could also be done this way:
+* 使用 `OUT` 參數隱含地定義傳回型別。同一個範例也可以用這種方式完成：
 
   ```
 
@@ -383,31 +309,11 @@ to do it:
 crosstab(text source_sql, text category_sql)
 ```
 
-The main limitation of the single-parameter form of `crosstab`
-is that it treats all values in a group alike, inserting each value into
-the first available column. If you want the value
-columns to correspond to specific categories of data, and some groups
-might not have data for some of the categories, that doesn't work well.
-The two-parameter form of `crosstab` handles this case by
-providing an explicit list of the categories corresponding to the
-output columns.
+單一參數形式的 `crosstab` 主要的限制在於，它會將群組中的所有值一視同仁，把每個值插入第一個可用的欄位。若你希望值欄位對應特定的資料類別，而某些群組可能沒有某些類別的資料，這種方式就不太適用。雙參數形式的 `crosstab` 透過提供與輸出欄位對應的明確類別清單來處理這種情況。
 
-*`source_sql`* is an SQL statement that produces the
-source set of data. This statement must return one
-`row_name` column, one
-`category` column, and one
-`value` column. It may also have one or more
-“extra” columns.
-The `row_name` column must be first. The
-`category` and `value`
-columns must be the last two columns, in that order. Any columns between
-`row_name` and
-`category` are treated as “extra”.
-The “extra” columns are expected to be the same for all rows
-with the same `row_name` value.
+*`source_sql`* 是產生來源資料集的 SQL 陳述式。此陳述式必須傳回一個 `row_name` 欄位、一個 `category` 欄位，以及一個 `value` 欄位。它也可以有一個或多個「額外」欄位。`row_name` 欄位必須是第一個。`category` 與 `value` 欄位必須是最後兩個欄位，且依此順序排列。`row_name` 與 `category` 之間的任何欄位都會被視為「額外」欄位。具有相同 `row_name` 值的所有資料列，其「額外」欄位預期應該相同。
 
-For example, *`source_sql`* might produce a set
-something like:
+例如，*`source_sql`* 可能產生類似下面的資料集：
 
 ```
 
@@ -424,11 +330,7 @@ SELECT row_name, extra_col, cat, value FROM foo ORDER BY 1;
   row2         extra2    cat4    val8
 ```
 
-*`category_sql`* is an SQL statement that produces
-the set of categories. This statement must return only one column.
-It must produce at least one row, or an error will be generated.
-Also, it must not produce duplicate values, or an error will be
-generated. *`category_sql`* might be something like:
+*`category_sql`* 是產生類別集合的 SQL 陳述式。此陳述式必須只傳回一個欄位。它必須產生至少一筆資料列，否則會產生錯誤。此外，它不得產生重複的值，否則會產生錯誤。*`category_sql`* 可能類似下面這樣：
 
 ```
 
@@ -441,10 +343,8 @@ SELECT DISTINCT cat FROM foo ORDER BY 1;
     cat4
 ```
 
-The `crosstab` function is declared to return `setof
-record`, so the actual names and types of the output columns must be
-defined in the `FROM` clause of the calling `SELECT`
-statement, for example:
+`crosstab` 函式宣告為傳回 `setof
+record`，因此輸出欄位的實際名稱與型別必須在呼叫端 `SELECT` 陳述式的 `FROM` 子句中定義，例如：
 
 ```
 
@@ -452,7 +352,7 @@ SELECT * FROM crosstab('...', '...')
     AS ct(row_name text, extra text, cat1 text, cat2 text, cat3 text, cat4 text);
 ```
 
-This will produce a result something like:
+這會產生類似下面的結果：
 
 ```
 
@@ -463,37 +363,13 @@ row_name   extra   cat1   cat2   cat3   cat4
   row2     extra2  val5   val6   val7   val8
 ```
 
-The `FROM` clause must define the proper number of output
-columns of the proper data types. If there are *`N`*
-columns in the *`source_sql`* query's result, the first
-*`N`*-2 of them must match up with the first
-*`N`*-2 output columns. The remaining output columns
-must have the type of the last column of the *`source_sql`*
-query's result, and there must be exactly as many of them as there
-are rows in the *`category_sql`* query's result.
+`FROM` 子句必須定義正確數量、正確資料型別的輸出欄位。若 *`source_sql`* 查詢的結果有 *`N`* 個欄位，其中前 *`N`*-2 個必須與前 *`N`*-2 個輸出欄位相符。其餘的輸出欄位必須具有 *`source_sql`* 查詢結果最後一個欄位的型別，而且其數量必須恰好等於 *`category_sql`* 查詢結果的資料列數。
 
-The `crosstab` function produces one output row for each
-consecutive group of input rows with the same
-`row_name` value. The output
-`row_name` column, plus any “extra”
-columns, are copied from the first row of the group. The output
-`value` columns are filled with the
-`value` fields from rows having matching
-`category` values. If a row's `category`
-does not match any output of the *`category_sql`*
-query, its `value` is ignored. Output
-columns whose matching category is not present in any input row
-of the group are filled with nulls.
+`crosstab` 函式會為每一組具有相同 `row_name` 值的連續輸入資料列產生一筆輸出資料列。輸出的 `row_name` 欄位以及任何「額外」欄位，都會從群組的第一筆資料列複製。輸出的 `value` 欄位會以 `category` 值相符之資料列的 `value` 欄位填入。若某筆資料列的 `category` 不符合 *`category_sql`* 查詢的任何輸出，其 `value` 會被忽略。若某個輸出欄位所對應的類別未出現在群組的任何輸入資料列中，該欄位會填入 null。
 
-In practice the *`source_sql`* query should always
-specify `ORDER BY 1` to ensure that values with the same
-`row_name` are brought together. However,
-ordering of the categories within a group is not important.
-Also, it is essential to be sure that the order of the
-*`category_sql`* query's output matches the specified
-output column order.
+實務上，*`source_sql`* 查詢應該一律指定 `ORDER BY 1`，以確保具有相同 `row_name` 的值集中在一起。不過，群組內類別的順序並不重要。此外，務必確保 *`category_sql`* 查詢輸出的順序與指定的輸出欄位順序相符。
 
-Here are two complete examples:
+以下是兩個完整的範例：
 
 ```
 
@@ -562,10 +438,7 @@ AS
 (2 rows)
 ```
 
-You can create predefined functions to avoid having to write out
-the result column names and types in each query. See the examples
-in the previous section. The underlying C function for this form
-of `crosstab` is named `crosstab_hash`.
+你可以建立預先定義的函式，以免在每個查詢中都必須寫出結果欄位的名稱與型別。請參閱上一節的範例。這種形式的 `crosstab` 所使用的底層 C 函式名為 `crosstab_hash`。
 
 <a id="TABLEFUNC-FUNCTIONS-CONNECTBY"></a>
 
@@ -580,31 +453,22 @@ connectby(text relname, text keyid_fld, text parent_keyid_fld
           [, text branch_delim ])
 ```
 
-The `connectby` function produces a display of hierarchical
-data that is stored in a table. The table must have a key field that
-uniquely identifies rows, and a parent-key field that references the
-parent (if any) of each row. `connectby` can display the
-sub-tree descending from any row.
+`connectby` 函式會將儲存於資料表中的階層式資料顯示出來。該資料表必須有一個可唯一識別資料列的鍵欄位，以及一個參照各資料列之父資料列（若有的話）的父鍵欄位。`connectby` 可以顯示從任一資料列往下延伸的子樹。
 
-[Table F.34](tablefunc.md#TABLEFUNC-CONNECTBY-PARAMETERS) explains the
-parameters.
+[表 F.34](tablefunc.md#TABLEFUNC-CONNECTBY-PARAMETERS) 說明各參數。
 
 <a id="TABLEFUNC-CONNECTBY-PARAMETERS"></a>
 
-**Table F.34. `connectby` Parameters**
+**表 F.34. `connectby` 參數**
 
-<table border="1" class="table" summary="connectby Parameters"><colgroup><col/><col/></colgroup><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td><em class="parameter"><code>relname</code></em></td><td>Name of the source relation</td></tr><tr><td><em class="parameter"><code>keyid_fld</code></em></td><td>Name of the key field</td></tr><tr><td><em class="parameter"><code>parent_keyid_fld</code></em></td><td>Name of the parent-key field</td></tr><tr><td><em class="parameter"><code>orderby_fld</code></em></td><td>Name of the field to order siblings by (optional)</td></tr><tr><td><em class="parameter"><code>start_with</code></em></td><td>Key value of the row to start at</td></tr><tr><td><em class="parameter"><code>max_depth</code></em></td><td>Maximum depth to descend to, or zero for unlimited depth</td></tr><tr><td><em class="parameter"><code>branch_delim</code></em></td><td>String to separate keys with in branch output (optional)</td></tr></tbody></table>
+<table border="1" class="table" summary="connectby 參數"><colgroup><col/><col/></colgroup><thead><tr><th>參數</th><th>說明</th></tr></thead><tbody><tr><td><em class="parameter"><code>relname</code></em></td><td>來源關聯的名稱</td></tr><tr><td><em class="parameter"><code>keyid_fld</code></em></td><td>鍵欄位的名稱</td></tr><tr><td><em class="parameter"><code>parent_keyid_fld</code></em></td><td>父鍵欄位的名稱</td></tr><tr><td><em class="parameter"><code>orderby_fld</code></em></td><td>用來排序同層節點的欄位名稱（選用）</td></tr><tr><td><em class="parameter"><code>start_with</code></em></td><td>作為起點之資料列的鍵值</td></tr><tr><td><em class="parameter"><code>max_depth</code></em></td><td>向下展開的最大深度；零表示不限深度</td></tr><tr><td><em class="parameter"><code>branch_delim</code></em></td><td>在分支輸出中用來分隔各鍵的字串（選用）</td></tr></tbody></table>
 
 <br>
 
-The key and parent-key fields can be any data type, but they must be
-the same type. Note that the *`start_with`* value must be
-entered as a text string, regardless of the type of the key field.
+鍵欄位與父鍵欄位可以是任何資料型別，但兩者必須是相同的型別。請注意，無論鍵欄位的型別為何，*`start_with`* 值都必須以文字字串輸入。
 
-The `connectby` function is declared to return `setof
-record`, so the actual names and types of the output columns must be
-defined in the `FROM` clause of the calling `SELECT`
-statement, for example:
+`connectby` 函式宣告為傳回 `setof
+record`，因此輸出欄位的實際名稱與型別必須在呼叫端 `SELECT` 陳述式的 `FROM` 子句中定義，例如：
 
 ```
 
@@ -612,43 +476,19 @@ SELECT * FROM connectby('connectby_tree', 'keyid', 'parent_keyid', 'pos', 'row2'
     AS t(keyid text, parent_keyid text, level int, branch text, pos int);
 ```
 
-The first two output columns are used for the current row's key and
-its parent row's key; they must match the type of the table's key field.
-The third output column is the depth in the tree and must be of type
-`integer`. If a *`branch_delim`* parameter was
-given, the next output column is the branch display and must be of type
-`text`. Finally, if an *`orderby_fld`*
-parameter was given, the last output column is a serial number, and must
-be of type `integer`.
+前兩個輸出欄位用於目前資料列的鍵及其父資料列的鍵；它們必須與資料表鍵欄位的型別相符。第三個輸出欄位是在樹中的深度，型別必須是 `integer`。若有提供 *`branch_delim`* 參數，下一個輸出欄位是分支顯示，型別必須是 `text`。最後，若有提供 *`orderby_fld`* 參數，最後一個輸出欄位是序號，型別必須是 `integer`。
 
-The “branch” output column shows the path of keys taken to
-reach the current row. The keys are separated by the specified
-*`branch_delim`* string. If no branch display is
-wanted, omit both the *`branch_delim`* parameter
-and the branch column in the output column list.
+「branch」輸出欄位顯示到達目前資料列所經過的鍵路徑。各鍵之間以指定的 *`branch_delim`* 字串分隔。若不需要分支顯示，請同時省略 *`branch_delim`* 參數以及輸出欄位清單中的分支欄位。
 
-If the ordering of siblings of the same parent is important,
-include the *`orderby_fld`* parameter to
-specify which field to order siblings by. This field can be of any
-sortable data type. The output column list must include a final
-integer serial-number column, if and only if
-*`orderby_fld`* is specified.
+若同一父節點下同層節點的順序很重要，請加入 *`orderby_fld`* 參數，指定用來排序同層節點的欄位。此欄位可以是任何可排序的資料型別。若且唯若有指定 *`orderby_fld`*，輸出欄位清單就必須包含最後一個整數序號欄位。
 
-The parameters representing table and field names are copied as-is
-into the SQL queries that `connectby` generates internally.
-Therefore, include double quotes if the names are mixed-case or contain
-special characters. You may also need to schema-qualify the table name.
+代表資料表與欄位名稱的參數會原樣複製到 `connectby` 內部產生的 SQL 查詢中。因此，若名稱包含大小寫混合或特殊字元，請加上雙引號。你也可能需要以綱要限定資料表名稱。
 
-In large tables, performance will be poor unless there is an index on
-the parent-key field.
+在大型資料表中，除非父鍵欄位上有索引，否則效能會很差。
 
-It is important that the *`branch_delim`* string
-not appear in any key values, else `connectby` may incorrectly
-report an infinite-recursion error. Note that if
-*`branch_delim`* is not provided, a default value
-of `~` is used for recursion detection purposes.
+重要的是，*`branch_delim`* 字串不可出現在任何鍵值中，否則 `connectby` 可能會誤報無限遞迴錯誤。請注意，若未提供 *`branch_delim`*，則會使用預設值 `~` 進行遞迴偵測。
 
-Here is an example:
+以下是範例：
 
 ```
 
@@ -719,10 +559,10 @@ SELECT * FROM connectby('connectby_tree', 'keyid', 'parent_keyid', 'pos', 'row2'
 
 <a id="TABLEFUNC-AUTHOR"></a>
 
-### F.43.2. Author [#](#TABLEFUNC-AUTHOR)
+### F.43.2. 作者 [#](#TABLEFUNC-AUTHOR)
 
 Joe Conway
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tablefunc.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/tablefunc.html)（原文版本：18.6；核對日期：2026-10-22）

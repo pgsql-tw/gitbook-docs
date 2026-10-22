@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：29 頁。
+待譯頁面：28 頁。
 
 ## 根目錄
 
@@ -89,7 +89,7 @@
 - [x] `appendixes/contrib/seg.md` — F.39. seg — 線段或浮點數區間的資料型別 #
 - [x] `appendixes/contrib/sepgsql.md` — F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 #
 - [x] `appendixes/contrib/sslinfo.md` — F.42. sslinfo — 取得用戶端 SSL 資訊 #
-- [ ] `appendixes/contrib/tablefunc.md` — F.43. tablefunc — functions that return tables ( crosstab and others) #
+- [x] `appendixes/contrib/tablefunc.md` — F.43. tablefunc — 傳回資料表的函式（`crosstab` 等） #
 - [x] `appendixes/contrib/tcn.md` — F.44. tcn — 通知監聽者資料表內容變更的觸發程序函式 #
 - [x] `appendixes/contrib/test-decoding.md` — F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 #
 - [x] `appendixes/contrib/tsm-system-rows.md` — F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 #
