@@ -1088,7 +1088,7 @@
     * [F.22. ltree — 階層式樹狀資料型別](appendixes/contrib/ltree.md)
     * [F.23. pageinspect — 資料庫頁面的低階檢查 #](appendixes/contrib/pageinspect.md)
     * [F.24. passwordcheck — 驗證密碼強度 #](appendixes/contrib/passwordcheck.md)
-    * [F.25. pg_buffercache — inspect PostgreSQL buffer cache state #](appendixes/contrib/pgbuffercache.md)
+    * [F.25. pg_buffercache — 檢查 PostgreSQL 緩衝區快取狀態 #](appendixes/contrib/pgbuffercache.md)
     * [F.26. pgcrypto — cryptographic functions #](appendixes/contrib/pgcrypto.md)
     * [F.27. pg_freespacemap — 檢視可用空間對應表 #](appendixes/contrib/pgfreespacemap.md)
     * [F.28. pg_logicalinspect — 邏輯解碼元件檢查 #](appendixes/contrib/pglogicalinspect.md)

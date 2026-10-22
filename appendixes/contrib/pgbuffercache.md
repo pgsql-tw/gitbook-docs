@@ -1,368 +1,275 @@
-## F.25. pg_buffercache — inspect PostgreSQL buffer cache state [#](#PGBUFFERCACHE)
+<a id="PGBUFFERCACHE"></a>
 
-[F.25.1. The `pg_buffercache` View](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE)
+## F.25. pg_buffercache — 檢查 PostgreSQL 緩衝區快取狀態 [#](#PGBUFFERCACHE)
 
-[F.25.2. The `pg_buffercache_numa` View](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
+[F.25.1. `pg_buffercache` 檢視表](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE)
 
-[F.25.3. The `pg_buffercache_summary()` Function](pgbuffercache.md#PGBUFFERCACHE-SUMMARY)
+[F.25.2. `pg_buffercache_numa` 檢視表](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
 
-[F.25.4. The `pg_buffercache_usage_counts()` Function](pgbuffercache.md#PGBUFFERCACHE-USAGE-COUNTS)
+[F.25.3. `pg_buffercache_summary()` 函式](pgbuffercache.md#PGBUFFERCACHE-SUMMARY)
 
-[F.25.5. The `pg_buffercache_evict()` Function](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
+[F.25.4. `pg_buffercache_usage_counts()` 函式](pgbuffercache.md#PGBUFFERCACHE-USAGE-COUNTS)
 
-[F.25.6. The `pg_buffercache_evict_relation()` Function](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
+[F.25.5. `pg_buffercache_evict()` 函式](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
 
-[F.25.7. The `pg_buffercache_evict_all()` Function](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)
+[F.25.6. `pg_buffercache_evict_relation()` 函式](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
 
-[F.25.8. Sample Output](pgbuffercache.md#PGBUFFERCACHE-SAMPLE-OUTPUT)
+[F.25.7. `pg_buffercache_evict_all()` 函式](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)
 
-[F.25.9. Authors](pgbuffercache.md#PGBUFFERCACHE-AUTHORS)
+[F.25.8. 輸出範例](pgbuffercache.md#PGBUFFERCACHE-SAMPLE-OUTPUT)
+
+[F.25.9. 作者](pgbuffercache.md#PGBUFFERCACHE-AUTHORS)
 
 <a id="id-1.11.7.35.2"></a>
 
-The `pg_buffercache` module provides a means for
-examining what's happening in the shared buffer cache in real time.
-It also offers a low-level way to evict data from it, for testing
-purposes.
+`pg_buffercache` 模組提供一種即時檢視共享緩衝區快取中所發生情況的方法。它也提供一種低階的方式，可將資料從快取中逐出，供測試之用。
 
 <a id="id-1.11.7.35.4"></a><a id="id-1.11.7.35.5"></a><a id="id-1.11.7.35.6"></a><a id="id-1.11.7.35.7"></a><a id="id-1.11.7.35.8"></a><a id="id-1.11.7.35.9"></a><a id="id-1.11.7.35.10"></a>
 
-This module provides the `pg_buffercache_pages()`
-function (wrapped in the `pg_buffercache` view), the
-`pg_buffercache_numa_pages()` function (wrapped in the
-`pg_buffercache_numa` view), the
-`pg_buffercache_summary()` function, the
-`pg_buffercache_usage_counts()` function, the
-`pg_buffercache_evict()` function, the
-`pg_buffercache_evict_relation()` function and the
-`pg_buffercache_evict_all()` function.
+此模組提供 `pg_buffercache_pages()` 函式（包裝於 `pg_buffercache` 檢視表中）、`pg_buffercache_numa_pages()` 函式（包裝於 `pg_buffercache_numa` 檢視表中）、`pg_buffercache_summary()` 函式、`pg_buffercache_usage_counts()` 函式、`pg_buffercache_evict()` 函式、`pg_buffercache_evict_relation()` 函式，以及 `pg_buffercache_evict_all()` 函式。
 
-The `pg_buffercache_pages()` function returns a set of
-records, each row describing the state of one shared buffer entry. The
-`pg_buffercache` view wraps the function for
-convenient use.
+`pg_buffercache_pages()` 函式傳回一組紀錄，每個資料列描述一個共享緩衝區項目的狀態。`pg_buffercache` 檢視表包裝了此函式，以便於使用。
 
-The `pg_buffercache_numa_pages()` function provides
-NUMA node mappings for shared buffer entries. This
-information is not part of `pg_buffercache_pages()`
-itself, as it is much slower to retrieve.
-The `pg_buffercache_numa` view wraps the function for
-convenient use.
+`pg_buffercache_numa_pages()` 函式提供共享緩衝區項目對應到 NUMA 節點的資訊。此資訊不屬於 `pg_buffercache_pages()` 本身，因為擷取它要慢得多。`pg_buffercache_numa` 檢視表包裝了此函式，以便於使用。
 
-The `pg_buffercache_summary()` function returns a single
-row summarizing the state of the shared buffer cache.
+`pg_buffercache_summary()` 函式傳回單一資料列，彙總共享緩衝區快取的狀態。
 
-The `pg_buffercache_usage_counts()` function returns a set
-of records, each row describing the number of buffers with a given usage
-count.
+`pg_buffercache_usage_counts()` 函式傳回一組紀錄，每個資料列描述具有某個使用計數的緩衝區數量。
 
-By default, use of the above functions is restricted to superusers and roles
-with privileges of the `pg_monitor` role. Access may be
-granted to others using `GRANT`.
+預設情況下，上述函式僅限超級使用者及具有 `pg_monitor` 角色權限的角色使用。可以使用 `GRANT` 將存取權授予其他人。
 
-The `pg_buffercache_evict()` function allows a block to
-be evicted from the buffer pool given a buffer identifier. Use of this
-function is restricted to superusers only.
+`pg_buffercache_evict()` 函式可在給定緩衝區識別碼時，將一個區塊從緩衝池中逐出。此函式僅限超級使用者使用。
 
-The `pg_buffercache_evict_relation()` function allows all
-unpinned shared buffers in the relation to be evicted from the buffer pool
-given a relation identifier. Use of this function is restricted to
-superusers only.
+`pg_buffercache_evict_relation()` 函式可在給定關聯識別碼時，將該關聯中所有未被釘住（unpinned）的共享緩衝區從緩衝池中逐出。此函式僅限超級使用者使用。
 
-The `pg_buffercache_evict_all()` function allows all
-unpinned shared buffers to be evicted in the buffer pool. Use of this
-function is restricted to superusers only.
+`pg_buffercache_evict_all()` 函式可將緩衝池中所有未被釘住的共享緩衝區逐出。此函式僅限超級使用者使用。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE"></a>
 
-### F.25.1. The `pg_buffercache` View [#](#PGBUFFERCACHE-PG-BUFFERCACHE)
+### F.25.1. `pg_buffercache` 檢視表 [#](#PGBUFFERCACHE-PG-BUFFERCACHE)
 
-The definitions of the columns exposed by the view are shown in [Table F.14](pgbuffercache.md#PGBUFFERCACHE-COLUMNS).
+此檢視表所提供欄位的定義如[表 F.14](pgbuffercache.md#PGBUFFERCACHE-COLUMNS)所示。
 
 <a id="PGBUFFERCACHE-COLUMNS"></a>
 
-**Table F.14. `pg_buffercache` Columns**
+**表 F.14. `pg_buffercache` 欄位**
 
-<table border="1" class="table" summary="pg_buffercache Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="pg_buffercache 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">bufferid</code> <code class="type">integer</code>
 </p>
 <p>
-       ID, in the range 1..<code class="varname">shared_buffers</code>
+       ID，範圍為 1..<code class="varname">shared_buffers</code>
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">relfilenode</code> <code class="type">oid</code>
-       (references <a class="link" href="../../internals/catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">relfilenode</code>)
+       （參照 <a class="link" href="../../internals/catalogs/catalog-pg-class.md"><code class="structname">pg_class</code></a>.<code class="structfield">relfilenode</code>）
       </p>
 <p>
-       Filenode number of the relation
+       關聯的檔案節點（filenode）編號
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">reltablespace</code> <code class="type">oid</code>
-       (references <a class="link" href="../../internals/catalogs/catalog-pg-tablespace.md"><code class="structname">pg_tablespace</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../../internals/catalogs/catalog-pg-tablespace.md"><code class="structname">pg_tablespace</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       Tablespace OID of the relation
+       關聯的資料表空間 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">reldatabase</code> <code class="type">oid</code>
-       (references <a class="link" href="../../internals/catalogs/catalog-pg-database.md"><code class="structname">pg_database</code></a>.<code class="structfield">oid</code>)
+       （參照 <a class="link" href="../../internals/catalogs/catalog-pg-database.md"><code class="structname">pg_database</code></a>.<code class="structfield">oid</code>）
       </p>
 <p>
-       Database OID of the relation
+       關聯的資料庫 OID
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">relforknumber</code> <code class="type">smallint</code>
 </p>
 <p>
-       Fork number within the relation;  see
+       關聯內的分支（fork）編號；請參閱
        <code class="filename">common/relpath.h</code>
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">relblocknumber</code> <code class="type">bigint</code>
 </p>
 <p>
-       Page number within the relation
+       關聯內的頁面編號
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">isdirty</code> <code class="type">boolean</code>
 </p>
 <p>
-       Is the page dirty?
+       頁面是否為髒頁？
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usagecount</code> <code class="type">smallint</code>
 </p>
 <p>
-       Clock-sweep access count
+       時鐘掃描（clock-sweep）存取計數
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">pinning_backends</code> <code class="type">integer</code>
 </p>
 <p>
-       Number of backends pinning this buffer
+       釘住此緩衝區的後端數量
       </p></td></tr></tbody></table>
 
 <br>
 
-There is one row for each buffer in the shared cache. Unused buffers are
-shown with all fields null except `bufferid`. Shared system
-catalogs are shown as belonging to database zero.
+共享快取中的每個緩衝區各有一個資料列。未使用的緩衝區除了 `bufferid` 以外，所有欄位皆顯示為 null。共享的系統目錄會顯示為屬於資料庫 0。
 
-Because the cache is shared by all the databases, there will normally be
-pages from relations not belonging to the current database. This means
-that there may not be matching join rows in `pg_class` for
-some rows, or that there could even be incorrect joins. If you are
-trying to join against `pg_class`, it's a good idea to
-restrict the join to rows having `reldatabase` equal to
-the current database's OID or zero.
+由於快取由所有資料庫共享，通常會有來自不屬於目前資料庫之關聯的頁面。這表示對某些資料列而言，`pg_class` 中可能沒有可與之連接的對應資料列，甚至可能產生不正確的連接。若你要與 `pg_class` 連接，最好將連接限制在 `reldatabase` 等於目前資料庫的 OID 或 0 的資料列。
 
-Since buffer manager locks are not taken to copy the buffer state data that
-the view will display, accessing `pg_buffercache` view
-has less impact on normal buffer activity but it doesn't provide a consistent
-set of results across all buffers. However, we ensure that the information of
-each buffer is self-consistent.
+由於複製此檢視表要顯示的緩衝區狀態資料時，不會取得緩衝區管理器的鎖定，存取 `pg_buffercache` 檢視表對正常緩衝區活動的影響較小，但它無法提供在所有緩衝區之間一致的結果集。不過，我們會確保每個緩衝區的資訊本身是一致的。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-NUMA"></a>
 
-### F.25.2. The `pg_buffercache_numa` View [#](#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
+### F.25.2. `pg_buffercache_numa` 檢視表 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
 
-The definitions of the columns exposed by the view are shown in [Table F.15](pgbuffercache.md#PGBUFFERCACHE-NUMA-COLUMNS).
+此檢視表所提供欄位的定義如[表 F.15](pgbuffercache.md#PGBUFFERCACHE-NUMA-COLUMNS)所示。
 
 <a id="PGBUFFERCACHE-NUMA-COLUMNS"></a>
 
-**Table F.15. `pg_buffercache_numa` Columns**
+**表 F.15. `pg_buffercache_numa` 欄位**
 
-<table border="1" class="table" summary="pg_buffercache_numa Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="pg_buffercache_numa 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">bufferid</code> <code class="type">integer</code>
 </p>
 <p>
-       ID, in the range 1..<code class="varname">shared_buffers</code>
+       ID，範圍為 1..<code class="varname">shared_buffers</code>
 </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">os_page_num</code> <code class="type">bigint</code>
 </p>
 <p>
-       number of OS memory page for this buffer
+       此緩衝區所在的作業系統記憶體頁面編號
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">numa_node</code> <code class="type">int</code>
 </p>
 <p>
-       ID of <acronym class="acronym">NUMA</acronym> node
+       <acronym class="acronym">NUMA</acronym> 節點的 ID
       </p></td></tr></tbody></table>
 
 <br>
 
-As NUMA node ID inquiry for each page requires memory pages
-to be paged-in, the first execution of this function can take a noticeable
-amount of time. In all the cases (first execution or not), retrieving this
-information is costly and querying the view at a high frequency is not recommended.
+由於查詢每個頁面的 NUMA 節點 ID 需要先將記憶體頁面調入（page in），此函式第一次執行時可能需要相當可觀的時間。在所有情況下（無論是否為第一次執行），擷取此資訊的成本都很高，因此不建議高頻率查詢此檢視表。
 
-### Warning
+### 警告
 
-When determining the NUMA node, the view touches
-all memory pages for the shared memory segment. This will force
-allocation of the shared memory, if it wasn't allocated already,
-and the memory may get allocated in a single NUMA
-node (depending on system configuration).
+在判定 NUMA 節點時，此檢視表會存取（touch）共享記憶體區段的所有記憶體頁面。若共享記憶體尚未配置，這會強制配置它，而且記憶體可能會被配置在單一 NUMA 節點上（取決於系統設定）。
 
 <a id="PGBUFFERCACHE-SUMMARY"></a>
 
-### F.25.3. The `pg_buffercache_summary()` Function [#](#PGBUFFERCACHE-SUMMARY)
+### F.25.3. `pg_buffercache_summary()` 函式 [#](#PGBUFFERCACHE-SUMMARY)
 
-The definitions of the columns exposed by the function are shown in [Table F.16](pgbuffercache.md#PGBUFFERCACHE-SUMMARY-COLUMNS).
+此函式所提供欄位的定義如[表 F.16](pgbuffercache.md#PGBUFFERCACHE-SUMMARY-COLUMNS)所示。
 
 <a id="PGBUFFERCACHE-SUMMARY-COLUMNS"></a>
 
-**Table F.16. `pg_buffercache_summary()` Output Columns**
+**表 F.16. `pg_buffercache_summary()` 輸出欄位**
 
-<table border="1" class="table" summary="pg_buffercache_summary() Output Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="pg_buffercache_summary() 輸出欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">buffers_used</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of used shared buffers
+       已使用的共享緩衝區數量
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">buffers_unused</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of unused shared buffers
+       未使用的共享緩衝區數量
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">buffers_dirty</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of dirty shared buffers
+       髒的共享緩衝區數量
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">buffers_pinned</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of pinned shared buffers
+       被釘住的共享緩衝區數量
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usagecount_avg</code> <code class="type">float8</code>
 </p>
 <p>
-       Average usage count of used shared buffers
+       已使用共享緩衝區的平均使用計數
       </p></td></tr></tbody></table>
 
 <br>
 
-The `pg_buffercache_summary()` function returns a
-single row summarizing the state of all shared buffers. Similar and more
-detailed information is provided by the
-`pg_buffercache` view, but
-`pg_buffercache_summary()` is significantly cheaper.
+`pg_buffercache_summary()` 函式傳回單一資料列，彙總所有共享緩衝區的狀態。`pg_buffercache` 檢視表提供類似且更詳細的資訊，但 `pg_buffercache_summary()` 的成本低得多。
 
-Like the `pg_buffercache` view,
-`pg_buffercache_summary()` does not acquire buffer
-manager locks. Therefore concurrent activity can lead to minor inaccuracies
-in the result.
+與 `pg_buffercache` 檢視表一樣，`pg_buffercache_summary()` 不會取得緩衝區管理器的鎖定。因此，並行活動可能導致結果略有不準確。
 
 <a id="PGBUFFERCACHE-USAGE-COUNTS"></a>
 
-### F.25.4. The `pg_buffercache_usage_counts()` Function [#](#PGBUFFERCACHE-USAGE-COUNTS)
+### F.25.4. `pg_buffercache_usage_counts()` 函式 [#](#PGBUFFERCACHE-USAGE-COUNTS)
 
-The definitions of the columns exposed by the function are shown in
-[Table F.17](pgbuffercache.md#PGBUFFERCACHE_USAGE_COUNTS-COLUMNS).
+此函式所提供欄位的定義如[表 F.17](pgbuffercache.md#PGBUFFERCACHE_USAGE_COUNTS-COLUMNS)所示。
 
 <a id="PGBUFFERCACHE_USAGE_COUNTS-COLUMNS"></a>
 
-**Table F.17. `pg_buffercache_usage_counts()` Output Columns**
+**表 F.17. `pg_buffercache_usage_counts()` 輸出欄位**
 
-<table border="1" class="table" summary="pg_buffercache_usage_counts() Output Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
-       Column Type
+<table border="1" class="table" summary="pg_buffercache_usage_counts() 輸出欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
+       欄位類型
       </p>
 <p>
-       Description
+       說明
       </p></th></tr></thead><tbody><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">usage_count</code> <code class="type">int4</code>
 </p>
 <p>
-       A possible buffer usage count
+       一個可能的緩衝區使用計數值
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">buffers</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of buffers with the usage count
+       具有該使用計數的緩衝區數量
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">dirty</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of dirty buffers with the usage count
+       具有該使用計數的髒緩衝區數量
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">pinned</code> <code class="type">int4</code>
 </p>
 <p>
-       Number of pinned buffers with the usage count
+       具有該使用計數且被釘住的緩衝區數量
       </p></td></tr></tbody></table>
 
 <br>
 
-The `pg_buffercache_usage_counts()` function returns a
-set of rows summarizing the states of all shared buffers, aggregated over
-the possible usage count values. Similar and more detailed information is
-provided by the `pg_buffercache` view, but
-`pg_buffercache_usage_counts()` is significantly cheaper.
+`pg_buffercache_usage_counts()` 函式傳回一組資料列，依各個可能的使用計數值彙總所有共享緩衝區的狀態。`pg_buffercache` 檢視表提供類似且更詳細的資訊，但 `pg_buffercache_usage_counts()` 的成本低得多。
 
-Like the `pg_buffercache` view,
-`pg_buffercache_usage_counts()` does not acquire buffer
-manager locks. Therefore concurrent activity can lead to minor inaccuracies
-in the result.
+與 `pg_buffercache` 檢視表一樣，`pg_buffercache_usage_counts()` 不會取得緩衝區管理器的鎖定。因此，並行活動可能導致結果略有不準確。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-EVICT"></a>
 
-### F.25.5. The `pg_buffercache_evict()` Function [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
+### F.25.5. `pg_buffercache_evict()` 函式 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
 
-The `pg_buffercache_evict()` function takes a buffer
-identifier, as shown in the `bufferid` column of
-the `pg_buffercache` view. It returns information
-about whether the buffer was evicted and flushed. The buffer_evicted
-column is true on success, and false if the buffer wasn't valid, if it
-couldn't be evicted because it was pinned, or if it became dirty again
-after an attempt to write it out. The buffer_flushed column is true if the
-buffer was flushed. This does not necessarily mean that buffer was flushed
-by us, it might be flushed by someone else. The result is immediately out
-of date upon return, as the buffer might become valid again at any time due
-to concurrent activity. The function is intended for developer testing
-only.
+`pg_buffercache_evict()` 函式接受一個緩衝區識別碼，即 `bufferid` 欄位中所顯示者（屬於 `pg_buffercache` 檢視表）。它傳回該緩衝區是否已被逐出以及是否已被刷寫的資訊。成功時 buffer_evicted 欄位為 true；若緩衝區無效、因被釘住而無法逐出，或在嘗試將其寫出後又再度變髒，則為 false。若緩衝區已被刷寫，buffer_flushed 欄位為 true。這不一定表示該緩衝區是由我們刷寫的，也可能是由其他人刷寫的。結果在傳回的當下就已過時，因為並行活動可能隨時使該緩衝區再次變為有效。此函式僅供開發人員測試使用。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION"></a>
 
-### F.25.6. The `pg_buffercache_evict_relation()` Function [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
+### F.25.6. `pg_buffercache_evict_relation()` 函式 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
 
-The `pg_buffercache_evict_relation()` function is very
-similar to the `pg_buffercache_evict()` function. The
-difference is that the `pg_buffercache_evict_relation()`
-takes a relation identifier instead of buffer identifier. It tries to
-evict all buffers for all forks in that relation.
-It returns the number of evicted buffers, flushed buffers and the number of
-buffers that could not be evicted. Flushed buffers haven't necessarily
-been flushed by us, they might have been flushed by someone else. The
-result is immediately out of date upon return, as buffers might immediately
-be read back in due to concurrent activity. The function is intended for
-developer testing only.
+`pg_buffercache_evict_relation()` 函式與 `pg_buffercache_evict()` 函式非常相似。差別在於 `pg_buffercache_evict_relation()` 接受的是關聯識別碼，而不是緩衝區識別碼。它會嘗試逐出該關聯所有分支的所有緩衝區。它傳回已逐出的緩衝區數量、已刷寫的緩衝區數量，以及無法逐出的緩衝區數量。已刷寫的緩衝區不一定是由我們刷寫的，也可能是由其他人刷寫的。結果在傳回的當下就已過時，因為並行活動可能使緩衝區立即被再次讀入。此函式僅供開發人員測試使用。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL"></a>
 
-### F.25.7. The `pg_buffercache_evict_all()` Function [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)
+### F.25.7. `pg_buffercache_evict_all()` 函式 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)
 
-The `pg_buffercache_evict_all()` function is very
-similar to the `pg_buffercache_evict()` function. The
-difference is, the `pg_buffercache_evict_all()` function
-does not take an argument; instead it tries to evict all buffers in the
-buffer pool. It returns the number of evicted buffers, flushed buffers and
-the number of buffers that could not be evicted. Flushed buffers haven't
-necessarily been flushed by us, they might have been flushed by someone
-else. The result is immediately out of date upon return, as buffers might
-immediately be read back in due to concurrent activity. The function is
-intended for developer testing only.
+`pg_buffercache_evict_all()` 函式與 `pg_buffercache_evict()` 函式非常相似。差別在於 `pg_buffercache_evict_all()` 函式不接受參數，而是嘗試逐出緩衝池中的所有緩衝區。它傳回已逐出的緩衝區數量、已刷寫的緩衝區數量，以及無法逐出的緩衝區數量。已刷寫的緩衝區不一定是由我們刷寫的，也可能是由其他人刷寫的。結果在傳回的當下就已過時，因為並行活動可能使緩衝區立即被再次讀入。此函式僅供開發人員測試使用。
 
 <a id="PGBUFFERCACHE-SAMPLE-OUTPUT"></a>
 
-### F.25.8. Sample Output [#](#PGBUFFERCACHE-SAMPLE-OUTPUT)
+### F.25.8. 輸出範例 [#](#PGBUFFERCACHE-SAMPLE-OUTPUT)
 
 ```
 
@@ -412,14 +319,14 @@ regression=# SELECT * FROM pg_buffercache_usage_counts();
 
 <a id="PGBUFFERCACHE-AUTHORS"></a>
 
-### F.25.9. Authors [#](#PGBUFFERCACHE-AUTHORS)
+### F.25.9. 作者 [#](#PGBUFFERCACHE-AUTHORS)
 
 Mark Kirkwood `<markir@paradise.net.nz>`
 
-Design suggestions: Neil Conway `<neilc@samurai.com>`
+設計建議：Neil Conway `<neilc@samurai.com>`
 
-Debugging advice: Tom Lane `<tgl@sss.pgh.pa.us>`
+除錯建議：Tom Lane `<tgl@sss.pgh.pa.us>`
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgbuffercache.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pgbuffercache.html)（原文版本：18.6；核對日期：2026-10-23）
