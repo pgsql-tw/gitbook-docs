@@ -1,58 +1,24 @@
-## 34.1. The Concept [#](#ECPG-CONCEPT)
+<a id="ECPG-CONCEPT"></a>
 
-An embedded SQL program consists of code written in an ordinary
-programming language, in this case C, mixed with SQL commands in
-specially marked sections. To build the program, the source code (`*.pgc`)
-is first passed through the embedded SQL preprocessor, which converts it
-to an ordinary C program (`*.c`), and afterwards it can be processed by a C
-compiler. (For details about the compiling and linking see [Section 34.10](ecpg-process.md).)
-Converted ECPG applications call functions in the libpq library
-through the embedded SQL library (ecpglib), and communicate with
-the PostgreSQL server using the normal frontend-backend protocol.
+## 34.1. 概念 [#](#ECPG-CONCEPT)
 
-Embedded SQL has advantages over other methods
-for handling SQL commands from C code. First, it
-takes care of the tedious passing of information to and from
-variables in your C program. Second, the SQL
-code in the program is checked at build time for syntactical
-correctness. Third, embedded SQL in C is
-specified in the SQL standard and supported by
-many other SQL database systems. The
-PostgreSQL implementation is designed to match this
-standard as much as possible, and it is usually possible to port
-embedded SQL programs written for other SQL
-databases to PostgreSQL with relative
-ease.
+嵌入式 SQL 程式由以一般程式語言（此處為 C）撰寫的程式碼，與位於特別標記區段中的 SQL 命令混合組成。建置程式時，原始碼（`*.pgc`）會先經過嵌入式 SQL 前置處理器，轉換成一般的 C 程式（`*.c`），之後即可由 C 編譯器處理。（關於編譯與連結的細節，請參閱[第 34.10 節](ecpg-process.md)。）轉換後的 ECPG 應用程式會透過嵌入式 SQL 函式庫（ecpglib）呼叫 libpq 函式庫中的函式，並使用一般的前端／後端協定與 PostgreSQL 伺服器通訊。
 
-As already stated, programs written for the embedded
-SQL interface are normal C programs with special
-code inserted to perform database-related actions. This special
-code always has the form:
+相較於從 C 程式碼處理 SQL 命令的其他方法，嵌入式 SQL 有幾項優點。第一，它會替你處理在 C 程式的變數之間傳入與傳出資訊這項繁瑣的工作。第二，程式中的 SQL 程式碼會在建置時檢查語法是否正確。第三，C 語言中的嵌入式 SQL 已在 SQL 標準中規範，並受到許多其他 SQL 資料庫系統支援。PostgreSQL 的實作設計上盡可能符合此標準，通常可以相對輕鬆地把為其他 SQL 資料庫撰寫的嵌入式 SQL 程式移植到 PostgreSQL。
+
+如前所述，為嵌入式 SQL 介面撰寫的程式就是一般的 C 程式，只是插入了執行資料庫相關動作的特殊程式碼。這種特殊程式碼一律採用下列形式：
 
 ```
 
 EXEC SQL ...;
 ```
 
-These statements syntactically take the place of a C statement.
-Depending on the particular statement, they can appear at the
-global level or within a function.
+這些陳述式在語法上占據 C 陳述式的位置。視個別陳述式而定，它們可以出現在全域層級，也可以出現在函式內。
 
-Embedded
-SQL statements follow the case-sensitivity rules of
-normal SQL code, and not those of C. Also they allow nested
-C-style comments as per the SQL standard. The C part of the
-program, however, follows the C standard of not accepting nested comments.
-Embedded SQL statements likewise use SQL rules, not
-C rules, for parsing quoted strings and identifiers.
-(See [Section 4.1.2.1](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS) and
-[Section 4.1.1](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS) respectively. Note that
-ECPG assumes that `standard_conforming_strings`
-is `on`.)
-Of course, the C part of the program follows C quoting rules.
+嵌入式 SQL 陳述式遵循一般 SQL 程式碼的大小寫區分規則，而不是 C 的規則。此外，它們依照 SQL 標準允許巢狀的 C 風格註解。然而，程式的 C 部分仍遵循 C 標準，不接受巢狀註解。嵌入式 SQL 陳述式同樣使用 SQL 規則（而不是 C 規則）來剖析加上引號的字串與識別字。（分別請參閱[第 4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)與[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)。請注意，ECPG 假設 `standard_conforming_strings` 為 `on`。）當然，程式的 C 部分遵循 C 的引號規則。
 
-The following sections explain all the embedded SQL statements.
+以下各節將說明所有的嵌入式 SQL 陳述式。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-concept.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-concept.html)（原文版本：18.6；核對日期：2026-10-22）
