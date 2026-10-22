@@ -1,89 +1,55 @@
-## 34.2. Managing Database Connections [#](#ECPG-CONNECT)
+<a id="ECPG-CONNECT"></a>
 
-[34.2.1. Connecting to the Database Server](ecpg-connect.md#ECPG-CONNECTING)
+## 34.2. 管理資料庫連線 [#](#ECPG-CONNECT)
 
-[34.2.2. Choosing a Connection](ecpg-connect.md#ECPG-SET-CONNECTION)
+[34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ECPG-CONNECTING)
 
-[34.2.3. Closing a Connection](ecpg-connect.md#ECPG-DISCONNECT)
+[34.2.2. 選擇連線](ecpg-connect.md#ECPG-SET-CONNECTION)
 
-This section describes how to open, close, and switch database
-connections.
+[34.2.3. 關閉連線](ecpg-connect.md#ECPG-DISCONNECT)
+
+本節說明如何開啟、關閉與切換資料庫連線。
 
 <a id="ECPG-CONNECTING"></a>
 
-### 34.2.1. Connecting to the Database Server [#](#ECPG-CONNECTING)
+### 34.2.1. 連線到資料庫伺服器 [#](#ECPG-CONNECTING)
 
-One connects to a database using the following statement:
+使用下列陳述式連線到資料庫：
 
 ```
 
 EXEC SQL CONNECT TO target [AS connection-name] [USER user-name];
 ```
 
-The *`target`* can be specified in the
-following ways:
+*`target`* 可以用下列方式指定：
 
 * `dbname[@hostname][:port]`
 * `tcp:postgresql://hostname[:port][/dbname][?options]`
 * `unix:postgresql://localhost[:port][/dbname][?options]`
-* an SQL string literal containing one of the above forms
-* a reference to a character variable containing one of the above forms (see examples)
+* 內容為上述任一形式的 SQL 字串常數
+* 內容為上述任一形式之字元變數的參照（請參閱範例）
 * `DEFAULT`
 
-The connection target `DEFAULT` initiates a connection
-to the default database under the default user name. No separate
-user name or connection name can be specified in that case.
+連線目標 `DEFAULT` 會以預設使用者名稱連線到預設資料庫。在這種情況下，不能另外指定使用者名稱或連線名稱。
 
-If you specify the connection target directly (that is, not as a string
-literal or variable reference), then the components of the target are
-passed through normal SQL parsing; this means that, for example,
-the *`hostname`* must look like one or more SQL
-identifiers separated by dots, and those identifiers will be
-case-folded unless double-quoted. Values of
-any *`options`* must be SQL identifiers,
-integers, or variable references. Of course, you can put nearly
-anything into an SQL identifier by double-quoting it.
-In practice, it is probably less error-prone to use a (single-quoted)
-string literal or a variable reference than to write the connection
-target directly.
+若直接指定連線目標（也就是不以字串常數或變數參照的形式指定），目標的各個組成部分會經過一般的 SQL 剖析；這表示，舉例來說，*`hostname`* 必須看起來像是以點號分隔的一個或多個 SQL 識別字，而且除非加上雙引號，這些識別字會經過大小寫轉換。任何 *`options`* 的值都必須是 SQL 識別字、整數或變數參照。當然，只要加上雙引號，幾乎任何內容都可以放進 SQL 識別字中。實務上，使用（以單引號括住的）字串常數或變數參照，可能比直接寫出連線目標更不容易出錯。
 
-There are also different ways to specify the user name:
+指定使用者名稱的方式也有好幾種：
 
 * `username`
 * `username/password`
 * `username IDENTIFIED BY password`
 * `username USING password`
 
-As above, the parameters *`username`* and
-*`password`* can be an SQL identifier, an
-SQL string literal, or a reference to a character variable.
+與上述相同，參數 *`username`* 與 *`password`* 可以是 SQL 識別字、SQL 字串常數，或字元變數的參照。
 
-If the connection target includes any *`options`*,
-those consist of
-`keyword=value`
-specifications separated by ampersands (`&`).
-The allowed key words are the same ones recognized
-by libpq (see
-[Section 32.1.2](../libpq/libpq-connect.md#LIBPQ-PARAMKEYWORDS)). Spaces are ignored before
-any *`keyword`* or *`value`*,
-though not within or after one. Note that there is no way to
-write `&` within a *`value`*.
+若連線目標包含任何 *`options`*，它們由以 & 符號（`&`）分隔的 `keyword=value` 設定組成。允許的關鍵字與 libpq 所認得的關鍵字相同（請參閱[第 32.1.2 節](../libpq/libpq-connect.md#LIBPQ-PARAMKEYWORDS)）。任何 *`keyword`* 或 *`value`* 之前的空白都會被忽略，但其中或其後的空白則不會。請注意，沒有任何方法可以在 *`value`* 中寫入 `&`。
 
-Notice that when specifying a socket connection
-(with the `unix:` prefix), the host name must be
-exactly `localhost`. To select a non-default
-socket directory, write the directory's pathname as the value of
-a `host` option in
-the *`options`* part of the target.
+請注意，指定通訊端連線（使用 `unix:` 前綴）時，主機名稱必須正好是 `localhost`。若要選擇非預設的通訊端目錄，請在目標的 *`options`* 部分中，將該目錄的路徑名稱寫成 `host` 選項的值。
 
-The *`connection-name`* is used to handle
-multiple connections in one program. It can be omitted if a
-program uses only one connection. The most recently opened
-connection becomes the current connection, which is used by default
-when an SQL statement is to be executed (see later in this
-chapter).
+*`connection-name`* 用於在一個程式中處理多個連線。若程式只使用一個連線，可以省略它。最近開啟的連線會成為目前連線，要執行 SQL 陳述式時，預設會使用目前連線（請參閱本章後面的說明）。
 
-Here are some examples of `CONNECT` statements:
+以下是幾個 `CONNECT` 陳述式的範例：
 
 ```
 
@@ -101,63 +67,40 @@ EXEC SQL CONNECT TO :target USER :user USING :passwd;
 /* or EXEC SQL CONNECT TO :target USER :user/:passwd; */
 ```
 
-The last example makes use of the feature referred to above as
-character variable references. You will see in later sections how C
-variables can be used in SQL statements when you prefix them with a
-colon.
+最後一個範例使用了上文所稱的字元變數參照功能。在後面的章節中，你會看到 C 變數加上冒號前綴後，如何在 SQL 陳述式中使用。
 
-Be advised that the format of the connection target is not
-specified in the SQL standard. So if you want to develop portable
-applications, you might want to use something based on the last
-example above to encapsulate the connection target string
-somewhere.
+請注意，SQL 標準並未規範連線目標的格式。因此，若你想要開發可攜的應用程式，可能會想以類似上面最後一個範例的方式，把連線目標字串封裝在某個地方。
 
-If untrusted users have access to a database that has not adopted a
-[secure schema usage pattern](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS),
-begin each session by removing publicly-writable schemas
-from `search_path`. For example,
-add `options=-c search_path=`
-to `options`, or
-issue `EXEC SQL SELECT pg_catalog.set_config('search_path', '',
-false);` after connecting. This consideration is not specific to
-ECPG; it applies to every interface for executing arbitrary SQL commands.
+若不受信任的使用者可以存取尚未採用[安全的綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)的資料庫，請在每個工作階段開始時，從 `search_path` 中移除可供公開寫入的綱要。例如，在 `options` 中加入 `options=-c search_path=`，或在連線後發出 `EXEC SQL SELECT pg_catalog.set_config('search_path', '',
+false);`。這項考量並非 ECPG 所特有；它適用於所有可執行任意 SQL 命令的介面。
 
 <a id="ECPG-SET-CONNECTION"></a>
 
-### 34.2.2. Choosing a Connection [#](#ECPG-SET-CONNECTION)
+### 34.2.2. 選擇連線 [#](#ECPG-SET-CONNECTION)
 
-SQL statements in embedded SQL programs are by default executed on
-the current connection, that is, the most recently opened one. If
-an application needs to manage multiple connections, then there are
-three ways to handle this.
+嵌入式 SQL 程式中的 SQL 陳述式預設會在目前連線上執行，也就是最近開啟的那一個連線。若應用程式需要管理多個連線，有三種處理方式。
 
-The first option is to explicitly choose a connection for each SQL
-statement, for example:
+第一種做法是為每個 SQL 陳述式明確選擇連線，例如：
 
 ```
 
 EXEC SQL AT connection-name SELECT ...;
 ```
 
-This option is particularly suitable if the application needs to
-use several connections in mixed order.
+若應用程式需要以交錯的順序使用多個連線，這種做法特別合適。
 
-If your application uses multiple threads of execution, they cannot share a
-connection concurrently. You must either explicitly control access to the connection
-(using mutexes) or use a connection for each thread.
+若你的應用程式使用多個執行緒，這些執行緒不能同時共用同一個連線。你必須明確控制對連線的存取（使用互斥鎖），或者讓每個執行緒各自使用一個連線。
 
-The second option is to execute a statement to switch the current
-connection. That statement is:
+第二種做法是執行一個陳述式來切換目前連線。該陳述式為：
 
 ```
 
 EXEC SQL SET CONNECTION connection-name;
 ```
 
-This option is particularly convenient if many statements are to be
-executed on the same connection.
+若有許多陳述式要在同一個連線上執行，這種做法特別方便。
 
-Here is an example program managing multiple database connections:
+以下是管理多個資料庫連線的範例程式：
 
 ```
 
@@ -196,7 +139,7 @@ main()
 }
 ```
 
-This example would produce this output:
+此範例會產生下列輸出：
 
 ```
 
@@ -205,8 +148,7 @@ current=testdb2 (should be testdb2)
 current=testdb1 (should be testdb1)
 ```
 
-The third option is to declare an SQL identifier linked to
-the connection, for example:
+第三種做法是宣告一個與該連線相連結的 SQL 識別字，例如：
 
 ```
 
@@ -214,11 +156,9 @@ EXEC SQL AT connection-name DECLARE statement-name STATEMENT;
 EXEC SQL PREPARE statement-name FROM :dyn-string;
 ```
 
-Once you link an SQL identifier to a connection, you execute dynamic SQL
-without an AT clause. Note that this option behaves like preprocessor
-directives, therefore the link is enabled only in the file.
+一旦將 SQL 識別字連結到某個連線，你就可以不使用 AT 子句來執行動態 SQL。請注意，這種做法的行為類似前置處理器指令，因此這個連結只在該檔案中有效。
 
-Here is an example program using this option:
+以下是使用這種做法的範例程式：
 
 ```
 
@@ -242,7 +182,7 @@ int main(){
 }
 ```
 
-This example would produce this output, even if the default connection is testdb:
+即使預設連線是 testdb，此範例也會產生下列輸出：
 
 ```
 
@@ -251,28 +191,25 @@ postgres
 
 <a id="ECPG-DISCONNECT"></a>
 
-### 34.2.3. Closing a Connection [#](#ECPG-DISCONNECT)
+### 34.2.3. 關閉連線 [#](#ECPG-DISCONNECT)
 
-To close a connection, use the following statement:
+使用下列陳述式關閉連線：
 
 ```
 
 EXEC SQL DISCONNECT [connection];
 ```
 
-The *`connection`* can be specified
-in the following ways:
+*`connection`* 可以用下列方式指定：
 
 * `connection-name`
 * `CURRENT`
 * `ALL`
 
-If no connection name is specified, the current connection is
-closed.
+若未指定連線名稱，則會關閉目前連線。
 
-It is good style that an application always explicitly disconnect
-from every connection it opened.
+良好的寫法是，應用程式一律明確中斷它所開啟的每一個連線。
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-connect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/ecpg-connect.html)（原文版本：18.6；核對日期：2026-10-22）
