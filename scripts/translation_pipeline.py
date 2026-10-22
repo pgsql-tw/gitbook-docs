@@ -27,7 +27,7 @@ BASE = 'outputs/pg18-translation'
 RUNTIME = BASE + '/pipeline-runtime'
 PENDING = BASE + '/pending-pages.md'
 STATUS = BASE + '/continuation-state.md'
-REVIEW_RULES_VERSION = 'user-review-rules-20261017-v2'
+REVIEW_RULES_VERSION = 'user-review-rules-20261023-v3'
 SKILL = Path('C:/Users/ycku/.codex/skills/postgresql-tw-translation')
 CANARIES = ['appendixes/contrib/passwordcheck.md', 'appendixes/contrib/pgbuffercache.md',
             'appendixes/contrib/pageinspect.md']
@@ -704,6 +704,12 @@ class Queue:
                 'or unsupported notes and other translation errors must still be reported. '
                 'Specifically, nls-programmer.md must retain the colon ending the printf plural example; '
                 'accept an outside note explaining that a C statement should end with a semicolon. '
+                'User-approved rules (2026-10-23): for monitoring-stats.md, accept pg_stat_wal_receiver '
+                'as statistics about WAL reception by the receiver from its connected server, not statistics '
+                'fetched from that server. For multibyte.md, preserve WIN in the protected destination encoding '
+                'of windows_866_to_windows_1251 in Table 23.5; accept an outside Traditional Chinese note '
+                'identifying the source typo and WIN1251 as correct, corroborated by Table 23.4. '
+                'Do not reject these approved treatments; still review all other content fully. '
                 'User-approved rules (2026-10-05): for sql-createpolicy.md, preserve the protected '
                 'HTML code table headers (policy, USING expression, WITH CHECK expression) and accept '
                 'an adjacent Traditional Chinese explanation mapping policy to 政策 and expression to 運算式. '
