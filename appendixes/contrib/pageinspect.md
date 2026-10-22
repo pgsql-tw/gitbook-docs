@@ -1,51 +1,39 @@
-## F.23. pageinspect — low-level inspection of database pages [#](#PAGEINSPECT)
+<a id="PAGEINSPECT"></a>
 
-[F.23.1. General Functions](pageinspect.md#PAGEINSPECT-GENERAL-FUNCS)
+## F.23. pageinspect — 資料庫頁面的低階檢查 [#](#PAGEINSPECT)
 
-[F.23.2. Heap Functions](pageinspect.md#PAGEINSPECT-HEAP-FUNCS)
+[F.23.1. 一般函式](pageinspect.md#PAGEINSPECT-GENERAL-FUNCS)
 
-[F.23.3. B-Tree Functions](pageinspect.md#PAGEINSPECT-B-TREE-FUNCS)
+[F.23.2. 堆積函式](pageinspect.md#PAGEINSPECT-HEAP-FUNCS)
 
-[F.23.4. BRIN Functions](pageinspect.md#PAGEINSPECT-BRIN-FUNCS)
+[F.23.3. B-tree 函式](pageinspect.md#PAGEINSPECT-B-TREE-FUNCS)
 
-[F.23.5. GIN Functions](pageinspect.md#PAGEINSPECT-GIN-FUNCS)
+[F.23.4. BRIN 函式](pageinspect.md#PAGEINSPECT-BRIN-FUNCS)
 
-[F.23.6. GiST Functions](pageinspect.md#PAGEINSPECT-GIST-FUNCS)
+[F.23.5. GIN 函式](pageinspect.md#PAGEINSPECT-GIN-FUNCS)
 
-[F.23.7. Hash Functions](pageinspect.md#PAGEINSPECT-HASH-FUNCS)
+[F.23.6. GiST 函式](pageinspect.md#PAGEINSPECT-GIST-FUNCS)
+
+[F.23.7. 雜湊函式](pageinspect.md#PAGEINSPECT-HASH-FUNCS)
 
 <a id="id-1.11.7.33.2"></a>
 
-The `pageinspect` module provides functions that allow you to
-inspect the contents of database pages at a low level, which is useful for
-debugging purposes. All of these functions may be used only by superusers.
+`pageinspect` 模組提供的函式可讓你在低階層面檢查資料庫頁面的內容，這對除錯很有用。所有這些函式都只能由超級使用者使用。
 
 <a id="PAGEINSPECT-GENERAL-FUNCS"></a>
 
-### F.23.1. General Functions [#](#PAGEINSPECT-GENERAL-FUNCS)
+### F.23.1. 一般函式 [#](#PAGEINSPECT-GENERAL-FUNCS)
 
 `get_raw_page(relname text, fork text, blkno bigint) returns bytea` <a id="id-1.11.7.33.4.2.1.1.2"></a>
-:   `get_raw_page` reads the specified block of the named
-    relation and returns a copy as a `bytea` value. This allows a
-    single time-consistent copy of the block to be obtained.
-    *`fork`* should be `'main'` for
-    the main data fork, `'fsm'` for the
-    [free space map](../../internals/storage/storage-fsm.md),
-    `'vm'` for the
-    [visibility map](../../internals/storage/storage-vm.md), or
-    `'init'` for the initialization fork.
+:   `get_raw_page` 讀取指定名稱之關聯的指定區塊，並以 `bytea` 值傳回其副本。這樣便能取得該區塊在單一時間點上一致的副本。*`fork`* 應為：`'main'` 表示主資料分支（fork），`'fsm'` 表示[可用空間對應表](../../internals/storage/storage-fsm.md)，`'vm'` 表示[可見性對應表](../../internals/storage/storage-vm.md)，或 `'init'` 表示初始化分支。
 
 `get_raw_page(relname text, blkno bigint) returns bytea`
-:   A shorthand version of `get_raw_page`, for reading
-    from the main fork. Equivalent to
-    `get_raw_page(relname, 'main', blkno)`
+:   `get_raw_page` 的簡寫版本，用於從主分支讀取。等同於 `get_raw_page(relname, 'main', blkno)`。
 
 `page_header(page bytea) returns record` <a id="id-1.11.7.33.4.2.3.1.2"></a>
-:   `page_header` shows fields that are common to all
-    PostgreSQL heap and index pages.
+:   `page_header` 顯示所有 PostgreSQL 堆積頁面與索引頁面共有的欄位。
 
-    A page image obtained with `get_raw_page` should be
-    passed as argument. For example:
+    應傳入以 `get_raw_page` 取得的頁面映像作為引數。例如：
 
     ```
 
@@ -55,21 +43,14 @@ debugging purposes. All of these functions may be used only by superusers.
      0/24A1B50 |        0 |      1 |   232 |   368 |    8192 |     8192 |       4 |         0
     ```
 
-    The returned columns correspond to the fields in the
-    `PageHeaderData` struct.
-    See `src/include/storage/bufpage.h` for details.
+    傳回的欄位對應於 `PageHeaderData` 結構中的欄位。詳細資訊請參閱 `src/include/storage/bufpage.h`。
 
-    The `checksum` field is the checksum stored in
-    the page, which might be incorrect if the page is somehow corrupted. If
-    data checksums are disabled for this instance, then the value stored
-    is meaningless.
+    `checksum` 欄位是儲存在頁面中的校驗和；若頁面因故損毀，此值可能不正確。若此執行個體停用了資料校驗和，則儲存的值沒有意義。
 
 `page_checksum(page bytea, blkno bigint) returns smallint` <a id="id-1.11.7.33.4.2.4.1.2"></a>
-:   `page_checksum` computes the checksum for the page, as if
-    it was located at the given block.
+:   `page_checksum` 計算頁面的校驗和，計算方式就如同該頁面位於給定的區塊。
 
-    A page image obtained with `get_raw_page` should be
-    passed as argument. For example:
+    應傳入以 `get_raw_page` 取得的頁面映像作為引數。例如：
 
     ```
 
@@ -79,83 +60,56 @@ debugging purposes. All of these functions may be used only by superusers.
              13443
     ```
 
-    Note that the checksum depends on the block number, so matching block
-    numbers should be passed (except when doing esoteric debugging).
+    請注意，校驗和取決於區塊編號，因此應傳入相符的區塊編號（除非是在進行特殊的除錯）。
 
-    The checksum computed with this function can be compared with
-    the `checksum` result field of the
-    function `page_header`. If data checksums are
-    enabled for this instance, then the two values should be equal.
+    以此函式計算出的校驗和，可以與 `page_header` 函式結果中的 `checksum` 欄位比較。若此執行個體啟用了資料校驗和，這兩個值應該相等。
 
 `fsm_page_contents(page bytea) returns text` <a id="id-1.11.7.33.4.2.5.1.2"></a>
-:   `fsm_page_contents` shows the internal node structure
-    of an FSM page. For example:
+:   `fsm_page_contents` 顯示 FSM 頁面的內部節點結構。例如：
 
     ```
 
     test=# SELECT fsm_page_contents(get_raw_page('pg_class', 'fsm', 0));
     ```
 
-    The output is a multiline string, with one line per node in the binary
-    tree within the page. Only those nodes that are not zero are printed.
-    The so-called "next" pointer, which points to the next slot to be
-    returned from the page, is also printed.
+    輸出是一個多行字串，頁面內二元樹的每個節點各占一行。只會印出不為零的節點。所謂的「next」指標（指向頁面中下一個要傳回的槽位）也會一併印出。
 
-    See `src/backend/storage/freespace/README` for more
-    information on the structure of an FSM page.
+    關於 FSM 頁面結構的更多資訊，請參閱 `src/backend/storage/freespace/README`。
 
 <a id="PAGEINSPECT-HEAP-FUNCS"></a>
 
-### F.23.2. Heap Functions [#](#PAGEINSPECT-HEAP-FUNCS)
+### F.23.2. 堆積函式 [#](#PAGEINSPECT-HEAP-FUNCS)
 
 `heap_page_items(page bytea) returns setof record` <a id="id-1.11.7.33.5.2.1.1.2"></a>
-:   `heap_page_items` shows all line pointers on a heap
-    page. For those line pointers that are in use, tuple headers as well
-    as tuple raw data are also shown. All tuples are shown, whether or not
-    the tuples were visible to an MVCC snapshot at the time the raw page
-    was copied.
+:   `heap_page_items` 顯示堆積頁面上的所有行指標（line pointer）。對於使用中的行指標，也會顯示元組（tuple）標頭以及元組的原始資料。所有元組都會顯示，不論在複製原始頁面的當下，這些元組對 MVCC 快照是否可見。
 
-    A heap page image obtained with `get_raw_page` should
-    be passed as argument. For example:
+    應傳入以 `get_raw_page` 取得的堆積頁面映像作為引數。例如：
 
     ```
 
     test=# SELECT * FROM heap_page_items(get_raw_page('pg_class', 0));
     ```
 
-    See `src/include/storage/itemid.h` and
-    `src/include/access/htup_details.h` for explanations of the fields
-    returned.
+    關於傳回欄位的說明，請參閱 `src/include/storage/itemid.h` 與 `src/include/access/htup_details.h`。
 
-    The `heap_tuple_infomask_flags` function can be
-    used to unpack the flag bits of `t_infomask`
-    and `t_infomask2` for heap tuples.
+    可以使用 `heap_tuple_infomask_flags` 函式，拆解堆積元組之 `t_infomask` 與 `t_infomask2` 的旗標位元。
 
 `tuple_data_split(rel_oid oid, t_data bytea, t_infomask integer, t_infomask2 integer, t_bits text [, do_detoast bool]) returns bytea[]` <a id="id-1.11.7.33.5.2.2.1.2"></a>
-:   `tuple_data_split` splits tuple data into attributes
-    in the same way as backend internals.
+:   `tuple_data_split` 以與後端內部相同的方式，將元組資料拆分為各個屬性。
 
     ```
 
     test=# SELECT tuple_data_split('pg_class'::regclass, t_data, t_infomask, t_infomask2, t_bits) FROM heap_page_items(get_raw_page('pg_class', 0));
     ```
 
-    This function should be called with the same arguments as the return
-    attributes of `heap_page_items`.
+    呼叫此函式時，應使用與 `heap_page_items` 傳回屬性相同的引數。
 
-    If *`do_detoast`* is `true`,
-    attributes will be detoasted as needed. Default value is
-    `false`.
+    若 *`do_detoast`* 為 `true`，屬性會視需要解除 TOAST（detoast）。預設值為 `false`。
 
 `heap_page_item_attrs(page bytea, rel_oid regclass [, do_detoast bool]) returns setof record` <a id="id-1.11.7.33.5.2.3.1.2"></a>
-:   `heap_page_item_attrs` is equivalent to
-    `heap_page_items` except that it returns
-    tuple raw data as an array of attributes that can optionally
-    be detoasted by *`do_detoast`* which is
-    `false` by default.
+:   `heap_page_item_attrs` 等同於 `heap_page_items`，差別在於它以屬性陣列的形式傳回元組原始資料，這些屬性可依 *`do_detoast`* 選擇是否解除 TOAST，該參數預設為 `false`。
 
-    A heap page image obtained with `get_raw_page` should
-    be passed as argument. For example:
+    應傳入以 `get_raw_page` 取得的堆積頁面映像作為引數。例如：
 
     ```
 
@@ -163,12 +117,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `heap_tuple_infomask_flags(t_infomask integer, t_infomask2 integer) returns record` <a id="id-1.11.7.33.5.2.4.1.2"></a>
-:   `heap_tuple_infomask_flags` decodes the
-    `t_infomask` and
-    `t_infomask2` returned by
-    `heap_page_items` into a human-readable
-    set of arrays made of flag names, with one column for all
-    the flags and one column for combined flags. For example:
+:   `heap_tuple_infomask_flags` 將 `heap_page_items` 傳回的 `t_infomask` 與 `t_infomask2` 解碼為一組人類可讀、由旗標名稱組成的陣列，其中一個欄位包含所有旗標，另一個欄位包含組合旗標。例如：
 
     ```
 
@@ -178,23 +127,18 @@ debugging purposes. All of these functions may be used only by superusers.
              WHERE t_infomask IS NOT NULL OR t_infomask2 IS NOT NULL;
     ```
 
-    This function should be called with the same arguments as the return
-    attributes of `heap_page_items`.
+    呼叫此函式時，應使用與 `heap_page_items` 傳回屬性相同的引數。
 
-    Combined flags are displayed for source-level macros that take into
-    account the value of more than one raw bit, such as
-    `HEAP_XMIN_FROZEN`.
+    組合旗標用於顯示會考量超過一個原始位元之值的原始碼層級巨集，例如 `HEAP_XMIN_FROZEN`。
 
-    See `src/include/access/htup_details.h` for
-    explanations of the flag names returned.
+    關於傳回之旗標名稱的說明，請參閱 `src/include/access/htup_details.h`。
 
 <a id="PAGEINSPECT-B-TREE-FUNCS"></a>
 
-### F.23.3. B-Tree Functions [#](#PAGEINSPECT-B-TREE-FUNCS)
+### F.23.3. B-tree 函式 [#](#PAGEINSPECT-B-TREE-FUNCS)
 
 `bt_metap(relname text) returns record` <a id="id-1.11.7.33.6.2.1.1.2"></a>
-:   `bt_metap` returns information about a B-tree
-    index's metapage. For example:
+:   `bt_metap` 傳回 B-tree 索引中繼頁面（metapage）的相關資訊。例如：
 
     ```
 
@@ -212,8 +156,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `bt_page_stats(relname text, blkno bigint) returns record` <a id="id-1.11.7.33.6.2.2.1.2"></a>
-:   `bt_page_stats` returns summary information about
-    a data page of a B-tree index. For example:
+:   `bt_page_stats` 傳回 B-tree 索引某個資料頁面的摘要資訊。例如：
 
     ```
 
@@ -233,13 +176,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `bt_multi_page_stats(relname text, blkno bigint, blk_count bigint) returns setof record` <a id="id-1.11.7.33.6.2.3.1.2"></a>
-:   `bt_multi_page_stats` returns the same information
-    as `bt_page_stats`, but does so for each page of the
-    range of pages beginning at *`blkno`* and extending
-    for *`blk_count`* pages.
-    If *`blk_count`* is negative, all pages
-    from *`blkno`* to the end of the index are reported
-    on. For example:
+:   `bt_multi_page_stats` 傳回與 `bt_page_stats` 相同的資訊，但對象是從 *`blkno`* 開始、延伸 *`blk_count`* 個頁面之範圍內的每個頁面。若 *`blk_count`* 為負數，則會回報從 *`blkno`* 到索引結尾的所有頁面。例如：
 
     ```
 
@@ -271,8 +208,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `bt_page_items(relname text, blkno bigint) returns setof record` <a id="id-1.11.7.33.6.2.4.1.2"></a>
-:   `bt_page_items` returns detailed information about
-    all of the items on a B-tree index page. For example:
+:   `bt_page_items` 傳回 B-tree 索引頁面上所有項目的詳細資訊。例如：
 
     ```
 
@@ -296,57 +232,18 @@ debugging purposes. All of these functions may be used only by superusers.
     (13 rows)
     ```
 
-    This is a B-tree leaf page. All tuples that point to the table
-    happen to be posting list tuples (all of which store a total of
-    100 6 byte TIDs). There is also a “high key” tuple
-    at `itemoffset` number 1.
-    `ctid` is used to store encoded
-    information about each tuple in this example, though leaf page
-    tuples often store a heap TID directly in the
-    `ctid` field instead.
-    `tids` is the list of TIDs stored as a
-    posting list.
+    這是一個 B-tree 葉頁面。所有指向資料表的元組恰好都是 posting list 元組（它們各自總共儲存 100 個 6 位元組的 TID）。在 `itemoffset` 編號 1 處還有一個「高鍵」（high key）元組。在此範例中，`ctid` 用來儲存每個元組的編碼資訊，不過葉頁面元組通常會改為直接在 `ctid` 欄位中儲存堆積 TID。`tids` 是以 posting list 形式儲存的 TID 清單。
 
-    In an internal page (not shown), the block number part of
-    `ctid` is a “downlink”,
-    which is a block number of another page in the index itself.
-    The offset part (the second number) of
-    `ctid` stores encoded information about
-    the tuple, such as the number of columns present (suffix
-    truncation may have removed unneeded suffix columns). Truncated
-    columns are treated as having the value “minus
-    infinity”.
+    在內部頁面（此處未顯示）中，`ctid` 的區塊編號部分是「下行連結」（downlink），也就是索引本身中另一個頁面的區塊編號。`ctid` 的偏移量部分（第二個數字）儲存該元組的編碼資訊，例如實際存在的欄位數（後綴截斷可能已移除不需要的後綴欄位）。被截斷的欄位視為具有「負無限大」的值。
 
-    `htid` shows a heap TID for the tuple,
-    regardless of the underlying tuple representation. This value
-    may match `ctid`, or may be decoded
-    from the alternative representations used by posting list tuples
-    and tuples from internal pages. Tuples in internal pages
-    usually have the implementation level heap TID column truncated
-    away, which is represented as a NULL
-    `htid` value.
+    `htid` 顯示該元組的堆積 TID，不論底層的元組表示方式為何。此值可能與 `ctid` 相符，也可能是從 posting list 元組及內部頁面元組所使用的替代表示方式解碼而來。內部頁面中的元組通常已將實作層級的堆積 TID 欄位截斷移除，這會以 NULL 的 `htid` 值表示。
 
-    Note that the first item on any non-rightmost page (any page with
-    a non-zero value in the `btpo_next` field) is the
-    page's “high key”, meaning its `data`
-    serves as an upper bound on all items appearing on the page, while
-    its `ctid` field does not point to
-    another block. Also, on internal pages, the first real data
-    item (the first item that is not a high key) reliably has every
-    column truncated away, leaving no actual value in its
-    `data` field. Such an item does have a
-    valid downlink in its `ctid` field,
-    however.
+    請注意，任何非最右側頁面（即 `btpo_next` 欄位值不為零的任何頁面）上的第一個項目是該頁面的「高鍵」，這表示其 `data` 作為頁面上所有項目的上界，而其 `ctid` 欄位不指向另一個區塊。此外，在內部頁面上，第一個真正的資料項目（第一個不是高鍵的項目）必定會將所有欄位都截斷移除，因此其 `data` 欄位中沒有實際的值。不過，這樣的項目在其 `ctid` 欄位中確實有有效的下行連結。
 
-    For more details about the structure of B-tree indexes, see
-    [Section 65.1.4.1](../../internals/indextypes/btree.md#BTREE-STRUCTURE). For more details about
-    deduplication and posting lists, see [Section 65.1.4.3](../../internals/indextypes/btree.md#BTREE-DEDUPLICATION).
+    關於 B-tree 索引結構的更多細節，請參閱[第 65.1.4.1 節](../../internals/indextypes/btree.md#BTREE-STRUCTURE)。關於去重複與 posting list 的更多細節，請參閱[第 65.1.4.3 節](../../internals/indextypes/btree.md#BTREE-DEDUPLICATION)。
 
 `bt_page_items(page bytea) returns setof record` <a id="id-1.11.7.33.6.2.5.1.2"></a>
-:   It is also possible to pass a page to `bt_page_items`
-    as a `bytea` value. A page image obtained
-    with `get_raw_page` should be passed as argument. So
-    the last example could also be rewritten like this:
+:   也可以將頁面以 `bytea` 值的形式傳給 `bt_page_items`。應傳入以 `get_raw_page` 取得的頁面映像作為引數。因此，上一個範例也可以改寫成這樣：
 
     ```
 
@@ -370,16 +267,14 @@ debugging purposes. All of these functions may be used only by superusers.
     (13 rows)
     ```
 
-    All the other details are the same as explained in the previous item.
+    其他所有細節都與上一個項目中的說明相同。
 
 <a id="PAGEINSPECT-BRIN-FUNCS"></a>
 
-### F.23.4. BRIN Functions [#](#PAGEINSPECT-BRIN-FUNCS)
+### F.23.4. BRIN 函式 [#](#PAGEINSPECT-BRIN-FUNCS)
 
 `brin_page_type(page bytea) returns text` <a id="id-1.11.7.33.7.2.1.1.2"></a>
-:   `brin_page_type` returns the page type of the given
-    BRIN index page, or throws an error if the page is
-    not a valid BRIN page. For example:
+:   `brin_page_type` 傳回給定 BRIN 索引頁面的頁面類型；若該頁面不是有效的 BRIN 頁面，則擲出錯誤。例如：
 
     ```
 
@@ -390,8 +285,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `brin_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.7.2.2.1.2"></a>
-:   `brin_metapage_info` returns assorted information
-    about a BRIN index metapage. For example:
+:   `brin_metapage_info` 傳回 BRIN 索引中繼頁面的各種資訊。例如：
 
     ```
 
@@ -402,9 +296,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `brin_revmap_data(page bytea) returns setof tid` <a id="id-1.11.7.33.7.2.3.1.2"></a>
-:   `brin_revmap_data` returns the list of tuple
-    identifiers in a BRIN index range map page.
-    For example:
+:   `brin_revmap_data` 傳回 BRIN 索引範圍對應（range map）頁面中的元組識別碼清單。例如：
 
     ```
 
@@ -419,8 +311,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `brin_page_items(page bytea, index oid) returns setof record` <a id="id-1.11.7.33.7.2.4.1.2"></a>
-:   `brin_page_items` returns the data stored in the
-    BRIN data page. For example:
+:   `brin_page_items` 傳回儲存在 BRIN 資料頁面中的資料。例如：
 
     ```
 
@@ -437,17 +328,14 @@ debugging purposes. All of these functions may be used only by superusers.
             139 |      8 |      2 | f        | f        | f           | f     | {177 .. 264}
     ```
 
-    The returned columns correspond to the fields in the
-    `BrinMemTuple` and `BrinValues` structs.
-    See `src/include/access/brin_tuple.h` for details.
+    傳回的欄位對應於 `BrinMemTuple` 與 `BrinValues` 結構中的欄位。詳細資訊請參閱 `src/include/access/brin_tuple.h`。
 
 <a id="PAGEINSPECT-GIN-FUNCS"></a>
 
-### F.23.5. GIN Functions [#](#PAGEINSPECT-GIN-FUNCS)
+### F.23.5. GIN 函式 [#](#PAGEINSPECT-GIN-FUNCS)
 
 `gin_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.8.2.1.1.2"></a>
-:   `gin_metapage_info` returns information about
-    a GIN index metapage. For example:
+:   `gin_metapage_info` 傳回 GIN 索引中繼頁面的相關資訊。例如：
 
     ```
 
@@ -466,9 +354,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `gin_page_opaque_info(page bytea) returns record` <a id="id-1.11.7.33.8.2.2.1.2"></a>
-:   `gin_page_opaque_info` returns information about
-    a GIN index opaque area, like the page type.
-    For example:
+:   `gin_page_opaque_info` 傳回 GIN 索引不透明區域（opaque area）的相關資訊，像是頁面類型。例如：
 
     ```
 
@@ -480,8 +366,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `gin_leafpage_items(page bytea) returns setof record` <a id="id-1.11.7.33.8.2.3.1.2"></a>
-:   `gin_leafpage_items` returns information about
-    the data stored in a compressed GIN leaf page. For example:
+:   `gin_leafpage_items` 傳回壓縮 GIN 葉頁面中所儲存資料的相關資訊。例如：
 
     ```
 
@@ -501,13 +386,10 @@ debugging purposes. All of these functions may be used only by superusers.
 
 <a id="PAGEINSPECT-GIST-FUNCS"></a>
 
-### F.23.6. GiST Functions [#](#PAGEINSPECT-GIST-FUNCS)
+### F.23.6. GiST 函式 [#](#PAGEINSPECT-GIST-FUNCS)
 
 `gist_page_opaque_info(page bytea) returns record` <a id="id-1.11.7.33.9.2.1.1.2"></a>
-:   `gist_page_opaque_info` returns information from
-    a GiST index page's opaque area, such as the NSN,
-    rightlink and page type.
-    For example:
+:   `gist_page_opaque_info` 傳回 GiST 索引頁面不透明區域中的資訊，像是 NSN、右鏈結（rightlink）與頁面類型。例如：
 
     ```
 
@@ -519,8 +401,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `gist_page_items(page bytea, index_oid regclass) returns setof record` <a id="id-1.11.7.33.9.2.2.1.2"></a>
-:   `gist_page_items` returns information about
-    the data stored in a page of a GiST index. For example:
+:   `gist_page_items` 傳回 GiST 索引頁面中所儲存資料的相關資訊。例如：
 
     ```
 
@@ -537,10 +418,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `gist_page_items_bytea(page bytea) returns setof record` <a id="id-1.11.7.33.9.2.3.1.2"></a>
-:   Same as `gist_page_items`, but returns the key data
-    as a raw `bytea` blob. Since it does not attempt to decode
-    the key, it does not need to know which index is involved. For
-    example:
+:   與 `gist_page_items` 相同，但以原始 `bytea` 二進位資料傳回鍵值資料。由於它不會嘗試解碼鍵值，因此不需要知道涉及的是哪個索引。例如：
 
     ```
 
@@ -557,13 +435,14 @@ debugging purposes. All of these functions may be used only by superusers.
     (7 rows)
     ```
 
+    譯註：此範例與上一個 gist_page_items 範例查詢的是同一個索引的同一個頁面（區塊 0），但上一個範例輸出 6 列、此處輸出 7 列，兩者並不一致，閱讀時請勿逐列對照。
+
 <a id="PAGEINSPECT-HASH-FUNCS"></a>
 
-### F.23.7. Hash Functions [#](#PAGEINSPECT-HASH-FUNCS)
+### F.23.7. 雜湊函式 [#](#PAGEINSPECT-HASH-FUNCS)
 
 `hash_page_type(page bytea) returns text` <a id="id-1.11.7.33.10.2.1.1.2"></a>
-:   `hash_page_type` returns page type of
-    the given HASH index page. For example:
+:   `hash_page_type` 傳回給定 HASH 索引頁面的頁面類型。例如：
 
     ```
 
@@ -574,9 +453,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `hash_page_stats(page bytea) returns setof record` <a id="id-1.11.7.33.10.2.2.1.2"></a>
-:   `hash_page_stats` returns information about
-    a bucket or overflow page of a HASH index.
-    For example:
+:   `hash_page_stats` 傳回 HASH 索引中桶頁面或溢位頁面的相關資訊。例如：
 
     ```
 
@@ -593,10 +470,10 @@ debugging purposes. All of these functions may be used only by superusers.
     hasho_page_id   | 65408
     ```
 
+    譯註：原文函式簽章寫作 returns setof record，但 pageinspect 擴充功能腳本是以 OUT 參數定義此函式，並未宣告 SETOF，因此實際上只傳回單一筆紀錄（上方範例輸出也只有一筆 RECORD）。
+
 `hash_page_items(page bytea) returns setof record` <a id="id-1.11.7.33.10.2.3.1.2"></a>
-:   `hash_page_items` returns information about
-    the data stored in a bucket or overflow page of a HASH
-    index page. For example:
+:   `hash_page_items` 傳回 HASH 索引頁面之桶頁面或溢位頁面中所儲存資料的相關資訊。例如：
 
     ```
 
@@ -611,9 +488,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `hash_bitmap_info(index oid, blkno bigint) returns record` <a id="id-1.11.7.33.10.2.4.1.2"></a>
-:   `hash_bitmap_info` shows the status of a bit
-    in the bitmap page for a particular overflow page of HASH
-    index. For example:
+:   `hash_bitmap_info` 顯示 HASH 索引中，特定溢位頁面在點陣圖頁面中所對應位元的狀態。例如：
 
     ```
 
@@ -624,8 +499,7 @@ debugging purposes. All of these functions may be used only by superusers.
     ```
 
 `hash_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.10.2.5.1.2"></a>
-:   `hash_metapage_info` returns information stored
-    in the meta page of a HASH index. For example:
+:   `hash_metapage_info` 傳回儲存在 HASH 索引中繼頁面中的資訊。例如：
 
     ```
 
@@ -655,4 +529,4 @@ debugging purposes. All of these functions may be used only by superusers.
 
 ---
 
-原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pageinspect.html)（英文原文，待翻譯）
+原文：[PostgreSQL 18.6 Documentation](https://www.postgresql.org/docs/18/pageinspect.html)（原文版本：18.6；核對日期：2026-10-23）
