@@ -1034,7 +1034,7 @@
   * [附錄 C. SQL 關鍵字](appendixes/sql-keywords-appendix/README.md)
   * [附錄 D. SQL 符合性](appendixes/features/README.md)
     * [D.1. Supported Features #](appendixes/features/features-sql-standard.md)
-    * [D.2. Unsupported Features #](appendixes/features/unsupported-features-sql-standard.md)
+    * [D.2. 不支援的特性 #](appendixes/features/unsupported-features-sql-standard.md)
     * [D.3. XML 限制與 SQL/XML 符合性 #](appendixes/features/xml-limits-conformance.md)
   * [附錄 E. 版本說明](appendixes/release/README.md)
     * [E.1. 18.6 版 #](appendixes/release/release-18-6.md)
