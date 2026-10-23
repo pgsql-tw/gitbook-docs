@@ -1,15 +1,15 @@
 ## 第 61 章：遺傳式查詢最佳化器
 
-**Table of Contents**
+**目錄**
 
 [61.1. 將查詢處理視為複雜最佳化問題](geqo-intro.md)
 
 [61.2. 遺傳演算法](geqo-intro2.md)
 
-[61.3. Genetic Query Optimization (GEQO) in PostgreSQL](geqo-pg-intro.md)
-:   [61.3.1. Generating Possible Plans with GEQO](geqo-pg-intro.md#GEQO-PG-INTRO-GEN-POSSIBLE-PLANS)
+[61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO）](geqo-pg-intro.md)
+:   [61.3.1. 以 GEQO 產生可能的計畫](geqo-pg-intro.md#GEQO-PG-INTRO-GEN-POSSIBLE-PLANS)
 
-    [61.3.2. Future Implementation Tasks for PostgreSQL GEQO](geqo-pg-intro.md#GEQO-FUTURE)
+    [61.3.2. PostgreSQL GEQO 未來的實作工作](geqo-pg-intro.md#GEQO-FUTURE)
 
 [61.4. 延伸閱讀](geqo-biblio.md)
 

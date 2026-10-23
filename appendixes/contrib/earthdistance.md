@@ -40,8 +40,7 @@
 提供的函式支援以緯度與經度（度）輸入、輸出緯度與經度、計算兩點之間的大圓距離，
 以及方便地指定可用於索引搜尋的邊界方框。
 
-The provided functions are shown
-如[表 F.4](earthdistance.md#EARTHDISTANCE-CUBE-FUNCTIONS) 所示。
+提供的函式如[表 F.4](earthdistance.md#EARTHDISTANCE-CUBE-FUNCTIONS) 所示。
 
 <a id="EARTHDISTANCE-CUBE-FUNCTIONS"></a>
 

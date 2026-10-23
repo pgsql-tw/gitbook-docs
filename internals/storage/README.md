@@ -9,9 +9,9 @@
 
     [66.2.2. 資料列外的記憶體 TOAST 儲存](storage-toast.md#STORAGE-TOAST-INMEMORY)
 
-[66.3. 可用空間對照表](storage-fsm.md)
+[66.3. 可用空間對應表](storage-fsm.md)
 
-[66.4. 可見性對照表](storage-vm.md)
+[66.4. 可見性對應表](storage-vm.md)
 
 [66.5. 初始化分支檔案](storage-init.md)
 
