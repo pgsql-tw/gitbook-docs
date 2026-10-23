@@ -8,7 +8,7 @@
 
 [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
 
-[34.15.4. 額外的函式](ecpg-informix-compat.md#ECPG-INFORMIX-FUNCTIONS)
+[34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
 
 [34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
 
@@ -259,7 +259,9 @@ EXEC SQL INCLUDE sqlda.h;
 
 更多資訊請參閱 `sqlda.h` 標頭檔與 `src/interfaces/ecpg/test/compat_informix/sqlda.pgc` 迴歸測試。
 
-### 34.15.4. 額外的函式 [#](#ECPG-INFORMIX-FUNCTIONS) <a href="#ECPG-INFORMIX-FUNCTIONS" id="ECPG-INFORMIX-FUNCTIONS"></a>
+<a id="ECPG-INFORMIX-FUNCTIONS"></a>
+
+### 34.15.4. 額外的函式 [#](#ecpg-informix-functions) <a href="#ecpg-informix-functions" id="ecpg-informix-functions"></a>
 
 <a id="ECPG-INFORMIX-FUNCTIONS-DECADD"></a>
 

@@ -131,7 +131,7 @@
 
     [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
 
-    [34.15.4. 額外的函式](ecpg-informix-compat.md#ECPG-INFORMIX-FUNCTIONS)
+    [34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
 
     [34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
 
