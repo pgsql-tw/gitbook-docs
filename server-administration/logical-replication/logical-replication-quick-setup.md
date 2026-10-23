@@ -1,3 +1,5 @@
+<a id="LOGICAL-REPLICATION-QUICK-SETUP"></a>
+
 ## 29.14. 快速設定 [#](#LOGICAL-REPLICATION-QUICK-SETUP)
 
 首先，在 `postgresql.conf` 中設定下列選項：

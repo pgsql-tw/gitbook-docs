@@ -1,3 +1,5 @@
+<a id="TYPECONV-SELECT"></a>
+
 ## 10.6. `SELECT` 輸出欄位 [#](#TYPECONV-SELECT)
 
 <a id="id-1.5.9.11.2"></a>

@@ -1,3 +1,5 @@
+<a id="SQL-TRUNCATE"></a>
+
 <a id="id-1.9.3.181.1"></a>
 
 ## TRUNCATE

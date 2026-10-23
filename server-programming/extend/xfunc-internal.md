@@ -1,3 +1,5 @@
+<a id="XFUNC-INTERNAL"></a>
+
 ## 36.9. 內部函式 [#](#XFUNC-INTERNAL)
 
 <a id="id-1.8.3.12.2"></a>

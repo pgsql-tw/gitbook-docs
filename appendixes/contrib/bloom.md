@@ -1,3 +1,5 @@
+<a id="BLOOM"></a>
+
 ## F.6. bloom — Bloom 篩選器索引存取方法 [#](#BLOOM)
 
 [F.6.1. 參數](bloom.md#BLOOM-PARAMETERS)

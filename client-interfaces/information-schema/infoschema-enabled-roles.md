@@ -1,3 +1,5 @@
+<a id="INFOSCHEMA-ENABLED-ROLES"></a>
+
 ## 35.25. `enabled_roles` [#](#INFOSCHEMA-ENABLED-ROLES)
 
 檢視表 `enabled_roles` 列出目前「已啟用的角色」。它會以遞迴方式將已啟用的角色

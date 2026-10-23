@@ -1,3 +1,5 @@
+<a id="RELEASE-PRIOR"></a>
+
 ## E.7. 舊版本 [#](#RELEASE-PRIOR)
 
 舊版本分支的發行說明可於 [`https://www.postgresql.org/docs/release/`](https://www.postgresql.org/docs/release/) 查閱。

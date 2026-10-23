@@ -1,3 +1,5 @@
+<a id="INTAGG"></a>
+
 ## F.18. intagg — 整數聚合器與列舉器 [#](#INTAGG)
 
 [F.18.1. 函式](intagg.md#INTAGG-FUNCTIONS)

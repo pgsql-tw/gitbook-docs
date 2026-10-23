@@ -1,3 +1,5 @@
+<a id="SPI-SPI-PREPARE-EXTENDED"></a>
+
 <a id="id-1.8.12.8.10.1"></a>
 
 ## SPI_prepare_extended

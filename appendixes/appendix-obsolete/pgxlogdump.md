@@ -1,3 +1,5 @@
+<a id="PGXLOGDUMP"></a>
+
 ## O.3. `pg_xlogdump` 已改名為 `pg_waldump` [#](#PGXLOGDUMP)
 
 <a id="id-1.11.16.5.2"></a>

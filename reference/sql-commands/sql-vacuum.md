@@ -1,3 +1,5 @@
+<a id="SQL-VACUUM"></a>
+
 <a id="id-1.9.3.184.1"></a>
 
 ## VACUUM

@@ -1,3 +1,5 @@
+<a id="SQL-IMPORTFOREIGNSCHEMA"></a>
+
 <a id="id-1.9.3.151.1"></a>
 
 ## IMPORT FOREIGN SCHEMA

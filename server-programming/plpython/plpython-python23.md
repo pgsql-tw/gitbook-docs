@@ -1,3 +1,5 @@
+<a id="PLPYTHON-PYTHON23"></a>
+
 ## 44.10. Python 2 與 Python 3 [#](#PLPYTHON-PYTHON23)
 
 PL/Python 僅支援 Python 3。過去的 PostgreSQL 版本曾支援 Python 2，使用的語言名稱為 `plpythonu` 與 `plpython2u`。

@@ -1,3 +1,5 @@
+<a id="VIEW-PG-GROUP"></a>
+
 ## 53.9. `pg_group` [#](#VIEW-PG-GROUP)
 
 <a id="id-1.10.5.13.2"></a>

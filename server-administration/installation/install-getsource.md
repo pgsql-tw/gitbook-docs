@@ -1,3 +1,5 @@
+<a id="INSTALL-GETSOURCE"></a>
+
 ## 17.2. 取得原始碼 [#](#INSTALL-GETSOURCE)
 
 已發行版本的 PostgreSQL 原始碼可從我們網站的下載區取得：<https://www.postgresql.org/ftp/source/>。下載所需版本的 `postgresql-version.tar.gz` 或 `postgresql-version.tar.bz2` 檔案，然後解壓縮：

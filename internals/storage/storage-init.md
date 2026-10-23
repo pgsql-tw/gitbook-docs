@@ -1,3 +1,5 @@
+<a id="STORAGE-INIT"></a>
+
 ## 66.5. 初始化分支檔案 [#](#STORAGE-INIT)
 
 <a id="id-1.10.18.7.2"></a>

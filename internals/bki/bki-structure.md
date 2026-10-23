@@ -1,3 +1,5 @@
+<a id="BKI-STRUCTURE"></a>
+
 ## 68.5. 啟動初始化 BKI 檔案的結構 [#](#BKI-STRUCTURE)
 
 只有在 `open` 命令所需的資料表已存在，且其中包含要開啟之資料表的項目時，才能使用 `open`。（最少需要的資料表是 `pg_class`、`pg_attribute`、`pg_proc` 與 `pg_type`。）為了填入這些資料表本身，帶有 `bootstrap` 選項的 `create` 會隱含地開啟剛建立的資料表，以供插入資料。

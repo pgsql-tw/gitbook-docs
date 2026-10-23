@@ -1,3 +1,5 @@
+<a id="CITEXT"></a>
+
 ## F.9. citext — 不區分大小寫的字元字串型別 [#](#CITEXT)
 
 [F.9.1. 原理](citext.md#CITEXT-RATIONALE)

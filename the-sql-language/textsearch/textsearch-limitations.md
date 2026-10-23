@@ -1,3 +1,5 @@
+<a id="TEXTSEARCH-LIMITATIONS"></a>
+
 ## 12.11. 限制 [#](#TEXTSEARCH-LIMITATIONS)
 
 PostgreSQL 文字搜尋功能目前有下列限制：

@@ -1,3 +1,5 @@
+<a id="DICT-XSYN"></a>
+
 ## F.13. `dict_xsyn` — 同義詞全文檢索字典範例 [#](#DICT-XSYN)
 
 [F.13.1. 設定](dict-xsyn.md#DICT-XSYN-CONFIG)

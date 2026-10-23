@@ -1,3 +1,5 @@
+<a id="LOGICALDECODING"></a>
+
 ## 第 47 章 邏輯解碼
 
 **目錄**

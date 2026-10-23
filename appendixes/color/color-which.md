@@ -1,3 +1,5 @@
+<a id="COLOR-WHICH"></a>
+
 ## N.2. 設定色彩 [#](#COLOR-WHICH)
 
 實際要使用的色彩由環境變數 `PG_COLORS`<a id="id-1.11.15.5.2.2"></a>（注意是複數）設定。其值為以冒號分隔的 `key=value` 配對清單。鍵指定色彩的用途；值則是由終端機解譯的 SGR（Select Graphic Rendition）規格。

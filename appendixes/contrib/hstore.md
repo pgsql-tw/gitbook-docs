@@ -1,3 +1,5 @@
+<a id="HSTORE"></a>
+
 ## F.17. hstore — hstore 鍵／值資料型別 [#](#HSTORE)
 
 [F.17.1. `hstore` 外部表示法](hstore.md#HSTORE-EXTERNAL-REP)

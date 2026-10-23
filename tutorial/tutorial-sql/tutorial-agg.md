@@ -88,6 +88,8 @@ SELECT city, count(*), max(temp_lo)
 
 這會得到相同的結果，但只包含所有 `temp_lo` 值都低於 40 的城市。最後，如果我們只關心名稱以「`S`」開頭的城市，可以這樣做：
 
+<a id="co.tutorial-agg-like"></a>
+
 ```
 
 SELECT city, count(*), max(temp_lo)

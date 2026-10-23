@@ -1,3 +1,5 @@
+<a id="DOCGUIDE-AUTHORING"></a>
+
 ## J.5. 文件撰寫 [#](#DOCGUIDE-AUTHORING)
 
 [J.5.1. Emacs](docguide-authoring.md#DOCGUIDE-AUTHORING-EMACS)

@@ -1,3 +1,5 @@
+<a id="RUNTIME-CONFIG-CUSTOM"></a>
+
 ## 19.16. 自訂選項 [#](#RUNTIME-CONFIG-CUSTOM)
 
 此功能讓附加模組（例如程序語言）能新增 PostgreSQL 原本不認得的參數，使擴充模組也能透過標準方式設定。

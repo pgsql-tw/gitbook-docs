@@ -1,3 +1,5 @@
+<a id="TUTORIAL-DELETE"></a>
+
 ## 2.9. 刪除 [#](#TUTORIAL-DELETE)
 
 <a id="id-1.4.4.10.2"></a>

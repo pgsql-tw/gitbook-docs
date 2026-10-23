@@ -1,3 +1,5 @@
+<a id="EXTERNAL-INTERFACES"></a>
+
 ## H.1. 用戶端介面 [#](#EXTERNAL-INTERFACES)
 
 <a id="id-1.11.9.3.2"></a>

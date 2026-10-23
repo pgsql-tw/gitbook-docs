@@ -1,3 +1,5 @@
+<a id="FILE-FDW"></a>
+
 ## F.15. file_fdw — 存取伺服器檔案系統中的資料檔案 [#](#FILE-FDW)
 
 <a id="id-1.11.7.25.2"></a>

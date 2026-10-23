@@ -1,3 +1,5 @@
+<a id="SPI-SPI-CURSOR-OPEN-WITH-ARGS"></a>
+
 <a id="id-1.8.12.8.20.1"></a>
 
 ## SPI_cursor_open_with_args

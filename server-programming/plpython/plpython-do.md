@@ -1,3 +1,5 @@
+<a id="PLPYTHON-DO"></a>
+
 ## 44.4. 匿名程式碼區塊 [#](#PLPYTHON-DO)
 
 PL/Python 也支援使用 [DO](../../reference/sql-commands/sql-do.md) 陳述式呼叫匿名程式碼區塊：

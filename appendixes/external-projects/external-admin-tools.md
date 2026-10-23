@@ -1,3 +1,5 @@
+<a id="EXTERNAL-ADMIN-TOOLS"></a>
+
 ## H.2. 管理工具 [#](#EXTERNAL-ADMIN-TOOLS)
 
 <a id="id-1.11.9.4.2"></a>

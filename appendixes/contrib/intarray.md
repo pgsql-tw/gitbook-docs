@@ -1,3 +1,5 @@
+<a id="INTARRAY"></a>
+
 ## F.19. intarray — 操作整數陣列 [#](#INTARRAY)
 
 [F.19.1. `intarray` 函式與運算子](intarray.md#INTARRAY-FUNCS-OPS)

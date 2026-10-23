@@ -1,3 +1,5 @@
+<a id="EXTERNAL-EXTENSIONS"></a>
+
 ## H.4. 擴充套件 [#](#EXTERNAL-EXTENSIONS)
 
 <a id="id-1.11.9.6.2"></a>

@@ -1,3 +1,5 @@
+<a id="DATATYPE-PG-LSN"></a>
+
 ## 8.20. `pg_lsn` 型別 [#](#DATATYPE-PG-LSN)
 
 <a id="id-1.5.7.28.2"></a>

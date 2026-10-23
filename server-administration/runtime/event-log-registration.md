@@ -1,3 +1,5 @@
+<a id="EVENT-LOG-REGISTRATION"></a>
+
 ## 18.12. 在 Windows 註冊事件日誌 [#](#EVENT-LOG-REGISTRATION)
 
 <a id="id-1.6.5.15.2"></a>

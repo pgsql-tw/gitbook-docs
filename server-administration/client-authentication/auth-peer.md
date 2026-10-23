@@ -1,3 +1,5 @@
+<a id="AUTH-PEER"></a>
+
 ## 20.9. Peer 驗證 [#](#AUTH-PEER)
 
 <a id="id-1.6.7.16.2"></a>

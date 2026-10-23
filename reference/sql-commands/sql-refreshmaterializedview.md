@@ -1,3 +1,5 @@
+<a id="SQL-REFRESHMATERIALIZEDVIEW"></a>
+
 <a id="id-1.9.3.162.1"></a>
 
 ## REFRESH MATERIALIZED VIEW

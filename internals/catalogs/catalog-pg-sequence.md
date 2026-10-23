@@ -1,3 +1,5 @@
+<a id="CATALOG-PG-SEQUENCE"></a>
+
 ## 52.47. `pg_sequence` [#](#CATALOG-PG-SEQUENCE)
 
 <a id="id-1.10.4.49.2"></a>

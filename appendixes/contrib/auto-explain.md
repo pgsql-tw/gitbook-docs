@@ -1,3 +1,5 @@
+<a id="AUTO-EXPLAIN"></a>
+
 ## F.3. auto_explain — 記錄慢速查詢的執行計畫 [#](#AUTO-EXPLAIN)
 
 [F.3.1. 設定參數](auto-explain.md#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)

@@ -1,3 +1,5 @@
+<a id="PLPERL-DATA"></a>
+
 ## 43.2. PL/Perl 中的資料值 [#](#PLPERL-DATA)
 
 提供給 PL/Perl 函式程式碼的引數值，就是轉換成文字形式的輸入引數（如同由 `SELECT` 陳述式顯示出來的形式）。反過來說，`return` 與 `return_next` 命令可接受任何符合函式所宣告回傳型別之合法輸入格式的字串。

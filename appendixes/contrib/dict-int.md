@@ -1,3 +1,5 @@
+<a id="DICT-INT"></a>
+
 ## F.12. `dict_int` — 整數全文檢索字典範例 [#](#DICT-INT)
 
 [F.12.1. 設定](dict-int.md#DICT-INT-CONFIG)

@@ -1,3 +1,5 @@
+<a id="INFOSCHEMA-DATATYPES"></a>
+
 ## 35.2. 資料型別 [#](#INFOSCHEMA-DATATYPES)
 
 資訊結構描述檢視表的欄位使用在資訊結構描述中定義的特殊資料型別。這些型別

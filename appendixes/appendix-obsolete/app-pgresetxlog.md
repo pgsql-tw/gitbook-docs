@@ -1,3 +1,5 @@
+<a id="APP-PGRESETXLOG"></a>
+
 ## O.4. `pg_resetxlog` 已改名為 `pg_resetwal` [#](#APP-PGRESETXLOG)
 
 <a id="id-1.11.16.6.2"></a>

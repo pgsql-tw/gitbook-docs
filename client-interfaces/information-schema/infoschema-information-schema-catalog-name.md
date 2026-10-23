@@ -1,3 +1,5 @@
+<a id="INFOSCHEMA-INFORMATION-SCHEMA-CATALOG-NAME"></a>
+
 ## 35.3. `information_schema_catalog_name` [#](#INFOSCHEMA-INFORMATION-SCHEMA-CATALOG-NAME)
 
 `information_schema_catalog_name` 是一個恆有一個資料列與一個欄位的資料表；其內容為

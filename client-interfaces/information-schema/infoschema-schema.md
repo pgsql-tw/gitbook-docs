@@ -1,3 +1,5 @@
+<a id="INFOSCHEMA-SCHEMA"></a>
+
 ## 35.1. 資訊結構描述 [#](#INFOSCHEMA-SCHEMA)
 
 資訊結構描述本身是一個名為 `information_schema` 的 schema。這個 schema 會自動

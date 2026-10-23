@@ -1,3 +1,5 @@
+<a id="SQL-SET-SESSION-AUTHORIZATION"></a>
+
 <a id="id-1.9.3.177.1"></a>
 
 ## SET SESSION AUTHORIZATION

@@ -1,3 +1,5 @@
+<a id="INDEXES-UNIQUE"></a>
+
 ## 11.6. 唯一值索引 [#](#INDEXES-UNIQUE)
 
 <a id="id-1.5.10.9.2"></a>

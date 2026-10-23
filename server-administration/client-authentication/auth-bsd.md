@@ -1,3 +1,5 @@
+<a id="AUTH-BSD"></a>
+
 ## 20.14. BSD 驗證 [#](#AUTH-BSD)
 
 <a id="id-1.6.7.21.2"></a>

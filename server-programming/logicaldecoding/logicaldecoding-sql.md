@@ -1,3 +1,5 @@
+<a id="LOGICALDECODING-SQL"></a>
+
 ## 47.4. 邏輯解碼 SQL 介面 [#](#LOGICALDECODING-SQL)
 
 與邏輯解碼互動的 SQL 層級 API 詳細文件，請參閱[第 9.28.6 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION)。

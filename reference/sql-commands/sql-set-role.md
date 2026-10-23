@@ -1,3 +1,5 @@
+<a id="SQL-SET-ROLE"></a>
+
 <a id="id-1.9.3.176.1"></a>
 
 ## SET ROLE

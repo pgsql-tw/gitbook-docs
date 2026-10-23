@@ -1,3 +1,5 @@
+<a id="AMCHECK"></a>
+
 ## F.1. amcheck — 驗證資料表與索引一致性的工具 [#](#AMCHECK)
 
 [F.1.1. 函式](amcheck.md#AMCHECK-FUNCTIONS)

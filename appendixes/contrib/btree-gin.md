@@ -1,3 +1,5 @@
+<a id="BTREE-GIN"></a>
+
 ## F.7. btree_gin — 具有 B-tree 行為的 GIN 運算子類別 [#](#BTREE-GIN)
 
 [F.7.1. 使用範例](btree-gin.md#BTREE-GIN-EXAMPLE-USAGE)

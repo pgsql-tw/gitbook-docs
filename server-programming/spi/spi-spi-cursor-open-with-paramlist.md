@@ -1,3 +1,5 @@
+<a id="SPI-SPI-CURSOR-OPEN-WITH-PARAMLIST"></a>
+
 <a id="id-1.8.12.8.21.1"></a>
 
 ## SPI_cursor_open_with_paramlist

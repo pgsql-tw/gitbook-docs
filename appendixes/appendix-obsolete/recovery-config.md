@@ -1,3 +1,5 @@
+<a id="RECOVERY-CONFIG"></a>
+
 ## O.1. `recovery.conf` 檔案已併入 `postgresql.conf` [#](#RECOVERY-CONFIG)
 
 <a id="id-1.11.16.3.2"></a>

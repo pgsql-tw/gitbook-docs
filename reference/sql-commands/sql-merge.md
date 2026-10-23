@@ -1,3 +1,5 @@
+<a id="SQL-MERGE"></a>
+
 <a id="id-1.9.3.156.1"></a>
 
 ## MERGE

@@ -1,3 +1,5 @@
+<a id="SPI-SPI-CURSOR-OPEN"></a>
+
 <a id="id-1.8.12.8.19.1"></a>
 
 ## SPI_cursor_open

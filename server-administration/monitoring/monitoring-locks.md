@@ -1,3 +1,5 @@
+<a id="MONITORING-LOCKS"></a>
+
 ## 27.3. 檢視鎖定 [#](#MONITORING-LOCKS)
 
 <a id="id-1.6.14.8.2"></a>

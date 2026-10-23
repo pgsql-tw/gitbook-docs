@@ -1,3 +1,5 @@
+<a id="ARCHIVE-MODULE-INIT"></a>
+
 ## 49.1. 初始化函式 [#](#ARCHIVE-MODULE-INIT)
 
 <a id="id-1.8.16.7.2"></a>

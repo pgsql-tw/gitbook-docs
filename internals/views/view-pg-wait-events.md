@@ -1,3 +1,5 @@
+<a id="VIEW-PG-WAIT-EVENTS"></a>
+
 ## 53.38. `pg_wait_events` [#](#VIEW-PG-WAIT-EVENTS)
 
 <a id="id-1.10.5.42.2"></a>

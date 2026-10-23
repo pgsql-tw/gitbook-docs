@@ -1,3 +1,5 @@
+<a id="VIEW-PG-CONFIG"></a>
+
 ## 53.6. `pg_config` [#](#VIEW-PG-CONFIG)
 
 <a id="id-1.10.5.10.2"></a>

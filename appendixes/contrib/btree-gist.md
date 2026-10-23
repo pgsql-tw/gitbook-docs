@@ -1,3 +1,5 @@
+<a id="BTREE-GIST"></a>
+
 ## F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別 [#](#BTREE-GIST)
 
 [F.8.1. 使用範例](btree-gist.md#BTREE-GIST-EXAMPLE-USAGE)

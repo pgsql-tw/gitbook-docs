@@ -1,3 +1,5 @@
+<a id="OAUTH-VALIDATORS"></a>
+
 ## 第 50 章 OAuth 驗證器模組
 
 **目錄**

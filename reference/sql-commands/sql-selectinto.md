@@ -1,3 +1,5 @@
+<a id="SQL-SELECTINTO"></a>
+
 <a id="id-1.9.3.173.1"></a>
 
 ## SELECT INTO
