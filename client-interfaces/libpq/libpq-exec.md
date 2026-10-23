@@ -705,54 +705,60 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 <a id="LIBPQ-PQESCAPELITERAL"></a>
 
 `PQescapeLiteral`<a id="id-1.7.3.10.6.3.1.1.2"></a> [#](#LIBPQ-PQESCAPELITERAL)
-:   ```
+
+```
 
     char *PQescapeLiteral(PGconn *conn, const char *str, size_t length);
-    ```
+```
 
-    [`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 會跳脫字串，以便在 SQL 命令中使用。在 SQL 命令中以字面常數插入資料值時，這很有用。某些字元（例如引號與反斜線）必須跳脫，以避免被 SQL 剖析器做特殊解讀。[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 就是執行這項操作。
+[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 會跳脫字串，以便在 SQL 命令中使用。在 SQL 命令中以字面常數插入資料值時，這很有用。某些字元（例如引號與反斜線）必須跳脫，以避免被 SQL 剖析器做特殊解讀。[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 就是執行這項操作。
 
-    [`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 在以 `malloc()` 配置的記憶體中傳回 *`str`* 參數的跳脫版本。不再需要該結果時，應該使用 `PQfreemem()` 釋放這塊記憶體。結尾的零位元組不是必要的，也不應計入 *`length`*。（若在處理完 *`length`* 個位元組之前就遇到結尾的零位元組，[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 會在該零位元組處停止；因此其行為與 `strncpy` 相當類似。）傳回的字串中所有特殊字元都已被替換，因此能被 PostgreSQL 字串字面值剖析器正確處理。結尾也會加上零位元組。PostgreSQL 字串字面值兩側必須加上的單引號也包含在結果字串中。
+[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 在以 `malloc()` 配置的記憶體中傳回 *`str`* 參數的跳脫版本。不再需要該結果時，應該使用 `PQfreemem()` 釋放這塊記憶體。結尾的零位元組不是必要的，也不應計入 *`length`*。（若在處理完 *`length`* 個位元組之前就遇到結尾的零位元組，[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 會在該零位元組處停止；因此其行為與 `strncpy` 相當類似。）傳回的字串中所有特殊字元都已被替換，因此能被 PostgreSQL 字串字面值剖析器正確處理。結尾也會加上零位元組。PostgreSQL 字串字面值兩側必須加上的單引號也包含在結果字串中。
 
-    發生錯誤時，[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 會傳回 `NULL`，並在 *`conn`* 物件中存入適當的訊息。
+發生錯誤時，[`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 會傳回 `NULL`，並在 *`conn`* 物件中存入適當的訊息。
 
-    ### 提示
+### 提示
 
-    處理從不可信來源收到的字串時，進行適當的跳脫尤其重要。否則會有安全風險：你容易遭受「SQL 注入」攻擊，也就是有不想要的 SQL 命令被送進你的資料庫。
+處理從不可信來源收到的字串時，進行適當的跳脫尤其重要。否則會有安全風險：你容易遭受「SQL 注入」攻擊，也就是有不想要的 SQL 命令被送進你的資料庫。
 
-    請注意，當資料值以 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 或其同類常式中的獨立參數傳遞時，進行跳脫既不必要，也不正確。
+請注意，當資料值以 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 或其同類常式中的獨立參數傳遞時，進行跳脫既不必要，也不正確。
+
 <a id="LIBPQ-PQESCAPEIDENTIFIER"></a>
 
 `PQescapeIdentifier`<a id="id-1.7.3.10.6.3.2.1.2"></a> [#](#LIBPQ-PQESCAPEIDENTIFIER)
-:   ```
+
+```
 
     char *PQescapeIdentifier(PGconn *conn, const char *str, size_t length);
-    ```
+```
 
-    [`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 會跳脫字串，以便作為 SQL 識別字使用，例如資料表、欄位或函式名稱。當使用者提供的識別字可能含有特殊字元，而這些字元原本不會被 SQL 剖析器解讀為識別字的一部分時，或是當識別字可能含有應保留大小寫的大寫字元時，這很有用。
+[`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 會跳脫字串，以便作為 SQL 識別字使用，例如資料表、欄位或函式名稱。當使用者提供的識別字可能含有特殊字元，而這些字元原本不會被 SQL 剖析器解讀為識別字的一部分時，或是當識別字可能含有應保留大小寫的大寫字元時，這很有用。
 
-    [`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 在以 `malloc()` 配置的記憶體中，傳回 *`str`* 參數跳脫為 SQL 識別字後的版本。不再需要該結果時，必須使用 `PQfreemem()` 釋放這塊記憶體。結尾的零位元組不是必要的，也不應計入 *`length`*。（若在處理完 *`length`* 個位元組之前就遇到結尾的零位元組，[`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 會在該零位元組處停止；因此其行為與 `strncpy` 相當類似。）傳回的字串中所有特殊字元都已被替換，因此能被正確地當作 SQL 識別字處理。結尾也會加上零位元組。傳回的字串兩側也會加上雙引號。
+[`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 在以 `malloc()` 配置的記憶體中，傳回 *`str`* 參數跳脫為 SQL 識別字後的版本。不再需要該結果時，必須使用 `PQfreemem()` 釋放這塊記憶體。結尾的零位元組不是必要的，也不應計入 *`length`*。（若在處理完 *`length`* 個位元組之前就遇到結尾的零位元組，[`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 會在該零位元組處停止；因此其行為與 `strncpy` 相當類似。）傳回的字串中所有特殊字元都已被替換，因此能被正確地當作 SQL 識別字處理。結尾也會加上零位元組。傳回的字串兩側也會加上雙引號。
 
-    發生錯誤時，[`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 會傳回 `NULL`，並在 *`conn`* 物件中存入適當的訊息。
+發生錯誤時，[`PQescapeIdentifier`](libpq-exec.md#LIBPQ-PQESCAPEIDENTIFIER) 會傳回 `NULL`，並在 *`conn`* 物件中存入適當的訊息。
 
-    ### 提示
+### 提示
 
-    與字串字面值相同，為了防止 SQL 注入攻擊，從不可信來源收到的 SQL 識別字必須加以跳脫。
+與字串字面值相同，為了防止 SQL 注入攻擊，從不可信來源收到的 SQL 識別字必須加以跳脫。
+
 <a id="LIBPQ-PQESCAPESTRINGCONN"></a>
 
 `PQescapeStringConn`<a id="id-1.7.3.10.6.3.3.1.2"></a> [#](#LIBPQ-PQESCAPESTRINGCONN)
-:   ```
+
+```
 
     size_t PQescapeStringConn(PGconn *conn,
                               char *to, const char *from, size_t length,
                               int *error);
-    ```
+```
 
-    [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 會跳脫字串字面值，與 [`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 非常類似。與 [`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 不同的是，呼叫者必須負責提供大小適當的緩衝區。此外，[`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 不會產生 PostgreSQL 字串字面值兩側必須加上的單引號；這些單引號應該由要插入該結果的 SQL 命令提供。參數 *`from`* 指向要跳脫之字串的第一個字元，而參數 *`length`* 則給出此字串的位元組數。結尾的零位元組不是必要的，也不應計入 *`length`*。（若在處理完 *`length`* 個位元組之前就遇到結尾的零位元組，[`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 會在該零位元組處停止；因此其行為與 `strncpy` 相當類似。）*`to`* 必須指向一個至少能容納比 *`length`* 值的兩倍再多一個位元組的緩衝區，否則行為未定義。若 *`to`* 與 *`from`* 字串互相重疊，行為同樣未定義。
+[`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 會跳脫字串字面值，與 [`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 非常類似。與 [`PQescapeLiteral`](libpq-exec.md#LIBPQ-PQESCAPELITERAL) 不同的是，呼叫者必須負責提供大小適當的緩衝區。此外，[`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 不會產生 PostgreSQL 字串字面值兩側必須加上的單引號；這些單引號應該由要插入該結果的 SQL 命令提供。參數 *`from`* 指向要跳脫之字串的第一個字元，而參數 *`length`* 則給出此字串的位元組數。結尾的零位元組不是必要的，也不應計入 *`length`*。（若在處理完 *`length`* 個位元組之前就遇到結尾的零位元組，[`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 會在該零位元組處停止；因此其行為與 `strncpy` 相當類似。）*`to`* 必須指向一個至少能容納比 *`length`* 值的兩倍再多一個位元組的緩衝區，否則行為未定義。若 *`to`* 與 *`from`* 字串互相重疊，行為同樣未定義。
 
-    若 *`error`* 參數不是 `NULL`，則成功時 `*error` 會設為零，發生錯誤時設為非零。目前唯一可能的錯誤狀況是來源字串中有無效的多位元組編碼。發生錯誤時仍會產生輸出字串，但可以預期伺服器會因格式錯誤而拒絕它。發生錯誤時，無論 *`error`* 是否為 `NULL`，都會在 *`conn`* 物件中存入適當的訊息。
+若 *`error`* 參數不是 `NULL`，則成功時 `*error` 會設為零，發生錯誤時設為非零。目前唯一可能的錯誤狀況是來源字串中有無效的多位元組編碼。發生錯誤時仍會產生輸出字串，但可以預期伺服器會因格式錯誤而拒絕它。發生錯誤時，無論 *`error`* 是否為 `NULL`，都會在 *`conn`* 物件中存入適當的訊息。
 
-    [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 傳回寫入 *`to`* 的位元組數，不包括結尾的零位元組。
+[`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 傳回寫入 *`to`* 的位元組數，不包括結尾的零位元組。
+
 <a id="LIBPQ-PQESCAPESTRING"></a>
 
 `PQescapeString`<a id="id-1.7.3.10.6.3.4.1.2"></a> [#](#LIBPQ-PQESCAPESTRING)

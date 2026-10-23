@@ -746,30 +746,36 @@ EXEC SQL INCLUDE sqlda.h;
 <a id="ECPG-INFORMIX-FUNCTIONS-RTYPALIGN"></a>
 
 `rtypalign` [#](#ECPG-INFORMIX-FUNCTIONS-RTYPALIGN)
-:   ```
+
+```
 
     int rtypalign(int offset, int type);
-    ```
+```
 
-    此函式雖然存在，但目前尚未實作！
+此函式雖然存在，但目前尚未實作！
+
 <a id="ECPG-INFORMIX-FUNCTIONS-RTYPMSIZE"></a>
 
 `rtypmsize` [#](#ECPG-INFORMIX-FUNCTIONS-RTYPMSIZE)
-:   ```
+
+```
 
     int rtypmsize(int type, int len);
-    ```
+```
 
-    此函式雖然存在，但目前尚未實作！
+此函式雖然存在，但目前尚未實作！
+
 <a id="ECPG-INFORMIX-FUNCTIONS-RTYPWIDTH"></a>
 
 `rtypwidth` [#](#ECPG-INFORMIX-FUNCTIONS-RTYPWIDTH)
-:   ```
+
+```
 
     int rtypwidth(int sqltype, int sqllen);
-    ```
+```
 
-    此函式雖然存在，但目前尚未實作！
+此函式雖然存在，但目前尚未實作！
+
 <a id="RSETNULL"></a>
 
 `rsetnull` [#](#RSETNULL)
