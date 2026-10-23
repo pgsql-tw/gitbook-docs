@@ -105,31 +105,33 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 <a id="LIBPQ-PQPREPARE"></a>
 
 `PQprepare`<a id="id-1.7.3.10.3.7.1.1.1.2"></a> [#](#LIBPQ-PQPREPARE)
-:   送出以給定參數建立預備陳述式的請求，並等待其完成。
 
-    ```
+送出以給定參數建立預備陳述式的請求，並等待其完成。
+
+```
 
     PGresult *PQprepare(PGconn *conn,
                         const char *stmtName,
                         const char *query,
                         int nParams,
                         const Oid *paramTypes);
-    ```
+```
 
-    [`PQprepare`](libpq-exec.md#LIBPQ-PQPREPARE) 會建立一個預備陳述式，供稍後以 [`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 執行。此功能讓命令可以重複執行，而不必每次都經過剖析與規劃；詳情請參閱 [PREPARE](../../reference/sql-commands/sql-prepare.md)。
+[`PQprepare`](libpq-exec.md#LIBPQ-PQPREPARE) 會建立一個預備陳述式，供稍後以 [`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 執行。此功能讓命令可以重複執行，而不必每次都經過剖析與規劃；詳情請參閱 [PREPARE](../../reference/sql-commands/sql-prepare.md)。
 
-    此函式會從 *`query`* 字串建立名為 *`stmtName`* 的預備陳述式，該字串必須只包含單一 SQL 命令。*`stmtName`* 可以是 `""`，以建立未命名陳述式，此時任何既有的未命名陳述式都會被自動取代；否則，若該陳述式名稱已在目前工作階段中定義，就會發生錯誤。若使用任何參數，在查詢中以 `$1`、`$2` 等方式參照它們。*`nParams`* 是在陣列 *`paramTypes[]`* 中預先指定型別的參數個數。（當 *`nParams`* 為零時，此陣列指標可以是 `NULL`。）*`paramTypes[]`* 以 OID 指定要指派給各參數符號的資料型別。若 *`paramTypes`* 為 `NULL`，或陣列中的某個元素為零，伺服器會以處理無型別字面字串的相同方式，為該參數符號指派資料型別。此外，查詢中也可以使用編號大於 *`nParams`* 的參數符號；這些符號的資料型別同樣會被推斷出來。（要查出推斷出的資料型別，請參閱 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED)。）
+此函式會從 *`query`* 字串建立名為 *`stmtName`* 的預備陳述式，該字串必須只包含單一 SQL 命令。*`stmtName`* 可以是 `""`，以建立未命名陳述式，此時任何既有的未命名陳述式都會被自動取代；否則，若該陳述式名稱已在目前工作階段中定義，就會發生錯誤。若使用任何參數，在查詢中以 `$1`、`$2` 等方式參照它們。*`nParams`* 是在陣列 *`paramTypes[]`* 中預先指定型別的參數個數。（當 *`nParams`* 為零時，此陣列指標可以是 `NULL`。）*`paramTypes[]`* 以 OID 指定要指派給各參數符號的資料型別。若 *`paramTypes`* 為 `NULL`，或陣列中的某個元素為零，伺服器會以處理無型別字面字串的相同方式，為該參數符號指派資料型別。此外，查詢中也可以使用編號大於 *`nParams`* 的參數符號；這些符號的資料型別同樣會被推斷出來。（要查出推斷出的資料型別，請參閱 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED)。）
 
-    與 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 相同，結果通常是一個 `PGresult` 物件，其內容表示伺服器端的成功或失敗。空結果表示記憶體不足，或完全無法傳送命令。請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得這類錯誤的更多資訊。
+與 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 相同，結果通常是一個 `PGresult` 物件，其內容表示伺服器端的成功或失敗。空結果表示記憶體不足，或完全無法傳送命令。請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得這類錯誤的更多資訊。
 
 供 [`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 使用的預備陳述式，也可以透過執行 SQL [PREPARE](../../reference/sql-commands/sql-prepare.md) 陳述式來建立。
 
 <a id="LIBPQ-PQEXECPREPARED"></a>
 
 `PQexecPrepared`<a id="id-1.7.3.10.3.8.1.1.1.2"></a> [#](#LIBPQ-PQEXECPREPARED)
-:   送出以給定參數執行預備陳述式的請求，並等待結果。
 
-    ```
+送出以給定參數執行預備陳述式的請求，並等待結果。
+
+```
 
     PGresult *PQexecPrepared(PGconn *conn,
                              const char *stmtName,
@@ -138,282 +140,301 @@ SELECT * FROM mytable WHERE x = $1::bigint;
                              const int *paramLengths,
                              const int *paramFormats,
                              int resultFormat);
-    ```
+```
 
-    [`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 與 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 類似，但要執行的命令是以指名先前已準備好的陳述式來指定，而不是給定查詢字串。此功能讓要重複使用的命令只需剖析與規劃一次，而不必在每次執行時都進行。該陳述式必須已在目前工作階段中事先準備好。
+[`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 與 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 類似，但要執行的命令是以指名先前已準備好的陳述式來指定，而不是給定查詢字串。此功能讓要重複使用的命令只需剖析與規劃一次，而不必在每次執行時都進行。該陳述式必須已在目前工作階段中事先準備好。
 
-    參數與 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 相同，差別在於給定的是預備陳述式的名稱而不是查詢字串，而且沒有 *`paramTypes[]`* 參數（不需要它，因為預備陳述式的參數型別在建立時就已決定）。
+參數與 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 相同，差別在於給定的是預備陳述式的名稱而不是查詢字串，而且沒有 *`paramTypes[]`* 參數（不需要它，因為預備陳述式的參數型別在建立時就已決定）。
+
 <a id="LIBPQ-PQDESCRIBEPREPARED"></a>
 
 `PQdescribePrepared`<a id="id-1.7.3.10.3.8.1.2.1.2"></a> [#](#LIBPQ-PQDESCRIBEPREPARED)
-:   送出取得指定預備陳述式相關資訊的請求，並等待其完成。
 
-    ```
+送出取得指定預備陳述式相關資訊的請求，並等待其完成。
+
+```
 
     PGresult *PQdescribePrepared(PGconn *conn, const char *stmtName);
-    ```
+```
 
-    [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 讓應用程式取得先前預備陳述式的相關資訊。
+[`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 讓應用程式取得先前預備陳述式的相關資訊。
 
-    *`stmtName`* 可以是 `""` 或 `NULL`，以參照未命名陳述式，否則必須是既有預備陳述式的名稱。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。可以對此 `PGresult` 套用函式 [`PQnparams`](libpq-exec.md#LIBPQ-PQNPARAMS) 與 [`PQparamtype`](libpq-exec.md#LIBPQ-PQPARAMTYPE) 來取得預備陳述式參數的相關資訊，而函式 [`PQnfields`](libpq-exec.md#LIBPQ-PQNFIELDS)、[`PQfname`](libpq-exec.md#LIBPQ-PQFNAME)、[`PQftype`](libpq-exec.md#LIBPQ-PQFTYPE) 等則提供該陳述式結果欄位（若有的話）的相關資訊。
+*`stmtName`* 可以是 `""` 或 `NULL`，以參照未命名陳述式，否則必須是既有預備陳述式的名稱。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。可以對此 `PGresult` 套用函式 [`PQnparams`](libpq-exec.md#LIBPQ-PQNPARAMS) 與 [`PQparamtype`](libpq-exec.md#LIBPQ-PQPARAMTYPE) 來取得預備陳述式參數的相關資訊，而函式 [`PQnfields`](libpq-exec.md#LIBPQ-PQNFIELDS)、[`PQfname`](libpq-exec.md#LIBPQ-PQFNAME)、[`PQftype`](libpq-exec.md#LIBPQ-PQFTYPE) 等則提供該陳述式結果欄位（若有的話）的相關資訊。
+
 <a id="LIBPQ-PQDESCRIBEPORTAL"></a>
 
 `PQdescribePortal`<a id="id-1.7.3.10.3.8.1.3.1.2"></a> [#](#LIBPQ-PQDESCRIBEPORTAL)
-:   送出取得指定 portal 相關資訊的請求，並等待其完成。
 
-    ```
+送出取得指定 portal 相關資訊的請求，並等待其完成。
+
+```
 
     PGresult *PQdescribePortal(PGconn *conn, const char *portalName);
-    ```
+```
 
-    [`PQdescribePortal`](libpq-exec.md#LIBPQ-PQDESCRIBEPORTAL) 讓應用程式取得先前建立的 portal 的相關資訊。（libpq 並未提供任何直接存取 portal 的方式，但你可以使用此函式檢視以 `DECLARE CURSOR` SQL 命令建立的游標的屬性。）
+[`PQdescribePortal`](libpq-exec.md#LIBPQ-PQDESCRIBEPORTAL) 讓應用程式取得先前建立的 portal 的相關資訊。（libpq 並未提供任何直接存取 portal 的方式，但你可以使用此函式檢視以 `DECLARE CURSOR` SQL 命令建立的游標的屬性。）
 
-    *`portalName`* 可以是 `""` 或 `NULL`，以參照未命名 portal，否則必須是既有 portal 的名稱。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。可以對此 `PGresult` 套用函式 [`PQnfields`](libpq-exec.md#LIBPQ-PQNFIELDS)、[`PQfname`](libpq-exec.md#LIBPQ-PQFNAME)、[`PQftype`](libpq-exec.md#LIBPQ-PQFTYPE) 等，以取得該 portal 結果欄位（若有的話）的相關資訊。
+*`portalName`* 可以是 `""` 或 `NULL`，以參照未命名 portal，否則必須是既有 portal 的名稱。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。可以對此 `PGresult` 套用函式 [`PQnfields`](libpq-exec.md#LIBPQ-PQNFIELDS)、[`PQfname`](libpq-exec.md#LIBPQ-PQFNAME)、[`PQftype`](libpq-exec.md#LIBPQ-PQFTYPE) 等，以取得該 portal 結果欄位（若有的話）的相關資訊。
+
 <a id="LIBPQ-PQCLOSEPREPARED"></a>
 
 `PQclosePrepared`<a id="id-1.7.3.10.3.8.1.4.1.2"></a> [#](#LIBPQ-PQCLOSEPREPARED)
-:   送出關閉指定預備陳述式的請求，並等待其完成。
 
-    ```
+送出關閉指定預備陳述式的請求，並等待其完成。
+
+```
 
     PGresult *PQclosePrepared(PGconn *conn, const char *stmtName);
-    ```
+```
 
-    [`PQclosePrepared`](libpq-exec.md#LIBPQ-PQCLOSEPREPARED) 讓應用程式關閉先前預備的陳述式。關閉陳述式會釋放它在伺服器上的所有相關資源，並讓它的名稱可以再次使用。
+[`PQclosePrepared`](libpq-exec.md#LIBPQ-PQCLOSEPREPARED) 讓應用程式關閉先前預備的陳述式。關閉陳述式會釋放它在伺服器上的所有相關資源，並讓它的名稱可以再次使用。
 
-    *`stmtName`* 可以是 `""` 或 `NULL`，以參照未命名陳述式。即使不存在此名稱的陳述式也沒有關係，此時該操作不做任何事。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。
+*`stmtName`* 可以是 `""` 或 `NULL`，以參照未命名陳述式。即使不存在此名稱的陳述式也沒有關係，此時該操作不做任何事。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。
+
 <a id="LIBPQ-PQCLOSEPORTAL"></a>
 
 `PQclosePortal`<a id="id-1.7.3.10.3.8.1.5.1.2"></a> [#](#LIBPQ-PQCLOSEPORTAL)
-:   送出關閉指定 portal 的請求，並等待其完成。
 
-    ```
+送出關閉指定 portal 的請求，並等待其完成。
+
+```
 
     PGresult *PQclosePortal(PGconn *conn, const char *portalName);
-    ```
+```
 
-    [`PQclosePortal`](libpq-exec.md#LIBPQ-PQCLOSEPORTAL) 讓應用程式觸發關閉先前建立的 portal。關閉 portal 會釋放它在伺服器上的所有相關資源，並讓它的名稱可以再次使用。（libpq 並未提供任何直接存取 portal 的方式，但你可以使用此函式關閉以 `DECLARE CURSOR` SQL 命令建立的游標。）
+[`PQclosePortal`](libpq-exec.md#LIBPQ-PQCLOSEPORTAL) 讓應用程式觸發關閉先前建立的 portal。關閉 portal 會釋放它在伺服器上的所有相關資源，並讓它的名稱可以再次使用。（libpq 並未提供任何直接存取 portal 的方式，但你可以使用此函式關閉以 `DECLARE CURSOR` SQL 命令建立的游標。）
 
-    *`portalName`* 可以是 `""` 或 `NULL`，以參照未命名 portal。即使不存在此名稱的 portal 也沒有關係，此時該操作不做任何事。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。
+*`portalName`* 可以是 `""` 或 `NULL`，以參照未命名 portal。即使不存在此名稱的 portal 也沒有關係，此時該操作不做任何事。成功時會傳回狀態為 `PGRES_COMMAND_OK` 的 `PGresult`。
 
 `PGresult`<a id="id-1.7.3.10.3.9.2"></a> 結構封裝了伺服器傳回的結果。libpq 應用程式的程式設計者應該小心維持 `PGresult` 的抽象性。請使用下列存取函式來取得 `PGresult` 的內容。避免直接參照 `PGresult` 結構的欄位，因為這些欄位未來可能會變更。
 
 <a id="LIBPQ-PQRESULTSTATUS"></a>
 
 `PQresultStatus`<a id="id-1.7.3.10.3.9.7.1.1.2"></a> [#](#LIBPQ-PQRESULTSTATUS)
-:   傳回命令的結果狀態。
 
-    ```
+傳回命令的結果狀態。
+
+```
 
     ExecStatusType PQresultStatus(const PGresult *res);
-    ```
+```
 
-    [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 可能傳回下列其中一個值：
+[`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 可能傳回下列其中一個值：
 
-    <a id="LIBPQ-PGRES-EMPTY-QUERY"></a>
+- <a id="LIBPQ-PGRES-EMPTY-QUERY"></a>`PGRES_EMPTY_QUERY` [#](#LIBPQ-PGRES-EMPTY-QUERY)
 
-    `PGRES_EMPTY_QUERY` [#](#LIBPQ-PGRES-EMPTY-QUERY)
-    :   送到伺服器的字串是空的。
-    <a id="LIBPQ-PGRES-COMMAND-OK"></a>
+  送到伺服器的字串是空的。
 
-    `PGRES_COMMAND_OK` [#](#LIBPQ-PGRES-COMMAND-OK)
-    :   不傳回資料的命令已成功完成。
-    <a id="LIBPQ-PGRES-TUPLES-OK"></a>
+- <a id="LIBPQ-PGRES-COMMAND-OK"></a>`PGRES_COMMAND_OK` [#](#LIBPQ-PGRES-COMMAND-OK)
 
-    `PGRES_TUPLES_OK` [#](#LIBPQ-PGRES-TUPLES-OK)
-    :   傳回資料的命令（例如 `SELECT` 或 `SHOW`）已成功完成。
-    <a id="LIBPQ-PGRES-COPY-OUT"></a>
+  不傳回資料的命令已成功完成。
 
-    `PGRES_COPY_OUT` [#](#LIBPQ-PGRES-COPY-OUT)
-    :   已開始 Copy Out（自伺服器）資料傳輸。
-    <a id="LIBPQ-PGRES-COPY-IN"></a>
+- <a id="LIBPQ-PGRES-TUPLES-OK"></a>`PGRES_TUPLES_OK` [#](#LIBPQ-PGRES-TUPLES-OK)
 
-    `PGRES_COPY_IN` [#](#LIBPQ-PGRES-COPY-IN)
-    :   已開始 Copy In（往伺服器）資料傳輸。
-    <a id="LIBPQ-PGRES-BAD-RESPONSE"></a>
+  傳回資料的命令（例如 `SELECT` 或 `SHOW`）已成功完成。
 
-    `PGRES_BAD_RESPONSE` [#](#LIBPQ-PGRES-BAD-RESPONSE)
-    :   無法理解伺服器的回應。
-    <a id="LIBPQ-PGRES-NONFATAL-ERROR"></a>
+- <a id="LIBPQ-PGRES-COPY-OUT"></a>`PGRES_COPY_OUT` [#](#LIBPQ-PGRES-COPY-OUT)
 
-    `PGRES_NONFATAL_ERROR` [#](#LIBPQ-PGRES-NONFATAL-ERROR)
-    :   發生非致命錯誤（通知訊息或警告）。
-    <a id="LIBPQ-PGRES-FATAL-ERROR"></a>
+  已開始 Copy Out（自伺服器）資料傳輸。
 
-    `PGRES_FATAL_ERROR` [#](#LIBPQ-PGRES-FATAL-ERROR)
-    :   發生致命錯誤。
-    <a id="LIBPQ-PGRES-COPY-BOTH"></a>
+- <a id="LIBPQ-PGRES-COPY-IN"></a>`PGRES_COPY_IN` [#](#LIBPQ-PGRES-COPY-IN)
 
-    `PGRES_COPY_BOTH` [#](#LIBPQ-PGRES-COPY-BOTH)
-    :   已開始 Copy In/Out（往返伺服器）資料傳輸。此功能目前只用於串流複寫，因此一般應用程式中應該不會出現此狀態。
-    <a id="LIBPQ-PGRES-SINGLE-TUPLE"></a>
+  已開始 Copy In（往伺服器）資料傳輸。
 
-    `PGRES_SINGLE_TUPLE` [#](#LIBPQ-PGRES-SINGLE-TUPLE)
-    :   `PGresult` 包含目前命令的單一個結果元組。只有在為該查詢選擇了單列模式時，才會出現此狀態（請參閱[第 32.6 節](libpq-single-row-mode.md)）。
-    <a id="LIBPQ-PGRES-TUPLES-CHUNK"></a>
+- <a id="LIBPQ-PGRES-BAD-RESPONSE"></a>`PGRES_BAD_RESPONSE` [#](#LIBPQ-PGRES-BAD-RESPONSE)
 
-    `PGRES_TUPLES_CHUNK` [#](#LIBPQ-PGRES-TUPLES-CHUNK)
-    :   `PGresult` 包含目前命令的數個結果元組。只有在為該查詢選擇了分塊模式時，才會出現此狀態（請參閱[第 32.6 節](libpq-single-row-mode.md)）。元組數不會超過傳給 [`PQsetChunkedRowsMode`](libpq-single-row-mode.md#LIBPQ-PQSETCHUNKEDROWSMODE) 的上限。
-    <a id="LIBPQ-PGRES-PIPELINE-SYNC"></a>
+  無法理解伺服器的回應。
 
-    `PGRES_PIPELINE_SYNC` [#](#LIBPQ-PGRES-PIPELINE-SYNC)
-    :   `PGresult` 代表管線模式中的一個同步點，由 [`PQpipelineSync`](libpq-pipeline-mode.md#LIBPQ-PQPIPELINESYNC) 或 [`PQsendPipelineSync`](libpq-pipeline-mode.md#LIBPQ-PQSENDPIPELINESYNC) 所要求。只有在選擇了管線模式時，才會出現此狀態。
-    <a id="LIBPQ-PGRES-PIPELINE-ABORTED"></a>
+- <a id="LIBPQ-PGRES-NONFATAL-ERROR"></a>`PGRES_NONFATAL_ERROR` [#](#LIBPQ-PGRES-NONFATAL-ERROR)
 
-    `PGRES_PIPELINE_ABORTED` [#](#LIBPQ-PGRES-PIPELINE-ABORTED)
-    :   `PGresult` 代表一個已從伺服器收到錯誤的管線。必須重複呼叫 `PQgetResult`，每次呼叫都會傳回此狀態碼，直到目前管線結束為止，屆時它會傳回 `PGRES_PIPELINE_SYNC`，並可恢復正常處理。
+  發生非致命錯誤（通知訊息或警告）。
 
-    若結果狀態為 `PGRES_TUPLES_OK`、`PGRES_SINGLE_TUPLE` 或 `PGRES_TUPLES_CHUNK`，就可以使用下面所述的函式取得查詢傳回的資料列。請注意，剛好取得零筆資料列的 `SELECT` 命令仍然會顯示 `PGRES_TUPLES_OK`。`PGRES_COMMAND_OK` 用於永遠不可能傳回資料列的命令（不含 `RETURNING` 子句的 `INSERT` 或 `UPDATE` 等）。回應 `PGRES_EMPTY_QUERY` 可能表示用戶端軟體有錯誤。
+- <a id="LIBPQ-PGRES-FATAL-ERROR"></a>`PGRES_FATAL_ERROR` [#](#LIBPQ-PGRES-FATAL-ERROR)
 
-    狀態為 `PGRES_NONFATAL_ERROR` 的結果永遠不會由 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或其他查詢執行函式直接傳回；這類結果會改為傳遞給通知訊息處理函式（請參閱[第 32.13 節](libpq-notice-processing.md)）。
+  發生致命錯誤。
+
+- <a id="LIBPQ-PGRES-COPY-BOTH"></a>`PGRES_COPY_BOTH` [#](#LIBPQ-PGRES-COPY-BOTH)
+
+  已開始 Copy In/Out（往返伺服器）資料傳輸。此功能目前只用於串流複寫，因此一般應用程式中應該不會出現此狀態。
+
+- <a id="LIBPQ-PGRES-SINGLE-TUPLE"></a>`PGRES_SINGLE_TUPLE` [#](#LIBPQ-PGRES-SINGLE-TUPLE)
+
+  `PGresult` 包含目前命令的單一個結果元組。只有在為該查詢選擇了單列模式時，才會出現此狀態（請參閱[第 32.6 節](libpq-single-row-mode.md)）。
+
+- <a id="LIBPQ-PGRES-TUPLES-CHUNK"></a>`PGRES_TUPLES_CHUNK` [#](#LIBPQ-PGRES-TUPLES-CHUNK)
+
+  `PGresult` 包含目前命令的數個結果元組。只有在為該查詢選擇了分塊模式時，才會出現此狀態（請參閱[第 32.6 節](libpq-single-row-mode.md)）。元組數不會超過傳給 [`PQsetChunkedRowsMode`](libpq-single-row-mode.md#LIBPQ-PQSETCHUNKEDROWSMODE) 的上限。
+
+- <a id="LIBPQ-PGRES-PIPELINE-SYNC"></a>`PGRES_PIPELINE_SYNC` [#](#LIBPQ-PGRES-PIPELINE-SYNC)
+
+  `PGresult` 代表管線模式中的一個同步點，由 [`PQpipelineSync`](libpq-pipeline-mode.md#LIBPQ-PQPIPELINESYNC) 或 [`PQsendPipelineSync`](libpq-pipeline-mode.md#LIBPQ-PQSENDPIPELINESYNC) 所要求。只有在選擇了管線模式時，才會出現此狀態。
+
+- <a id="LIBPQ-PGRES-PIPELINE-ABORTED"></a>`PGRES_PIPELINE_ABORTED` [#](#LIBPQ-PGRES-PIPELINE-ABORTED)
+
+  `PGresult` 代表一個已從伺服器收到錯誤的管線。必須重複呼叫 `PQgetResult`，每次呼叫都會傳回此狀態碼，直到目前管線結束為止，屆時它會傳回 `PGRES_PIPELINE_SYNC`，並可恢復正常處理。
+
+
+若結果狀態為 `PGRES_TUPLES_OK`、`PGRES_SINGLE_TUPLE` 或 `PGRES_TUPLES_CHUNK`，就可以使用下面所述的函式取得查詢傳回的資料列。請注意，剛好取得零筆資料列的 `SELECT` 命令仍然會顯示 `PGRES_TUPLES_OK`。`PGRES_COMMAND_OK` 用於永遠不可能傳回資料列的命令（不含 `RETURNING` 子句的 `INSERT` 或 `UPDATE` 等）。回應 `PGRES_EMPTY_QUERY` 可能表示用戶端軟體有錯誤。
+
+狀態為 `PGRES_NONFATAL_ERROR` 的結果永遠不會由 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或其他查詢執行函式直接傳回；這類結果會改為傳遞給通知訊息處理函式（請參閱[第 32.13 節](libpq-notice-processing.md)）。
+
 <a id="LIBPQ-PQRESSTATUS"></a>
 
 `PQresStatus`<a id="id-1.7.3.10.3.9.7.2.1.2"></a> [#](#LIBPQ-PQRESSTATUS)
-:   將 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 傳回的列舉型別轉換為描述該狀態碼的字串常數。呼叫者不應釋放此結果。
 
-    ```
+將 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 傳回的列舉型別轉換為描述該狀態碼的字串常數。呼叫者不應釋放此結果。
+
+```
 
     char *PQresStatus(ExecStatusType status);
-    ```
+```
+
 <a id="LIBPQ-PQRESULTERRORMESSAGE"></a>
 
 `PQresultErrorMessage`<a id="id-1.7.3.10.3.9.7.3.1.2"></a> [#](#LIBPQ-PQRESULTERRORMESSAGE)
-:   傳回與該命令相關的錯誤訊息；若沒有錯誤，則傳回空字串。
 
-    ```
+傳回與該命令相關的錯誤訊息；若沒有錯誤，則傳回空字串。
+
+```
 
     char *PQresultErrorMessage(const PGresult *res);
-    ```
+```
 
-    若發生錯誤，傳回的字串會以換行字元結尾。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+若發生錯誤，傳回的字串會以換行字元結尾。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
 
-    緊接在 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 呼叫之後，[`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)（針對連線）會傳回與 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)（針對結果）相同的字串。不過，`PGresult` 會保留它的錯誤訊息直到被銷毀為止，而連線的錯誤訊息則會在進行後續操作時改變。當你想知道與特定 `PGresult` 相關的狀態時，請使用 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)；當你想知道連線上最近一次操作的狀態時，請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)。
+緊接在 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 呼叫之後，[`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)（針對連線）會傳回與 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)（針對結果）相同的字串。不過，`PGresult` 會保留它的錯誤訊息直到被銷毀為止，而連線的錯誤訊息則會在進行後續操作時改變。當你想知道與特定 `PGresult` 相關的狀態時，請使用 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)；當你想知道連線上最近一次操作的狀態時，請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)。
+
 <a id="LIBPQ-PQRESULTVERBOSEERRORMESSAGE"></a>
 
 `PQresultVerboseErrorMessage`<a id="id-1.7.3.10.3.9.7.4.1.2"></a> [#](#LIBPQ-PQRESULTVERBOSEERRORMESSAGE)
-:   傳回與 `PGresult` 物件相關之錯誤訊息的重新格式化版本。
 
-    ```
+傳回與 `PGresult` 物件相關之錯誤訊息的重新格式化版本。
+
+```
 
     char *PQresultVerboseErrorMessage(const PGresult *res,
                                       PGVerbosity verbosity,
                                       PGContextVisibility show_context);
-    ```
+```
 
-    在某些情況下，用戶端可能希望取得先前已回報之錯誤的更詳細版本。[`PQresultVerboseErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTVERBOSEERRORMESSAGE) 滿足了這個需求：它會計算出若在產生給定的 `PGresult` 時，連線已採用指定的詳細程度設定，[`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE) 原本會產生的訊息。若 `PGresult` 不是錯誤結果，則改為回報「PGresult is not an error result」。傳回的字串會以換行字元結尾。
+在某些情況下，用戶端可能希望取得先前已回報之錯誤的更詳細版本。[`PQresultVerboseErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTVERBOSEERRORMESSAGE) 滿足了這個需求：它會計算出若在產生給定的 `PGresult` 時，連線已採用指定的詳細程度設定，[`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE) 原本會產生的訊息。若 `PGresult` 不是錯誤結果，則改為回報「PGresult is not an error result」。傳回的字串會以換行字元結尾。
 
-    與大多數其他從 `PGresult` 擷取資料的函式不同，此函式的結果是新配置的字串。不再需要該字串時，呼叫者必須使用 `PQfreemem()` 將它釋放。
+與大多數其他從 `PGresult` 擷取資料的函式不同，此函式的結果是新配置的字串。不再需要該字串時，呼叫者必須使用 `PQfreemem()` 將它釋放。
 
-    記憶體不足時，可能傳回 NULL。
+記憶體不足時，可能傳回 NULL。
+
 <a id="LIBPQ-PQRESULTERRORFIELD"></a>
 
 `PQresultErrorField`<a id="id-1.7.3.10.3.9.7.5.1.2"></a> [#](#LIBPQ-PQRESULTERRORFIELD)
-:   傳回錯誤報告中的單一欄位。
 
-    ```
+傳回錯誤報告中的單一欄位。
+
+```
 
     char *PQresultErrorField(const PGresult *res, int fieldcode);
-    ```
+```
 
-    *`fieldcode`* 是錯誤欄位識別碼；請參閱下列符號。若 `PGresult` 不是錯誤或警告結果，或不包含指定的欄位，則傳回 `NULL`。欄位值通常不會以換行字元結尾。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+*`fieldcode`* 是錯誤欄位識別碼；請參閱下列符號。若 `PGresult` 不是錯誤或警告結果，或不包含指定的欄位，則傳回 `NULL`。欄位值通常不會以換行字元結尾。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
 
-    可用的欄位代碼如下：
+可用的欄位代碼如下：
 
-    <a id="LIBPQ-PG-DIAG-SEVERITY"></a>
+- <a id="LIBPQ-PG-DIAG-SEVERITY"></a>`PG_DIAG_SEVERITY` [#](#LIBPQ-PG-DIAG-SEVERITY)
 
-    `PG_DIAG_SEVERITY` [#](#LIBPQ-PG-DIAG-SEVERITY)
-    :   嚴重程度；欄位內容為 `ERROR`、`FATAL` 或 `PANIC`（在錯誤訊息中），或 `WARNING`、`NOTICE`、`DEBUG`、`INFO` 或 `LOG`（在通知訊息中），或是其中之一的在地化翻譯。一律存在。
-    <a id="LIBPQ-PG-DIAG-SEVERITY-NONLOCALIZED"></a>
+  嚴重程度；欄位內容為 `ERROR`、`FATAL` 或 `PANIC`（在錯誤訊息中），或 `WARNING`、`NOTICE`、`DEBUG`、`INFO` 或 `LOG`（在通知訊息中），或是其中之一的在地化翻譯。一律存在。
 
-    `PG_DIAG_SEVERITY_NONLOCALIZED` [#](#LIBPQ-PG-DIAG-SEVERITY-NONLOCALIZED)
-    :   嚴重程度；欄位內容為 `ERROR`、`FATAL` 或 `PANIC`（在錯誤訊息中），或 `WARNING`、`NOTICE`、`DEBUG`、`INFO` 或 `LOG`（在通知訊息中）。它與 `PG_DIAG_SEVERITY` 欄位相同，差別在於其內容永遠不會在地化。只有 PostgreSQL 9.6 及更新版本產生的報告中才會有此欄位。
-    <a id="LIBPQ-PG-DIAG-SQLSTATE"></a>
+- <a id="LIBPQ-PG-DIAG-SEVERITY-NONLOCALIZED"></a>`PG_DIAG_SEVERITY_NONLOCALIZED` [#](#LIBPQ-PG-DIAG-SEVERITY-NONLOCALIZED)
 
-    `PG_DIAG_SQLSTATE`<a id="id-1.7.3.10.3.9.7.5.2.2.1.3.1.2"></a> [#](#LIBPQ-PG-DIAG-SQLSTATE)
-    :   錯誤的 SQLSTATE 代碼。SQLSTATE 代碼用來識別所發生錯誤的類型；前端應用程式可以用它來針對特定資料庫錯誤執行特定的操作（例如錯誤處理）。可能的 SQLSTATE 代碼清單請參閱[附錄 A](../../appendixes/errcodes-appendix/README.md)。此欄位無法在地化，而且一律存在。
-    <a id="LIBPQ-PG-DIAG-MESSAGE-PRIMARY"></a>
+  嚴重程度；欄位內容為 `ERROR`、`FATAL` 或 `PANIC`（在錯誤訊息中），或 `WARNING`、`NOTICE`、`DEBUG`、`INFO` 或 `LOG`（在通知訊息中）。它與 `PG_DIAG_SEVERITY` 欄位相同，差別在於其內容永遠不會在地化。只有 PostgreSQL 9.6 及更新版本產生的報告中才會有此欄位。
 
-    `PG_DIAG_MESSAGE_PRIMARY` [#](#LIBPQ-PG-DIAG-MESSAGE-PRIMARY)
-    :   供人閱讀的主要錯誤訊息（通常為一行）。一律存在。
-    <a id="LIBPQ-PG-DIAG-MESSAGE-DETAIL"></a>
+- <a id="LIBPQ-PG-DIAG-SQLSTATE"></a>`PG_DIAG_SQLSTATE`<a id="id-1.7.3.10.3.9.7.5.2.2.1.3.1.2"></a> [#](#LIBPQ-PG-DIAG-SQLSTATE)
 
-    `PG_DIAG_MESSAGE_DETAIL` [#](#LIBPQ-PG-DIAG-MESSAGE-DETAIL)
-    :   詳細資訊：選用的次要錯誤訊息，提供有關該問題的更多細節。可能有多行。
-    <a id="LIBPQ-PG-DIAG-MESSAGE-HINT"></a>
+  錯誤的 SQLSTATE 代碼。SQLSTATE 代碼用來識別所發生錯誤的類型；前端應用程式可以用它來針對特定資料庫錯誤執行特定的操作（例如錯誤處理）。可能的 SQLSTATE 代碼清單請參閱[附錄 A](../../appendixes/errcodes-appendix/README.md)。此欄位無法在地化，而且一律存在。
 
-    `PG_DIAG_MESSAGE_HINT` [#](#LIBPQ-PG-DIAG-MESSAGE-HINT)
-    :   提示：選用的建議，說明如何處理該問題。它與詳細資訊的不同之處在於它提供的是建議（可能並不恰當），而不是確切的事實。可能有多行。
-    <a id="LIBPQ-PG-DIAG-STATEMENT-POSITION"></a>
+- <a id="LIBPQ-PG-DIAG-MESSAGE-PRIMARY"></a>`PG_DIAG_MESSAGE_PRIMARY` [#](#LIBPQ-PG-DIAG-MESSAGE-PRIMARY)
 
-    `PG_DIAG_STATEMENT_POSITION` [#](#LIBPQ-PG-DIAG-STATEMENT-POSITION)
-    :   包含十進位整數的字串，表示錯誤游標位置，也就是在原始陳述式字串中的索引。第一個字元的索引為 1，而位置是以字元而非位元組計算。
-    <a id="LIBPQ-PG-DIAG-INTERNAL-POSITION"></a>
+  供人閱讀的主要錯誤訊息（通常為一行）。一律存在。
 
-    `PG_DIAG_INTERNAL_POSITION` [#](#LIBPQ-PG-DIAG-INTERNAL-POSITION)
-    :   定義與 `PG_DIAG_STATEMENT_POSITION` 欄位相同，但用於游標位置指向內部產生的命令，而不是用戶端所送出命令的情況。出現此欄位時，一定也會出現 `PG_DIAG_INTERNAL_QUERY` 欄位。
-    <a id="LIBPQ-PG-DIAG-INTERNAL-QUERY"></a>
+- <a id="LIBPQ-PG-DIAG-MESSAGE-DETAIL"></a>`PG_DIAG_MESSAGE_DETAIL` [#](#LIBPQ-PG-DIAG-MESSAGE-DETAIL)
 
-    `PG_DIAG_INTERNAL_QUERY` [#](#LIBPQ-PG-DIAG-INTERNAL-QUERY)
-    :   失敗的內部產生命令的文字。例如，這可能是由 PL/pgSQL 函式發出的 SQL 查詢。
-    <a id="LIBPQ-PG-DIAG-CONTEXT"></a>
+  詳細資訊：選用的次要錯誤訊息，提供有關該問題的更多細節。可能有多行。
 
-    `PG_DIAG_CONTEXT` [#](#LIBPQ-PG-DIAG-CONTEXT)
-    :   錯誤發生時所在上下文的指示。目前這包括作用中的程序語言函式與內部產生查詢的呼叫堆疊追蹤。追蹤每行一個項目，最近的排在最前面。
-    <a id="LIBPQ-PG-DIAG-SCHEMA-NAME"></a>
+- <a id="LIBPQ-PG-DIAG-MESSAGE-HINT"></a>`PG_DIAG_MESSAGE_HINT` [#](#LIBPQ-PG-DIAG-MESSAGE-HINT)
 
-    `PG_DIAG_SCHEMA_NAME` [#](#LIBPQ-PG-DIAG-SCHEMA-NAME)
-    :   若錯誤與特定資料庫物件相關，則為包含該物件的綱要名稱（若有的話）。
-    <a id="LIBPQ-PG-DIAG-TABLE-NAME"></a>
+  提示：選用的建議，說明如何處理該問題。它與詳細資訊的不同之處在於它提供的是建議（可能並不恰當），而不是確切的事實。可能有多行。
 
-    `PG_DIAG_TABLE_NAME` [#](#LIBPQ-PG-DIAG-TABLE-NAME)
-    :   若錯誤與特定資料表相關，則為該資料表的名稱。（資料表所屬綱要的名稱請參閱綱要名稱欄位。）
-    <a id="LIBPQ-PG-DIAG-COLUMN-NAME"></a>
+- <a id="LIBPQ-PG-DIAG-STATEMENT-POSITION"></a>`PG_DIAG_STATEMENT_POSITION` [#](#LIBPQ-PG-DIAG-STATEMENT-POSITION)
 
-    `PG_DIAG_COLUMN_NAME` [#](#LIBPQ-PG-DIAG-COLUMN-NAME)
-    :   若錯誤與特定資料表欄位相關，則為該欄位的名稱。（請參閱綱要名稱與資料表名稱欄位以識別該資料表。）
-    <a id="LIBPQ-PG-DIAG-DATATYPE-NAME"></a>
+  包含十進位整數的字串，表示錯誤游標位置，也就是在原始陳述式字串中的索引。第一個字元的索引為 1，而位置是以字元而非位元組計算。
 
-    `PG_DIAG_DATATYPE_NAME` [#](#LIBPQ-PG-DIAG-DATATYPE-NAME)
-    :   若錯誤與特定資料型別相關，則為該資料型別的名稱。（資料型別所屬綱要的名稱請參閱綱要名稱欄位。）
-    <a id="LIBPQ-PG-DIAG-CONSTRAINT-NAME"></a>
+- <a id="LIBPQ-PG-DIAG-INTERNAL-POSITION"></a>`PG_DIAG_INTERNAL_POSITION` [#](#LIBPQ-PG-DIAG-INTERNAL-POSITION)
 
-    `PG_DIAG_CONSTRAINT_NAME` [#](#LIBPQ-PG-DIAG-CONSTRAINT-NAME)
-    :   若錯誤與特定限制條件相關，則為該限制條件的名稱。相關聯的資料表或網域請參閱上面列出的欄位。（就此而言，索引也被視為限制條件，即使它們並非以限制條件語法建立。）
-    <a id="LIBPQ-PG-DIAG-SOURCE-FILE"></a>
+  定義與 `PG_DIAG_STATEMENT_POSITION` 欄位相同，但用於游標位置指向內部產生的命令，而不是用戶端所送出命令的情況。出現此欄位時，一定也會出現 `PG_DIAG_INTERNAL_QUERY` 欄位。
 
-    `PG_DIAG_SOURCE_FILE` [#](#LIBPQ-PG-DIAG-SOURCE-FILE)
-    :   回報錯誤之原始碼位置的檔案名稱。
-    <a id="LIBPQ-PG-DIAG-SOURCE-LINE"></a>
+- <a id="LIBPQ-PG-DIAG-INTERNAL-QUERY"></a>`PG_DIAG_INTERNAL_QUERY` [#](#LIBPQ-PG-DIAG-INTERNAL-QUERY)
 
-    `PG_DIAG_SOURCE_LINE` [#](#LIBPQ-PG-DIAG-SOURCE-LINE)
-    :   回報錯誤之原始碼位置的行號。
-    <a id="LIBPQ-PG-DIAG-SOURCE-FUNCTION"></a>
+  失敗的內部產生命令的文字。例如，這可能是由 PL/pgSQL 函式發出的 SQL 查詢。
 
-    `PG_DIAG_SOURCE_FUNCTION` [#](#LIBPQ-PG-DIAG-SOURCE-FUNCTION)
-    :   回報錯誤之原始碼函式的名稱。
+- <a id="LIBPQ-PG-DIAG-CONTEXT"></a>`PG_DIAG_CONTEXT` [#](#LIBPQ-PG-DIAG-CONTEXT)
 
-    ### 注意
+  錯誤發生時所在上下文的指示。目前這包括作用中的程序語言函式與內部產生查詢的呼叫堆疊追蹤。追蹤每行一個項目，最近的排在最前面。
 
-    綱要名稱、資料表名稱、欄位名稱、資料型別名稱與限制條件名稱等欄位只會針對有限的幾種錯誤類型提供；請參閱[附錄 A](../../appendixes/errcodes-appendix/README.md)。不要假定其中任何一個欄位存在，就保證另一個欄位也存在。核心的錯誤來源會遵守上面所述的相互關係，但使用者定義的函式可能會以其他方式使用這些欄位。同樣地，也不要假定這些欄位所指的是目前資料庫中當下存在的物件。
+- <a id="LIBPQ-PG-DIAG-SCHEMA-NAME"></a>`PG_DIAG_SCHEMA_NAME` [#](#LIBPQ-PG-DIAG-SCHEMA-NAME)
 
-    用戶端負責依自身需求格式化所顯示的資訊；特別是，它應該視需要將長行斷行。錯誤訊息欄位中出現的換行字元應該視為段落分隔，而不是換行。
+  若錯誤與特定資料庫物件相關，則為包含該物件的綱要名稱（若有的話）。
 
-    libpq 內部產生的錯誤會有嚴重程度與主要訊息，但通常沒有其他欄位。
+- <a id="LIBPQ-PG-DIAG-TABLE-NAME"></a>`PG_DIAG_TABLE_NAME` [#](#LIBPQ-PG-DIAG-TABLE-NAME)
 
-    請注意，錯誤欄位只能從 `PGresult` 物件取得，無法從 `PGconn` 物件取得；並沒有 `PQerrorField` 函式。
+  若錯誤與特定資料表相關，則為該資料表的名稱。（資料表所屬綱要的名稱請參閱綱要名稱欄位。）
+
+- <a id="LIBPQ-PG-DIAG-COLUMN-NAME"></a>`PG_DIAG_COLUMN_NAME` [#](#LIBPQ-PG-DIAG-COLUMN-NAME)
+
+  若錯誤與特定資料表欄位相關，則為該欄位的名稱。（請參閱綱要名稱與資料表名稱欄位以識別該資料表。）
+
+- <a id="LIBPQ-PG-DIAG-DATATYPE-NAME"></a>`PG_DIAG_DATATYPE_NAME` [#](#LIBPQ-PG-DIAG-DATATYPE-NAME)
+
+  若錯誤與特定資料型別相關，則為該資料型別的名稱。（資料型別所屬綱要的名稱請參閱綱要名稱欄位。）
+
+- <a id="LIBPQ-PG-DIAG-CONSTRAINT-NAME"></a>`PG_DIAG_CONSTRAINT_NAME` [#](#LIBPQ-PG-DIAG-CONSTRAINT-NAME)
+
+  若錯誤與特定限制條件相關，則為該限制條件的名稱。相關聯的資料表或網域請參閱上面列出的欄位。（就此而言，索引也被視為限制條件，即使它們並非以限制條件語法建立。）
+
+- <a id="LIBPQ-PG-DIAG-SOURCE-FILE"></a>`PG_DIAG_SOURCE_FILE` [#](#LIBPQ-PG-DIAG-SOURCE-FILE)
+
+  回報錯誤之原始碼位置的檔案名稱。
+
+- <a id="LIBPQ-PG-DIAG-SOURCE-LINE"></a>`PG_DIAG_SOURCE_LINE` [#](#LIBPQ-PG-DIAG-SOURCE-LINE)
+
+  回報錯誤之原始碼位置的行號。
+
+- <a id="LIBPQ-PG-DIAG-SOURCE-FUNCTION"></a>`PG_DIAG_SOURCE_FUNCTION` [#](#LIBPQ-PG-DIAG-SOURCE-FUNCTION)
+
+  回報錯誤之原始碼函式的名稱。
+
+
+### 注意
+
+綱要名稱、資料表名稱、欄位名稱、資料型別名稱與限制條件名稱等欄位只會針對有限的幾種錯誤類型提供；請參閱[附錄 A](../../appendixes/errcodes-appendix/README.md)。不要假定其中任何一個欄位存在，就保證另一個欄位也存在。核心的錯誤來源會遵守上面所述的相互關係，但使用者定義的函式可能會以其他方式使用這些欄位。同樣地，也不要假定這些欄位所指的是目前資料庫中當下存在的物件。
+
+用戶端負責依自身需求格式化所顯示的資訊；特別是，它應該視需要將長行斷行。錯誤訊息欄位中出現的換行字元應該視為段落分隔，而不是換行。
+
+libpq 內部產生的錯誤會有嚴重程度與主要訊息，但通常沒有其他欄位。
+
+請注意，錯誤欄位只能從 `PGresult` 物件取得，無法從 `PGconn` 物件取得；並沒有 `PQerrorField` 函式。
+
 <a id="LIBPQ-PQCLEAR"></a>
 
 `PQclear`<a id="id-1.7.3.10.3.9.7.6.1.2"></a> [#](#LIBPQ-PQCLEAR)
-:   釋放與 `PGresult` 相關聯的儲存空間。每個命令結果在不再需要時，都應該以 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 釋放。
 
-    ```
+釋放與 `PGresult` 相關聯的儲存空間。每個命令結果在不再需要時，都應該以 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 釋放。
+
+```
 
     void PQclear(PGresult *res);
-    ```
+```
 
-    若引數為 `NULL` 指標，則不執行任何操作。
+若引數為 `NULL` 指標，則不執行任何操作。
 
-    你可以將 `PGresult` 物件保留任意長的時間；發出新命令時它不會消失，即使關閉連線也不會。要擺脫它，你必須呼叫 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR)。若未這麼做，會導致應用程式發生記憶體洩漏。
+你可以將 `PGresult` 物件保留任意長的時間；發出新命令時它不會消失，即使關閉連線也不會。要擺脫它，你必須呼叫 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR)。若未這麼做，會導致應用程式發生記憶體洩漏。
 
 <a id="LIBPQ-EXEC-SELECT-INFO"></a>
 
@@ -424,56 +445,63 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 <a id="LIBPQ-PQNTUPLES"></a>
 
 `PQntuples`<a id="id-1.7.3.10.4.3.1.1.2"></a> [#](#LIBPQ-PQNTUPLES)
-:   傳回查詢結果中的資料列（元組）數。（請注意，`PGresult` 物件最多只能有 `INT_MAX` 筆資料列，因此 `int` 型別的結果就足夠了。）
 
-    ```
+傳回查詢結果中的資料列（元組）數。（請注意，`PGresult` 物件最多只能有 `INT_MAX` 筆資料列，因此 `int` 型別的結果就足夠了。）
+
+```
 
     int PQntuples(const PGresult *res);
-    ```
+```
+
 <a id="LIBPQ-PQNFIELDS"></a>
 
 `PQnfields`<a id="id-1.7.3.10.4.3.2.1.2"></a> [#](#LIBPQ-PQNFIELDS)
-:   傳回查詢結果中每筆資料列的欄位數。
 
-    ```
+傳回查詢結果中每筆資料列的欄位數。
+
+```
 
     int PQnfields(const PGresult *res);
-    ```
+```
+
 <a id="LIBPQ-PQFNAME"></a>
 
 `PQfname`<a id="id-1.7.3.10.4.3.3.1.2"></a> [#](#LIBPQ-PQFNAME)
-:   傳回與給定欄位編號相關聯的欄位名稱。欄位編號從 0 開始。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
 
-    ```
+傳回與給定欄位編號相關聯的欄位名稱。欄位編號從 0 開始。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+
+```
 
     char *PQfname(const PGresult *res,
                   int column_number);
-    ```
+```
 
-    若欄位編號超出範圍，則傳回 `NULL`。
+若欄位編號超出範圍，則傳回 `NULL`。
+
 <a id="LIBPQ-PQFNUMBER"></a>
 
 `PQfnumber`<a id="id-1.7.3.10.4.3.4.1.2"></a> [#](#LIBPQ-PQFNUMBER)
-:   傳回與給定欄位名稱相關聯的欄位編號。
 
-    ```
+傳回與給定欄位名稱相關聯的欄位編號。
+
+```
 
     int PQfnumber(const PGresult *res,
                   const char *column_name);
-    ```
+```
 
-    若給定的名稱不符合任何欄位，則傳回 -1。
+若給定的名稱不符合任何欄位，則傳回 -1。
 
-    給定的名稱會被視為 SQL 命令中的識別字，也就是說，除非加上雙引號，否則會轉為小寫。例如，給定由下列 SQL 命令產生的查詢結果：
+給定的名稱會被視為 SQL 命令中的識別字，也就是說，除非加上雙引號，否則會轉為小寫。例如，給定由下列 SQL 命令產生的查詢結果：
 
-    ```
+```
 
     SELECT 1 AS FOO, 2 AS "BAR";
-    ```
+```
 
-    會得到下列結果：
+會得到下列結果：
 
-    ```
+```
 
     PQfname(res, 0)              foo
     PQfname(res, 1)              BAR
@@ -481,163 +509,189 @@ SELECT * FROM mytable WHERE x = $1::bigint;
     PQfnumber(res, "foo")        0
     PQfnumber(res, "BAR")        -1
     PQfnumber(res, "\"BAR\"")    1
-    ```
+```
+
 <a id="LIBPQ-PQFTABLE"></a>
 
 `PQftable`<a id="id-1.7.3.10.4.3.5.1.2"></a> [#](#LIBPQ-PQFTABLE)
-:   傳回給定欄位所擷取自的資料表的 OID。欄位編號從 0 開始。
 
-    ```
+傳回給定欄位所擷取自的資料表的 OID。欄位編號從 0 開始。
+
+```
 
     Oid PQftable(const PGresult *res,
                  int column_number);
-    ```
+```
 
-    若欄位編號超出範圍，或指定的欄位不是對資料表欄位的單純參照，則傳回 `InvalidOid`。你可以查詢系統資料表 `pg_class`，以確切判斷所參照的是哪個資料表。
+若欄位編號超出範圍，或指定的欄位不是對資料表欄位的單純參照，則傳回 `InvalidOid`。你可以查詢系統資料表 `pg_class`，以確切判斷所參照的是哪個資料表。
 
-    引入 libpq 標頭檔時，就會定義型別 `Oid` 與常數 `InvalidOid`。兩者都會是某種整數型別。
+引入 libpq 標頭檔時，就會定義型別 `Oid` 與常數 `InvalidOid`。兩者都會是某種整數型別。
+
 <a id="LIBPQ-PQFTABLECOL"></a>
 
 `PQftablecol`<a id="id-1.7.3.10.4.3.6.1.2"></a> [#](#LIBPQ-PQFTABLECOL)
-:   傳回構成指定查詢結果欄位的那個欄位（在其資料表內）的欄位編號。查詢結果的欄位編號從 0 開始，但資料表欄位的編號不為零。
 
-    ```
+傳回構成指定查詢結果欄位的那個欄位（在其資料表內）的欄位編號。查詢結果的欄位編號從 0 開始，但資料表欄位的編號不為零。
+
+```
 
     int PQftablecol(const PGresult *res,
                     int column_number);
-    ```
+```
 
-    若欄位編號超出範圍，或指定的欄位不是對資料表欄位的單純參照，則傳回零。
+若欄位編號超出範圍，或指定的欄位不是對資料表欄位的單純參照，則傳回零。
+
 <a id="LIBPQ-PQFFORMAT"></a>
 
 `PQfformat`<a id="id-1.7.3.10.4.3.7.1.2"></a> [#](#LIBPQ-PQFFORMAT)
-:   傳回表示給定欄位格式的格式代碼。欄位編號從 0 開始。
 
-    ```
+傳回表示給定欄位格式的格式代碼。欄位編號從 0 開始。
+
+```
 
     int PQfformat(const PGresult *res,
                   int column_number);
-    ```
+```
 
-    格式代碼 0 表示文字資料表示法，格式代碼 1 則表示二進位表示法。（其他代碼保留供未來定義。）
+格式代碼 0 表示文字資料表示法，格式代碼 1 則表示二進位表示法。（其他代碼保留供未來定義。）
+
 <a id="LIBPQ-PQFTYPE"></a>
 
 `PQftype`<a id="id-1.7.3.10.4.3.8.1.2"></a> [#](#LIBPQ-PQFTYPE)
-:   傳回與給定欄位編號相關聯的資料型別。傳回的整數是該型別的內部 OID 編號。欄位編號從 0 開始。
 
-    ```
+傳回與給定欄位編號相關聯的資料型別。傳回的整數是該型別的內部 OID 編號。欄位編號從 0 開始。
+
+```
 
     Oid PQftype(const PGresult *res,
                 int column_number);
-    ```
+```
 
-    你可以查詢系統資料表 `pg_type`，以取得各種資料型別的名稱與屬性。內建資料型別的 OID 定義在 PostgreSQL 安裝目錄的 `include` 目錄中的 `catalog/pg_type_d.h` 檔案裡。
+你可以查詢系統資料表 `pg_type`，以取得各種資料型別的名稱與屬性。內建資料型別的 OID 定義在 PostgreSQL 安裝目錄的 `include` 目錄中的 `catalog/pg_type_d.h` 檔案裡。
+
 <a id="LIBPQ-PQFMOD"></a>
 
 `PQfmod`<a id="id-1.7.3.10.4.3.9.1.2"></a> [#](#LIBPQ-PQFMOD)
-:   傳回與給定欄位編號相關聯之欄位的型別修飾詞。欄位編號從 0 開始。
 
-    ```
+傳回與給定欄位編號相關聯之欄位的型別修飾詞。欄位編號從 0 開始。
+
+```
 
     int PQfmod(const PGresult *res,
                int column_number);
-    ```
+```
 
-    修飾詞值的解讀方式依型別而定；它們通常表示精確度或大小限制。值 -1 用來表示「沒有可用的資訊」。大多數資料型別不使用修飾詞，此時該值一律為 -1。
+修飾詞值的解讀方式依型別而定；它們通常表示精確度或大小限制。值 -1 用來表示「沒有可用的資訊」。大多數資料型別不使用修飾詞，此時該值一律為 -1。
+
 <a id="LIBPQ-PQFSIZE"></a>
 
 `PQfsize`<a id="id-1.7.3.10.4.3.10.1.2"></a> [#](#LIBPQ-PQFSIZE)
-:   傳回與給定欄位編號相關聯之欄位的大小（以位元組為單位）。欄位編號從 0 開始。
 
-    ```
+傳回與給定欄位編號相關聯之欄位的大小（以位元組為單位）。欄位編號從 0 開始。
+
+```
 
     int PQfsize(const PGresult *res,
                 int column_number);
-    ```
+```
 
-    [`PQfsize`](libpq-exec.md#LIBPQ-PQFSIZE) 傳回資料庫資料列中為此欄位配置的空間，換句話說，就是該資料型別在伺服器內部表示法的大小。（因此，它對用戶端其實沒有太大用處。）負值表示該資料型別為變動長度。
+[`PQfsize`](libpq-exec.md#LIBPQ-PQFSIZE) 傳回資料庫資料列中為此欄位配置的空間，換句話說，就是該資料型別在伺服器內部表示法的大小。（因此，它對用戶端其實沒有太大用處。）負值表示該資料型別為變動長度。
+
 <a id="LIBPQ-PQBINARYTUPLES"></a>
 
 `PQbinaryTuples`<a id="id-1.7.3.10.4.3.11.1.2"></a> [#](#LIBPQ-PQBINARYTUPLES)
-:   若 `PGresult` 包含二進位資料，則傳回 1；若包含文字資料，則傳回 0。
 
-    ```
+若 `PGresult` 包含二進位資料，則傳回 1；若包含文字資料，則傳回 0。
+
+```
 
     int PQbinaryTuples(const PGresult *res);
-    ```
+```
 
-    此函式已不建議使用（但與 `COPY` 搭配使用的情況除外），因為單一個 `PGresult` 可能在某些欄位中包含文字資料，而在其他欄位中包含二進位資料。建議改用 [`PQfformat`](libpq-exec.md#LIBPQ-PQFFORMAT)。只有在結果的所有欄位都是二進位（格式 1）時，[`PQbinaryTuples`](libpq-exec.md#LIBPQ-PQBINARYTUPLES) 才會傳回 1。
+此函式已不建議使用（但與 `COPY` 搭配使用的情況除外），因為單一個 `PGresult` 可能在某些欄位中包含文字資料，而在其他欄位中包含二進位資料。建議改用 [`PQfformat`](libpq-exec.md#LIBPQ-PQFFORMAT)。只有在結果的所有欄位都是二進位（格式 1）時，[`PQbinaryTuples`](libpq-exec.md#LIBPQ-PQBINARYTUPLES) 才會傳回 1。
+
 <a id="LIBPQ-PQGETVALUE"></a>
 
 `PQgetvalue`<a id="id-1.7.3.10.4.3.12.1.2"></a> [#](#LIBPQ-PQGETVALUE)
-:   傳回 `PGresult` 中某一筆資料列的單一欄位值。資料列與欄位編號從 0 開始。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
 
-    ```
+傳回 `PGresult` 中某一筆資料列的單一欄位值。資料列與欄位編號從 0 開始。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+
+```
 
     char *PQgetvalue(const PGresult *res,
                      int row_number,
                      int column_number);
-    ```
+```
 
-    對於文字格式的資料，[`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 傳回的值是該欄位值以 null 結尾的字元字串表示法。對於二進位格式的資料，該值採用由該資料型別的 `typsend` 與 `typreceive` 函式所決定的二進位表示法。（在此情況下，該值後面其實也會接著一個零位元組，但這通常沒有用處，因為該值很可能含有內嵌的 null。）
+對於文字格式的資料，[`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 傳回的值是該欄位值以 null 結尾的字元字串表示法。對於二進位格式的資料，該值採用由該資料型別的 `typsend` 與 `typreceive` 函式所決定的二進位表示法。（在此情況下，該值後面其實也會接著一個零位元組，但這通常沒有用處，因為該值很可能含有內嵌的 null。）
 
-    若欄位值為 null，則傳回空字串。要區分 null 值與空字串值，請參閱 [`PQgetisnull`](libpq-exec.md#LIBPQ-PQGETISNULL)。
+若欄位值為 null，則傳回空字串。要區分 null 值與空字串值，請參閱 [`PQgetisnull`](libpq-exec.md#LIBPQ-PQGETISNULL)。
 
-    [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 傳回的指標指向屬於 `PGresult` 結構一部分的儲存空間。不應修改它所指向的資料，而且若要在 `PGresult` 結構本身的生命週期之後繼續使用這些資料，必須明確地將它們複製到其他儲存空間。
+[`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 傳回的指標指向屬於 `PGresult` 結構一部分的儲存空間。不應修改它所指向的資料，而且若要在 `PGresult` 結構本身的生命週期之後繼續使用這些資料，必須明確地將它們複製到其他儲存空間。
+
 <a id="LIBPQ-PQGETISNULL"></a>
 
 `PQgetisnull`<a id="id-1.7.3.10.4.3.13.1.2"></a><a id="id-1.7.3.10.4.3.13.1.3"></a> [#](#LIBPQ-PQGETISNULL)
-:   測試欄位是否為 null 值。資料列與欄位編號從 0 開始。
 
-    ```
+測試欄位是否為 null 值。資料列與欄位編號從 0 開始。
+
+```
 
     int PQgetisnull(const PGresult *res,
                     int row_number,
                     int column_number);
-    ```
+```
 
-    若欄位為 null，此函式傳回 1；若包含非 null 值，則傳回 0。（請注意，對於 null 欄位，[`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 會傳回空字串，而不是空指標。）
+若欄位為 null，此函式傳回 1；若包含非 null 值，則傳回 0。（請注意，對於 null 欄位，[`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 會傳回空字串，而不是空指標。）
+
 <a id="LIBPQ-PQGETLENGTH"></a>
 
 `PQgetlength`<a id="id-1.7.3.10.4.3.14.1.2"></a> [#](#LIBPQ-PQGETLENGTH)
-:   傳回欄位值的實際長度（以位元組為單位）。資料列與欄位編號從 0 開始。
 
-    ```
+傳回欄位值的實際長度（以位元組為單位）。資料列與欄位編號從 0 開始。
+
+```
 
     int PQgetlength(const PGresult *res,
                     int row_number,
                     int column_number);
-    ```
+```
 
-    這是該特定資料值的實際資料長度，也就是 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 所指向之物件的大小。對於文字資料格式，此值與 `strlen()` 相同。對於二進位格式，這是不可或缺的資訊。請注意，*不*應該依賴 [`PQfsize`](libpq-exec.md#LIBPQ-PQFSIZE) 來取得實際的資料長度。
+這是該特定資料值的實際資料長度，也就是 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 所指向之物件的大小。對於文字資料格式，此值與 `strlen()` 相同。對於二進位格式，這是不可或缺的資訊。請注意，*不*應該依賴 [`PQfsize`](libpq-exec.md#LIBPQ-PQFSIZE) 來取得實際的資料長度。
+
 <a id="LIBPQ-PQNPARAMS"></a>
 
 `PQnparams`<a id="id-1.7.3.10.4.3.15.1.2"></a> [#](#LIBPQ-PQNPARAMS)
-:   傳回預備陳述式的參數個數。
 
-    ```
+傳回預備陳述式的參數個數。
+
+```
 
     int PQnparams(const PGresult *res);
-    ```
+```
 
-    此函式只有在檢視 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 的結果時才有用。對於其他類型的結果，它會傳回零。
+此函式只有在檢視 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 的結果時才有用。對於其他類型的結果，它會傳回零。
+
 <a id="LIBPQ-PQPARAMTYPE"></a>
 
 `PQparamtype`<a id="id-1.7.3.10.4.3.16.1.2"></a> [#](#LIBPQ-PQPARAMTYPE)
-:   傳回指定陳述式參數的資料型別。參數編號從 0 開始。
 
-    ```
+傳回指定陳述式參數的資料型別。參數編號從 0 開始。
+
+```
 
     Oid PQparamtype(const PGresult *res, int param_number);
-    ```
+```
 
-    此函式只有在檢視 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 的結果時才有用。對於其他類型的結果，它會傳回零。
+此函式只有在檢視 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 的結果時才有用。對於其他類型的結果，它會傳回零。
+
 <a id="LIBPQ-PQPRINT"></a>
 
 `PQprint`<a id="id-1.7.3.10.4.3.17.1.2"></a> [#](#LIBPQ-PQPRINT)
-:   將所有資料列，以及可選擇的欄位名稱，輸出到指定的輸出串流。
 
-    ```
+將所有資料列，以及可選擇的欄位名稱，輸出到指定的輸出串流。
+
+```
 
     void PQprint(FILE *fout,      /* output stream */
                  const PGresult *res,
@@ -655,9 +709,9 @@ SELECT * FROM mytable WHERE x = $1::bigint;
         char    *caption;    /* HTML table caption */
         char    **fieldName; /* null-terminated array of replacement field names */
     } PQprintOpt;
-    ```
+```
 
-    此函式以前被 psql 用來輸出查詢結果，但現在已不是如此。請注意，它假定所有資料都是文字格式。
+此函式以前被 psql 用來輸出查詢結果，但現在已不是如此。請注意，它假定所有資料都是文字格式。
 
 <a id="LIBPQ-EXEC-NONSELECT"></a>
 
@@ -668,43 +722,50 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 <a id="LIBPQ-PQCMDSTATUS"></a>
 
 `PQcmdStatus`<a id="id-1.7.3.10.5.3.1.1.2"></a> [#](#LIBPQ-PQCMDSTATUS)
-:   傳回產生該 `PGresult` 之 SQL 命令的命令狀態標籤。
 
-    ```
+傳回產生該 `PGresult` 之 SQL 命令的命令狀態標籤。
+
+```
 
     char *PQcmdStatus(PGresult *res);
-    ```
+```
 
-    通常這只是命令的名稱，但也可能包含額外的資料，例如處理的資料列數。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+通常這只是命令的名稱，但也可能包含額外的資料，例如處理的資料列數。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+
 <a id="LIBPQ-PQCMDTUPLES"></a>
 
 `PQcmdTuples`<a id="id-1.7.3.10.5.3.2.1.2"></a> [#](#LIBPQ-PQCMDTUPLES)
-:   傳回受該 SQL 命令影響的資料列數。
 
-    ```
+傳回受該 SQL 命令影響的資料列數。
+
+```
 
     char *PQcmdTuples(PGresult *res);
-    ```
+```
 
-    此函式傳回一個字串，內容為受產生該 `PGresult` 之 SQL 陳述式影響的資料列數。此函式只能在執行 `SELECT`、`CREATE TABLE AS`、`INSERT`、`UPDATE`、`DELETE`、`MERGE`、`MOVE`、`FETCH` 或 `COPY` 陳述式之後，或是以 `EXECUTE` 執行包含 `INSERT`、`UPDATE`、`DELETE` 或 `MERGE` 陳述式的預備查詢之後使用。若產生該 `PGresult` 的是其他任何命令，[`PQcmdTuples`](libpq-exec.md#LIBPQ-PQCMDTUPLES) 會傳回空字串。呼叫者不應直接釋放此傳回值。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+此函式傳回一個字串，內容為受產生該 `PGresult` 之 SQL 陳述式影響的資料列數。此函式只能在執行 `SELECT`、`CREATE TABLE AS`、`INSERT`、`UPDATE`、`DELETE`、`MERGE`、`MOVE`、`FETCH` 或 `COPY` 陳述式之後，或是以 `EXECUTE` 執行包含 `INSERT`、`UPDATE`、`DELETE` 或 `MERGE` 陳述式的預備查詢之後使用。若產生該 `PGresult` 的是其他任何命令，[`PQcmdTuples`](libpq-exec.md#LIBPQ-PQCMDTUPLES) 會傳回空字串。呼叫者不應直接釋放此傳回值。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
+
 <a id="LIBPQ-PQOIDVALUE"></a>
 
 `PQoidValue`<a id="id-1.7.3.10.5.3.3.1.2"></a> [#](#LIBPQ-PQOIDVALUE)
-:   若該 SQL 命令是將恰好一筆資料列插入具有 OID 之資料表的 `INSERT`，或是以 `EXECUTE` 執行包含適當 `INSERT` 陳述式的預備查詢，則傳回所插入資料列的 OID<a id="id-1.7.3.10.5.3.3.2.1.1"></a>。否則，此函式傳回 `InvalidOid`。若受 `INSERT` 陳述式影響的資料表不包含 OID，此函式也會傳回 `InvalidOid`。
 
-    ```
+若該 SQL 命令是將恰好一筆資料列插入具有 OID 之資料表的 `INSERT`，或是以 `EXECUTE` 執行包含適當 `INSERT` 陳述式的預備查詢，則傳回所插入資料列的 OID<a id="id-1.7.3.10.5.3.3.2.1.1"></a>。否則，此函式傳回 `InvalidOid`。若受 `INSERT` 陳述式影響的資料表不包含 OID，此函式也會傳回 `InvalidOid`。
+
+```
 
     Oid PQoidValue(const PGresult *res);
-    ```
+```
+
 <a id="LIBPQ-PQOIDSTATUS"></a>
 
 `PQoidStatus`<a id="id-1.7.3.10.5.3.4.1.2"></a> [#](#LIBPQ-PQOIDSTATUS)
-:   此函式已不建議使用，請改用 [`PQoidValue`](libpq-exec.md#LIBPQ-PQOIDVALUE)，而且它並非執行緒安全。它傳回含有所插入資料列 OID 的字串，而 [`PQoidValue`](libpq-exec.md#LIBPQ-PQOIDVALUE) 則傳回 OID 值。
 
-    ```
+此函式已不建議使用，請改用 [`PQoidValue`](libpq-exec.md#LIBPQ-PQOIDVALUE)，而且它並非執行緒安全。它傳回含有所插入資料列 OID 的字串，而 [`PQoidValue`](libpq-exec.md#LIBPQ-PQOIDVALUE) 則傳回 OID 值。
+
+```
 
     char *PQoidStatus(const PGresult *res);
-    ```
+```
 
 <a id="LIBPQ-EXEC-ESCAPE-STRING"></a>
 
@@ -772,62 +833,69 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 <a id="LIBPQ-PQESCAPESTRING"></a>
 
 `PQescapeString`<a id="id-1.7.3.10.6.3.4.1.2"></a> [#](#LIBPQ-PQESCAPESTRING)
-:   [`PQescapeString`](libpq-exec.md#LIBPQ-PQESCAPESTRING) 是 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 較舊且已不建議使用的版本。
 
-    ```
+[`PQescapeString`](libpq-exec.md#LIBPQ-PQESCAPESTRING) 是 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 較舊且已不建議使用的版本。
+
+```
 
     size_t PQescapeString (char *to, const char *from, size_t length);
-    ```
+```
 
-    與 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 唯一的差別在於 [`PQescapeString`](libpq-exec.md#LIBPQ-PQESCAPESTRING) 不接受 `PGconn` 或 *`error`* 參數。因此，它無法依據連線屬性（例如字元編碼）調整其行為，所以*可能產生錯誤的結果*。此外，它也無法回報錯誤狀況。
+與 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 唯一的差別在於 [`PQescapeString`](libpq-exec.md#LIBPQ-PQESCAPESTRING) 不接受 `PGconn` 或 *`error`* 參數。因此，它無法依據連線屬性（例如字元編碼）調整其行為，所以*可能產生錯誤的結果*。此外，它也無法回報錯誤狀況。
 
-    在一次只使用一個 PostgreSQL 連線的用戶端程式中，可以安全地使用 [`PQescapeString`](libpq-exec.md#LIBPQ-PQESCAPESTRING)（此時它可以在「幕後」查出它需要知道的資訊）。在其他情況下，它是一種安全隱患，應該避免使用，改用 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN)。
+在一次只使用一個 PostgreSQL 連線的用戶端程式中，可以安全地使用 [`PQescapeString`](libpq-exec.md#LIBPQ-PQESCAPESTRING)（此時它可以在「幕後」查出它需要知道的資訊）。在其他情況下，它是一種安全隱患，應該避免使用，改用 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN)。
+
 <a id="LIBPQ-PQESCAPEBYTEACONN"></a>
 
 `PQescapeByteaConn`<a id="id-1.7.3.10.6.3.5.1.2"></a> [#](#LIBPQ-PQESCAPEBYTEACONN)
-:   跳脫二進位資料，以便在 SQL 命令中以 `bytea` 型別使用。與 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 相同，只有在將資料直接插入 SQL 命令字串時才會使用它。
 
-    ```
+跳脫二進位資料，以便在 SQL 命令中以 `bytea` 型別使用。與 [`PQescapeStringConn`](libpq-exec.md#LIBPQ-PQESCAPESTRINGCONN) 相同，只有在將資料直接插入 SQL 命令字串時才會使用它。
+
+```
 
     unsigned char *PQescapeByteaConn(PGconn *conn,
                                      const unsigned char *from,
                                      size_t from_length,
                                      size_t *to_length);
-    ```
+```
 
-    在 SQL 陳述式中作為 `bytea` 字面值的一部分使用時，某些位元組值必須加以跳脫。[`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 會使用十六進位編碼或反斜線跳脫來跳脫位元組。更多資訊請參閱[第 8.4 節](../../the-sql-language/datatype/datatype-binary.md)。
+在 SQL 陳述式中作為 `bytea` 字面值的一部分使用時，某些位元組值必須加以跳脫。[`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 會使用十六進位編碼或反斜線跳脫來跳脫位元組。更多資訊請參閱[第 8.4 節](../../the-sql-language/datatype/datatype-binary.md)。
 
-    參數 *`from`* 指向要跳脫之字串的第一個位元組，而參數 *`from_length`* 則給出此二進位字串的位元組數。（結尾的零位元組既不必要，也不計入。）參數 *`to_length`* 指向一個變數，用來存放跳脫後字串的長度。此結果字串長度包含結果結尾的零位元組。
+參數 *`from`* 指向要跳脫之字串的第一個位元組，而參數 *`from_length`* 則給出此二進位字串的位元組數。（結尾的零位元組既不必要，也不計入。）參數 *`to_length`* 指向一個變數，用來存放跳脫後字串的長度。此結果字串長度包含結果結尾的零位元組。
 
-    [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 在以 `malloc()` 配置的記憶體中傳回 *`from`* 參數二進位字串的跳脫版本。不再需要該結果時，應該使用 `PQfreemem()` 釋放這塊記憶體。傳回的字串中所有特殊字元都已被替換，因此能被 PostgreSQL 字串字面值剖析器以及 `bytea` 輸入函式正確處理。結尾也會加上零位元組。PostgreSQL 字串字面值兩側必須加上的單引號不屬於結果字串的一部分。
+[`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 在以 `malloc()` 配置的記憶體中傳回 *`from`* 參數二進位字串的跳脫版本。不再需要該結果時，應該使用 `PQfreemem()` 釋放這塊記憶體。傳回的字串中所有特殊字元都已被替換，因此能被 PostgreSQL 字串字面值剖析器以及 `bytea` 輸入函式正確處理。結尾也會加上零位元組。PostgreSQL 字串字面值兩側必須加上的單引號不屬於結果字串的一部分。
 
-    發生錯誤時，會傳回空指標，並在 *`conn`* 物件中存入適當的錯誤訊息。目前唯一可能的錯誤是記憶體不足以容納結果字串。
+發生錯誤時，會傳回空指標，並在 *`conn`* 物件中存入適當的錯誤訊息。目前唯一可能的錯誤是記憶體不足以容納結果字串。
+
 <a id="LIBPQ-PQESCAPEBYTEA"></a>
 
 `PQescapeBytea`<a id="id-1.7.3.10.6.3.6.1.2"></a> [#](#LIBPQ-PQESCAPEBYTEA)
-:   [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 是 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 較舊且已不建議使用的版本。
 
-    ```
+[`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 是 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 較舊且已不建議使用的版本。
+
+```
 
     unsigned char *PQescapeBytea(const unsigned char *from,
                                  size_t from_length,
                                  size_t *to_length);
-    ```
+```
 
-    與 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 唯一的差別在於 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 不接受 `PGconn` 參數。因此，只有在一次只使用單一 PostgreSQL 連線的用戶端程式中，才能安全地使用 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA)（此時它可以在「幕後」查出它需要知道的資訊）。若在使用多個資料庫連線的程式中使用，它*可能產生錯誤的結果*（這種情況請使用 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN)）。
+與 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN) 唯一的差別在於 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 不接受 `PGconn` 參數。因此，只有在一次只使用單一 PostgreSQL 連線的用戶端程式中，才能安全地使用 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA)（此時它可以在「幕後」查出它需要知道的資訊）。若在使用多個資料庫連線的程式中使用，它*可能產生錯誤的結果*（這種情況請使用 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN)）。
+
 <a id="LIBPQ-PQUNESCAPEBYTEA"></a>
 
 `PQunescapeBytea`<a id="id-1.7.3.10.6.3.7.1.2"></a> [#](#LIBPQ-PQUNESCAPEBYTEA)
-:   將二進位資料的字串表示法轉換為二進位資料——與 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 相反。以文字格式取得 `bytea` 資料時需要這麼做，但以二進位格式取得時則不需要。
 
-    ```
+將二進位資料的字串表示法轉換為二進位資料——與 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 相反。以文字格式取得 `bytea` 資料時需要這麼做，但以二進位格式取得時則不需要。
+
+```
 
     unsigned char *PQunescapeBytea(const unsigned char *from, size_t *to_length);
-    ```
+```
 
-    參數 *`from`* 指向一個字串，例如對 `bytea` 欄位套用 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 時可能傳回的字串。[`PQunescapeBytea`](libpq-exec.md#LIBPQ-PQUNESCAPEBYTEA) 會將此字串表示法轉換為其二進位表示法。它傳回一個指向以 `malloc()` 配置之緩衝區的指標，發生錯誤時則傳回 `NULL`，並將緩衝區的大小放入 *`to_length`*。不再需要該結果時，必須使用 [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 將它釋放。
+參數 *`from`* 指向一個字串，例如對 `bytea` 欄位套用 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 時可能傳回的字串。[`PQunescapeBytea`](libpq-exec.md#LIBPQ-PQUNESCAPEBYTEA) 會將此字串表示法轉換為其二進位表示法。它傳回一個指向以 `malloc()` 配置之緩衝區的指標，發生錯誤時則傳回 `NULL`，並將緩衝區的大小放入 *`to_length`*。不再需要該結果時，必須使用 [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 將它釋放。
 
-    此轉換並非 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 的完全逆運算，因為從 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 收到的字串並不預期是「已跳脫」的。特別是，這表示不需要考慮字串的引號處理，因此也不需要 `PGconn` 參數。
+此轉換並非 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 的完全逆運算，因為從 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 收到的字串並不預期是「已跳脫」的。特別是，這表示不需要考慮字串的引號處理，因此也不需要 `PGconn` 參數。
 
 ---
 
