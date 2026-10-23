@@ -735,12 +735,14 @@ EXEC SQL INCLUDE sqlda.h;
 <a id="ECPG-INFORMIX-FUNCTIONS-RGETMSG"></a>
 
 `rgetmsg` [#](#ECPG-INFORMIX-FUNCTIONS-RGETMSG)
-:   ```
+
+```
 
     int rgetmsg(int msgnum, char *s, int maxsize);
-    ```
+```
 
-    此函式雖然存在，但目前尚未實作！
+此函式雖然存在，但目前尚未實作！
+
 <a id="ECPG-INFORMIX-FUNCTIONS-RTYPALIGN"></a>
 
 `rtypalign` [#](#ECPG-INFORMIX-FUNCTIONS-RTYPALIGN)
