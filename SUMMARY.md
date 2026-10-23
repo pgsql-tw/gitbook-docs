@@ -288,7 +288,7 @@
     * [29.10. 監控](server-administration/logical-replication/logical-replication-monitoring.md)
     * [29.11. 安全性 #](server-administration/logical-replication/logical-replication-security.md)
     * [29.12. 組態設定 #](server-administration/logical-replication/logical-replication-config.md)
-    * [29.13. Upgrade #](server-administration/logical-replication/logical-replication-upgrade.md)
+    * [29.13. 升級 #](server-administration/logical-replication/logical-replication-upgrade.md)
     * [29.14. 快速設定](server-administration/logical-replication/logical-replication-quick-setup.md)
   * [第 30 章 即時編譯（JIT）](server-administration/jit/README.md)
     * [30.1. 什麼是 JIT 編譯？ #](server-administration/jit/jit-reason.md)
