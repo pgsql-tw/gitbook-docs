@@ -778,7 +778,7 @@ class Queue:
                 result = saved['result']
             else:
                 atomic(folder / ('feature-unit-' + packet_hash + '.json'), data)
-                self.event('feature_input_packet', page, unit=idx, kind=unit['kind'],
+                self.event('feature_input_packet', page, unit=idx, packet_kind=unit['kind'],
                            rows=len(unit.get('rows', [])), chars=len(text),
                            estimated_tokens=estimate_tokens(text))
                 prompt = self.common_prompt(page) + (

@@ -65,7 +65,7 @@ class ReviewTests(unittest.TestCase):
         self.q.common_prompt=lambda page:''
         self.q.immutable=lambda page,state:None
         self.q.save=lambda page,state:None
-        self.q.event=lambda *args,**kwargs:None
+        self.q.event=lambda kind,page,**kwargs:None
         self.calls=[]
         self.q.call=self.call
         self.state=dict(baseline=self.doc,source=dict(sha256=fp.sha(self.doc)),policy_hash='policy',
