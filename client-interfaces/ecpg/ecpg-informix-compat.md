@@ -259,9 +259,7 @@ EXEC SQL INCLUDE sqlda.h;
 
 更多資訊請參閱 `sqlda.h` 標頭檔與 `src/interfaces/ecpg/test/compat_informix/sqlda.pgc` 迴歸測試。
 
-<a id="ECPG-INFORMIX-FUNCTIONS"></a>
-
-### 34.15.4. 額外的函式 [#](#ECPG-INFORMIX-FUNCTIONS)
+### 34.15.4. 額外的函式 [#](#ECPG-INFORMIX-FUNCTIONS) <a href="#ECPG-INFORMIX-FUNCTIONS" id="ECPG-INFORMIX-FUNCTIONS"></a>
 
 <a id="ECPG-INFORMIX-FUNCTIONS-DECADD"></a>
 
