@@ -7,20 +7,20 @@
 - [34.1. 概念](ecpg-concept.md)
 
 - [34.2. 管理資料庫連線](ecpg-connect.md)
-  - [34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ECPG-CONNECTING)
+  - [34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ecpg-connecting)
 
-  - [34.2.2. 選擇連線](ecpg-connect.md#ECPG-SET-CONNECTION)
+  - [34.2.2. 選擇連線](ecpg-connect.md#ecpg-set-connection)
 
-  - [34.2.3. 關閉連線](ecpg-connect.md#ECPG-DISCONNECT)
+  - [34.2.3. 關閉連線](ecpg-connect.md#ecpg-disconnect)
 
 - [34.3. 執行 SQL 命令](ecpg-commands.md)
-  - [34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ECPG-EXECUTING)
+  - [34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ecpg-executing)
 
-  - [34.3.2. 使用游標](ecpg-commands.md#ECPG-CURSORS)
+  - [34.3.2. 使用游標](ecpg-commands.md#ecpg-cursors)
 
-  - [34.3.3. 管理交易](ecpg-commands.md#ECPG-TRANSACTIONS)
+  - [34.3.3. 管理交易](ecpg-commands.md#ecpg-transactions)
 
-  - [34.3.4. 預備陳述式](ecpg-commands.md#ECPG-PREPARED)
+  - [34.3.4. 預備陳述式](ecpg-commands.md#ecpg-prepared)
 
 - [34.4. 使用主機變數](ecpg-variables.md)
   - [34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)

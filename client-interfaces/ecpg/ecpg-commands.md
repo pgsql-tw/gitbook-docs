@@ -2,19 +2,19 @@
 
 ## 34.3. 執行 SQL 命令 [#](#ECPG-COMMANDS)
 
-[34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ECPG-EXECUTING)
+[34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ecpg-executing)
 
-[34.3.2. 使用游標](ecpg-commands.md#ECPG-CURSORS)
+[34.3.2. 使用游標](ecpg-commands.md#ecpg-cursors)
 
-[34.3.3. 管理交易](ecpg-commands.md#ECPG-TRANSACTIONS)
+[34.3.3. 管理交易](ecpg-commands.md#ecpg-transactions)
 
-[34.3.4. 預備陳述式](ecpg-commands.md#ECPG-PREPARED)
+[34.3.4. 預備陳述式](ecpg-commands.md#ecpg-prepared)
 
 任何 SQL 命令都可以在嵌入式 SQL 應用程式中執行。以下是幾個執行方式的範例。
 
 <a id="ECPG-EXECUTING"></a>
 
-### 34.3.1. 執行 SQL 陳述式 [#](#ECPG-EXECUTING)
+### 34.3.1. 執行 SQL 陳述式 [#](#ecpg-executing) <a href="#ecpg-executing" id="ecpg-executing"></a>
 
 建立資料表：
 
@@ -51,7 +51,7 @@ EXEC SQL UPDATE foo
 EXEC SQL COMMIT;
 ```
 
-傳回單一結果資料列的 `SELECT` 陳述式，也可以直接使用 `EXEC SQL` 執行。若要處理含有多個資料列的結果集，應用程式必須使用游標；請參閱下方的[第 34.3.2 節](ecpg-commands.md#ECPG-CURSORS)。（作為特例，應用程式可以一次將多個資料列擷取到陣列主機變數中；請參閱[第 34.4.4.3.1 節](ecpg-variables.md#ECPG-VARIABLES-ARRAYS)。）
+傳回單一結果資料列的 `SELECT` 陳述式，也可以直接使用 `EXEC SQL` 執行。若要處理含有多個資料列的結果集，應用程式必須使用游標；請參閱下方的[第 34.3.2 節](ecpg-commands.md#ecpg-cursors)。（作為特例，應用程式可以一次將多個資料列擷取到陣列主機變數中；請參閱[第 34.4.4.3.1 節](ecpg-variables.md#ECPG-VARIABLES-ARRAYS)。）
 
 單列查詢：
 
@@ -71,7 +71,7 @@ EXEC SQL SHOW search_path INTO :var;
 
 <a id="ECPG-CURSORS"></a>
 
-### 34.3.2. 使用游標 [#](#ECPG-CURSORS)
+### 34.3.2. 使用游標 [#](#ecpg-cursors) <a href="#ecpg-cursors" id="ecpg-cursors"></a>
 
 若要取得含有多個資料列的結果集，應用程式必須宣告游標，並從游標逐一擷取每個資料列。使用游標的步驟如下：宣告游標、開啟游標、從游標擷取一個資料列、重複擷取，最後關閉游標。
 
@@ -99,7 +99,7 @@ ECPG 的 `DECLARE` 命令實際上並不會把陳述式送到 PostgreSQL 後端�
 
 <a id="ECPG-TRANSACTIONS"></a>
 
-### 34.3.3. 管理交易 [#](#ECPG-TRANSACTIONS)
+### 34.3.3. 管理交易 [#](#ecpg-transactions) <a href="#ecpg-transactions" id="ecpg-transactions"></a>
 
 在預設模式下，陳述式只有在發出 `EXEC SQL COMMIT` 時才會提交。嵌入式 SQL 介面也支援交易的自動提交（類似 psql 的預設行為），可以透過 `ecpg` 的 `-t` 命令列選項（請參閱 [ecpg](../../reference/reference-client/app-ecpg.md)），或透過 `EXEC SQL SET AUTOCOMMIT TO
 ON` 陳述式啟用。在自動提交模式下，除非命令位於明確的交易區塊內，否則每個命令都會自動提交。此模式可以使用 `EXEC
@@ -138,7 +138,7 @@ SQL SET AUTOCOMMIT TO OFF` 明確關閉。
 
 <a id="ECPG-PREPARED"></a>
 
-### 34.3.4. 預備陳述式 [#](#ECPG-PREPARED)
+### 34.3.4. 預備陳述式 [#](#ecpg-prepared) <a href="#ecpg-prepared" id="ecpg-prepared"></a>
 
 當要傳給 SQL 陳述式的值在編譯時期還不知道，或同一個陳述式將被使用很多次時，預備陳述式就很有用。
 

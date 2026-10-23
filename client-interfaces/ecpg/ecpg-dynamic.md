@@ -74,7 +74,7 @@ EXEC SQL EXECUTE mystmt INTO :v1, :v2, :v3 USING 37;
 
 `EXECUTE` 命令可以有 `INTO` 子句、`USING` 子句、兩者皆有，或兩者皆無。
 
-若預期查詢會傳回超過一個結果資料列，應該使用游標，如下列範例所示。（關於游標的詳細資訊，請參閱[第 34.3.2 節](ecpg-commands.md#ECPG-CURSORS)。）
+若預期查詢會傳回超過一個結果資料列，應該使用游標，如下列範例所示。（關於游標的詳細資訊，請參閱[第 34.3.2 節](ecpg-commands.md#ecpg-cursors)。）
 
 ```
 

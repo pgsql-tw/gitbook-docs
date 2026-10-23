@@ -2,17 +2,17 @@
 
 ## 34.2. 管理資料庫連線 [#](#ECPG-CONNECT)
 
-[34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ECPG-CONNECTING)
+[34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ecpg-connecting)
 
-[34.2.2. 選擇連線](ecpg-connect.md#ECPG-SET-CONNECTION)
+[34.2.2. 選擇連線](ecpg-connect.md#ecpg-set-connection)
 
-[34.2.3. 關閉連線](ecpg-connect.md#ECPG-DISCONNECT)
+[34.2.3. 關閉連線](ecpg-connect.md#ecpg-disconnect)
 
 本節說明如何開啟、關閉與切換資料庫連線。
 
 <a id="ECPG-CONNECTING"></a>
 
-### 34.2.1. 連線到資料庫伺服器 [#](#ECPG-CONNECTING)
+### 34.2.1. 連線到資料庫伺服器 [#](#ecpg-connecting) <a href="#ecpg-connecting" id="ecpg-connecting"></a>
 
 使用下列陳述式連線到資料庫：
 
@@ -76,7 +76,7 @@ false);`。這項考量並非 ECPG 所特有；它適用於所有可執行任意
 
 <a id="ECPG-SET-CONNECTION"></a>
 
-### 34.2.2. 選擇連線 [#](#ECPG-SET-CONNECTION)
+### 34.2.2. 選擇連線 [#](#ecpg-set-connection) <a href="#ecpg-set-connection" id="ecpg-set-connection"></a>
 
 嵌入式 SQL 程式中的 SQL 陳述式預設會在目前連線上執行，也就是最近開啟的那一個連線。若應用程式需要管理多個連線，有三種處理方式。
 
@@ -191,7 +191,7 @@ postgres
 
 <a id="ECPG-DISCONNECT"></a>
 
-### 34.2.3. 關閉連線 [#](#ECPG-DISCONNECT)
+### 34.2.3. 關閉連線 [#](#ecpg-disconnect) <a href="#ecpg-disconnect" id="ecpg-disconnect"></a>
 
 使用下列陳述式關閉連線：
 
