@@ -713,25 +713,29 @@ EXEC SQL INCLUDE sqlda.h;
 <a id="ECPG-INFORMIX-FUNCTIONS-BYLENG"></a>
 
 `byleng` [#](#ECPG-INFORMIX-FUNCTIONS-BYLENG)
-:   傳回字串中不計結尾空白的字元數。
 
-    ```
+傳回字串中不計結尾空白的字元數。
+
+```
 
     int byleng(char *str, int len);
-    ```
+```
 
-    此函式預期第一個引數是固定長度的字串（`str`），第二個引數是其長度（`len`）。它會傳回有效字元的數量，也就是不含結尾空白的字串長度。
+此函式預期第一個引數是固定長度的字串（`str`），第二個引數是其長度（`len`）。它會傳回有效字元的數量，也就是不含結尾空白的字串長度。
+
 <a id="ECPG-INFORMIX-FUNCTIONS-LDCHAR"></a>
 
 `ldchar` [#](#ECPG-INFORMIX-FUNCTIONS-LDCHAR)
-:   將固定長度的字串複製到以 null 結尾的字串中。
 
-    ```
+將固定長度的字串複製到以 null 結尾的字串中。
+
+```
 
     void ldchar(char *src, int len, char *dest);
-    ```
+```
 
-    此函式接收要複製的固定長度字串（`src`）、其長度（`len`），以及指向目的記憶體的指標（`dest`）。請注意，你需要為 `dest` 所指向的字串保留至少 `len+1` 個位元組。此函式最多會複製 `len` 個位元組到新位置（若來源字串有結尾空白，則會較少），並加上 null 結尾字元。
+此函式接收要複製的固定長度字串（`src`）、其長度（`len`），以及指向目的記憶體的指標（`dest`）。請注意，你需要為 `dest` 所指向的字串保留至少 `len+1` 個位元組。此函式最多會複製 `len` 個位元組到新位置（若來源字串有結尾空白，則會較少），並加上 null 結尾字元。
+
 <a id="ECPG-INFORMIX-FUNCTIONS-RGETMSG"></a>
 
 `rgetmsg` [#](#ECPG-INFORMIX-FUNCTIONS-RGETMSG)

@@ -19,23 +19,25 @@
 <a id="LIBPQ-PQEXEC"></a>
 
 `PQexec`<a id="id-1.7.3.10.3.2.1.1.1.2"></a> [#](#LIBPQ-PQEXEC)
-:   將命令送交伺服器並等待結果。
 
-    ```
+將命令送交伺服器並等待結果。
+
+```
 
     PGresult *PQexec(PGconn *conn, const char *command);
-    ```
+```
 
-    傳回 `PGresult` 指標，也可能傳回空指標。除了記憶體不足，或是無法將命令送到伺服器之類的嚴重錯誤之外，通常會傳回非空指標。應該呼叫 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 函式來檢查傳回值是否有任何錯誤（包括空指標的情況，此時它會傳回 `PGRES_FATAL_ERROR`）。請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得這類錯誤的更多資訊。
+傳回 `PGresult` 指標，也可能傳回空指標。除了記憶體不足，或是無法將命令送到伺服器之類的嚴重錯誤之外，通常會傳回非空指標。應該呼叫 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 函式來檢查傳回值是否有任何錯誤（包括空指標的情況，此時它會傳回 `PGRES_FATAL_ERROR`）。請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得這類錯誤的更多資訊。
 
 命令字串可以包含多個 SQL 命令（以分號分隔）。在單一次 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 呼叫中送出的多個查詢會在單一交易中處理，除非查詢字串中含有明確的 `BEGIN`/`COMMIT` 命令，將它分成多個交易。（關於伺服器如何處理多重查詢字串的更多細節，請參閱[第 54.2.2.1 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT)。）但請注意，傳回的 `PGresult` 結構只描述字串中最後執行的那個命令的結果。若其中某個命令失敗，字串的處理就會在該命令停止，而傳回的 `PGresult` 會描述該錯誤狀況。
 
 <a id="LIBPQ-PQEXECPARAMS"></a>
 
 `PQexecParams`<a id="id-1.7.3.10.3.3.1.1.1.2"></a> [#](#LIBPQ-PQEXECPARAMS)
-:   將命令送交伺服器並等待結果，且能夠將參數與 SQL 命令文字分開傳遞。
 
-    ```
+將命令送交伺服器並等待結果，且能夠將參數與 SQL 命令文字分開傳遞。
+
+```
 
     PGresult *PQexecParams(PGconn *conn,
                            const char *command,
@@ -45,37 +47,45 @@
                            const int *paramLengths,
                            const int *paramFormats,
                            int resultFormat);
-    ```
+```
 
-    [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 與 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 類似，但提供額外的功能：參數值可以與命令字串本身分開指定，而且可以要求以文字或二進位格式傳回查詢結果。
+[`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 與 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 類似，但提供額外的功能：參數值可以與命令字串本身分開指定，而且可以要求以文字或二進位格式傳回查詢結果。
 
-    函式的引數如下：
+函式的引數如下：
 
-    *`conn`*
-    :   用來傳送命令的連線物件。
+- *`conn`*
 
-    *`command`*
-    :   要執行的 SQL 命令字串。若使用參數，在命令字串中以 `$1`、`$2` 等方式參照它們。
+  用來傳送命令的連線物件。
 
-    *`nParams`*
-    :   所提供的參數個數；它是陣列 *`paramTypes[]`*、*`paramValues[]`*、*`paramLengths[]`* 與 *`paramFormats[]`* 的長度。（當 *`nParams`* 為零時，這些陣列指標可以是 `NULL`。）
+- *`command`*
 
-    *`paramTypes[]`*
-    :   以 OID 指定要指派給各參數符號的資料型別。若 *`paramTypes`* 為 `NULL`，或陣列中的某個元素為零，伺服器會以處理無型別字面字串的相同方式，為該參數符號推斷資料型別。
+  要執行的 SQL 命令字串。若使用參數，在命令字串中以 `$1`、`$2` 等方式參照它們。
 
-    *`paramValues[]`*
-    :   指定參數的實際值。此陣列中的空指標表示對應的參數為 null；否則該指標指向以零結尾的文字字串（文字格式），或是伺服器所預期格式的二進位資料（二進位格式）。
+- *`nParams`*
 
-    *`paramLengths[]`*
-    :   指定二進位格式參數的實際資料長度。對於 null 參數與文字格式參數，此值會被忽略。沒有二進位參數時，此陣列指標可以是空指標。
+  所提供的參數個數；它是陣列 *`paramTypes[]`*、*`paramValues[]`*、*`paramLengths[]`* 與 *`paramFormats[]`* 的長度。（當 *`nParams`* 為零時，這些陣列指標可以是 `NULL`。）
 
-    *`paramFormats[]`*
-    :   指定各參數為文字（在對應參數的陣列元素中放 0）或二進位（在對應參數的陣列元素中放 1）。若陣列指標為空指標，則所有參數都假定為文字字串。
+- *`paramTypes[]`*
 
-        以二進位格式傳遞的值，需要了解後端所預期的內部表示法。例如，整數必須以網路位元組順序傳遞。傳遞 `numeric` 值則需要了解伺服器的儲存格式，其實作位於 `src/backend/utils/adt/numeric.c::numeric_send()` 與 `src/backend/utils/adt/numeric.c::numeric_recv()`。
+  以 OID 指定要指派給各參數符號的資料型別。若 *`paramTypes`* 為 `NULL`，或陣列中的某個元素為零，伺服器會以處理無型別字面字串的相同方式，為該參數符號推斷資料型別。
 
-    *`resultFormat`*
-    :   指定 0 以取得文字格式的結果，或指定 1 以取得二進位格式的結果。（目前沒有提供以不同格式取得不同結果欄位的機制，雖然底層協定可以做到。）
+- *`paramValues[]`*
+
+  指定參數的實際值。此陣列中的空指標表示對應的參數為 null；否則該指標指向以零結尾的文字字串（文字格式），或是伺服器所預期格式的二進位資料（二進位格式）。
+
+- *`paramLengths[]`*
+
+  指定二進位格式參數的實際資料長度。對於 null 參數與文字格式參數，此值會被忽略。沒有二進位參數時，此陣列指標可以是空指標。
+
+- *`paramFormats[]`*
+
+  指定各參數為文字（在對應參數的陣列元素中放 0）或二進位（在對應參數的陣列元素中放 1）。若陣列指標為空指標，則所有參數都假定為文字字串。
+
+  以二進位格式傳遞的值，需要了解後端所預期的內部表示法。例如，整數必須以網路位元組順序傳遞。傳遞 `numeric` 值則需要了解伺服器的儲存格式，其實作位於 `src/backend/utils/adt/numeric.c::numeric_send()` 與 `src/backend/utils/adt/numeric.c::numeric_recv()`。
+
+- *`resultFormat`*
+
+  指定 0 以取得文字格式的結果，或指定 1 以取得二進位格式的結果。（目前沒有提供以不同格式取得不同結果欄位的機制，雖然底層協定可以做到。）
 
 [`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 相較於 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 的主要優點是參數值可以與命令字串分開，因此不需要繁瑣又容易出錯的引號處理與跳脫。
 
