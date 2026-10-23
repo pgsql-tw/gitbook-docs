@@ -4,140 +4,140 @@
 
 **目錄**
 
-[34.1. 概念](ecpg-concept.md)
+- [34.1. 概念](ecpg-concept.md)
 
-[34.2. 管理資料庫連線](ecpg-connect.md)
-:   [34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ECPG-CONNECTING)
+- [34.2. 管理資料庫連線](ecpg-connect.md)
+  - [34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ECPG-CONNECTING)
 
-    [34.2.2. 選擇連線](ecpg-connect.md#ECPG-SET-CONNECTION)
+  - [34.2.2. 選擇連線](ecpg-connect.md#ECPG-SET-CONNECTION)
 
-    [34.2.3. 關閉連線](ecpg-connect.md#ECPG-DISCONNECT)
+  - [34.2.3. 關閉連線](ecpg-connect.md#ECPG-DISCONNECT)
 
-[34.3. 執行 SQL 命令](ecpg-commands.md)
-:   [34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ECPG-EXECUTING)
+- [34.3. 執行 SQL 命令](ecpg-commands.md)
+  - [34.3.1. 執行 SQL 陳述式](ecpg-commands.md#ECPG-EXECUTING)
 
-    [34.3.2. 使用游標](ecpg-commands.md#ECPG-CURSORS)
+  - [34.3.2. 使用游標](ecpg-commands.md#ECPG-CURSORS)
 
-    [34.3.3. 管理交易](ecpg-commands.md#ECPG-TRANSACTIONS)
+  - [34.3.3. 管理交易](ecpg-commands.md#ECPG-TRANSACTIONS)
 
-    [34.3.4. 預備陳述式](ecpg-commands.md#ECPG-PREPARED)
+  - [34.3.4. 預備陳述式](ecpg-commands.md#ECPG-PREPARED)
 
-[34.4. 使用主機變數](ecpg-variables.md)
-:   [34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
+- [34.4. 使用主機變數](ecpg-variables.md)
+  - [34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
 
-    [34.4.2. 宣告區段](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
+  - [34.4.2. 宣告區段](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
 
-    [34.4.3. 取得查詢結果](ecpg-variables.md#ECPG-RETRIEVING)
+  - [34.4.3. 取得查詢結果](ecpg-variables.md#ECPG-RETRIEVING)
 
-    [34.4.4. 型別對應](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
+  - [34.4.4. 型別對應](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
 
-    [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+  - [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
 
-    [34.4.6. 指示變數](ecpg-variables.md#ECPG-INDICATORS)
+  - [34.4.6. 指示變數](ecpg-variables.md#ECPG-INDICATORS)
 
-[34.5. 動態 SQL](ecpg-dynamic.md)
-:   [34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITHOUT-RESULT)
+- [34.5. 動態 SQL](ecpg-dynamic.md)
+  - [34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITHOUT-RESULT)
 
-    [34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-INPUT)
+  - [34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-INPUT)
 
-    [34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITH-RESULT)
+  - [34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITH-RESULT)
 
-[34.6. pgtypes 函式庫](ecpg-pgtypes.md)
-:   [34.6.1. 字串](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
+- [34.6. pgtypes 函式庫](ecpg-pgtypes.md)
+  - [34.6.1. 字串](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
 
-    [34.6.2. numeric 型別](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
+  - [34.6.2. numeric 型別](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
 
-    [34.6.3. date 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
+  - [34.6.3. date 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
 
-    [34.6.4. timestamp 型別](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
+  - [34.6.4. timestamp 型別](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
 
-    [34.6.5. interval 型別](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
+  - [34.6.5. interval 型別](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
 
-    [34.6.6. decimal 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
+  - [34.6.6. decimal 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
 
-    [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
+  - [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
 
-    [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
+  - [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
 
-[34.7. 使用描述區](ecpg-descriptors.md)
-:   [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
+- [34.7. 使用描述區](ecpg-descriptors.md)
+  - [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
 
-    [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+  - [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
 
-[34.8. 錯誤處理](ecpg-errors.md)
-:   [34.8.1. 設定回呼](ecpg-errors.md#ECPG-WHENEVER)
+- [34.8. 錯誤處理](ecpg-errors.md)
+  - [34.8.1. 設定回呼](ecpg-errors.md#ECPG-WHENEVER)
 
-    [34.8.2. sqlca](ecpg-errors.md#ECPG-SQLCA)
+  - [34.8.2. sqlca](ecpg-errors.md#ECPG-SQLCA)
 
-    [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ECPG-SQLSTATE-SQLCODE)
+  - [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ECPG-SQLSTATE-SQLCODE)
 
-[34.9. 前置處理器指令](ecpg-preproc.md)
-:   [34.9.1. 引入檔案](ecpg-preproc.md#ECPG-INCLUDE)
+- [34.9. 前置處理器指令](ecpg-preproc.md)
+  - [34.9.1. 引入檔案](ecpg-preproc.md#ECPG-INCLUDE)
 
-    [34.9.2. define 與 undef 指令](ecpg-preproc.md#ECPG-DEFINE)
+  - [34.9.2. define 與 undef 指令](ecpg-preproc.md#ECPG-DEFINE)
 
-    [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ECPG-IFDEF)
+  - [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ECPG-IFDEF)
 
-[34.10. 處理嵌入式 SQL 程式](ecpg-process.md)
+- [34.10. 處理嵌入式 SQL 程式](ecpg-process.md)
 
-[34.11. 函式庫函式](ecpg-library.md)
+- [34.11. 函式庫函式](ecpg-library.md)
 
-[34.12. 大型物件](ecpg-lo.md)
+- [34.12. 大型物件](ecpg-lo.md)
 
-[34.13. C++ 應用程式](ecpg-cpp.md)
-:   [34.13.1. 主機變數的作用域](ecpg-cpp.md#ECPG-CPP-SCOPE)
+- [34.13. C++ 應用程式](ecpg-cpp.md)
+  - [34.13.1. 主機變數的作用域](ecpg-cpp.md#ECPG-CPP-SCOPE)
 
-    [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ECPG-CPP-AND-C)
+  - [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ECPG-CPP-AND-C)
 
-[34.14. 嵌入式 SQL 命令](ecpg-sql-commands.md)
-:   [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
+- [34.14. 嵌入式 SQL 命令](ecpg-sql-commands.md)
+  - [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
 
-    [CONNECT](ecpg-sql-connect.md) — 建立資料庫連線
+  - [CONNECT](ecpg-sql-connect.md) — 建立資料庫連線
 
-    [DEALLOCATE DESCRIPTOR](ecpg-sql-deallocate-descriptor.md) — 釋放 SQL 描述區
+  - [DEALLOCATE DESCRIPTOR](ecpg-sql-deallocate-descriptor.md) — 釋放 SQL 描述區
 
-    [DECLARE](ecpg-sql-declare.md) — 定義游標
+  - [DECLARE](ecpg-sql-declare.md) — 定義游標
 
-    [DECLARE STATEMENT](ecpg-sql-declare-statement.md) — 宣告 SQL 陳述式識別字
+  - [DECLARE STATEMENT](ecpg-sql-declare-statement.md) — 宣告 SQL 陳述式識別字
 
-    [DESCRIBE](ecpg-sql-describe.md) — 取得預備陳述式或結果集的相關資訊
+  - [DESCRIBE](ecpg-sql-describe.md) — 取得預備陳述式或結果集的相關資訊
 
-    [DISCONNECT](ecpg-sql-disconnect.md) — 結束資料庫連線
+  - [DISCONNECT](ecpg-sql-disconnect.md) — 結束資料庫連線
 
-    [EXECUTE IMMEDIATE](ecpg-sql-execute-immediate.md) — 動態準備並執行陳述式
+  - [EXECUTE IMMEDIATE](ecpg-sql-execute-immediate.md) — 動態準備並執行陳述式
 
-    [GET DESCRIPTOR](ecpg-sql-get-descriptor.md) — 從 SQL 描述區取得資訊
+  - [GET DESCRIPTOR](ecpg-sql-get-descriptor.md) — 從 SQL 描述區取得資訊
 
-    [OPEN](ecpg-sql-open.md) — 開啟動態游標
+  - [OPEN](ecpg-sql-open.md) — 開啟動態游標
 
-    [PREPARE](ecpg-sql-prepare.md) — 準備陳述式以供執行
+  - [PREPARE](ecpg-sql-prepare.md) — 準備陳述式以供執行
 
-    [SET AUTOCOMMIT](ecpg-sql-set-autocommit.md) — 設定目前工作階段的自動提交行為
+  - [SET AUTOCOMMIT](ecpg-sql-set-autocommit.md) — 設定目前工作階段的自動提交行為
 
-    [SET CONNECTION](ecpg-sql-set-connection.md) — 選取資料庫連線
+  - [SET CONNECTION](ecpg-sql-set-connection.md) — 選取資料庫連線
 
-    [SET DESCRIPTOR](ecpg-sql-set-descriptor.md) — 在 SQL 描述區中設定資訊
+  - [SET DESCRIPTOR](ecpg-sql-set-descriptor.md) — 在 SQL 描述區中設定資訊
 
-    [TYPE](ecpg-sql-type.md) — 定義新的資料型別
+  - [TYPE](ecpg-sql-type.md) — 定義新的資料型別
 
-    [VAR](ecpg-sql-var.md) — 定義變數
+  - [VAR](ecpg-sql-var.md) — 定義變數
 
-    [WHENEVER](ecpg-sql-whenever.md) — 指定 SQL 陳述式引發特定類別條件時要採取的動作
+  - [WHENEVER](ecpg-sql-whenever.md) — 指定 SQL 陳述式引發特定類別條件時要採取的動作
 
-[34.15. Informix 相容模式](ecpg-informix-compat.md)
-:   [34.15.1. 額外的型別](ecpg-informix-compat.md#ECPG-INFORMIX-TYPES)
+- [34.15. Informix 相容模式](ecpg-informix-compat.md)
+  - [34.15.1. 額外的型別](ecpg-informix-compat.md#ECPG-INFORMIX-TYPES)
 
-    [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ECPG-INFORMIX-STATEMENTS)
+  - [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ECPG-INFORMIX-STATEMENTS)
 
-    [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
+  - [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
 
-    [34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
+  - [34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
 
-    [34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
+  - [34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
 
-[34.16. Oracle 相容模式](ecpg-oracle-compat.md)
+- [34.16. Oracle 相容模式](ecpg-oracle-compat.md)
 
-[34.17. 內部運作](ecpg-develop.md)
+- [34.17. 內部運作](ecpg-develop.md)
 
 <a id="id-1.7.5.2"></a><a id="id-1.7.5.3"></a><a id="id-1.7.5.4"></a>
 
