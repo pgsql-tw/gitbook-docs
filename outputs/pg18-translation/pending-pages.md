@@ -2,7 +2,7 @@
 
 來源：PostgreSQL 18.6 官方手冊；依目前 `SUMMARY.md` 產生。
 
-待譯頁面：4 頁。
+待譯頁面：3 頁。
 
 ## 根目錄
 
@@ -122,7 +122,7 @@
 - [ ] `appendixes/features/features-sql-standard.md` — D.1. Supported Features #
 - [ ] `appendixes/features/unsupported-features-sql-standard.md` — D.2. Unsupported Features #
 - [x] `appendixes/features/xml-limits-conformance.md` — D.3. XML 限制與 SQL/XML 符合性 #
-- [ ] `appendixes/glossary/README.md` — Appendix M. Glossary
+- [x] `appendixes/glossary/README.md` — 附錄 M. 詞彙表
 - [x] `appendixes/limits/README.md` — 附錄 K. PostgreSQL 限制
 - [x] `appendixes/release/README.md` — 附錄 E. 版本說明
 - [x] `appendixes/release/release-18-1.md` — E.5. 18.1 版 #

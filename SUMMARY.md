@@ -1135,7 +1135,7 @@
     * [J.6. 風格指南 #](appendixes/docguide/docguide-style.md)
   * [附錄 K. PostgreSQL 限制](appendixes/limits/README.md)
   * [附錄 L：縮寫](appendixes/acronyms/README.md)
-  * [Appendix M. Glossary](appendixes/glossary/README.md)
+  * [附錄 M. 詞彙表](appendixes/glossary/README.md)
   * [附錄 N. 色彩支援](appendixes/color/README.md)
     * [N.1. 何時使用色彩 #](appendixes/color/color-when.md)
     * [N.2. 設定色彩 #](appendixes/color/color-which.md)
