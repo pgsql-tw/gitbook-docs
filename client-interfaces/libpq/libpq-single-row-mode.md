@@ -9,14 +9,14 @@
 這種做法可能行不通。在這類情況下，應用程式可以在
 *單列模式*（single-row mode）或*分塊模式*（chunked
 mode）下使用
-[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 與 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)。在這些模式下，結果資料列會在從伺服器接收到時即傳回給
+[`PQsendQuery`](libpq-async.md#libpq-pqsendquery) 與 [`PQgetResult`](libpq-async.md#libpq-pqgetresult)。在這些模式下，結果資料列會在從伺服器接收到時即傳回給
 應用程式：單列模式一次傳回一列，分塊模式則成組傳回。
 
-要進入其中一種模式，請在成功呼叫 [`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY)
-（或其同系列函式）之後，立即呼叫 [`PQsetSingleRowMode`](libpq-single-row-mode.md#LIBPQ-PQSETSINGLEROWMODE)
-或 [`PQsetChunkedRowsMode`](libpq-single-row-mode.md#LIBPQ-PQSETCHUNKEDROWSMODE)。
+要進入其中一種模式，請在成功呼叫 [`PQsendQuery`](libpq-async.md#libpq-pqsendquery)
+（或其同系列函式）之後，立即呼叫 [`PQsetSingleRowMode`](libpq-single-row-mode.md#libpq-pqsetsinglerowmode)
+或 [`PQsetChunkedRowsMode`](libpq-single-row-mode.md#libpq-pqsetchunkedrowsmode)。
 這項模式選擇只對目前正在執行的查詢有效。接著如
-[第 32.4 節](libpq-async.md)所述，重複呼叫 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)，
+[第 32.4 節](libpq-async.md)所述，重複呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult)，
 直到它傳回 null 為止。若查詢傳回任何資料列，這些資料列會以一個或多個
 `PGresult` 物件傳回；這些物件看起來與一般查詢結果相同，
 差別只在於狀態碼：單列模式為
@@ -28,7 +28,7 @@ mode）下使用
 在最後一列之後（若查詢傳回零列，則是立即），會傳回一個狀態為
 `PGRES_TUPLES_OK` 的零列物件；這就是不會再有資料列送達的訊號。
 （但請注意，仍然必須繼續呼叫
-[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)，直到它傳回 null 為止。）所有
+[`PQgetResult`](libpq-async.md#libpq-pqgetresult)，直到它傳回 null 為止。）所有
 這些 `PGresult` 物件都會包含與該查詢的一般
 `PGresult` 物件相同的資料列描述資料（欄位名稱、型別等）。
 每個物件都應該照常以 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 釋放。
@@ -39,7 +39,7 @@ mode）下使用
 
 <a id="LIBPQ-PQSETSINGLEROWMODE"></a>
 
-`PQsetSingleRowMode`<a id="id-1.7.3.13.7.1.1.1.2"></a> [#](#LIBPQ-PQSETSINGLEROWMODE)
+### `PQsetSingleRowMode`<a id="id-1.7.3.13.7.1.1.1.2"></a> [#](#libpq-pqsetsinglerowmode) <a href="#libpq-pqsetsinglerowmode" id="libpq-pqsetsinglerowmode"></a>
 
 為目前正在執行的查詢選擇單列模式。
 
@@ -49,16 +49,16 @@ mode）下使用
 ```
 
 此函式只能在
-[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 或其某個同系列函式之後立即呼叫，
+[`PQsendQuery`](libpq-async.md#libpq-pqsendquery) 或其某個同系列函式之後立即呼叫，
 且須在對該連線進行任何其他操作（例如
-[`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 或
-[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)）之前。若在正確的時機呼叫，
+[`PQconsumeInput`](libpq-async.md#libpq-pqconsumeinput) 或
+[`PQgetResult`](libpq-async.md#libpq-pqgetresult)）之前。若在正確的時機呼叫，
 此函式會為目前的查詢啟用單列模式並傳回 1。否則模式維持不變，
 函式傳回 0。無論哪種情況，目前的查詢完成後，模式都會恢復為一般模式。
 
 <a id="LIBPQ-PQSETCHUNKEDROWSMODE"></a>
 
-`PQsetChunkedRowsMode`<a id="id-1.7.3.13.7.1.2.1.2"></a> [#](#LIBPQ-PQSETCHUNKEDROWSMODE)
+### `PQsetChunkedRowsMode`<a id="id-1.7.3.13.7.1.2.1.2"></a> [#](#libpq-pqsetchunkedrowsmode) <a href="#libpq-pqsetchunkedrowsmode" id="libpq-pqsetchunkedrowsmode"></a>
 
 為目前正在執行的查詢選擇分塊模式。
 
@@ -68,14 +68,14 @@ mode）下使用
 ```
 
 此函式與
-[`PQsetSingleRowMode`](libpq-single-row-mode.md#LIBPQ-PQSETSINGLEROWMODE) 類似，差別在於它
+[`PQsetSingleRowMode`](libpq-single-row-mode.md#libpq-pqsetsinglerowmode) 類似，差別在於它
 指定每個 `PGresult` 最多取得 *`chunkSize`* 列，
 而不一定只有一列。
 此函式只能在
-[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 或其某個同系列函式之後立即呼叫，
+[`PQsendQuery`](libpq-async.md#libpq-pqsendquery) 或其某個同系列函式之後立即呼叫，
 且須在對該連線進行任何其他操作（例如
-[`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 或
-[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)）之前。若在正確的時機呼叫，
+[`PQconsumeInput`](libpq-async.md#libpq-pqconsumeinput) 或
+[`PQgetResult`](libpq-async.md#libpq-pqgetresult)）之前。若在正確的時機呼叫，
 此函式會為目前的查詢啟用分塊模式並傳回 1。否則模式維持不變，
 函式傳回 0。無論哪種情況，目前的查詢完成後，模式都會恢復為一般模式。
 

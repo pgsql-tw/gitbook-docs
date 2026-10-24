@@ -1,6 +1,6 @@
 <a id="LIBPQ-THREADING"></a>
 
-## 32.21. 多執行緒程式中的行為 [#](#LIBPQ-THREADING)
+## 32.21. 多執行緒程式中的行為 [#](#libpq-threading) <a href="#libpq-threading" id="libpq-threading"></a>
 
 <a id="id-1.7.3.28.2"></a>
 
@@ -12,15 +12,16 @@
 
 <a id="LIBPQ-PQISTHREADSAFE"></a>
 
-`PQisthreadsafe`<a id="id-1.7.3.28.6.1.1.2"></a> [#](#LIBPQ-PQISTHREADSAFE)
-:   傳回 libpq 函式庫的執行緒安全狀態。
+### `PQisthreadsafe`<a id="id-1.7.3.28.6.1.1.2"></a> [#](#libpq-pqisthreadsafe) <a href="#libpq-pqisthreadsafe" id="libpq-pqisthreadsafe"></a>
 
-    ```
+傳回 libpq 函式庫的執行緒安全狀態。
+
+```
 
     int PQisthreadsafe();
-    ```
+```
 
-    若 libpq 是執行緒安全的則傳回 1，否則傳回 0。在版本 17 以上一律傳回 1。
+若 libpq 是執行緒安全的則傳回 1，否則傳回 0。在版本 17 以上一律傳回 1。
 
 已棄用的函式 [`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 與 [`PQoidStatus`](libpq-exec.md#LIBPQ-PQOIDSTATUS) 不是執行緒安全的，不應在多執行緒程式中使用。[`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 可以用 [`PQcancelBlocking`](libpq-cancel.md#LIBPQ-PQCANCELBLOCKING) 取代。[`PQoidStatus`](libpq-exec.md#LIBPQ-PQOIDSTATUS) 可以用 [`PQoidValue`](libpq-exec.md#LIBPQ-PQOIDVALUE) 取代。
 

@@ -1,6 +1,6 @@
 <a id="LIBPQ-BUILD"></a>
 
-## 32.22. 建置 libpq 程式 [#](#LIBPQ-BUILD)
+## 32.22. 建置 libpq 程式 [#](#libpq-build) <a href="#libpq-build" id="libpq-build"></a>
 
 <a id="id-1.7.3.29.2"></a>
 

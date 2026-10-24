@@ -65,7 +65,7 @@ PostgreSQL 14 中引入的，但它是用戶端功能，
 ### 注意
 
 在 libpq 中，管線模式最好搭配
-[非阻塞模式](libpq-async.md#LIBPQ-PQSETNONBLOCKING)使用。若
+[非阻塞模式](libpq-async.md#libpq-pqsetnonblocking)使用。若
 在阻塞模式下使用，用戶端與伺服器之間可能會發生死結。
 [<a id="id-1.7.3.12.9.3.1.3"></a>[15]](#ftn.id-1.7.3.12.9.3.1.3)
 
@@ -74,18 +74,18 @@ PostgreSQL 14 中引入的，但它是用戶端功能，
 #### 32.5.1.1. 發出查詢 [#](#LIBPQ-PIPELINE-SENDING)
 
 進入管線模式之後，應用程式使用
-[`PQsendQueryParams`](libpq-async.md#LIBPQ-PQSENDQUERYPARAMS)
+[`PQsendQueryParams`](libpq-async.md#libpq-pqsendqueryparams)
 或其預備查詢版本的同系列函式
-[`PQsendQueryPrepared`](libpq-async.md#LIBPQ-PQSENDQUERYPREPARED) 送出請求。
+[`PQsendQueryPrepared`](libpq-async.md#libpq-pqsendqueryprepared) 送出請求。
 這些請求會在用戶端排入佇列，直到刷寫到伺服器為止；
 這會在使用 [`PQpipelineSync`](libpq-pipeline-mode.md#LIBPQ-PQPIPELINESYNC)
 於管線中建立同步點時發生，
-或在呼叫 [`PQflush`](libpq-async.md#LIBPQ-PQFLUSH) 時發生。
-函式 [`PQsendPrepare`](libpq-async.md#LIBPQ-PQSENDPREPARE)、
-[`PQsendDescribePrepared`](libpq-async.md#LIBPQ-PQSENDDESCRIBEPREPARED)、
-[`PQsendDescribePortal`](libpq-async.md#LIBPQ-PQSENDDESCRIBEPORTAL)、
-[`PQsendClosePrepared`](libpq-async.md#LIBPQ-PQSENDCLOSEPREPARED) 與
-[`PQsendClosePortal`](libpq-async.md#LIBPQ-PQSENDCLOSEPORTAL) 在管線模式下也可以運作。
+或在呼叫 [`PQflush`](libpq-async.md#libpq-pqflush) 時發生。
+函式 [`PQsendPrepare`](libpq-async.md#libpq-pqsendprepare)、
+[`PQsendDescribePrepared`](libpq-async.md#libpq-pqsenddescribeprepared)、
+[`PQsendDescribePortal`](libpq-async.md#libpq-pqsenddescribeportal)、
+[`PQsendClosePrepared`](libpq-async.md#libpq-pqsendcloseprepared) 與
+[`PQsendClosePortal`](libpq-async.md#libpq-pqsendcloseportal) 在管線模式下也可以運作。
 結果的處理方式說明如下。
 
 伺服器會依照用戶端送出的順序執行陳述式並傳回結果。
@@ -289,7 +289,7 @@ PostgreSQL 原始碼發行版的
 管線模式，則傳回 1 且不採取任何動作。若目前的陳述式尚未處理完畢，
 或尚未呼叫 `PQgetResult` 收集
 所有先前已送出之查詢的結果，則傳回 0（此時，
-請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得關於該失敗的
+請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得關於該失敗的
 更多資訊）。
 
 <a id="LIBPQ-PQPIPELINESYNC"></a>

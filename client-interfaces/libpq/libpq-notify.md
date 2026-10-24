@@ -39,14 +39,14 @@ typedef struct pgNotify
 
 處理完 `PQnotifies` 傳回的
 `PGnotify` 物件後，務必以
-[`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 將其釋放。只需釋放
+[`PQfreemem`](libpq-misc.md#libpq-pqfreemem) 將其釋放。只需釋放
 `PGnotify` 指標即可；
 `relname` 與 `extra`
 欄位並不代表各自獨立的記憶體配置。（這些欄位的名稱
 是歷史沿革的結果；特別是，頻道名稱不必與
 關聯名稱有任何關係。）
 
-[範例 32.2](libpq-example.md#LIBPQ-EXAMPLE-2) 提供了一個範例程式，示範
+[範例 32.2](libpq-example.md#libpq-example-2) 提供了一個範例程式，示範
 非同步通知的用法。
 
 `PQnotifies` 實際上並不會從
@@ -59,16 +59,16 @@ libpq 版本中，確保及時收到
 浪費處理能力，已不建議使用。
 
 在沒有實用的命令可執行時，檢查 `NOTIFY` 訊息的較佳方法是
-呼叫 [`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT)，然後檢查
+呼叫 [`PQconsumeInput`](libpq-async.md#libpq-pqconsumeinput)，然後檢查
 `PQnotifies`。你可以使用
 `select()` 等待資料從
 伺服器到達，如此除非有事要處理，否則不會耗用 CPU 資源。
-（請參閱 [`PQsocket`](libpq-status.md#LIBPQ-PQSOCKET) 以取得要搭配
+（請參閱 [`PQsocket`](libpq-status.md#libpq-pqsocket) 以取得要搭配
 `select()` 使用的檔案描述子編號。）請注意，
 無論你是以
-[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY)/[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 送出命令，還是
+[`PQsendQuery`](libpq-async.md#libpq-pqsendquery)/[`PQgetResult`](libpq-async.md#libpq-pqgetresult) 送出命令，還是
 只使用 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC)，這種方式都能正常運作。不過，你應該記得
-在每次 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 或 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 之後檢查
+在每次 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 或 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 之後檢查
 `PQnotifies`，以確認在命令處理期間是否有通知傳入。
 
 ---

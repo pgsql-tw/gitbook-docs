@@ -72,7 +72,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 `PGEVT_RESULTCREATE` [#](#LIBPQ-PGEVT-RESULTCREATE)
 
-結果建立事件會因應任何產生結果的查詢執行函式而觸發，包括 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)。此事件只會在結果成功建立之後才觸發。
+結果建立事件會因應任何產生結果的查詢執行函式而觸發，包括 [`PQgetResult`](libpq-async.md#libpq-pqgetresult)。此事件只會在結果成功建立之後才觸發。
 
 ```
 
@@ -89,7 +89,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 `PGEVT_RESULTCOPY` [#](#LIBPQ-PGEVT-RESULTCOPY)
 
-結果複製事件會因應 [`PQcopyResult`](libpq-misc.md#LIBPQ-PQCOPYRESULT) 而觸發。此事件只會在複製完成之後才觸發。只有已成功處理來源結果之 `PGEVT_RESULTCREATE` 或 `PGEVT_RESULTCOPY` 事件的事件程序，才會收到 `PGEVT_RESULTCOPY` 事件。
+結果複製事件會因應 [`PQcopyResult`](libpq-misc.md#libpq-pqcopyresult) 而觸發。此事件只會在複製完成之後才觸發。只有已成功處理來源結果之 `PGEVT_RESULTCREATE` 或 `PGEVT_RESULTCOPY` 事件的事件程序，才會收到 `PGEVT_RESULTCOPY` 事件。
 
 ```
 
@@ -194,7 +194,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
     int PQresultSetInstanceData(PGresult *res, PGEventProc proc, void *data);
 ```
 
-請注意，*`data`* 所代表的任何儲存空間都不會被 [`PQresultMemorySize`](libpq-misc.md#LIBPQ-PQRESULTMEMORYSIZE) 計入，除非它是使用 [`PQresultAlloc`](libpq-misc.md#LIBPQ-PQRESULTALLOC) 配置的。（建議這麼做，因為如此一來，在結果被銷毀時就不需要另行明確釋放這類儲存空間。）
+請注意，*`data`* 所代表的任何儲存空間都不會被 [`PQresultMemorySize`](libpq-misc.md#libpq-pqresultmemorysize) 計入，除非它是使用 [`PQresultAlloc`](libpq-misc.md#libpq-pqresultalloc) 配置的。（建議這麼做，因為如此一來，在結果被銷毀時就不需要另行明確釋放這類儲存空間。）
 
 <a id="LIBPQ-PQRESULTINSTANCEDATA"></a>
 

@@ -14,9 +14,9 @@ PostgreSQL 中的 `COPY` 命令具有從 libpq 所使用的網路連線讀取或
 
 整體流程是：應用程式先透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或其中一個同等的函式發出 SQL `COPY` 命令。對此的回應（如果命令沒有錯誤）會是一個帶有狀態碼 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN`（取決於指定的複製方向）的 `PGresult` 物件。接著應用程式應該使用本節的函式來接收或傳送資料列。資料傳輸完成時，會再傳回另一個 `PGresult` 物件，表示傳輸成功或失敗。成功時其狀態為 `PGRES_COMMAND_OK`，若遇到問題則為 `PGRES_FATAL_ERROR`。此時即可再透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 發出其他 SQL 命令。（在 `COPY` 操作進行期間，無法使用同一個連線執行其他 SQL 命令。）
 
-如果 `COPY` 命令是透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 在可能包含其他命令的字串中發出的，那麼應用程式在完成 `COPY` 流程之後，必須繼續透過 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 擷取結果。只有在 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 傳回 `NULL` 時，才能確定 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 的命令字串已執行完畢，可以安全地發出更多命令。
+如果 `COPY` 命令是透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 在可能包含其他命令的字串中發出的，那麼應用程式在完成 `COPY` 流程之後，必須繼續透過 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 擷取結果。只有在 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 傳回 `NULL` 時，才能確定 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 的命令字串已執行完畢，可以安全地發出更多命令。
 
-本節的函式應該只在從 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 取得 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN` 結果狀態之後執行。
+本節的函式應該只在從 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 取得 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN` 結果狀態之後執行。
 
 帶有上述其中一個狀態值的 `PGresult` 物件，會攜帶一些關於即將開始之 `COPY` 操作的額外資料。這些額外資料可以使用同樣用於查詢結果的函式取得：
 
@@ -58,7 +58,7 @@ STDIN` 期間傳送資料。若在連線不處於 `COPY_IN` 狀態時呼叫，�
                       int nbytes);
 ```
 
-將指定的 *`buffer`* 中長度為 *`nbytes`* 的 `COPY` 資料傳送到伺服器。若資料已排入佇列，結果為 1；若因緩衝區已滿而未排入佇列（這只會在非阻塞模式下發生），結果為零；若發生錯誤，結果為 -1。（若傳回值為 -1，請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得詳細資訊。若傳回值為零，請等待可寫入後再試一次。）
+將指定的 *`buffer`* 中長度為 *`nbytes`* 的 `COPY` 資料傳送到伺服器。若資料已排入佇列，結果為 1；若因緩衝區已滿而未排入佇列（這只會在非阻塞模式下發生），結果為零；若發生錯誤，結果為 -1。（若傳回值為 -1，請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得詳細資訊。若傳回值為零，請等待可寫入後再試一次。）
 
 應用程式可以將 `COPY` 資料串流切分成任何方便大小的緩衝區載量。傳送時，緩衝區載量的邊界不具任何語意上的意義。資料串流的內容必須符合 `COPY` 命令所預期的資料格式；詳細資訊請參閱 [COPY](../../reference/sql-commands/sql-copy.md)。
 
@@ -76,9 +76,9 @@ STDIN` 期間傳送資料。若在連線不處於 `COPY_IN` 狀態時呼叫，�
 
 若 *`errormsg`* 為 `NULL`，則成功結束 `COPY_IN` 操作。若 *`errormsg`* 不為 `NULL`，則 `COPY` 會被強制失敗，並以 *`errormsg`* 所指向的字串作為錯誤訊息。（不過，不應假設伺服器一定會傳回這則確切的錯誤訊息，因為伺服器可能已經基於自身的原因使 `COPY` 失敗。）
 
-若已送出終止訊息，結果為 1；在非阻塞模式下，這可能只表示終止訊息已成功排入佇列。（在非阻塞模式下，為了確定資料已經送出，接下來你應該等待可寫入，然後呼叫 [`PQflush`](libpq-async.md#LIBPQ-PQFLUSH)，重複此步驟直到它傳回零為止。）零表示函式因緩衝區已滿而無法將終止訊息排入佇列；這只會在非阻塞模式下發生。（在這種情況下，請等待可寫入，然後再次呼叫 [`PQputCopyEnd`](libpq-copy.md#LIBPQ-PQPUTCOPYEND)。）若發生嚴重錯誤，則傳回 -1；你可以使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得詳細資訊。
+若已送出終止訊息，結果為 1；在非阻塞模式下，這可能只表示終止訊息已成功排入佇列。（在非阻塞模式下，為了確定資料已經送出，接下來你應該等待可寫入，然後呼叫 [`PQflush`](libpq-async.md#libpq-pqflush)，重複此步驟直到它傳回零為止。）零表示函式因緩衝區已滿而無法將終止訊息排入佇列；這只會在非阻塞模式下發生。（在這種情況下，請等待可寫入，然後再次呼叫 [`PQputCopyEnd`](libpq-copy.md#LIBPQ-PQPUTCOPYEND)。）若發生嚴重錯誤，則傳回 -1；你可以使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得詳細資訊。
 
-成功呼叫 [`PQputCopyEnd`](libpq-copy.md#LIBPQ-PQPUTCOPYEND) 之後，請呼叫 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 以取得 `COPY` 命令的最終結果狀態。你可以用一般的方式等待此結果就緒。然後再回到正常操作。
+成功呼叫 [`PQputCopyEnd`](libpq-copy.md#LIBPQ-PQPUTCOPYEND) 之後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 以取得 `COPY` 命令的最終結果狀態。你可以用一般的方式等待此結果就緒。然後再回到正常操作。
 
 <a id="LIBPQ-COPY-RECEIVE"></a>
 
@@ -100,13 +100,13 @@ STDOUT` 期間接收資料。若在連線不處於 `COPY_OUT` 狀態時呼叫，
                       int async);
 ```
 
-嘗試在 `COPY` 期間從伺服器取得另一個資料列。資料一律一次傳回一個資料列；如果只有部分資料列可用，則不會傳回。成功傳回一個資料列時，會配置一塊記憶體來存放資料。*`buffer`* 參數必須不為 `NULL`。*`*buffer`* 會被設為指向所配置的記憶體，或在沒有傳回緩衝區的情況下設為 `NULL`。不為 `NULL` 的結果緩衝區在不再需要時，應該使用 [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 釋放。
+嘗試在 `COPY` 期間從伺服器取得另一個資料列。資料一律一次傳回一個資料列；如果只有部分資料列可用，則不會傳回。成功傳回一個資料列時，會配置一塊記憶體來存放資料。*`buffer`* 參數必須不為 `NULL`。*`*buffer`* 會被設為指向所配置的記憶體，或在沒有傳回緩衝區的情況下設為 `NULL`。不為 `NULL` 的結果緩衝區在不再需要時，應該使用 [`PQfreemem`](libpq-misc.md#libpq-pqfreemem) 釋放。
 
-成功傳回一個資料列時，傳回值為該資料列中資料的位元組數（一律大於零）。傳回的字串一律以 null 結尾，不過這大概只對文字格式的 `COPY` 有用。結果為零表示 `COPY` 仍在進行中，但尚無可用的資料列（這只有在 *`async`* 為 true 時才可能發生）。結果為 -1 表示 `COPY` 已完成。結果為 -2 表示發生錯誤（原因請查閱 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)）。
+成功傳回一個資料列時，傳回值為該資料列中資料的位元組數（一律大於零）。傳回的字串一律以 null 結尾，不過這大概只對文字格式的 `COPY` 有用。結果為零表示 `COPY` 仍在進行中，但尚無可用的資料列（這只有在 *`async`* 為 true 時才可能發生）。結果為 -1 表示 `COPY` 已完成。結果為 -2 表示發生錯誤（原因請查閱 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage)）。
 
-當 *`async`* 為 true（非零）時，[`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA) 不會阻塞等待輸入；若 `COPY` 仍在進行中但沒有完整的資料列可用，它會傳回零。（在這種情況下，請等待可讀取，然後先呼叫 [`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT)，再次呼叫 [`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA)。）當 *`async`* 為 false（零）時，[`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA) 會阻塞，直到有資料可用或操作完成為止。
+當 *`async`* 為 true（非零）時，[`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA) 不會阻塞等待輸入；若 `COPY` 仍在進行中但沒有完整的資料列可用，它會傳回零。（在這種情況下，請等待可讀取，然後先呼叫 [`PQconsumeInput`](libpq-async.md#libpq-pqconsumeinput)，再次呼叫 [`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA)。）當 *`async`* 為 false（零）時，[`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA) 會阻塞，直到有資料可用或操作完成為止。
 
-[`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA) 傳回 -1 之後，請呼叫 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 以取得 `COPY` 命令的最終結果狀態。你可以用一般的方式等待此結果就緒。然後再回到正常操作。
+[`PQgetCopyData`](libpq-copy.md#LIBPQ-PQGETCOPYDATA) 傳回 -1 之後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 以取得 `COPY` 命令的最終結果狀態。你可以用一般的方式等待此結果就緒。然後再回到正常操作。
 
 <a id="LIBPQ-COPY-DEPRECATED"></a>
 
@@ -144,7 +144,7 @@ STDOUT` 期間接收資料。若在連線不處於 `COPY_OUT` 狀態時呼叫，
                        int bufsize);
 ```
 
-此函式類似於 [`PQgetline`](libpq-copy.md#LIBPQ-PQGETLINE)，但可供必須以非同步方式（也就是不阻塞）讀取 `COPY` 資料的應用程式使用。發出 `COPY` 命令並取得 `PGRES_COPY_OUT` 回應之後，應用程式應該呼叫 [`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 與 [`PQgetlineAsync`](libpq-copy.md#LIBPQ-PQGETLINEASYNC)，直到偵測到資料結束訊號為止。
+此函式類似於 [`PQgetline`](libpq-copy.md#LIBPQ-PQGETLINE)，但可供必須以非同步方式（也就是不阻塞）讀取 `COPY` 資料的應用程式使用。發出 `COPY` 命令並取得 `PGRES_COPY_OUT` 回應之後，應用程式應該呼叫 [`PQconsumeInput`](libpq-async.md#libpq-pqconsumeinput) 與 [`PQgetlineAsync`](libpq-copy.md#LIBPQ-PQGETLINEASYNC)，直到偵測到資料結束訊號為止。
 
 與 [`PQgetline`](libpq-copy.md#LIBPQ-PQGETLINE) 不同，此函式自行負責偵測資料結束。
 
@@ -196,9 +196,9 @@ STDOUT` 期間接收資料。若在連線不處於 `COPY_OUT` 狀態時呼叫，
     int PQendcopy(PGconn *conn);
 ```
 
-此函式會等待，直到伺服器完成複製為止。它應該在使用 [`PQputline`](libpq-copy.md#LIBPQ-PQPUTLINE) 將最後一個字串送往伺服器之後，或在使用 `PQgetline` 從伺服器接收最後一個字串之後呼叫。必須呼叫此函式，否則伺服器將會與用戶端「失去同步」。從此函式返回時，伺服器已準備好接收下一個 SQL 命令。成功完成時傳回值為 0，否則為非零。（若傳回值為非零，請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得詳細資訊。）
+此函式會等待，直到伺服器完成複製為止。它應該在使用 [`PQputline`](libpq-copy.md#LIBPQ-PQPUTLINE) 將最後一個字串送往伺服器之後，或在使用 `PQgetline` 從伺服器接收最後一個字串之後呼叫。必須呼叫此函式，否則伺服器將會與用戶端「失去同步」。從此函式返回時，伺服器已準備好接收下一個 SQL 命令。成功完成時傳回值為 0，否則為非零。（若傳回值為非零，請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得詳細資訊。）
 
-使用 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 時，應用程式應該以重複執行 [`PQgetline`](libpq-copy.md#LIBPQ-PQGETLINE) 來回應 `PGRES_COPY_OUT` 結果，並在看到終止行之後呼叫 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY)。接著它應該回到 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 迴圈，直到 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 傳回空指標為止。同樣地，`PGRES_COPY_IN` 結果的處理方式是一連串的 [`PQputline`](libpq-copy.md#LIBPQ-PQPUTLINE) 呼叫，接著呼叫 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY)，然後回到 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 迴圈。這樣的安排可確保嵌在一連串 SQL 命令中的 `COPY` 命令能正確執行。
+使用 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 時，應用程式應該以重複執行 [`PQgetline`](libpq-copy.md#LIBPQ-PQGETLINE) 來回應 `PGRES_COPY_OUT` 結果，並在看到終止行之後呼叫 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY)。接著它應該回到 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 迴圈，直到 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 傳回空指標為止。同樣地，`PGRES_COPY_IN` 結果的處理方式是一連串的 [`PQputline`](libpq-copy.md#LIBPQ-PQPUTLINE) 呼叫，接著呼叫 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY)，然後回到 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 迴圈。這樣的安排可確保嵌在一連串 SQL 命令中的 `COPY` 命令能正確執行。
 
 較舊的應用程式很可能會透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 送出 `COPY`，並假設在 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY) 之後交易就已完成。只有當 `COPY` 是命令字串中唯一的 SQL 命令時，這樣做才會正確運作。
 

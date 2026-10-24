@@ -787,7 +787,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
 #### E.6.3.5. [libpq](../../client-interfaces/libpq/README.md) [#](#RELEASE-18-LIBPQ)
 
-* 新增函式 [`PQfullProtocolVersion()`](../../client-interfaces/libpq/libpq-status.md#LIBPQ-PQFULLPROTOCOLVERSION)，
+* 新增函式 [`PQfullProtocolVersion()`](../../client-interfaces/libpq/libpq-status.md#libpq-pqfullprotocolversion)，
   用於回報包含次要版本號的完整協定版本號 (Jacob
   Champion, Jelte Fennema-Nio)
   [§](https://postgr.es/c/cdb6b0fdb)
@@ -800,7 +800,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   (Alexander Kukushkin, Jelte Fennema-Nio, Tomas Vondra)
   [§](https://postgr.es/c/28a1121fd)
   [§](https://postgr.es/c/0d06a7eac)
-* 為所有訊息類型（包括認證）新增 [`PQtrace()`](../../client-interfaces/libpq/libpq-control.md#LIBPQ-PQTRACE) 輸出 (Jelte Fennema-Nio)
+* 為所有訊息類型（包括認證）新增 [`PQtrace()`](../../client-interfaces/libpq/libpq-control.md#libpq-pqtrace) 輸出 (Jelte Fennema-Nio)
   [§](https://postgr.es/c/ea92f3a0a)
   [§](https://postgr.es/c/a5c6b8f22)
   [§](https://postgr.es/c/b8b3f861f)

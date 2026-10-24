@@ -1,12 +1,12 @@
 <a id="LIBPQ-EXAMPLE"></a>
 
-## 32.23. 範例程式 [#](#LIBPQ-EXAMPLE)
+## 32.23. 範例程式 [#](#libpq-example) <a href="#libpq-example" id="libpq-example"></a>
 
 這些範例以及其他範例可以在原始碼發行版的 `src/test/examples` 目錄中找到。
 
 <a id="LIBPQ-EXAMPLE-1"></a>
 
-**範例 32.1. libpq 範例程式 1**
+### **範例 32.1. libpq 範例程式 1** [#](#libpq-example-1) <a href="#libpq-example-1" id="libpq-example-1"></a>
 
 ```
 
@@ -146,7 +146,7 @@ main(int argc, char **argv)
 
 <br><a id="LIBPQ-EXAMPLE-2"></a>
 
-**範例 32.2. libpq 範例程式 2**
+### **範例 32.2. libpq 範例程式 2** [#](#libpq-example-2) <a href="#libpq-example-2" id="libpq-example-2"></a>
 
 ```
 
@@ -305,7 +305,7 @@ main(int argc, char **argv)
 
 <br><a id="LIBPQ-EXAMPLE-3"></a>
 
-**範例 32.3. libpq 範例程式 3**
+### **範例 32.3. libpq 範例程式 3** [#](#libpq-example-3) <a href="#libpq-example-3" id="libpq-example-3"></a>
 
 ```
 

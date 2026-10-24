@@ -1617,7 +1617,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        回傳描述 <span class="productname">PostgreSQL</span> 伺服器版本的字串。你也可以從 <a class="xref" href="../../server-administration/runtime-config/runtime-config-preset.md#GUC-SERVER-VERSION">server_version</a> 取得這項資訊；若需要機器可讀的版本，則可以使用 <a class="xref" href="../../server-administration/runtime-config/runtime-config-preset.md#GUC-SERVER-VERSION-NUM">server_version_num</a>。軟體開發人員應該使用 <code class="varname">server_version_num</code>（自 8.2 版起提供）或 <a class="xref" href="../../client-interfaces/libpq/libpq-status.md#LIBPQ-PQSERVERVERSION"><code class="function">PQserverVersion</code></a>，而不是剖析文字形式的版本。
+        回傳描述 <span class="productname">PostgreSQL</span> 伺服器版本的字串。你也可以從 <a class="xref" href="../../server-administration/runtime-config/runtime-config-preset.md#GUC-SERVER-VERSION">server_version</a> 取得這項資訊；若需要機器可讀的版本，則可以使用 <a class="xref" href="../../server-administration/runtime-config/runtime-config-preset.md#GUC-SERVER-VERSION-NUM">server_version_num</a>。軟體開發人員應該使用 <code class="varname">server_version_num</code>（自 8.2 版起提供）或 <a class="xref" href="../../client-interfaces/libpq/libpq-status.md#libpq-pqserverversion"><code class="function">PQserverVersion</code></a>，而不是剖析文字形式的版本。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.33.13.3.2.2.2.1.1.1"></a>
 <code class="function">unicode_version</code> ()

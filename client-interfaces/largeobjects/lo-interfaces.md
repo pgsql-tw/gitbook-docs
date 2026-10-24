@@ -42,7 +42,7 @@ PostgreSQL 的大型物件介面
 若在執行這些函式中的任何一個時發生錯誤，
 該函式會傳回在其他情況下不可能出現的值，通常是 0 或 -1。
 描述錯誤的訊息會儲存在連線物件中，
-可以用 [`PQerrorMessage`](../libpq/libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得。
+可以用 [`PQerrorMessage`](../libpq/libpq-status.md#libpq-pqerrormessage) 取得。
 
 使用這些函式的用戶端應用程式應該引入標頭檔
 `libpq/libpq-fs.h`，並與

@@ -27,7 +27,7 @@
     PGresult *PQexec(PGconn *conn, const char *command);
 ```
 
-傳回 `PGresult` 指標，也可能傳回空指標。除了記憶體不足，或是無法將命令送到伺服器之類的嚴重錯誤之外，通常會傳回非空指標。應該呼叫 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 函式來檢查傳回值是否有任何錯誤（包括空指標的情況，此時它會傳回 `PGRES_FATAL_ERROR`）。請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得這類錯誤的更多資訊。
+傳回 `PGresult` 指標，也可能傳回空指標。除了記憶體不足，或是無法將命令送到伺服器之類的嚴重錯誤之外，通常會傳回非空指標。應該呼叫 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 函式來檢查傳回值是否有任何錯誤（包括空指標的情況，此時它會傳回 `PGRES_FATAL_ERROR`）。請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得這類錯誤的更多資訊。
 
 命令字串可以包含多個 SQL 命令（以分號分隔）。在單一次 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 呼叫中送出的多個查詢會在單一交易中處理，除非查詢字串中含有明確的 `BEGIN`/`COMMIT` 命令，將它分成多個交易。（關於伺服器如何處理多重查詢字串的更多細節，請參閱[第 54.2.2.1 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT)。）但請注意，傳回的 `PGresult` 結構只描述字串中最後執行的那個命令的結果。若其中某個命令失敗，字串的處理就會在該命令停止，而傳回的 `PGresult` 會描述該錯誤狀況。
 
@@ -121,7 +121,7 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 
 此函式會從 *`query`* 字串建立名為 *`stmtName`* 的預備陳述式，該字串必須只包含單一 SQL 命令。*`stmtName`* 可以是 `""`，以建立未命名陳述式，此時任何既有的未命名陳述式都會被自動取代；否則，若該陳述式名稱已在目前工作階段中定義，就會發生錯誤。若使用任何參數，在查詢中以 `$1`、`$2` 等方式參照它們。*`nParams`* 是在陣列 *`paramTypes[]`* 中預先指定型別的參數個數。（當 *`nParams`* 為零時，此陣列指標可以是 `NULL`。）*`paramTypes[]`* 以 OID 指定要指派給各參數符號的資料型別。若 *`paramTypes`* 為 `NULL`，或陣列中的某個元素為零，伺服器會以處理無型別字面字串的相同方式，為該參數符號指派資料型別。此外，查詢中也可以使用編號大於 *`nParams`* 的參數符號；這些符號的資料型別同樣會被推斷出來。（要查出推斷出的資料型別，請參閱 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED)。）
 
-與 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 相同，結果通常是一個 `PGresult` 物件，其內容表示伺服器端的成功或失敗。空結果表示記憶體不足，或完全無法傳送命令。請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得這類錯誤的更多資訊。
+與 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 相同，結果通常是一個 `PGresult` 物件，其內容表示伺服器端的成功或失敗。空結果表示記憶體不足，或完全無法傳送命令。請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得這類錯誤的更多資訊。
 
 供 [`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 使用的預備陳述式，也可以透過執行 SQL [PREPARE](../../reference/sql-commands/sql-prepare.md) 陳述式來建立。
 
@@ -263,7 +263,7 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 
 - <a id="LIBPQ-PGRES-TUPLES-CHUNK"></a>`PGRES_TUPLES_CHUNK` [#](#LIBPQ-PGRES-TUPLES-CHUNK)
 
-  `PGresult` 包含目前命令的數個結果元組。只有在為該查詢選擇了分塊模式時，才會出現此狀態（請參閱[第 32.6 節](libpq-single-row-mode.md)）。元組數不會超過傳給 [`PQsetChunkedRowsMode`](libpq-single-row-mode.md#LIBPQ-PQSETCHUNKEDROWSMODE) 的上限。
+  `PGresult` 包含目前命令的數個結果元組。只有在為該查詢選擇了分塊模式時，才會出現此狀態（請參閱[第 32.6 節](libpq-single-row-mode.md)）。元組數不會超過傳給 [`PQsetChunkedRowsMode`](libpq-single-row-mode.md#libpq-pqsetchunkedrowsmode) 的上限。
 
 - <a id="LIBPQ-PGRES-PIPELINE-SYNC"></a>`PGRES_PIPELINE_SYNC` [#](#LIBPQ-PGRES-PIPELINE-SYNC)
 
@@ -302,7 +302,7 @@ SELECT * FROM mytable WHERE x = $1::bigint;
 
 若發生錯誤，傳回的字串會以換行字元結尾。呼叫者不應直接釋放此結果。當相關聯的 `PGresult` 控制代碼傳給 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 時，它就會被釋放。
 
-緊接在 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT) 呼叫之後，[`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)（針對連線）會傳回與 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)（針對結果）相同的字串。不過，`PGresult` 會保留它的錯誤訊息直到被銷毀為止，而連線的錯誤訊息則會在進行後續操作時改變。當你想知道與特定 `PGresult` 相關的狀態時，請使用 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)；當你想知道連線上最近一次操作的狀態時，請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE)。
+緊接在 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 呼叫之後，[`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage)（針對連線）會傳回與 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)（針對結果）相同的字串。不過，`PGresult` 會保留它的錯誤訊息直到被銷毀為止，而連線的錯誤訊息則會在進行後續操作時改變。當你想知道與特定 `PGresult` 相關的狀態時，請使用 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)；當你想知道連線上最近一次操作的狀態時，請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage)。
 
 <a id="LIBPQ-PQRESULTVERBOSEERRORMESSAGE"></a>
 
@@ -893,7 +893,7 @@ libpq 內部產生的錯誤會有嚴重程度與主要訊息，但通常沒有�
     unsigned char *PQunescapeBytea(const unsigned char *from, size_t *to_length);
 ```
 
-參數 *`from`* 指向一個字串，例如對 `bytea` 欄位套用 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 時可能傳回的字串。[`PQunescapeBytea`](libpq-exec.md#LIBPQ-PQUNESCAPEBYTEA) 會將此字串表示法轉換為其二進位表示法。它傳回一個指向以 `malloc()` 配置之緩衝區的指標，發生錯誤時則傳回 `NULL`，並將緩衝區的大小放入 *`to_length`*。不再需要該結果時，必須使用 [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 將它釋放。
+參數 *`from`* 指向一個字串，例如對 `bytea` 欄位套用 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 時可能傳回的字串。[`PQunescapeBytea`](libpq-exec.md#LIBPQ-PQUNESCAPEBYTEA) 會將此字串表示法轉換為其二進位表示法。它傳回一個指向以 `malloc()` 配置之緩衝區的指標，發生錯誤時則傳回 `NULL`，並將緩衝區的大小放入 *`to_length`*。不再需要該結果時，必須使用 [`PQfreemem`](libpq-misc.md#libpq-pqfreemem) 將它釋放。
 
 此轉換並非 [`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA) 的完全逆運算，因為從 [`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 收到的字串並不預期是「已跳脫」的。特別是，這表示不需要考慮字串的引號處理，因此也不需要 `PGconn` 參數。
 

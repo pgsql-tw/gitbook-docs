@@ -15,7 +15,7 @@
   ### 注意
 
   直接以 libpq 常式操作由 ecpg 建立的資料庫連線控制代碼並不是好主意。
-* `ECPGtransactionStatus(const char *connection_name)` 會傳回由 *`connection_name`* 所識別之連線目前的交易狀態。關於傳回狀態碼的詳細資訊，請參閱[第 32.2 節](../libpq/libpq-status.md)與 libpq 的 [`PQtransactionStatus`](../libpq/libpq-status.md#LIBPQ-PQTRANSACTIONSTATUS)。
+* `ECPGtransactionStatus(const char *connection_name)` 會傳回由 *`connection_name`* 所識別之連線目前的交易狀態。關於傳回狀態碼的詳細資訊，請參閱[第 32.2 節](../libpq/libpq-status.md)與 libpq 的 [`PQtransactionStatus`](../libpq/libpq-status.md#libpq-pqtransactionstatus)。
 * `ECPGstatus(int lineno,
   const char* connection_name)` 若已連線到資料庫則傳回 true，否則傳回 false。若只使用單一連線，*`connection_name`* 可以為 `NULL`。
 

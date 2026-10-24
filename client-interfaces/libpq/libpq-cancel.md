@@ -245,7 +245,7 @@
 
 [`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 只是基於向後相容性的理由而存在。應該改用 [`PQcancelBlocking`](libpq-cancel.md#LIBPQ-PQCANCELBLOCKING)。使用 [`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 並不比使用 [`PQcancelBlocking`](libpq-cancel.md#LIBPQ-PQCANCELBLOCKING) 有任何好處。
 
-請求伺服器放棄處理目前的命令。它直接對 `PGconn` 物件操作，並在失敗時將錯誤訊息存放在 `PGconn` 物件中（可以從那裡透過 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得）。雖然功能相同，但這種做法在多執行緒程式或訊號處理常式中並不安全，因為覆寫 `PGconn` 的錯誤訊息可能會擾亂該連線上目前正在進行的操作。
+請求伺服器放棄處理目前的命令。它直接對 `PGconn` 物件操作，並在失敗時將錯誤訊息存放在 `PGconn` 物件中（可以從那裡透過 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得）。雖然功能相同，但這種做法在多執行緒程式或訊號處理常式中並不安全，因為覆寫 `PGconn` 的錯誤訊息可能會擾亂該連線上目前正在進行的操作。
 
 ---
 

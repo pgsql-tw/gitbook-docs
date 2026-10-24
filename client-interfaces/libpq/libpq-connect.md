@@ -6,7 +6,7 @@
 
 [32.1.2. 參數關鍵字](libpq-connect.md#libpq-paramkeywords)
 
-下列函式用於建立與 PostgreSQL 後端伺服器的連線。一個應用程式可以同時開啟多個後端連線。（這麼做的原因之一是為了存取超過一個資料庫。）每個連線都以一個 `PGconn`<a id="id-1.7.3.8.2.3"></a> 物件表示，此物件可由函式 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB)、[`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 或 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) 取得。請注意，這些函式一律會傳回非空的物件指標，除非（或許）記憶體少到連 `PGconn` 物件都無法配置。在透過連線物件送出查詢之前，應該呼叫 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 函式，檢查傳回值以確認連線成功。
+下列函式用於建立與 PostgreSQL 後端伺服器的連線。一個應用程式可以同時開啟多個後端連線。（這麼做的原因之一是為了存取超過一個資料庫。）每個連線都以一個 `PGconn`<a id="id-1.7.3.8.2.3"></a> 物件表示，此物件可由函式 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB)、[`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 或 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) 取得。請注意，這些函式一律會傳回非空的物件指標，除非（或許）記憶體少到連 `PGconn` 物件都無法配置。在透過連線物件送出查詢之前，應該呼叫 [`PQstatus`](libpq-status.md#libpq-pqstatus) 函式，檢查傳回值以確認連線成功。
 
 ### 警告
 
@@ -124,14 +124,14 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 只要滿足下列幾項限制，[`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)、`PQconnectStart` 與 `PQconnectPoll` 都不會阻塞：
 
 * 必須適當地使用 `hostaddr` 參數，以避免進行 DNS 查詢。詳細資訊請參閱[第 32.1.2 節](libpq-connect.md#libpq-paramkeywords)中此參數的說明。
-* 如果你呼叫 [`PQtrace`](libpq-control.md#LIBPQ-PQTRACE)，請確保追蹤輸出所寫入的串流物件不會阻塞。
+* 如果你呼叫 [`PQtrace`](libpq-control.md#libpq-pqtrace)，請確保追蹤輸出所寫入的串流物件不會阻塞。
 * 你必須確保在呼叫 `PQconnectPoll` 之前，通訊端處於適當的狀態，如下所述。
 
 要開始一個非阻塞的連線請求，請呼叫 `PQconnectStart` 或 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)。如果結果為空（null），表示 libpq 無法配置新的 `PGconn` 結構。否則會傳回一個有效的 `PGconn` 指標（不過它尚未代表一個有效的資料庫連線）。接著呼叫 `PQstatus(conn)`。如果結果是 `CONNECTION_BAD`，表示連線嘗試已經失敗，通常是因為連線參數無效。
 
 如果 `PQconnectStart` 或 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 成功，下一階段是輪詢 libpq，讓它可以繼續進行連線程序。使用 `PQsocket(conn)` 取得資料庫連線底層通訊端的描述子。（注意：不要假設通訊端在多次 `PQconnectPoll` 呼叫之間保持不變。）依下列方式循環：如果 `PQconnectPoll(conn)` 上一次傳回 `PGRES_POLLING_READING`，就等待通訊端可供讀取（由 `select()`、`poll()` 或類似的系統函式指出）。請注意，如果你的系統上有 `select(2)` 或 `poll(2)`，`PQsocketPoll` 可以將其設定抽象化，有助於減少樣板程式碼。然後再次呼叫 `PQconnectPoll(conn)`。反之，如果 `PQconnectPoll(conn)` 上一次傳回 `PGRES_POLLING_WRITING`，就等待通訊端可供寫入，然後再次呼叫 `PQconnectPoll(conn)`。在第一次循環時，也就是你尚未呼叫 `PQconnectPoll` 時，請視為它上一次傳回了 `PGRES_POLLING_WRITING`。持續此循環，直到 `PQconnectPoll(conn)` 傳回 `PGRES_POLLING_FAILED`（表示連線程序已失敗），或傳回 `PGRES_POLLING_OK`（表示連線已成功建立）。
 
-在連線過程中的任何時刻，都可以呼叫 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 來檢查連線的狀態。如果此呼叫傳回 `CONNECTION_BAD`，表示連線程序已失敗；如果傳回 `CONNECTION_OK`，表示連線已就緒。這兩種狀態同樣可以從前述 `PQconnectPoll` 的傳回值偵測出來。在非同步連線程序期間（且只在此期間），也可能出現其他狀態。這些狀態指出連線程序目前所處的階段，例如可能有助於向使用者提供回饋。這些狀態如下：
+在連線過程中的任何時刻，都可以呼叫 [`PQstatus`](libpq-status.md#libpq-pqstatus) 來檢查連線的狀態。如果此呼叫傳回 `CONNECTION_BAD`，表示連線程序已失敗；如果傳回 `CONNECTION_OK`，表示連線已就緒。這兩種狀態同樣可以從前述 `PQconnectPoll` 的傳回值偵測出來。在非同步連線程序期間（且只在此期間），也可能出現其他狀態。這些狀態指出連線程序目前所處的階段，例如可能有助於向使用者提供回饋。這些狀態如下：
 
 - <a id="LIBPQ-CONNECTION-STARTED"></a>`CONNECTION_STARTED` [#](#LIBPQ-CONNECTION-STARTED)
 
@@ -199,7 +199,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 `PQsocketPoll`<a id="id-1.7.3.8.2.11.6.1.2"></a> [#](#LIBPQ-PQSOCKETPOLL)
 
 <a id="id-1.7.3.8.2.11.6.2.1.1"></a>
-輪詢以 [`PQsocket`](libpq-status.md#LIBPQ-PQSOCKET) 取得的連線底層通訊端描述子。此函式的主要用途是逐步完成 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 說明中所述的連線程序。
+輪詢以 [`PQsocket`](libpq-status.md#libpq-pqsocket) 取得的連線底層通訊端描述子。此函式的主要用途是逐步完成 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 說明中所述的連線程序。
 
 ```
 
@@ -211,7 +211,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
 此函式對檔案描述子進行輪詢，並可選擇設定逾時。如果 *`forRead`* 不為零，函式會在通訊端可供讀取時結束。如果 *`forWrite`* 不為零，函式會在通訊端可供寫入時結束。
 
-逾時由 *`end_time`* 指定，也就是停止等待的時間，以自 Unix 紀元起算的微秒數表示（亦即 `time_t` 乘以 1 百萬）。如果 *`end_time`* 是 `-1`，逾時為無限。如果 *`end_time`* 是 `0`（或者實際上是現在之前的任何時間），則立即逾時（不阻塞）。逾時值可以方便地透過將所需的微秒數加到 [`PQgetCurrentTimeUSec`](libpq-misc.md#LIBPQ-PQGETCURRENTTIMEUSEC) 的結果上來計算。請注意，底層系統呼叫的精確度可能低於微秒，因此實際的延遲可能不精確。
+逾時由 *`end_time`* 指定，也就是停止等待的時間，以自 Unix 紀元起算的微秒數表示（亦即 `time_t` 乘以 1 百萬）。如果 *`end_time`* 是 `-1`，逾時為無限。如果 *`end_time`* 是 `0`（或者實際上是現在之前的任何時間），則立即逾時（不阻塞）。逾時值可以方便地透過將所需的微秒數加到 [`PQgetCurrentTimeUSec`](libpq-misc.md#libpq-pqgetcurrenttimeusec) 的結果上來計算。請注意，底層系統呼叫的精確度可能低於微秒，因此實際的延遲可能不精確。
 
 如果指定的條件已滿足，函式會傳回大於 `0` 的值；如果發生逾時，傳回 `0`；如果發生錯誤，則傳回 `-1`。錯誤可以透過檢查 `errno(3)` 的值取得。如果 *`forRead`* 與 *`forWrite`* 都為零，函式會立即傳回逾時指示。
 
@@ -245,7 +245,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
 傳回一個連線選項陣列。這可用來找出所有可能的 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 選項及其目前的預設值。傳回值指向一個 `PQconninfoOption` 結構的陣列，該陣列以一個 `keyword` 為空指標的項目結尾。如果無法配置記憶體，則傳回空指標。請注意，目前的預設值（`val` 欄位）會取決於環境變數及其他環境狀態。缺少或無效的服務檔會被默默忽略。呼叫者必須將連線選項資料視為唯讀。
 
-處理完選項陣列之後，請將它傳給 [`PQconninfoFree`](libpq-misc.md#LIBPQ-PQCONNINFOFREE) 以釋放它。如果沒有這麼做，每次呼叫 [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS) 都會洩漏少量記憶體。
+處理完選項陣列之後，請將它傳給 [`PQconninfoFree`](libpq-misc.md#libpq-pqconninfofree) 以釋放它。如果沒有這麼做，每次呼叫 [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS) 都會洩漏少量記憶體。
 
 <a id="LIBPQ-PQCONNINFO"></a>
 
@@ -277,7 +277,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
 如果 `errmsg` 不是 `NULL`，那麼成功時 `*errmsg` 會設為 `NULL`，否則設為一個以 `malloc` 配置、說明問題所在的錯誤字串。（`*errmsg` 也可能被設為 `NULL` 而函式傳回 `NULL`；這表示記憶體不足。）
 
-處理完選項陣列之後，請將它傳給 [`PQconninfoFree`](libpq-misc.md#LIBPQ-PQCONNINFOFREE) 以釋放它。如果沒有這麼做，每次呼叫 [`PQconninfoParse`](libpq-connect.md#LIBPQ-PQCONNINFOPARSE) 都會洩漏一些記憶體。反之，如果發生錯誤且 `errmsg` 不是 `NULL`，請務必使用 [`PQfreemem`](libpq-misc.md#LIBPQ-PQFREEMEM) 釋放錯誤字串。
+處理完選項陣列之後，請將它傳給 [`PQconninfoFree`](libpq-misc.md#libpq-pqconninfofree) 以釋放它。如果沒有這麼做，每次呼叫 [`PQconninfoParse`](libpq-connect.md#LIBPQ-PQCONNINFOPARSE) 都會洩漏一些記憶體。反之，如果發生錯誤且 `errmsg` 不是 `NULL`，請務必使用 [`PQfreemem`](libpq-misc.md#libpq-pqfreemem) 釋放錯誤字串。
 
 <a id="LIBPQ-PQFINISH"></a>
 
@@ -290,7 +290,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
     void PQfinish(PGconn *conn);
 ```
 
-請注意，即使伺服器連線嘗試失敗（由 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 指出），應用程式仍應呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 以釋放 `PGconn` 物件所使用的記憶體。呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 之後，就不得再使用 `PGconn` 指標。
+請注意，即使伺服器連線嘗試失敗（由 [`PQstatus`](libpq-status.md#libpq-pqstatus) 指出），應用程式仍應呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 以釋放 `PGconn` 物件所使用的記憶體。呼叫 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 之後，就不得再使用 `PGconn` 指標。
 
 <a id="LIBPQ-PQRESET"></a>
 
@@ -919,7 +919,7 @@ SSL 壓縮如今被認為不安全，已不再建議使用。OpenSSL 1.1.0 預�
 
 `max_protocol_version` [#](#LIBPQ-CONNECT-MAX-PROTOCOL-VERSION)
 
-指定要向伺服器請求的協定版本。預設使用 PostgreSQL 協定的 `3.0` 版，除非連線字串指定了依賴更高協定版本的功能，此時會使用 libpq 所支援的最新版本。如果伺服器不支援用戶端所請求的協定版本，連線會自動降級為伺服器所支援的較低次要協定版本。連線嘗試完成後，你可以使用 [`PQfullProtocolVersion`](libpq-status.md#LIBPQ-PQFULLPROTOCOLVERSION) 找出實際協商出的確切協定版本。
+指定要向伺服器請求的協定版本。預設使用 PostgreSQL 協定的 `3.0` 版，除非連線字串指定了依賴更高協定版本的功能，此時會使用 libpq 所支援的最新版本。如果伺服器不支援用戶端所請求的協定版本，連線會自動降級為伺服器所支援的較低次要協定版本。連線嘗試完成後，你可以使用 [`PQfullProtocolVersion`](libpq-status.md#libpq-pqfullprotocolversion) 找出實際協商出的確切協定版本。
 
 目前支援的值為 `3.0`、`3.2` 與 `latest`。`latest` 值等同於所使用之 libpq 版本所支援的最新協定版本，目前為 `3.2`。
 
