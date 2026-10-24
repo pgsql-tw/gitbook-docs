@@ -107,7 +107,9 @@
     - [`PGTYPESinterval_to_asc`](ecpg-pgtypes-interval.md#pgtypesintervaltoasc)
     - [`PGTYPESinterval_copy`](ecpg-pgtypes-interval.md#pgtypesintervalcopy)
 
-  - [34.6.6. decimal 型別](ecpg-pgtypes.md#ecpg-pgtypes-decimal)
+  - [34.6.6. decimal 型別](ecpg-pgtypes-decimal.md#ecpg-pgtypes-decimal)
+    - [`PGTYPESdecimal_new`](ecpg-pgtypes-decimal.md#ecpg-pgtypes-decimal-new)
+    - [`PGTYPESdecimal_free`](ecpg-pgtypes-decimal.md#ecpg-pgtypes-decimal-free)
 
   - [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ecpg-pgtypes-errno)
 
