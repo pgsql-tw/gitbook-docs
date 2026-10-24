@@ -337,11 +337,11 @@ C 中的 date 型別讓你的程式能夠處理 SQL 型別 date 的資料。Post
 
 請注意，此函式一律假設日期採 MDY 格式，而且 ECPG 中目前沒有可以變更這一點的變數。
 
-[表 34.2](ecpg-pgtypes.md#ECPG-PGTYPESDATE-FROM-ASC-TABLE) 列出允許的輸入格式。表中「結果」欄最後三列的英文說明依序表示：年份與該年第幾日、儒略日、西元前 99 年。
+[表 34.2](ecpg-pgtypes.md#ecpg-pgtypesdate-from-asc-table) 列出允許的輸入格式。表中「結果」欄最後三列的英文說明依序表示：年份與該年第幾日、儒略日、西元前 99 年。
 
 <a id="ECPG-PGTYPESDATE-FROM-ASC-TABLE"></a>
 
-**表 34.2. `PGTYPESdate_from_asc` 的有效輸入格式**
+### 表 34.2. `PGTYPESdate_from_asc` 的有效輸入格式 [#](#ecpg-pgtypesdate-from-asc-table) <a href="#ecpg-pgtypesdate-from-asc-table" id="ecpg-pgtypesdate-from-asc-table"></a>
 
 <table border="1" class="table" summary="PGTYPESdate_from_asc 的有效輸入格式"><colgroup><col/><col/></colgroup><thead><tr><th>輸入</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">January 8, 1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1999-01-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1/8/1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">1/18/1999</code></td><td><code class="literal">January 18, 1999</code></td></tr><tr><td><code class="literal">01/02/03</code></td><td><code class="literal">February 1, 2003</code></td></tr><tr><td><code class="literal">1999-Jan-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">Jan-08-1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-1999</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">99-Jan-08</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-99</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">08-Jan-06</code></td><td><code class="literal">January 8, 2006</code></td></tr><tr><td><code class="literal">Jan-08-99</code></td><td><code class="literal">January 8, 1999</code></td></tr><tr><td><code class="literal">19990108</code></td><td><code class="literal">ISO 8601; January 8, 1999</code></td></tr><tr><td><code class="literal">990108</code></td><td><code class="literal">ISO 8601; January 8, 1999</code></td></tr><tr><td><code class="literal">1999.008</code></td><td><code class="literal">year and day of year</code></td></tr><tr><td><code class="literal">J2451187</code></td><td><code class="literal">Julian day</code></td></tr><tr><td><code class="literal">January 8, 99 BC</code></td><td><code class="literal">year 99 before the Common Era</code></td></tr></tbody></table>
 
@@ -450,11 +450,11 @@ C 中的 date 型別讓你的程式能夠處理 SQL 型別 date 的資料。Post
 
 其他所有字元都會原封不動地複製到輸出字串。
 
-[表 34.3](ecpg-pgtypes.md#ECPG-PGTYPESDATE-FMT-ASC-EXAMPLE-TABLE) 列出幾種可能的格式，讓你了解如何使用此函式。所有輸出結果都以同一個日期為準：1959 年 11 月 23 日。
+[表 34.3](ecpg-pgtypes.md#ecpg-pgtypesdate-fmt-asc-example-table) 列出幾種可能的格式，讓你了解如何使用此函式。所有輸出結果都以同一個日期為準：1959 年 11 月 23 日。
 
 <a id="ECPG-PGTYPESDATE-FMT-ASC-EXAMPLE-TABLE"></a>
 
-**表 34.3. `PGTYPESdate_fmt_asc` 的有效輸入格式**
+### 表 34.3. `PGTYPESdate_fmt_asc` 的有效輸入格式 [#](#ecpg-pgtypesdate-fmt-asc-example-table) <a href="#ecpg-pgtypesdate-fmt-asc-example-table" id="ecpg-pgtypesdate-fmt-asc-example-table"></a>
 
 <table border="1" class="table" summary="PGTYPESdate_fmt_asc 的有效輸入格式"><colgroup><col/><col/></colgroup><thead><tr><th>格式</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">mmddyy</code></td><td><code class="literal">112359</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">231159</code></td></tr><tr><td><code class="literal">yymmdd</code></td><td><code class="literal">591123</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">59/11/23</code></td></tr><tr><td><code class="literal">yy mm dd</code></td><td><code class="literal">59 11 23</code></td></tr><tr><td><code class="literal">yy.mm.dd</code></td><td><code class="literal">59.11.23</code></td></tr><tr><td><code class="literal">.mm.yyyy.dd.</code></td><td><code class="literal">.11.1959.23.</code></td></tr><tr><td><code class="literal">mmm. dd, yyyy</code></td><td><code class="literal">Nov. 23, 1959</code></td></tr><tr><td><code class="literal">mmm dd yyyy</code></td><td><code class="literal">Nov 23 1959</code></td></tr><tr><td><code class="literal">yyyy dd mm</code></td><td><code class="literal">1959 23 11</code></td></tr><tr><td><code class="literal">ddd, mmm. dd, yyyy</code></td><td><code class="literal">Mon, Nov. 23, 1959</code></td></tr><tr><td><code class="literal">(ddd) mmm. dd, yyyy</code></td><td><code class="literal">(Mon) Nov. 23, 1959</code></td></tr></tbody></table>
 
@@ -475,11 +475,11 @@ C 中的 date 型別讓你的程式能夠處理 SQL 型別 date 的資料。Post
 
 此函式接收一個指向用來存放運算結果之 date 值的指標（`d`）、剖析日期時使用的格式遮罩（`fmt`），以及內含日期文字表示法的 C char\* 字串（`str`）。文字表示法應該要符合格式遮罩。不過，字串與格式遮罩之間不需要一對一對應。此函式只分析先後順序，並尋找表示年份位置的字面值 `yy` 或 `yyyy`、表示月份位置的 `mm`，以及表示日位置的 `dd`。
 
-[表 34.4](ecpg-pgtypes.md#ECPG-RDEFMTDATE-EXAMPLE-TABLE) 列出幾種可能的格式，讓你了解如何使用此函式。
+[表 34.4](ecpg-pgtypes.md#ecpg-rdefmtdate-example-table) 列出幾種可能的格式，讓你了解如何使用此函式。
 
 <a id="ECPG-RDEFMTDATE-EXAMPLE-TABLE"></a>
 
-**表 34.4. `rdefmtdate` 的有效輸入格式**
+### 表 34.4. `rdefmtdate` 的有效輸入格式 [#](#ecpg-rdefmtdate-example-table) <a href="#ecpg-rdefmtdate-example-table" id="ecpg-rdefmtdate-example-table"></a>
 
 <table border="1" class="table" summary="rdefmtdate 的有效輸入格式"><colgroup><col/><col/><col/></colgroup><thead><tr><th>格式</th><th>字串</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">21-2-54</code></td><td><code class="literal">1954-02-21</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">2-12-54</code></td><td><code class="literal">1954-12-02</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">20111954</code></td><td><code class="literal">1954-11-20</code></td></tr><tr><td><code class="literal">ddmmyy</code></td><td><code class="literal">130464</code></td><td><code class="literal">1964-04-13</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">MAR-12-1967</code></td><td><code class="literal">1967-03-12</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">1954, February 3rd</code></td><td><code class="literal">1954-02-03</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">041269</code></td><td><code class="literal">1969-04-12</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">In the year 2525, in the month of July, mankind will be alive on the 28th day</code></td><td><code class="literal">2525-07-28</code></td></tr><tr><td><code class="literal">dd-mm-yy</code></td><td><code class="literal">I said on the 28th of July in the year 2525</code></td><td><code class="literal">2525-07-28</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">9/14/58</code></td><td><code class="literal">1958-09-14</code></td></tr><tr><td><code class="literal">yy/mm/dd</code></td><td><code class="literal">47/03/29</code></td><td><code class="literal">1947-03-29</code></td></tr><tr><td><code class="literal">mmm.dd.yyyy</code></td><td><code class="literal">oct 28 1975</code></td><td><code class="literal">1975-10-28</code></td></tr><tr><td><code class="literal">mmddyy</code></td><td><code class="literal">Nov 14th, 1985</code></td><td><code class="literal">1985-11-14</code></td></tr></tbody></table>
 
@@ -514,11 +514,11 @@ C 中的 timestamp 型別讓你的程式能夠處理 SQL 型別 timestamp 的資
 
 一般而言，輸入字串可以是允許的日期表示、一個空白字元與允許的時間表示的任意組合。請注意，ECPG 不支援時區。它可以剖析時區，但不會像 PostgreSQL 伺服器那樣據以進行任何計算。時區指定符號會被靜默捨棄。
 
-[表 34.5](ecpg-pgtypes.md#ECPG-PGTYPESTIMESTAMP-FROM-ASC-EXAMPLE-TABLE) 列出幾個輸入字串的範例。表中「結果」欄括號內的英文說明表示「已忽略時區指定符號」。
+[表 34.5](ecpg-pgtypes.md#ecpg-pgtypestimestamp-from-asc-example-table) 列出幾個輸入字串的範例。表中「結果」欄括號內的英文說明表示「已忽略時區指定符號」。
 
 <a id="ECPG-PGTYPESTIMESTAMP-FROM-ASC-EXAMPLE-TABLE"></a>
 
-**表 34.5. `PGTYPEStimestamp_from_asc` 的有效輸入格式**
+### 表 34.5. `PGTYPEStimestamp_from_asc` 的有效輸入格式 [#](#ecpg-pgtypestimestamp-from-asc-example-table) <a href="#ecpg-pgtypestimestamp-from-asc-example-table" id="ecpg-pgtypestimestamp-from-asc-example-table"></a>
 
 <table border="1" class="table" summary="PGTYPEStimestamp_from_asc 的有效輸入格式"><colgroup><col/><col/></colgroup><thead><tr><th>輸入</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">1999-01-08 04:05:06</code></td><td><code class="literal">1999-01-08 04:05:06</code></td></tr><tr><td><code class="literal">January 8 04:05:06 1999 PST</code></td><td><code class="literal">1999-01-08 04:05:06</code></td></tr><tr><td><code class="literal">1999-Jan-08 04:05:06.789-8</code></td><td><code class="literal">1999-01-08 04:05:06.789 (time zone specifier ignored)</code></td></tr><tr><td><code class="literal">J2451187 04:05-08:00</code></td><td><code class="literal">1999-01-08 04:05:00 (time zone specifier ignored)</code></td></tr></tbody></table>
 
