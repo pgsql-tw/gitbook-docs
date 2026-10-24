@@ -39,7 +39,7 @@ GET DESCRIPTOR descriptor_name VALUE column_number :cvariable = descriptor_item 
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-ITEM"></a>
 
 *`descriptor_item`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-ITEM)
-:   識別要擷取欄位的哪一項資訊的標記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)。
+:   識別要擷取欄位的哪一項資訊的標記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ecpg-named-descriptors)。
 <a id="ECPG-SQL-GET-DESCRIPTOR-CVARIABLE"></a>
 
 *`cvariable`* [#](#ECPG-SQL-GET-DESCRIPTOR-CVARIABLE)

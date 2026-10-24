@@ -2,15 +2,15 @@
 
 ## 34.7. 使用描述區 [#](#ECPG-DESCRIPTORS)
 
-[34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
+[34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ecpg-named-descriptors)
 
-[34.7.2. SQLDA 描述區](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+[34.7.2. SQLDA 描述區](ecpg-descriptors.md#ecpg-sqlda-descriptors)
 
 SQL 描述區是處理 `SELECT`、`FETCH` 或 `DESCRIBE` 陳述式結果的一種較進階的方法。SQL 描述區會把一個資料列的資料連同中繼資料項目，一起歸入同一個資料結構中。執行動態 SQL 陳述式時，結果欄位的性質可能無法事先得知，因此中繼資料特別有用。PostgreSQL 提供兩種使用描述區的方式：具名 SQL 描述區，以及 C 結構形式的 SQLDA。
 
 <a id="ECPG-NAMED-DESCRIPTORS"></a>
 
-### 34.7.1. 具名 SQL 描述區 [#](#ECPG-NAMED-DESCRIPTORS)
+### 34.7.1. 具名 SQL 描述區 [#](#ecpg-named-descriptors) <a href="#ecpg-named-descriptors" id="ecpg-named-descriptors"></a>
 
 具名 SQL 描述區由一個標頭，以及一個或多個項目描述區組成；標頭包含與整個描述區有關的資訊，而每個項目描述區基本上描述結果資料列中的一個欄位。
 
@@ -49,7 +49,7 @@ EXEC SQL PREPARE stmt1 FROM :sql_stmt;
 EXEC SQL DESCRIBE stmt1 INTO SQL DESCRIPTOR mydesc;
 ```
 
-在 PostgreSQL 9.0 之前，`SQL` 關鍵字是選用的，因此使用 `DESCRIPTOR` 與 `SQL DESCRIPTOR` 都會產生具名 SQL 描述區。現在它是必要的；省略 `SQL` 關鍵字會產生 SQLDA 描述區，請參閱[第 34.7.2 節](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)。
+在 PostgreSQL 9.0 之前，`SQL` 關鍵字是選用的，因此使用 `DESCRIPTOR` 與 `SQL DESCRIPTOR` 都會產生具名 SQL 描述區。現在它是必要的；省略 `SQL` 關鍵字會產生 SQLDA 描述區，請參閱[第 34.7.2 節](ecpg-descriptors.md#ecpg-sqlda-descriptors)。
 
 在 `DESCRIBE` 與 `FETCH` 陳述式中，`INTO` 與 `USING` 關鍵字可以同樣地使用：它們會在描述區中產生結果集與中繼資料。
 
@@ -152,7 +152,7 @@ EXEC SQL GET DESCRIPTOR mydesc VALUE 1 :id = DATA;
 
 <a id="ECPG-SQLDA-DESCRIPTORS"></a>
 
-### 34.7.2. SQLDA 描述區 [#](#ECPG-SQLDA-DESCRIPTORS)
+### 34.7.2. SQLDA 描述區 [#](#ecpg-sqlda-descriptors) <a href="#ecpg-sqlda-descriptors" id="ecpg-sqlda-descriptors"></a>
 
 SQLDA 描述區是一種 C 語言結構，同樣可以用來取得查詢的結果集與中繼資料。一個結構儲存結果集中的一筆記錄。
 
@@ -164,7 +164,7 @@ sqlda_t         *mysqlda;
 EXEC SQL FETCH 3 FROM mycursor INTO DESCRIPTOR mysqlda;
 ```
 
-請注意，這裡省略了 `SQL` 關鍵字。[第 34.7.1 節](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)中關於 `INTO` 與 `USING` 關鍵字使用情境的段落也適用於此，另外還有一點補充：在 `DESCRIBE` 陳述式中，若使用 `INTO` 關鍵字，則可以完全省略 `DESCRIPTOR` 關鍵字：
+請注意，這裡省略了 `SQL` 關鍵字。[第 34.7.1 節](ecpg-descriptors.md#ecpg-named-descriptors)中關於 `INTO` 與 `USING` 關鍵字使用情境的段落也適用於此，另外還有一點補充：在 `DESCRIBE` 陳述式中，若使用 `INTO` 關鍵字，則可以完全省略 `DESCRIPTOR` 關鍵字：
 
 ```
 
@@ -275,7 +275,7 @@ typedef struct sqlvar_struct sqlvar_t;
 <a id="ECPG-SQLDA-SQLVAR-SQLDATA"></a>
 
 `sqldata` [#](#ECPG-SQLDA-SQLVAR-SQLDATA)
-:   指向資料。資料的格式說明請參閱[第 34.4.4 節](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)。
+:   指向資料。資料的格式說明請參閱[第 34.4.4 節](ecpg-variables.md#ecpg-variables-type-mapping)。
 <a id="ECPG-SQLDA-SQLVAR-SQLIND"></a>
 
 `sqlind` [#](#ECPG-SQLDA-SQLVAR-SQLIND)

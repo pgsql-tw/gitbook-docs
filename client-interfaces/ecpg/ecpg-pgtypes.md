@@ -2,21 +2,21 @@
 
 ## 34.6. pgtypes 函式庫 [#](#ECPG-PGTYPES)
 
-[34.6.1. 字串](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
+[34.6.1. 字串](ecpg-pgtypes.md#ecpg-pgtypes-cstrings)
 
-[34.6.2. numeric 型別](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
+[34.6.2. numeric 型別](ecpg-pgtypes.md#ecpg-pgtypes-numeric)
 
-[34.6.3. date 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
+[34.6.3. date 型別](ecpg-pgtypes.md#ecpg-pgtypes-date)
 
-[34.6.4. timestamp 型別](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
+[34.6.4. timestamp 型別](ecpg-pgtypes.md#ecpg-pgtypes-timestamp)
 
-[34.6.5. interval 型別](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
+[34.6.5. interval 型別](ecpg-pgtypes.md#ecpg-pgtypes-interval)
 
-[34.6.6. decimal 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
+[34.6.6. decimal 型別](ecpg-pgtypes.md#ecpg-pgtypes-decimal)
 
-[34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
+[34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ecpg-pgtypes-errno)
 
-[34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
+[34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ecpg-pgtypes-constants)
 
 pgtypes 函式庫將 PostgreSQL 資料庫的型別對應到可在 C 程式中使用的 C 等價型別。它也提供在 C 之中、亦即不借助 PostgreSQL 伺服器，對這些型別進行基本計算的函式。請參閱下列範例：
 
@@ -39,13 +39,13 @@ PGTYPESchar_free(out);
 
 <a id="ECPG-PGTYPES-CSTRINGS"></a>
 
-### 34.6.1. 字串 [#](#ECPG-PGTYPES-CSTRINGS)
+### 34.6.1. 字串 [#](#ecpg-pgtypes-cstrings) <a href="#ecpg-pgtypes-cstrings" id="ecpg-pgtypes-cstrings"></a>
 
 有些函式（例如 `PGTYPESnumeric_to_asc`）會傳回指向新配置字串的指標。這些結果應該以 `PGTYPESchar_free` 釋放，而不是用 `free`。（這只在 Windows 上才重要，因為在 Windows 上，記憶體的配置與釋放有時必須由同一個函式庫完成。）
 
 <a id="ECPG-PGTYPES-NUMERIC"></a>
 
-### 34.6.2. numeric 型別 [#](#ECPG-PGTYPES-NUMERIC)
+### 34.6.2. numeric 型別 [#](#ecpg-pgtypes-numeric) <a href="#ecpg-pgtypes-numeric" id="ecpg-pgtypes-numeric"></a>
 
 numeric 型別可以進行任意精確度的計算。PostgreSQL 伺服器中對應的型別請參閱[第 8.1 節](../../the-sql-language/datatype/datatype-numeric.md)。由於精確度任意，這種變數必須能夠動態地擴大與縮小。因此你只能透過 `PGTYPESnumeric_new` 與 `PGTYPESnumeric_free` 函式在堆積（heap）上建立 numeric 變數。decimal 型別與它相似但精確度有限，既可以建立在堆疊（stack）上，也可以建立在堆積上。
 
@@ -267,7 +267,7 @@ numeric 型別可以進行任意精確度的計算。PostgreSQL 伺服器中對�
 
 <a id="ECPG-PGTYPES-DATE"></a>
 
-### 34.6.3. date 型別 [#](#ECPG-PGTYPES-DATE)
+### 34.6.3. date 型別 [#](#ecpg-pgtypes-date) <a href="#ecpg-pgtypes-date" id="ecpg-pgtypes-date"></a>
 
 C 中的 date 型別讓你的程式能夠處理 SQL 型別 date 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
@@ -437,7 +437,7 @@ C 中的 date 型別讓你的程式能夠處理 SQL 型別 date 的資料。Post
 
 <a id="ECPG-PGTYPES-TIMESTAMP"></a>
 
-### 34.6.4. timestamp 型別 [#](#ECPG-PGTYPES-TIMESTAMP)
+### 34.6.4. timestamp 型別 [#](#ecpg-pgtypes-timestamp) <a href="#ecpg-pgtypes-timestamp" id="ecpg-pgtypes-timestamp"></a>
 
 C 中的 timestamp 型別讓你的程式能夠處理 SQL 型別 timestamp 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
@@ -641,7 +641,7 @@ C 中的 timestamp 型別讓你的程式能夠處理 SQL 型別 timestamp 的資
 
 <a id="ECPG-PGTYPES-INTERVAL"></a>
 
-### 34.6.5. interval 型別 [#](#ECPG-PGTYPES-INTERVAL)
+### 34.6.5. interval 型別 [#](#ecpg-pgtypes-interval) <a href="#ecpg-pgtypes-interval" id="ecpg-pgtypes-interval"></a>
 
 C 中的 interval 型別讓你的程式能夠處理 SQL 型別 interval 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
 
@@ -705,7 +705,7 @@ C 中的 interval 型別讓你的程式能夠處理 SQL 型別 interval 的資�
 
 <a id="ECPG-PGTYPES-DECIMAL"></a>
 
-### 34.6.6. decimal 型別 [#](#ECPG-PGTYPES-DECIMAL)
+### 34.6.6. decimal 型別 [#](#ecpg-pgtypes-decimal) <a href="#ecpg-pgtypes-decimal" id="ecpg-pgtypes-decimal"></a>
 
 decimal 型別與 numeric 型別相似，但其精確度上限為 30 位有效數字。numeric 型別只能建立在堆積上；相對地，decimal 型別既可以建立在堆疊上，也可以建立在堆積上（透過 `PGTYPESdecimal_new` 與 `PGTYPESdecimal_free` 函式）。在[第 34.15 節](ecpg-informix-compat.md)所述的 Informix 相容模式中，還有許多其他處理 decimal 型別的函式。
 
@@ -732,7 +732,7 @@ decimal 型別與 numeric 型別相似，但其精確度上限為 30 位有效�
 
 <a id="ECPG-PGTYPES-ERRNO"></a>
 
-### 34.6.7. pgtypeslib 的 errno 值 [#](#ECPG-PGTYPES-ERRNO)
+### 34.6.7. pgtypeslib 的 errno 值 [#](#ecpg-pgtypes-errno) <a href="#ecpg-pgtypes-errno" id="ecpg-pgtypes-errno"></a>
 
 <a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-BAD-NUMERIC"></a>
 
@@ -789,7 +789,7 @@ decimal 型別與 numeric 型別相似，但其精確度上限為 30 位有效�
 
 <a id="ECPG-PGTYPES-CONSTANTS"></a>
 
-### 34.6.8. pgtypeslib 的特殊常數 [#](#ECPG-PGTYPES-CONSTANTS)
+### 34.6.8. pgtypeslib 的特殊常數 [#](#ecpg-pgtypes-constants) <a href="#ecpg-pgtypes-constants" id="ecpg-pgtypes-constants"></a>
 
 <a id="PGTYPESINVALIDTIMESTAMP"></a>
 

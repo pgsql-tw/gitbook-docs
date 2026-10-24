@@ -2,17 +2,17 @@
 
 ## 34.4. 使用主機變數 [#](#ECPG-VARIABLES)
 
-[34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
+[34.4.1. 概觀](ecpg-variables.md#ecpg-variables-overview)
 
-[34.4.2. 宣告區段](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
+[34.4.2. 宣告區段](ecpg-variables.md#ecpg-declare-sections)
 
-[34.4.3. 取得查詢結果](ecpg-variables.md#ECPG-RETRIEVING)
+[34.4.3. 取得查詢結果](ecpg-variables.md#ecpg-retrieving)
 
-[34.4.4. 型別對應](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
+[34.4.4. 型別對應](ecpg-variables.md#ecpg-variables-type-mapping)
 
-[34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+[34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ecpg-variables-nonprimitive-sql)
 
-[34.4.6. 指示變數](ecpg-variables.md#ECPG-INDICATORS)
+[34.4.6. 指示變數](ecpg-variables.md#ecpg-indicators)
 
 在[第 34.3 節](ecpg-commands.md)中，你已經看到如何從嵌入式 SQL 程式執行 SQL 陳述式。其中有些陳述式只使用固定的值，無法把使用者提供的值放進陳述式，也無法讓程式處理查詢傳回的值。這類陳述式在實際的應用程式中並不實用。本節將詳細說明如何透過一種稱為*主機變數*的簡單機制，在 C 程式與嵌入式 SQL 陳述式之間傳遞資料。在嵌入式 SQL 程式中，我們把 SQL 陳述式視為 C 程式碼中的*客人*，而 C 程式碼則是*主機語言*。因此，C 程式的變數稱為*主機變數*。
 
@@ -20,7 +20,7 @@
 
 <a id="ECPG-VARIABLES-OVERVIEW"></a>
 
-### 34.4.1. 概觀 [#](#ECPG-VARIABLES-OVERVIEW)
+### 34.4.1. 概觀 [#](#ecpg-variables-overview) <a href="#ecpg-variables-overview" id="ecpg-variables-overview"></a>
 
 在嵌入式 SQL 中，於 C 程式與 SQL 陳述式之間傳遞資料特別簡單。你不必讓程式把資料貼進陳述式（這會帶來各種麻煩，例如必須正確地為值加上引號），只要把 C 變數的名稱加上冒號前綴寫進 SQL 陳述式即可。例如：
 
@@ -35,7 +35,7 @@ EXEC SQL INSERT INTO sometable VALUES (:v1, 'foo', :v2);
 
 <a id="ECPG-DECLARE-SECTIONS"></a>
 
-### 34.4.2. 宣告區段 [#](#ECPG-DECLARE-SECTIONS)
+### 34.4.2. 宣告區段 [#](#ecpg-declare-sections) <a href="#ecpg-declare-sections" id="ecpg-declare-sections"></a>
 
 若要把資料從程式傳給資料庫（例如作為查詢的參數），或把資料從資料庫傳回程式，用來存放這些資料的 C 變數必須宣告在特別標示的區段中，讓嵌入式 SQL 前置處理器得以知道它們。
 
@@ -76,7 +76,7 @@ EXEC SQL int i = 4;
 
 <a id="ECPG-RETRIEVING"></a>
 
-### 34.4.3. 取得查詢結果 [#](#ECPG-RETRIEVING)
+### 34.4.3. 取得查詢結果 [#](#ecpg-retrieving) <a href="#ecpg-retrieving" id="ecpg-retrieving"></a>
 
 現在你應該已經能把程式產生的資料傳入 SQL 命令了。但要如何取得查詢的結果呢？為此，嵌入式 SQL 提供了常用命令 `SELECT` 與 `FETCH` 的特殊變體。這些命令有一個特殊的 `INTO` 子句，用來指定取得的值要存放到哪些主機變數中。`SELECT` 用於只傳回單一資料列的查詢，而 `FETCH` 則搭配游標，用於傳回多筆資料列的查詢。
 
@@ -130,7 +130,7 @@ do
 
 <a id="ECPG-VARIABLES-TYPE-MAPPING"></a>
 
-### 34.4.4. 型別對應 [#](#ECPG-VARIABLES-TYPE-MAPPING)
+### 34.4.4. 型別對應 [#](#ecpg-variables-type-mapping) <a href="#ecpg-variables-type-mapping" id="ecpg-variables-type-mapping"></a>
 
 當 ECPG 應用程式在 PostgreSQL 伺服器與 C 應用程式之間交換值時，例如從伺服器取得查詢結果，或執行帶有輸入參數的 SQL 陳述式時，這些值需要在 PostgreSQL 資料型別與主機語言變數型別（具體而言就是 C 語言資料型別）之間轉換。ECPG 的重點之一，就是在大多數情況下會自動處理這件事。
 
@@ -550,7 +550,7 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL"></a>
 
-### 34.4.5. 處理非基本 SQL 資料型別 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+### 34.4.5. 處理非基本 SQL 資料型別 [#](#ecpg-variables-nonprimitive-sql) <a href="#ecpg-variables-nonprimitive-sql" id="ecpg-variables-nonprimitive-sql"></a>
 
 本節說明如何在 ECPG 應用程式中處理非純量與使用者自訂的 SQL 層級資料型別。請注意，這與上一節所述的非基本型別主機變數的處理方式不同。
 
@@ -824,7 +824,7 @@ EXEC SQL INSERT INTO test_complex VALUES ('(1,2)', '(3,4)');
 
 <a id="ECPG-INDICATORS"></a>
 
-### 34.4.6. 指示變數 [#](#ECPG-INDICATORS)
+### 34.4.6. 指示變數 [#](#ecpg-indicators) <a href="#ecpg-indicators" id="ecpg-indicators"></a>
 
 上面的範例都沒有處理空值。事實上，如果取得資料的範例從資料庫取得空值，就會引發錯誤。為了能把空值傳給資料庫，或從資料庫取得空值，你需要為每個存放資料的主機變數再附加第二個主機變數規格。這第二個主機變數稱為*指示變數*（indicator），其中包含一個旗標，指出該資料是否為空值；若為空值，實際主機變數的值會被忽略。以下是一個正確處理取得空值的範例：
 

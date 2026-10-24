@@ -2,11 +2,11 @@
 
 ## 34.8. 錯誤處理 [#](#ECPG-ERRORS)
 
-[34.8.1. 設定回呼](ecpg-errors.md#ECPG-WHENEVER)
+[34.8.1. 設定回呼](ecpg-errors.md#ecpg-whenever)
 
-[34.8.2. sqlca](ecpg-errors.md#ECPG-SQLCA)
+[34.8.2. sqlca](ecpg-errors.md#ecpg-sqlca)
 
-[34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ECPG-SQLSTATE-SQLCODE)
+[34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ecpg-sqlstate-sqlcode)
 
 本節說明如何在嵌入式 SQL 程式中處理例外情況與警告。為此有兩種機制，兩者並不互斥，可以同時使用。
 
@@ -15,7 +15,7 @@
 
 <a id="ECPG-WHENEVER"></a>
 
-### 34.8.1. 設定回呼 [#](#ECPG-WHENEVER)
+### 34.8.1. 設定回呼 [#](#ecpg-whenever) <a href="#ecpg-whenever" id="ecpg-whenever"></a>
 
 攔截錯誤與警告的一種簡單方法，是設定一個特定動作，每當發生某個特定情況時就執行它。一般形式如下：
 
@@ -123,7 +123,7 @@ static void set_error_handler(void)
 
 <a id="ECPG-SQLCA"></a>
 
-### 34.8.2. sqlca [#](#ECPG-SQLCA)
+### 34.8.2. sqlca [#](#ecpg-sqlca) <a href="#ecpg-sqlca" id="ecpg-sqlca"></a>
 
 為了提供更強大的錯誤處理，嵌入式 SQL 介面提供了一個名為 `sqlca`（SQL 通訊區，SQL communication area）的全域變數，其結構如下：
 
@@ -203,7 +203,7 @@ sqlstate: 42P01
 
 <a id="ECPG-SQLSTATE-SQLCODE"></a>
 
-### 34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較 [#](#ECPG-SQLSTATE-SQLCODE)
+### 34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較 [#](#ecpg-sqlstate-sqlcode) <a href="#ecpg-sqlstate-sqlcode" id="ecpg-sqlstate-sqlcode"></a>
 
 欄位 `sqlca.sqlstate` 與 `sqlca.sqlcode` 是提供錯誤碼的兩種不同體系。兩者都源自 SQL 標準，但 `SQLCODE` 在 SQL-92 版標準中已被標示為已棄用，並在之後的版本中被移除。因此，強烈建議新的應用程式使用 `SQLSTATE`。
 

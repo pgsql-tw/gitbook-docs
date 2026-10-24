@@ -2,17 +2,17 @@
 
 ## 34.5. 動態 SQL [#](#ECPG-DYNAMIC)
 
-[34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITHOUT-RESULT)
+[34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ecpg-dynamic-without-result)
 
-[34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-INPUT)
+[34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ecpg-dynamic-input)
 
-[34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITH-RESULT)
+[34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ecpg-dynamic-with-result)
 
 在許多情況下，應用程式必須執行的特定 SQL 陳述式在撰寫應用程式時就已經知道。然而，在某些情況下，SQL 陳述式是在執行時期才組成，或是由外部來源提供。在這些情況下，你無法將 SQL 陳述式直接嵌入 C 原始碼中，但有一項機制可以讓你呼叫你在字串變數中提供的任意 SQL 陳述式。
 
 <a id="ECPG-DYNAMIC-WITHOUT-RESULT"></a>
 
-### 34.5.1. 執行不傳回結果集的陳述式 [#](#ECPG-DYNAMIC-WITHOUT-RESULT)
+### 34.5.1. 執行不傳回結果集的陳述式 [#](#ecpg-dynamic-without-result) <a href="#ecpg-dynamic-without-result" id="ecpg-dynamic-without-result"></a>
 
 執行任意 SQL 陳述式最簡單的方式，是使用 `EXECUTE IMMEDIATE` 命令。例如：
 
@@ -29,7 +29,7 @@ EXEC SQL EXECUTE IMMEDIATE :stmt;
 
 <a id="ECPG-DYNAMIC-INPUT"></a>
 
-### 34.5.2. 執行帶有輸入參數的陳述式 [#](#ECPG-DYNAMIC-INPUT)
+### 34.5.2. 執行帶有輸入參數的陳述式 [#](#ecpg-dynamic-input) <a href="#ecpg-dynamic-input" id="ecpg-dynamic-input"></a>
 
 執行任意 SQL 陳述式更強大的方式，是先將它們預備一次，然後依需要多次執行該預備陳述式。也可以預備一個通用版本的陳述式，再透過代入參數來執行它的特定版本。預備陳述式時，在稍後要代入參數的位置寫上問號。例如：
 
@@ -53,7 +53,7 @@ EXEC SQL DEALLOCATE PREPARE name;
 
 <a id="ECPG-DYNAMIC-WITH-RESULT"></a>
 
-### 34.5.3. 執行傳回結果集的陳述式 [#](#ECPG-DYNAMIC-WITH-RESULT)
+### 34.5.3. 執行傳回結果集的陳述式 [#](#ecpg-dynamic-with-result) <a href="#ecpg-dynamic-with-result" id="ecpg-dynamic-with-result"></a>
 
 要執行只有單一結果資料列的 SQL 陳述式，可以使用 `EXECUTE`。要儲存結果，請加上 `INTO` 子句。
 

@@ -2,17 +2,17 @@
 
 ## 34.9. 前置處理器指令 [#](#ECPG-PREPROC)
 
-[34.9.1. 引入檔案](ecpg-preproc.md#ECPG-INCLUDE)
+[34.9.1. 引入檔案](ecpg-preproc.md#ecpg-include)
 
-[34.9.2. define 與 undef 指令](ecpg-preproc.md#ECPG-DEFINE)
+[34.9.2. define 與 undef 指令](ecpg-preproc.md#ecpg-define)
 
-[34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ECPG-IFDEF)
+[34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ecpg-ifdef)
 
 有幾個前置處理器指令可用來改變 `ecpg` 前置處理器剖析與處理檔案的方式。
 
 <a id="ECPG-INCLUDE"></a>
 
-### 34.9.1. 引入檔案 [#](#ECPG-INCLUDE)
+### 34.9.1. 引入檔案 [#](#ecpg-include) <a href="#ecpg-include" id="ecpg-include"></a>
 
 要將外部檔案引入嵌入式 SQL 程式，請使用：
 
@@ -52,7 +52,7 @@ EXEC SQL INCLUDE "filename";
 
 <a id="ECPG-DEFINE"></a>
 
-### 34.9.2. define 與 undef 指令 [#](#ECPG-DEFINE)
+### 34.9.2. define 與 undef 指令 [#](#ecpg-define) <a href="#ecpg-define" id="ecpg-define"></a>
 
 類似於 C 中常見的 `#define` 指令，嵌入式 SQL 也有類似的概念：
 
@@ -101,7 +101,7 @@ DEFINE` 與 `EXEC SQL UNDEF` 的效果不會延續到其他檔案：每個檔案
 
 <a id="ECPG-IFDEF"></a>
 
-### 34.9.3. ifdef、ifndef、elif、else 與 endif 指令 [#](#ECPG-IFDEF)
+### 34.9.3. ifdef、ifndef、elif、else 與 endif 指令 [#](#ecpg-ifdef) <a href="#ecpg-ifdef" id="ecpg-ifdef"></a>
 
 你可以使用下列指令有條件地編譯程式碼區段：
 

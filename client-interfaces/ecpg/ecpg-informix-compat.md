@@ -2,15 +2,15 @@
 
 ## 34.15. Informix 相容模式 [#](#ECPG-INFORMIX-COMPAT)
 
-[34.15.1. 額外的型別](ecpg-informix-compat.md#ECPG-INFORMIX-TYPES)
+[34.15.1. 額外的型別](ecpg-informix-compat.md#ecpg-informix-types)
 
-[34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ECPG-INFORMIX-STATEMENTS)
+[34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ecpg-informix-statements)
 
-[34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
+[34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ecpg-informix-sqlda)
 
 [34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
 
-[34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
+[34.15.5. 額外的常數](ecpg-informix-compat.md#ecpg-informix-constants)
 
 `ecpg` 可以在所謂的 *Informix 相容模式*下執行。啟用此模式時，它會嘗試表現得如同 Informix E/SQL 的 Informix 預編譯器一樣。一般來說，這讓你可以用錢字號取代 `EXEC SQL` 基本指令，來引導嵌入式 SQL 命令：
 
@@ -37,7 +37,7 @@ Informix 相容模式與 ECPG 的 pgtypeslib 函式庫密切相關。pgtypeslib 
 
 <a id="ECPG-INFORMIX-TYPES"></a>
 
-### 34.15.1. 額外的型別 [#](#ECPG-INFORMIX-TYPES)
+### 34.15.1. 額外的型別 [#](#ecpg-informix-types) <a href="#ecpg-informix-types" id="ecpg-informix-types"></a>
 
 Informix 特有的「string」虛擬型別用於儲存已去除右側空白的字元字串資料，現在於 Informix 模式中不需使用 `typedef` 即可支援。事實上，在 Informix 模式中，ECPG 會拒絕處理含有 `typedef sometype string;` 的原始檔。
 
@@ -52,7 +52,7 @@ EXEC SQL FETCH MYCUR INTO :userid;
 
 <a id="ECPG-INFORMIX-STATEMENTS"></a>
 
-### 34.15.2. 額外／缺少的嵌入式 SQL 陳述式 [#](#ECPG-INFORMIX-STATEMENTS)
+### 34.15.2. 額外／缺少的嵌入式 SQL 陳述式 [#](#ecpg-informix-statements) <a href="#ecpg-informix-statements" id="ecpg-informix-statements"></a>
 
 <a id="ECPG-INFORMIX-STATEMENTS-CLOSE-DATABASE"></a>
 
@@ -77,9 +77,9 @@ EXEC SQL FETCH MYCUR INTO :userid;
 
 <a id="ECPG-INFORMIX-SQLDA"></a>
 
-### 34.15.3. 與 Informix 相容的 SQLDA 描述區 [#](#ECPG-INFORMIX-SQLDA)
+### 34.15.3. 與 Informix 相容的 SQLDA 描述區 [#](#ecpg-informix-sqlda) <a href="#ecpg-informix-sqlda" id="ecpg-informix-sqlda"></a>
 
-Informix 相容模式支援的結構與[第 34.7.2 節](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)所述的結構不同。請見下方：
+Informix 相容模式支援的結構與[第 34.7.2 節](ecpg-descriptors.md#ecpg-sqlda-descriptors)所述的結構不同。請見下方：
 
 ```
 
@@ -915,7 +915,7 @@ LONG_MAX`）。
 
 <a id="ECPG-INFORMIX-CONSTANTS"></a>
 
-### 34.15.5. 額外的常數 [#](#ECPG-INFORMIX-CONSTANTS)
+### 34.15.5. 額外的常數 [#](#ecpg-informix-constants) <a href="#ecpg-informix-constants" id="ecpg-informix-constants"></a>
 
 請注意，這裡的所有常數都用來描述錯誤，而且全都定義為代表負值。在各個常數的說明中，你也可以找到該常數在目前實作中所代表的值。不過，你不應該依賴這個數字。但你可以依賴這些常數全都定義為代表負值這一點。
 

@@ -39,7 +39,7 @@ SET DESCRIPTOR descriptor_name VALUE number descriptor_item = value [, ...]
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-ITEM"></a>
 
 *`descriptor_item`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-ITEM)
-:   用來識別要在描述區中設定哪一項資訊的符記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)。
+:   用來識別要在描述區中設定哪一項資訊的符記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ecpg-named-descriptors)。
 <a id="ECPG-SQL-SET-DESCRIPTOR-VALUE"></a>
 
 *`value`* [#](#ECPG-SQL-SET-DESCRIPTOR-VALUE)

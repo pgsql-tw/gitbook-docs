@@ -23,60 +23,60 @@
   - [34.3.4. 預備陳述式](ecpg-commands.md#ecpg-prepared)
 
 - [34.4. 使用主機變數](ecpg-variables.md)
-  - [34.4.1. 概觀](ecpg-variables.md#ECPG-VARIABLES-OVERVIEW)
+  - [34.4.1. 概觀](ecpg-variables.md#ecpg-variables-overview)
 
-  - [34.4.2. 宣告區段](ecpg-variables.md#ECPG-DECLARE-SECTIONS)
+  - [34.4.2. 宣告區段](ecpg-variables.md#ecpg-declare-sections)
 
-  - [34.4.3. 取得查詢結果](ecpg-variables.md#ECPG-RETRIEVING)
+  - [34.4.3. 取得查詢結果](ecpg-variables.md#ecpg-retrieving)
 
-  - [34.4.4. 型別對應](ecpg-variables.md#ECPG-VARIABLES-TYPE-MAPPING)
+  - [34.4.4. 型別對應](ecpg-variables.md#ecpg-variables-type-mapping)
 
-  - [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ECPG-VARIABLES-NONPRIMITIVE-SQL)
+  - [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ecpg-variables-nonprimitive-sql)
 
-  - [34.4.6. 指示變數](ecpg-variables.md#ECPG-INDICATORS)
+  - [34.4.6. 指示變數](ecpg-variables.md#ecpg-indicators)
 
 - [34.5. 動態 SQL](ecpg-dynamic.md)
-  - [34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITHOUT-RESULT)
+  - [34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ecpg-dynamic-without-result)
 
-  - [34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-INPUT)
+  - [34.5.2. 執行帶有輸入參數的陳述式](ecpg-dynamic.md#ecpg-dynamic-input)
 
-  - [34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ECPG-DYNAMIC-WITH-RESULT)
+  - [34.5.3. 執行傳回結果集的陳述式](ecpg-dynamic.md#ecpg-dynamic-with-result)
 
 - [34.6. pgtypes 函式庫](ecpg-pgtypes.md)
-  - [34.6.1. 字串](ecpg-pgtypes.md#ECPG-PGTYPES-CSTRINGS)
+  - [34.6.1. 字串](ecpg-pgtypes.md#ecpg-pgtypes-cstrings)
 
-  - [34.6.2. numeric 型別](ecpg-pgtypes.md#ECPG-PGTYPES-NUMERIC)
+  - [34.6.2. numeric 型別](ecpg-pgtypes.md#ecpg-pgtypes-numeric)
 
-  - [34.6.3. date 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DATE)
+  - [34.6.3. date 型別](ecpg-pgtypes.md#ecpg-pgtypes-date)
 
-  - [34.6.4. timestamp 型別](ecpg-pgtypes.md#ECPG-PGTYPES-TIMESTAMP)
+  - [34.6.4. timestamp 型別](ecpg-pgtypes.md#ecpg-pgtypes-timestamp)
 
-  - [34.6.5. interval 型別](ecpg-pgtypes.md#ECPG-PGTYPES-INTERVAL)
+  - [34.6.5. interval 型別](ecpg-pgtypes.md#ecpg-pgtypes-interval)
 
-  - [34.6.6. decimal 型別](ecpg-pgtypes.md#ECPG-PGTYPES-DECIMAL)
+  - [34.6.6. decimal 型別](ecpg-pgtypes.md#ecpg-pgtypes-decimal)
 
-  - [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ECPG-PGTYPES-ERRNO)
+  - [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ecpg-pgtypes-errno)
 
-  - [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ECPG-PGTYPES-CONSTANTS)
+  - [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ecpg-pgtypes-constants)
 
 - [34.7. 使用描述區](ecpg-descriptors.md)
-  - [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ECPG-NAMED-DESCRIPTORS)
+  - [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ecpg-named-descriptors)
 
-  - [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ECPG-SQLDA-DESCRIPTORS)
+  - [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ecpg-sqlda-descriptors)
 
 - [34.8. 錯誤處理](ecpg-errors.md)
-  - [34.8.1. 設定回呼](ecpg-errors.md#ECPG-WHENEVER)
+  - [34.8.1. 設定回呼](ecpg-errors.md#ecpg-whenever)
 
-  - [34.8.2. sqlca](ecpg-errors.md#ECPG-SQLCA)
+  - [34.8.2. sqlca](ecpg-errors.md#ecpg-sqlca)
 
-  - [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ECPG-SQLSTATE-SQLCODE)
+  - [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ecpg-sqlstate-sqlcode)
 
 - [34.9. 前置處理器指令](ecpg-preproc.md)
-  - [34.9.1. 引入檔案](ecpg-preproc.md#ECPG-INCLUDE)
+  - [34.9.1. 引入檔案](ecpg-preproc.md#ecpg-include)
 
-  - [34.9.2. define 與 undef 指令](ecpg-preproc.md#ECPG-DEFINE)
+  - [34.9.2. define 與 undef 指令](ecpg-preproc.md#ecpg-define)
 
-  - [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ECPG-IFDEF)
+  - [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ecpg-ifdef)
 
 - [34.10. 處理嵌入式 SQL 程式](ecpg-process.md)
 
@@ -85,9 +85,9 @@
 - [34.12. 大型物件](ecpg-lo.md)
 
 - [34.13. C++ 應用程式](ecpg-cpp.md)
-  - [34.13.1. 主機變數的作用域](ecpg-cpp.md#ECPG-CPP-SCOPE)
+  - [34.13.1. 主機變數的作用域](ecpg-cpp.md#ecpg-cpp-scope)
 
-  - [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ECPG-CPP-AND-C)
+  - [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ecpg-cpp-and-c)
 
 - [34.14. 嵌入式 SQL 命令](ecpg-sql-commands.md)
   - [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
@@ -125,15 +125,15 @@
   - [WHENEVER](ecpg-sql-whenever.md) — 指定 SQL 陳述式引發特定類別條件時要採取的動作
 
 - [34.15. Informix 相容模式](ecpg-informix-compat.md)
-  - [34.15.1. 額外的型別](ecpg-informix-compat.md#ECPG-INFORMIX-TYPES)
+  - [34.15.1. 額外的型別](ecpg-informix-compat.md#ecpg-informix-types)
 
-  - [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ECPG-INFORMIX-STATEMENTS)
+  - [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ecpg-informix-statements)
 
-  - [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ECPG-INFORMIX-SQLDA)
+  - [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ecpg-informix-sqlda)
 
   - [34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
 
-  - [34.15.5. 額外的常數](ecpg-informix-compat.md#ECPG-INFORMIX-CONSTANTS)
+  - [34.15.5. 額外的常數](ecpg-informix-compat.md#ecpg-informix-constants)
 
 - [34.16. Oracle 相容模式](ecpg-oracle-compat.md)
 
