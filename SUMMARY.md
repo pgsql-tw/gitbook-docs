@@ -344,6 +344,7 @@
     * [34.5. 動態 SQL #](client-interfaces/ecpg/ecpg-dynamic.md)
     * [34.6. pgtypes 函式庫 #](client-interfaces/ecpg/ecpg-pgtypes.md)
       * [34.6.2. numeric 型別](client-interfaces/ecpg/ecpg-pgtypes-numeric.md)
+      * [34.6.3. date 型別](client-interfaces/ecpg/ecpg-pgtypes-date.md)
     * [34.7. 使用描述區 #](client-interfaces/ecpg/ecpg-descriptors.md)
       * [34.7.2. SQLDA 描述區](client-interfaces/ecpg/ecpg-sqlda-descriptors.md)
         * [34.7.2.1. SQLDA 資料結構](client-interfaces/ecpg/ecpg-sqlda-data-structures.md)

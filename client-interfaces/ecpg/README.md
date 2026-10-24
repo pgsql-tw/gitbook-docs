@@ -79,7 +79,16 @@
     - [`PGTYPESnumeric_to_decimal`](ecpg-pgtypes-numeric.md#ecpg-pgtypes-numeric-to-decimal)
     - [`PGTYPESnumeric_from_decimal`](ecpg-pgtypes-numeric.md#ecpg-pgtypes-numeric-from-decimal)
 
-  - [34.6.3. date 型別](ecpg-pgtypes.md#ecpg-pgtypes-date)
+  - [34.6.3. date 型別](ecpg-pgtypes-date.md#ecpg-pgtypes-date)
+    - [`PGTYPESdate_from_timestamp`](ecpg-pgtypes-date.md#pgtypesdatefromtimestamp)
+    - [`PGTYPESdate_from_asc`](ecpg-pgtypes-date.md#pgtypesdatefromasc)
+    - [`PGTYPESdate_to_asc`](ecpg-pgtypes-date.md#pgtypesdatetoasc)
+    - [`PGTYPESdate_julmdy`](ecpg-pgtypes-date.md#pgtypesdatejulmdy)
+    - [`PGTYPESdate_mdyjul`](ecpg-pgtypes-date.md#pgtypesdatemdyjul)
+    - [`PGTYPESdate_dayofweek`](ecpg-pgtypes-date.md#pgtypesdatedayofweek)
+    - [`PGTYPESdate_today`](ecpg-pgtypes-date.md#pgtypesdatetoday)
+    - [`PGTYPESdate_fmt_asc`](ecpg-pgtypes-date.md#pgtypesdatefmtasc)
+    - [`PGTYPESdate_defmt_asc`](ecpg-pgtypes-date.md#pgtypesdatedefmtasc)
 
   - [34.6.4. timestamp 型別](ecpg-pgtypes.md#ecpg-pgtypes-timestamp)
 

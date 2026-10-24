@@ -525,7 +525,7 @@ LONG_MAX`）。
 
 此函式接收一個指向 date 變數的指標（`d`），並將該變數設為目前日期。
 
-在內部，此函式使用 [`PGTYPESdate_today`](ecpg-pgtypes.md#PGTYPESDATETODAY) 函式。
+在內部，此函式使用 [`PGTYPESdate_today`](ecpg-pgtypes-date.md#pgtypesdatetoday) 函式。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-RJULMDY"></a>
 
@@ -542,7 +542,7 @@ LONG_MAX`）。
 
 此函式目前一律傳回 0。
 
-在內部，此函式使用 [`PGTYPESdate_julmdy`](ecpg-pgtypes.md#PGTYPESDATEJULMDY) 函式。
+在內部，此函式使用 [`PGTYPESdate_julmdy`](ecpg-pgtypes-date.md#pgtypesdatejulmdy) 函式。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-RDEFMTDATE"></a>
 
@@ -566,7 +566,7 @@ LONG_MAX`）。
 * `ECPG_INFORMIX_BAD_MONTH` - 輸入字串不包含有效的月份。
 * `ECPG_INFORMIX_BAD_YEAR` - 輸入字串不包含有效的年份。
 
-在內部，此函式是以 [`PGTYPESdate_defmt_asc`](ecpg-pgtypes.md#PGTYPESDATEDEFMTASC) 函式實作的。輸入範例表請參閱該處的說明。
+在內部，此函式是以 [`PGTYPESdate_defmt_asc`](ecpg-pgtypes-date.md#pgtypesdatedefmtasc) 函式實作的。輸入範例表請參閱該處的說明。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-RFMTDATE"></a>
 
@@ -583,7 +583,7 @@ LONG_MAX`）。
 
 成功時傳回 0，發生錯誤時傳回負值。
 
-在內部，此函式使用 [`PGTYPESdate_fmt_asc`](ecpg-pgtypes.md#PGTYPESDATEFMTASC) 函式，範例請參閱該處的說明。
+在內部，此函式使用 [`PGTYPESdate_fmt_asc`](ecpg-pgtypes-date.md#pgtypesdatefmtasc) 函式，範例請參閱該處的說明。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-RMDYJUL"></a>
 
@@ -600,7 +600,7 @@ LONG_MAX`）。
 
 目前此函式一律傳回 0。
 
-在內部，此函式是以 [`PGTYPESdate_mdyjul`](ecpg-pgtypes.md#PGTYPESDATEMDYJUL) 函式實作的。
+在內部，此函式是以 [`PGTYPESdate_mdyjul`](ecpg-pgtypes-date.md#pgtypesdatemdyjul) 函式實作的。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-RDAYOFWEEK"></a>
 
@@ -623,7 +623,7 @@ LONG_MAX`）。
 * 5 - 星期五
 * 6 - 星期六
 
-在內部，此函式是以 [`PGTYPESdate_dayofweek`](ecpg-pgtypes.md#PGTYPESDATEDAYOFWEEK) 函式實作的。
+在內部，此函式是以 [`PGTYPESdate_dayofweek`](ecpg-pgtypes-date.md#pgtypesdatedayofweek) 函式實作的。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-DTCURRENT"></a>
 
