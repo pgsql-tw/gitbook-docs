@@ -90,7 +90,15 @@
     - [`PGTYPESdate_fmt_asc`](ecpg-pgtypes-date.md#pgtypesdatefmtasc)
     - [`PGTYPESdate_defmt_asc`](ecpg-pgtypes-date.md#pgtypesdatedefmtasc)
 
-  - [34.6.4. timestamp 型別](ecpg-pgtypes.md#ecpg-pgtypes-timestamp)
+  - [34.6.4. timestamp 型別](ecpg-pgtypes-timestamp.md#ecpg-pgtypes-timestamp)
+    - [`PGTYPEStimestamp_from_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestampfromasc)
+    - [`PGTYPEStimestamp_to_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestamptoasc)
+    - [`PGTYPEStimestamp_current`](ecpg-pgtypes-timestamp.md#pgtypestimestampcurrent)
+    - [`PGTYPEStimestamp_fmt_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestampfmtasc)
+    - [`PGTYPEStimestamp_sub`](ecpg-pgtypes-timestamp.md#pgtypestimestampsub)
+    - [`PGTYPEStimestamp_defmt_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestampdefmtasc)
+    - [`PGTYPEStimestamp_add_interval`](ecpg-pgtypes-timestamp.md#pgtypestimestampaddinterval)
+    - [`PGTYPEStimestamp_sub_interval`](ecpg-pgtypes-timestamp.md#pgtypestimestampsubinterval)
 
   - [34.6.5. interval 型別](ecpg-pgtypes.md#ecpg-pgtypes-interval)
 

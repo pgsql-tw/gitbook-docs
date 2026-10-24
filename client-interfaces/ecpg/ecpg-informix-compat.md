@@ -653,7 +653,7 @@ LONG_MAX`）。
 
 此函式成功時傳回 0，發生錯誤時傳回負值。
 
-在內部，此函式使用 [`PGTYPEStimestamp_from_asc`](ecpg-pgtypes.md#PGTYPESTIMESTAMPFROMASC) 函式。輸入範例表請參閱該處的說明。
+在內部，此函式使用 [`PGTYPEStimestamp_from_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestampfromasc) 函式。輸入範例表請參閱該處的說明。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-DTCVFMTASC"></a>
 
@@ -670,7 +670,7 @@ LONG_MAX`）。
 
 此函式接收要剖析的字串（`inbuf`）、要使用的格式遮罩（`fmtstr`），以及一個指向用來存放運算結果之 timestamp 變數的指標（`dtvalue`）。
 
-此函式是以 [`PGTYPEStimestamp_defmt_asc`](ecpg-pgtypes.md#PGTYPESTIMESTAMPDEFMTASC) 函式實作的。可使用的格式指定符號清單請參閱該處的說明文件。
+此函式是以 [`PGTYPEStimestamp_defmt_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestampdefmtasc) 函式實作的。可使用的格式指定符號清單請參閱該處的說明文件。
 
 此函式成功時傳回 0，發生錯誤時傳回負值。
 
@@ -719,7 +719,7 @@ LONG_MAX`）。
 
 成功時，此函式傳回 0；發生錯誤時傳回負值。
 
-在內部，此函式使用 [`PGTYPEStimestamp_fmt_asc`](ecpg-pgtypes.md#PGTYPESTIMESTAMPFMTASC) 函式。可使用哪些格式遮罩指定符號，請參閱該處的說明。
+在內部，此函式使用 [`PGTYPEStimestamp_fmt_asc`](ecpg-pgtypes-timestamp.md#pgtypestimestampfmtasc) 函式。可使用哪些格式遮罩指定符號，請參閱該處的說明。
 
 <a id="ECPG-INFORMIX-FUNCTIONS-INTOASC"></a>
 
