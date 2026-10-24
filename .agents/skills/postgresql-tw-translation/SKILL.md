@@ -6,6 +6,7 @@ description: Translate and review PostgreSQL manuals in Traditional Chinese for 
 Translate against the PostgreSQL major version named by the working branch. Confirm the branch and repository before applying project-specific paths. The observed baseline is branch `15` of `C:/Workspaces/gitbook-docs`, commit `9e1029c`, examined on 2026-09-06; do not assume later branches have identical contents.
 
 Read [references/style.md](references/style.md) when translating or reviewing prose. It distinguishes observed conventions from editorial recommendations and records source files.
+Before new translation, semantic review, or investigating a suspected official erratum, read [references/source-validation.md](references/source-validation.md) to distinguish authoritative source text from conversion artifacts. Purely mechanical maintenance need not load it unless the repair raises a source-content question.
 
 ## Select the working mode
 
@@ -33,5 +34,6 @@ Determine the publishing target from the user's request and repository guidance/
 - Keep SQL keywords, API identifiers, parameter names, object names, and executable examples exact. Explain them in Chinese prose without translating identifiers.
 - Preserve original code verbatim, including apparent source errors. Explain a verified source defect in a Traditional Chinese translator's note outside the code block; do not silently repair protected code or describe an unverified suspicion as a confirmed erratum. Follow the project's applicable rulings when review requirements conflict with this preservation rule.
 - An English heading, a Markdown file, or a Chinese introduction does not establish translation completion. Distinguish missing pages, title-only leaf pages, navigation containers, untranslated prose, mixed translation, and translated content requiring version review. A missing SUMMARY entry may be existing content that needs relocation rather than a new translation.
-- For this project, PostgreSQL 15 checks must use PostgreSQL 15 if runtime verification is needed. A locally available PostgreSQL 18 instance cannot establish PostgreSQL 15 semantics. Documentation-only work does not require database mutations.
-- For completion review, compare the touched sections with their matching official sections; verify numbering, examples, relative links, and preserved GitBook structures. Report exactly what remains untranslated or unverified.
+- Runtime verification must use the target major version; a locally available version cannot establish another major version's semantics. Documentation-only work does not require database mutations.
+- Run the project's applicable deterministic checks before submission. Investigate failures against actual content and accepted exceptions rather than declaring every lint finding a rejection or forcing blanket zero counts. A tool pass proves only the checks performed, not semantic approval; see the source-validation reference for counter limitations.
+- For completion review, compare the touched sections with their matching official sections; verify numbering, examples, relative links, and preserved target-specific structures. Report exactly what remains untranslated or unverified.
