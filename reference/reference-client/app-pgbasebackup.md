@@ -204,7 +204,7 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
 下列命令列選項控制與來源伺服器的連線：
 
 `-d connstr`<br>`--dbname=connstr`
-:   指定用來連線到伺服器的參數，形式為[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)；這些參數會覆寫任何相衝突的命令列選項。
+:   指定用來連線到伺服器的參數，形式為[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)；這些參數會覆寫任何相衝突的命令列選項。
 
     為了與其他用戶端應用程式保持一致，此選項命名為 `--dbname`，但由於 pg_basebackup 不會連線到叢集中的任何特定資料庫，連線字串中包含的任何資料庫名稱都會被伺服器忽略。不過，以這種方式提供的資料庫名稱，在 `~/.pgpass` 中查找複寫連線的密碼時，會覆寫預設的資料庫名稱（`replication`）。同樣地，連線到 PostgreSQL 時所使用的中介軟體或代理伺服器，可能會將此名稱用於連線路由等目的。此資料庫名稱也可以由[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)使用。
 

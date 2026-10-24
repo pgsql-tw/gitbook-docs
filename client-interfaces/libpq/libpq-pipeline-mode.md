@@ -1,12 +1,12 @@
 <a id="LIBPQ-PIPELINE-MODE"></a>
 
-## 32.5. 管線模式 [#](#LIBPQ-PIPELINE-MODE)
+## 32.5. 管線模式 [#](#libpq-pipeline-mode) <a href="#libpq-pipeline-mode" id="libpq-pipeline-mode"></a>
 
-[32.5.1. 使用管線模式](libpq-pipeline-mode.md#LIBPQ-PIPELINE-USING)
+[32.5.1. 使用管線模式](libpq-pipeline-mode.md#libpq-pipeline-using)
 
-[32.5.2. 與管線模式相關的函式](libpq-pipeline-mode.md#LIBPQ-PIPELINE-FUNCTIONS)
+[32.5.2. 與管線模式相關的函式](libpq-pipeline-mode.md#libpq-pipeline-functions)
 
-[32.5.3. 何時使用管線模式](libpq-pipeline-mode.md#LIBPQ-PIPELINE-TIPS)
+[32.5.3. 何時使用管線模式](libpq-pipeline-mode.md#libpq-pipeline-tips)
 
 <a id="id-1.7.3.12.2"></a><a id="id-1.7.3.12.3"></a><a id="id-1.7.3.12.4"></a>
 
@@ -34,7 +34,7 @@ PostgreSQL 14 中引入的，但它是用戶端功能，
 
 <a id="LIBPQ-PIPELINE-USING"></a>
 
-### 32.5.1. 使用管線模式 [#](#LIBPQ-PIPELINE-USING)
+### 32.5.1. 使用管線模式 [#](#libpq-pipeline-using) <a href="#libpq-pipeline-using" id="libpq-pipeline-using"></a>
 
 若要發出管線，應用程式必須將連線切換為
 管線模式，
@@ -223,7 +223,7 @@ PostgreSQL 原始碼發行版的
 
 <a id="LIBPQ-PIPELINE-FUNCTIONS"></a>
 
-### 32.5.2. 與管線模式相關的函式 [#](#LIBPQ-PIPELINE-FUNCTIONS)
+### 32.5.2. 與管線模式相關的函式 [#](#libpq-pipeline-functions) <a href="#libpq-pipeline-functions" id="libpq-pipeline-functions"></a>
 
 <a id="LIBPQ-PQPIPELINESTATUS"></a>
 
@@ -343,7 +343,7 @@ PostgreSQL 原始碼發行版的
 
 <a id="LIBPQ-PIPELINE-TIPS"></a>
 
-### 32.5.3. 何時使用管線模式 [#](#LIBPQ-PIPELINE-TIPS)
+### 32.5.3. 何時使用管線模式 [#](#libpq-pipeline-tips) <a href="#libpq-pipeline-tips" id="libpq-pipeline-tips"></a>
 
 與非同步查詢模式非常類似，使用管線模式不會帶來有意義的效能
 額外負擔。它會增加用戶端應用程式的複雜度，

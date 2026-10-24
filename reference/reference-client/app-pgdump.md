@@ -389,7 +389,7 @@ pg_dump 只會傾印單一資料庫。若要匯出整個叢集，或匯出叢集
 下列命令列選項控制資料庫連線參數。
 
 `-d dbname`<br>`--dbname=dbname`
-:   指定要連線的資料庫名稱。這等同於在命令列上將 *`dbname`* 指定為第一個非選項引數。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串中的參數會覆寫任何衝突的命令列選項。
+:   指定要連線的資料庫名稱。這等同於在命令列上將 *`dbname`* 指定為第一個非選項引數。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串中的參數會覆寫任何衝突的命令列選項。
 
 `-h host`<br>`--host=host`
 :   指定伺服器執行所在機器的主機名稱。若值以斜線開頭，則會用作 Unix 網域通訊端 的目錄。預設值取自環境變數 `PGHOST`（若有設定），否則會嘗試 Unix 網域通訊端 連線。

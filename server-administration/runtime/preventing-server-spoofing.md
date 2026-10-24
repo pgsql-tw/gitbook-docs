@@ -35,7 +35,7 @@
 並具備 SSL 金鑰與憑證檔案（[18.9 節](ssl-tcp.md)）。
 TCP 用戶端必須使用 `sslmode=verify-ca` 或
 `verify-full` 進行連線，並安裝適當的根憑證檔案
-（[32.19.1 節](../../client-interfaces/libpq/libpq-ssl.md#LIBQ-SSL-CERTIFICATES)）。
+（[32.19.1 節](../../client-interfaces/libpq/libpq-ssl.md#libq-ssl-certificates)）。
 或者，也可以透過 `sslrootcert=system`，
 使用 SSL 實作所定義的
 [系統 CA 集區](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-SSLROOTCERT)；

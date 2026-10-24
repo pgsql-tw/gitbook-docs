@@ -383,7 +383,7 @@ primary 伺服器上也必須妥善設定
 `primary_conninfo` (`string`) <a id="id-1.6.6.9.7.3.1.1.3"></a> [#](#GUC-PRIMARY-CONNINFO)
 :   指定 standby 伺服器用來連線到傳送端伺服器的
     連線字串。此字串的格式如
-    [32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)所述。若此字串中
+    [32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)所述。若此字串中
     未指定某個選項，則會檢查對應的環境
     變數（參閱[32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。如果
     也未設定該環境變數，則會使用

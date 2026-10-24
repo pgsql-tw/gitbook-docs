@@ -1,12 +1,12 @@
 <a id="LIBPQ-COPY"></a>
 
-## 32.10. 與 `COPY` 命令相關的函式 [#](#LIBPQ-COPY)
+## 32.10. 與 `COPY` 命令相關的函式 [#](#libpq-copy) <a href="#libpq-copy" id="libpq-copy"></a>
 
-[32.10.1. 傳送 `COPY` 資料的函式](libpq-copy.md#LIBPQ-COPY-SEND)
+[32.10.1. 傳送 `COPY` 資料的函式](libpq-copy.md#libpq-copy-send)
 
-[32.10.2. 接收 `COPY` 資料的函式](libpq-copy.md#LIBPQ-COPY-RECEIVE)
+[32.10.2. 接收 `COPY` 資料的函式](libpq-copy.md#libpq-copy-receive)
 
-[32.10.3. 已過時的 `COPY` 函式](libpq-copy.md#LIBPQ-COPY-DEPRECATED)
+[32.10.3. 已過時的 `COPY` 函式](libpq-copy.md#libpq-copy-deprecated)
 
 <a id="id-1.7.3.17.2"></a>
 
@@ -35,7 +35,7 @@ PostgreSQL 中的 `COPY` 命令具有從 libpq 所使用的網路連線讀取或
 
 <a id="LIBPQ-COPY-SEND"></a>
 
-### 32.10.1. 傳送 `COPY` 資料的函式 [#](#LIBPQ-COPY-SEND)
+### 32.10.1. 傳送 `COPY` 資料的函式 [#](#libpq-copy-send) <a href="#libpq-copy-send" id="libpq-copy-send"></a>
 
 這些函式用於在 `COPY FROM
 STDIN` 期間傳送資料。若在連線不處於 `COPY_IN` 狀態時呼叫，這些函式將會失敗。
@@ -74,7 +74,7 @@ STDIN` 期間傳送資料。若在連線不處於 `COPY_IN` 狀態時呼叫，�
 
 <a id="LIBPQ-COPY-RECEIVE"></a>
 
-### 32.10.2. 接收 `COPY` 資料的函式 [#](#LIBPQ-COPY-RECEIVE)
+### 32.10.2. 接收 `COPY` 資料的函式 [#](#libpq-copy-receive) <a href="#libpq-copy-receive" id="libpq-copy-receive"></a>
 
 這些函式用於在 `COPY TO
 STDOUT` 期間接收資料。若在連線不處於 `COPY_OUT` 狀態時呼叫，這些函式將會失敗。
@@ -101,7 +101,7 @@ STDOUT` 期間接收資料。若在連線不處於 `COPY_OUT` 狀態時呼叫，
 
 <a id="LIBPQ-COPY-DEPRECATED"></a>
 
-### 32.10.3. 已過時的 `COPY` 函式 [#](#LIBPQ-COPY-DEPRECATED)
+### 32.10.3. 已過時的 `COPY` 函式 [#](#libpq-copy-deprecated) <a href="#libpq-copy-deprecated" id="libpq-copy-deprecated"></a>
 
 這些函式代表處理 `COPY` 的舊方法。雖然它們仍然可以運作，但由於錯誤處理不佳、偵測資料結束的方法不便，以及不支援二進位或非阻塞傳輸，因此已被棄用。
 

@@ -1,6 +1,6 @@
 <a id="LIBPQ-NOTIFY"></a>
 
-## 32.9. 非同步通知 [#](#LIBPQ-NOTIFY)
+## 32.9. 非同步通知 [#](#libpq-notify) <a href="#libpq-notify" id="libpq-notify"></a>
 
 <a id="id-1.7.3.16.2"></a>
 

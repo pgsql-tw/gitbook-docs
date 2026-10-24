@@ -1,6 +1,6 @@
 <a id="LIBPQ-SINGLE-ROW-MODE"></a>
 
-## 32.6. 分塊取得查詢結果 [#](#LIBPQ-SINGLE-ROW-MODE)
+## 32.6. 分塊取得查詢結果 [#](#libpq-single-row-mode) <a href="#libpq-single-row-mode" id="libpq-single-row-mode"></a>
 
 <a id="id-1.7.3.13.2"></a><a id="id-1.7.3.13.3"></a>
 

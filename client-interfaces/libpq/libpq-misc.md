@@ -1,6 +1,6 @@
 <a id="LIBPQ-MISC"></a>
 
-## 32.12. 其他函式 [#](#LIBPQ-MISC)
+## 32.12. 其他函式 [#](#libpq-misc) <a href="#libpq-misc" id="libpq-misc"></a>
 
 一如往常，總有一些函式不適合歸入任何類別。
 

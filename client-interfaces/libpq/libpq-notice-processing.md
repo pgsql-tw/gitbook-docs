@@ -1,6 +1,6 @@
 <a id="LIBPQ-NOTICE-PROCESSING"></a>
 
-## 32.13. 通知訊息處理 [#](#LIBPQ-NOTICE-PROCESSING)
+## 32.13. 通知訊息處理 [#](#libpq-notice-processing) <a href="#libpq-notice-processing" id="libpq-notice-processing"></a>
 
 <a id="id-1.7.3.20.2"></a>
 

@@ -1,10 +1,10 @@
 <a id="LIBPQ-OAUTH"></a>
 
-## 32.20. OAuth 支援 [#](#LIBPQ-OAUTH)
+## 32.20. OAuth 支援 [#](#libpq-oauth) <a href="#libpq-oauth" id="libpq-oauth"></a>
 
-[32.20.1. 認證資料（authdata）掛鉤](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)
+[32.20.1. 認證資料（authdata）掛鉤](libpq-oauth.md#libpq-oauth-authdata-hooks)
 
-[32.20.2. 除錯與開發者設定](libpq-oauth.md#LIBPQ-OAUTH-DEBUGGING)
+[32.20.2. 除錯與開發者設定](libpq-oauth.md#libpq-oauth-debugging)
 
 libpq 以選用模組的形式，實作了對 OAuth v2 裝置授權（Device Authorization）用戶端流程的支援，
 該流程記載於
@@ -35,7 +35,7 @@ Visit https://example.com/device and enter the code: ABCD-EFGH
 
 用戶端應用程式可以實作自己的流程，以自訂互動方式
 以及與應用程式的整合。關於如何將自訂流程加入 libpq，
-詳細資訊請參閱[第 32.20.1 節](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)。
+詳細資訊請參閱[第 32.20.1 節](libpq-oauth.md#libpq-oauth-authdata-hooks)。
 
 OAuth 用戶端流程若要可用，連線字串至少必須
 包含 [oauth_issuer](libpq-connect.md#LIBPQ-CONNECT-OAUTH-ISSUER) 與
@@ -51,7 +51,7 @@ OAuth 用戶端流程若要可用，連線字串至少必須
 
 <a id="LIBPQ-OAUTH-AUTHDATA-HOOKS"></a>
 
-### 32.20.1. 認證資料（authdata）掛鉤 [#](#LIBPQ-OAUTH-AUTHDATA-HOOKS)
+### 32.20.1. 認證資料（authdata）掛鉤 [#](#libpq-oauth-authdata-hooks) <a href="#libpq-oauth-authdata-hooks" id="libpq-oauth-authdata-hooks"></a>
 
 用戶端可以使用下列掛鉤 API 修改或取代
 OAuth 流程的行為：
@@ -249,7 +249,7 @@ OAuth 流程的行為：
 
 <a id="LIBPQ-OAUTH-DEBUGGING"></a>
 
-### 32.20.2. 除錯與開發者設定 [#](#LIBPQ-OAUTH-DEBUGGING)
+### 32.20.2. 除錯與開發者設定 [#](#libpq-oauth-debugging) <a href="#libpq-oauth-debugging" id="libpq-oauth-debugging"></a>
 
 可以透過設定環境變數 `PGOAUTHDEBUG=UNSAFE` 啟用
 「危險的除錯模式」。此功能僅為了方便

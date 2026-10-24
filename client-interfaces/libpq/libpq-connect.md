@@ -1,10 +1,10 @@
 <a id="LIBPQ-CONNECT"></a>
 
-## 32.1. 資料庫連線控制函式 [#](#LIBPQ-CONNECT)
+## 32.1. 資料庫連線控制函式 [#](#libpq-connect) <a href="#libpq-connect" id="libpq-connect"></a>
 
-[32.1.1. 連線字串](libpq-connect.md#LIBPQ-CONNSTRING)
+[32.1.1. 連線字串](libpq-connect.md#libpq-connstring)
 
-[32.1.2. 參數關鍵字](libpq-connect.md#LIBPQ-PARAMKEYWORDS)
+[32.1.2. 參數關鍵字](libpq-connect.md#libpq-paramkeywords)
 
 下列函式用於建立與 PostgreSQL 後端伺服器的連線。一個應用程式可以同時開啟多個後端連線。（這麼做的原因之一是為了存取超過一個資料庫。）每個連線都以一個 `PGconn`<a id="id-1.7.3.8.2.3"></a> 物件表示，此物件可由函式 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB)、[`PQconnectdbParams`](libpq-connect.md#LIBPQ-PQCONNECTDBPARAMS) 或 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) 取得。請注意，這些函式一律會傳回非空的物件指標，除非（或許）記憶體少到連 `PGconn` 物件都無法配置。在透過連線物件送出查詢之前，應該呼叫 [`PQstatus`](libpq-status.md#LIBPQ-PQSTATUS) 函式，檢查傳回值以確認連線成功。
 
@@ -31,11 +31,11 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
     此函式使用取自兩個以 `NULL` 結尾之陣列的參數來開啟新的資料庫連線。第一個陣列 `keywords` 定義為字串陣列，每個字串是一個關鍵字。第二個陣列 `values` 提供每個關鍵字的值。與下面的 [`PQsetdbLogin`](libpq-connect.md#LIBPQ-PQSETDBLOGIN) 不同，參數集合可以在不變更函式簽章的情況下擴充，因此開發新的應用程式時，建議使用此函式（或其非阻塞版本 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS) 與 `PQconnectPoll`）。
 
-    目前可辨識的參數關鍵字列於[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)。
+    目前可辨識的參數關鍵字列於[第 32.1.2 節](libpq-connect.md#libpq-paramkeywords)。
 
     傳入的陣列可以是空的，以使用全部的預設參數；也可以包含一個或多個參數設定。兩個陣列的長度必須相符。處理會在 `keywords` 陣列中第一個 `NULL` 項目處停止。此外，如果與某個非 `NULL` 之 `keywords` 項目相對應的 `values` 項目是 `NULL` 或空字串，該項目會被忽略，並繼續處理下一組陣列項目。
 
-    當 `expand_dbname` 不為零時，會檢查第一個 *`dbname`* 關鍵字的值是否為*連線字串*。若是，就會將其「展開」為從字串中取出的個別連線參數。如果該值包含等號（`=`），或以 URI 架構（scheme）指示符開頭，就會被視為連線字串，而不只是資料庫名稱。（連線字串格式的更多細節見[第 32.1.1 節](libpq-connect.md#LIBPQ-CONNSTRING)。）只有第一次出現的 *`dbname`* 會以這種方式處理；之後的任何 *`dbname`* 參數都會當作一般的資料庫名稱處理。
+    當 `expand_dbname` 不為零時，會檢查第一個 *`dbname`* 關鍵字的值是否為*連線字串*。若是，就會將其「展開」為從字串中取出的個別連線參數。如果該值包含等號（`=`），或以 URI 架構（scheme）指示符開頭，就會被視為連線字串，而不只是資料庫名稱。（連線字串格式的更多細節見[第 32.1.1 節](libpq-connect.md#libpq-connstring)。）只有第一次出現的 *`dbname`* 會以這種方式處理；之後的任何 *`dbname`* 參數都會當作一般的資料庫名稱處理。
 
     一般而言，參數陣列會從頭到尾依序處理。如果有任何關鍵字重複出現，會使用最後一個值（非 `NULL` 且非空者）。這項規則特別適用於連線字串中的關鍵字與 `keywords` 陣列中的關鍵字衝突的情況。因此，程式設計者可以決定陣列項目能否覆寫連線字串中取得的值，或能否被其覆寫。出現在展開的 *`dbname`* 項目之前的陣列項目，可以被連線字串的欄位覆寫；而這些欄位又會被出現在 *`dbname`* 之後的陣列項目覆寫（但同樣地，只有在這些項目提供非空值時才會如此）。
 
@@ -52,7 +52,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
     此函式使用取自字串 `conninfo` 的參數來開啟新的資料庫連線。
 
-    傳入的字串可以是空的，以使用全部的預設參數；也可以包含一個或多個以空白分隔的參數設定；或者可以包含一個 URI。詳細資訊請參閱[第 32.1.1 節](libpq-connect.md#LIBPQ-CONNSTRING)。
+    傳入的字串可以是空的，以使用全部的預設參數；也可以包含一個或多個以空白分隔的參數設定；或者可以包含一個 URI。詳細資訊請參閱[第 32.1.1 節](libpq-connect.md#libpq-connstring)。
 <a id="LIBPQ-PQSETDBLOGIN"></a>
 
 `PQsetdbLogin`<a id="id-1.7.3.8.2.11.3.1.2"></a> [#](#LIBPQ-PQSETDBLOGIN)
@@ -114,7 +114,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
     只要滿足下列幾項限制，[`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)、`PQconnectStart` 與 `PQconnectPoll` 都不會阻塞：
 
-    * 必須適當地使用 `hostaddr` 參數，以避免進行 DNS 查詢。詳細資訊請參閱[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)中此參數的說明。
+    * 必須適當地使用 `hostaddr` 參數，以避免進行 DNS 查詢。詳細資訊請參閱[第 32.1.2 節](libpq-connect.md#libpq-paramkeywords)中此參數的說明。
     * 如果你呼叫 [`PQtrace`](libpq-control.md#LIBPQ-PQTRACE)，請確保追蹤輸出所寫入的串流物件不會阻塞。
     * 你必須確保在呼叫 `PQconnectPoll` 之前，通訊端處於適當的狀態，如下所述。
 
@@ -343,7 +343,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 <a id="LIBPQ-PQSETSSLKEYPASSHOOK-OPENSSL"></a>
 
 `PQsetSSLKeyPassHook_OpenSSL`<a id="id-1.7.3.8.2.11.15.1.2"></a> [#](#LIBPQ-PQSETSSLKEYPASSHOOK-OPENSSL)
-:   `PQsetSSLKeyPassHook_OpenSSL` 讓應用程式可以覆寫 libpq 對[加密之用戶端憑證金鑰檔的預設處理方式](libpq-ssl.md#LIBPQ-SSL-CLIENTCERT)，也就是使用 [sslpassword](libpq-connect.md#LIBPQ-CONNECT-SSLPASSWORD) 或互動式提示。
+:   `PQsetSSLKeyPassHook_OpenSSL` 讓應用程式可以覆寫 libpq 對[加密之用戶端憑證金鑰檔的預設處理方式](libpq-ssl.md#libpq-ssl-clientcert)，也就是使用 [sslpassword](libpq-connect.md#LIBPQ-CONNECT-SSLPASSWORD) 或互動式提示。
 
     ```
 
@@ -376,7 +376,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 
 <a id="LIBPQ-CONNSTRING"></a>
 
-### 32.1.1. 連線字串 [#](#LIBPQ-CONNSTRING)
+### 32.1.1. 連線字串 [#](#libpq-connstring) <a href="#libpq-connstring" id="libpq-connstring"></a>
 
 <a id="id-1.7.3.8.3.2"></a><a id="id-1.7.3.8.3.3"></a>
 
@@ -396,7 +396,7 @@ pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq �
 host=localhost port=5432 dbname=mydb connect_timeout=10
 ```
 
-可辨識的參數關鍵字列於[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)。
+可辨識的參數關鍵字列於[第 32.1.2 節](libpq-connect.md#libpq-paramkeywords)。
 
 <a id="LIBPQ-CONNSTRING-URIS"></a>
 
@@ -442,7 +442,7 @@ postgresql://host1:123,host2:456/somedb?target_session_attrs=any&application_nam
 postgresql:///mydb?host=localhost&port=5433
 ```
 
-所有具名參數都必須符合[第 32.1.2 節](libpq-connect.md#LIBPQ-PARAMKEYWORDS)所列的關鍵字，但為了與 JDBC 連線 URI 相容，`ssl=true` 會被轉換為 `sslmode=require`。
+所有具名參數都必須符合[第 32.1.2 節](libpq-connect.md#libpq-paramkeywords)所列的關鍵字，但為了與 JDBC 連線 URI 相容，`ssl=true` 會被轉換為 `sslmode=require`。
 
 如果連線 URI 的任何部分包含具有特殊意義的符號，就需要以[百分比編碼](https://datatracker.ietf.org/doc/html/rfc3986#section-2.1)進行編碼。以下範例中，等號（`=`）被替換為 `%3D`，空白字元被替換為 `%20`：
 
@@ -484,7 +484,7 @@ postgresql://%2Fvar%2Flib%2Fpostgresql/dbname
 
 <a id="LIBPQ-PARAMKEYWORDS"></a>
 
-### 32.1.2. 參數關鍵字 [#](#LIBPQ-PARAMKEYWORDS)
+### 32.1.2. 參數關鍵字 [#](#libpq-paramkeywords) <a href="#libpq-paramkeywords" id="libpq-paramkeywords"></a>
 
 目前可辨識的參數關鍵字如下：
 
@@ -517,7 +517,7 @@ postgresql://%2Fvar%2Flib%2Fpostgresql/dbname
 <a id="LIBPQ-CONNECT-DBNAME"></a>
 
 `dbname` [#](#LIBPQ-CONNECT-DBNAME)
-:   資料庫名稱。預設與使用者名稱相同。在某些情境下，會檢查此值是否為延伸格式；這些格式的更多細節請參閱[第 32.1.1 節](libpq-connect.md#LIBPQ-CONNSTRING)。
+:   資料庫名稱。預設與使用者名稱相同。在某些情境下，會檢查此值是否為延伸格式；這些格式的更多細節請參閱[第 32.1.1 節](libpq-connect.md#libpq-connstring)。
 <a id="LIBPQ-CONNECT-USER"></a>
 
 `user` [#](#LIBPQ-CONNECT-USER)
@@ -859,7 +859,7 @@ postgresql://%2Fvar%2Flib%2Fpostgresql/dbname
 
     在標準認證交握的過程中，libpq 會向伺服器索取一份*發現文件（discovery document）：*也就是提供一組 OAuth 設定參數的 URL。伺服器必須提供一個直接由 `oauth_issuer` 的各組成部分建構而成的 URL，而且此值必須與發現文件本身所宣告的核發者識別碼完全相符，否則連線將會失敗。這是為了防範針對 OAuth 用戶端的一類[「混淆攻擊」（mix-up attacks）](https://mailarchive.ietf.org/arch/msg/oauth/JIVxFBGsJBVtm7ljwJhPUm3Fr-w/)所必需的。
 
-    你也可以將 `oauth_issuer` 明確設為用於 OAuth 發現的 `/.well-known/` URI。在這種情況下，如果伺服器要求不同的 URL，連線將會失敗，但[自訂 OAuth 流程](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)也許能透過使用先前快取的權杖來加快標準交握。（在這種情況下，建議也設定 [oauth_scope](libpq-connect.md#LIBPQ-CONNECT-OAUTH-SCOPE)，因為用戶端將沒有機會向伺服器詢問正確的範圍設定，而權杖的預設範圍可能不足以建立連線。）libpq 目前支援下列眾所周知的端點：
+    你也可以將 `oauth_issuer` 明確設為用於 OAuth 發現的 `/.well-known/` URI。在這種情況下，如果伺服器要求不同的 URL，連線將會失敗，但[自訂 OAuth 流程](libpq-oauth.md#libpq-oauth-authdata-hooks)也許能透過使用先前快取的權杖來加快標準交握。（在這種情況下，建議也設定 [oauth_scope](libpq-connect.md#LIBPQ-CONNECT-OAUTH-SCOPE)，因為用戶端將沒有機會向伺服器詢問正確的範圍設定，而權杖的預設範圍可能不足以建立連線。）libpq 目前支援下列眾所周知的端點：
 
     * `/.well-known/openid-configuration`
     * `/.well-known/oauth-authorization-server`
@@ -870,7 +870,7 @@ postgresql://%2Fvar%2Flib%2Fpostgresql/dbname
 <a id="LIBPQ-CONNECT-OAUTH-CLIENT-ID"></a>
 
 `oauth_client_id` [#](#LIBPQ-CONNECT-OAUTH-CLIENT-ID)
-:   由授權伺服器所核發的 OAuth 2.0 用戶端識別碼。如果 PostgreSQL 伺服器為此連線[要求 OAuth 權杖](../../server-administration/client-authentication/auth-oauth.md)（而且沒有安裝[自訂 OAuth 掛鉤](libpq-oauth.md#LIBPQ-OAUTH-AUTHDATA-HOOKS)來提供權杖），就必須設定此參數；否則連線將會失敗。
+:   由授權伺服器所核發的 OAuth 2.0 用戶端識別碼。如果 PostgreSQL 伺服器為此連線[要求 OAuth 權杖](../../server-administration/client-authentication/auth-oauth.md)（而且沒有安裝[自訂 OAuth 掛鉤](libpq-oauth.md#libpq-oauth-authdata-hooks)來提供權杖），就必須設定此參數；否則連線將會失敗。
 <a id="LIBPQ-CONNECT-OAUTH-CLIENT-SECRET"></a>
 
 `oauth_client_secret` [#](#LIBPQ-CONNECT-OAUTH-CLIENT-SECRET)

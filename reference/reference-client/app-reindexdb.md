@@ -54,7 +54,7 @@ reindexdb 接受下列命令列引數：
 :   使用 `CONCURRENTLY` 選項。請參閱 [REINDEX](../sql-commands/sql-reindex.md)，其中詳細說明了此選項的所有注意事項。
 
 `[-d] dbname`<br>`[--dbname=]dbname`
-:   在未使用 `-a`/`--all` 時，指定要重建索引的資料庫名稱。若未指定，資料庫名稱會從環境變數 `PGDATABASE` 讀取。若該變數也未設定，則使用連線時指定的使用者名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
+:   在未使用 `-a`/`--all` 時，指定要重建索引的資料庫名稱。若未指定，資料庫名稱會從環境變數 `PGDATABASE` 讀取。若該變數也未設定，則使用連線時指定的使用者名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 `-e`<br>`--echo`
 :   回顯 reindexdb 產生並送往伺服器的命令。
@@ -113,7 +113,7 @@ reindexdb 也接受下列用於連線參數的命令列引數：
     此選項從來都不是必要的，因為若伺服器要求密碼驗證，reindexdb 會自動提示輸入密碼。不過，reindexdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
-:   使用 `-a`/`--all` 時，連線到此資料庫以收集要重建索引的資料庫清單。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在，則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。此外，連線到其他資料庫時，也會重複使用資料庫名稱本身以外的連線字串參數。
+:   使用 `-a`/`--all` 時，連線到此資料庫以收集要重建索引的資料庫清單。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在，則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。此外，連線到其他資料庫時，也會重複使用資料庫名稱本身以外的連線字串參數。
 
 <a id="id-1.9.4.22.7"></a>
 

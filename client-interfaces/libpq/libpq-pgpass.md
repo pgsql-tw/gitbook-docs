@@ -1,6 +1,6 @@
 <a id="LIBPQ-PGPASS"></a>
 
-## 32.16. 密碼檔 [#](#LIBPQ-PGPASS)
+## 32.16. 密碼檔 [#](#libpq-pgpass) <a href="#libpq-pgpass" id="libpq-pgpass"></a>
 
 <a id="id-1.7.3.23.2"></a><a id="id-1.7.3.23.3"></a>
 

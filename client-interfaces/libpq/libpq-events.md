@@ -1,14 +1,14 @@
 <a id="LIBPQ-EVENTS"></a>
 
-## 32.14. 事件系統 [#](#LIBPQ-EVENTS)
+## 32.14. 事件系統 [#](#libpq-events) <a href="#libpq-events" id="libpq-events"></a>
 
-[32.14.1. 事件類型](libpq-events.md#LIBPQ-EVENTS-TYPES)
+[32.14.1. 事件類型](libpq-events.md#libpq-events-types)
 
-[32.14.2. 事件回呼程序](libpq-events.md#LIBPQ-EVENTS-PROC)
+[32.14.2. 事件回呼程序](libpq-events.md#libpq-events-proc)
 
-[32.14.3. 事件支援函式](libpq-events.md#LIBPQ-EVENTS-FUNCS)
+[32.14.3. 事件支援函式](libpq-events.md#libpq-events-funcs)
 
-[32.14.4. 事件範例](libpq-events.md#LIBPQ-EVENTS-EXAMPLE)
+[32.14.4. 事件範例](libpq-events.md#libpq-events-example)
 
 libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與 `PGresult` 物件的建立或銷毀）通知已註冊的事件處理常式。主要的使用情境是讓應用程式能將自己的資料與 `PGconn` 或 `PGresult` 相關聯，並確保這些資料在適當的時機被釋放。
 
@@ -16,7 +16,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 <a id="LIBPQ-EVENTS-TYPES"></a>
 
-### 32.14.1. 事件類型 [#](#LIBPQ-EVENTS-TYPES)
+### 32.14.1. 事件類型 [#](#libpq-events-types) <a href="#libpq-events-types" id="libpq-events-types"></a>
 
 列舉型別 `PGEventId` 命名了事件系統所處理的事件類型。它的所有值的名稱都以 `PGEVT` 開頭。每一種事件類型都有對應的事件資訊結構，用來攜帶傳給事件處理常式的參數。事件類型如下：
 
@@ -109,7 +109,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 <a id="LIBPQ-EVENTS-PROC"></a>
 
-### 32.14.2. 事件回呼程序 [#](#LIBPQ-EVENTS-PROC)
+### 32.14.2. 事件回呼程序 [#](#libpq-events-proc) <a href="#libpq-events-proc" id="libpq-events-proc"></a>
 
 <a id="LIBPQ-PGEVENTPROC"></a>
 
@@ -131,7 +131,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 <a id="LIBPQ-EVENTS-FUNCS"></a>
 
-### 32.14.3. 事件支援函式 [#](#LIBPQ-EVENTS-FUNCS)
+### 32.14.3. 事件支援函式 [#](#libpq-events-funcs) <a href="#libpq-events-funcs" id="libpq-events-funcs"></a>
 
 <a id="LIBPQ-PQREGISTEREVENTPROC"></a>
 
@@ -188,7 +188,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 <a id="LIBPQ-EVENTS-EXAMPLE"></a>
 
-### 32.14.4. 事件範例 [#](#LIBPQ-EVENTS-EXAMPLE)
+### 32.14.4. 事件範例 [#](#libpq-events-example) <a href="#libpq-events-example" id="libpq-events-example"></a>
 
 以下是一個骨架範例，示範如何管理與 libpq 連線及結果相關聯的私有資料。
 

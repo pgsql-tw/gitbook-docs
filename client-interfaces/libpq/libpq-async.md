@@ -1,6 +1,6 @@
 <a id="LIBPQ-ASYNC"></a>
 
-## 32.4. 非同步命令處理 [#](#LIBPQ-ASYNC)
+## 32.4. 非同步命令處理 [#](#libpq-async) <a href="#libpq-async" id="libpq-async"></a>
 
 <a id="id-1.7.3.11.2"></a>
 

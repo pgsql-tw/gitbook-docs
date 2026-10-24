@@ -1,16 +1,16 @@
 <a id="LIBPQ-CANCEL"></a>
 
-## 32.7. 取消進行中的查詢 [#](#LIBPQ-CANCEL)
+## 32.7. 取消進行中的查詢 [#](#libpq-cancel) <a href="#libpq-cancel" id="libpq-cancel"></a>
 
-[32.7.1. 傳送取消請求的函式](libpq-cancel.md#LIBPQ-CANCEL-FUNCTIONS)
+[32.7.1. 傳送取消請求的函式](libpq-cancel.md#libpq-cancel-functions)
 
-[32.7.2. 已過時的傳送取消請求函式](libpq-cancel.md#LIBPQ-CANCEL-DEPRECATED)
+[32.7.2. 已過時的傳送取消請求函式](libpq-cancel.md#libpq-cancel-deprecated)
 
 <a id="id-1.7.3.14.2"></a><a id="id-1.7.3.14.3"></a>
 
 <a id="LIBPQ-CANCEL-FUNCTIONS"></a>
 
-### 32.7.1. 傳送取消請求的函式 [#](#LIBPQ-CANCEL-FUNCTIONS)
+### 32.7.1. 傳送取消請求的函式 [#](#libpq-cancel-functions) <a href="#libpq-cancel-functions" id="libpq-cancel-functions"></a>
 
 <a id="LIBPQ-PQCANCELCREATE"></a>
 
@@ -171,7 +171,7 @@
 
 <a id="LIBPQ-CANCEL-DEPRECATED"></a>
 
-### 32.7.2. 已過時的傳送取消請求函式 [#](#LIBPQ-CANCEL-DEPRECATED)
+### 32.7.2. 已過時的傳送取消請求函式 [#](#libpq-cancel-deprecated) <a href="#libpq-cancel-deprecated" id="libpq-cancel-deprecated"></a>
 
 這些函式代表傳送取消請求的舊方法。雖然它們仍然可以運作，但由於它們不會以加密的方式傳送取消請求（即使原始連線已指定 `sslmode` 或 `gssencmode` 來要求加密），因此已被棄用。所以，強烈不建議在新程式碼中使用這些舊方法，並建議將現有程式碼改為使用新的函式。
 

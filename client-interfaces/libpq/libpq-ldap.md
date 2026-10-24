@@ -1,6 +1,6 @@
 <a id="LIBPQ-LDAP"></a>
 
-## 32.18. 以 LDAP 查詢連線參數 [#](#LIBPQ-LDAP)
+## 32.18. 以 LDAP 查詢連線參數 [#](#libpq-ldap) <a href="#libpq-ldap" id="libpq-ldap"></a>
 
 <a id="id-1.7.3.25.2"></a>
 

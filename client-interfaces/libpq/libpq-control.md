@@ -1,6 +1,6 @@
 <a id="LIBPQ-CONTROL"></a>
 
-## 32.11. 控制函式 [#](#LIBPQ-CONTROL)
+## 32.11. 控制函式 [#](#libpq-control) <a href="#libpq-control" id="libpq-control"></a>
 
 這些函式控制 libpq 行為的各種細節。
 

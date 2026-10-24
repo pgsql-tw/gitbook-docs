@@ -1,20 +1,20 @@
 <a id="LIBPQ-EXEC"></a>
 
-## 32.3. 命令執行函式 [#](#LIBPQ-EXEC)
+## 32.3. 命令執行函式 [#](#libpq-exec) <a href="#libpq-exec" id="libpq-exec"></a>
 
-[32.3.1. 主要函式](libpq-exec.md#LIBPQ-EXEC-MAIN)
+[32.3.1. 主要函式](libpq-exec.md#libpq-exec-main)
 
-[32.3.2. 取得查詢結果資訊](libpq-exec.md#LIBPQ-EXEC-SELECT-INFO)
+[32.3.2. 取得查詢結果資訊](libpq-exec.md#libpq-exec-select-info)
 
-[32.3.3. 取得其他結果資訊](libpq-exec.md#LIBPQ-EXEC-NONSELECT)
+[32.3.3. 取得其他結果資訊](libpq-exec.md#libpq-exec-nonselect)
 
-[32.3.4. 跳脫要放入 SQL 命令的字串](libpq-exec.md#LIBPQ-EXEC-ESCAPE-STRING)
+[32.3.4. 跳脫要放入 SQL 命令的字串](libpq-exec.md#libpq-exec-escape-string)
 
 成功建立與資料庫伺服器的連線之後，就可以使用這裡所述的函式來執行 SQL 查詢與命令。
 
 <a id="LIBPQ-EXEC-MAIN"></a>
 
-### 32.3.1. 主要函式 [#](#LIBPQ-EXEC-MAIN)
+### 32.3.1. 主要函式 [#](#libpq-exec-main) <a href="#libpq-exec-main" id="libpq-exec-main"></a>
 
 <a id="LIBPQ-PQEXEC"></a>
 
@@ -438,7 +438,7 @@ libpq 內部產生的錯誤會有嚴重程度與主要訊息，但通常沒有�
 
 <a id="LIBPQ-EXEC-SELECT-INFO"></a>
 
-### 32.3.2. 取得查詢結果資訊 [#](#LIBPQ-EXEC-SELECT-INFO)
+### 32.3.2. 取得查詢結果資訊 [#](#libpq-exec-select-info) <a href="#libpq-exec-select-info" id="libpq-exec-select-info"></a>
 
 這些函式用來從代表成功查詢結果（也就是狀態為 `PGRES_TUPLES_OK`、`PGRES_SINGLE_TUPLE` 或 `PGRES_TUPLES_CHUNK` 的結果）的 `PGresult` 物件中擷取資訊。它們也可以用來從成功的 Describe 操作中擷取資訊：Describe 的結果具有與實際執行該查詢時所提供的完全相同的欄位資訊，但沒有任何資料列。對於其他狀態值的物件，這些函式的行為會如同結果有零筆資料列與零個欄位。
 
@@ -715,7 +715,7 @@ libpq 內部產生的錯誤會有嚴重程度與主要訊息，但通常沒有�
 
 <a id="LIBPQ-EXEC-NONSELECT"></a>
 
-### 32.3.3. 取得其他結果資訊 [#](#LIBPQ-EXEC-NONSELECT)
+### 32.3.3. 取得其他結果資訊 [#](#libpq-exec-nonselect) <a href="#libpq-exec-nonselect" id="libpq-exec-nonselect"></a>
 
 這些函式用來從 `PGresult` 物件中擷取其他資訊。
 
@@ -769,7 +769,7 @@ libpq 內部產生的錯誤會有嚴重程度與主要訊息，但通常沒有�
 
 <a id="LIBPQ-EXEC-ESCAPE-STRING"></a>
 
-### 32.3.4. 跳脫要放入 SQL 命令的字串 [#](#LIBPQ-EXEC-ESCAPE-STRING)
+### 32.3.4. 跳脫要放入 SQL 命令的字串 [#](#libpq-exec-escape-string) <a href="#libpq-exec-escape-string" id="libpq-exec-escape-string"></a>
 
 <a id="id-1.7.3.10.6.2"></a>
 

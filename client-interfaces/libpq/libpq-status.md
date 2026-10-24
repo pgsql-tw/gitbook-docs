@@ -1,6 +1,6 @@
 <a id="LIBPQ-STATUS"></a>
 
-## 32.2. 連線狀態函式 [#](#LIBPQ-STATUS)
+## 32.2. 連線狀態函式 [#](#libpq-status) <a href="#libpq-status" id="libpq-status"></a>
 
 這些函式可用來查詢現有資料庫連線物件的狀態。
 

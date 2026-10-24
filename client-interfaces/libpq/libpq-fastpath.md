@@ -1,6 +1,6 @@
 <a id="LIBPQ-FASTPATH"></a>
 
-## 32.8. 快速路徑介面 [#](#LIBPQ-FASTPATH)
+## 32.8. 快速路徑介面 [#](#libpq-fastpath) <a href="#libpq-fastpath" id="libpq-fastpath"></a>
 
 <a id="id-1.7.3.15.2"></a>
 

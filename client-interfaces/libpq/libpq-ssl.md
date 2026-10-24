@@ -1,16 +1,16 @@
 <a id="LIBPQ-SSL"></a>
 
-## 32.19. SSL 支援 [#](#LIBPQ-SSL)
+## 32.19. SSL 支援 [#](#libpq-ssl) <a href="#libpq-ssl" id="libpq-ssl"></a>
 
-[32.19.1. 用戶端驗證伺服器憑證](libpq-ssl.md#LIBQ-SSL-CERTIFICATES)
+[32.19.1. 用戶端驗證伺服器憑證](libpq-ssl.md#libq-ssl-certificates)
 
-[32.19.2. 用戶端憑證](libpq-ssl.md#LIBPQ-SSL-CLIENTCERT)
+[32.19.2. 用戶端憑證](libpq-ssl.md#libpq-ssl-clientcert)
 
-[32.19.3. 不同模式所提供的保護](libpq-ssl.md#LIBPQ-SSL-PROTECTION)
+[32.19.3. 不同模式所提供的保護](libpq-ssl.md#libpq-ssl-protection)
 
-[32.19.4. SSL 用戶端檔案用途](libpq-ssl.md#LIBPQ-SSL-FILEUSAGE)
+[32.19.4. SSL 用戶端檔案用途](libpq-ssl.md#libpq-ssl-fileusage)
 
-[32.19.5. SSL 函式庫初始化](libpq-ssl.md#LIBPQ-SSL-INITIALIZE)
+[32.19.5. SSL 函式庫初始化](libpq-ssl.md#libpq-ssl-initialize)
 
 <a id="id-1.7.3.26.2"></a>
 
@@ -27,7 +27,7 @@ OpenSSL 設定檔。預設情況下，這個
 
 <a id="LIBQ-SSL-CERTIFICATES"></a>
 
-### 32.19.1. 用戶端驗證伺服器憑證 [#](#LIBQ-SSL-CERTIFICATES)
+### 32.19.1. 用戶端驗證伺服器憑證 [#](#libq-ssl-certificates) <a href="#libq-ssl-certificates" id="libq-ssl-certificates"></a>
 
 預設情況下，PostgreSQL 不會對伺服器憑證進行任何驗證。
 這表示有可能在用戶端不知情的情況下偽冒伺服器身分
@@ -109,7 +109,7 @@ Windows 上為 `%APPDATA%\postgresql\root.crl`），
 
 <a id="LIBPQ-SSL-CLIENTCERT"></a>
 
-### 32.19.2. 用戶端憑證 [#](#LIBPQ-SSL-CLIENTCERT)
+### 32.19.2. 用戶端憑證 [#](#libpq-ssl-clientcert) <a href="#libpq-ssl-clientcert" id="libpq-ssl-clientcert"></a>
 
 若伺服器藉由要求用戶端提供葉憑證來嘗試驗證
 用戶端的身分，
@@ -163,7 +163,7 @@ OpenSSL 會以
 
 <a id="LIBPQ-SSL-PROTECTION"></a>
 
-### 32.19.3. 不同模式所提供的保護 [#](#LIBPQ-SSL-PROTECTION)
+### 32.19.3. 不同模式所提供的保護 [#](#libpq-ssl-protection) <a href="#libpq-ssl-protection" id="libpq-ssl-protection"></a>
 
 `sslmode` 參數的不同值會提供不同
 層級的保護。SSL 可以
@@ -249,7 +249,7 @@ CA，`verify-ca` 會允許連線到
 
 <a id="LIBPQ-SSL-FILEUSAGE"></a>
 
-### 32.19.4. SSL 用戶端檔案用途 [#](#LIBPQ-SSL-FILEUSAGE)
+### 32.19.4. SSL 用戶端檔案用途 [#](#libpq-ssl-fileusage) <a href="#libpq-ssl-fileusage" id="libpq-ssl-fileusage"></a>
 
 [表 32.2](libpq-ssl.md#LIBPQ-SSL-FILE-USAGE) 彙整了與用戶端
 SSL 設定相關的檔案。
@@ -266,7 +266,7 @@ SSL 設定相關的檔案。
 
 <a id="LIBPQ-SSL-INITIALIZE"></a>
 
-### 32.19.5. SSL 函式庫初始化 [#](#LIBPQ-SSL-INITIALIZE)
+### 32.19.5. SSL 函式庫初始化 [#](#libpq-ssl-initialize) <a href="#libpq-ssl-initialize" id="libpq-ssl-initialize"></a>
 
 需要與較舊版本的
 PostgreSQL 相容、並使用 OpenSSL

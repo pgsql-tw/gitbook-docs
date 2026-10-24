@@ -44,7 +44,7 @@ pg_createsubscriber 接受下列命令列引數：
 :   目標伺服器監聽連線的連接埠號碼。預設在連接埠 50432 上執行目標伺服器，以避免非預期的用戶端連線。
 
 `-P connstr`<br>`--publisher-server=connstr`
-:   連到發佈者的連線字串。詳情請參閱[第 32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。
+:   連到發佈者的連線字串。詳情請參閱[第 32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。
 
 `-s dir`<br>`--socketdir=dir`
 :   目標伺服器上 postmaster 通訊端所使用的目錄。預設為目前目錄。

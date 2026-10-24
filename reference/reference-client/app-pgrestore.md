@@ -53,7 +53,7 @@ pg_restore 接受下列命令列引數。
     使用此選項時，以 `-d` 指定的資料庫只用來發出最初的 `DROP DATABASE` 與 `CREATE DATABASE` 命令。所有資料都會還原到封存檔中所記載的資料庫名稱中。
 
 `-d dbname`<br>`--dbname=dbname`
-:   連線到資料庫 *`dbname`*，並直接還原到該資料庫中。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNSTRING)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
+:   連線到資料庫 *`dbname`*，並直接還原到該資料庫中。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 `-e`<br>`--exit-on-error`
 :   若在將 SQL 命令送往資料庫時遇到錯誤，就結束。預設是繼續執行，並在還原結束時顯示錯誤數量。
