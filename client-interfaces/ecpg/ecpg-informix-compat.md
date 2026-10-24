@@ -1,6 +1,6 @@
 <a id="ECPG-INFORMIX-COMPAT"></a>
 
-## 34.15. Informix 相容模式 [#](#ECPG-INFORMIX-COMPAT)
+## 34.15. Informix 相容模式 [#](#ecpg-informix-compat) <a href="#ecpg-informix-compat" id="ecpg-informix-compat"></a>
 
 [34.15.1. 額外的型別](ecpg-informix-compat.md#ecpg-informix-types)
 

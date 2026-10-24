@@ -1,6 +1,6 @@
 <a id="ECPG-PGTYPES"></a>
 
-## 34.6. pgtypes 函式庫 [#](#ECPG-PGTYPES)
+## 34.6. pgtypes 函式庫 [#](#ecpg-pgtypes) <a href="#ecpg-pgtypes" id="ecpg-pgtypes"></a>
 
 [34.6.1. 字串](ecpg-pgtypes.md#ecpg-pgtypes-cstrings)
 

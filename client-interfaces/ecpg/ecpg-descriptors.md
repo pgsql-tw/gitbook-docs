@@ -1,6 +1,6 @@
 <a id="ECPG-DESCRIPTORS"></a>
 
-## 34.7. 使用描述區 [#](#ECPG-DESCRIPTORS)
+## 34.7. 使用描述區 [#](#ecpg-descriptors) <a href="#ecpg-descriptors" id="ecpg-descriptors"></a>
 
 [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ecpg-named-descriptors)
 
@@ -184,7 +184,7 @@ EXEC SQL DESCRIBE prepared_statement INTO mysqlda;
 
 <a id="ECPG-SQLDA-DESCRIPTORS-SQLDA"></a>
 
-#### 34.7.2.1. SQLDA 資料結構 [#](#ECPG-SQLDA-DESCRIPTORS-SQLDA)
+#### 34.7.2.1. SQLDA 資料結構 [#](#ecpg-sqlda-descriptors-sqlda) <a href="#ecpg-sqlda-descriptors-sqlda" id="ecpg-sqlda-descriptors-sqlda"></a>
 
 SQLDA 使用三種資料結構型別：`sqlda_t`、`sqlvar_t` 與 `struct sqlname`。
 
@@ -194,7 +194,7 @@ PostgreSQL 的 SQLDA 與 IBM DB2 Universal Database 中的 SQLDA 資料結構相
 
 <a id="ECPG-SQLDA-SQLDA"></a>
 
-##### 34.7.2.1.1. sqlda_t 結構 [#](#ECPG-SQLDA-SQLDA)
+##### 34.7.2.1.1. sqlda_t 結構 [#](#ecpg-sqlda-sqlda) <a href="#ecpg-sqlda-sqlda" id="ecpg-sqlda-sqlda"></a>
 
 結構型別 `sqlda_t` 是實際 SQLDA 的型別。它存放一筆記錄。兩個或更多 `sqlda_t` 結構可以透過 `desc_next` 欄位中的指標連成鏈結串列，藉此表示有序的資料列集合。因此，擷取到兩個或更多資料列時，應用程式可以沿著每個 `sqlda_t` 節點中的 `desc_next` 指標讀取這些資料列。
 
@@ -244,7 +244,7 @@ typedef struct sqlda_struct sqlda_t;
 
 <a id="ECPG-SQLDA-SQLVAR"></a>
 
-##### 34.7.2.1.2. sqlvar_t 結構 [#](#ECPG-SQLDA-SQLVAR)
+##### 34.7.2.1.2. sqlvar_t 結構 [#](#ecpg-sqlda-sqlvar) <a href="#ecpg-sqlda-sqlvar" id="ecpg-sqlda-sqlvar"></a>
 
 結構型別 `sqlvar_t` 存放一個欄位的值，以及型別與長度等中繼資料。此型別的定義如下：
 
@@ -287,7 +287,7 @@ typedef struct sqlvar_struct sqlvar_t;
 
 <a id="ECPG-SQLDA-SQLNAME"></a>
 
-##### 34.7.2.1.3. struct sqlname 結構 [#](#ECPG-SQLDA-SQLNAME)
+##### 34.7.2.1.3. struct sqlname 結構 [#](#ecpg-sqlda-sqlname) <a href="#ecpg-sqlda-sqlname" id="ecpg-sqlda-sqlname"></a>
 
 `struct sqlname` 結構存放一個欄位名稱。它用作 `sqlvar_t` 結構的成員。此結構的定義如下：
 
@@ -315,7 +315,7 @@ struct sqlname
 
 <a id="ECPG-SQLDA-OUTPUT"></a>
 
-#### 34.7.2.2. 使用 SQLDA 取得結果集 [#](#ECPG-SQLDA-OUTPUT)
+#### 34.7.2.2. 使用 SQLDA 取得結果集 [#](#ecpg-sqlda-output) <a href="#ecpg-sqlda-output" id="ecpg-sqlda-output"></a>
 
 透過 SQLDA 取得查詢結果集的一般步驟如下：
 
@@ -393,7 +393,7 @@ switch (v.sqltype)
 
 <a id="ECPG-SQLDA-INPUT"></a>
 
-#### 34.7.2.3. 使用 SQLDA 傳遞查詢參數 [#](#ECPG-SQLDA-INPUT)
+#### 34.7.2.3. 使用 SQLDA 傳遞查詢參數 [#](#ecpg-sqlda-input) <a href="#ecpg-sqlda-input" id="ecpg-sqlda-input"></a>
 
 使用 SQLDA 將輸入參數傳給預備查詢的一般步驟如下：
 
@@ -458,7 +458,7 @@ free(sqlda2);
 
 <a id="ECPG-SQLDA-EXAMPLE"></a>
 
-#### 34.7.2.4. 使用 SQLDA 的範例應用程式 [#](#ECPG-SQLDA-EXAMPLE)
+#### 34.7.2.4. 使用 SQLDA 的範例應用程式 [#](#ecpg-sqlda-example) <a href="#ecpg-sqlda-example" id="ecpg-sqlda-example"></a>
 
 以下是一個範例程式，說明如何從系統目錄擷取由輸入參數所指定之資料庫的存取統計資訊。
 

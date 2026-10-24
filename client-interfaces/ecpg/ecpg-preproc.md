@@ -1,6 +1,6 @@
 <a id="ECPG-PREPROC"></a>
 
-## 34.9. 前置處理器指令 [#](#ECPG-PREPROC)
+## 34.9. 前置處理器指令 [#](#ecpg-preproc) <a href="#ecpg-preproc" id="ecpg-preproc"></a>
 
 [34.9.1. 引入檔案](ecpg-preproc.md#ecpg-include)
 

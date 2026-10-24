@@ -1,6 +1,6 @@
 <a id="ECPG-LIBRARY"></a>
 
-## 34.11. 函式庫函式 [#](#ECPG-LIBRARY)
+## 34.11. 函式庫函式 [#](#ecpg-library) <a href="#ecpg-library" id="ecpg-library"></a>
 
 `libecpg` 函式庫主要包含「隱藏」函式，用來實作嵌入式 SQL 命令所表達的功能。不過，也有一些函式適合直接呼叫。請注意，這樣做會使你的程式碼失去可攜性。
 

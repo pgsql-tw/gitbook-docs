@@ -1,6 +1,6 @@
 <a id="ECPG-ERRORS"></a>
 
-## 34.8. 錯誤處理 [#](#ECPG-ERRORS)
+## 34.8. 錯誤處理 [#](#ecpg-errors) <a href="#ecpg-errors" id="ecpg-errors"></a>
 
 [34.8.1. 設定回呼](ecpg-errors.md#ecpg-whenever)
 

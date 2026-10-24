@@ -1,6 +1,6 @@
 <a id="ECPG-DEVELOP"></a>
 
-## 34.17. 內部運作 [#](#ECPG-DEVELOP)
+## 34.17. 內部運作 [#](#ecpg-develop) <a href="#ecpg-develop" id="ecpg-develop"></a>
 
 本節說明 ECPG 的內部運作方式。這些資訊有時可以幫助使用者理解如何使用 ECPG。
 

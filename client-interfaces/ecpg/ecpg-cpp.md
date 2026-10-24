@@ -1,6 +1,6 @@
 <a id="ECPG-CPP"></a>
 
-## 34.13. C++ 應用程式 [#](#ECPG-CPP)
+## 34.13. C++ 應用程式 [#](#ecpg-cpp) <a href="#ecpg-cpp" id="ecpg-cpp"></a>
 
 [34.13.1. 主機變數的作用域](ecpg-cpp.md#ecpg-cpp-scope)
 

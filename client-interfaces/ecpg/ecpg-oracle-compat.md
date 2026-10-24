@@ -1,6 +1,6 @@
 <a id="ECPG-ORACLE-COMPAT"></a>
 
-## 34.16. Oracle 相容模式 [#](#ECPG-ORACLE-COMPAT)
+## 34.16. Oracle 相容模式 [#](#ecpg-oracle-compat) <a href="#ecpg-oracle-compat" id="ecpg-oracle-compat"></a>
 
 `ecpg` 可以在所謂的 *Oracle 相容模式*下執行。啟用此模式時，它會嘗試採用與 Oracle Pro\*C 相同的行為。
 

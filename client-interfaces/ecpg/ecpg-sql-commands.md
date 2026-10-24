@@ -1,6 +1,6 @@
 <a id="ECPG-SQL-COMMANDS"></a>
 
-## 34.14. 嵌入式 SQL 命令 [#](#ECPG-SQL-COMMANDS)
+## 34.14. 嵌入式 SQL 命令 [#](#ecpg-sql-commands) <a href="#ecpg-sql-commands" id="ecpg-sql-commands"></a>
 
 [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
 

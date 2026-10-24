@@ -1,6 +1,6 @@
 <a id="ECPG-CONNECT"></a>
 
-## 34.2. 管理資料庫連線 [#](#ECPG-CONNECT)
+## 34.2. 管理資料庫連線 [#](#ecpg-connect) <a href="#ecpg-connect" id="ecpg-connect"></a>
 
 [34.2.1. 連線到資料庫伺服器](ecpg-connect.md#ecpg-connecting)
 

@@ -1,6 +1,6 @@
 <a id="ECPG-CONCEPT"></a>
 
-## 34.1. 概念 [#](#ECPG-CONCEPT)
+## 34.1. 概念 [#](#ecpg-concept) <a href="#ecpg-concept" id="ecpg-concept"></a>
 
 嵌入式 SQL 程式由以一般程式語言（此處為 C）撰寫的程式碼，與位於特別標記區段中的 SQL 命令混合組成。建置程式時，原始碼（`*.pgc`）會先經過嵌入式 SQL 前置處理器，轉換成一般的 C 程式（`*.c`），之後即可由 C 編譯器處理。（關於編譯與連結的細節，請參閱[第 34.10 節](ecpg-process.md)。）轉換後的 ECPG 應用程式會透過嵌入式 SQL 函式庫（ecpglib）呼叫 libpq 函式庫中的函式，並使用一般的前端／後端協定與 PostgreSQL 伺服器通訊。
 

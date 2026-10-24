@@ -1,6 +1,6 @@
 <a id="ECPG-VARIABLES"></a>
 
-## 34.4. 使用主機變數 [#](#ECPG-VARIABLES)
+## 34.4. 使用主機變數 [#](#ecpg-variables) <a href="#ecpg-variables" id="ecpg-variables"></a>
 
 [34.4.1. 概觀](ecpg-variables.md#ecpg-variables-overview)
 
@@ -134,7 +134,7 @@ do
 
 當 ECPG 應用程式在 PostgreSQL 伺服器與 C 應用程式之間交換值時，例如從伺服器取得查詢結果，或執行帶有輸入參數的 SQL 陳述式時，這些值需要在 PostgreSQL 資料型別與主機語言變數型別（具體而言就是 C 語言資料型別）之間轉換。ECPG 的重點之一，就是在大多數情況下會自動處理這件事。
 
-就這方面而言，資料型別分為兩類：一些簡單的 PostgreSQL 資料型別，例如 `integer` 與 `text`，應用程式可以直接讀寫。其他 PostgreSQL 資料型別，例如 `timestamp` 與 `numeric`，則只能透過特殊的函式庫函式存取；請參閱[第 34.4.4.2 節](ecpg-variables.md#ECPG-SPECIAL-TYPES)。
+就這方面而言，資料型別分為兩類：一些簡單的 PostgreSQL 資料型別，例如 `integer` 與 `text`，應用程式可以直接讀寫。其他 PostgreSQL 資料型別，例如 `timestamp` 與 `numeric`，則只能透過特殊的函式庫函式存取；請參閱[第 34.4.4.2 節](ecpg-variables.md#ecpg-special-types)。
 
 [表 34.1](ecpg-variables.md#ECPG-DATATYPE-HOSTVARS-TABLE) 列出哪些 PostgreSQL 資料型別對應到哪些 C 資料型別。當你想要傳送或接收某個 PostgreSQL 資料型別的值時，應該在宣告區段中宣告對應 C 資料型別的 C 變數。
 
@@ -148,7 +148,7 @@ do
 
 <a id="ECPG-CHAR"></a>
 
-#### 34.4.4.1. 處理字元字串 [#](#ECPG-CHAR)
+#### 34.4.4.1. 處理字元字串 [#](#ecpg-char) <a href="#ecpg-char" id="ecpg-char"></a>
 
 若要處理 SQL 字元字串資料型別，例如 `varchar` 與 `text`，宣告主機變數有兩種可行的方式。
 
@@ -185,7 +185,7 @@ struct varchar_var { int len; char arr[180]; } var;
 
 <a id="ECPG-SPECIAL-TYPES"></a>
 
-#### 34.4.4.2. 存取特殊資料型別 [#](#ECPG-SPECIAL-TYPES)
+#### 34.4.4.2. 存取特殊資料型別 [#](#ecpg-special-types) <a href="#ecpg-special-types" id="ecpg-special-types"></a>
 
 ECPG 包含一些特殊型別，可以幫助你輕鬆地與 PostgreSQL 伺服器的某些特殊資料型別互動。具體而言，它已實作對 `numeric`、`decimal`、`date`、`timestamp` 與 `interval` 型別的支援。這些資料型別因為內部結構複雜，無法有效地對應到基本的主機變數型別（例如 `int`、`long long int` 或 `char[]`）。應用程式處理這些型別的方式，是以特殊型別宣告主機變數，並使用 pgtypes 函式庫中的函式來存取它們。pgtypes 函式庫（詳見[第 34.6 節](ecpg-pgtypes.md)）包含處理這些型別的基本函式，例如，你不必只為了把一段時間間隔加到時間戳記上，就向 SQL 伺服器傳送查詢。
 
@@ -193,7 +193,7 @@ ECPG 包含一些特殊型別，可以幫助你輕鬆地與 PostgreSQL 伺服器
 
 <a id="ECPG-SPECIAL-TYPES-TIMESTAMP-DATE"></a>
 
-##### 34.4.4.2.1. timestamp、date [#](#ECPG-SPECIAL-TYPES-TIMESTAMP-DATE)
+##### 34.4.4.2.1. timestamp、date [#](#ecpg-special-types-timestamp-date) <a href="#ecpg-special-types-timestamp-date" id="ecpg-special-types-timestamp-date"></a>
 
 以下是在 ECPG 主機應用程式中處理 `timestamp` 變數的模式。
 
@@ -233,7 +233,7 @@ ts = 2010-06-27 18:03:56.949343
 
 <a id="ECPG-TYPE-INTERVAL"></a>
 
-##### 34.4.4.2.2. interval [#](#ECPG-TYPE-INTERVAL)
+##### 34.4.4.2.2. interval [#](#ecpg-type-interval) <a href="#ecpg-type-interval" id="ecpg-type-interval"></a>
 
 `interval` 型別的處理方式也與 `timestamp` 和 `date` 型別類似。不過，必須明確地為 `interval` 型別的值配置記憶體。換句話說，變數的記憶體空間必須配置在堆積記憶體中，而不是堆疊記憶體中。
 
@@ -268,7 +268,7 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-TYPE-NUMERIC-DECIMAL"></a>
 
-##### 34.4.4.2.3. numeric、decimal [#](#ECPG-TYPE-NUMERIC-DECIMAL)
+##### 34.4.4.2.3. numeric、decimal [#](#ecpg-type-numeric-decimal) <a href="#ecpg-type-numeric-decimal" id="ecpg-type-numeric-decimal"></a>
 
 `numeric` 與 `decimal` 型別的處理方式與 `interval` 型別類似：需要定義指標、在堆積上配置記憶體空間，並使用 pgtypes 函式庫函式存取該變數。關於 pgtypes 函式庫函式的更多細節，請參閱[第 34.6 節](ecpg-pgtypes.md)。
 
@@ -325,7 +325,7 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-SPECIAL-TYPES-BYTEA"></a>
 
-##### 34.4.4.2.4. bytea [#](#ECPG-SPECIAL-TYPES-BYTEA)
+##### 34.4.4.2.4. bytea [#](#ecpg-special-types-bytea) <a href="#ecpg-special-types-bytea" id="ecpg-special-types-bytea"></a>
 
 `bytea` 型別的處理方式與 `VARCHAR` 類似。`bytea` 型別陣列的定義，會針對每個變數轉換成一個具名的結構。像這樣的宣告：
 
@@ -349,15 +349,15 @@ struct bytea_var { int len; char arr[180]; } var;
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-C"></a>
 
-#### 34.4.4.3. 非基本型別的主機變數 [#](#ECPG-VARIABLES-NONPRIMITIVE-C)
+#### 34.4.4.3. 非基本型別的主機變數 [#](#ecpg-variables-nonprimitive-c) <a href="#ecpg-variables-nonprimitive-c" id="ecpg-variables-nonprimitive-c"></a>
 
 你也可以使用陣列、typedef、結構與指標作為主機變數。
 
 <a id="ECPG-VARIABLES-ARRAYS"></a>
 
-##### 34.4.4.3.1. 陣列 [#](#ECPG-VARIABLES-ARRAYS)
+##### 34.4.4.3.1. 陣列 [#](#ecpg-variables-arrays) <a href="#ecpg-variables-arrays" id="ecpg-variables-arrays"></a>
 
-陣列作為主機變數有兩種使用情境。第一種是把文字字串存放在 `char[]` 或 `VARCHAR[]` 中，如[第 34.4.4.1 節](ecpg-variables.md#ECPG-CHAR)所述。第二種使用情境是不使用游標，就從查詢結果中取得多筆資料列。如果不使用陣列，要處理由多筆資料列組成的查詢結果，就必須使用游標與 `FETCH` 命令。但使用陣列主機變數時，可以一次接收多筆資料列。陣列的長度必須定義得足以容納所有資料列，否則很可能會發生緩衝區溢位。
+陣列作為主機變數有兩種使用情境。第一種是把文字字串存放在 `char[]` 或 `VARCHAR[]` 中，如[第 34.4.4.1 節](ecpg-variables.md#ecpg-char)所述。第二種使用情境是不使用游標，就從查詢結果中取得多筆資料列。如果不使用陣列，要處理由多筆資料列組成的查詢結果，就必須使用游標與 `FETCH` 命令。但使用陣列主機變數時，可以一次接收多筆資料列。陣列的長度必須定義得足以容納所有資料列，否則很可能會發生緩衝區溢位。
 
 下列範例會掃描 `pg_database` 系統資料表，並顯示所有可用資料庫的 OID 與名稱：
 
@@ -407,7 +407,7 @@ oid=0, dbname=
 
 <a id="ECPG-VARIABLES-STRUCT"></a>
 
-##### 34.4.4.3.2. 結構 [#](#ECPG-VARIABLES-STRUCT)
+##### 34.4.4.3.2. 結構 [#](#ecpg-variables-struct) <a href="#ecpg-variables-struct" id="ecpg-variables-struct"></a>
 
 成員名稱與查詢結果欄位名稱相符的結構，可以用來一次取得多個欄位。結構讓你能在單一主機變數中處理多個欄位的值。
 
@@ -493,7 +493,7 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-C-TYPEDEFS"></a>
 
-##### 34.4.4.3.3. 型別定義（typedef） [#](#ECPG-VARIABLES-NONPRIMITIVE-C-TYPEDEFS)
+##### 34.4.4.3.3. 型別定義（typedef） [#](#ecpg-variables-nonprimitive-c-typedefs) <a href="#ecpg-variables-nonprimitive-c-typedefs" id="ecpg-variables-nonprimitive-c-typedefs"></a>
 
 <a id="id-1.7.5.10.7.8.5.2"></a>
 
@@ -536,7 +536,7 @@ TRANSACTION` 回報語法錯誤，因為它不再把 `START` 視為 SQL 關鍵�
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-C-POINTERS"></a>
 
-##### 34.4.4.3.4. 指標 [#](#ECPG-VARIABLES-NONPRIMITIVE-C-POINTERS)
+##### 34.4.4.3.4. 指標 [#](#ecpg-variables-nonprimitive-c-pointers) <a href="#ecpg-variables-nonprimitive-c-pointers" id="ecpg-variables-nonprimitive-c-pointers"></a>
 
 你可以宣告指向最常見型別的指標。不過請注意，若沒有自動配置，就不能把指標用作查詢的目標變數。關於自動配置的更多資訊，請參閱[第 34.7 節](ecpg-descriptors.md)。
 
@@ -556,7 +556,7 @@ EXEC SQL END DECLARE SECTION;
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-ARRAYS"></a>
 
-#### 34.4.5.1. 陣列 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-ARRAYS)
+#### 34.4.5.1. 陣列 [#](#ecpg-variables-nonprimitive-sql-arrays) <a href="#ecpg-variables-nonprimitive-sql-arrays" id="ecpg-variables-nonprimitive-sql-arrays"></a>
 
 ECPG 並不直接支援多維的 SQL 層級陣列。一維的 SQL 層級陣列可以對應到 C 陣列主機變數，反之亦然。不過，在建立陳述式時，ecpg 並不知道欄位的型別，因此無法檢查 C 陣列是否輸入到對應的 SQL 層級陣列中。在處理 SQL 陳述式的輸出時，ecpg 擁有必要的資訊，因此會檢查兩者是否都是陣列。
 
@@ -653,7 +653,7 @@ while (1)
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-COMPOSITE"></a>
 
-#### 34.4.5.2. 複合型別 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-COMPOSITE)
+#### 34.4.5.2. 複合型別 [#](#ecpg-variables-nonprimitive-sql-composite) <a href="#ecpg-variables-nonprimitive-sql-composite" id="ecpg-variables-nonprimitive-sql-composite"></a>
 
 ECPG 並不直接支援複合型別，但可以採用簡單的變通方法。可用的變通方法與上面針對陣列所述的方法類似：分別存取每個屬性，或使用外部字串表示形式。
 
@@ -692,7 +692,7 @@ while (1)
 EXEC SQL CLOSE cur1;
 ```
 
-為了改進這個範例，可以把用來存放 `FETCH` 命令中值的主機變數集中到一個結構中。關於結構形式主機變數的更多細節，請參閱[第 34.4.4.3.2 節](ecpg-variables.md#ECPG-VARIABLES-STRUCT)。若要改用結構，可以把範例修改如下。兩個主機變數 `intval` 與 `textval` 成為 `comp_t` 結構的成員，並在 `FETCH` 命令中指定該結構。
+為了改進這個範例，可以把用來存放 `FETCH` 命令中值的主機變數集中到一個結構中。關於結構形式主機變數的更多細節，請參閱[第 34.4.4.3.2 節](ecpg-variables.md#ecpg-variables-struct)。若要改用結構，可以把範例修改如下。兩個主機變數 `intval` 與 `textval` 成為 `comp_t` 結構的成員，並在 `FETCH` 命令中指定該結構。
 
 ```
 
@@ -749,7 +749,7 @@ while (1)
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-USER-DEFINED-BASE-TYPES"></a>
 
-#### 34.4.5.3. 使用者自訂基本型別 [#](#ECPG-VARIABLES-NONPRIMITIVE-SQL-USER-DEFINED-BASE-TYPES)
+#### 34.4.5.3. 使用者自訂基本型別 [#](#ecpg-variables-nonprimitive-sql-user-defined-base-types) <a href="#ecpg-variables-nonprimitive-sql-user-defined-base-types" id="ecpg-variables-nonprimitive-sql-user-defined-base-types"></a>
 
 ECPG 並不直接支援新的使用者自訂基本型別。你可以使用外部字串表示形式與 `char[]` 或 `VARCHAR[]` 型別的主機變數，而這個解法對許多型別而言確實恰當且足夠。
 

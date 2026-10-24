@@ -1,6 +1,6 @@
 <a id="ECPG-DYNAMIC"></a>
 
-## 34.5. 動態 SQL [#](#ECPG-DYNAMIC)
+## 34.5. 動態 SQL [#](#ecpg-dynamic) <a href="#ecpg-dynamic" id="ecpg-dynamic"></a>
 
 [34.5.1. 執行不傳回結果集的陳述式](ecpg-dynamic.md#ecpg-dynamic-without-result)
 

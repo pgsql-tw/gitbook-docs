@@ -1,6 +1,6 @@
 <a id="ECPG-LO"></a>
 
-## 34.12. 大型物件 [#](#ECPG-LO)
+## 34.12. 大型物件 [#](#ecpg-lo) <a href="#ecpg-lo" id="ecpg-lo"></a>
 
 ECPG 並未直接支援大型物件，但 ECPG 應用程式可以透過 libpq 的大型物件函式來操作大型物件，所需的 `PGconn` 物件可藉由呼叫 `ECPGget_PGconn()` 函式取得。（不過，使用 `ECPGget_PGconn()` 函式以及直接操作 `PGconn` 物件時應非常謹慎，而且最好不要與其他 ECPG 資料庫存取呼叫混用。）
 
