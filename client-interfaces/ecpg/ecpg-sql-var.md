@@ -21,12 +21,15 @@ VAR varname IS ctype
 
 <a id="ECPG-SQL-VAR-VARNAME"></a>
 
-*`varname`* [#](#ECPG-SQL-VAR-VARNAME)
-:   C 變數名稱。
+### *`varname`* [#](#ecpg-sql-var-varname) <a href="#ecpg-sql-var-varname" id="ecpg-sql-var-varname"></a>
+
+C 變數名稱。
+
 <a id="ECPG-SQL-VAR-CTYPE"></a>
 
-*`ctype`* [#](#ECPG-SQL-VAR-CTYPE)
-:   C 型別規格。
+### *`ctype`* [#](#ecpg-sql-var-ctype) <a href="#ecpg-sql-var-ctype" id="ecpg-sql-var-ctype"></a>
+
+C 型別規格。
 
 <a id="id-1.7.5.20.18.5"></a>
 

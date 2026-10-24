@@ -358,6 +358,7 @@
           * [34.7.2.1.1. sqlda_t 結構](client-interfaces/ecpg/ecpg-sqlda-sqlda.md)
           * [34.7.2.1.2. sqlvar_t 結構](client-interfaces/ecpg/ecpg-sqlda-sqlvar.md)
           * [34.7.2.1.3. struct sqlname 結構](client-interfaces/ecpg/ecpg-sqlda-sqlname.md)
+        * [34.7.2.4. 使用 SQLDA 的範例應用程式](client-interfaces/ecpg/ecpg-sqlda-example.md)
     * [34.8. 錯誤處理 #](client-interfaces/ecpg/ecpg-errors.md)
       * [34.8.1. 設定回呼](client-interfaces/ecpg/ecpg-whenever.md)
       * [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](client-interfaces/ecpg/ecpg-sqlstate-sqlcode.md)

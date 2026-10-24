@@ -23,8 +23,9 @@ ALLOCATE DESCRIPTOR name
 
 <a id="ECPG-SQL-ALLOCATE-DESCRIPTOR-NAME"></a>
 
-*`name`* [#](#ECPG-SQL-ALLOCATE-DESCRIPTOR-NAME)
-:   SQL 描述區名稱，區分大小寫。可以是 SQL 識別字或主機變數。
+### *`name`* [#](#ecpg-sql-allocate-descriptor-name) <a href="#ecpg-sql-allocate-descriptor-name" id="ecpg-sql-allocate-descriptor-name"></a>
+
+SQL 描述區名稱，區分大小寫。可以是 SQL 識別字或主機變數。
 
 <a id="id-1.7.5.20.3.5"></a>
 

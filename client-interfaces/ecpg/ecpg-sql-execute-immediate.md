@@ -23,8 +23,9 @@ EXECUTE IMMEDIATE string
 
 <a id="ECPG-SQL-EXECUTE-IMMEDIATE-STRING"></a>
 
-*`string`* [#](#ECPG-SQL-EXECUTE-IMMEDIATE-STRING)
-:   包含要執行之 SQL 陳述式的字串常值或主機變數。
+### *`string`* [#](#ecpg-sql-execute-immediate-string) <a href="#ecpg-sql-execute-immediate-string" id="ecpg-sql-execute-immediate-string"></a>
+
+包含要執行之 SQL 陳述式的字串常值或主機變數。
 
 <a id="id-1.7.5.20.10.5"></a>
 

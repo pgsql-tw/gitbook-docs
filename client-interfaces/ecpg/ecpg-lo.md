@@ -8,11 +8,11 @@ ECPG 並未直接支援大型物件，但 ECPG 應用程式可以透過 libpq �
 
 大型物件函式必須在交易區塊中呼叫，因此在自動提交關閉時，必須明確發出 `BEGIN` 命令。
 
-[範例 34.2](ecpg-lo.md#ECPG-LO-EXAMPLE) 是一個範例程式，示範如何在 ECPG 應用程式中建立、寫入及讀取大型物件。
+[範例 34.2](ecpg-lo.md#ecpg-lo-example) 是一個範例程式，示範如何在 ECPG 應用程式中建立、寫入及讀取大型物件。
 
 <a id="ECPG-LO-EXAMPLE"></a>
 
-**範例 34.2. 存取大型物件的 ECPG 程式**
+### 範例 34.2. 存取大型物件的 ECPG 程式 [#](#ecpg-lo-example) <a href="#ecpg-lo-example" id="ecpg-lo-example"></a>
 
 ```
 

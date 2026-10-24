@@ -21,8 +21,9 @@ DEALLOCATE DESCRIPTOR name
 
 <a id="ECPG-SQL-DEALLOCATE-DESCRIPTOR-NAME"></a>
 
-*`name`* [#](#ECPG-SQL-DEALLOCATE-DESCRIPTOR-NAME)
-:   要釋放的描述區名稱。此名稱區分大小寫，可以是 SQL 識別字或主機變數。
+### *`name`* [#](#ecpg-sql-deallocate-descriptor-name) <a href="#ecpg-sql-deallocate-descriptor-name" id="ecpg-sql-deallocate-descriptor-name"></a>
+
+要釋放的描述區名稱。此名稱區分大小寫，可以是 SQL 識別字或主機變數。
 
 <a id="id-1.7.5.20.5.5"></a>
 

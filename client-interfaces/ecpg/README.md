@@ -125,7 +125,7 @@
       - [34.7.2.1.3. struct sqlname 結構](ecpg-sqlda-sqlname.md#ecpg-sqlda-sqlname)
     - [34.7.2.2. 使用 SQLDA 取得結果集](ecpg-sqlda-descriptors.md#ecpg-sqlda-output)
     - [34.7.2.3. 使用 SQLDA 傳遞查詢參數](ecpg-sqlda-descriptors.md#ecpg-sqlda-input)
-    - [34.7.2.4. 使用 SQLDA 的範例應用程式](ecpg-sqlda-descriptors.md#ecpg-sqlda-example)
+    - [34.7.2.4. 使用 SQLDA 的範例應用程式](ecpg-sqlda-example.md#ecpg-sqlda-example)
 
 - [34.8. 錯誤處理](ecpg-errors.md)
   - [34.8.1. 設定回呼](ecpg-whenever.md#ecpg-whenever)
