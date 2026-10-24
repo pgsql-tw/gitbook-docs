@@ -355,7 +355,7 @@ struct bytea_var { int len; char arr[180]; } var;
 
 <a id="ECPG-VARIABLES-ARRAYS"></a>
 
-##### 34.4.4.3.1. 陣列 [#](#ecpg-variables-arrays) <a href="#ecpg-variables-arrays" id="ecpg-variables-arrays"></a>
+##### 34.4.4.3.1. 陣列 <a href="#ecpg-variables-arrays" id="ecpg-variables-arrays">#</a>
 
 陣列作為主機變數有兩種使用情境。第一種是把文字字串存放在 `char[]` 或 `VARCHAR[]` 中，如[第 34.4.4.1 節](ecpg-variables.md#ecpg-char)所述。第二種使用情境是不使用游標，就從查詢結果中取得多筆資料列。如果不使用陣列，要處理由多筆資料列組成的查詢結果，就必須使用游標與 `FETCH` 命令。但使用陣列主機變數時，可以一次接收多筆資料列。陣列的長度必須定義得足以容納所有資料列，否則很可能會發生緩衝區溢位。
 
