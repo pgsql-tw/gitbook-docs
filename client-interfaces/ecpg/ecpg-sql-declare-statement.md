@@ -23,7 +23,7 @@ EXEC SQL [ AT connection_name ] DECLARE statement_name STATEMENT
 
 <a id="ECPG-SQL-DECLARE-STATEMENT-CONNECTION-NAME"></a>
 
-*`connection_name`* [#](#ECPG-SQL-DECLARE-STATEMENT-CONNECTION-NAME)
+### *`connection_name`* [#](#ecpg-sql-declare-statement-connection-name) <a href="#ecpg-sql-declare-statement-connection-name" id="ecpg-sql-declare-statement-connection-name"></a>
 
 由 `CONNECT` 命令建立的資料庫連線名稱。
 
@@ -31,8 +31,9 @@ EXEC SQL [ AT connection_name ] DECLARE statement_name STATEMENT
 
 <a id="ECPG-SQL-DECLARE-STATEMENT-STATEMENT-NAME"></a>
 
-*`statement_name`* [#](#ECPG-SQL-DECLARE-STATEMENT-STATEMENT-NAME)
-:   SQL 陳述式識別字的名稱，可以是 SQL 識別字或主機變數。
+### *`statement_name`* [#](#ecpg-sql-declare-statement-statement-name) <a href="#ecpg-sql-declare-statement-statement-name" id="ecpg-sql-declare-statement-statement-name"></a>
+
+SQL 陳述式識別字的名稱，可以是 SQL 識別字或主機變數。
 
 <a id="id-1.7.5.20.7.5"></a>
 

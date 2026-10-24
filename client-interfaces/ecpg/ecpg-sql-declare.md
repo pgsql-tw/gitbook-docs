@@ -24,16 +24,21 @@ DECLARE cursor_name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ] CU
 
 <a id="ECPG-SQL-DECLARE-CURSOR-NAME"></a>
 
-*`cursor_name`* [#](#ECPG-SQL-DECLARE-CURSOR-NAME)
-:   游標名稱，區分大小寫。可以是 SQL 識別字或主機變數。
+### *`cursor_name`* [#](#ecpg-sql-declare-cursor-name) <a href="#ecpg-sql-declare-cursor-name" id="ecpg-sql-declare-cursor-name"></a>
+
+游標名稱，區分大小寫。可以是 SQL 識別字或主機變數。
+
 <a id="ECPG-SQL-DECLARE-PREPARED-NAME"></a>
 
-*`prepared_name`* [#](#ECPG-SQL-DECLARE-PREPARED-NAME)
-:   預備查詢的名稱，可以是 SQL 識別字或主機變數。
+### *`prepared_name`* [#](#ecpg-sql-declare-prepared-name) <a href="#ecpg-sql-declare-prepared-name" id="ecpg-sql-declare-prepared-name"></a>
+
+預備查詢的名稱，可以是 SQL 識別字或主機變數。
+
 <a id="ECPG-SQL-DECLARE-QUERY"></a>
 
-*`query`* [#](#ECPG-SQL-DECLARE-QUERY)
-:   提供游標所要傳回之資料列的 [SELECT](../../reference/sql-commands/sql-select.md) 或 [VALUES](../../reference/sql-commands/sql-values.md) 命令。
+### *`query`* [#](#ecpg-sql-declare-query) <a href="#ecpg-sql-declare-query" id="ecpg-sql-declare-query"></a>
+
+提供游標所要傳回之資料列的 [SELECT](../../reference/sql-commands/sql-select.md) 或 [VALUES](../../reference/sql-commands/sql-values.md) 命令。
 
 游標選項的意義請參閱 [DECLARE](../../reference/sql-commands/sql-declare.md)。
 

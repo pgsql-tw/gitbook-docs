@@ -26,24 +26,33 @@ SET DESCRIPTOR descriptor_name VALUE number descriptor_item = value [, ...]
 
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-NAME"></a>
 
-*`descriptor_name`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-NAME)
-:   描述區名稱。
+### *`descriptor_name`* [#](#ecpg-sql-set-descriptor-descriptor-name) <a href="#ecpg-sql-set-descriptor-descriptor-name" id="ecpg-sql-set-descriptor-descriptor-name"></a>
+
+描述區名稱。
+
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM"></a>
 
-*`descriptor_header_item`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM)
-:   用來識別要設定哪一個標頭資訊項目的符記。目前只支援 `COUNT`，用於設定描述區項目的數量。
+### *`descriptor_header_item`* [#](#ecpg-sql-set-descriptor-descriptor-header-item) <a href="#ecpg-sql-set-descriptor-descriptor-header-item" id="ecpg-sql-set-descriptor-descriptor-header-item"></a>
+
+用來識別要設定哪一個標頭資訊項目的符記。目前只支援 `COUNT`，用於設定描述區項目的數量。
+
 <a id="ECPG-SQL-SET-DESCRIPTOR-NUMBER"></a>
 
-*`number`* [#](#ECPG-SQL-SET-DESCRIPTOR-NUMBER)
-:   要設定的描述區項目編號。從 1 開始計數。
+### *`number`* [#](#ecpg-sql-set-descriptor-number) <a href="#ecpg-sql-set-descriptor-number" id="ecpg-sql-set-descriptor-number"></a>
+
+要設定的描述區項目編號。從 1 開始計數。
+
 <a id="ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-ITEM"></a>
 
-*`descriptor_item`* [#](#ECPG-SQL-SET-DESCRIPTOR-DESCRIPTOR-ITEM)
-:   用來識別要在描述區中設定哪一項資訊的符記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ecpg-named-descriptors)。
+### *`descriptor_item`* [#](#ecpg-sql-set-descriptor-descriptor-item) <a href="#ecpg-sql-set-descriptor-descriptor-item" id="ecpg-sql-set-descriptor-descriptor-item"></a>
+
+用來識別要在描述區中設定哪一項資訊的符記。支援的項目清單請參閱[第 34.7.1 節](ecpg-named-descriptors.md#ecpg-named-descriptors)。
+
 <a id="ECPG-SQL-SET-DESCRIPTOR-VALUE"></a>
 
-*`value`* [#](#ECPG-SQL-SET-DESCRIPTOR-VALUE)
-:   要儲存至描述區項目的值。可以是 SQL 常數或主機變數。
+### *`value`* [#](#ecpg-sql-set-descriptor-value) <a href="#ecpg-sql-set-descriptor-value" id="ecpg-sql-set-descriptor-value"></a>
+
+要儲存至描述區項目的值。可以是 SQL 常數或主機變數。
 
 <a id="id-1.7.5.20.16.5"></a>
 

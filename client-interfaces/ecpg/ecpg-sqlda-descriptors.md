@@ -12,7 +12,7 @@ sqlda_t         *mysqlda;
 EXEC SQL FETCH 3 FROM mycursor INTO DESCRIPTOR mysqlda;
 ```
 
-請注意，這裡省略了 `SQL` 關鍵字。[第 34.7.1 節](ecpg-descriptors.md#ecpg-named-descriptors)中關於 `INTO` 與 `USING` 關鍵字使用情境的段落也適用於此，另外還有一點補充：在 `DESCRIBE` 陳述式中，若使用 `INTO` 關鍵字，則可以完全省略 `DESCRIPTOR` 關鍵字：
+請注意，這裡省略了 `SQL` 關鍵字。[第 34.7.1 節](ecpg-named-descriptors.md#ecpg-named-descriptors)中關於 `INTO` 與 `USING` 關鍵字使用情境的段落也適用於此，另外還有一點補充：在 `DESCRIBE` 陳述式中，若使用 `INTO` 關鍵字，則可以完全省略 `DESCRIPTOR` 關鍵字：
 
 ```
 

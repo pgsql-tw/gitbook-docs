@@ -23,12 +23,15 @@ PREPARE prepared_name FROM string
 
 <a id="ECPG-SQL-PREPARE-PREPARED-NAME"></a>
 
-*`prepared_name`* [#](#ECPG-SQL-PREPARE-PREPARED-NAME)
-:   預備查詢的識別字。
+### *`prepared_name`* [#](#ecpg-sql-prepare-prepared-name) <a href="#ecpg-sql-prepare-prepared-name" id="ecpg-sql-prepare-prepared-name"></a>
+
+預備查詢的識別字。
+
 <a id="ECPG-SQL-PREPARE-STRING"></a>
 
-*`string`* [#](#ECPG-SQL-PREPARE-STRING)
-:   包含可預備之 SQL 陳述式（SELECT、INSERT、UPDATE 或 DELETE 其中之一）的字串常值或主機變數。要在執行時提供的參數值，請以問號（`?`）表示。
+### *`string`* [#](#ecpg-sql-prepare-string) <a href="#ecpg-sql-prepare-string" id="ecpg-sql-prepare-string"></a>
+
+包含可預備之 SQL 陳述式（SELECT、INSERT、UPDATE 或 DELETE 其中之一）的字串常值或主機變數。要在執行時提供的參數值，請以問號（`?`）表示。
 
 <a id="id-1.7.5.20.13.5"></a>
 

@@ -6,7 +6,7 @@
 
 [34.3.2. 使用游標](ecpg-commands.md#ecpg-cursors)
 
-[34.3.3. 管理交易](ecpg-commands.md#ecpg-transactions)
+[34.3.3. 管理交易](ecpg-transactions.md#ecpg-transactions)
 
 [34.3.4. 預備陳述式](ecpg-commands.md#ecpg-prepared)
 
@@ -101,40 +101,7 @@ ECPG 的 `DECLARE` 命令實際上並不會把陳述式送到 PostgreSQL 後端�
 
 ### 34.3.3. 管理交易 [#](#ecpg-transactions) <a href="#ecpg-transactions" id="ecpg-transactions"></a>
 
-在預設模式下，陳述式只有在發出 `EXEC SQL COMMIT` 時才會提交。嵌入式 SQL 介面也支援交易的自動提交（類似 psql 的預設行為），可以透過 `ecpg` 的 `-t` 命令列選項（請參閱 [ecpg](../../reference/reference-client/app-ecpg.md)），或透過 `EXEC SQL SET AUTOCOMMIT TO
-ON` 陳述式啟用。在自動提交模式下，除非命令位於明確的交易區塊內，否則每個命令都會自動提交。此模式可以使用 `EXEC
-SQL SET AUTOCOMMIT TO OFF` 明確關閉。
-
-可以使用下列交易管理命令：
-
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-COMMIT"></a>
-
-`EXEC SQL COMMIT` [#](#ECPG-TRANSACTIONS-EXEC-SQL-COMMIT)
-:   提交進行中的交易。
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-ROLLBACK"></a>
-
-`EXEC SQL ROLLBACK` [#](#ECPG-TRANSACTIONS-EXEC-SQL-ROLLBACK)
-:   回復進行中的交易。
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-PREPARE-TRANSACTION"></a>
-
-`EXEC SQL PREPARE TRANSACTION` *`transaction_id`* [#](#ECPG-TRANSACTIONS-EXEC-SQL-PREPARE-TRANSACTION)
-:   為兩階段提交準備目前的交易。
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-COMMIT-PREPARED"></a>
-
-`EXEC SQL COMMIT PREPARED` *`transaction_id`* [#](#ECPG-TRANSACTIONS-EXEC-SQL-COMMIT-PREPARED)
-:   提交處於已準備狀態的交易。
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-ROLLBACK-PREPARED"></a>
-
-`EXEC SQL ROLLBACK PREPARED` *`transaction_id`* [#](#ECPG-TRANSACTIONS-EXEC-SQL-ROLLBACK-PREPARED)
-:   回復處於已準備狀態的交易。
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-AUTOCOMMIT-ON"></a>
-
-`EXEC SQL SET AUTOCOMMIT TO ON` [#](#ECPG-TRANSACTIONS-EXEC-SQL-AUTOCOMMIT-ON)
-:   啟用自動提交模式。
-<a id="ECPG-TRANSACTIONS-EXEC-SQL-AUTOCOMMIT-OFF"></a>
-
-`EXEC SQL SET AUTOCOMMIT TO OFF` [#](#ECPG-TRANSACTIONS-EXEC-SQL-AUTOCOMMIT-OFF)
-:   停用自動提交模式。這是預設行為。
+本節內容請參閱[34.3.3. 管理交易](ecpg-transactions.md#ecpg-transactions)。
 
 <a id="ECPG-PREPARED"></a>
 

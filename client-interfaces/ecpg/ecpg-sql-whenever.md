@@ -21,7 +21,7 @@ WHENEVER { NOT FOUND | SQLERROR | SQLWARNING } action
 
 ## 參數
 
-參數的說明請參閱[第 34.8.1 節](ecpg-errors.md#ecpg-whenever)。
+參數的說明請參閱[第 34.8.1 節](ecpg-whenever.md#ecpg-whenever)。
 
 <a id="id-1.7.5.20.19.5"></a>
 

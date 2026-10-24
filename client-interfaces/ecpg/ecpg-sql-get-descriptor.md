@@ -26,24 +26,33 @@ GET DESCRIPTOR descriptor_name VALUE column_number :cvariable = descriptor_item 
 
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-NAME"></a>
 
-*`descriptor_name`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-NAME)
-:   描述區名稱。
+### *`descriptor_name`* [#](#ecpg-sql-get-descriptor-descriptor-name) <a href="#ecpg-sql-get-descriptor-descriptor-name" id="ecpg-sql-get-descriptor-descriptor-name"></a>
+
+描述區名稱。
+
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM"></a>
 
-*`descriptor_header_item`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-HEADER-ITEM)
-:   識別要擷取哪一個標頭資訊項目的標記（token）。目前只支援 `COUNT`，用於取得結果集中的欄位數。
+### *`descriptor_header_item`* [#](#ecpg-sql-get-descriptor-descriptor-header-item) <a href="#ecpg-sql-get-descriptor-descriptor-header-item" id="ecpg-sql-get-descriptor-descriptor-header-item"></a>
+
+識別要擷取哪一個標頭資訊項目的標記（token）。目前只支援 `COUNT`，用於取得結果集中的欄位數。
+
 <a id="ECPG-SQL-GET-DESCRIPTOR-COLUMN-NUMBER"></a>
 
-*`column_number`* [#](#ECPG-SQL-GET-DESCRIPTOR-COLUMN-NUMBER)
-:   要擷取其相關資訊的欄位編號。編號從 1 開始。
+### *`column_number`* [#](#ecpg-sql-get-descriptor-column-number) <a href="#ecpg-sql-get-descriptor-column-number" id="ecpg-sql-get-descriptor-column-number"></a>
+
+要擷取其相關資訊的欄位編號。編號從 1 開始。
+
 <a id="ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-ITEM"></a>
 
-*`descriptor_item`* [#](#ECPG-SQL-GET-DESCRIPTOR-DESCRIPTOR-ITEM)
-:   識別要擷取欄位的哪一項資訊的標記。支援的項目清單請參閱[第 34.7.1 節](ecpg-descriptors.md#ecpg-named-descriptors)。
+### *`descriptor_item`* [#](#ecpg-sql-get-descriptor-descriptor-item) <a href="#ecpg-sql-get-descriptor-descriptor-item" id="ecpg-sql-get-descriptor-descriptor-item"></a>
+
+識別要擷取欄位的哪一項資訊的標記。支援的項目清單請參閱[第 34.7.1 節](ecpg-named-descriptors.md#ecpg-named-descriptors)。
+
 <a id="ECPG-SQL-GET-DESCRIPTOR-CVARIABLE"></a>
 
-*`cvariable`* [#](#ECPG-SQL-GET-DESCRIPTOR-CVARIABLE)
-:   用來接收從描述區擷取之資料的主機變數。
+### *`cvariable`* [#](#ecpg-sql-get-descriptor-cvariable) <a href="#ecpg-sql-get-descriptor-cvariable" id="ecpg-sql-get-descriptor-cvariable"></a>
+
+用來接收從描述區擷取之資料的主機變數。
 
 <a id="id-1.7.5.20.11.5"></a>
 

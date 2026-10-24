@@ -17,28 +17,39 @@ SQL` 開頭，以 `;` 結尾。兩者之間的所有內容都會被視為 SQL �
 
 <a id="ECPG-DEVELOP-LINE-NUMBER"></a>
 
-行號 [#](#ECPG-DEVELOP-LINE-NUMBER)
-:   這是原始程式行的行號；只用於錯誤訊息。
+### 行號 [#](#ecpg-develop-line-number) <a href="#ecpg-develop-line-number" id="ecpg-develop-line-number"></a>
+
+這是原始程式行的行號；只用於錯誤訊息。
+
 <a id="ECPG-DEVELOP-STRING"></a>
 
-字串 [#](#ECPG-DEVELOP-STRING)
-:   這是要發出的 SQL 命令。它會依輸入變數而修改；輸入變數是指編譯時尚未得知、但要填入命令中的變數。字串中應放入變數的位置會是 `?`。
+### 字串 [#](#ecpg-develop-string) <a href="#ecpg-develop-string" id="ecpg-develop-string"></a>
+
+這是要發出的 SQL 命令。它會依輸入變數而修改；輸入變數是指編譯時尚未得知、但要填入命令中的變數。字串中應放入變數的位置會是 `?`。
+
 <a id="ECPG-DEVELOP-INPUT-VARIABLES"></a>
 
-輸入變數 [#](#ECPG-DEVELOP-INPUT-VARIABLES)
-:   每個輸入變數都會產生十個引數。（見下文。）
+### 輸入變數 [#](#ecpg-develop-input-variables) <a href="#ecpg-develop-input-variables" id="ecpg-develop-input-variables"></a>
+
+每個輸入變數都會產生十個引數。（見下文。）
+
 <a id="ECPG-DEVELOP-ECPGT-EOIT"></a>
 
-*`ECPGt_EOIT`* [#](#ECPG-DEVELOP-ECPGT-EOIT)
-:   一個 `enum` 值，表示後面已沒有其他輸入變數。
+### *`ECPGt_EOIT`* [#](#ecpg-develop-ecpgt-eoit) <a href="#ecpg-develop-ecpgt-eoit" id="ecpg-develop-ecpgt-eoit"></a>
+
+一個 `enum` 值，表示後面已沒有其他輸入變數。
+
 <a id="ECPG-DEVELOP-OUTPUT-VARIABLES"></a>
 
-輸出變數 [#](#ECPG-DEVELOP-OUTPUT-VARIABLES)
-:   每個輸出變數都會產生十個引數。（見下文。）這些變數由該函式填入。
+### 輸出變數 [#](#ecpg-develop-output-variables) <a href="#ecpg-develop-output-variables" id="ecpg-develop-output-variables"></a>
+
+每個輸出變數都會產生十個引數。（見下文。）這些變數由該函式填入。
+
 <a id="ECPG-DEVELOP-ECPGT-EORT"></a>
 
-*`ECPGt_EORT`* [#](#ECPG-DEVELOP-ECPGT-EORT)
-:   一個 `enum` 值，表示後面已沒有其他變數。
+### *`ECPGt_EORT`* [#](#ecpg-develop-ecpgt-eort) <a href="#ecpg-develop-ecpgt-eort" id="ecpg-develop-ecpgt-eort"></a>
+
+一個 `enum` 值，表示後面已沒有其他變數。
 
 對於 SQL 命令中的每個變數，此函式都會收到十個引數：
 

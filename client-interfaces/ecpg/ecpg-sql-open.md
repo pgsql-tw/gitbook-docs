@@ -25,16 +25,21 @@ OPEN cursor_name USING SQL DESCRIPTOR descriptor_name
 
 <a id="ECPG-SQL-OPEN-CURSOR-NAME"></a>
 
-*`cursor_name`* [#](#ECPG-SQL-OPEN-CURSOR-NAME)
-:   要開啟的游標名稱。可以是 SQL 識別字或主機變數。
+### *`cursor_name`* [#](#ecpg-sql-open-cursor-name) <a href="#ecpg-sql-open-cursor-name" id="ecpg-sql-open-cursor-name"></a>
+
+要開啟的游標名稱。可以是 SQL 識別字或主機變數。
+
 <a id="ECPG-SQL-OPEN-VALUE"></a>
 
-*`value`* [#](#ECPG-SQL-OPEN-VALUE)
-:   要繫結至游標中某個預留位置的值。可以是 SQL 常數、主機變數，或帶有指示變數的主機變數。
+### *`value`* [#](#ecpg-sql-open-value) <a href="#ecpg-sql-open-value" id="ecpg-sql-open-value"></a>
+
+要繫結至游標中某個預留位置的值。可以是 SQL 常數、主機變數，或帶有指示變數的主機變數。
+
 <a id="ECPG-SQL-OPEN-DESCRIPTOR-NAME"></a>
 
-*`descriptor_name`* [#](#ECPG-SQL-OPEN-DESCRIPTOR-NAME)
-:   描述區的名稱，該描述區含有要繫結至游標中各預留位置的值。可以是 SQL 識別字或主機變數。
+### *`descriptor_name`* [#](#ecpg-sql-open-descriptor-name) <a href="#ecpg-sql-open-descriptor-name" id="ecpg-sql-open-descriptor-name"></a>
+
+描述區的名稱，該描述區含有要繫結至游標中各預留位置的值。可以是 SQL 識別字或主機變數。
 
 <a id="id-1.7.5.20.12.5"></a>
 

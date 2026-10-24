@@ -14,9 +14,9 @@
 
 [34.6.6. decimal 型別](ecpg-pgtypes-decimal.md#ecpg-pgtypes-decimal)
 
-[34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ecpg-pgtypes-errno)
+[34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes-errno.md#ecpg-pgtypes-errno)
 
-[34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ecpg-pgtypes-constants)
+[34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes-constants.md#ecpg-pgtypes-constants)
 
 pgtypes 函式庫將 PostgreSQL 資料庫的型別對應到可在 C 程式中使用的 C 等價型別。它也提供在 C 之中、亦即不借助 PostgreSQL 伺服器，對這些型別進行基本計算的函式。請參閱下列範例：
 
@@ -101,68 +101,13 @@ PGTYPESchar_free(out);
 
 ### 34.6.7. pgtypeslib 的 errno 值 [#](#ecpg-pgtypes-errno) <a href="#ecpg-pgtypes-errno" id="ecpg-pgtypes-errno"></a>
 
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-BAD-NUMERIC"></a>
-
-`PGTYPES_NUM_BAD_NUMERIC` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-BAD-NUMERIC)
-:   引數應該包含一個 numeric 變數（或指向一個 numeric 變數），但它在記憶體中的表示實際上無效。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-OVERFLOW"></a>
-
-`PGTYPES_NUM_OVERFLOW` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-OVERFLOW)
-:   發生溢位。由於 numeric 型別幾乎可以處理任意精確度，將 numeric 變數轉換為其他型別時可能會導致溢位。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-UNDERFLOW"></a>
-
-`PGTYPES_NUM_UNDERFLOW` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-UNDERFLOW)
-:   發生下溢。由於 numeric 型別幾乎可以處理任意精確度，將 numeric 變數轉換為其他型別時可能會導致下溢。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-NUM-DIVIDE-ZERO"></a>
-
-`PGTYPES_NUM_DIVIDE_ZERO` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-NUM-DIVIDE-ZERO)
-:   嘗試除以零。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DATE"></a>
-
-`PGTYPES_DATE_BAD_DATE` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DATE)
-:   傳給 `PGTYPESdate_from_asc` 函式的日期字串無效。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-EARGS"></a>
-
-`PGTYPES_DATE_ERR_EARGS` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-EARGS)
-:   傳給 `PGTYPESdate_defmt_asc` 函式的引數無效。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOSHORTDATE"></a>
-
-`PGTYPES_DATE_ERR_ENOSHORTDATE` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOSHORTDATE)
-:   `PGTYPESdate_defmt_asc` 函式在輸入字串中發現無效的語彙單元（token）。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-INTVL-BAD-INTERVAL"></a>
-
-`PGTYPES_INTVL_BAD_INTERVAL` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-INTVL-BAD-INTERVAL)
-:   傳給 `PGTYPESinterval_from_asc` 函式的 interval 字串無效，或傳給 `PGTYPESinterval_to_asc` 函式的 interval 值無效。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOTDMY"></a>
-
-`PGTYPES_DATE_ERR_ENOTDMY` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-ERR-ENOTDMY)
-:   `PGTYPESdate_defmt_asc` 函式中的日／月／年指派不相符。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DAY"></a>
-
-`PGTYPES_DATE_BAD_DAY` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-DAY)
-:   `PGTYPESdate_defmt_asc` 函式發現無效的「該月第幾日」值。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-MONTH"></a>
-
-`PGTYPES_DATE_BAD_MONTH` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-DATE-BAD-MONTH)
-:   `PGTYPESdate_defmt_asc` 函式發現無效的月份值。
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-TS-BAD-TIMESTAMP"></a>
-
-`PGTYPES_TS_BAD_TIMESTAMP` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-TS-BAD-TIMESTAMP)
-:   傳給 `PGTYPEStimestamp_from_asc` 函式的 timestamp 字串無效，或傳給 `PGTYPEStimestamp_to_asc` 函式的 timestamp 值無效。（原文此處寫作「pass passed」，應為「was passed」的誤植。）
-<a id="ECPG-PGTYPES-ERRNO-PGTYPES-TS-ERR-EINFTIME"></a>
-
-`PGTYPES_TS_ERR_EINFTIME` [#](#ECPG-PGTYPES-ERRNO-PGTYPES-TS-ERR-EINFTIME)
-:   在無法處理無限 timestamp 值的情境中遇到了這種值。
+本節內容請參閱[34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes-errno.md#ecpg-pgtypes-errno)。
 
 <a id="ECPG-PGTYPES-CONSTANTS"></a>
 
 ### 34.6.8. pgtypeslib 的特殊常數 [#](#ecpg-pgtypes-constants) <a href="#ecpg-pgtypes-constants" id="ecpg-pgtypes-constants"></a>
 
-<a id="PGTYPESINVALIDTIMESTAMP"></a>
-
-`PGTYPESInvalidTimestamp` [#](#PGTYPESINVALIDTIMESTAMP)
-:   代表無效時間戳記的 timestamp 型別值。`PGTYPEStimestamp_from_asc` 函式發生剖析錯誤時會傳回此值。
-    請注意，由於 `timestamp` 資料型別的內部表示方式，`PGTYPESInvalidTimestamp` 同時也是一個有效的 timestamp。它被設為 `1899-12-31 23:59:59`。為了偵測錯誤，請確保你的應用程式在每次呼叫 `PGTYPEStimestamp_from_asc` 之後，不只檢查 `PGTYPESInvalidTimestamp`，也檢查 `errno != 0`。
+本節內容請參閱[34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes-constants.md#ecpg-pgtypes-constants)。
 
 ---
 

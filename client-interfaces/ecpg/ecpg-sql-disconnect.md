@@ -25,16 +25,21 @@ DISCONNECT ALL
 
 <a id="ECPG-SQL-DISCONNECT-CONNECTION-NAME"></a>
 
-*`connection_name`* [#](#ECPG-SQL-DISCONNECT-CONNECTION-NAME)
-:   由 `CONNECT` 命令建立的資料庫連線名稱。
+### *`connection_name`* [#](#ecpg-sql-disconnect-connection-name) <a href="#ecpg-sql-disconnect-connection-name" id="ecpg-sql-disconnect-connection-name"></a>
+
+由 `CONNECT` 命令建立的資料庫連線名稱。
+
 <a id="ECPG-SQL-DISCONNECT-CURRENT"></a>
 
-`CURRENT` [#](#ECPG-SQL-DISCONNECT-CURRENT)
-:   關閉「目前」連線，也就是最近開啟的連線，或由 `SET CONNECTION` 命令設定的連線。若未向 `DISCONNECT` 命令提供任何引數，這也是預設行為。
+### `CURRENT` [#](#ecpg-sql-disconnect-current) <a href="#ecpg-sql-disconnect-current" id="ecpg-sql-disconnect-current"></a>
+
+關閉「目前」連線，也就是最近開啟的連線，或由 `SET CONNECTION` 命令設定的連線。若未向 `DISCONNECT` 命令提供任何引數，這也是預設行為。
+
 <a id="ECPG-SQL-DISCONNECT-ALL"></a>
 
-`ALL` [#](#ECPG-SQL-DISCONNECT-ALL)
-:   關閉所有已開啟的連線。
+### `ALL` [#](#ecpg-sql-disconnect-all) <a href="#ecpg-sql-disconnect-all" id="ecpg-sql-disconnect-all"></a>
+
+關閉所有已開啟的連線。
 
 <a id="id-1.7.5.20.9.5"></a>
 

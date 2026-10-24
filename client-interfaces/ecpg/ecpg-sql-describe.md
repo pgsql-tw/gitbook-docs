@@ -25,16 +25,21 @@ DESCRIBE [ OUTPUT ] prepared_name INTO sqlda_name
 
 <a id="ECPG-SQL-DESCRIBE-PREPARED-NAME"></a>
 
-*`prepared_name`* [#](#ECPG-SQL-DESCRIBE-PREPARED-NAME)
-:   預備陳述式的名稱。可以是 SQL 識別字或主機變數。
+### *`prepared_name`* [#](#ecpg-sql-describe-prepared-name) <a href="#ecpg-sql-describe-prepared-name" id="ecpg-sql-describe-prepared-name"></a>
+
+預備陳述式的名稱。可以是 SQL 識別字或主機變數。
+
 <a id="ECPG-SQL-DESCRIBE-DESCRIPTOR-NAME"></a>
 
-*`descriptor_name`* [#](#ECPG-SQL-DESCRIBE-DESCRIPTOR-NAME)
-:   描述區名稱。區分大小寫。可以是 SQL 識別字或主機變數。
+### *`descriptor_name`* [#](#ecpg-sql-describe-descriptor-name) <a href="#ecpg-sql-describe-descriptor-name" id="ecpg-sql-describe-descriptor-name"></a>
+
+描述區名稱。區分大小寫。可以是 SQL 識別字或主機變數。
+
 <a id="ECPG-SQL-DESCRIBE-SQLDA-NAME"></a>
 
-*`sqlda_name`* [#](#ECPG-SQL-DESCRIBE-SQLDA-NAME)
-:   SQLDA 變數的名稱。
+### *`sqlda_name`* [#](#ecpg-sql-describe-sqlda-name) <a href="#ecpg-sql-describe-sqlda-name" id="ecpg-sql-describe-sqlda-name"></a>
+
+SQLDA 變數的名稱。
 
 <a id="id-1.7.5.20.8.5"></a>
 

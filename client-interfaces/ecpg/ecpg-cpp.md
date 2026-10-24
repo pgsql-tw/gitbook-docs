@@ -4,7 +4,7 @@
 
 [34.13.1. 主機變數的作用域](ecpg-cpp.md#ecpg-cpp-scope)
 
-[34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ecpg-cpp-and-c)
+[34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp-and-c.md#ecpg-cpp-and-c)
 
 ECPG 對 C++ 應用程式提供有限的支援。本節說明一些需要注意的事項。
 
@@ -12,7 +12,7 @@ ECPG 對 C++ 應用程式提供有限的支援。本節說明一些需要注意�
 
 然而，一般而言，`ecpg` 前置處理器只理解 C；它不處理 C++ 語言的特殊語法與保留字。因此，寫在使用了 C++ 特有複雜功能之 C++ 應用程式碼中的某些嵌入式 SQL 程式碼，可能無法被正確地前置處理，或可能無法如預期運作。
 
-在 C++ 應用程式中使用嵌入式 SQL 程式碼的一種安全方式，是將 ECPG 呼叫隱藏在 C 模組中，由 C++ 應用程式碼呼叫該模組來存取資料庫，再將它與其餘的 C++ 程式碼連結在一起。相關說明請參閱[第 34.13.2 節](ecpg-cpp.md#ecpg-cpp-and-c)。
+在 C++ 應用程式中使用嵌入式 SQL 程式碼的一種安全方式，是將 ECPG 呼叫隱藏在 C 模組中，由 C++ 應用程式碼呼叫該模組來存取資料庫，再將它與其餘的 C++ 程式碼連結在一起。相關說明請參閱[第 34.13.2 節](ecpg-cpp-and-c.md#ecpg-cpp-and-c)。
 
 <a id="ECPG-CPP-SCOPE"></a>
 
@@ -87,134 +87,7 @@ void TestCpp::test()
 
 ### 34.13.2. 搭配外部 C 模組開發 C++ 應用程式 [#](#ecpg-cpp-and-c) <a href="#ecpg-cpp-and-c" id="ecpg-cpp-and-c"></a>
 
-如果你了解 `ecpg` 前置處理器在 C++ 中的這些技術限制，你可能會得出這樣的結論：在連結階段將 C 目的檔與 C++ 目的檔連結起來，讓 C++ 應用程式得以使用 ECPG 功能，可能比直接在 C++ 程式碼中撰寫嵌入式 SQL 命令更好。本節以一個簡單的範例，說明如何將嵌入式 SQL 命令從 C++ 應用程式碼中分離出來。在此範例中，應用程式以 C++ 實作，而連線到 PostgreSQL 伺服器的部分則使用 C 與 ECPG。
-
-需要建立三種檔案：C 檔（`*.pgc`）、標頭檔，以及 C++ 檔：
-
-<a id="ECPG-CPP-AND-C-TEST-MOD-PGC"></a>
-
-`test_mod.pgc` [#](#ECPG-CPP-AND-C-TEST-MOD-PGC)
-
-用來執行嵌入在 C 中之 SQL 命令的副程式模組。它會由前置處理器轉換為 `test_mod.c`。
-
-```
-
-    #include "test_mod.h"
-    #include <stdio.h>
-
-    void
-    db_connect()
-    {
-        EXEC SQL CONNECT TO testdb1;
-        EXEC SQL SELECT pg_catalog.set_config('search_path', '', false); EXEC SQL COMMIT;
-    }
-
-    void
-    db_test()
-    {
-        EXEC SQL BEGIN DECLARE SECTION;
-        char dbname[1024];
-        EXEC SQL END DECLARE SECTION;
-
-        EXEC SQL SELECT current_database() INTO :dbname;
-        printf("current_database = %s\n", dbname);
-    }
-
-    void
-    db_disconnect()
-    {
-        EXEC SQL DISCONNECT ALL;
-    }
-```
-
-<a id="ECPG-CPP-AND-C-TEST-MOD-H"></a>
-
-`test_mod.h` [#](#ECPG-CPP-AND-C-TEST-MOD-H)
-
-宣告 C 模組（`test_mod.pgc`）中各函式的標頭檔，由 `test_cpp.cpp` 引入。由於它會被 C++ 模組連結使用，此檔案必須以 `extern "C"` 區塊包住這些宣告。
-
-```
-
-    #ifdef __cplusplus
-    extern "C" {
-    #endif
-
-    void db_connect();
-    void db_test();
-    void db_disconnect();
-
-    #ifdef __cplusplus
-    }
-    #endif
-```
-
-<a id="ECPG-CPP-AND-C-TEST-CPP-CPP"></a>
-
-`test_cpp.cpp` [#](#ECPG-CPP-AND-C-TEST-CPP-CPP)
-
-應用程式的主要程式碼，包含 `main` 常式，以及本例中的一個 C++ 類別。
-
-```
-
-    #include "test_mod.h"
-
-    class TestCpp
-    {
-      public:
-        TestCpp();
-        void test();
-        ~TestCpp();
-    };
-
-    TestCpp::TestCpp()
-    {
-        db_connect();
-    }
-
-    void
-    TestCpp::test()
-    {
-        db_test();
-    }
-
-    TestCpp::~TestCpp()
-    {
-        db_disconnect();
-    }
-
-    int
-    main(void)
-    {
-        TestCpp *t = new TestCpp();
-
-        t->test();
-        return 0;
-    }
-```
-
-譯註：上方 test_cpp.cpp 的 main 以 new 建立 TestCpp 物件後並未 delete，因此解構函式不會被呼叫，db_disconnect() 也就不會執行；若要如類別設計所預期在結束前中斷連線，應在 return 之前加上 delete t;。範例程式碼依原文保留。
-
-要建置此應用程式，請依下列步驟進行。執行 `ecpg` 將 `test_mod.pgc` 轉換為 `test_mod.c`，再以 C 編譯器編譯 `test_mod.c` 產生 `test_mod.o`：
-
-```
-
-ecpg -o test_mod.c test_mod.pgc
-cc -c test_mod.c -o test_mod.o
-```
-
-接著，以 C++ 編譯器編譯 `test_cpp.cpp`，產生 `test_cpp.o`：
-
-```
-
-c++ -c test_cpp.cpp -o test_cpp.o
-```
-
-最後，使用 C++ 編譯器驅動程式，將 `test_cpp.o` 與 `test_mod.o` 這兩個目的檔連結成一個執行檔：
-
-```
-
-c++ test_cpp.o test_mod.o -lecpg -o test_cpp
-```
+本節內容請參閱[34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp-and-c.md#ecpg-cpp-and-c)。
 
 ---
 

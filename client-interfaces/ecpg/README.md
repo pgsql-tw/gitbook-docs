@@ -18,7 +18,7 @@
 
   - [34.3.2. 使用游標](ecpg-commands.md#ecpg-cursors)
 
-  - [34.3.3. 管理交易](ecpg-commands.md#ecpg-transactions)
+  - [34.3.3. 管理交易](ecpg-transactions.md#ecpg-transactions)
 
   - [34.3.4. 預備陳述式](ecpg-commands.md#ecpg-prepared)
 
@@ -111,35 +111,35 @@
     - [`PGTYPESdecimal_new`](ecpg-pgtypes-decimal.md#ecpg-pgtypes-decimal-new)
     - [`PGTYPESdecimal_free`](ecpg-pgtypes-decimal.md#ecpg-pgtypes-decimal-free)
 
-  - [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes.md#ecpg-pgtypes-errno)
+  - [34.6.7. pgtypeslib 的 errno 值](ecpg-pgtypes-errno.md#ecpg-pgtypes-errno)
 
-  - [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes.md#ecpg-pgtypes-constants)
+  - [34.6.8. pgtypeslib 的特殊常數](ecpg-pgtypes-constants.md#ecpg-pgtypes-constants)
 
 - [34.7. 使用描述區](ecpg-descriptors.md)
-  - [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ecpg-named-descriptors)
+  - [34.7.1. 具名 SQL 描述區](ecpg-named-descriptors.md#ecpg-named-descriptors)
 
   - [34.7.2. SQLDA 描述區](ecpg-sqlda-descriptors.md#ecpg-sqlda-descriptors)
     - [34.7.2.1. SQLDA 資料結構](ecpg-sqlda-data-structures.md)
-      - [34.7.2.1.1. sqlda_t 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlda)
-      - [34.7.2.1.2. sqlvar_t 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlvar)
-      - [34.7.2.1.3. struct sqlname 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlname)
+      - [34.7.2.1.1. sqlda_t 結構](ecpg-sqlda-sqlda.md#ecpg-sqlda-sqlda)
+      - [34.7.2.1.2. sqlvar_t 結構](ecpg-sqlda-sqlvar.md#ecpg-sqlda-sqlvar)
+      - [34.7.2.1.3. struct sqlname 結構](ecpg-sqlda-sqlname.md#ecpg-sqlda-sqlname)
     - [34.7.2.2. 使用 SQLDA 取得結果集](ecpg-sqlda-descriptors.md#ecpg-sqlda-output)
     - [34.7.2.3. 使用 SQLDA 傳遞查詢參數](ecpg-sqlda-descriptors.md#ecpg-sqlda-input)
     - [34.7.2.4. 使用 SQLDA 的範例應用程式](ecpg-sqlda-descriptors.md#ecpg-sqlda-example)
 
 - [34.8. 錯誤處理](ecpg-errors.md)
-  - [34.8.1. 設定回呼](ecpg-errors.md#ecpg-whenever)
+  - [34.8.1. 設定回呼](ecpg-whenever.md#ecpg-whenever)
 
   - [34.8.2. sqlca](ecpg-errors.md#ecpg-sqlca)
 
-  - [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-errors.md#ecpg-sqlstate-sqlcode)
+  - [34.8.3. `SQLSTATE` 與 `SQLCODE` 的比較](ecpg-sqlstate-sqlcode.md#ecpg-sqlstate-sqlcode)
 
 - [34.9. 前置處理器指令](ecpg-preproc.md)
   - [34.9.1. 引入檔案](ecpg-preproc.md#ecpg-include)
 
   - [34.9.2. define 與 undef 指令](ecpg-preproc.md#ecpg-define)
 
-  - [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-preproc.md#ecpg-ifdef)
+  - [34.9.3. ifdef、ifndef、elif、else 與 endif 指令](ecpg-ifdef.md#ecpg-ifdef)
 
 - [34.10. 處理嵌入式 SQL 程式](ecpg-process.md)
 
@@ -150,7 +150,7 @@
 - [34.13. C++ 應用程式](ecpg-cpp.md)
   - [34.13.1. 主機變數的作用域](ecpg-cpp.md#ecpg-cpp-scope)
 
-  - [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp.md#ecpg-cpp-and-c)
+  - [34.13.2. 搭配外部 C 模組開發 C++ 應用程式](ecpg-cpp-and-c.md#ecpg-cpp-and-c)
 
 - [34.14. 嵌入式 SQL 命令](ecpg-sql-commands.md)
   - [ALLOCATE DESCRIPTOR](ecpg-sql-allocate-descriptor.md) — 配置 SQL 描述區
@@ -190,13 +190,13 @@
 - [34.15. Informix 相容模式](ecpg-informix-compat.md)
   - [34.15.1. 額外的型別](ecpg-informix-compat.md#ecpg-informix-types)
 
-  - [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-compat.md#ecpg-informix-statements)
+  - [34.15.2. 額外／缺少的嵌入式 SQL 陳述式](ecpg-informix-statements.md#ecpg-informix-statements)
 
-  - [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-compat.md#ecpg-informix-sqlda)
+  - [34.15.3. 與 Informix 相容的 SQLDA 描述區](ecpg-informix-sqlda.md#ecpg-informix-sqlda)
 
-  - [34.15.4. 額外的函式](ecpg-informix-compat.md#ecpg-informix-functions)
+  - [34.15.4. 額外的函式](ecpg-informix-functions.md#ecpg-informix-functions)
 
-  - [34.15.5. 額外的常數](ecpg-informix-compat.md#ecpg-informix-constants)
+  - [34.15.5. 額外的常數](ecpg-informix-constants.md#ecpg-informix-constants)
 
 - [34.16. Oracle 相容模式](ecpg-oracle-compat.md)
 

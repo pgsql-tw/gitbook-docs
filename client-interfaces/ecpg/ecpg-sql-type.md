@@ -25,12 +25,15 @@ TYPE type_name IS ctype
 
 <a id="ECPG-SQL-TYPE-TYPE-NAME"></a>
 
-*`type_name`* [#](#ECPG-SQL-TYPE-TYPE-NAME)
-:   新型別的名稱。必須是有效的 C 型別名稱。
+### *`type_name`* [#](#ecpg-sql-type-type-name) <a href="#ecpg-sql-type-type-name" id="ecpg-sql-type-type-name"></a>
+
+新型別的名稱。必須是有效的 C 型別名稱。
+
 <a id="ECPG-SQL-TYPE-CTYPE"></a>
 
-*`ctype`* [#](#ECPG-SQL-TYPE-CTYPE)
-:   C 型別規格。
+### *`ctype`* [#](#ecpg-sql-type-ctype) <a href="#ecpg-sql-type-ctype" id="ecpg-sql-type-ctype"></a>
+
+C 型別規格。
 
 <a id="id-1.7.5.20.17.5"></a>
 

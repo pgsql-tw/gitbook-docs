@@ -21,7 +21,7 @@ C 中的 timestamp 型別讓你的程式能夠處理 SQL 型別 timestamp 的資
 目前 ECPG 一律剖析整個字串，因此目前不支援將第一個無效字元的位址存放到 `*endptr` 中。
 你可以放心地將 `endptr` 設為 NULL。
 
-此函式成功時傳回剖析出的 timestamp。發生錯誤時，傳回 `PGTYPESInvalidTimestamp`，並將 `errno` 設為 `PGTYPES_TS_BAD_TIMESTAMP`。關於這個值的重要注意事項，請參閱 [`PGTYPESInvalidTimestamp`](ecpg-pgtypes.md#PGTYPESINVALIDTIMESTAMP)。
+此函式成功時傳回剖析出的 timestamp。發生錯誤時，傳回 `PGTYPESInvalidTimestamp`，並將 `errno` 設為 `PGTYPES_TS_BAD_TIMESTAMP`。關於這個值的重要注意事項，請參閱 [`PGTYPESInvalidTimestamp`](ecpg-pgtypes-constants.md#pgtypesinvalidtimestamp)。
 
 一般而言，輸入字串可以是允許的日期表示、一個空白字元與允許的時間表示的任意組合。請注意，ECPG 不支援時區。它可以剖析時區，但不會像 PostgreSQL 伺服器那樣據以進行任何計算。時區指定符號會被靜默捨棄。
 

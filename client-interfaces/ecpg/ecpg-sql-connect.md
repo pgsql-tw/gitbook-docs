@@ -26,38 +26,19 @@ DATABASE connection_target
 
 <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET"></a>
 
-*`connection_target`* [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET)
+### *`connection_target`* [#](#ecpg-sql-connect-connection-target) <a href="#ecpg-sql-connect-connection-target" id="ecpg-sql-connect-connection-target"></a>
 
-*`connection_target`*
-指定連線的目標伺服器，可採用下列幾種形式之一。
-
-- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME"></a>[ *`database_name`* ] [ `@`*`host`* ] [ `:`*`port`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME)
-
-  透過 TCP/IP 連線
-
-- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS"></a>`unix:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS)
-
-  透過 Unix 網域通訊端連線
-
-- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP"></a>`tcp:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP)
-
-  透過 TCP/IP 連線
-
-- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT"></a>SQL 字串常數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT)
-
-  內容為上述任一形式的值
-
-- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE"></a>主機變數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE)
-
-  型別為 `char[]` 或 `VARCHAR[]`、內容為上述任一形式之值的主機變數
+本參數請參閱[*`connection_target`*](ecpg-sql-connect-target.md#ecpg-sql-connect-connection-target)。
 
 <a id="ECPG-SQL-CONNECT-CONNECTION-NAME"></a>
 
-*`connection_name`* [#](#ECPG-SQL-CONNECT-CONNECTION-NAME)
-:   連線的選用識別字，讓其他命令可以參照此連線。可以是 SQL 識別字或主機變數。
+### *`connection_name`* [#](#ecpg-sql-connect-connection-name) <a href="#ecpg-sql-connect-connection-name" id="ecpg-sql-connect-connection-name"></a>
+
+連線的選用識別字，讓其他命令可以參照此連線。可以是 SQL 識別字或主機變數。
+
 <a id="ECPG-SQL-CONNECT-CONNECTION-USER"></a>
 
-*`connection_user`* [#](#ECPG-SQL-CONNECT-CONNECTION-USER)
+### *`connection_user`* [#](#ecpg-sql-connect-connection-user) <a href="#ecpg-sql-connect-connection-user" id="ecpg-sql-connect-connection-user"></a>
 
 資料庫連線的使用者名稱。
 
@@ -67,8 +48,9 @@ DATABASE connection_target
 
 <a id="ECPG-SQL-CONNECT-DEFAULT"></a>
 
-`DEFAULT` [#](#ECPG-SQL-CONNECT-DEFAULT)
-:   使用 libpq 所定義的所有預設連線參數。
+### `DEFAULT` [#](#ecpg-sql-connect-default) <a href="#ecpg-sql-connect-default" id="ecpg-sql-connect-default"></a>
+
+使用 libpq 所定義的所有預設連線參數。
 
 <a id="id-1.7.5.20.4.5"></a>
 

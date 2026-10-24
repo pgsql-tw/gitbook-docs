@@ -21,12 +21,15 @@ SET CONNECTION [ TO | = ] connection_name
 
 <a id="ECPG-SQL-SET-CONNECTION-CONNECTION-NAME"></a>
 
-*`connection_name`* [#](#ECPG-SQL-SET-CONNECTION-CONNECTION-NAME)
-:   由 `CONNECT` 命令建立的資料庫連線名稱。
+### *`connection_name`* [#](#ecpg-sql-set-connection-connection-name) <a href="#ecpg-sql-set-connection-connection-name" id="ecpg-sql-set-connection-connection-name"></a>
+
+由 `CONNECT` 命令建立的資料庫連線名稱。
+
 <a id="ECPG-SQL-SET-CONNECTION-CURRENT"></a>
 
-`CURRENT` [#](#ECPG-SQL-SET-CONNECTION-CURRENT)
-:   將目前連線設為目前連線（因此不會發生任何變更）。
+### `CURRENT` [#](#ecpg-sql-set-connection-current) <a href="#ecpg-sql-set-connection-current" id="ecpg-sql-set-connection-current"></a>
+
+將目前連線設為目前連線（因此不會發生任何變更）。
 
 <a id="id-1.7.5.20.15.5"></a>
 
