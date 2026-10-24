@@ -18,6 +18,13 @@ Choose the mode from the user's requested outcome; do not turn maintenance into 
 
 Read the repository's collaboration protocol and applicable user decisions before translation, review, or publication. In this project's PostgreSQL 18 checkout, the protocol is `outputs/pg18-translation/agents/PROTOCOL.md`; verify that path in the current repository rather than assuming it exists in every checkout. The skill does not grant permission to submit externally, publish, commit, or push.
 
+## Work page by page with chapter context
+
+Translate and review one page at a time; reading the whole manual first is not required. The manual is reference material whose pages are largely self-contained, and most review findings concern sentence-level precision against the official text. Cross-page problems come from terminology drift, repeated sentence patterns, navigation titles, and repeated passages; handle them with the two steps below instead of a full-manual pre-read.
+
+- **Before starting a new chapter or page family:** read the chapter's README/overview and two or three already published neighboring pages. Note the terms, title forms, and recurring sentence patterns they use. For repetitive page families (catalog, view, and information-schema column tables; reference command and client-application pages; release notes; contrib modules), settle a representative pattern from published pages before translating the rest, and record it in the batch's working notes. The manual's own guides, such as the documentation style guide and the error-message style guide in the appendices, explain the source authors' intent for terms such as *should*/*must* and for callouts; consult them when a wording choice depends on that intent.
+- **After finishing a batch:** sweep the batch and its neighboring published pages for consistency. Search for different renderings of the same concept, for repeated sentences or descriptions that were revised in one place only, and for page TOCs, chapter READMEs, and navigation entries whose titles no longer match their target headings. Align new pages with the established neighboring usage. Report conflicts that affect published pages or would require a site-wide change for a decision under the project protocol; do not batch-replace terminology across the site.
+
 ## Select the publishing target
 
 Determine the publishing target from the user's request and repository guidance/configuration, independently of the working mode. The current project target is GitBook, as recorded in `AGENTS.md`; this is a project setting, not a permanent restriction of this skill.
