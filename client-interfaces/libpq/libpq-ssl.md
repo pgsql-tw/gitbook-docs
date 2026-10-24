@@ -170,28 +170,31 @@ OpenSSL 會以
 針對三種攻擊提供保護：
 
 竊聽（Eavesdropping）
-:   若第三方能夠檢視用戶端與伺服器之間的網路流量，
-    它就能讀取連線資訊（包括
-    使用者名稱與密碼）以及所傳遞的資料。SSL
-    使用加密來防止這種情況。
+
+若第三方能夠檢視用戶端與伺服器之間的網路流量，
+它就能讀取連線資訊（包括
+使用者名稱與密碼）以及所傳遞的資料。SSL
+使用加密來防止這種情況。
 
 中間人攻擊（Man-in-the-middle，MITM）
-:   若第三方能夠在資料於用戶端與伺服器之間傳遞時修改資料，
-    它就能假冒伺服器，因而能看到並
-    修改資料，*即使資料已經加密*。接著，第三方可以
-    將連線資訊與資料轉送到原本的伺服器，
-    使這種攻擊無從察覺。達成這種攻擊的常見途徑
-    包括 DNS 下毒（DNS poisoning）與位址劫持，使用戶端被導向
-    非預期的另一台伺服器。另外也有其他幾種
-    攻擊方法可以達成這種攻擊。SSL 使用憑證
-    驗證來防止這種情況，方法是向用戶端驗證伺服器的身分。
+
+若第三方能夠在資料於用戶端與伺服器之間傳遞時修改資料，
+它就能假冒伺服器，因而能看到並
+修改資料，*即使資料已經加密*。接著，第三方可以
+將連線資訊與資料轉送到原本的伺服器，
+使這種攻擊無從察覺。達成這種攻擊的常見途徑
+包括 DNS 下毒（DNS poisoning）與位址劫持，使用戶端被導向
+非預期的另一台伺服器。另外也有其他幾種
+攻擊方法可以達成這種攻擊。SSL 使用憑證
+驗證來防止這種情況，方法是向用戶端驗證伺服器的身分。
 
 冒充（Impersonation）
-:   若第三方能夠假冒經授權的用戶端，它就能
-    直接存取原本不應有權存取的資料。這通常
-    是由不安全的密碼管理所造成。SSL 使用
-    用戶端憑證來防止這種情況，方法是確保只有持有
-    有效憑證者才能存取伺服器。
+
+若第三方能夠假冒經授權的用戶端，它就能
+直接存取原本不應有權存取的資料。這通常
+是由不安全的密碼管理所造成。SSL 使用
+用戶端憑證來防止這種情況，方法是確保只有持有
+有效憑證者才能存取伺服器。
 
 若要讓一個連線確定受到 SSL 保護，必須在建立連線之前，
 於*用戶端與伺服器雙方*都設定使用 SSL。
@@ -286,38 +289,41 @@ libpq 就不會再初始化這些函式庫。
 <a id="LIBPQ-PQINITOPENSSL"></a>
 
 `PQinitOpenSSL`<a id="id-1.7.3.26.9.4.1.1.1.2"></a> [#](#LIBPQ-PQINITOPENSSL)
-:   讓應用程式選擇要初始化哪些安全性函式庫。
 
-    ```
+讓應用程式選擇要初始化哪些安全性函式庫。
+
+```
 
     void PQinitOpenSSL(int do_ssl, int do_crypto);
-    ```
+```
 
-    此函式已棄用，僅為了向後相容性而存在，
-    它不會執行任何動作。
+此函式已棄用，僅為了向後相容性而存在，
+它不會執行任何動作。
+
 <a id="LIBPQ-PQINITSSL"></a>
 
 `PQinitSSL`<a id="id-1.7.3.26.9.4.1.2.1.2"></a> [#](#LIBPQ-PQINITSSL)
-:   讓應用程式選擇要初始化哪些安全性函式庫。
 
-    ```
+讓應用程式選擇要初始化哪些安全性函式庫。
+
+```
 
     void PQinitSSL(int do_ssl);
-    ```
+```
 
-    此函式等同於
-    `PQinitOpenSSL(do_ssl, do_ssl)`。
-    此函式已棄用，僅為了向後相容性而存在，
-    它不會執行任何動作。
+此函式等同於
+`PQinitOpenSSL(do_ssl, do_ssl)`。
+此函式已棄用，僅為了向後相容性而存在，
+它不會執行任何動作。
 
-    [`PQinitSSL`](libpq-ssl.md#LIBPQ-PQINITSSL) 與 [`PQinitOpenSSL`](libpq-ssl.md#LIBPQ-PQINITOPENSSL)
-    為了向後相容性而保留，但自
-    PostgreSQL 18 起已不再需要。
-    [`PQinitSSL`](libpq-ssl.md#LIBPQ-PQINITSSL) 自
-    PostgreSQL 8.0 起就已存在，而 [`PQinitOpenSSL`](libpq-ssl.md#LIBPQ-PQINITOPENSSL)
-    是在 PostgreSQL 8.4 才加入，因此對於需要與較舊版本
-    libpq 搭配運作的應用程式，[`PQinitSSL`](libpq-ssl.md#LIBPQ-PQINITSSL)
-    可能較為合適。
+[`PQinitSSL`](libpq-ssl.md#LIBPQ-PQINITSSL) 與 [`PQinitOpenSSL`](libpq-ssl.md#LIBPQ-PQINITOPENSSL)
+為了向後相容性而保留，但自
+PostgreSQL 18 起已不再需要。
+[`PQinitSSL`](libpq-ssl.md#LIBPQ-PQINITSSL) 自
+PostgreSQL 8.0 起就已存在，而 [`PQinitOpenSSL`](libpq-ssl.md#LIBPQ-PQINITOPENSSL)
+是在 PostgreSQL 8.4 才加入，因此對於需要與較舊版本
+libpq 搭配運作的應用程式，[`PQinitSSL`](libpq-ssl.md#LIBPQ-PQINITSSL)
+可能較為合適。
 
 ---
 

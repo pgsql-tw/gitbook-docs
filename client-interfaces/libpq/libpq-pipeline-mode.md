@@ -228,118 +228,132 @@ PostgreSQL 原始碼發行版的
 <a id="LIBPQ-PQPIPELINESTATUS"></a>
 
 `PQpipelineStatus`<a id="id-1.7.3.12.10.2.1.1.2"></a> [#](#LIBPQ-PQPIPELINESTATUS)
-:   傳回 libpq 連線目前的管線模式狀態。
 
-    ```
+傳回 libpq 連線目前的管線模式狀態。
+
+```
 
     PGpipelineStatus PQpipelineStatus(const PGconn *conn);
-    ```
+```
 
-    `PQpipelineStatus` 可能傳回下列其中一個值：
+`PQpipelineStatus` 可能傳回下列其中一個值：
 
-    `PQ_PIPELINE_ON`
-    :   libpq 連線處於
-        管線模式。
+- `PQ_PIPELINE_ON`
 
-    `PQ_PIPELINE_OFF`
-    :   libpq 連線*不*處於管線模式。
+  libpq 連線處於
+  管線模式。
 
-    `PQ_PIPELINE_ABORTED`
-    :   libpq 連線處於管線
-        模式，且在處理目前的管線時發生了錯誤。
-        當 `PQgetResult`
-        傳回 `PGRES_PIPELINE_SYNC` 類型的結果時，中止旗標就會被清除。
+- `PQ_PIPELINE_OFF`
+
+  libpq 連線*不*處於管線模式。
+
+- `PQ_PIPELINE_ABORTED`
+
+  libpq 連線處於管線
+  模式，且在處理目前的管線時發生了錯誤。
+  當 `PQgetResult`
+  傳回 `PGRES_PIPELINE_SYNC` 類型的結果時，中止旗標就會被清除。
+
 <a id="LIBPQ-PQENTERPIPELINEMODE"></a>
 
 `PQenterPipelineMode`<a id="id-1.7.3.12.10.2.2.1.2"></a> [#](#LIBPQ-PQENTERPIPELINEMODE)
-:   若連線目前處於閒置狀態或
-    已處於管線模式，則使連線進入管線模式。
 
-    ```
+若連線目前處於閒置狀態或
+已處於管線模式，則使連線進入管線模式。
+
+```
 
     int PQenterPipelineMode(PGconn *conn);
-    ```
+```
 
-    成功時傳回 1。
-    若連線目前並非閒置（也就是已有結果就緒，
-    或正在等待伺服器傳來更多輸入等），則傳回 0 且不產生任何作用。
-    此函式實際上不會向伺服器送出任何東西，
-    它只會變更 libpq 連線的
-    狀態。
+成功時傳回 1。
+若連線目前並非閒置（也就是已有結果就緒，
+或正在等待伺服器傳來更多輸入等），則傳回 0 且不產生任何作用。
+此函式實際上不會向伺服器送出任何東西，
+它只會變更 libpq 連線的
+狀態。
+
 <a id="LIBPQ-PQEXITPIPELINEMODE"></a>
 
 `PQexitPipelineMode`<a id="id-1.7.3.12.10.2.3.1.2"></a> [#](#LIBPQ-PQEXITPIPELINEMODE)
-:   若連線目前處於管線模式，且佇列為空、沒有待處理的結果，
-    則使連線退出管線模式。
 
-    ```
+若連線目前處於管線模式，且佇列為空、沒有待處理的結果，
+則使連線退出管線模式。
+
+```
 
     int PQexitPipelineMode(PGconn *conn);
-    ```
+```
 
-    成功時傳回 1。若不處於
-    管線模式，則傳回 1 且不採取任何動作。若目前的陳述式尚未處理完畢，
-    或尚未呼叫 `PQgetResult` 收集
-    所有先前已送出之查詢的結果，則傳回 0（此時，
-    請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得關於該失敗的
-    更多資訊）。
+成功時傳回 1。若不處於
+管線模式，則傳回 1 且不採取任何動作。若目前的陳述式尚未處理完畢，
+或尚未呼叫 `PQgetResult` 收集
+所有先前已送出之查詢的結果，則傳回 0（此時，
+請使用 [`PQerrorMessage`](libpq-status.md#LIBPQ-PQERRORMESSAGE) 取得關於該失敗的
+更多資訊）。
+
 <a id="LIBPQ-PQPIPELINESYNC"></a>
 
 `PQpipelineSync`<a id="id-1.7.3.12.10.2.4.1.2"></a> [#](#LIBPQ-PQPIPELINESYNC)
-:   藉由送出
-    [同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
-    並刷寫送出緩衝區，在管線中標記一個同步點。這會作為
-    隱含交易的分界以及錯誤復原
-    點；請參閱[第 32.5.1.3 節](libpq-pipeline-mode.md#LIBPQ-PIPELINE-ERRORS)。
 
-    ```
+藉由送出
+[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+並刷寫送出緩衝區，在管線中標記一個同步點。這會作為
+隱含交易的分界以及錯誤復原
+點；請參閱[第 32.5.1.3 節](libpq-pipeline-mode.md#LIBPQ-PIPELINE-ERRORS)。
+
+```
 
     int PQpipelineSync(PGconn *conn);
-    ```
+```
 
-    成功時傳回 1。若連線不處於
-    管線模式，或送出
-    [同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
-    失敗，則傳回 0。
+成功時傳回 1。若連線不處於
+管線模式，或送出
+[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+失敗，則傳回 0。
+
 <a id="LIBPQ-PQSENDPIPELINESYNC"></a>
 
 `PQsendPipelineSync`<a id="id-1.7.3.12.10.2.5.1.2"></a> [#](#LIBPQ-PQSENDPIPELINESYNC)
-:   藉由送出
-    [同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
-    但不刷寫送出緩衝區，在管線中標記一個同步點。這會作為
-    隱含交易的分界以及錯誤復原
-    點；請參閱[第 32.5.1.3 節](libpq-pipeline-mode.md#LIBPQ-PIPELINE-ERRORS)。
 
-    ```
+藉由送出
+[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+但不刷寫送出緩衝區，在管線中標記一個同步點。這會作為
+隱含交易的分界以及錯誤復原
+點；請參閱[第 32.5.1.3 節](libpq-pipeline-mode.md#LIBPQ-PIPELINE-ERRORS)。
+
+```
 
     int PQsendPipelineSync(PGconn *conn);
-    ```
+```
 
-    成功時傳回 1。若連線不處於
-    管線模式，或送出
-    [同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
-    失敗，則傳回 0。
-    請注意，該訊息本身不會自動刷寫到伺服器；
-    必要時請使用 `PQflush`。
+成功時傳回 1。若連線不處於
+管線模式，或送出
+[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+失敗，則傳回 0。
+請注意，該訊息本身不會自動刷寫到伺服器；
+必要時請使用 `PQflush`。
+
 <a id="LIBPQ-PQSENDFLUSHREQUEST"></a>
 
 `PQsendFlushRequest`<a id="id-1.7.3.12.10.2.6.1.2"></a> [#](#LIBPQ-PQSENDFLUSHREQUEST)
-:   送出請求，要求伺服器刷寫其輸出緩衝區。
 
-    ```
+送出請求，要求伺服器刷寫其輸出緩衝區。
+
+```
 
     int PQsendFlushRequest(PGconn *conn);
-    ```
+```
 
-    成功時傳回 1。發生任何失敗時傳回 0。
+成功時傳回 1。發生任何失敗時傳回 0。
 
-    伺服器會因為呼叫了
-    `PQpipelineSync` 而自動刷寫其輸出緩衝區，
-    在不處於管線模式時，也會針對任何請求自動刷寫；此函式可用來
-    在管線模式下讓伺服器刷寫其輸出緩衝區，
-    而不必建立同步點。
-    請注意，該請求本身不會自動刷寫到伺服器；
-    必要時請使用 `PQflush`。
+伺服器會因為呼叫了
+`PQpipelineSync` 而自動刷寫其輸出緩衝區，
+在不處於管線模式時，也會針對任何請求自動刷寫；此函式可用來
+在管線模式下讓伺服器刷寫其輸出緩衝區，
+而不必建立同步點。
+請注意，該請求本身不會自動刷寫到伺服器；
+必要時請使用 `PQflush`。
 
 <a id="LIBPQ-PIPELINE-TIPS"></a>
 

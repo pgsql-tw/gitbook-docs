@@ -40,41 +40,44 @@ mode）下使用
 <a id="LIBPQ-PQSETSINGLEROWMODE"></a>
 
 `PQsetSingleRowMode`<a id="id-1.7.3.13.7.1.1.1.2"></a> [#](#LIBPQ-PQSETSINGLEROWMODE)
-:   為目前正在執行的查詢選擇單列模式。
 
-    ```
+為目前正在執行的查詢選擇單列模式。
+
+```
 
     int PQsetSingleRowMode(PGconn *conn);
-    ```
+```
 
-    此函式只能在
-    [`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 或其某個同系列函式之後立即呼叫，
-    且須在對該連線進行任何其他操作（例如
-    [`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 或
-    [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)）之前。若在正確的時機呼叫，
-    此函式會為目前的查詢啟用單列模式並傳回 1。否則模式維持不變，
-    函式傳回 0。無論哪種情況，目前的查詢完成後，模式都會恢復為一般模式。
+此函式只能在
+[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 或其某個同系列函式之後立即呼叫，
+且須在對該連線進行任何其他操作（例如
+[`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 或
+[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)）之前。若在正確的時機呼叫，
+此函式會為目前的查詢啟用單列模式並傳回 1。否則模式維持不變，
+函式傳回 0。無論哪種情況，目前的查詢完成後，模式都會恢復為一般模式。
+
 <a id="LIBPQ-PQSETCHUNKEDROWSMODE"></a>
 
 `PQsetChunkedRowsMode`<a id="id-1.7.3.13.7.1.2.1.2"></a> [#](#LIBPQ-PQSETCHUNKEDROWSMODE)
-:   為目前正在執行的查詢選擇分塊模式。
 
-    ```
+為目前正在執行的查詢選擇分塊模式。
+
+```
 
     int PQsetChunkedRowsMode(PGconn *conn, int chunkSize);
-    ```
+```
 
-    此函式與
-    [`PQsetSingleRowMode`](libpq-single-row-mode.md#LIBPQ-PQSETSINGLEROWMODE) 類似，差別在於它
-    指定每個 `PGresult` 最多取得 *`chunkSize`* 列，
-    而不一定只有一列。
-    此函式只能在
-    [`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 或其某個同系列函式之後立即呼叫，
-    且須在對該連線進行任何其他操作（例如
-    [`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 或
-    [`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)）之前。若在正確的時機呼叫，
-    此函式會為目前的查詢啟用分塊模式並傳回 1。否則模式維持不變，
-    函式傳回 0。無論哪種情況，目前的查詢完成後，模式都會恢復為一般模式。
+此函式與
+[`PQsetSingleRowMode`](libpq-single-row-mode.md#LIBPQ-PQSETSINGLEROWMODE) 類似，差別在於它
+指定每個 `PGresult` 最多取得 *`chunkSize`* 列，
+而不一定只有一列。
+此函式只能在
+[`PQsendQuery`](libpq-async.md#LIBPQ-PQSENDQUERY) 或其某個同系列函式之後立即呼叫，
+且須在對該連線進行任何其他操作（例如
+[`PQconsumeInput`](libpq-async.md#LIBPQ-PQCONSUMEINPUT) 或
+[`PQgetResult`](libpq-async.md#LIBPQ-PQGETRESULT)）之前。若在正確的時機呼叫，
+此函式會為目前的查詢啟用分塊模式並傳回 1。否則模式維持不變，
+函式傳回 0。無論哪種情況，目前的查詢完成後，模式都會恢復為一般模式。
 
 ### 小心
 
