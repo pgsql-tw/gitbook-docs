@@ -100,7 +100,12 @@
     - [`PGTYPEStimestamp_add_interval`](ecpg-pgtypes-timestamp.md#pgtypestimestampaddinterval)
     - [`PGTYPEStimestamp_sub_interval`](ecpg-pgtypes-timestamp.md#pgtypestimestampsubinterval)
 
-  - [34.6.5. interval 型別](ecpg-pgtypes.md#ecpg-pgtypes-interval)
+  - [34.6.5. interval 型別](ecpg-pgtypes-interval.md#ecpg-pgtypes-interval)
+    - [`PGTYPESinterval_new`](ecpg-pgtypes-interval.md#pgtypesintervalnew)
+    - [`PGTYPESinterval_free`](ecpg-pgtypes-interval.md#pgtypesintervalfree)
+    - [`PGTYPESinterval_from_asc`](ecpg-pgtypes-interval.md#pgtypesintervalfromasc)
+    - [`PGTYPESinterval_to_asc`](ecpg-pgtypes-interval.md#pgtypesintervaltoasc)
+    - [`PGTYPESinterval_copy`](ecpg-pgtypes-interval.md#pgtypesintervalcopy)
 
   - [34.6.6. decimal 型別](ecpg-pgtypes.md#ecpg-pgtypes-decimal)
 

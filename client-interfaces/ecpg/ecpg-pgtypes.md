@@ -10,7 +10,7 @@
 
 [34.6.4. timestamp 型別](ecpg-pgtypes-timestamp.md#ecpg-pgtypes-timestamp)
 
-[34.6.5. interval 型別](ecpg-pgtypes.md#ecpg-pgtypes-interval)
+[34.6.5. interval 型別](ecpg-pgtypes-interval.md#ecpg-pgtypes-interval)
 
 [34.6.6. decimal 型別](ecpg-pgtypes.md#ecpg-pgtypes-decimal)
 
@@ -89,74 +89,7 @@ PGTYPESchar_free(out);
 
 ### 34.6.5. interval 型別 [#](#ecpg-pgtypes-interval) <a href="#ecpg-pgtypes-interval" id="ecpg-pgtypes-interval"></a>
 
-C 中的 interval 型別讓你的程式能夠處理 SQL 型別 interval 的資料。PostgreSQL 伺服器中對應的型別請參閱[第 8.5 節](../../the-sql-language/datatype/datatype-datetime.md)。
-
-下列函式可用來處理 interval 型別：
-
-<a id="PGTYPESINTERVALNEW"></a>
-
-`PGTYPESinterval_new` [#](#PGTYPESINTERVALNEW)
-
-傳回指向新配置之 interval 變數的指標。
-
-```
-
-    interval *PGTYPESinterval_new(void);
-```
-
-<a id="PGTYPESINTERVALFREE"></a>
-
-`PGTYPESinterval_free` [#](#PGTYPESINTERVALFREE)
-
-釋放先前配置之 interval 變數的記憶體。
-
-```
-
-    void PGTYPESinterval_free(interval *intvl);
-```
-
-<a id="PGTYPESINTERVALFROMASC"></a>
-
-`PGTYPESinterval_from_asc` [#](#PGTYPESINTERVALFROMASC)
-
-從文字表示法剖析出 interval。
-
-```
-
-    interval *PGTYPESinterval_from_asc(char *str, char **endptr);
-```
-
-此函式剖析輸入字串 `str`，並傳回指向已配置之 interval 變數的指標。
-目前 ECPG 一律剖析整個字串，因此目前不支援將第一個無效字元的位址存放到 `*endptr` 中。
-你可以放心地將 `endptr` 設為 NULL。
-
-<a id="PGTYPESINTERVALTOASC"></a>
-
-`PGTYPESinterval_to_asc` [#](#PGTYPESINTERVALTOASC)
-
-將 interval 型別的變數轉換為它的文字表示法。
-
-```
-
-    char *PGTYPESinterval_to_asc(interval *span);
-```
-
-此函式將 `span` 所指的 interval 變數轉換為 C char\*。輸出看起來像這個範例：
-`@ 1 day 12 hours 59 mins 10 secs`。
-結果必須以 `PGTYPESchar_free()` 釋放。
-
-<a id="PGTYPESINTERVALCOPY"></a>
-
-`PGTYPESinterval_copy` [#](#PGTYPESINTERVALCOPY)
-
-複製 interval 型別的變數。
-
-```
-
-    int PGTYPESinterval_copy(interval *intvlsrc, interval *intvldest);
-```
-
-此函式將 `intvlsrc` 所指的 interval 變數複製到 `intvldest` 所指的變數中。請注意，你必須事先為目的變數配置記憶體。
+本節內容請參閱[34.6.5. interval 型別](ecpg-pgtypes-interval.md#ecpg-pgtypes-interval)。
 
 <a id="ECPG-PGTYPES-DECIMAL"></a>
 
