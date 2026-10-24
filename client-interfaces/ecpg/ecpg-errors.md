@@ -220,11 +220,12 @@ sqlstate: 42P01
 <a id="ECPG-SQLSTATE-SQLCODE-ECPG-NOT-FOUND"></a>
 
 100 (`ECPG_NOT_FOUND`) [#](#ECPG-SQLSTATE-SQLCODE-ECPG-NOT-FOUND)
-:   這是無害的情況，表示上一個命令擷取或處理了零個資料列，或是你已到達游標的結尾。（SQLSTATE 02000）
 
-    在迴圈中處理游標時，可以用這個代碼來偵測何時該中止迴圈，例如：
+這是無害的情況，表示上一個命令擷取或處理了零個資料列，或是你已到達游標的結尾。（SQLSTATE 02000）
 
-    ```
+在迴圈中處理游標時，可以用這個代碼來偵測何時該中止迴圈，例如：
+
+```
 
     while (1)
     {
@@ -232,9 +233,10 @@ sqlstate: 42P01
         if (sqlca.sqlcode == ECPG_NOT_FOUND)
             break;
     }
-    ```
+```
 
-    不過 `WHENEVER NOT FOUND DO BREAK` 在內部實際上就是這麼做，因此明確寫出這段程式碼通常沒有什麼好處。
+不過 `WHENEVER NOT FOUND DO BREAK` 在內部實際上就是這麼做，因此明確寫出這段程式碼通常沒有什麼好處。
+
 <a id="ECPG-SQLSTATE-SQLCODE-ECPG-OUT-OF-MEMORY"></a>
 
 -12 (`ECPG_OUT_OF_MEMORY`) [#](#ECPG-SQLSTATE-SQLCODE-ECPG-OUT-OF-MEMORY)

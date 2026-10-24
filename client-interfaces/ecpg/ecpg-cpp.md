@@ -94,9 +94,10 @@ void TestCpp::test()
 <a id="ECPG-CPP-AND-C-TEST-MOD-PGC"></a>
 
 `test_mod.pgc` [#](#ECPG-CPP-AND-C-TEST-MOD-PGC)
-:   用來執行嵌入在 C 中之 SQL 命令的副程式模組。它會由前置處理器轉換為 `test_mod.c`。
 
-    ```
+用來執行嵌入在 C 中之 SQL 命令的副程式模組。它會由前置處理器轉換為 `test_mod.c`。
+
+```
 
     #include "test_mod.h"
     #include <stdio.h>
@@ -124,13 +125,15 @@ void TestCpp::test()
     {
         EXEC SQL DISCONNECT ALL;
     }
-    ```
+```
+
 <a id="ECPG-CPP-AND-C-TEST-MOD-H"></a>
 
 `test_mod.h` [#](#ECPG-CPP-AND-C-TEST-MOD-H)
-:   宣告 C 模組（`test_mod.pgc`）中各函式的標頭檔，由 `test_cpp.cpp` 引入。由於它會被 C++ 模組連結使用，此檔案必須以 `extern "C"` 區塊包住這些宣告。
 
-    ```
+宣告 C 模組（`test_mod.pgc`）中各函式的標頭檔，由 `test_cpp.cpp` 引入。由於它會被 C++ 模組連結使用，此檔案必須以 `extern "C"` 區塊包住這些宣告。
+
+```
 
     #ifdef __cplusplus
     extern "C" {
@@ -143,13 +146,15 @@ void TestCpp::test()
     #ifdef __cplusplus
     }
     #endif
-    ```
+```
+
 <a id="ECPG-CPP-AND-C-TEST-CPP-CPP"></a>
 
 `test_cpp.cpp` [#](#ECPG-CPP-AND-C-TEST-CPP-CPP)
-:   應用程式的主要程式碼，包含 `main` 常式，以及本例中的一個 C++ 類別。
 
-    ```
+應用程式的主要程式碼，包含 `main` 常式，以及本例中的一個 C++ 類別。
+
+```
 
     #include "test_mod.h"
 
@@ -185,9 +190,9 @@ void TestCpp::test()
         t->test();
         return 0;
     }
-    ```
+```
 
-    譯註：上方 test_cpp.cpp 的 main 以 new 建立 TestCpp 物件後並未 delete，因此解構函式不會被呼叫，db_disconnect() 也就不會執行；若要如類別設計所預期在結束前中斷連線，應在 return 之前加上 delete t;。範例程式碼依原文保留。
+譯註：上方 test_cpp.cpp 的 main 以 new 建立 TestCpp 物件後並未 delete，因此解構函式不會被呼叫，db_disconnect() 也就不會執行；若要如類別設計所預期在結束前中斷連線，應在 return 之前加上 delete t;。範例程式碼依原文保留。
 
 要建置此應用程式，請依下列步驟進行。執行 `ecpg` 將 `test_mod.pgc` 轉換為 `test_mod.c`，再以 C 編譯器編譯 `test_mod.c` 產生 `test_mod.o`：
 
