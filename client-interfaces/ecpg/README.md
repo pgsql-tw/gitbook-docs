@@ -29,9 +29,23 @@
 
   - [34.4.3. 取得查詢結果](ecpg-variables.md#ecpg-retrieving)
 
-  - [34.4.4. 型別對應](ecpg-variables.md#ecpg-variables-type-mapping)
+  - [34.4.4. 型別對應](ecpg-variables-type-mapping.md#ecpg-variables-type-mapping)
+    - [34.4.4.1. 處理字元字串](ecpg-variables-type-mapping.md#ecpg-char)
+    - [34.4.4.2. 存取特殊資料型別](ecpg-variables-special-types.md#ecpg-special-types)
+      - [34.4.4.2.1. timestamp、date](ecpg-variables-special-types.md#ecpg-special-types-timestamp-date)
+      - [34.4.4.2.2. interval](ecpg-variables-special-types.md#ecpg-type-interval)
+      - [34.4.4.2.3. numeric、decimal](ecpg-variables-special-types.md#ecpg-type-numeric-decimal)
+      - [34.4.4.2.4. bytea](ecpg-variables-special-types.md#ecpg-special-types-bytea)
+    - [34.4.4.3. 非基本型別的主機變數](ecpg-variables-nonprimitive-c.md#ecpg-variables-nonprimitive-c)
+      - [34.4.4.3.1. 陣列](ecpg-variables-nonprimitive-c.md#ecpg-variables-arrays)
+      - [34.4.4.3.2. 結構](ecpg-variables-nonprimitive-c.md#ecpg-variables-struct)
+      - [34.4.4.3.3. 型別定義（typedef）](ecpg-variables-nonprimitive-c.md#ecpg-variables-nonprimitive-c-typedefs)
+      - [34.4.4.3.4. 指標](ecpg-variables-nonprimitive-c.md#ecpg-variables-nonprimitive-c-pointers)
 
-  - [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables.md#ecpg-variables-nonprimitive-sql)
+  - [34.4.5. 處理非基本 SQL 資料型別](ecpg-variables-nonprimitive-sql.md#ecpg-variables-nonprimitive-sql)
+    - [34.4.5.1. 陣列](ecpg-variables-nonprimitive-sql.md#ecpg-variables-nonprimitive-sql-arrays)
+    - [34.4.5.2. 複合型別](ecpg-variables-nonprimitive-sql.md#ecpg-variables-nonprimitive-sql-composite)
+    - [34.4.5.3. 使用者自訂基本型別](ecpg-variables-nonprimitive-sql.md#ecpg-variables-nonprimitive-sql-user-defined-base-types)
 
   - [34.4.6. 指示變數](ecpg-variables.md#ecpg-indicators)
 
@@ -62,11 +76,14 @@
 - [34.7. 使用描述區](ecpg-descriptors.md)
   - [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ecpg-named-descriptors)
 
-  - [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ecpg-sqlda-descriptors)
+  - [34.7.2. SQLDA 描述區](ecpg-sqlda-descriptors.md#ecpg-sqlda-descriptors)
     - [34.7.2.1. SQLDA 資料結構](ecpg-sqlda-data-structures.md)
       - [34.7.2.1.1. sqlda_t 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlda)
       - [34.7.2.1.2. sqlvar_t 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlvar)
       - [34.7.2.1.3. struct sqlname 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlname)
+    - [34.7.2.2. 使用 SQLDA 取得結果集](ecpg-sqlda-descriptors.md#ecpg-sqlda-output)
+    - [34.7.2.3. 使用 SQLDA 傳遞查詢參數](ecpg-sqlda-descriptors.md#ecpg-sqlda-input)
+    - [34.7.2.4. 使用 SQLDA 的範例應用程式](ecpg-sqlda-descriptors.md#ecpg-sqlda-example)
 
 - [34.8. 錯誤處理](ecpg-errors.md)
   - [34.8.1. 設定回呼](ecpg-errors.md#ecpg-whenever)

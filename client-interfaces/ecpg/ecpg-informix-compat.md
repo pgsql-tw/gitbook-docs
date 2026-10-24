@@ -79,7 +79,7 @@ EXEC SQL FETCH MYCUR INTO :userid;
 
 ### 34.15.3. 與 Informix 相容的 SQLDA 描述區 [#](#ecpg-informix-sqlda) <a href="#ecpg-informix-sqlda" id="ecpg-informix-sqlda"></a>
 
-Informix 相容模式支援的結構與[第 34.7.2 節](ecpg-descriptors.md#ecpg-sqlda-descriptors)所述的結構不同。請見下方：
+Informix 相容模式支援的結構與[第 34.7.2 節](ecpg-sqlda-descriptors.md#ecpg-sqlda-descriptors)所述的結構不同。請見下方：
 
 ```
 

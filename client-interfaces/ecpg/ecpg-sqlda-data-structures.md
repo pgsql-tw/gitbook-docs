@@ -91,7 +91,7 @@ typedef struct sqlvar_struct sqlvar_t;
 <a id="ECPG-SQLDA-SQLVAR-SQLDATA"></a>
 
 `sqldata` [#](#ECPG-SQLDA-SQLVAR-SQLDATA)
-:   指向資料。資料的格式說明請參閱[第 34.4.4 節](ecpg-variables.md#ecpg-variables-type-mapping)。
+:   指向資料。資料的格式說明請參閱[第 34.4.4 節](ecpg-variables-type-mapping.md#ecpg-variables-type-mapping)。
 <a id="ECPG-SQLDA-SQLVAR-SQLIND"></a>
 
 `sqlind` [#](#ECPG-SQLDA-SQLVAR-SQLIND)
@@ -129,7 +129,7 @@ struct sqlname
 `data` [#](#ECPG-SQLDA-SQLNAME-DATA)
 :   包含實際的欄位名稱。
 
-[返回 34.7.2. SQLDA 描述區](ecpg-descriptors.md#ecpg-sqlda-descriptors)
+[返回 34.7.2. SQLDA 描述區](ecpg-sqlda-descriptors.md#ecpg-sqlda-descriptors)
 
 ---
 

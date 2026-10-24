@@ -51,7 +51,7 @@ EXEC SQL UPDATE foo
 EXEC SQL COMMIT;
 ```
 
-傳回單一結果資料列的 `SELECT` 陳述式，也可以直接使用 `EXEC SQL` 執行。若要處理含有多個資料列的結果集，應用程式必須使用游標；請參閱下方的[第 34.3.2 節](ecpg-commands.md#ecpg-cursors)。（作為特例，應用程式可以一次將多個資料列擷取到陣列主機變數中；請參閱[第 34.4.4.3.1 節](ecpg-variables.md#ecpg-variables-arrays)。）
+傳回單一結果資料列的 `SELECT` 陳述式，也可以直接使用 `EXEC SQL` 執行。若要處理含有多個資料列的結果集，應用程式必須使用游標；請參閱下方的[第 34.3.2 節](ecpg-commands.md#ecpg-cursors)。（作為特例，應用程式可以一次將多個資料列擷取到陣列主機變數中；請參閱[第 34.4.4.3.1 節](ecpg-variables-nonprimitive-c.md#ecpg-variables-arrays)。）
 
 單列查詢：
 
