@@ -63,6 +63,10 @@
   - [34.7.1. 具名 SQL 描述區](ecpg-descriptors.md#ecpg-named-descriptors)
 
   - [34.7.2. SQLDA 描述區](ecpg-descriptors.md#ecpg-sqlda-descriptors)
+    - [34.7.2.1. SQLDA 資料結構](ecpg-sqlda-data-structures.md)
+      - [34.7.2.1.1. sqlda_t 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlda)
+      - [34.7.2.1.2. sqlvar_t 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlvar)
+      - [34.7.2.1.3. struct sqlname 結構](ecpg-sqlda-data-structures.md#ecpg-sqlda-sqlname)
 
 - [34.8. 錯誤處理](ecpg-errors.md)
   - [34.8.1. 設定回呼](ecpg-errors.md#ecpg-whenever)

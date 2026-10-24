@@ -340,6 +340,7 @@
     * [34.5. 動態 SQL #](client-interfaces/ecpg/ecpg-dynamic.md)
     * [34.6. pgtypes 函式庫 #](client-interfaces/ecpg/ecpg-pgtypes.md)
     * [34.7. 使用描述區 #](client-interfaces/ecpg/ecpg-descriptors.md)
+      * [34.7.2.1. SQLDA 資料結構](client-interfaces/ecpg/ecpg-sqlda-data-structures.md)
     * [34.8. 錯誤處理 #](client-interfaces/ecpg/ecpg-errors.md)
     * [34.9. 前置處理器指令 #](client-interfaces/ecpg/ecpg-preproc.md)
     * [34.10. 處理嵌入式 SQL 程式 #](client-interfaces/ecpg/ecpg-process.md)
