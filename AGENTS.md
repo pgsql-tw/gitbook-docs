@@ -14,3 +14,4 @@
 - **交接工具**：`python scripts/agent_handoff.py status | claim | publish | message`。
 - **進度與訊息**：`outputs/pg18-translation/agents/status/`（各寫各的）、`outputs/pg18-translation/agents/messages/`（一則一檔）。
 - **專案 skill**：`.agents/skills/postgresql-tw-translation/SKILL.md`；風格見其 `references/style.md`（技術直述），修訂複審依入口載入 `references/review-workflow.md`。
+- **目前發佈標的**：GitBook；格式、導航修繕與公開驗收依 skill 入口載入 `references/gitbook-maintenance.md`。未來若加入其他標的，另確認其建置與驗收規則，不直接套用 GitBook 行為。

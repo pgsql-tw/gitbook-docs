@@ -1,6 +1,6 @@
 ---
 name: postgresql-tw-translation
-description: Translate and review PostgreSQL manuals in Traditional Chinese for the pgsql-tw GitBook project. Use for manual chapter translation, version alignment, terminology, or GitBook chapter maintenance; not for general SQL advice.
+description: Translate and review PostgreSQL manuals in Traditional Chinese for the pgsql-tw documentation project. Use for manual chapter translation, version alignment, terminology, or publication-format and navigation maintenance; not for general SQL advice.
 ---
 
 Translate against the PostgreSQL major version named by the working branch. Confirm the branch and repository before applying project-specific paths. The observed baseline is branch `15` of `C:/Workspaces/gitbook-docs`, commit `9e1029c`, examined on 2026-09-06; do not assume later branches have identical contents.
@@ -17,12 +17,19 @@ Choose the mode from the user's requested outcome; do not turn maintenance into 
 
 Read the repository's collaboration protocol and applicable user decisions before translation, review, or publication. In this project's PostgreSQL 18 checkout, the protocol is `outputs/pg18-translation/agents/PROTOCOL.md`; verify that path in the current repository rather than assuming it exists in every checkout. The skill does not grant permission to submit externally, publish, commit, or push.
 
+## Select the publishing target
+
+Determine the publishing target from the user's request and repository guidance/configuration, independently of the working mode. The current project target is GitBook, as recorded in `AGENTS.md`; this is a project setting, not a permanent restriction of this skill.
+
+- **GitBook:** For output formatting, navigation repair, or publication acceptance, read [references/gitbook-maintenance.md](references/gitbook-maintenance.md). Apply its renderer-specific guidance only to GitBook output.
+- **Other targets:** Do not assume GitBook's anchor, hierarchy, path, or rendering behavior applies. Establish that target's build/navigation/acceptance requirements; add a focused target reference only when a concrete target is introduced. Do not create speculative target implementations. If the target is unclear and materially affects the work, clarify it before target-specific edits.
+
 ## Shared translation and preservation rules
 
 - Use the official `/docs/<major>/` manual as the technical authority. Record the minor-version baseline and retrieval date in the work report. A page copied from `/current/` or an older manual is not evidence of target-version correctness.
 - Preserve the source's conditions, exceptions, warnings, tables, syntax, examples, and cross-references. Existing fluent Chinese may still describe obsolete behavior. Check version-sensitive claims before reusing them.
-- Prefer existing local relative Markdown links for translated targets; use version-pinned official links for untranslated targets. Preserve existing paths unless restructuring is requested. Update `SUMMARY.md`, the page heading, and affected cross-references together when adding or renumbering sections.
-- Preserve GitBook frontmatter, hint blocks, HTML tables, images, anchor IDs, and code fences. Inspect adjacent pages for their actual markup conventions; do not flatten these structures while polishing prose.
+- Prefer existing local relative Markdown links for translated targets; use version-pinned official links for untranslated targets. Preserve existing paths unless restructuring is requested. Update the publishing target's navigation manifests, page headings, and affected cross-references together when adding or renumbering sections.
+- Preserve frontmatter, structured callouts, HTML tables, images, anchor IDs, and code fences according to the selected publishing target. Inspect adjacent pages for their actual markup conventions; do not flatten these structures while polishing prose.
 - Keep SQL keywords, API identifiers, parameter names, object names, and executable examples exact. Explain them in Chinese prose without translating identifiers.
 - Preserve original code verbatim, including apparent source errors. Explain a verified source defect in a Traditional Chinese translator's note outside the code block; do not silently repair protected code or describe an unverified suspicion as a confirmed erratum. Follow the project's applicable rulings when review requirements conflict with this preservation rule.
 - An English heading, a Markdown file, or a Chinese introduction does not establish translation completion. Distinguish missing pages, title-only leaf pages, navigation containers, untranslated prose, mixed translation, and translated content requiring version review. A missing SUMMARY entry may be existing content that needs relocation rather than a new translation.
