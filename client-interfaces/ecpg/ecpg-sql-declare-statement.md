@@ -24,9 +24,10 @@ EXEC SQL [ AT connection_name ] DECLARE statement_name STATEMENT
 <a id="ECPG-SQL-DECLARE-STATEMENT-CONNECTION-NAME"></a>
 
 *`connection_name`* [#](#ECPG-SQL-DECLARE-STATEMENT-CONNECTION-NAME)
-:   由 `CONNECT` 命令建立的資料庫連線名稱。
 
-    `AT` 子句可以省略，但這樣的陳述式沒有意義。
+由 `CONNECT` 命令建立的資料庫連線名稱。
+
+`AT` 子句可以省略，但這樣的陳述式沒有意義。
 
 <a id="ECPG-SQL-DECLARE-STATEMENT-STATEMENT-NAME"></a>
 

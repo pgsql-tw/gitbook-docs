@@ -27,29 +27,30 @@ DATABASE connection_target
 <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET"></a>
 
 *`connection_target`* [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET)
-:   *`connection_target`*
-    指定連線的目標伺服器，可採用下列幾種形式之一。
 
-    <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME"></a>
+*`connection_target`*
+指定連線的目標伺服器，可採用下列幾種形式之一。
 
-    [ *`database_name`* ] [ `@`*`host`* ] [ `:`*`port`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME)
-    :   透過 TCP/IP 連線
-    <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS"></a>
+- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME"></a>[ *`database_name`* ] [ `@`*`host`* ] [ `:`*`port`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-DATABASE-NAME)
 
-    `unix:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS)
-    :   透過 Unix 網域通訊端連線
-    <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP"></a>
+  透過 TCP/IP 連線
 
-    `tcp:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP)
-    :   透過 TCP/IP 連線
-    <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT"></a>
+- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS"></a>`unix:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-UNIX-DOMAIN-SOCKETS)
 
-    SQL 字串常數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT)
-    :   內容為上述任一形式的值
-    <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE"></a>
+  透過 Unix 網域通訊端連線
 
-    主機變數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE)
-    :   型別為 `char[]` 或 `VARCHAR[]`、內容為上述任一形式之值的主機變數
+- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP"></a>`tcp:postgresql://`*`host`* [ `:`*`port`* ] `/` [ *`database_name`* ] [ `?`*`connection_option`* ] [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-TCP-IP)
+
+  透過 TCP/IP 連線
+
+- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT"></a>SQL 字串常數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-CONSTANT)
+
+  內容為上述任一形式的值
+
+- <a id="ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE"></a>主機變數 [#](#ECPG-SQL-CONNECT-CONNECTION-TARGET-HOST-VARIABLE)
+
+  型別為 `char[]` 或 `VARCHAR[]`、內容為上述任一形式之值的主機變數
+
 <a id="ECPG-SQL-CONNECT-CONNECTION-NAME"></a>
 
 *`connection_name`* [#](#ECPG-SQL-CONNECT-CONNECTION-NAME)
@@ -57,11 +58,13 @@ DATABASE connection_target
 <a id="ECPG-SQL-CONNECT-CONNECTION-USER"></a>
 
 *`connection_user`* [#](#ECPG-SQL-CONNECT-CONNECTION-USER)
-:   資料庫連線的使用者名稱。
 
-    此參數也可以同時指定使用者名稱與密碼，使用下列形式之一：`user_name/password`、`user_name IDENTIFIED BY password` 或 `user_name USING password`。
+資料庫連線的使用者名稱。
 
-    使用者名稱與密碼可以是 SQL 識別字、字串常數或主機變數。
+此參數也可以同時指定使用者名稱與密碼，使用下列形式之一：`user_name/password`、`user_name IDENTIFIED BY password` 或 `user_name USING password`。
+
+使用者名稱與密碼可以是 SQL 識別字、字串常數或主機變數。
+
 <a id="ECPG-SQL-CONNECT-DEFAULT"></a>
 
 `DEFAULT` [#](#ECPG-SQL-CONNECT-DEFAULT)
