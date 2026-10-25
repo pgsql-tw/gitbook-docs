@@ -136,7 +136,7 @@ typedef struct sqlda_compat     sqlda_t;
 
 ### `sqlformat` [#](#ecpg-informix-sqlda-sqlformat) <a href="#ecpg-informix-sqlda-sqlformat" id="ecpg-informix-sqlda-sqlformat"></a>
 
-在 Informix 中為保留欄位；此處為該欄位的 [`PQfformat`](../libpq/libpq-exec.md#LIBPQ-PQFFORMAT) 值。
+在 Informix 中為保留欄位；此處為該欄位的 [`PQfformat`](../libpq/libpq-exec-select-info.md#libpq-pqfformat) 值。
 
 <a id="ECPG-INFORMIX-SQLDA-SQLITYPE"></a>
 
@@ -154,7 +154,7 @@ NULL 指示變數資料的長度。
 
 ### `sqlxid` [#](#ecpg-informix-sqlda-sqlxid) <a href="#ecpg-informix-sqlda-sqlxid" id="ecpg-informix-sqlda-sqlxid"></a>
 
-欄位的擴充型別，即 [`PQftype`](../libpq/libpq-exec.md#LIBPQ-PQFTYPE) 的結果。
+欄位的擴充型別，即 [`PQftype`](../libpq/libpq-exec-select-info.md#libpq-pqftype) 的結果。
 
 <a id="ECPG-INFORMIX-SQLDA-SQLTYPENAME"></a>
 

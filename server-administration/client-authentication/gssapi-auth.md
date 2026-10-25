@@ -33,7 +33,7 @@ keytab 檔案中列出了多個主體，伺服器會接受其中任何一個。
 主體的 *`servicename`*
 部分通常是 `postgres`，
 但可以透過 libpq 的
-[krbsrvname](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-KRBSRVNAME) 連線參數選擇其他值。
+[krbsrvname](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-krbsrvname) 連線參數選擇其他值。
 *`hostname`* 部分是 libpq 被指示要連線的
 主機的完整網域名稱（fully qualified host name）。
 領域名稱是用戶端可存取的 Kerberos

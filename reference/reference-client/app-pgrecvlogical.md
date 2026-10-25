@@ -111,7 +111,7 @@ pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 下列命令列選項控制資料庫連線參數。
 
 `-d dbname`<br>`--dbname=dbname`
-:   要連線的資料庫。這在細節上代表什麼，請參閱各動作的說明。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
+:   要連線的資料庫。這在細節上代表什麼，請參閱各動作的說明。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
     使用 `--create-slot` 與 `--start` 時必須指定此參數。
 

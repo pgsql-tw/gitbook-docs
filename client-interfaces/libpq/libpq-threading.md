@@ -23,7 +23,7 @@
 
 若 libpq 是執行緒安全的則傳回 1，否則傳回 0。在版本 17 以上一律傳回 1。
 
-已棄用的函式 [`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 與 [`PQoidStatus`](libpq-exec.md#LIBPQ-PQOIDSTATUS) 不是執行緒安全的，不應在多執行緒程式中使用。[`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 可以用 [`PQcancelBlocking`](libpq-cancel.md#LIBPQ-PQCANCELBLOCKING) 取代。[`PQoidStatus`](libpq-exec.md#LIBPQ-PQOIDSTATUS) 可以用 [`PQoidValue`](libpq-exec.md#LIBPQ-PQOIDVALUE) 取代。
+已棄用的函式 [`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 與 [`PQoidStatus`](libpq-exec-nonselect.md#libpq-pqoidstatus) 不是執行緒安全的，不應在多執行緒程式中使用。[`PQrequestCancel`](libpq-cancel.md#LIBPQ-PQREQUESTCANCEL) 可以用 [`PQcancelBlocking`](libpq-cancel.md#LIBPQ-PQCANCELBLOCKING) 取代。[`PQoidStatus`](libpq-exec-nonselect.md#libpq-pqoidstatus) 可以用 [`PQoidValue`](libpq-exec-nonselect.md#libpq-pqoidvalue) 取代。
 
 如果你在應用程式中使用 Kerberos（除了 libpq 內部使用之外），你需要在 Kerberos 呼叫的前後進行鎖定，因為 Kerberos 函式不是執行緒安全的。請參閱 libpq 原始碼中的函式 `PQregisterThreadLock`，了解如何在 libpq 與你的應用程式之間進行協同鎖定。
 

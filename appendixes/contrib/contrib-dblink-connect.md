@@ -28,7 +28,7 @@ dblink_connect(text connname, text connstr) returns text
 :   此連線要使用的名稱；若省略，會開啟未命名連線並取代任何既有未命名連線。
 
 *`connstr`*
-:   libpq 樣式的連線資訊字串，例如 `hostaddr=127.0.0.1 port=5432 dbname=mydb user=postgres password=mypasswd options=-csearch_path=`。詳情請參閱[第 32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。或者，指定外部伺服器名稱。
+:   libpq 樣式的連線資訊字串，例如 `hostaddr=127.0.0.1 port=5432 dbname=mydb user=postgres password=mypasswd options=-csearch_path=`。詳情請參閱[第 32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。或者，指定外部伺服器名稱。
 
 <a id="id-1.11.7.21.7.7"></a>
 

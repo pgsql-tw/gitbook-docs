@@ -22,7 +22,7 @@ pg_amcheck 支援對一個或多個資料庫執行 [amcheck](../../appendixes/co
 
 若指定了 `dbname`，它應該是要檢查的單一資料庫名稱，且不應該出現其他資料庫選擇選項。否則，若出現任何資料庫選擇選項，所有符合的資料庫都會被檢查。若沒有出現這類選項，則會檢查預設資料庫。資料庫選擇選項包括 `--all`、`--database` 與 `--exclude-database`。它們也包括 `--relation`、`--exclude-relation`、`--table`、`--exclude-table`、`--index` 與 `--exclude-index`，但只限於這些選項搭配三段式樣式使用時（例如 `mydb*.myschema*.myrel*`）。最後，當 `--schema` 與 `--exclude-schema` 搭配兩段式樣式使用時（例如 `mydb*.myschema*`），它們也屬於資料庫選擇選項。
 
-*`dbname`* 也可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。
+*`dbname`* 也可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。
 
 <a id="id-1.9.4.9.6"></a>
 
@@ -159,7 +159,7 @@ pg_amcheck 支援對一個或多個資料庫執行 [amcheck](../../appendixes/co
     此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_amcheck 會自動提示輸入密碼。不過，pg_amcheck 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
-:   指定用來找出要檢查之資料庫清單的資料庫或[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若既未使用 `--all`，也未使用任何包含資料庫樣式的選項，就不需要這個連線，此選項也不會有任何作用。否則，此選項的值中所包含的資料庫名稱以外的任何連線字串參數，也會在連線到被檢查的資料庫時使用。若省略此選項，預設為 `postgres`，若連線失敗，則為 `template1`。
+:   指定用來找出要檢查之資料庫清單的資料庫或[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若既未使用 `--all`，也未使用任何包含資料庫樣式的選項，就不需要這個連線，此選項也不會有任何作用。否則，此選項的值中所包含的資料庫名稱以外的任何連線字串參數，也會在連線到被檢查的資料庫時使用。若省略此選項，預設為 `postgres`，若連線失敗，則為 `template1`。
 
 另外也提供其他選項：
 

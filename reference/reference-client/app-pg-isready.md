@@ -23,7 +23,7 @@ pg_isready 是用來檢查 PostgreSQL 資料庫伺服器連線狀態的工具程
 ## 選項
 
 `-d dbname`<br>`--dbname=dbname`
-:   指定要連線的資料庫名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
+:   指定要連線的資料庫名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 `-h hostname`<br>`--host=hostname`
 :   指定伺服器所在機器的主機名稱。若值以斜線開頭，則會被當作 Unix 網域通訊端的目錄。

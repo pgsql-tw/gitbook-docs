@@ -12,11 +12,11 @@
 
 PostgreSQL 中的 `COPY` 命令具有從 libpq 所使用的網路連線讀取或寫入的選項。本節所述的函式讓應用程式能夠藉由提供或取用所複製的資料，來善用這項功能。
 
-整體流程是：應用程式先透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或其中一個同等的函式發出 SQL `COPY` 命令。對此的回應（如果命令沒有錯誤）會是一個帶有狀態碼 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN`（取決於指定的複製方向）的 `PGresult` 物件。接著應用程式應該使用本節的函式來接收或傳送資料列。資料傳輸完成時，會再傳回另一個 `PGresult` 物件，表示傳輸成功或失敗。成功時其狀態為 `PGRES_COMMAND_OK`，若遇到問題則為 `PGRES_FATAL_ERROR`。此時即可再透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 發出其他 SQL 命令。（在 `COPY` 操作進行期間，無法使用同一個連線執行其他 SQL 命令。）
+整體流程是：應用程式先透過 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 或其中一個同等的函式發出 SQL `COPY` 命令。對此的回應（如果命令沒有錯誤）會是一個帶有狀態碼 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN`（取決於指定的複製方向）的 `PGresult` 物件。接著應用程式應該使用本節的函式來接收或傳送資料列。資料傳輸完成時，會再傳回另一個 `PGresult` 物件，表示傳輸成功或失敗。成功時其狀態為 `PGRES_COMMAND_OK`，若遇到問題則為 `PGRES_FATAL_ERROR`。此時即可再透過 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 發出其他 SQL 命令。（在 `COPY` 操作進行期間，無法使用同一個連線執行其他 SQL 命令。）
 
-如果 `COPY` 命令是透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 在可能包含其他命令的字串中發出的，那麼應用程式在完成 `COPY` 流程之後，必須繼續透過 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 擷取結果。只有在 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 傳回 `NULL` 時，才能確定 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 的命令字串已執行完畢，可以安全地發出更多命令。
+如果 `COPY` 命令是透過 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 在可能包含其他命令的字串中發出的，那麼應用程式在完成 `COPY` 流程之後，必須繼續透過 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 擷取結果。只有在 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 傳回 `NULL` 時，才能確定 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 的命令字串已執行完畢，可以安全地發出更多命令。
 
-本節的函式應該只在從 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 或 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 取得 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN` 結果狀態之後執行。
+本節的函式應該只在從 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 或 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 取得 `PGRES_COPY_OUT` 或 `PGRES_COPY_IN` 結果狀態之後執行。
 
 帶有上述其中一個狀態值的 `PGresult` 物件，會攜帶一些關於即將開始之 `COPY` 操作的額外資料。這些額外資料可以使用同樣用於查詢結果的函式取得：
 
@@ -200,7 +200,7 @@ STDOUT` 期間接收資料。若在連線不處於 `COPY_OUT` 狀態時呼叫，
 
 使用 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 時，應用程式應該以重複執行 [`PQgetline`](libpq-copy.md#LIBPQ-PQGETLINE) 來回應 `PGRES_COPY_OUT` 結果，並在看到終止行之後呼叫 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY)。接著它應該回到 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 迴圈，直到 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 傳回空指標為止。同樣地，`PGRES_COPY_IN` 結果的處理方式是一連串的 [`PQputline`](libpq-copy.md#LIBPQ-PQPUTLINE) 呼叫，接著呼叫 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY)，然後回到 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 迴圈。這樣的安排可確保嵌在一連串 SQL 命令中的 `COPY` 命令能正確執行。
 
-較舊的應用程式很可能會透過 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 送出 `COPY`，並假設在 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY) 之後交易就已完成。只有當 `COPY` 是命令字串中唯一的 SQL 命令時，這樣做才會正確運作。
+較舊的應用程式很可能會透過 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 送出 `COPY`，並假設在 [`PQendcopy`](libpq-copy.md#LIBPQ-PQENDCOPY) 之後交易就已完成。只有當 `COPY` 是命令字串中唯一的 SQL 命令時，這樣做才會正確運作。
 
 ---
 

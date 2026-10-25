@@ -75,7 +75,7 @@ UPDATE` 子句的 `INSERT` 陳述式。不過，只要省略唯一值索引推�
 
 #### F.38.1.1. 連線選項 [#](#POSTGRES-FDW-OPTIONS-CONNECTION)
 
-使用 `postgres_fdw` 外部資料包裝器的外部伺服器，可以具有 libpq 在連線字串中接受的相同選項（如[第 32.1.2 節](../../client-interfaces/libpq/libpq-connect.md#libpq-paramkeywords)所述），
+使用 `postgres_fdw` 外部資料包裝器的外部伺服器，可以具有 libpq 在連線字串中接受的相同選項（如[第 32.1.2 節](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-paramkeywords)所述），
 但下列選項不允許使用或有特殊處理：
 
 * `user`、`password` 與 `sslpassword`（請改在使用者對應中指定，或使用服務檔）

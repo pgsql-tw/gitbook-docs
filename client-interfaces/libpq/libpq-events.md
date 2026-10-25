@@ -40,7 +40,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 `PGEVT_CONNRESET` [#](#LIBPQ-PGEVT-CONNRESET)
 
-連線重設事件會在 [`PQreset`](libpq-connect.md#LIBPQ-PQRESET) 或 `PQresetPoll` 完成時觸發。在這兩種情況下，只有重設成功時才會觸發此事件。在 PostgreSQL v15 及更新版本中，事件程序的傳回值會被忽略。不過在更早的版本中，傳回成功（非零值）很重要，否則連線將會被中止。
+連線重設事件會在 [`PQreset`](libpq-connect.md#libpq-pqreset) 或 `PQresetPoll` 完成時觸發。在這兩種情況下，只有重設成功時才會觸發此事件。在 PostgreSQL v15 及更新版本中，事件程序的傳回值會被忽略。不過在更早的版本中，傳回成功（非零值）很重要，否則連線將會被中止。
 
 ```
 
@@ -56,7 +56,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 `PGEVT_CONNDESTROY` [#](#LIBPQ-PGEVT-CONNDESTROY)
 
-連線銷毀事件會因應 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 而觸發。由於 libpq 沒有能力管理這些記憶體，正確清理其事件資料是事件程序的責任。未進行清理將導致記憶體洩漏。
+連線銷毀事件會因應 [`PQfinish`](libpq-connect.md#libpq-pqfinish) 而觸發。由於 libpq 沒有能力管理這些記憶體，正確清理其事件資料是事件程序的責任。未進行清理將導致記憶體洩漏。
 
 ```
 
@@ -66,7 +66,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
     } PGEventConnDestroy;
 ```
 
-收到 `PGEVT_CONNDESTROY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventConnDestroy *`。此事件會在 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 執行任何其他清理工作之前觸發。由於無法從 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 回報失敗，事件程序的傳回值會被忽略。此外，事件程序的失敗不應中止清理不再需要之記憶體的過程。
+收到 `PGEVT_CONNDESTROY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventConnDestroy *`。此事件會在 [`PQfinish`](libpq-connect.md#libpq-pqfinish) 執行任何其他清理工作之前觸發。由於無法從 [`PQfinish`](libpq-connect.md#libpq-pqfinish) 回報失敗，事件程序的傳回值會被忽略。此外，事件程序的失敗不應中止清理不再需要之記憶體的過程。
 
 <a id="LIBPQ-PGEVT-RESULTCREATE"></a>
 
@@ -106,7 +106,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
 
 `PGEVT_RESULTDESTROY` [#](#LIBPQ-PGEVT-RESULTDESTROY)
 
-結果銷毀事件會因應 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 而觸發。由於 libpq 沒有能力管理這些記憶體，正確清理其事件資料是事件程序的責任。未進行清理將導致記憶體洩漏。
+結果銷毀事件會因應 [`PQclear`](libpq-exec-main.md#libpq-pqclear) 而觸發。由於 libpq 沒有能力管理這些記憶體，正確清理其事件資料是事件程序的責任。未進行清理將導致記憶體洩漏。
 
 ```
 
@@ -116,7 +116,7 @@ libpq 的事件系統用來將值得關注的 libpq 事件（例如 `PGconn` 與
     } PGEventResultDestroy;
 ```
 
-收到 `PGEVT_RESULTDESTROY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventResultDestroy *`。此事件會在 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 執行任何其他清理工作之前觸發。由於無法從 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 回報失敗，事件程序的傳回值會被忽略。此外，事件程序的失敗不應中止清理不再需要之記憶體的過程。
+收到 `PGEVT_RESULTDESTROY` 事件時，應將 *`evtInfo`* 指標轉型為 `PGEventResultDestroy *`。此事件會在 [`PQclear`](libpq-exec-main.md#libpq-pqclear) 執行任何其他清理工作之前觸發。由於無法從 [`PQclear`](libpq-exec-main.md#libpq-pqclear) 回報失敗，事件程序的傳回值會被忽略。此外，事件程序的失敗不應中止清理不再需要之記憶體的過程。
 
 <a id="LIBPQ-EVENTS-PROC"></a>
 

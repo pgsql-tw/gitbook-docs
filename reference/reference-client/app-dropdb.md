@@ -67,7 +67,7 @@ dropdb 也接受下列用於連線參數的命令列引數：
     此選項從來都不是必要的，因為若伺服器要求密碼驗證，dropdb 會自動提示輸入密碼。不過，dropdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
-:   指定為了刪除目標資料庫而要連線的資料庫名稱。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在（或它就是要刪除的資料庫），則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
+:   指定為了刪除目標資料庫而要連線的資料庫名稱。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在（或它就是要刪除的資料庫），則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
 <a id="id-1.9.4.6.7"></a>
 

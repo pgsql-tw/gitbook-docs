@@ -149,7 +149,7 @@ libpq 的使用者
 以明文儲存，或以 OpenSSL 所支援的任何演算法（例如 AES-128）
 搭配密碼短語（passphrase）加密。若金鑰
 以加密形式儲存，則可以在
-[sslpassword](libpq-connect.md#LIBPQ-CONNECT-SSLPASSWORD) 連線選項中提供密碼短語。若提供了
+[sslpassword](libpq-paramkeywords.md#libpq-connect-sslpassword) 連線選項中提供密碼短語。若提供了
 加密的金鑰，而 `sslpassword` 選項
 未指定或為空白，且有 TTY 可用，
 OpenSSL 會以
@@ -157,7 +157,7 @@ OpenSSL 會以
 應用程式可以提供自己的
 金鑰密碼回呼函式，以覆寫用戶端憑證的提示以及
 `sslpassword` 參數的處理方式；請參閱
-[`PQsetSSLKeyPassHook_OpenSSL`](libpq-connect.md#LIBPQ-PQSETSSLKEYPASSHOOK-OPENSSL)。
+[`PQsetSSLKeyPassHook_OpenSSL`](libpq-connect.md#libpq-pqsetsslkeypasshook-openssl)。
 
 關於建立憑證的說明，請參閱[第 18.9.5 節](../../server-administration/runtime/ssl-tcp.md#SSL-CERTIFICATE-CREATION)。
 

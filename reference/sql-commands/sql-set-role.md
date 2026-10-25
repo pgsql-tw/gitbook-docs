@@ -38,7 +38,7 @@ RESET ROLE
 `SET ROLE NONE` 會將目前使用者識別碼設為目前的工作階段使用者識別碼，
 即 `session_user` 所回傳的值。`RESET ROLE` 會將
 目前使用者識別碼設為連線時所指定的設定值——這個設定值可能來自
-[命令列選項](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-OPTIONS)、
+[命令列選項](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-options)、
 [`ALTER ROLE`](sql-alterrole.md)，或
 [`ALTER DATABASE`](sql-alterdatabase.md)，
 只要存在這類設定即可。否則，`RESET ROLE` 會將

@@ -37,7 +37,7 @@ typedef struct
 
 *`fnid`* 引數是要執行之函式的 OID。*`args`* 與 *`nargs`* 定義要傳給函式的參數；它們必須與函式宣告的引數列表相符。當參數結構的 *`isint`* 欄位為真時，*`u.integer`* 值會以指定長度的整數送到伺服器（長度必須是 2 或 4 個位元組），並會進行適當的位元組交換（byte-swapping）。當 *`isint`* 為假時，*`*u.ptr`* 所指的指定數量位元組會不經任何處理直接送出；這些資料必須符合伺服器以二進位傳輸該函式引數資料型別時所預期的格式。（將 *`u.ptr`* 宣告為 `int *` 型別是歷史因素；將它視為 `void *` 會比較好。）*`result_buf`* 指向用來存放函式傳回值的緩衝區。呼叫端必須已配置足夠的空間來存放傳回值。（這裡沒有任何檢查！）實際的結果長度（以位元組為單位）會傳回到 *`result_len`* 所指的整數中。若預期結果是 2 或 4 位元組的整數，請將 *`result_is_int`* 設為 1，否則設為 0。將 *`result_is_int`* 設為 1 會使 libpq 在必要時對該值進行位元組交換，使其以用戶端機器上正確的 `int` 值傳回；請注意，不論是哪一種允許的結果大小，傳入 *`*result_buf`* 的都是 4 位元組整數。當 *`result_is_int`* 為 0 時，伺服器送出的二進位格式位元組字串會原封不動傳回。（在這種情況下，最好將 *`result_buf`* 視為 `void *` 型別。）
 
-`PQfn` 一律傳回有效的 `PGresult` 指標，成功時狀態為 `PGRES_COMMAND_OK`，若遇到任何問題則為 `PGRES_FATAL_ERROR`。使用結果之前應該先檢查結果狀態。不再需要該 `PGresult` 時，呼叫端負責以 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 釋放它。
+`PQfn` 一律傳回有效的 `PGresult` 指標，成功時狀態為 `PGRES_COMMAND_OK`，若遇到任何問題則為 `PGRES_FATAL_ERROR`。使用結果之前應該先檢查結果狀態。不再需要該 `PGresult` 時，呼叫端負責以 [`PQclear`](libpq-exec-main.md#libpq-pqclear) 釋放它。
 
 要將 NULL 引數傳給函式，請將該參數結構的 *`len`* 欄位設為 `-1`；此時 *`isint`* 與 *`u`* 欄位便無關緊要。
 

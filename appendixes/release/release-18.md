@@ -791,7 +791,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   用於回報包含次要版本號的完整協定版本號 (Jacob
   Champion, Jelte Fennema-Nio)
   [§](https://postgr.es/c/cdb6b0fdb)
-* 新增 libpq 連線[參數](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-SSL-MAX-PROTOCOL-VERSION)
+* 新增 libpq 連線[參數](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-ssl-max-protocol-version)
   與[環境變數](../../client-interfaces/libpq/libpq-envars.md)，
   用於指定連線可接受的最低與最高協定版本 (Jelte Fennema-Nio)
   [§](https://postgr.es/c/285613c60)
@@ -806,7 +806,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/b8b3f861f)
   [§](https://postgr.es/c/e87c14b19)
   [§](https://postgr.es/c/7adec2d5f)
-* 新增 libpq 連線參數 [`sslkeylogfile`](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-SSLKEYLOGFILE)，
+* 新增 libpq 連線參數 [`sslkeylogfile`](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-sslkeylogfile)，
   用於傾印 SSL 金鑰資料 (Abhishek Chanda,
   Daniel Gustafsson)
   [§](https://postgr.es/c/2da74d8d6)
@@ -1126,7 +1126,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   這可以避免在資料庫中儲存 postgres_fdw
   的認證資訊，並由 postgres_fdw 連線選項 [`use_scram_passthrough`](../contrib/postgres-fdw.md#POSTGRES-FDW-OPTION-USE-SCRAM-PASSTHROUGH)
   啟用。libpq 使用新的連線參數
-  [scram_client_key](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-SCRAM-CLIENT-KEY) 與 [scram_server_key](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-SCRAM-SERVER-KEY)。
+  [scram_client_key](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-scram-client-key) 與 [scram_server_key](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-scram-server-key)。
 * 允許將來自用戶端的 SCRAM 認證傳遞給 [dblink](../contrib/dblink.md) 伺服器 (Matheus Alcantara)
   [§](https://postgr.es/c/3642df265)
 * 為 [file_fdw](../contrib/file-fdw.md) 新增 `on_error` 與 `log_verbosity`

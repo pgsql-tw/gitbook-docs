@@ -82,7 +82,7 @@ OAuth 支援下列組態選項：
 
     libpq 中的 OAuth 用戶端要求伺服器的 issuer 設定必須
     與發現文件中所提供的核發者識別碼完全相符，而該識別碼又必須進一步與用戶端的
-    [oauth_issuer](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-OAUTH-ISSUER) 設定相符。大小寫或格式上
+    [oauth_issuer](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-oauth-issuer) 設定相符。大小寫或格式上
     不允許有任何差異。
 
 `scope`

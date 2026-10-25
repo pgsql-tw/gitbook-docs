@@ -360,7 +360,7 @@ make check PGOPTIONS="-c debug_parallel_query=regress -c work_mem=50MB"
 ```
 
 （這運用了 libpq 所提供的功能；詳情請參閱
-[options](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-OPTIONS)。）
+[options](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-options)。）
 
 當針對暫時安裝執行測試時，
 也可以透過提供預先寫好的 `postgresql.conf`

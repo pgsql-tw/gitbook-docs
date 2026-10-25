@@ -55,7 +55,7 @@ libpq 函式吸收的訊息。在很早期的
 libpq 版本中，確保及時收到
 `NOTIFY` 訊息的唯一方法，是不斷送出命令（即使是
 空命令），並在每次
-[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 之後檢查 `PQnotifies`。這種做法雖然仍然有效，但因為
+[`PQexec`](libpq-exec-main.md#libpq-pqexec) 之後檢查 `PQnotifies`。這種做法雖然仍然有效，但因為
 浪費處理能力，已不建議使用。
 
 在沒有實用的命令可執行時，檢查 `NOTIFY` 訊息的較佳方法是
@@ -67,8 +67,8 @@ libpq 版本中，確保及時收到
 `select()` 使用的檔案描述子編號。）請注意，
 無論你是以
 [`PQsendQuery`](libpq-async.md#libpq-pqsendquery)/[`PQgetResult`](libpq-async.md#libpq-pqgetresult) 送出命令，還是
-只使用 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC)，這種方式都能正常運作。不過，你應該記得
-在每次 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 或 [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 之後檢查
+只使用 [`PQexec`](libpq-exec-main.md#libpq-pqexec)，這種方式都能正常運作。不過，你應該記得
+在每次 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 或 [`PQexec`](libpq-exec-main.md#libpq-pqexec) 之後檢查
 `PQnotifies`，以確認在命令處理期間是否有通知傳入。
 
 ---

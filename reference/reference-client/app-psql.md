@@ -84,7 +84,7 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 
 `-d dbname`<br>`--dbname=dbname` [#](#APP-PSQL-OPTION-DBNAME)
 :   指定要連線的資料庫名稱。這等同於在命令列上將 *`dbname`* 指定為第一個非選項引數。*`dbname`*
-    可以是[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。
+    可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。
     若是如此，連線字串參數會覆寫任何與之衝突的命令列選項。
 <a id="APP-PSQL-OPTION-ECHO-QUERIES"></a>
 
@@ -292,7 +292,7 @@ $ psql postgresql://dbmaster:5433/mydb?sslmode=require
 ```
 
 如此一來，你也可以如[第 32.18 節](../../client-interfaces/libpq/libpq-ldap.md)所述，使用 LDAP 查詢連線參數。
-所有可用連線選項的詳細資訊，請參閱[第 32.1.2 節](../../client-interfaces/libpq/libpq-connect.md#libpq-paramkeywords)。
+所有可用連線選項的詳細資訊，請參閱[第 32.1.2 節](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-paramkeywords)。
 
 若因任何原因（例如權限不足、伺服器未在目標主機上執行等）而無法建立連線，psql 會傳回錯誤並結束。
 
@@ -408,7 +408,7 @@ name`。
 
 `\c` 或 `\connect [ -reuse-previous=on|off ] [ dbname [ username ] [ host ] [ port ] | conninfo ]` [#](#APP-PSQL-META-COMMAND-C-LC)
 :   建立與 PostgreSQL 伺服器的新連線。要使用的連線參數可以用位置語法指定（資料庫名稱、使用者、主機與連接埠其中一項或多項），也可以使用
-    [第 32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)所詳述的 *`conninfo`*
+    [第 32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)所詳述的 *`conninfo`*
     連線字串指定。若未提供任何引數，則會使用與先前相同的參數建立新連線。
 
     將

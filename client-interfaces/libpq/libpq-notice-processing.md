@@ -53,14 +53,14 @@ libpq 內部產生此類訊息時，會呼叫通知訊息
 接收器函式。傳給它的訊息採用
 `PGRES_NONFATAL_ERROR` 的
 `PGresult` 形式。（這讓接收器可以
-使用 [`PQresultErrorField`](libpq-exec.md#LIBPQ-PQRESULTERRORFIELD) 擷取個別欄位，或使用 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)
-或 [`PQresultVerboseErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTVERBOSEERRORMESSAGE) 取得
+使用 [`PQresultErrorField`](libpq-exec-main.md#libpq-pqresulterrorfield) 擷取個別欄位，或使用 [`PQresultErrorMessage`](libpq-exec-main.md#libpq-pqresulterrormessage)
+或 [`PQresultVerboseErrorMessage`](libpq-exec-main.md#libpq-pqresultverboseerrormessage) 取得
 完整的預先格式化訊息。）傳給 `PQsetNoticeReceiver` 的同一個
 void 指標也會一併傳入。（如有需要，此指標可用來存取
 應用程式特有的狀態。）
 
 預設的通知訊息接收器只是擷取訊息（使用
-[`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE)），並將其傳給通知訊息
+[`PQresultErrorMessage`](libpq-exec-main.md#libpq-pqresulterrormessage)），並將其傳給通知訊息
 處理器。
 
 通知訊息處理器負責處理以文字形式提供的通知訊息或警告
@@ -86,7 +86,7 @@ defaultNoticeProcessor(void *arg, const char *message)
 被呼叫。在建立 `PGresult` 時，
 `PGconn` 目前的通知訊息處理指標會複製
 到 `PGresult` 中，以供
-[`PQgetvalue`](libpq-exec.md#LIBPQ-PQGETVALUE) 之類的函式可能使用。
+[`PQgetvalue`](libpq-exec-select-info.md#libpq-pqgetvalue) 之類的函式可能使用。
 
 ---
 

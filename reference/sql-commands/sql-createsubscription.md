@@ -41,7 +41,7 @@ CREATE SUBSCRIPTION subscription_name
 <a id="SQL-CREATESUBSCRIPTION-PARAMS-CONNECTION"></a>
 
 `CONNECTION 'conninfo'` [#](#SQL-CREATESUBSCRIPTION-PARAMS-CONNECTION)
-:   定義如何連線到發佈者資料庫的 libpq 連線字串。詳情請參閱[第 32.1.1 節](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)。
+:   定義如何連線到發佈者資料庫的 libpq 連線字串。詳情請參閱[第 32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。
 <a id="SQL-CREATESUBSCRIPTION-PARAMS-PUBLICATION"></a>
 
 `PUBLICATION publication_name [, ...]` [#](#SQL-CREATESUBSCRIPTION-PARAMS-PUBLICATION)

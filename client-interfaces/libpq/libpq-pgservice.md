@@ -26,7 +26,7 @@ libpq 連線字串中使用 `service` 關鍵字
 `PGSYSCONFDIR` 指定另一個目錄，但無法指定不同的檔名。
 
 兩種服務檔都使用「INI 檔」格式，其中區段名稱為服務名稱，
-參數則為連線參數；參數清單請參閱[第 32.1.2 節](libpq-connect.md#libpq-paramkeywords)。
+參數則為連線參數；參數清單請參閱[第 32.1.2 節](libpq-paramkeywords.md#libpq-paramkeywords)。
 例如：
 
 ```

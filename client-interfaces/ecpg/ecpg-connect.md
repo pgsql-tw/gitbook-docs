@@ -43,7 +43,7 @@ EXEC SQL CONNECT TO target [AS connection-name] [USER user-name];
 
 與上述相同，參數 *`username`* 與 *`password`* 可以是 SQL 識別字、SQL 字串常數，或字元變數的參照。
 
-若連線目標包含任何 *`options`*，它們由以 & 符號（`&`）分隔的 `keyword=value` 設定組成。允許的關鍵字與 libpq 所認得的關鍵字相同（請參閱[第 32.1.2 節](../libpq/libpq-connect.md#libpq-paramkeywords)）。任何 *`keyword`* 或 *`value`* 之前的空白都會被忽略，但其中或其後的空白則不會。請注意，沒有任何方法可以在 *`value`* 中寫入 `&`。
+若連線目標包含任何 *`options`*，它們由以 & 符號（`&`）分隔的 `keyword=value` 設定組成。允許的關鍵字與 libpq 所認得的關鍵字相同（請參閱[第 32.1.2 節](../libpq/libpq-paramkeywords.md#libpq-paramkeywords)）。任何 *`keyword`* 或 *`value`* 之前的空白都會被忽略，但其中或其後的空白則不會。請注意，沒有任何方法可以在 *`value`* 中寫入 `&`。
 
 請注意，指定通訊端連線（使用 `unix:` 前綴）時，主機名稱必須正好是 `localhost`。若要選擇非預設的通訊端目錄，請在目標的 *`options`* 部分中，將該目錄的路徑名稱寫成 `host` 選項的值。
 

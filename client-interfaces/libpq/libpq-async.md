@@ -4,27 +4,27 @@
 
 <a id="id-1.7.3.11.2"></a>
 
-[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 函式足以在一般的同步應用程式中
+[`PQexec`](libpq-exec-main.md#libpq-pqexec) 函式足以在一般的同步應用程式中
 送出命令。然而它有一些不足之處，對某些使用者而言可能很重要：
 
-* [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 會等待命令完成。
+* [`PQexec`](libpq-exec-main.md#libpq-pqexec) 會等待命令完成。
   應用程式可能還有其他工作要做（例如維護使用者介面），
   在這種情況下，它不會想要阻塞以等待回應。
 * 由於用戶端應用程式在等待結果時會暫停執行，
   應用程式很難決定要嘗試取消正在進行的命令。
   （這可以從訊號處理常式中做到，但無法以其他方式做到。）
-* [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 只能傳回一個
+* [`PQexec`](libpq-exec-main.md#libpq-pqexec) 只能傳回一個
   `PGresult` 結構。若送出的命令字串
   包含多個 SQL 命令，除了最後一個
   `PGresult` 之外，其餘都會被
-  [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 捨棄。
-* [`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 一律會收集命令的完整結果，
+  [`PQexec`](libpq-exec-main.md#libpq-pqexec) 捨棄。
+* [`PQexec`](libpq-exec-main.md#libpq-pqexec) 一律會收集命令的完整結果，
   並將其緩衝在單一的 `PGresult` 中。雖然
   這簡化了應用程式的錯誤處理邏輯，但對於包含大量資料列的結果
   可能不切實際。
 
 不喜歡這些限制的應用程式，可以改用建構
-[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 的底層函式：
+[`PQexec`](libpq-exec-main.md#libpq-pqexec) 的底層函式：
 [`PQsendQuery`](libpq-async.md#libpq-pqsendquery) 與 [`PQgetResult`](libpq-async.md#libpq-pqgetresult)。
 另外還有
 [`PQsendQueryParams`](libpq-async.md#libpq-pqsendqueryparams)、
@@ -35,13 +35,13 @@
 [`PQsendClosePrepared`](libpq-async.md#libpq-pqsendcloseprepared) 與
 [`PQsendClosePortal`](libpq-async.md#libpq-pqsendcloseportal)，
 它們可以搭配 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 使用，分別重現
-[`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS)、
-[`PQprepare`](libpq-exec.md#LIBPQ-PQPREPARE)、
-[`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED)、
-[`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED)、
-[`PQdescribePortal`](libpq-exec.md#LIBPQ-PQDESCRIBEPORTAL)、
-[`PQclosePrepared`](libpq-exec.md#LIBPQ-PQCLOSEPREPARED) 與
-[`PQclosePortal`](libpq-exec.md#LIBPQ-PQCLOSEPORTAL)
+[`PQexecParams`](libpq-exec-main.md#libpq-pqexecparams)、
+[`PQprepare`](libpq-exec-main.md#libpq-pqprepare)、
+[`PQexecPrepared`](libpq-exec-main.md#libpq-pqexecprepared)、
+[`PQdescribePrepared`](libpq-exec-main.md#libpq-pqdescribeprepared)、
+[`PQdescribePortal`](libpq-exec-main.md#libpq-pqdescribeportal)、
+[`PQclosePrepared`](libpq-exec-main.md#libpq-pqcloseprepared) 與
+[`PQclosePortal`](libpq-exec-main.md#libpq-pqcloseportal)
 的功能。
 
 <a id="LIBPQ-PQSENDQUERY"></a>
@@ -88,8 +88,8 @@
 此函式等同於 [`PQsendQuery`](libpq-async.md#libpq-pqsendquery)，差別在於
 查詢參數可以與查詢字串分開指定。
 此函式的參數處理方式與
-[`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 完全相同。與
-[`PQexecParams`](libpq-exec.md#LIBPQ-PQEXECPARAMS) 一樣，它只允許查詢字串中有
+[`PQexecParams`](libpq-exec-main.md#libpq-pqexecparams) 完全相同。與
+[`PQexecParams`](libpq-exec-main.md#libpq-pqexecparams) 一樣，它只允許查詢字串中有
 一個命令。
 
 <a id="LIBPQ-PQSENDPREPARE"></a>
@@ -108,12 +108,12 @@
                       const Oid *paramTypes);
 ```
 
-這是 [`PQprepare`](libpq-exec.md#LIBPQ-PQPREPARE) 的非同步版本：
+這是 [`PQprepare`](libpq-exec-main.md#libpq-pqprepare) 的非同步版本：
 若能送出請求則傳回 1，否則傳回 0。
 呼叫成功後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 來
 判斷伺服器是否已成功建立預備陳述式。
 此函式的參數處理方式與
-[`PQprepare`](libpq-exec.md#LIBPQ-PQPREPARE) 完全相同。
+[`PQprepare`](libpq-exec-main.md#libpq-pqprepare) 完全相同。
 
 <a id="LIBPQ-PQSENDQUERYPREPARED"></a>
 
@@ -137,7 +137,7 @@
 要執行的命令是以指名先前已預備的陳述式來指定，
 而非給出查詢字串。
 此函式的參數處理方式與
-[`PQexecPrepared`](libpq-exec.md#LIBPQ-PQEXECPREPARED) 完全相同。
+[`PQexecPrepared`](libpq-exec-main.md#libpq-pqexecprepared) 完全相同。
 
 <a id="LIBPQ-PQSENDDESCRIBEPREPARED"></a>
 
@@ -151,11 +151,11 @@
     int PQsendDescribePrepared(PGconn *conn, const char *stmtName);
 ```
 
-這是 [`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 的非同步版本：
+這是 [`PQdescribePrepared`](libpq-exec-main.md#libpq-pqdescribeprepared) 的非同步版本：
 若能送出請求則傳回 1，否則傳回 0。
 呼叫成功後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 來
 取得結果。此函式的參數處理方式與
-[`PQdescribePrepared`](libpq-exec.md#LIBPQ-PQDESCRIBEPREPARED) 完全相同。
+[`PQdescribePrepared`](libpq-exec-main.md#libpq-pqdescribeprepared) 完全相同。
 
 <a id="LIBPQ-PQSENDDESCRIBEPORTAL"></a>
 
@@ -169,11 +169,11 @@
     int PQsendDescribePortal(PGconn *conn, const char *portalName);
 ```
 
-這是 [`PQdescribePortal`](libpq-exec.md#LIBPQ-PQDESCRIBEPORTAL) 的非同步版本：
+這是 [`PQdescribePortal`](libpq-exec-main.md#libpq-pqdescribeportal) 的非同步版本：
 若能送出請求則傳回 1，否則傳回 0。
 呼叫成功後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 來
 取得結果。此函式的參數處理方式與
-[`PQdescribePortal`](libpq-exec.md#LIBPQ-PQDESCRIBEPORTAL) 完全相同。
+[`PQdescribePortal`](libpq-exec-main.md#libpq-pqdescribeportal) 完全相同。
 
 <a id="LIBPQ-PQSENDCLOSEPREPARED"></a>
 
@@ -187,11 +187,11 @@
     int PQsendClosePrepared(PGconn *conn, const char *stmtName);
 ```
 
-這是 [`PQclosePrepared`](libpq-exec.md#LIBPQ-PQCLOSEPREPARED) 的非同步版本：
+這是 [`PQclosePrepared`](libpq-exec-main.md#libpq-pqcloseprepared) 的非同步版本：
 若能送出請求則傳回 1，否則傳回 0。
 呼叫成功後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 來
 取得結果。此函式的參數處理方式與
-[`PQclosePrepared`](libpq-exec.md#LIBPQ-PQCLOSEPREPARED) 完全相同。
+[`PQclosePrepared`](libpq-exec-main.md#libpq-pqcloseprepared) 完全相同。
 
 <a id="LIBPQ-PQSENDCLOSEPORTAL"></a>
 
@@ -205,11 +205,11 @@
     int PQsendClosePortal(PGconn *conn, const char *portalName);
 ```
 
-這是 [`PQclosePortal`](libpq-exec.md#LIBPQ-PQCLOSEPORTAL) 的非同步版本：
+這是 [`PQclosePortal`](libpq-exec-main.md#libpq-pqcloseportal) 的非同步版本：
 若能送出請求則傳回 1，否則傳回 0。
 呼叫成功後，請呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 來
 取得結果。此函式的參數處理方式與
-[`PQclosePortal`](libpq-exec.md#LIBPQ-PQCLOSEPORTAL) 完全相同。
+[`PQclosePortal`](libpq-exec-main.md#libpq-pqcloseportal) 完全相同。
 
 <a id="LIBPQ-PQGETRESULT"></a>
 
@@ -241,7 +241,7 @@
 來自 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 的每個非空結果，
 都應該使用先前說明過的同一組 `PGresult` 存取函式
 來處理。別忘了在處理完每個結果物件後，以
-[`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 將其釋放。請注意，
+[`PQclear`](libpq-exec-main.md#libpq-pqclear) 將其釋放。請注意，
 只有在有作用中的命令，且所需的回應資料尚未被
 [`PQconsumeInput`](libpq-async.md#libpq-pqconsumeinput) 讀取時，
 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 才會阻塞。
@@ -258,14 +258,14 @@
 
 #### 注意
 
-即使 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 指出發生致命
+即使 [`PQresultStatus`](libpq-exec-main.md#libpq-pqresultstatus) 指出發生致命
 錯誤，仍應呼叫 [`PQgetResult`](libpq-async.md#libpq-pqgetresult)，直到它
 傳回空指標為止，好讓 libpq
 能完整處理錯誤資訊。
 
 使用 [`PQsendQuery`](libpq-async.md#libpq-pqsendquery) 與
 [`PQgetResult`](libpq-async.md#libpq-pqgetresult) 可以解決
-[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 的其中一個問題：若命令字串包含
+[`PQexec`](libpq-exec-main.md#libpq-pqexec) 的其中一個問題：若命令字串包含
 多個 SQL 命令，可以個別取得這些命令的結果。
 （順帶一提，這也提供了一種簡單形式的重疊處理：
 用戶端可以在處理某個命令的結果時，
@@ -380,7 +380,7 @@
 會儲存在本機輸出緩衝區中，直到被刷寫出去為止。
 不成功的呼叫會傳回錯誤，且必須重試。
 
-請注意，[`PQexec`](libpq-exec.md#LIBPQ-PQEXEC) 不遵循非阻塞
+請注意，[`PQexec`](libpq-exec-main.md#libpq-pqexec) 不遵循非阻塞
 模式；若呼叫它，它無論如何都會以阻塞方式運作。
 
 <a id="LIBPQ-PQISNONBLOCKING"></a>

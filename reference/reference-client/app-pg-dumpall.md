@@ -197,7 +197,7 @@ pg_dumpall 需要多次連線到 PostgreSQL 伺服器（每個資料庫一次）
 下列命令列選項控制資料庫連線參數。
 
 `-d connstr`<br>`--dbname=connstr`
-:   指定用來連線到伺服器的參數，形式為[連線字串](../../client-interfaces/libpq/libpq-connect.md#libpq-connstring)；這些參數會覆寫任何相衝突的命令列選項。
+:   指定用來連線到伺服器的參數，形式為[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)；這些參數會覆寫任何相衝突的命令列選項。
 
     為了與其他用戶端應用程式保持一致，此選項命名為 `--dbname`，但由於 pg_dumpall 需要連線到許多資料庫，連線字串中的資料庫名稱會被忽略。請使用 `-l` 選項指定初次連線所用的資料庫名稱，該連線會傾印全域物件，並找出還有哪些其他資料庫應該被傾印。
 

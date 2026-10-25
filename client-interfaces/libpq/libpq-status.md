@@ -129,9 +129,9 @@ libpq 應用程式的程式設計者應該小心維持 `PGconn` 的抽象性。�
     ConnStatusType PQstatus(const PGconn *conn);
 ```
 
-狀態可以是多個值中的一個。不過，在非同步連線程序之外只會看到其中兩個：`CONNECTION_OK` 與 `CONNECTION_BAD`。與資料庫的良好連線狀態為 `CONNECTION_OK`。連線嘗試失敗則以狀態 `CONNECTION_BAD` 表示。通常，OK 狀態會一直維持到 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 為止，但通訊失敗可能會導致狀態提早變為 `CONNECTION_BAD`。在這種情況下，應用程式可以呼叫 [`PQreset`](libpq-connect.md#LIBPQ-PQRESET) 嘗試復原。
+狀態可以是多個值中的一個。不過，在非同步連線程序之外只會看到其中兩個：`CONNECTION_OK` 與 `CONNECTION_BAD`。與資料庫的良好連線狀態為 `CONNECTION_OK`。連線嘗試失敗則以狀態 `CONNECTION_BAD` 表示。通常，OK 狀態會一直維持到 [`PQfinish`](libpq-connect.md#libpq-pqfinish) 為止，但通訊失敗可能會導致狀態提早變為 `CONNECTION_BAD`。在這種情況下，應用程式可以呼叫 [`PQreset`](libpq-connect.md#libpq-pqreset) 嘗試復原。
 
-關於可能傳回的其他狀態碼，請參閱 [`PQconnectStartParams`](libpq-connect.md#LIBPQ-PQCONNECTSTARTPARAMS)、`PQconnectStart` 與 `PQconnectPoll` 的說明項目。
+關於可能傳回的其他狀態碼，請參閱 [`PQconnectStartParams`](libpq-connect.md#libpq-pqconnectstartparams)、`PQconnectStart` 與 `PQconnectPoll` 的說明項目。
 
 <a id="LIBPQ-PQTRANSACTIONSTATUS"></a>
 
@@ -225,7 +225,7 @@ libpq 應用程式的程式設計者應該小心維持 `PGconn` 的抽象性。�
     char *PQerrorMessage(const PGconn *conn);
 ```
 
-幾乎所有 libpq 函式在失敗時都會為 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 設定訊息。請注意，依照 libpq 的慣例，非空的 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 結果可能由多行組成，並且會包含結尾的換行字元。呼叫端不應直接釋放此結果。當相關聯的 `PGconn` 代號（handle）傳給 [`PQfinish`](libpq-connect.md#LIBPQ-PQFINISH) 時，它會被釋放。不應預期此結果字串在對 `PGconn` 結構進行多次操作之間保持不變。
+幾乎所有 libpq 函式在失敗時都會為 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 設定訊息。請注意，依照 libpq 的慣例，非空的 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 結果可能由多行組成，並且會包含結尾的換行字元。呼叫端不應直接釋放此結果。當相關聯的 `PGconn` 代號（handle）傳給 [`PQfinish`](libpq-connect.md#libpq-pqfinish) 時，它會被釋放。不應預期此結果字串在對 `PGconn` 結構進行多次操作之間保持不變。
 
 <a id="LIBPQ-PQSOCKET"></a>
 

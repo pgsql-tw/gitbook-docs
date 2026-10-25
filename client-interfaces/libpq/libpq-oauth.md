@@ -38,8 +38,8 @@ Visit https://example.com/device and enter the code: ABCD-EFGH
 詳細資訊請參閱[第 32.20.1 節](libpq-oauth.md#libpq-oauth-authdata-hooks)。
 
 OAuth 用戶端流程若要可用，連線字串至少必須
-包含 [oauth_issuer](libpq-connect.md#LIBPQ-CONNECT-OAUTH-ISSUER) 與
-[oauth_client_id](libpq-connect.md#LIBPQ-CONNECT-OAUTH-CLIENT-ID)。（這些設定
+包含 [oauth_issuer](libpq-paramkeywords.md#libpq-connect-oauth-issuer) 與
+[oauth_client_id](libpq-paramkeywords.md#libpq-connect-oauth-client-id)。（這些設定
 由你組織的 OAuth 提供者決定。）內建流程
 另外還要求 OAuth 授權伺服器發佈裝置
 授權端點。
@@ -221,7 +221,7 @@ OAuth 發現文件的 URL，該文件描述授權伺服器
 掛鉤的最終輸出是 *`token`*，它
 必須指向可用於此連線的有效持有者權杖。（此
 權杖應該由
-[oauth_issuer](libpq-connect.md#LIBPQ-CONNECT-OAUTH-ISSUER) 核發，並具備所請求的
+[oauth_issuer](libpq-paramkeywords.md#libpq-connect-oauth-issuer) 核發，並具備所請求的
 範圍，否則連線將被伺服器的驗證器
 模組拒絕。）配置的權杖字串必須在
 libpq 完成連線之前保持有效；掛鉤

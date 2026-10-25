@@ -39,7 +39,7 @@
 
 ### `PQsetErrorVerbosity`<a id="id-1.7.3.18.3.3.1.2"></a> [#](#libpq-pqseterrorverbosity) <a href="#libpq-pqseterrorverbosity" id="libpq-pqseterrorverbosity"></a>
 
-決定 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 與 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE) 所傳回訊息的詳細程度。
+決定 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 與 [`PQresultErrorMessage`](libpq-exec-main.md#libpq-pqresulterrormessage) 所傳回訊息的詳細程度。
 
 ```
 
@@ -56,13 +56,13 @@
 
 [`PQsetErrorVerbosity`](libpq-control.md#libpq-pqseterrorverbosity) 會設定詳細程度模式，並傳回該連線先前的設定。在 *TERSE* 模式下，傳回的訊息只包含嚴重性、主要文字與位置；這通常可以容納在單一行中。*DEFAULT* 模式產生的訊息包含上述內容，再加上任何詳細資訊（detail）、提示（hint）或上下文（context）欄位（這些可能跨越多行）。*VERBOSE* 模式包含所有可用的欄位。*SQLSTATE* 模式只包含錯誤嚴重性與 `SQLSTATE` 錯誤代碼（如果有的話；若沒有，輸出就和 *TERSE* 模式相同）。
 
-變更詳細程度設定不會影響已經存在的 `PGresult` 物件中可取得的訊息，只會影響之後建立的物件。（但如果你想以不同的詳細程度印出先前的錯誤，請參閱 [`PQresultVerboseErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTVERBOSEERRORMESSAGE)。）
+變更詳細程度設定不會影響已經存在的 `PGresult` 物件中可取得的訊息，只會影響之後建立的物件。（但如果你想以不同的詳細程度印出先前的錯誤，請參閱 [`PQresultVerboseErrorMessage`](libpq-exec-main.md#libpq-pqresultverboseerrormessage)。）
 
 <a id="LIBPQ-PQSETERRORCONTEXTVISIBILITY"></a>
 
 ### `PQsetErrorContextVisibility`<a id="id-1.7.3.18.3.4.1.2"></a> [#](#libpq-pqseterrorcontextvisibility) <a href="#libpq-pqseterrorcontextvisibility" id="libpq-pqseterrorcontextvisibility"></a>
 
-決定 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 與 [`PQresultErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTERRORMESSAGE) 所傳回訊息中 `CONTEXT` 欄位的處理方式。
+決定 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 與 [`PQresultErrorMessage`](libpq-exec-main.md#libpq-pqresulterrormessage) 所傳回訊息中 `CONTEXT` 欄位的處理方式。
 
 ```
 
@@ -78,7 +78,7 @@
 
 [`PQsetErrorContextVisibility`](libpq-control.md#libpq-pqseterrorcontextvisibility) 會設定上下文（context）顯示模式，並傳回該連線先前的設定。此模式控制訊息中是否包含 `CONTEXT` 欄位。*NEVER* 模式永遠不包含 `CONTEXT`，而 *ALWAYS* 模式則只要有就一律包含。在 *ERRORS* 模式（預設值）下，`CONTEXT` 欄位只包含在錯誤訊息中，不包含在通知訊息與警告中。（不過，若詳細程度設定為 *TERSE* 或 *SQLSTATE*，則不論上下文顯示模式為何，都會省略 `CONTEXT` 欄位。）
 
-變更此模式不會影響已經存在的 `PGresult` 物件中可取得的訊息，只會影響之後建立的物件。（但如果你想以不同的顯示模式印出先前的錯誤，請參閱 [`PQresultVerboseErrorMessage`](libpq-exec.md#LIBPQ-PQRESULTVERBOSEERRORMESSAGE)。）
+變更此模式不會影響已經存在的 `PGresult` 物件中可取得的訊息，只會影響之後建立的物件。（但如果你想以不同的顯示模式印出先前的錯誤，請參閱 [`PQresultVerboseErrorMessage`](libpq-exec-main.md#libpq-pqresultverboseerrormessage)。）
 
 <a id="LIBPQ-PQTRACE"></a>
 

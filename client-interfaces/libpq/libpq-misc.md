@@ -15,13 +15,13 @@
     void PQfreemem(void *ptr);
 ```
 
-釋放由 libpq 配置的記憶體，特別是由 [`PQescapeByteaConn`](libpq-exec.md#LIBPQ-PQESCAPEBYTEACONN)、[`PQescapeBytea`](libpq-exec.md#LIBPQ-PQESCAPEBYTEA)、[`PQunescapeBytea`](libpq-exec.md#LIBPQ-PQUNESCAPEBYTEA) 與 `PQnotifies` 所配置的記憶體。在 Microsoft Windows 上，使用此函式而非 `free()` 尤其重要。這是因為只有在 DLL 與應用程式的多執行緒／單執行緒、發行／除錯以及靜態／動態旗標都相同時，在 DLL 中配置記憶體再於應用程式中釋放才能正常運作。在非 Microsoft Windows 的平台上，此函式與標準函式庫函式 `free()` 相同。
+釋放由 libpq 配置的記憶體，特別是由 [`PQescapeByteaConn`](libpq-exec-escape-string.md#libpq-pqescapebyteaconn)、[`PQescapeBytea`](libpq-exec-escape-string.md#libpq-pqescapebytea)、[`PQunescapeBytea`](libpq-exec-escape-string.md#libpq-pqunescapebytea) 與 `PQnotifies` 所配置的記憶體。在 Microsoft Windows 上，使用此函式而非 `free()` 尤其重要。這是因為只有在 DLL 與應用程式的多執行緒／單執行緒、發行／除錯以及靜態／動態旗標都相同時，在 DLL 中配置記憶體再於應用程式中釋放才能正常運作。在非 Microsoft Windows 的平台上，此函式與標準函式庫函式 `free()` 相同。
 
 <a id="LIBPQ-PQCONNINFOFREE"></a>
 
 ### `PQconninfoFree`<a id="id-1.7.3.19.3.2.1.2"></a> [#](#libpq-pqconninfofree) <a href="#libpq-pqconninfofree" id="libpq-pqconninfofree"></a>
 
-釋放由 [`PQconndefaults`](libpq-connect.md#LIBPQ-PQCONNDEFAULTS) 或 [`PQconninfoParse`](libpq-connect.md#LIBPQ-PQCONNINFOPARSE) 配置的資料結構。
+釋放由 [`PQconndefaults`](libpq-connect.md#libpq-pqconndefaults) 或 [`PQconninfoParse`](libpq-connect.md#libpq-pqconninfoparse) 配置的資料結構。
 
 ```
 
@@ -66,7 +66,7 @@
 
 *`user`* 與 *`passwd`* 引數分別是目標使用者的 SQL 名稱，以及新的明文密碼。
 
-傳回一個 `PGresult` 指標，代表 `ALTER USER` 命令的結果；若此常式在發出任何命令之前就失敗，則傳回空指標。應該呼叫 [`PQresultStatus`](libpq-exec.md#LIBPQ-PQRESULTSTATUS) 函式檢查傳回值是否有任何錯誤（包括空指標的情況，此時它會傳回 `PGRES_FATAL_ERROR`）。請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得這類錯誤的更多資訊。
+傳回一個 `PGresult` 指標，代表 `ALTER USER` 命令的結果；若此常式在發出任何命令之前就失敗，則傳回空指標。應該呼叫 [`PQresultStatus`](libpq-exec-main.md#libpq-pqresultstatus) 函式檢查傳回值是否有任何錯誤（包括空指標的情況，此時它會傳回 `PGRES_FATAL_ERROR`）。請使用 [`PQerrorMessage`](libpq-status.md#libpq-pqerrormessage) 取得這類錯誤的更多資訊。
 
 <a id="LIBPQ-PQENCRYPTPASSWORD"></a>
 
@@ -92,7 +92,7 @@
     PGresult *PQmakeEmptyPGresult(PGconn *conn, ExecStatusType status);
 ```
 
-這是 libpq 用來配置並初始化空 `PGresult` 物件的內部函式。若無法配置記憶體，此函式會傳回 `NULL`。之所以將它匯出，是因為有些應用程式認為自行產生結果物件（特別是帶有錯誤狀態的物件）很有用。若 *`conn`* 不是空指標且 *`status`* 表示錯誤，則會將指定連線目前的錯誤訊息複製到該 `PGresult` 中。此外，若 *`conn`* 不是空指標，在該連線中註冊的所有事件程序都會被複製到該 `PGresult` 中。（它們不會收到 `PGEVT_RESULTCREATE` 呼叫，但請參閱 [`PQfireResultCreateEvents`](libpq-misc.md#libpq-pqfireresultcreateevents)。）請注意，最終應該對該物件呼叫 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR)，就如同對 libpq 本身傳回的 `PGresult` 一樣。
+這是 libpq 用來配置並初始化空 `PGresult` 物件的內部函式。若無法配置記憶體，此函式會傳回 `NULL`。之所以將它匯出，是因為有些應用程式認為自行產生結果物件（特別是帶有錯誤狀態的物件）很有用。若 *`conn`* 不是空指標且 *`status`* 表示錯誤，則會將指定連線目前的錯誤訊息複製到該 `PGresult` 中。此外，若 *`conn`* 不是空指標，在該連線中註冊的所有事件程序都會被複製到該 `PGresult` 中。（它們不會收到 `PGEVT_RESULTCREATE` 呼叫，但請參閱 [`PQfireResultCreateEvents`](libpq-misc.md#libpq-pqfireresultcreateevents)。）請注意，最終應該對該物件呼叫 [`PQclear`](libpq-exec-main.md#libpq-pqclear)，就如同對 libpq 本身傳回的 `PGresult` 一樣。
 
 <a id="LIBPQ-PQFIRERESULTCREATEEVENTS"></a>
 
@@ -115,7 +115,7 @@
 
 ### `PQcopyResult`<a id="id-1.7.3.19.3.8.1.2"></a> [#](#libpq-pqcopyresult) <a href="#libpq-pqcopyresult" id="libpq-pqcopyresult"></a>
 
-製作 `PGresult` 物件的複本。該複本與來源結果之間沒有任何關聯，不再需要該複本時必須呼叫 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR)。若函式失敗，則傳回 `NULL`。
+製作 `PGresult` 物件的複本。該複本與來源結果之間沒有任何關聯，不再需要該複本時必須呼叫 [`PQclear`](libpq-exec-main.md#libpq-pqclear)。若函式失敗，則傳回 `NULL`。
 
 ```
 
@@ -148,7 +148,7 @@
     int PQsetvalue(PGresult *res, int tup_num, int field_num, char *value, int len);
 ```
 
-此函式會視需要自動擴增結果內部的元組陣列。不過，*`tup_num`* 引數必須小於或等於 [`PQntuples`](libpq-exec.md#LIBPQ-PQNTUPLES)，這表示此函式一次只能將元組陣列擴增一個元組。但任何既有元組的任何欄位都可以依任意順序修改。若 *`field_num`* 位置已經有值，該值會被覆寫。若 *`len`* 為 -1 或 *`value`* 為 `NULL`，欄位值會被設為 SQL 空值。*`value`* 會被複製到結果的私有儲存空間中，因此函式返回後就不再需要它。若函式失敗，傳回值為零；若函式成功，傳回值為非零。
+此函式會視需要自動擴增結果內部的元組陣列。不過，*`tup_num`* 引數必須小於或等於 [`PQntuples`](libpq-exec-select-info.md#libpq-pqntuples)，這表示此函式一次只能將元組陣列擴增一個元組。但任何既有元組的任何欄位都可以依任意順序修改。若 *`field_num`* 位置已經有值，該值會被覆寫。若 *`len`* 為 -1 或 *`value`* 為 `NULL`，欄位值會被設為 SQL 空值。*`value`* 會被複製到結果的私有儲存空間中，因此函式返回後就不再需要它。若函式失敗，傳回值為零；若函式成功，傳回值為非零。
 
 <a id="LIBPQ-PQRESULTALLOC"></a>
 
@@ -174,7 +174,7 @@
     size_t PQresultMemorySize(const PGresult *res);
 ```
 
-這個值是與該 `PGresult` 物件相關聯的所有 `malloc` 請求的總和，也就是 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 將會釋放的所有記憶體。此資訊可用於管理記憶體用量。
+這個值是與該 `PGresult` 物件相關聯的所有 `malloc` 請求的總和，也就是 [`PQclear`](libpq-exec-main.md#libpq-pqclear) 將會釋放的所有記憶體。此資訊可用於管理記憶體用量。
 
 <a id="LIBPQ-PQLIBVERSION"></a>
 
@@ -187,7 +187,7 @@
     int PQlibVersion(void);
 ```
 
-此函式的結果可用來在執行時判斷目前載入的 libpq 版本是否提供特定功能。例如，可以用此函式判斷 [`PQconnectdb`](libpq-connect.md#LIBPQ-PQCONNECTDB) 可使用哪些連線選項。
+此函式的結果可用來在執行時判斷目前載入的 libpq 版本是否提供特定功能。例如，可以用此函式判斷 [`PQconnectdb`](libpq-connect.md#libpq-pqconnectdb) 可使用哪些連線選項。
 
 結果的組成方式是將函式庫的主要版本號乘以 10000，再加上次要版本號。例如，版本 10.1 會傳回 100001，版本 11.0 會傳回 110000。
 
@@ -210,7 +210,7 @@
     pg_usec_time_t PQgetCurrentTimeUSec(void);
 ```
 
-這主要用於計算要搭配 [`PQsocketPoll`](libpq-connect.md#LIBPQ-PQSOCKETPOLL) 使用的逾時值。
+這主要用於計算要搭配 [`PQsocketPoll`](libpq-connect.md#libpq-pqsocketpoll) 使用的逾時值。
 
 ---
 

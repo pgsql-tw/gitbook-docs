@@ -31,7 +31,7 @@ mode）下使用
 [`PQgetResult`](libpq-async.md#libpq-pqgetresult)，直到它傳回 null 為止。）所有
 這些 `PGresult` 物件都會包含與該查詢的一般
 `PGresult` 物件相同的資料列描述資料（欄位名稱、型別等）。
-每個物件都應該照常以 [`PQclear`](libpq-exec.md#LIBPQ-PQCLEAR) 釋放。
+每個物件都應該照常以 [`PQclear`](libpq-exec-main.md#libpq-pqclear) 釋放。
 
 使用管線模式時，必須先對管線中的每個查詢啟用單列或分塊模式，
 再以 `PQgetResult` 取得該查詢的結果。

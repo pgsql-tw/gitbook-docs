@@ -11,7 +11,7 @@
 有效使用者的家目錄。在 Microsoft Windows 上，此檔案名為
 `%APPDATA%\postgresql\pgpass.conf`（其中
 `%APPDATA%` 指的是使用者設定檔中的 Application Data 子目錄）。
-另外，也可以使用連線參數 [passfile](libpq-connect.md#LIBPQ-CONNECT-PASSFILE)
+另外，也可以使用連線參數 [passfile](libpq-paramkeywords.md#libpq-connect-passfile)
 或環境變數 `PGPASSFILE` 指定要使用的密碼檔。
 
 此檔案應該包含下列格式的行：

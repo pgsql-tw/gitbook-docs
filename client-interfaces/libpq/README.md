@@ -5,20 +5,20 @@
 **目錄**
 
 - [32.1. 資料庫連線控制函式](libpq-connect.md)
-  - [32.1.1. 連線字串](libpq-connect.md#libpq-connstring)
+  - [32.1.1. 連線字串](libpq-connstring.md#libpq-connstring)
 
-  - [32.1.2. 參數關鍵字](libpq-connect.md#libpq-paramkeywords)
+  - [32.1.2. 參數關鍵字](libpq-paramkeywords.md#libpq-paramkeywords)
 
 - [32.2. 連線狀態函式](libpq-status.md)
 
 - [32.3. 命令執行函式](libpq-exec.md)
-  - [32.3.1. 主要函式](libpq-exec.md#libpq-exec-main)
+  - [32.3.1. 主要函式](libpq-exec-main.md#libpq-exec-main)
 
-  - [32.3.2. 取得查詢結果資訊](libpq-exec.md#libpq-exec-select-info)
+  - [32.3.2. 取得查詢結果資訊](libpq-exec-select-info.md#libpq-exec-select-info)
 
-  - [32.3.3. 取得其他結果資訊](libpq-exec.md#libpq-exec-nonselect)
+  - [32.3.3. 取得其他結果資訊](libpq-exec-nonselect.md#libpq-exec-nonselect)
 
-  - [32.3.4. 跳脫要放入 SQL 命令中的字串](libpq-exec.md#libpq-exec-escape-string)
+  - [32.3.4. 跳脫要放入 SQL 命令中的字串](libpq-exec-escape-string.md#libpq-exec-escape-string)
 
 - [32.4. 非同步命令處理](libpq-async.md)
 

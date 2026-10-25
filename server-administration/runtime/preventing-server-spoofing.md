@@ -23,7 +23,7 @@
 `/tmp` 的清理指令碼，以防止該符號連結被移除。
 
 針對 `local` 連線，另一個選項，是讓用戶端使用
-[`requirepeer`](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-REQUIREPEER)，
+[`requirepeer`](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-requirepeer)，
 指定連線至該 socket 的伺服器程序必須屬於的擁有者。
 
 若要防止 TCP 連線遭到偽造，可以使用 SSL 憑證，
@@ -38,7 +38,7 @@ TCP 用戶端必須使用 `sslmode=verify-ca` 或
 （[32.19.1 節](../../client-interfaces/libpq/libpq-ssl.md#libq-ssl-certificates)）。
 或者，也可以透過 `sslrootcert=system`，
 使用 SSL 實作所定義的
-[系統 CA 集區](../../client-interfaces/libpq/libpq-connect.md#LIBPQ-CONNECT-SSLROOTCERT)；
+[系統 CA 集區](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-sslrootcert)；
 在這種情況下，為了安全起見，會強制採用
 `sslmode=verify-full`，因為要取得由公開 CA
 所簽署的憑證，通常相當容易。
