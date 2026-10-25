@@ -1,6 +1,6 @@
 <a id="PLPYTHON-DATABASE"></a>
 
-## 44.6. 資料庫存取 [#](#PLPYTHON-DATABASE)
+## 44.6. 資料庫存取 [#](#plpython-database) <a href="#plpython-database" id="plpython-database"></a>
 
 [44.6.1. 資料庫存取函式](plpython-database.md#PLPYTHON-DATABASE-ACCESS-FUNCS)
 

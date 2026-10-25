@@ -1,5 +1,5 @@
 <a id="LOGICALDECODING-EXPLANATION"></a>
-## 47.2. 邏輯解碼概念 [#](#LOGICALDECODING-EXPLANATION)
+## 47.2. 邏輯解碼概念 [#](#logicaldecoding-explanation) <a href="#logicaldecoding-explanation" id="logicaldecoding-explanation"></a>
 
 [47.2.1. 邏輯解碼](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-LOG-DEC)
 

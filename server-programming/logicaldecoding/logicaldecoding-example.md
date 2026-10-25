@@ -1,5 +1,5 @@
 <a id="LOGICALDECODING-EXAMPLE"></a>
-## 47.1. 邏輯解碼範例 [#](#LOGICALDECODING-EXAMPLE)
+## 47.1. 邏輯解碼範例 [#](#logicaldecoding-example) <a href="#logicaldecoding-example" id="logicaldecoding-example"></a>
 
 以下範例示範如何使用 SQL 介面控制邏輯解碼。
 

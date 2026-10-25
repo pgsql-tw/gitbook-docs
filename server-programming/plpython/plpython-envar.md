@@ -1,6 +1,6 @@
 <a id="PLPYTHON-ENVAR"></a>
 
-## 44.11. 環境變數 [#](#PLPYTHON-ENVAR)
+## 44.11. 環境變數 [#](#plpython-envar) <a href="#plpython-envar" id="plpython-envar"></a>
 
 Python 直譯器接受的部分環境變數，也能用來影響 PL/Python 的行為。這些變數必須設於 PostgreSQL 主伺服器程序的環境中，例如在啟動指令碼內設定。可用的環境變數取決於 Python 版本；詳情請參閱 Python 文件。在撰寫本文時，若 Python 版本適當，下列環境變數會影響 PL/Python：
 

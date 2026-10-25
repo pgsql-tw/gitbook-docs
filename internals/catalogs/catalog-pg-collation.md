@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-COLLATION"></a>
 
-## 52.12. `pg_collation` [#](#CATALOG-PG-COLLATION)
+## 52.12. `pg_collation` [#](#catalog-pg-collation) <a href="#catalog-pg-collation" id="catalog-pg-collation"></a>
 
 <a id="id-1.10.4.14.2"></a>
 

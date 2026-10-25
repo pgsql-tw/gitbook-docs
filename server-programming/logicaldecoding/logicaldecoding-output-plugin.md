@@ -1,5 +1,5 @@
 <a id="LOGICALDECODING-OUTPUT-PLUGIN"></a>
-## 47.6. 邏輯解碼輸出外掛程式 [#](#LOGICALDECODING-OUTPUT-PLUGIN)
+## 47.6. 邏輯解碼輸出外掛程式 [#](#logicaldecoding-output-plugin) <a href="#logicaldecoding-output-plugin" id="logicaldecoding-output-plugin"></a>
 
 [47.6.1. 初始化函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-INIT)
 

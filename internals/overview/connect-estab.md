@@ -1,6 +1,6 @@
 <a id="CONNECT-ESTAB"></a>
 
-## 51.2. 如何建立連線 [#](#CONNECT-ESTAB)
+## 51.2. 如何建立連線 [#](#connect-estab) <a href="#connect-estab" id="connect-estab"></a>
 
 PostgreSQL 實作的是「每個使用者一個程序」的用戶端／伺服器模型。在這個模型中，每個[*[用戶端程序](../../appendixes/glossary/README.md#GLOSSARY-CLIENT)*](../../appendixes/glossary/README.md#GLOSSARY-CLIENT)都恰好連線到一個[*[後端程序](../../appendixes/glossary/README.md#GLOSSARY-BACKEND)*](../../appendixes/glossary/README.md#GLOSSARY-BACKEND)。由於我們無法事先知道會建立多少個連線，因此必須使用一個「監督程序」，在每次有連線請求時產生一個新的後端程序。這個監督程序稱為 [*[postmaster](../../appendixes/glossary/README.md#GLOSSARY-POSTMASTER)*](../../appendixes/glossary/README.md#GLOSSARY-POSTMASTER)，它會在指定的 TCP/IP 通訊埠上監聽傳入的連線。每當偵測到連線請求時，它就會產生一個新的後端程序。這些後端程序彼此之間，以及與[*[執行個體](../../appendixes/glossary/README.md#GLOSSARY-INSTANCE)*](../../appendixes/glossary/README.md#GLOSSARY-INSTANCE)的其他程序之間，會使用*號誌（semaphore）*與[*[共享記憶體](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)*](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)進行通訊，以確保並行存取資料時的資料完整性。
 

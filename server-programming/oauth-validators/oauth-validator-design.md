@@ -1,5 +1,5 @@
 <a id="OAUTH-VALIDATOR-DESIGN"></a>
-## 50.1. 安全地設計驗證器模組 [#](#OAUTH-VALIDATOR-DESIGN)
+## 50.1. 安全地設計驗證器模組 [#](#oauth-validator-design) <a href="#oauth-validator-design" id="oauth-validator-design"></a>
 
 [50.1.1. 驗證器的職責](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
 

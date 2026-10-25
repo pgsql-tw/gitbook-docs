@@ -1,5 +1,5 @@
 <a id="LOGICALDECODING-SYNCHRONOUS"></a>
-## 47.8. 邏輯解碼的同步複寫支援 [#](#LOGICALDECODING-SYNCHRONOUS)
+## 47.8. 邏輯解碼的同步複寫支援 [#](#logicaldecoding-synchronous) <a href="#logicaldecoding-synchronous" id="logicaldecoding-synchronous"></a>
 
 [47.8.1. 概觀](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-OVERVIEW)
 

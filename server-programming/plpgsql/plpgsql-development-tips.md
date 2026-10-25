@@ -46,108 +46,117 @@ $PROC$ LANGUAGE plpgsql;
 <a id="PLPGSQL-QUOTE-TIPS-1-QUOT"></a>
 
 1 個引號 [#](#PLPGSQL-QUOTE-TIPS-1-QUOT)
-:   用來開始與結束函式本體，例如：
 
-    ```
+用來開始與結束函式本體，例如：
+
+```
 
     CREATE FUNCTION foo() RETURNS integer AS '
               ....
     ' LANGUAGE plpgsql;
-    ```
+```
 
-    在以單引號括住的函式本體中，任何位置的引號*都必須*成對出現。
+在以單引號括住的函式本體中，任何位置的引號*都必須*成對出現。
+
 <a id="PLPGSQL-QUOTE-TIPS-2-QUOT"></a>
 
 2 個引號 [#](#PLPGSQL-QUOTE-TIPS-2-QUOT)
-:   用於函式本體內的字串常數，例如：
 
-    ```
+用於函式本體內的字串常數，例如：
+
+```
 
     a_output := ''Blah'';
     SELECT * FROM users WHERE f_name=''foobar'';
-    ```
+```
 
-    在錢字號引用的做法中，你只要寫成：
+在錢字號引用的做法中，你只要寫成：
 
-    ```
+```
 
     a_output := 'Blah';
     SELECT * FROM users WHERE f_name='foobar';
-    ```
+```
 
-    這正是 PL/pgSQL 剖析器在兩種情況下所看到的內容。
+這正是 PL/pgSQL 剖析器在兩種情況下所看到的內容。
+
 <a id="PLPGSQL-QUOTE-TIPS-4-QUOT"></a>
 
 4 個引號 [#](#PLPGSQL-QUOTE-TIPS-4-QUOT)
-:   當你需要在函式本體內的字串常數中放入一個單引號時，例如：
 
-    ```
+當你需要在函式本體內的字串常數中放入一個單引號時，例如：
+
+```
 
     a_output := a_output || '' AND name LIKE ''''foobar'''' AND xyz''
-    ```
+```
 
-    實際附加到 `a_output` 的值會是：
-     `AND name LIKE 'foobar' AND xyz`。
+實際附加到 `a_output` 的值會是：
+ `AND name LIKE 'foobar' AND xyz`。
 
-    在錢字號引用的做法中，你會寫成：
+在錢字號引用的做法中，你會寫成：
 
-    ```
+```
 
     a_output := a_output || $$ AND name LIKE 'foobar' AND xyz$$
-    ```
+```
 
-    但要注意，包住這段內容的錢字號引用分隔字串不能剛好是 `$$`。
+但要注意，包住這段內容的錢字號引用分隔字串不能剛好是 `$$`。
+
 <a id="PLPGSQL-QUOTE-TIPS-6-QUOT"></a>
 
 6 個引號 [#](#PLPGSQL-QUOTE-TIPS-6-QUOT)
-:   當函式本體內某個字串中的單引號緊接在該字串常數的結尾時，例如：
 
-    ```
+當函式本體內某個字串中的單引號緊接在該字串常數的結尾時，例如：
+
+```
 
     a_output := a_output || '' AND name LIKE ''''foobar''''''
-    ```
+```
 
-    此時附加到 `a_output` 的值會是：
-     `AND name LIKE 'foobar'`。
+此時附加到 `a_output` 的值會是：
+ `AND name LIKE 'foobar'`。
 
-    在錢字號引用的做法中，這會變成：
+在錢字號引用的做法中，這會變成：
 
-    ```
+```
 
     a_output := a_output || $$ AND name LIKE 'foobar'$$
-    ```
+```
+
 <a id="PLPGSQL-QUOTE-TIPS-10-QUOT"></a>
 
 10 個引號 [#](#PLPGSQL-QUOTE-TIPS-10-QUOT)
-:   當你想在字串常數中放入兩個單引號（這占了 8 個引號），而且它緊接在該字串常數的結尾時（再加 2 個）。你大概只有在撰寫會產生其他函式的函式時才會需要這樣做，就像[範例 41.10](plpgsql-porting.md#PLPGSQL-PORTING-EX2) 那樣。例如：
 
-    ```
+當你想在字串常數中放入兩個單引號（這占了 8 個引號），而且它緊接在該字串常數的結尾時（再加 2 個）。你大概只有在撰寫會產生其他函式的函式時才會需要這樣做，就像[範例 41.10](plpgsql-porting.md#PLPGSQL-PORTING-EX2) 那樣。例如：
+
+```
 
     a_output := a_output || '' if v_'' ||
         referrer_keys.kind || '' like ''''''''''
         || referrer_keys.key_string || ''''''''''
         then return ''''''  || referrer_keys.referrer_type
         || ''''''; end if;'';
-    ```
+```
 
-    此時 `a_output` 的值會是：
+此時 `a_output` 的值會是：
 
-    ```
+```
 
     if v_... like ''...'' then return ''...''; end if;
-    ```
+```
 
-    在錢字號引用的做法中，這會變成：
+在錢字號引用的做法中，這會變成：
 
-    ```
+```
 
     a_output := a_output || $$ if v_$$ || referrer_keys.kind || $$ like '$$
         || referrer_keys.key_string || $$'
         then return '$$  || referrer_keys.referrer_type
         || $$'; end if;$$;
-    ```
+```
 
-    這裡我們假設只需要把單引號放進 `a_output` 中，因為它在使用前還會再被重新加上引號。
+這裡我們假設只需要把單引號放進 `a_output` 中，因為它在使用前還會再被重新加上引號。
 
 <a id="PLPGSQL-EXTRA-CHECKS"></a>
 
@@ -162,15 +171,20 @@ $PROC$ LANGUAGE plpgsql;
 <a id="PLPGSQL-EXTRA-CHECKS-SHADOWED-VARIABLES"></a>
 
 `shadowed_variables` [#](#PLPGSQL-EXTRA-CHECKS-SHADOWED-VARIABLES)
-:   檢查某個宣告是否遮蔽了先前已定義的變數。
+
+檢查某個宣告是否遮蔽了先前已定義的變數。
+
 <a id="PLPGSQL-EXTRA-CHECKS-STRICT-MULTI-ASSIGNMENT"></a>
 
 `strict_multi_assignment` [#](#PLPGSQL-EXTRA-CHECKS-STRICT-MULTI-ASSIGNMENT)
-:   有些 PL/pgSQL 指令允許一次指派值給多個變數，例如 `SELECT INTO`。一般來說，目標變數的數量與來源變數的數量應該要相符，不過 PL/pgSQL 會對缺少的值使用 `NULL`，並忽略多餘的變數。啟用這項檢查會使 PL/pgSQL 在目標變數數量與來源變數數量不同時拋出 `WARNING` 或 `ERROR`。
+
+有些 PL/pgSQL 指令允許一次指派值給多個變數，例如 `SELECT INTO`。一般來說，目標變數的數量與來源變數的數量應該要相符，不過 PL/pgSQL 會對缺少的值使用 `NULL`，並忽略多餘的變數。啟用這項檢查會使 PL/pgSQL 在目標變數數量與來源變數數量不同時拋出 `WARNING` 或 `ERROR`。
+
 <a id="PLPGSQL-EXTRA-CHECKS-TOO-MANY-ROWS"></a>
 
 `too_many_rows` [#](#PLPGSQL-EXTRA-CHECKS-TOO-MANY-ROWS)
-:   啟用這項檢查會使 PL/pgSQL 在使用 `INTO` 子句時，檢查指定的查詢是否回傳超過一筆資料列。由於 `INTO` 陳述式永遠只會用到一筆資料列，讓查詢回傳多筆資料列通常可能效率不彰、結果不確定，或兩者兼具，因此很可能是個錯誤。
+
+啟用這項檢查會使 PL/pgSQL 在使用 `INTO` 子句時，檢查指定的查詢是否回傳超過一筆資料列。由於 `INTO` 陳述式永遠只會用到一筆資料列，讓查詢回傳多筆資料列通常可能效率不彰、結果不確定，或兩者兼具，因此很可能是個錯誤。
 
 下面的例子顯示把 `plpgsql.extra_warnings` 設為 `shadowed_variables` 的效果：
 

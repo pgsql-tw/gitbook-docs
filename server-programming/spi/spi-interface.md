@@ -1,6 +1,6 @@
 <a id="SPI-INTERFACE"></a>
 
-## 45.1. 介面函式 [#](#SPI-INTERFACE)
+## 45.1. 介面函式 [#](#spi-interface) <a href="#spi-interface" id="spi-interface"></a>
 
 [SPI_connect](spi-spi-connect.md) — 將 C 函式連線到 SPI 管理器
 

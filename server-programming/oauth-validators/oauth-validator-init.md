@@ -1,5 +1,5 @@
 <a id="OAUTH-VALIDATOR-INIT"></a>
-## 50.2. 初始化函式 [#](#OAUTH-VALIDATOR-INIT)
+## 50.2. 初始化函式 [#](#oauth-validator-init) <a href="#oauth-validator-init" id="oauth-validator-init"></a>
 
 <a id="id-1.8.17.7.2"></a>
 

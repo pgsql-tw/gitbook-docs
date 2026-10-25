@@ -1,6 +1,6 @@
 <a id="PLPYTHON-UTIL"></a>
 
-## 44.9. 公用函式 [#](#PLPYTHON-UTIL)
+## 44.9. 公用函式 [#](#plpython-util) <a href="#plpython-util" id="plpython-util"></a>
 
 `plpy` 模組還提供了下列函式
 

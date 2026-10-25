@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-AGGREGATE"></a>
 
-## 52.2. `pg_aggregate` [#](#CATALOG-PG-AGGREGATE)
+## 52.2. `pg_aggregate` [#](#catalog-pg-aggregate) <a href="#catalog-pg-aggregate" id="catalog-pg-aggregate"></a>
 
 <a id="id-1.10.4.4.2"></a>
 

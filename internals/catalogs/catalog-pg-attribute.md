@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-ATTRIBUTE"></a>
 
-## 52.7. `pg_attribute` [#](#CATALOG-PG-ATTRIBUTE)
+## 52.7. `pg_attribute` [#](#catalog-pg-attribute) <a href="#catalog-pg-attribute" id="catalog-pg-attribute"></a>
 
 <a id="id-1.10.4.9.2"></a>
 

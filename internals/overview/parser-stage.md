@@ -1,6 +1,6 @@
 <a id="PARSER-STAGE"></a>
 
-## 51.3. 剖析器階段 [#](#PARSER-STAGE)
+## 51.3. 剖析器階段 [#](#parser-stage) <a href="#parser-stage" id="parser-stage"></a>
 
 [51.3.1. 剖析器](parser-stage.md#PARSER-STAGE-PARSER)
 

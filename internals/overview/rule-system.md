@@ -1,6 +1,6 @@
 <a id="RULE-SYSTEM"></a>
 
-## 51.4. PostgreSQL 規則系統 [#](#RULE-SYSTEM)
+## 51.4. PostgreSQL 規則系統 [#](#rule-system) <a href="#rule-system" id="rule-system"></a>
 
 PostgreSQL 支援強大的*規則系統*，可用來定義*檢視表*與模稜兩可的*檢視表更新*。
 最初 PostgreSQL 規則系統有兩種實作：

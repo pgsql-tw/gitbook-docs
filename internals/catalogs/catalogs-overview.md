@@ -1,6 +1,6 @@
 <a id="CATALOGS-OVERVIEW"></a>
 
-## 52.1. 概觀 [#](#CATALOGS-OVERVIEW)
+## 52.1. 概觀 [#](#catalogs-overview) <a href="#catalogs-overview" id="catalogs-overview"></a>
 
 [表 52.1](catalogs-overview.md#CATALOG-TABLE) 列出系統目錄。後文接著提供每個目錄更詳細的說明。
 

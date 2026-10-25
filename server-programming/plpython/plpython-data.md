@@ -155,9 +155,10 @@ CREATE TYPE named_value AS (
 複合型別的結果可以用下列形式回傳：
 
 序列型別（tuple 或 list，但不能是 set，因為它無法以索引存取）
-:   回傳的序列物件所含的項目數量，必須與複合結果型別的欄位數量相同。索引 0 的項目會指派給複合型別的第一個欄位，1 指派給第二個，依此類推。例如：
 
-    ```
+回傳的序列物件所含的項目數量，必須與複合結果型別的欄位數量相同。索引 0 的項目會指派給複合型別的第一個欄位，1 指派給第二個，依此類推。例如：
+
+```
 
     CREATE FUNCTION make_pair (name text, value integer)
       RETURNS named_value
@@ -165,30 +166,32 @@ CREATE TYPE named_value AS (
       return ( name, value )
       # or alternatively, as list: return [ name, value ]
     $$ LANGUAGE plpython3u;
-    ```
+```
 
-    若要讓某個欄位回傳 SQL 的 NULL，就在對應的位置放入 `None`。
+若要讓某個欄位回傳 SQL 的 NULL，就在對應的位置放入 `None`。
 
-    當要回傳複合型別的陣列時，不能以 list 的形式回傳，因為這樣會無法分辨該 Python list 代表的是複合型別還是另一個陣列維度。
+當要回傳複合型別的陣列時，不能以 list 的形式回傳，因為這樣會無法分辨該 Python list 代表的是複合型別還是另一個陣列維度。
 
 映射（字典）
-:   結果型別中每個欄位的值，會以欄位名稱為鍵從該映射中取得。例如：
 
-    ```
+結果型別中每個欄位的值，會以欄位名稱為鍵從該映射中取得。例如：
+
+```
 
     CREATE FUNCTION make_pair (name text, value integer)
       RETURNS named_value
     AS $$
       return { "name": name, "value": value }
     $$ LANGUAGE plpython3u;
-    ```
+```
 
-    字典中任何多餘的鍵／值配對都會被忽略，而缺少的鍵則會被視為錯誤。若要讓某個欄位回傳 SQL 的 NULL 值，就以對應的欄位名稱為鍵放入 `None`。
+字典中任何多餘的鍵／值配對都會被忽略，而缺少的鍵則會被視為錯誤。若要讓某個欄位回傳 SQL 的 NULL 值，就以對應的欄位名稱為鍵放入 `None`。
 
 物件（任何提供 `__getattr__` 方法的物件）
-:   其運作方式與映射相同。例如：
 
-    ```
+其運作方式與映射相同。例如：
+
+```
 
     CREATE FUNCTION make_pair (name text, value integer)
       RETURNS named_value
@@ -205,7 +208,7 @@ CREATE TYPE named_value AS (
       nv.value = value
       return nv
     $$ LANGUAGE plpython3u;
-    ```
+```
 
 帶有 `OUT` 參數的函式同樣也受支援。例如：
 
@@ -246,7 +249,8 @@ CREATE TYPE greeting AS (
 集合結果可以從下列形式回傳：
 
 序列型別（tuple、list、set）
-:   ```
+
+```
 
     CREATE FUNCTION greet (how text)
       RETURNS SETOF greeting
@@ -255,10 +259,11 @@ CREATE TYPE greeting AS (
       # all other combinations work also
       return ( [ how, "World" ], [ how, "PostgreSQL" ], [ how, "PL/Python" ] )
     $$ LANGUAGE plpython3u;
-    ```
+```
 
 迭代器（任何提供 `__iter__` 與 `__next__` 方法的物件）
-:   ```
+
+```
 
     CREATE FUNCTION greet (how text)
       RETURNS SETOF greeting
@@ -280,10 +285,11 @@ CREATE TYPE greeting AS (
 
       return producer(how, [ "World", "PostgreSQL", "PL/Python" ])
     $$ LANGUAGE plpython3u;
-    ```
+```
 
 產生器（`yield`）
-:   ```
+
+```
 
     CREATE FUNCTION greet (how text)
       RETURNS SETOF greeting
@@ -291,7 +297,7 @@ CREATE TYPE greeting AS (
       for who in [ "World", "PostgreSQL", "PL/Python" ]:
         yield ( how, who )
     $$ LANGUAGE plpython3u;
-    ```
+```
 
 帶有 `OUT` 參數（使用 `RETURNS SETOF record`）的集合回傳函式同樣也受支援。例如：
 

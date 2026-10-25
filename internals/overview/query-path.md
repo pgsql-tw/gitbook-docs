@@ -1,6 +1,6 @@
 <a id="QUERY-PATH"></a>
 
-## 51.1. 查詢的路徑 [#](#QUERY-PATH)
+## 51.1. 查詢的路徑 [#](#query-path) <a href="#query-path" id="query-path"></a>
 
 這裡簡短概述一個查詢為了取得結果所必須經過的各個階段。
 

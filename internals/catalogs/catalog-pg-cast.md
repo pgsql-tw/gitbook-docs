@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-CAST"></a>
 
-## 52.10. `pg_cast` [#](#CATALOG-PG-CAST)
+## 52.10. `pg_cast` [#](#catalog-pg-cast) <a href="#catalog-pg-cast" id="catalog-pg-cast"></a>
 
 <a id="id-1.10.4.12.2"></a>
 

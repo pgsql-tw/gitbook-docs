@@ -1,5 +1,5 @@
 <a id="LOGICALDECODING-TWO-PHASE-COMMITS"></a>
-## 47.10. 邏輯解碼的兩階段提交支援 [#](#LOGICALDECODING-TWO-PHASE-COMMITS)
+## 47.10. 邏輯解碼的兩階段提交支援 [#](#logicaldecoding-two-phase-commits) <a href="#logicaldecoding-two-phase-commits" id="logicaldecoding-two-phase-commits"></a>
 
 若只使用基本的輸出外掛程式回呼函式（例如 `begin_cb`、`change_cb`、`commit_cb` 與 `message_cb`），則不會解碼像 `PREPARE TRANSACTION`、`COMMIT PREPARED` 與 `ROLLBACK PREPARED` 這樣的兩階段提交命令。`PREPARE TRANSACTION` 會被忽略，而 `COMMIT PREPARED` 會被解碼為 `COMMIT`，`ROLLBACK PREPARED` 則會被解碼為 `ROLLBACK`。
 

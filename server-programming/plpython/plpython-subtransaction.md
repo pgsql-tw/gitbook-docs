@@ -1,6 +1,6 @@
 <a id="PLPYTHON-SUBTRANSACTION"></a>
 
-## 44.7. 明確的子交易 [#](#PLPYTHON-SUBTRANSACTION)
+## 44.7. 明確的子交易 [#](#plpython-subtransaction) <a href="#plpython-subtransaction" id="plpython-subtransaction"></a>
 
 [44.7.1. 子交易情境管理器](plpython-subtransaction.md#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
 

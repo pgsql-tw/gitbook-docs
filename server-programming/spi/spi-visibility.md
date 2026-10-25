@@ -1,6 +1,6 @@
 <a id="SPI-VISIBILITY"></a>
 
-## 45.5. 資料變更的可見性 [#](#SPI-VISIBILITY)
+## 45.5. 資料變更的可見性 [#](#spi-visibility) <a href="#spi-visibility" id="spi-visibility"></a>
 
 在使用 SPI 的函式（或任何其他 C 函式）中，資料變更的可見性由以下規則決定：
 

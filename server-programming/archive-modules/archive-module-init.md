@@ -1,6 +1,6 @@
 <a id="ARCHIVE-MODULE-INIT"></a>
 
-## 49.1. 初始化函式 [#](#ARCHIVE-MODULE-INIT)
+## 49.1. 初始化函式 [#](#archive-module-init) <a href="#archive-module-init" id="archive-module-init"></a>
 
 <a id="id-1.8.16.7.2"></a>
 

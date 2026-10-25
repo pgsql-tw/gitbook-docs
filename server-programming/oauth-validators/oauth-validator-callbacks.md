@@ -1,5 +1,5 @@
 <a id="OAUTH-VALIDATOR-CALLBACKS"></a>
-## 50.3. OAuth 驗證器回呼函式 [#](#OAUTH-VALIDATOR-CALLBACKS)
+## 50.3. OAuth 驗證器回呼函式 [#](#oauth-validator-callbacks) <a href="#oauth-validator-callbacks" id="oauth-validator-callbacks"></a>
 
 [50.3.1. 啟動回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-STARTUP)
 

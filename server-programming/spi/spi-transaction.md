@@ -1,6 +1,6 @@
 <a id="SPI-TRANSACTION"></a>
 
-## 45.4. 交易管理 [#](#SPI-TRANSACTION)
+## 45.4. 交易管理 [#](#spi-transaction) <a href="#spi-transaction" id="spi-transaction"></a>
 
 [SPI_commit](spi-spi-commit.md) — 提交目前交易
 

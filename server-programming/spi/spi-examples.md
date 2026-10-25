@@ -1,6 +1,6 @@
 <a id="SPI-EXAMPLES"></a>
 
-## 45.6. 範例 [#](#SPI-EXAMPLES)
+## 45.6. 範例 [#](#spi-examples) <a href="#spi-examples" id="spi-examples"></a>
 
 本節包含一個非常簡單的 SPI 使用範例。C 函式 `execq` 的第一個引數是一個 SQL 指令，第二個引數是資料列筆數，它會使用 `SPI_exec` 執行該指令，並回傳該指令所處理的資料列筆數。你可以在原始程式碼樹中的 `src/test/regress/regress.c` 以及 [spi](../../appendixes/contrib/contrib-spi.md) 模組裡，找到更複雜的 SPI 範例。
 

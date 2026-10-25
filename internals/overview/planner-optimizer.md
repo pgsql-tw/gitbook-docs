@@ -1,6 +1,6 @@
 <a id="PLANNER-OPTIMIZER"></a>
 
-## 51.5. 規劃器／最佳化器 [#](#PLANNER-OPTIMIZER)
+## 51.5. 規劃器／最佳化器 [#](#planner-optimizer) <a href="#planner-optimizer" id="planner-optimizer"></a>
 
 [51.5.1. 產生可能的計畫](planner-optimizer.md#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
 

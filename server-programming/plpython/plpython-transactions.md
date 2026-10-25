@@ -1,6 +1,6 @@
 <a id="PLPYTHON-TRANSACTIONS"></a>
 
-## 44.8. 交易管理 [#](#PLPYTHON-TRANSACTIONS)
+## 44.8. 交易管理 [#](#plpython-transactions) <a href="#plpython-transactions" id="plpython-transactions"></a>
 
 從最上層呼叫的程序或匿名程式碼區塊（`DO` 命令）可以控制交易。呼叫 `plpy.commit()` 可提交目前的交易，呼叫 `plpy.rollback()` 可回復目前的交易。（請注意，不能透過 `plpy.execute` 或類似方式執行 SQL 命令 `COMMIT` 或 `ROLLBACK`，必須使用這些函式。）交易結束後會自動開始新交易，因此沒有另外提供用來開始交易的函式。
 

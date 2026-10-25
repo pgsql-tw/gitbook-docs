@@ -1,6 +1,6 @@
 <a id="LOGICALDECODING-WALSENDER"></a>
 
-## 47.3. 串流複寫協定介面 [#](#LOGICALDECODING-WALSENDER)
+## 47.3. 串流複寫協定介面 [#](#logicaldecoding-walsender) <a href="#logicaldecoding-walsender" id="logicaldecoding-walsender"></a>
 
 下列命令：
 

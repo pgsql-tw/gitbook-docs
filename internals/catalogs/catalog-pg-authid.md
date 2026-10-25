@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-AUTHID"></a>
 
-## 52.8. `pg_authid` [#](#CATALOG-PG-AUTHID)
+## 52.8. `pg_authid` [#](#catalog-pg-authid) <a href="#catalog-pg-authid" id="catalog-pg-authid"></a>
 
 <a id="id-1.10.4.10.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-AUTH-MEMBERS"></a>
 
-## 52.9. `pg_auth_members` [#](#CATALOG-PG-AUTH-MEMBERS)
+## 52.9. `pg_auth_members` [#](#catalog-pg-auth-members) <a href="#catalog-pg-auth-members" id="catalog-pg-auth-members"></a>
 
 <a id="id-1.10.4.11.2"></a>
 

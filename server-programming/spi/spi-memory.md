@@ -1,6 +1,6 @@
 <a id="SPI-MEMORY"></a>
 
-## 45.3. 記憶體管理 [#](#SPI-MEMORY)
+## 45.3. 記憶體管理 [#](#spi-memory) <a href="#spi-memory" id="spi-memory"></a>
 
 [SPI_palloc](spi-spi-palloc.md) — 在上層執行器記憶體內容中配置記憶體
 

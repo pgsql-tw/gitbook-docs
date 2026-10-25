@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-ATTRDEF"></a>
 
-## 52.6. `pg_attrdef` [#](#CATALOG-PG-ATTRDEF)
+## 52.6. `pg_attrdef` [#](#catalog-pg-attrdef) <a href="#catalog-pg-attrdef" id="catalog-pg-attrdef"></a>
 
 <a id="id-1.10.4.8.2"></a>
 

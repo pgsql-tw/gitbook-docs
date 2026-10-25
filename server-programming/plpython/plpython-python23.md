@@ -1,6 +1,6 @@
 <a id="PLPYTHON-PYTHON23"></a>
 
-## 44.10. Python 2 與 Python 3 [#](#PLPYTHON-PYTHON23)
+## 44.10. Python 2 與 Python 3 [#](#plpython-python23) <a href="#plpython-python23" id="plpython-python23"></a>
 
 PL/Python 僅支援 Python 3。過去的 PostgreSQL 版本曾支援 Python 2，使用的語言名稱為 `plpythonu` 與 `plpython2u`。
 

@@ -1,5 +1,5 @@
 <a id="LOGICALDECODING-STREAMING"></a>
-## 47.9. 邏輯解碼的大型交易串流 [#](#LOGICALDECODING-STREAMING)
+## 47.9. 邏輯解碼的大型交易串流 [#](#logicaldecoding-streaming) <a href="#logicaldecoding-streaming" id="logicaldecoding-streaming"></a>
 
 基本的輸出外掛程式回呼函式（例如 `begin_cb`、`change_cb`、`commit_cb` 與 `message_cb`），只有在交易真正提交時才會被呼叫。變更仍然會從交易日誌中逐步解碼，但只有在提交時（也就是從交易日誌中解碼出提交動作時）才會被傳遞給輸出外掛程式，如果交易中止，這些變更就會被捨棄。
 

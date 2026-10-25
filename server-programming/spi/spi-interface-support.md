@@ -1,6 +1,6 @@
 <a id="SPI-INTERFACE-SUPPORT"></a>
 
-## 45.2. 介面支援函式 [#](#SPI-INTERFACE-SUPPORT)
+## 45.2. 介面支援函式 [#](#spi-interface-support) <a href="#spi-interface-support" id="spi-interface-support"></a>
 
 [SPI_fname](spi-spi-fname.md) — 判定指定欄位編號的欄位名稱
 
