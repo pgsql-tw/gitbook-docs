@@ -1,6 +1,6 @@
 <a id="INFOSCHEMA-SCHEMA"></a>
 
-## 35.1. 資訊結構描述 [#](#INFOSCHEMA-SCHEMA)
+## 35.1. 資訊結構描述 [#](#infoschema-schema) <a href="#infoschema-schema" id="infoschema-schema"></a>
 
 資訊結構描述本身是一個名為 `information_schema` 的 schema。這個 schema 會自動
 存在於所有資料庫中。其擁有者是叢集的初始資料庫使用者，該使用者自然擁有此

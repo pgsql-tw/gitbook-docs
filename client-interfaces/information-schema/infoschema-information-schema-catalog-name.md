@@ -1,6 +1,6 @@
 <a id="INFOSCHEMA-INFORMATION-SCHEMA-CATALOG-NAME"></a>
 
-## 35.3. `information_schema_catalog_name` [#](#INFOSCHEMA-INFORMATION-SCHEMA-CATALOG-NAME)
+## 35.3. `information_schema_catalog_name` [#](#infoschema-information-schema-catalog-name) <a href="#infoschema-information-schema-catalog-name" id="infoschema-information-schema-catalog-name"></a>
 
 `information_schema_catalog_name` 是一個恆有一個資料列與一個欄位的資料表；其內容為
 目前資料庫的名稱（在 SQL 術語中稱為目前目錄）。

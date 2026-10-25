@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLUMN-DOMAIN-USAGE"></a>
-## 35.13. `column_domain_usage` [#](#INFOSCHEMA-COLUMN-DOMAIN-USAGE)
+## 35.13. `column_domain_usage` [#](#infoschema-column-domain-usage) <a href="#infoschema-column-domain-usage" id="infoschema-column-domain-usage"></a>
 
 檢視表 `column_domain_usage` 列出所有使用了某個網域的欄位（資料表或檢視表的欄位），該網域定義於目前資料庫中，且由目前已啟用的角色擁有。
 

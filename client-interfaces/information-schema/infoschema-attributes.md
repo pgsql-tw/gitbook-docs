@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ATTRIBUTES"></a>
-## 35.6. `attributes` [#](#INFOSCHEMA-ATTRIBUTES)
+## 35.6. `attributes` [#](#infoschema-attributes) <a href="#infoschema-attributes" id="infoschema-attributes"></a>
 
 檢視表 `attributes` 包含資料庫中所定義之複合資料型別的屬性資訊。（請注意，此
 檢視表不提供資料表欄位的資訊；在 PostgreSQL 的脈絡中，資料表欄位有時也稱為屬性。）

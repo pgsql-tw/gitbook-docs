@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-APPLICABLE-ROLES"></a>
-## 35.5. `applicable_roles` [#](#INFOSCHEMA-APPLICABLE-ROLES)
+## 35.5. `applicable_roles` [#](#infoschema-applicable-roles) <a href="#infoschema-applicable-roles" id="infoschema-applicable-roles"></a>
 
 檢視表 `applicable_roles` 識別目前使用者可以使用其權限的所有角色。這表示從目前
 使用者到該角色之間存在某條角色授與鏈。目前使用者本身也是適用角色。適用角色的

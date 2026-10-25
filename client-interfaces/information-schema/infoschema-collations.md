@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLLATIONS"></a>
-## 35.10. `collations` [#](#INFOSCHEMA-COLLATIONS)
+## 35.10. `collations` [#](#infoschema-collations) <a href="#infoschema-collations" id="infoschema-collations"></a>
 
 檢視表 `collations` 包含目前資料庫中可用的定序。
 

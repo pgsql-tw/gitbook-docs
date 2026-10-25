@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLUMN-OPTIONS"></a>
-## 35.14. `column_options` [#](#INFOSCHEMA-COLUMN-OPTIONS)
+## 35.14. `column_options` [#](#infoschema-column-options) <a href="#infoschema-column-options" id="infoschema-column-options"></a>
 
 檢視表 `column_options` 包含目前資料庫中為外部資料表欄位所定義的所有選項。只會顯示目前使用者有權存取（身為擁有者或具有某種權限）的外部資料表欄位。
 

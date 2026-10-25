@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-CONSTRAINT-COLUMN-USAGE"></a>
-## 35.18. `constraint_column_usage` [#](#INFOSCHEMA-CONSTRAINT-COLUMN-USAGE)
+## 35.18. `constraint_column_usage` [#](#infoschema-constraint-column-usage) <a href="#infoschema-constraint-column-usage" id="infoschema-constraint-column-usage"></a>
 
 檢視表 `constraint_column_usage` 列出目前資料庫中被某個限制條件使用的所有欄位。只會顯示包含在目前已啟用角色所擁有之資料表中的欄位。對於檢查限制條件，此檢視表列出檢查運算式中所使用的欄位。對於非空值限制條件，此檢視表列出該限制條件所定義的欄位。對於外鍵限制條件，此檢視表列出該外鍵所參照的欄位。對於唯一限制條件或主鍵限制條件，此檢視表列出該限制條件所限制的欄位。
 

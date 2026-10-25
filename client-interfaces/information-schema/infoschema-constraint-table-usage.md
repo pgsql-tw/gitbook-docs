@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-CONSTRAINT-TABLE-USAGE"></a>
-## 35.19. `constraint_table_usage` [#](#INFOSCHEMA-CONSTRAINT-TABLE-USAGE)
+## 35.19. `constraint_table_usage` [#](#infoschema-constraint-table-usage) <a href="#infoschema-constraint-table-usage" id="infoschema-constraint-table-usage"></a>
 
 檢視表 `constraint_table_usage` 列出目前資料庫中被某個限制條件使用、且由目前已啟用角色所擁有的所有資料表。（這與檢視表 `table_constraints` 不同，後者列出所有資料表限制條件及其所定義的資料表。）對於外鍵限制條件，此檢視表列出該外鍵所參照的資料表。對於唯一限制條件或主鍵限制條件，此檢視表只列出該限制條件所屬的資料表。檢查限制條件與非空值限制條件不包含在此檢視表中。
 

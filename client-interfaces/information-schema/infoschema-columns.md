@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLUMNS"></a>
-## 35.17. `columns` [#](#INFOSCHEMA-COLUMNS)
+## 35.17. `columns` [#](#infoschema-columns) <a href="#infoschema-columns" id="infoschema-columns"></a>
 
 檢視表 `columns` 包含資料庫中所有資料表欄位（或檢視表欄位）的資訊。系統欄位（`ctid` 等）不包含在內。只會顯示目前使用者有權存取（身為擁有者或具有某種權限）的欄位。
 

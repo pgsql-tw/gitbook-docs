@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLUMN-PRIVILEGES"></a>
-## 35.15. `column_privileges` [#](#INFOSCHEMA-COLUMN-PRIVILEGES)
+## 35.15. `column_privileges` [#](#infoschema-column-privileges) <a href="#infoschema-column-privileges" id="infoschema-column-privileges"></a>
 
 檢視表 `column_privileges` 列出在欄位上授與目前已啟用角色、或由目前已啟用角色所授與的所有權限。每個欄位、授與者與受授與者的組合各有一個資料列。
 

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-CHECK-CONSTRAINT-ROUTINE-USAGE"></a>
-## 35.8. `check_constraint_routine_usage` [#](#INFOSCHEMA-CHECK-CONSTRAINT-ROUTINE-USAGE)
+## 35.8. `check_constraint_routine_usage` [#](#infoschema-check-constraint-routine-usage) <a href="#infoschema-check-constraint-routine-usage" id="infoschema-check-constraint-routine-usage"></a>
 
 檢視表 `check_constraint_routine_usage` 識別被檢查限制條件所使用的常式（函式與
 程序）。只會顯示由目前已啟用角色所擁有的常式。

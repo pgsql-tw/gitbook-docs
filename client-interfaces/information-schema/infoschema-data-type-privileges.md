@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-DATA-TYPE-PRIVILEGES"></a>
-## 35.20. `data_type_privileges` [#](#INFOSCHEMA-DATA-TYPE-PRIVILEGES)
+## 35.20. `data_type_privileges` [#](#infoschema-data-type-privileges) <a href="#infoschema-data-type-privileges" id="infoschema-data-type-privileges"></a>
 
 檢視表 `data_type_privileges` 列出目前使用者有權存取（身為所描述物件的擁有者，或對該物件具有某種權限）的所有資料型別描述子。每當資料型別用於資料表欄位、網域或函式（作為參數或回傳型別）的定義中時，就會產生資料型別描述子，其中儲存該資料型別在該處如何使用的一些資訊（例如宣告的最大長度，若適用的話）。每個資料型別描述子都會被指派一個任意的識別碼，此識別碼在為同一個物件（資料表、網域、函式）所指派的資料型別描述子識別碼中是唯一的。此檢視表對應用程式而言大概沒有用處，但資訊綱要中的其他一些檢視表是以它來定義的。
 

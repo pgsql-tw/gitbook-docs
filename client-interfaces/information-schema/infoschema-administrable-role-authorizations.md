@@ -1,6 +1,6 @@
 <a id="INFOSCHEMA-ADMINISTRABLE-ROLE-AUTHORIZATIONS"></a>
 
-## 35.4. `administrable_role_authorizations` [#](#INFOSCHEMA-ADMINISTRABLE-ROLE-AUTHORIZATIONS)
+## 35.4. `administrable_role_authorizations` [#](#infoschema-administrable-role-authorizations) <a href="#infoschema-administrable-role-authorizations" id="infoschema-administrable-role-authorizations"></a>
 
 檢視表 `administrable_role_authorizations` 列出目前使用者具有管理選項的所有角色。
 

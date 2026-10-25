@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLUMN-UDT-USAGE"></a>
-## 35.16. `column_udt_usage` [#](#INFOSCHEMA-COLUMN-UDT-USAGE)
+## 35.16. `column_udt_usage` [#](#infoschema-column-udt-usage) <a href="#infoschema-column-udt-usage" id="infoschema-column-udt-usage"></a>
 
 檢視表 `column_udt_usage` 列出所有使用了由目前已啟用角色所擁有之資料型別的欄位。請注意，在 PostgreSQL 中，內建資料型別的行為與使用者定義型別相同，因此它們也會包含在這裡。詳細資訊另請參閱[第 35.17 節](infoschema-columns.md)。
 

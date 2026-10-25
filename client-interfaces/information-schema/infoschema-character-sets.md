@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-CHARACTER-SETS"></a>
-## 35.7. `character_sets` [#](#INFOSCHEMA-CHARACTER-SETS)
+## 35.7. `character_sets` [#](#infoschema-character-sets) <a href="#infoschema-character-sets" id="infoschema-character-sets"></a>
 
 檢視表 `character_sets` 識別目前資料庫中可用的字元集。由於 PostgreSQL 不支援
 在單一資料庫中使用多個字元集，此檢視表只會顯示一個，也就是資料庫編碼。

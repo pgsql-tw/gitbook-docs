@@ -1,6 +1,6 @@
 <a id="INFOSCHEMA-DATATYPES"></a>
 
-## 35.2. 資料型別 [#](#INFOSCHEMA-DATATYPES)
+## 35.2. 資料型別 [#](#infoschema-datatypes) <a href="#infoschema-datatypes" id="infoschema-datatypes"></a>
 
 資訊結構描述檢視表的欄位使用在資訊結構描述中定義的特殊資料型別。這些型別
 定義為一般內建型別上的簡單 domain。請勿將這些型別用於資訊結構描述以外的用途；

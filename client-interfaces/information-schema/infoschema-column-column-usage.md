@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLUMN-COLUMN-USAGE"></a>
-## 35.12. `column_column_usage` [#](#INFOSCHEMA-COLUMN-COLUMN-USAGE)
+## 35.12. `column_column_usage` [#](#infoschema-column-column-usage) <a href="#infoschema-column-column-usage" id="infoschema-column-column-usage"></a>
 
 檢視表 `column_column_usage` 列出所有相依於同一資料表中另一個基底欄位的產生欄位。只包含由目前已啟用角色所擁有的資料表。
 

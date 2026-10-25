@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-COLLATION-CHARACTER-SET-APPLICAB"></a>
-## 35.11. `collation_character_set_​applicability` [#](#INFOSCHEMA-COLLATION-CHARACTER-SET-APPLICAB)
+## 35.11. `collation_character_set_​applicability` [#](#infoschema-collation-character-set-applicab) <a href="#infoschema-collation-character-set-applicab" id="infoschema-collation-character-set-applicab"></a>
 
 檢視表 `collation_character_set_applicability` 指出可用的定序分別適用於哪一個字元集。在 PostgreSQL 中，每個資料庫只有一個字元集（請參閱[第 35.7 節](infoschema-character-sets.md)中的說明），因此這個檢視表提供的有用資訊不多。
 

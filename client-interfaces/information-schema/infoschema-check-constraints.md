@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-CHECK-CONSTRAINTS"></a>
-## 35.9. `check_constraints` [#](#INFOSCHEMA-CHECK-CONSTRAINTS)
+## 35.9. `check_constraints` [#](#infoschema-check-constraints) <a href="#infoschema-check-constraints" id="infoschema-check-constraints"></a>
 
 檢視表 `check_constraints` 包含由目前已啟用角色所擁有的所有檢查限制條件，無論是
 定義在資料表上或網域上。（資料表或網域的擁有者即為限制條件的擁有者。）
