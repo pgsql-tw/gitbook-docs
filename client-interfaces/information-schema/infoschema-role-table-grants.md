@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROLE-TABLE-GRANTS"></a>
-## 35.37. `role_table_grants` [#](#INFOSCHEMA-ROLE-TABLE-GRANTS)
+## 35.37. `role_table_grants` [#](#infoschema-role-table-grants) <a href="#infoschema-role-table-grants" id="infoschema-role-table-grants"></a>
 
 檢視表 `role_table_grants` 列出在資料表或檢視表上授與、且授與者或受授與者為目前已啟用角色的所有權限。更多資訊可在 `table_privileges` 中找到。此檢視表與 `table_privileges` 唯一的實質差異在於，此檢視表會省略透過授與 `PUBLIC` 而讓目前使用者可存取的資料表。
 

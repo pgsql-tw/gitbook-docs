@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-KEY-COLUMN-USAGE"></a>
-## 35.32. `key_column_usage` [#](#INFOSCHEMA-KEY-COLUMN-USAGE)
+## 35.32. `key_column_usage` [#](#infoschema-key-column-usage) <a href="#infoschema-key-column-usage" id="infoschema-key-column-usage"></a>
 
 檢視表 `key_column_usage` 列出目前資料庫中受某個唯一、主鍵或外鍵限制條件所限制的所有欄位。檢查限制條件不包含在此檢視表中。只有目前使用者可存取（身為擁有者或具有某種權限）的欄位才會顯示。
 

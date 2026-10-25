@@ -1,6 +1,6 @@
 <a id="INFOSCHEMA-ENABLED-ROLES"></a>
 
-## 35.25. `enabled_roles` [#](#INFOSCHEMA-ENABLED-ROLES)
+## 35.25. `enabled_roles` [#](#infoschema-enabled-roles) <a href="#infoschema-enabled-roles" id="infoschema-enabled-roles"></a>
 
 檢視表 `enabled_roles` 列出目前「已啟用的角色」。它會以遞迴方式將已啟用的角色
 定義為目前使用者，以及所有透過自動繼承授與已啟用角色的角色。換言之，這些是

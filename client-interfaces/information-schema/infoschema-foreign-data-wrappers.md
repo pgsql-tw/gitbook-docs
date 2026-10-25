@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-FOREIGN-DATA-WRAPPERS"></a>
-## 35.27. `foreign_data_wrappers` [#](#INFOSCHEMA-FOREIGN-DATA-WRAPPERS)
+## 35.27. `foreign_data_wrappers` [#](#infoschema-foreign-data-wrappers) <a href="#infoschema-foreign-data-wrappers" id="infoschema-foreign-data-wrappers"></a>
 
 檢視表 `foreign_data_wrappers` 包含目前資料庫中定義的所有外部資料包裝器。只有目前使用者可存取（身為擁有者或具有某種權限）的外部資料包裝器才會顯示。
 

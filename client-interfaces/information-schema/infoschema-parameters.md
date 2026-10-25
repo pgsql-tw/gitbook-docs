@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-PARAMETERS"></a>
-## 35.33. `parameters` [#](#INFOSCHEMA-PARAMETERS)
+## 35.33. `parameters` [#](#infoschema-parameters) <a href="#infoschema-parameters" id="infoschema-parameters"></a>
 
 檢視表 `parameters` 包含目前資料庫中所有函式之參數（引數）的相關資訊。只有目前使用者可存取（身為擁有者或具有某種權限）的函式才會顯示。
 

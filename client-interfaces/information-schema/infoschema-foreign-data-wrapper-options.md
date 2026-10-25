@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-FOREIGN-DATA-WRAPPER-OPTIONS"></a>
-## 35.26. `foreign_data_wrapper_options` [#](#INFOSCHEMA-FOREIGN-DATA-WRAPPER-OPTIONS)
+## 35.26. `foreign_data_wrapper_options` [#](#infoschema-foreign-data-wrapper-options) <a href="#infoschema-foreign-data-wrapper-options" id="infoschema-foreign-data-wrapper-options"></a>
 
 檢視表 `foreign_data_wrapper_options` 包含目前資料庫中為外部資料包裝器定義的所有選項。只有目前使用者可存取（身為擁有者或具有某種權限）的外部資料包裝器才會顯示。
 

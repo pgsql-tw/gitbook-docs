@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-FOREIGN-SERVERS"></a>
-## 35.29. `foreign_servers` [#](#INFOSCHEMA-FOREIGN-SERVERS)
+## 35.29. `foreign_servers` [#](#infoschema-foreign-servers) <a href="#infoschema-foreign-servers" id="infoschema-foreign-servers"></a>
 
 檢視表 `foreign_servers` 包含目前資料庫中定義的所有外部伺服器。只有目前使用者可存取（身為擁有者或具有某種權限）的外部伺服器才會顯示。
 

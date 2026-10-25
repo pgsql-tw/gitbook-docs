@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-FOREIGN-SERVER-OPTIONS"></a>
-## 35.28. `foreign_server_options` [#](#INFOSCHEMA-FOREIGN-SERVER-OPTIONS)
+## 35.28. `foreign_server_options` [#](#infoschema-foreign-server-options) <a href="#infoschema-foreign-server-options" id="infoschema-foreign-server-options"></a>
 
 檢視表 `foreign_server_options` 包含目前資料庫中為外部伺服器定義的所有選項。只有目前使用者可存取（身為擁有者或具有某種權限）的外部伺服器才會顯示。
 

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROLE-UDT-GRANTS"></a>
-## 35.38. `role_udt_grants` [#](#INFOSCHEMA-ROLE-UDT-GRANTS)
+## 35.38. `role_udt_grants` [#](#infoschema-role-udt-grants) <a href="#infoschema-role-udt-grants" id="infoschema-role-udt-grants"></a>
 
 檢視表 `role_udt_grants` 旨在列出在使用者定義型別上授與、且授與者或受授與者為目前已啟用角色的 `USAGE` 權限。更多資訊可在 `udt_privileges` 中找到。此檢視表與 `udt_privileges` 唯一的實質差異在於，此檢視表會省略透過授與 `PUBLIC` 而讓目前使用者可存取的物件。由於 PostgreSQL 中的資料型別沒有真正的權限，只有對 `PUBLIC` 的隱含授與，因此此檢視表是空的。
 

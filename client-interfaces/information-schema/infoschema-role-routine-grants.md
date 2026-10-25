@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROLE-ROUTINE-GRANTS"></a>
-## 35.36. `role_routine_grants` [#](#INFOSCHEMA-ROLE-ROUTINE-GRANTS)
+## 35.36. `role_routine_grants` [#](#infoschema-role-routine-grants) <a href="#infoschema-role-routine-grants" id="infoschema-role-routine-grants"></a>
 
 檢視表 `role_routine_grants` 列出在函式上授與、且授與者或受授與者為目前已啟用角色的所有權限。更多資訊可在 `routine_privileges` 中找到。此檢視表與 `routine_privileges` 唯一的實質差異在於，此檢視表會省略透過授與 `PUBLIC` 而讓目前使用者可存取的函式。
 

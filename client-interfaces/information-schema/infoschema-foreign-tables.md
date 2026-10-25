@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-FOREIGN-TABLES"></a>
-## 35.31. `foreign_tables` [#](#INFOSCHEMA-FOREIGN-TABLES)
+## 35.31. `foreign_tables` [#](#infoschema-foreign-tables) <a href="#infoschema-foreign-tables" id="infoschema-foreign-tables"></a>
 
 檢視表 `foreign_tables` 包含目前資料庫中定義的所有外部資料表。只有目前使用者可存取（身為擁有者或具有某種權限）的外部資料表才會顯示。
 

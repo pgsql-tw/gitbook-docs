@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROLE-USAGE-GRANTS"></a>
-## 35.39. `role_usage_grants` [#](#INFOSCHEMA-ROLE-USAGE-GRANTS)
+## 35.39. `role_usage_grants` [#](#infoschema-role-usage-grants) <a href="#infoschema-role-usage-grants" id="infoschema-role-usage-grants"></a>
 
 檢視表 `role_usage_grants` 列出在各類物件上授與、且授與者或受授與者為目前已啟用角色的 `USAGE` 權限。更多資訊可在 `usage_privileges` 中找到。此檢視表與 `usage_privileges` 唯一的實質差異在於，此檢視表會省略透過授與 `PUBLIC` 而讓目前使用者可存取的物件。
 

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-DOMAIN-UDT-USAGE"></a>
-## 35.22. `domain_udt_usage` [#](#INFOSCHEMA-DOMAIN-UDT-USAGE)
+## 35.22. `domain_udt_usage` [#](#infoschema-domain-udt-usage) <a href="#infoschema-domain-udt-usage" id="infoschema-domain-udt-usage"></a>
 
 檢視表 `domain_udt_usage` 列出以目前已啟用角色所擁有之資料型別為基礎的所有網域。請注意，在 PostgreSQL 中，內建資料型別的行為如同使用者定義型別，因此它們也包含在此處。
 

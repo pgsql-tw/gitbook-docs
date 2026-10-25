@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROLE-COLUMN-GRANTS"></a>
-## 35.35. `role_column_grants` [#](#INFOSCHEMA-ROLE-COLUMN-GRANTS)
+## 35.35. `role_column_grants` [#](#infoschema-role-column-grants) <a href="#infoschema-role-column-grants" id="infoschema-role-column-grants"></a>
 
 檢視表 `role_column_grants` 列出在欄位上授與、且授與者或受授與者為目前已啟用角色的所有權限。更多資訊可在 `column_privileges` 中找到。此檢視表與 `column_privileges` 唯一的實質差異在於，此檢視表會省略透過授與 `PUBLIC` 而讓目前使用者可存取的欄位。
 

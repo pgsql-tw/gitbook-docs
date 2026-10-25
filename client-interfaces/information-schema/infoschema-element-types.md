@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ELEMENT-TYPES"></a>
-## 35.24. `element_types` [#](#INFOSCHEMA-ELEMENT-TYPES)
+## 35.24. `element_types` [#](#infoschema-element-types) <a href="#infoschema-element-types" id="infoschema-element-types"></a>
 
 檢視表 `element_types` 包含陣列元素的資料型別描述子。當資料表欄位、複合型別屬性、網域、函式參數或函式回傳值被定義為陣列型別時，相應的資訊綱要檢視表只會在欄位 `data_type` 中包含 `ARRAY`。若要取得陣列元素型別的資訊，你可以將相應的檢視表與此檢視表連接。例如，若要顯示某資料表的欄位及其資料型別，以及（若適用）陣列元素型別，你可以這樣做：
 

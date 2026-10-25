@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-REFERENTIAL-CONSTRAINTS"></a>
-## 35.34. `referential_constraints` [#](#INFOSCHEMA-REFERENTIAL-CONSTRAINTS)
+## 35.34. `referential_constraints` [#](#infoschema-referential-constraints) <a href="#infoschema-referential-constraints" id="infoschema-referential-constraints"></a>
 
 檢視表 `referential_constraints` 包含目前資料庫中所有的參照（外鍵）限制條件。只有目前使用者對參照端資料表具有寫入權限（身為擁有者，或具有 `SELECT` 以外的某種權限）的限制條件才會顯示。
 

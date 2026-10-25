@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROUTINE-COLUMN-USAGE"></a>
-## 35.40. `routine_column_usage` [#](#INFOSCHEMA-ROUTINE-COLUMN-USAGE)
+## 35.40. `routine_column_usage` [#](#infoschema-routine-column-usage) <a href="#infoschema-routine-column-usage" id="infoschema-routine-column-usage"></a>
 
 檢視表 `routine_column_usage` 列出函式或程序在 SQL 主體或參數預設值表示式中所使用的所有欄位。（這只適用於未加引號的 SQL 主體，不適用於加引號的主體或其他語言的函式。）只有當欄位所屬的資料表由目前已啟用的角色所擁有時，才會包含該欄位。
 

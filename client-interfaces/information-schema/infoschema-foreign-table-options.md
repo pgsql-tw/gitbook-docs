@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-FOREIGN-TABLE-OPTIONS"></a>
-## 35.30. `foreign_table_options` [#](#INFOSCHEMA-FOREIGN-TABLE-OPTIONS)
+## 35.30. `foreign_table_options` [#](#infoschema-foreign-table-options) <a href="#infoschema-foreign-table-options" id="infoschema-foreign-table-options"></a>
 
 檢視表 `foreign_table_options` 包含目前資料庫中為外部資料表定義的所有選項。只有目前使用者可存取（身為擁有者或具有某種權限）的外部資料表才會顯示。
 

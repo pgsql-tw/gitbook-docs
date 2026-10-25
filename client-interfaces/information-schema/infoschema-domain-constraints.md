@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-DOMAIN-CONSTRAINTS"></a>
-## 35.21. `domain_constraints` [#](#INFOSCHEMA-DOMAIN-CONSTRAINTS)
+## 35.21. `domain_constraints` [#](#infoschema-domain-constraints) <a href="#infoschema-domain-constraints" id="infoschema-domain-constraints"></a>
 
 檢視表 `domain_constraints` 包含屬於目前資料庫中所定義之網域的所有限制條件。只會顯示目前使用者有權存取（身為擁有者或具有某種權限）的網域。
 
