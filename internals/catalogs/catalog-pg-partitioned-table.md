@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-PARTITIONED-TABLE"></a>
 
-## 52.37. `pg_partitioned_table` [#](#CATALOG-PG-PARTITIONED-TABLE)
+## 52.37. `pg_partitioned_table` [#](#catalog-pg-partitioned-table) <a href="#catalog-pg-partitioned-table" id="catalog-pg-partitioned-table"></a>
 
 <a id="id-1.10.4.39.2"></a>
 

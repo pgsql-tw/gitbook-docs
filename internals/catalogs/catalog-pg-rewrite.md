@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-REWRITE"></a>
 
-## 52.45. `pg_rewrite` [#](#CATALOG-PG-REWRITE)
+## 52.45. `pg_rewrite` [#](#catalog-pg-rewrite) <a href="#catalog-pg-rewrite" id="catalog-pg-rewrite"></a>
 
 <a id="id-1.10.4.47.2"></a>
 

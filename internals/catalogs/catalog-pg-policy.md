@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-POLICY"></a>
 
-## 52.38. `pg_policy` [#](#CATALOG-PG-POLICY)
+## 52.38. `pg_policy` [#](#catalog-pg-policy) <a href="#catalog-pg-policy" id="catalog-pg-policy"></a>
 
 <a id="id-1.10.4.40.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TRANSFORM"></a>
 
-## 52.57. `pg_transform` [#](#CATALOG-PG-TRANSFORM)
+## 52.57. `pg_transform` [#](#catalog-pg-transform) <a href="#catalog-pg-transform" id="catalog-pg-transform"></a>
 
 <a id="id-1.10.4.59.2"></a>
 

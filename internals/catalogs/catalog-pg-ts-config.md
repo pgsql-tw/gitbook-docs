@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TS-CONFIG"></a>
 
-## 52.59. `pg_ts_config` [#](#CATALOG-PG-TS-CONFIG)
+## 52.59. `pg_ts_config` [#](#catalog-pg-ts-config) <a href="#catalog-pg-ts-config" id="catalog-pg-ts-config"></a>
 
 <a id="id-1.10.4.61.2"></a>
 

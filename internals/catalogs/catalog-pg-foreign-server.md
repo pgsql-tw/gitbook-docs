@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-FOREIGN-SERVER"></a>
 
-## 52.24. `pg_foreign_server` [#](#CATALOG-PG-FOREIGN-SERVER)
+## 52.24. `pg_foreign_server` [#](#catalog-pg-foreign-server) <a href="#catalog-pg-foreign-server" id="catalog-pg-foreign-server"></a>
 
 <a id="id-1.10.4.26.2"></a>
 

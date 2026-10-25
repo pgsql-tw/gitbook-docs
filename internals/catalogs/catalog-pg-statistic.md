@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-STATISTIC"></a>
 
-## 52.51. `pg_statistic` [#](#CATALOG-PG-STATISTIC)
+## 52.51. `pg_statistic` [#](#catalog-pg-statistic) <a href="#catalog-pg-statistic" id="catalog-pg-statistic"></a>
 
 <a id="id-1.10.4.53.2"></a>
 

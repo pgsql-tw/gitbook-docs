@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-DEPEND"></a>
 
-## 52.18. `pg_depend` [#](#CATALOG-PG-DEPEND)
+## 52.18. `pg_depend` [#](#catalog-pg-depend) <a href="#catalog-pg-depend" id="catalog-pg-depend"></a>
 
 <a id="id-1.10.4.20.2"></a>
 

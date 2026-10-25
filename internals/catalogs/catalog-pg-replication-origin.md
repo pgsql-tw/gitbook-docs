@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-REPLICATION-ORIGIN"></a>
 
-## 52.44. `pg_replication_origin` [#](#CATALOG-PG-REPLICATION-ORIGIN)
+## 52.44. `pg_replication_origin` [#](#catalog-pg-replication-origin) <a href="#catalog-pg-replication-origin" id="catalog-pg-replication-origin"></a>
 
 <a id="id-1.10.4.46.2"></a>
 

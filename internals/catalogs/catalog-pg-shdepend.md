@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-SHDEPEND"></a>
 
-## 52.48. `pg_shdepend` [#](#CATALOG-PG-SHDEPEND)
+## 52.48. `pg_shdepend` [#](#catalog-pg-shdepend) <a href="#catalog-pg-shdepend" id="catalog-pg-shdepend"></a>
 
 <a id="id-1.10.4.50.2"></a>
 

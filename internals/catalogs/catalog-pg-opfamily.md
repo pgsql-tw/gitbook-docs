@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-OPFAMILY"></a>
 
-## 52.35. `pg_opfamily` [#](#CATALOG-PG-OPFAMILY)
+## 52.35. `pg_opfamily` [#](#catalog-pg-opfamily) <a href="#catalog-pg-opfamily" id="catalog-pg-opfamily"></a>
 
 <a id="id-1.10.4.37.2"></a>
 

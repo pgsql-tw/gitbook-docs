@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-LARGEOBJECT-METADATA"></a>
 
-## 52.31. `pg_largeobject_metadata` [#](#CATALOG-PG-LARGEOBJECT-METADATA)
+## 52.31. `pg_largeobject_metadata` [#](#catalog-pg-largeobject-metadata) <a href="#catalog-pg-largeobject-metadata" id="catalog-pg-largeobject-metadata"></a>
 
 <a id="id-1.10.4.33.2"></a>
 

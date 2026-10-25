@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TRIGGER"></a>
 
-## 52.58. `pg_trigger` [#](#CATALOG-PG-TRIGGER)
+## 52.58. `pg_trigger` [#](#catalog-pg-trigger) <a href="#catalog-pg-trigger" id="catalog-pg-trigger"></a>
 
 <a id="id-1.10.4.60.2"></a>
 

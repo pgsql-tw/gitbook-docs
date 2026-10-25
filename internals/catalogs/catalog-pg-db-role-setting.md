@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-DB-ROLE-SETTING"></a>
 
-## 52.16. `pg_db_role_setting` [#](#CATALOG-PG-DB-ROLE-SETTING)
+## 52.16. `pg_db_role_setting` [#](#catalog-pg-db-role-setting) <a href="#catalog-pg-db-role-setting" id="catalog-pg-db-role-setting"></a>
 
 <a id="id-1.10.4.18.2"></a>
 

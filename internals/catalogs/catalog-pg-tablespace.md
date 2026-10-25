@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TABLESPACE"></a>
 
-## 52.56. `pg_tablespace` [#](#CATALOG-PG-TABLESPACE)
+## 52.56. `pg_tablespace` [#](#catalog-pg-tablespace) <a href="#catalog-pg-tablespace" id="catalog-pg-tablespace"></a>
 
 <a id="id-1.10.4.58.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-FOREIGN-TABLE"></a>
 
-## 52.25. `pg_foreign_table` [#](#CATALOG-PG-FOREIGN-TABLE)
+## 52.25. `pg_foreign_table` [#](#catalog-pg-foreign-table) <a href="#catalog-pg-foreign-table" id="catalog-pg-foreign-table"></a>
 
 <a id="id-1.10.4.27.2"></a>
 

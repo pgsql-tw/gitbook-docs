@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-CONSTRAINT"></a>
 
-## 52.13. `pg_constraint` [#](#CATALOG-PG-CONSTRAINT)
+## 52.13. `pg_constraint` [#](#catalog-pg-constraint) <a href="#catalog-pg-constraint" id="catalog-pg-constraint"></a>
 
 <a id="id-1.10.4.15.2"></a>
 

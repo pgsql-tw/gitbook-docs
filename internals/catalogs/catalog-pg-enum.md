@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-ENUM"></a>
 
-## 52.20. `pg_enum` [#](#CATALOG-PG-ENUM)
+## 52.20. `pg_enum` [#](#catalog-pg-enum) <a href="#catalog-pg-enum" id="catalog-pg-enum"></a>
 
 <a id="id-1.10.4.22.2"></a>
 

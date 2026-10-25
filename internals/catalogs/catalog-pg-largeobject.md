@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-LARGEOBJECT"></a>
 
-## 52.30. `pg_largeobject` [#](#CATALOG-PG-LARGEOBJECT)
+## 52.30. `pg_largeobject` [#](#catalog-pg-largeobject) <a href="#catalog-pg-largeobject" id="catalog-pg-largeobject"></a>
 
 <a id="id-1.10.4.32.2"></a>
 

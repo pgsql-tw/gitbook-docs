@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-INHERITS"></a>
 
-## 52.27. `pg_inherits` [#](#CATALOG-PG-INHERITS)
+## 52.27. `pg_inherits` [#](#catalog-pg-inherits) <a href="#catalog-pg-inherits" id="catalog-pg-inherits"></a>
 
 <a id="id-1.10.4.29.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-LANGUAGE"></a>
 
-## 52.29. `pg_language` [#](#CATALOG-PG-LANGUAGE)
+## 52.29. `pg_language` [#](#catalog-pg-language) <a href="#catalog-pg-language" id="catalog-pg-language"></a>
 
 <a id="id-1.10.4.31.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-NAMESPACE"></a>
 
-## 52.32. `pg_namespace` [#](#CATALOG-PG-NAMESPACE)
+## 52.32. `pg_namespace` [#](#catalog-pg-namespace) <a href="#catalog-pg-namespace" id="catalog-pg-namespace"></a>
 
 <a id="id-1.10.4.34.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-SUBSCRIPTION"></a>
 
-## 52.54. `pg_subscription` [#](#CATALOG-PG-SUBSCRIPTION)
+## 52.54. `pg_subscription` [#](#catalog-pg-subscription) <a href="#catalog-pg-subscription" id="catalog-pg-subscription"></a>
 
 <a id="id-1.10.4.56.2"></a>
 

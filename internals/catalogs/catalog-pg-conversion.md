@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-CONVERSION"></a>
 
-## 52.14. `pg_conversion` [#](#CATALOG-PG-CONVERSION)
+## 52.14. `pg_conversion` [#](#catalog-pg-conversion) <a href="#catalog-pg-conversion" id="catalog-pg-conversion"></a>
 
 <a id="id-1.10.4.16.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TS-DICT"></a>
 
-## 52.61. `pg_ts_dict` [#](#CATALOG-PG-TS-DICT)
+## 52.61. `pg_ts_dict` [#](#catalog-pg-ts-dict) <a href="#catalog-pg-ts-dict" id="catalog-pg-ts-dict"></a>
 
 <a id="id-1.10.4.63.2"></a>
 

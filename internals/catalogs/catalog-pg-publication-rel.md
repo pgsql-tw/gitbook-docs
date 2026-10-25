@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-PUBLICATION-REL"></a>
 
-## 52.42. `pg_publication_rel` [#](#CATALOG-PG-PUBLICATION-REL)
+## 52.42. `pg_publication_rel` [#](#catalog-pg-publication-rel) <a href="#catalog-pg-publication-rel" id="catalog-pg-publication-rel"></a>
 
 <a id="id-1.10.4.44.2"></a>
 

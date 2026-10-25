@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-SHDESCRIPTION"></a>
 
-## 52.49. `pg_shdescription` [#](#CATALOG-PG-SHDESCRIPTION)
+## 52.49. `pg_shdescription` [#](#catalog-pg-shdescription) <a href="#catalog-pg-shdescription" id="catalog-pg-shdescription"></a>
 
 <a id="id-1.10.4.51.2"></a>
 

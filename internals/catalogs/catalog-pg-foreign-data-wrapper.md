@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-FOREIGN-DATA-WRAPPER"></a>
 
-## 52.23. `pg_foreign_data_wrapper` [#](#CATALOG-PG-FOREIGN-DATA-WRAPPER)
+## 52.23. `pg_foreign_data_wrapper` [#](#catalog-pg-foreign-data-wrapper) <a href="#catalog-pg-foreign-data-wrapper" id="catalog-pg-foreign-data-wrapper"></a>
 
 <a id="id-1.10.4.25.2"></a>
 

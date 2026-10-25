@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-PARAMETER-ACL"></a>
 
-## 52.36. `pg_parameter_acl` [#](#CATALOG-PG-PARAMETER-ACL)
+## 52.36. `pg_parameter_acl` [#](#catalog-pg-parameter-acl) <a href="#catalog-pg-parameter-acl" id="catalog-pg-parameter-acl"></a>
 
 <a id="id-1.10.4.38.2"></a>
 

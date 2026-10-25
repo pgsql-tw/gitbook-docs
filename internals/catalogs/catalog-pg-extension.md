@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-EXTENSION"></a>
 
-## 52.22. `pg_extension` [#](#CATALOG-PG-EXTENSION)
+## 52.22. `pg_extension` [#](#catalog-pg-extension) <a href="#catalog-pg-extension" id="catalog-pg-extension"></a>
 
 <a id="id-1.10.4.24.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-SHSECLABEL"></a>
 
-## 52.50. `pg_shseclabel` [#](#CATALOG-PG-SHSECLABEL)
+## 52.50. `pg_shseclabel` [#](#catalog-pg-shseclabel) <a href="#catalog-pg-shseclabel" id="catalog-pg-shseclabel"></a>
 
 <a id="id-1.10.4.52.2"></a>
 

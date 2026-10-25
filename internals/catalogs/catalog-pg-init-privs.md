@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-INIT-PRIVS"></a>
 
-## 52.28. `pg_init_privs` [#](#CATALOG-PG-INIT-PRIVS)
+## 52.28. `pg_init_privs` [#](#catalog-pg-init-privs) <a href="#catalog-pg-init-privs" id="catalog-pg-init-privs"></a>
 
 <a id="id-1.10.4.30.2"></a>
 

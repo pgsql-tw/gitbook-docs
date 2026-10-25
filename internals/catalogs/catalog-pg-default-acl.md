@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-DEFAULT-ACL"></a>
 
-## 52.17. `pg_default_acl` [#](#CATALOG-PG-DEFAULT-ACL)
+## 52.17. `pg_default_acl` [#](#catalog-pg-default-acl) <a href="#catalog-pg-default-acl" id="catalog-pg-default-acl"></a>
 
 <a id="id-1.10.4.19.2"></a>
 

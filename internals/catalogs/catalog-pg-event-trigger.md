@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-EVENT-TRIGGER"></a>
 
-## 52.21. `pg_event_trigger` [#](#CATALOG-PG-EVENT-TRIGGER)
+## 52.21. `pg_event_trigger` [#](#catalog-pg-event-trigger) <a href="#catalog-pg-event-trigger" id="catalog-pg-event-trigger"></a>
 
 <a id="id-1.10.4.23.2"></a>
 

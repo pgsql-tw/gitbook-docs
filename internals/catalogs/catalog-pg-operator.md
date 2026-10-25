@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-OPERATOR"></a>
 
-## 52.34. `pg_operator` [#](#CATALOG-PG-OPERATOR)
+## 52.34. `pg_operator` [#](#catalog-pg-operator) <a href="#catalog-pg-operator" id="catalog-pg-operator"></a>
 
 <a id="id-1.10.4.36.2"></a>
 
