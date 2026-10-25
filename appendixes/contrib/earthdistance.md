@@ -1,6 +1,6 @@
 <a id="EARTHDISTANCE"></a>
 
-## F.14. earthdistance — 計算大圓距離 [#](#EARTHDISTANCE)
+## F.14. earthdistance — 計算大圓距離 [#](#earthdistance) <a href="#earthdistance" id="earthdistance"></a>
 
 [F.14.1. 以 Cube 為基礎的地球距離](earthdistance.md#EARTHDISTANCE-CUBE-BASED)
 

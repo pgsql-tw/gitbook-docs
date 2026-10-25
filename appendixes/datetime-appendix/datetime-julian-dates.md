@@ -1,6 +1,6 @@
 <a id="DATETIME-JULIAN-DATES"></a>
 
-## B.7. 儒略日期 [#](#DATETIME-JULIAN-DATES)
+## B.7. 儒略日期 [#](#datetime-julian-dates) <a href="#datetime-julian-dates" id="datetime-julian-dates"></a>
 
 <a id="id-1.11.3.10.2"></a>
 

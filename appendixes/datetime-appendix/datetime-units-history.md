@@ -1,6 +1,6 @@
 <a id="DATETIME-UNITS-HISTORY"></a>
 
-## B.6. 單位的歷史 [#](#DATETIME-UNITS-HISTORY)
+## B.6. 單位的歷史 [#](#datetime-units-history) <a href="#datetime-units-history" id="datetime-units-history"></a>
 
 <a id="id-1.11.3.9.2"></a>
 

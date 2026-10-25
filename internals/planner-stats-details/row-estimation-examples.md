@@ -1,6 +1,6 @@
 <a id="ROW-ESTIMATION-EXAMPLES"></a>
 
-## 69.1. 資料列估計範例 [#](#ROW-ESTIMATION-EXAMPLES)
+## 69.1. 資料列估計範例 [#](#row-estimation-examples) <a href="#row-estimation-examples" id="row-estimation-examples"></a>
 
 <a id="id-1.10.21.4.2"></a>
 

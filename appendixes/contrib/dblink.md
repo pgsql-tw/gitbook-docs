@@ -1,6 +1,6 @@
 <a id="DBLINK"></a>
 
-## F.11. dblink — 連線至其他 PostgreSQL 資料庫 [#](#DBLINK)
+## F.11. dblink — 連線至其他 PostgreSQL 資料庫 [#](#dblink) <a href="#dblink" id="dblink"></a>
 
 [dblink_connect](contrib-dblink-connect.md) — 開啟遠端資料庫的持續連線
 

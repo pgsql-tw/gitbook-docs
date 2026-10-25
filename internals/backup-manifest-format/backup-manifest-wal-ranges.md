@@ -1,6 +1,6 @@
 <a id="BACKUP-MANIFEST-WAL-RANGES"></a>
 
-## 70.3. 備份清單的 WAL 範圍物件 [#](#BACKUP-MANIFEST-WAL-RANGES)
+## 70.3. 備份清單的 WAL 範圍物件 [#](#backup-manifest-wal-ranges) <a href="#backup-manifest-wal-ranges" id="backup-manifest-wal-ranges"></a>
 
 描述 WAL 範圍的物件固定有三個鍵：
 

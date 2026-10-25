@@ -1,5 +1,5 @@
 <a id="RELEASE-18-1"></a>
-## E.5. 18.1 版 [#](#RELEASE-18-1)
+## E.5. 18.1 版 [#](#release-18-1) <a href="#release-18-1" id="release-18-1"></a>
 
 [E.5.1. 遷移至 18.1 版](release-18-1.md#RELEASE-18-1-MIGRATION)
 

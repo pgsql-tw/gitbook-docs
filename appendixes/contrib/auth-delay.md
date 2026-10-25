@@ -1,6 +1,6 @@
 <a id="AUTH-DELAY"></a>
 
-## F.2. `auth_delay` — 驗證失敗時暫停 [#](#AUTH-DELAY)
+## F.2. `auth_delay` — 驗證失敗時暫停 [#](#auth-delay) <a href="#auth-delay" id="auth-delay"></a>
 
 [F.2.1. 設定參數](auth-delay.md#AUTH-DELAY-CONFIGURATION-PARAMETERS)
 

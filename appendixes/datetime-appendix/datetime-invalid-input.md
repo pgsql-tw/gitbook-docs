@@ -1,6 +1,6 @@
 <a id="DATETIME-INVALID-INPUT"></a>
 
-## B.2. 處理無效或模稜兩可的時間戳記 [#](#DATETIME-INVALID-INPUT)
+## B.2. 處理無效或模稜兩可的時間戳記 [#](#datetime-invalid-input) <a href="#datetime-invalid-input" id="datetime-invalid-input"></a>
 
 一般而言，若日期／時間字串語法有效，但包含
 超出範圍的欄位值，就會擲出錯誤。例如，

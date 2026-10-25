@@ -1,6 +1,6 @@
 <a id="UNSUPPORTED-FEATURES-SQL-STANDARD"></a>
 
-## D.2. 不支援的特性 [#](#UNSUPPORTED-FEATURES-SQL-STANDARD)
+## D.2. 不支援的特性 [#](#unsupported-features-sql-standard) <a href="#unsupported-features-sql-standard" id="unsupported-features-sql-standard"></a>
 
 下列 SQL:2023 中定義的特性，在此版本的
 PostgreSQL 中尚未實作。少數情況下，已有同等的功能可用。

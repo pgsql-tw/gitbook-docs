@@ -1,6 +1,6 @@
 <a id="CUBE"></a>
 
-## F.10. cube — 多維 cube 資料型別 [#](#CUBE)
+## F.10. cube — 多維 cube 資料型別 [#](#cube) <a href="#cube" id="cube"></a>
 
 [F.10.1. 語法](cube.md#CUBE-SYNTAX)
 

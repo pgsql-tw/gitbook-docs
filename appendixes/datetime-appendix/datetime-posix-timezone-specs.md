@@ -1,6 +1,6 @@
 <a id="DATETIME-POSIX-TIMEZONE-SPECS"></a>
 
-## B.5. POSIX 時區規格 [#](#DATETIME-POSIX-TIMEZONE-SPECS)
+## B.5. POSIX 時區規格 [#](#datetime-posix-timezone-specs) <a href="#datetime-posix-timezone-specs" id="datetime-posix-timezone-specs"></a>
 
 <a id="id-1.11.3.8.2"></a>
 

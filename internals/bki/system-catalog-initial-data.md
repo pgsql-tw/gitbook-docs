@@ -1,6 +1,6 @@
 <a id="SYSTEM-CATALOG-INITIAL-DATA"></a>
 
-## 68.2. 系統目錄初始資料 [#](#SYSTEM-CATALOG-INITIAL-DATA)
+## 68.2. 系統目錄初始資料 [#](#system-catalog-initial-data) <a href="#system-catalog-initial-data" id="system-catalog-initial-data"></a>
 
 [68.2.1. 資料檔格式](system-catalog-initial-data.md#SYSTEM-CATALOG-INITIAL-DATA-FORMAT)
 

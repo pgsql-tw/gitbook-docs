@@ -1,6 +1,6 @@
 <a id="PLANNER-STATS-SECURITY"></a>
 
-## 69.3. 規劃器統計資訊與安全性 [#](#PLANNER-STATS-SECURITY)
+## 69.3. 規劃器統計資訊與安全性 [#](#planner-stats-security) <a href="#planner-stats-security" id="planner-stats-security"></a>
 
 存取資料表 `pg_statistic` 僅限於超級使用者，
 如此一般使用者就無法從中得知其他使用者資料表的內容。某些選擇率估算函式

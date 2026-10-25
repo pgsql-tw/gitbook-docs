@@ -1,6 +1,6 @@
 <a id="BACKUP-MANIFEST-TOPLEVEL"></a>
 
-## 70.1. 備份清單頂層物件 [#](#BACKUP-MANIFEST-TOPLEVEL)
+## 70.1. 備份清單頂層物件 [#](#backup-manifest-toplevel) <a href="#backup-manifest-toplevel" id="backup-manifest-toplevel"></a>
 
 備份清單的 JSON 文件包含下列鍵。
 

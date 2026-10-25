@@ -1,6 +1,6 @@
 <a id="BKI-COMMANDS"></a>
 
-## 68.4. BKI 命令 [#](#BKI-COMMANDS)
+## 68.4. BKI 命令 [#](#bki-commands) <a href="#bki-commands" id="bki-commands"></a>
 
 `create` *`tablename`* *`tableoid`* [`bootstrap`] [`shared_relation`] [`rowtype_oid` *`oid`*] (*`name1`* = *`type1`* [`FORCE NOT NULL` | `FORCE NULL` ] [, *`name2`* = *`type2`* [`FORCE NOT NULL` | `FORCE NULL` ], ...])
 :   建立名為 *`tablename`* 的資料表，其 OID 為

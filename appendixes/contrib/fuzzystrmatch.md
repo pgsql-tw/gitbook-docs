@@ -1,6 +1,6 @@
 <a id="FUZZYSTRMATCH"></a>
 
-## F.16. fuzzystrmatch — 判定字串相似性與距離 [#](#FUZZYSTRMATCH)
+## F.16. fuzzystrmatch — 判定字串相似性與距離 [#](#fuzzystrmatch) <a href="#fuzzystrmatch" id="fuzzystrmatch"></a>
 
 [F.16.1. Soundex](fuzzystrmatch.md#FUZZYSTRMATCH-SOUNDEX)
 

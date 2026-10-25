@@ -1,6 +1,6 @@
 <a id="XML-LIMITS-CONFORMANCE"></a>
 
-## D.3. XML 限制與 SQL/XML 符合性 [#](#XML-LIMITS-CONFORMANCE)
+## D.3. XML 限制與 SQL/XML 符合性 [#](#xml-limits-conformance) <a href="#xml-limits-conformance" id="xml-limits-conformance"></a>
 
 [D.3.1. 查詢僅限於 XPath 1.0](xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-XPATH1)
 

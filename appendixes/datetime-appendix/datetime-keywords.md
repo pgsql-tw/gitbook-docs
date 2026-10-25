@@ -1,6 +1,6 @@
 <a id="DATETIME-KEYWORDS"></a>
 
-## B.3. 日期／時間關鍵字 [#](#DATETIME-KEYWORDS)
+## B.3. 日期／時間關鍵字 [#](#datetime-keywords) <a href="#datetime-keywords" id="datetime-keywords"></a>
 
 [表 B.1](datetime-keywords.md#DATETIME-MONTH-TABLE) 列出可被辨識為
 月份名稱的記號。

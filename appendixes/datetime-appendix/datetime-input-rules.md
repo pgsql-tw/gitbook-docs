@@ -1,6 +1,6 @@
 <a id="DATETIME-INPUT-RULES"></a>
 
-## B.1. 日期／時間輸入解讀 [#](#DATETIME-INPUT-RULES)
+## B.1. 日期／時間輸入解讀 [#](#datetime-input-rules) <a href="#datetime-input-rules" id="datetime-input-rules"></a>
 
 日期／時間輸入字串會依照下列程序解碼。
 

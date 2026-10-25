@@ -1,6 +1,6 @@
 <a id="BASIC-ARCHIVE"></a>
 
-## F.5. `basic_archive` — WAL 封存模組範例 [#](#BASIC-ARCHIVE)
+## F.5. `basic_archive` — WAL 封存模組範例 [#](#basic-archive) <a href="#basic-archive" id="basic-archive"></a>
 
 [F.5.1. 設定參數](basic-archive.md#BASIC-ARCHIVE-CONFIGURATION-PARAMETERS)
 

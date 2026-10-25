@@ -1,6 +1,6 @@
 <a id="DATETIME-CONFIG-FILES"></a>
 
-## B.4. 日期／時間設定檔 [#](#DATETIME-CONFIG-FILES)
+## B.4. 日期／時間設定檔 [#](#datetime-config-files) <a href="#datetime-config-files" id="datetime-config-files"></a>
 
 <a id="id-1.11.3.7.2"></a>
 

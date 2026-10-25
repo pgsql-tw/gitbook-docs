@@ -1,6 +1,6 @@
 <a id="BKI-EXAMPLE"></a>
 
-## 68.6. BKI 範例 [#](#BKI-EXAMPLE)
+## 68.6. BKI 範例 [#](#bki-example) <a href="#bki-example" id="bki-example"></a>
 
 以下命令序列會建立 OID 為 420 的資料表 `test_table`，其中包含 `oid`、`cola` 和 `colb` 三個欄位，型別分別為 `oid`、`int4` 和 `text`，並在資料表中插入兩筆資料列：
 

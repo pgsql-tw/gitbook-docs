@@ -1,6 +1,6 @@
 <a id="BKI-FORMAT"></a>
 
-## 68.3. BKI 檔案格式 [#](#BKI-FORMAT)
+## 68.3. BKI 檔案格式 [#](#bki-format) <a href="#bki-format" id="bki-format"></a>
 
 本節說明 PostgreSQL 後端如何解讀 BKI 檔案。若手邊有 `postgres.bki` 檔案作為範例，會更容易理解以下說明。
 

@@ -1,6 +1,6 @@
 <a id="MULTIVARIATE-STATISTICS-EXAMPLES"></a>
 
-## 69.2. 多變量統計資訊範例 [#](#MULTIVARIATE-STATISTICS-EXAMPLES)
+## 69.2. 多變量統計資訊範例 [#](#multivariate-statistics-examples) <a href="#multivariate-statistics-examples" id="multivariate-statistics-examples"></a>
 
 [69.2.1. 函數相依性](multivariate-statistics-examples.md#FUNCTIONAL-DEPENDENCIES)
 

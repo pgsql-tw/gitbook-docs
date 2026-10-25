@@ -1,6 +1,6 @@
 <a id="RELEASE-18"></a>
 
-## E.6. 18 版 [#](#RELEASE-18)
+## E.6. 18 版 [#](#release-18) <a href="#release-18" id="release-18"></a>
 
 [E.6.1. 概覽](release-18.md#RELEASE-18-HIGHLIGHTS)
 

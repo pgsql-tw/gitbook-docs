@@ -1,6 +1,6 @@
 <a id="BACKUP-MANIFEST-FILES"></a>
 
-## 70.2. 備份清單檔案物件 [#](#BACKUP-MANIFEST-FILES)
+## 70.2. 備份清單檔案物件 [#](#backup-manifest-files) <a href="#backup-manifest-files" id="backup-manifest-files"></a>
 
 描述單一檔案的物件會包含 `Path` 鍵或 `Encoded-Path` 鍵其中之一。通常會出現的是 `Path` 鍵，其對應的字串值是該檔案相對於備份目錄根目錄的路徑。位於使用者定義資料表空間中的檔案，其路徑的前兩個組成部分是 `pg_tblspc` 與該資料表空間的 OID。若路徑不是合法的 UTF-8 字串，或使用者要求所有檔案都使用編碼路徑，則改為出現 `Encoded-Path` 鍵。它儲存相同的資料，但編碼為十六進位數字組成的字串。字串中每一對十六進位數字代表一個八位元組（octet）。
 
