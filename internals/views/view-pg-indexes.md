@@ -1,6 +1,6 @@
 <a id="VIEW-PG-INDEXES"></a>
 
-## 53.12. `pg_indexes` [#](#VIEW-PG-INDEXES)
+## 53.12. `pg_indexes` [#](#view-pg-indexes) <a href="#view-pg-indexes" id="view-pg-indexes"></a>
 
 <a id="id-1.10.5.16.2"></a>
 

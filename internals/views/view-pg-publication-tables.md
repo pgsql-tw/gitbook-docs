@@ -1,6 +1,6 @@
 <a id="VIEW-PG-PUBLICATION-TABLES"></a>
 
-## 53.18. `pg_publication_tables` [#](#VIEW-PG-PUBLICATION-TABLES)
+## 53.18. `pg_publication_tables` [#](#view-pg-publication-tables) <a href="#view-pg-publication-tables" id="view-pg-publication-tables"></a>
 
 <a id="id-1.10.5.22.2"></a>
 

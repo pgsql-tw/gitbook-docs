@@ -1,6 +1,6 @@
 <a id="SASL-AUTHENTICATION"></a>
 
-## 54.3. SASL 身分驗證 [#](#SASL-AUTHENTICATION)
+## 54.3. SASL 身分驗證 [#](#sasl-authentication) <a href="#sasl-authentication" id="sasl-authentication"></a>
 
 [54.3.1. SCRAM-SHA-256 身分驗證](sasl-authentication.md#SASL-SCRAM-SHA-256)
 

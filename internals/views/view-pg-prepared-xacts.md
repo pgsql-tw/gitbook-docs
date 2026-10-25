@@ -1,6 +1,6 @@
 <a id="VIEW-PG-PREPARED-XACTS"></a>
 
-## 53.17. `pg_prepared_xacts` [#](#VIEW-PG-PREPARED-XACTS)
+## 53.17. `pg_prepared_xacts` [#](#view-pg-prepared-xacts) <a href="#view-pg-prepared-xacts" id="view-pg-prepared-xacts"></a>
 
 <a id="id-1.10.5.21.2"></a>
 

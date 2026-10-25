@@ -1,6 +1,6 @@
 <a id="VIEW-PG-FILE-SETTINGS"></a>
 
-## 53.8. `pg_file_settings` [#](#VIEW-PG-FILE-SETTINGS)
+## 53.8. `pg_file_settings` [#](#view-pg-file-settings) <a href="#view-pg-file-settings" id="view-pg-file-settings"></a>
 
 <a id="id-1.10.5.12.2"></a>
 

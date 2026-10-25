@@ -1,6 +1,6 @@
 <a id="VIEW-PG-STATS-EXT"></a>
 
-## 53.30. `pg_stats_ext` [#](#VIEW-PG-STATS-EXT)
+## 53.30. `pg_stats_ext` [#](#view-pg-stats-ext) <a href="#view-pg-stats-ext" id="view-pg-stats-ext"></a>
 
 <a id="id-1.10.5.34.2"></a>
 

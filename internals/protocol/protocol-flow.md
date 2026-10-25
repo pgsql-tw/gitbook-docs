@@ -1,6 +1,6 @@
 <a id="PROTOCOL-FLOW"></a>
 
-## 54.2. 訊息流程 [#](#PROTOCOL-FLOW)
+## 54.2. 訊息流程 [#](#protocol-flow) <a href="#protocol-flow" id="protocol-flow"></a>
 
 [54.2.1. 啟動](protocol-flow.md#PROTOCOL-FLOW-START-UP)
 

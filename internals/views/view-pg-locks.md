@@ -1,6 +1,6 @@
 <a id="VIEW-PG-LOCKS"></a>
 
-## 53.13. `pg_locks` [#](#VIEW-PG-LOCKS)
+## 53.13. `pg_locks` [#](#view-pg-locks) <a href="#view-pg-locks" id="view-pg-locks"></a>
 
 <a id="id-1.10.5.17.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="VIEW-PG-POLICIES"></a>
 
-## 53.15. `pg_policies` [#](#VIEW-PG-POLICIES)
+## 53.15. `pg_policies` [#](#view-pg-policies) <a href="#view-pg-policies" id="view-pg-policies"></a>
 
 <a id="id-1.10.5.19.2"></a>
 

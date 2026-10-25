@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TS-PARSER"></a>
 
-## 52.62. `pg_ts_parser` [#](#CATALOG-PG-TS-PARSER)
+## 52.62. `pg_ts_parser` [#](#catalog-pg-ts-parser) <a href="#catalog-pg-ts-parser" id="catalog-pg-ts-parser"></a>
 
 <a id="id-1.10.4.64.2"></a>
 

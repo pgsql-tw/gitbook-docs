@@ -1,6 +1,6 @@
 <a id="VIEW-PG-PREPARED-STATEMENTS"></a>
 
-## 53.16. `pg_prepared_statements` [#](#VIEW-PG-PREPARED-STATEMENTS)
+## 53.16. `pg_prepared_statements` [#](#view-pg-prepared-statements) <a href="#view-pg-prepared-statements" id="view-pg-prepared-statements"></a>
 
 <a id="id-1.10.5.20.2"></a>
 

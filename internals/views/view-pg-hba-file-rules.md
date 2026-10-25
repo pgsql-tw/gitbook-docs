@@ -1,6 +1,6 @@
 <a id="VIEW-PG-HBA-FILE-RULES"></a>
 
-## 53.10. `pg_hba_file_rules` [#](#VIEW-PG-HBA-FILE-RULES)
+## 53.10. `pg_hba_file_rules` [#](#view-pg-hba-file-rules) <a href="#view-pg-hba-file-rules" id="view-pg-hba-file-rules"></a>
 
 <a id="id-1.10.5.14.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="PROTOCOL-MESSAGE-TYPES"></a>
 
-## 54.6. 訊息資料型別 [#](#PROTOCOL-MESSAGE-TYPES)
+## 54.6. 訊息資料型別 [#](#protocol-message-types) <a href="#protocol-message-types" id="protocol-message-types"></a>
 
 本節說明訊息中使用的基本資料型別。
 

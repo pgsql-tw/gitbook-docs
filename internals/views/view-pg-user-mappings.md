@@ -1,6 +1,6 @@
 <a id="VIEW-PG-USER-MAPPINGS"></a>
 
-## 53.36. `pg_user_mappings` [#](#VIEW-PG-USER-MAPPINGS)
+## 53.36. `pg_user_mappings` [#](#view-pg-user-mappings) <a href="#view-pg-user-mappings" id="view-pg-user-mappings"></a>
 
 <a id="id-1.10.5.40.2"></a>
 

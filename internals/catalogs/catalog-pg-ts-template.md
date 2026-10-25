@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-TS-TEMPLATE"></a>
 
-## 52.63. `pg_ts_template` [#](#CATALOG-PG-TS-TEMPLATE)
+## 52.63. `pg_ts_template` [#](#catalog-pg-ts-template) <a href="#catalog-pg-ts-template" id="catalog-pg-ts-template"></a>
 
 <a id="id-1.10.4.65.2"></a>
 

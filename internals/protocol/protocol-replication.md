@@ -1,6 +1,6 @@
 <a id="PROTOCOL-REPLICATION"></a>
 
-## 54.4. 串流複寫協定 [#](#PROTOCOL-REPLICATION)
+## 54.4. 串流複寫協定 [#](#protocol-replication) <a href="#protocol-replication" id="protocol-replication"></a>
 
 要啟動串流複寫，前端會在啟動訊息中送出 `replication` 參數。布林值 `true`（或 `on`、`yes`、`1`）會告訴後端進入實體複寫 walsender 模式，在此模式下可以發出下面所列的一小組複寫命令，而不是 SQL 陳述式。
 

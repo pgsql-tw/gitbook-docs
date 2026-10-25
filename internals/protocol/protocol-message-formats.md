@@ -1,6 +1,6 @@
 <a id="PROTOCOL-MESSAGE-FORMATS"></a>
 
-## 54.7. 訊息格式 [#](#PROTOCOL-MESSAGE-FORMATS)
+## 54.7. 訊息格式 [#](#protocol-message-formats) <a href="#protocol-message-formats" id="protocol-message-formats"></a>
 
 本節說明每種訊息的詳細格式。每種訊息都有標示，指出它可由前端 (F)、後端 (B) 或兩者 (F & B) 傳送。請注意，雖然每則訊息的開頭都包含位元組計數，但大多數訊息的定義方式，都讓人不必參考該位元組計數就能找到訊息結尾。這是出於歷史因素：原本、如今已淘汰的協定第 2 版並沒有明確的長度欄位。不過，這也有助於有效性檢查。
 

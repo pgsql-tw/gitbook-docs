@@ -1,6 +1,6 @@
 <a id="VIEW-PG-TIMEZONE-NAMES"></a>
 
-## 53.34. `pg_timezone_names` [#](#VIEW-PG-TIMEZONE-NAMES)
+## 53.34. `pg_timezone_names` [#](#view-pg-timezone-names) <a href="#view-pg-timezone-names" id="view-pg-timezone-names"></a>
 
 <a id="id-1.10.5.38.2"></a>
 

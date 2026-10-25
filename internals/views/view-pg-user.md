@@ -1,6 +1,6 @@
 <a id="VIEW-PG-USER"></a>
 
-## 53.35. `pg_user` [#](#VIEW-PG-USER)
+## 53.35. `pg_user` [#](#view-pg-user) <a href="#view-pg-user" id="view-pg-user"></a>
 
 <a id="id-1.10.5.39.2"></a>
 

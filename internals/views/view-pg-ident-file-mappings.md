@@ -1,6 +1,6 @@
 <a id="VIEW-PG-IDENT-FILE-MAPPINGS"></a>
 
-## 53.11. `pg_ident_file_mappings` [#](#VIEW-PG-IDENT-FILE-MAPPINGS)
+## 53.11. `pg_ident_file_mappings` [#](#view-pg-ident-file-mappings) <a href="#view-pg-ident-file-mappings" id="view-pg-ident-file-mappings"></a>
 
 <a id="id-1.10.5.15.2"></a>
 

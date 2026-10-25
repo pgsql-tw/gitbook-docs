@@ -1,6 +1,6 @@
 <a id="VIEW-PG-ROLES"></a>
 
-## 53.21. `pg_roles` [#](#VIEW-PG-ROLES)
+## 53.21. `pg_roles` [#](#view-pg-roles) <a href="#view-pg-roles" id="view-pg-roles"></a>
 
 <a id="id-1.10.5.25.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="VIEW-PG-SHADOW"></a>
 
-## 53.26. `pg_shadow` [#](#VIEW-PG-SHADOW)
+## 53.26. `pg_shadow` [#](#view-pg-shadow) <a href="#view-pg-shadow" id="view-pg-shadow"></a>
 
 <a id="id-1.10.5.30.2"></a>
 

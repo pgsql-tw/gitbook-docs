@@ -1,6 +1,6 @@
 <a id="CATALOG-PG-USER-MAPPING"></a>
 
-## 52.65. `pg_user_mapping` [#](#CATALOG-PG-USER-MAPPING)
+## 52.65. `pg_user_mapping` [#](#catalog-pg-user-mapping) <a href="#catalog-pg-user-mapping" id="catalog-pg-user-mapping"></a>
 
 <a id="id-1.10.4.67.2"></a>
 

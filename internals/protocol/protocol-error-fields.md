@@ -1,6 +1,6 @@
 <a id="PROTOCOL-ERROR-FIELDS"></a>
 
-## 54.8. 錯誤與通知訊息欄位 [#](#PROTOCOL-ERROR-FIELDS)
+## 54.8. 錯誤與通知訊息欄位 [#](#protocol-error-fields) <a href="#protocol-error-fields" id="protocol-error-fields"></a>
 
 本節說明可以出現在 ErrorResponse 與 NoticeResponse 訊息中的欄位。每種欄位類型都有一個單一位元組的識別記號。請注意，任何一種欄位類型在每則訊息中都應該最多只出現一次。
 

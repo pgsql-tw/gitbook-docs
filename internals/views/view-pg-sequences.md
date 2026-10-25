@@ -1,6 +1,6 @@
 <a id="VIEW-PG-SEQUENCES"></a>
 
-## 53.24. `pg_sequences` [#](#VIEW-PG-SEQUENCES)
+## 53.24. `pg_sequences` [#](#view-pg-sequences) <a href="#view-pg-sequences" id="view-pg-sequences"></a>
 
 <a id="id-1.10.5.28.2"></a>
 

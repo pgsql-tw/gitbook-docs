@@ -1,6 +1,6 @@
 <a id="VIEW-PG-SHMEM-ALLOCATIONS-NUMA"></a>
 
-## 53.28. `pg_shmem_allocations_numa` [#](#VIEW-PG-SHMEM-ALLOCATIONS-NUMA)
+## 53.28. `pg_shmem_allocations_numa` [#](#view-pg-shmem-allocations-numa) <a href="#view-pg-shmem-allocations-numa" id="view-pg-shmem-allocations-numa"></a>
 
 <a id="id-1.10.5.32.2"></a>
 

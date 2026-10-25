@@ -1,6 +1,6 @@
 <a id="VIEW-PG-AVAILABLE-EXTENSION-VERSIONS"></a>
 
-## 53.4. `pg_available_extension_versions` [#](#VIEW-PG-AVAILABLE-EXTENSION-VERSIONS)
+## 53.4. `pg_available_extension_versions` [#](#view-pg-available-extension-versions) <a href="#view-pg-available-extension-versions" id="view-pg-available-extension-versions"></a>
 
 <a id="id-1.10.5.8.2"></a>
 

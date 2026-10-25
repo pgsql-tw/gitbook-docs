@@ -1,6 +1,6 @@
 <a id="VIEW-PG-CURSORS"></a>
 
-## 53.7. `pg_cursors` [#](#VIEW-PG-CURSORS)
+## 53.7. `pg_cursors` [#](#view-pg-cursors) <a href="#view-pg-cursors" id="view-pg-cursors"></a>
 
 <a id="id-1.10.5.11.2"></a>
 

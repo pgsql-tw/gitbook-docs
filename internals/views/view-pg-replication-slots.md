@@ -1,6 +1,6 @@
 <a id="VIEW-PG-REPLICATION-SLOTS"></a>
 
-## 53.20. `pg_replication_slots` [#](#VIEW-PG-REPLICATION-SLOTS)
+## 53.20. `pg_replication_slots` [#](#view-pg-replication-slots) <a href="#view-pg-replication-slots" id="view-pg-replication-slots"></a>
 
 <a id="id-1.10.5.24.2"></a>
 

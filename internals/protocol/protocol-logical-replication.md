@@ -1,6 +1,6 @@
 <a id="PROTOCOL-LOGICAL-REPLICATION"></a>
 
-## 54.5. 邏輯串流複寫協定 [#](#PROTOCOL-LOGICAL-REPLICATION)
+## 54.5. 邏輯串流複寫協定 [#](#protocol-logical-replication) <a href="#protocol-logical-replication" id="protocol-logical-replication"></a>
 
 [54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#PROTOCOL-LOGICAL-REPLICATION-PARAMS)
 

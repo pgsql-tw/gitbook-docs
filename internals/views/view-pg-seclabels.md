@@ -1,6 +1,6 @@
 <a id="VIEW-PG-SECLABELS"></a>
 
-## 53.23. `pg_seclabels` [#](#VIEW-PG-SECLABELS)
+## 53.23. `pg_seclabels` [#](#view-pg-seclabels) <a href="#view-pg-seclabels" id="view-pg-seclabels"></a>
 
 <a id="id-1.10.5.27.2"></a>
 

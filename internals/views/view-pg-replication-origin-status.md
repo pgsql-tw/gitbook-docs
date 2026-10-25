@@ -1,6 +1,6 @@
 <a id="VIEW-PG-REPLICATION-ORIGIN-STATUS"></a>
 
-## 53.19. `pg_replication_origin_status` [#](#VIEW-PG-REPLICATION-ORIGIN-STATUS)
+## 53.19. `pg_replication_origin_status` [#](#view-pg-replication-origin-status) <a href="#view-pg-replication-origin-status" id="view-pg-replication-origin-status"></a>
 
 <a id="id-1.10.5.23.2"></a>
 

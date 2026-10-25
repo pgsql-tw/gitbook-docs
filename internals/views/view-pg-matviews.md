@@ -1,6 +1,6 @@
 <a id="VIEW-PG-MATVIEWS"></a>
 
-## 53.14. `pg_matviews` [#](#VIEW-PG-MATVIEWS)
+## 53.14. `pg_matviews` [#](#view-pg-matviews) <a href="#view-pg-matviews" id="view-pg-matviews"></a>
 
 <a id="id-1.10.5.18.2"></a><a id="id-1.10.5.18.3"></a>
 

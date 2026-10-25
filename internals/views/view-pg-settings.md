@@ -1,6 +1,6 @@
 <a id="VIEW-PG-SETTINGS"></a>
 
-## 53.25. `pg_settings` [#](#VIEW-PG-SETTINGS)
+## 53.25. `pg_settings` [#](#view-pg-settings) <a href="#view-pg-settings" id="view-pg-settings"></a>
 
 <a id="id-1.10.5.29.2"></a>
 
