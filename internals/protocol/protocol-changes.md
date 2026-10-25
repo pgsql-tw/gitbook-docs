@@ -1,6 +1,6 @@
 <a id="PROTOCOL-CHANGES"></a>
 
-## 54.10. 自協定 2.0 以來的變更摘要 [#](#PROTOCOL-CHANGES)
+## 54.10. 自協定 2.0 以來的變更摘要 [#](#protocol-changes) <a href="#protocol-changes" id="protocol-changes"></a>
 
 本節提供一份變更的快速檢查清單，供試圖將現有用戶端函式庫更新至協定 3.0 的開發人員參考。
 

@@ -1,6 +1,6 @@
 <a id="FDW-FUNCTIONS"></a>
 
-## 58.1. 外部資料包裝器函式 [#](#FDW-FUNCTIONS)
+## 58.1. 外部資料包裝器函式 [#](#fdw-functions) <a href="#fdw-functions" id="fdw-functions"></a>
 
 FDW 作者需要實作一個處理函式，並可選擇實作一個驗證函式。這兩個函式都必須以 C 之類的編譯式語言撰寫，並使用版本 1 介面。關於 C 語言呼叫慣例與動態載入的詳細資訊，請參閱[第 36.10 節](../../server-programming/extend/xfunc-c.md)。
 

@@ -1,6 +1,6 @@
 <a id="INDEX-SCANNING"></a>
 
-## 63.3. 索引掃描 [#](#INDEX-SCANNING)
+## 63.3. 索引掃描 [#](#index-scanning) <a href="#index-scanning" id="index-scanning"></a>
 
 在索引掃描中，索引存取方法負責吐回它被告知的所有元組（tuple）中，符合*掃描鍵*（scan key）者的 TID。存取方法*不*參與實際從索引的父資料表擷取這些元組，也不參與判斷這些元組是否通過掃描的可見性測試或其他條件。
 

@@ -1,6 +1,6 @@
 <a id="CUSTOM-RMGR"></a>
 
-## 64.2. 自訂 WAL 資源管理器 [#](#CUSTOM-RMGR)
+## 64.2. 自訂 WAL 資源管理器 [#](#custom-rmgr) <a href="#custom-rmgr" id="custom-rmgr"></a>
 
 本節說明 PostgreSQL 核心系統與自訂 WAL 資源管理器之間的介面；自訂 WAL 資源管理器讓擴充功能能夠直接與 [WAL](../../server-administration/wal/README.md) 整合。
 

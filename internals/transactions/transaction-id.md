@@ -1,6 +1,6 @@
 <a id="TRANSACTION-ID"></a>
 
-## 67.1. 交易與識別碼 [#](#TRANSACTION-ID)
+## 67.1. 交易與識別碼 [#](#transaction-id) <a href="#transaction-id" id="transaction-id"></a>
 
 交易可以使用 `BEGIN`
 或 `START TRANSACTION` 明確建立，並使用

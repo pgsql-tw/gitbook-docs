@@ -1,6 +1,6 @@
 <a id="BTREE"></a>
 
-## 65.1. B-Tree 索引 [#](#BTREE)
+## 65.1. B-Tree 索引 [#](#btree) <a href="#btree" id="btree"></a>
 
 [65.1.1. 簡介](btree.md#BTREE-INTRO)
 

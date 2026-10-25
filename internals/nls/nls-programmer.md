@@ -1,6 +1,6 @@
 <a id="NLS-PROGRAMMER"></a>
 
-## 56.2. 給程式設計者 [#](#NLS-PROGRAMMER)
+## 56.2. 給程式設計者 [#](#nls-programmer) <a href="#nls-programmer" id="nls-programmer"></a>
 
 [56.2.1. 運作機制](nls-programmer.md#NLS-MECHANICS)
 

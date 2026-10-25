@@ -1,6 +1,6 @@
 <a id="STORAGE-PAGE-LAYOUT"></a>
 
-## 66.6. 資料庫頁面配置 [#](#STORAGE-PAGE-LAYOUT)
+## 66.6. 資料庫頁面配置 [#](#storage-page-layout) <a href="#storage-page-layout" id="storage-page-layout"></a>
 
 [66.6.1. 資料表資料列配置](storage-page-layout.md#STORAGE-TUPLE-LAYOUT)
 

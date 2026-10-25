@@ -1,6 +1,6 @@
 <a id="STORAGE-TOAST"></a>
 
-## 66.2. TOAST [#](#STORAGE-TOAST)
+## 66.2. TOAST [#](#storage-toast) <a href="#storage-toast" id="storage-toast"></a>
 
 [66.2.1. 資料列外的磁碟 TOAST 儲存](storage-toast.md#STORAGE-TOAST-ONDISK)
 

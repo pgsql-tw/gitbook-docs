@@ -1,6 +1,6 @@
 <a id="TABLESAMPLE-SUPPORT-FUNCTIONS"></a>
 
-## 59.1. 取樣方法支援函式 [#](#TABLESAMPLE-SUPPORT-FUNCTIONS)
+## 59.1. 取樣方法支援函式 [#](#tablesample-support-functions) <a href="#tablesample-support-functions" id="tablesample-support-functions"></a>
 
 TSM 處理函式會傳回一個以 palloc 配置的 `TsmRoutine` 結構，其中包含指向下述各支援函式的指標。大部分函式都是必要的，但有些是選用的，這些函式的指標可以是 NULL。
 

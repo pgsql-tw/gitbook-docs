@@ -1,6 +1,6 @@
 <a id="SUBXACTS"></a>
 
-## 67.3. 子交易 [#](#SUBXACTS)
+## 67.3. 子交易 [#](#subxacts) <a href="#subxacts" id="subxacts"></a>
 
 子交易是在交易內部開始的，讓大型交易可以拆分成較小的單位。子交易可以提交或中止，而不影響其父交易，讓父交易得以繼續進行。這使錯誤更容易處理，而這是一種常見的應用程式開發模式。subtransaction（子交易）一詞經常縮寫為
 *subxact*。

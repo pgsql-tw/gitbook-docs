@@ -1,6 +1,6 @@
 <a id="FDW-CALLBACKS"></a>
 
-## 58.2. 外部資料包裝器回呼函式 [#](#FDW-CALLBACKS)
+## 58.2. 外部資料包裝器回呼函式 [#](#fdw-callbacks) <a href="#fdw-callbacks" id="fdw-callbacks"></a>
 
 [58.2.1. 掃描外部資料表的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-SCAN)
 

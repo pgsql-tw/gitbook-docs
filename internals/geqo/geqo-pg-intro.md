@@ -1,6 +1,6 @@
 <a id="GEQO-PG-INTRO"></a>
 
-## 61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO） [#](#GEQO-PG-INTRO)
+## 61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO） [#](#geqo-pg-intro) <a href="#geqo-pg-intro" id="geqo-pg-intro"></a>
 
 [61.3.1. 以 GEQO 產生可能的計畫](geqo-pg-intro.md#GEQO-PG-INTRO-GEN-POSSIBLE-PLANS)
 

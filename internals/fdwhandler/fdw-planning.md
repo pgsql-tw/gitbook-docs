@@ -1,6 +1,6 @@
 <a id="FDW-PLANNING"></a>
 
-## 58.4. 外部資料包裝器查詢規劃 [#](#FDW-PLANNING)
+## 58.4. 外部資料包裝器查詢規劃 [#](#fdw-planning) <a href="#fdw-planning" id="fdw-planning"></a>
 
 FDW 回呼函式 `GetForeignRelSize`、
 `GetForeignPaths`、`GetForeignPlan`、

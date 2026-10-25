@@ -39,47 +39,59 @@
 此階段中伺服器可能傳送的訊息有：
 
 ErrorResponse
-:   連線嘗試已被拒絕。伺服器接著會立即關閉連線。
+
+連線嘗試已被拒絕。伺服器接著會立即關閉連線。
 
 AuthenticationOk
-:   認證交換已成功完成。
+
+認證交換已成功完成。
 
 AuthenticationKerberosV5
-:   前端現在必須與伺服器進行 Kerberos V5 認證對話（此處不加說明，屬於 Kerberos 規格的一部分）。若成功，伺服器會回應 AuthenticationOk，否則回應 ErrorResponse。此方式已不再支援。
+
+前端現在必須與伺服器進行 Kerberos V5 認證對話（此處不加說明，屬於 Kerberos 規格的一部分）。若成功，伺服器會回應 AuthenticationOk，否則回應 ErrorResponse。此方式已不再支援。
 
 AuthenticationCleartextPassword
-:   前端現在必須傳送一個以明文形式包含密碼的 PasswordMessage。若密碼正確，伺服器會回應 AuthenticationOk，否則回應 ErrorResponse。
+
+前端現在必須傳送一個以明文形式包含密碼的 PasswordMessage。若密碼正確，伺服器會回應 AuthenticationOk，否則回應 ErrorResponse。
 
 AuthenticationMD5Password
-:   前端現在必須傳送一個 PasswordMessage，其中的密碼（連同使用者名稱）先以 MD5 加密，再使用 AuthenticationMD5Password 訊息中指定的 4 位元組隨機鹽值（salt） 再加密一次。若密碼正確，伺服器會回應 AuthenticationOk，否則回應 ErrorResponse。實際的 PasswordMessage 可以在 SQL 中以 `concat('md5',
+
+前端現在必須傳送一個 PasswordMessage，其中的密碼（連同使用者名稱）先以 MD5 加密，再使用 AuthenticationMD5Password 訊息中指定的 4 位元組隨機鹽值（salt） 再加密一次。若密碼正確，伺服器會回應 AuthenticationOk，否則回應 ErrorResponse。實際的 PasswordMessage 可以在 SQL 中以 `concat('md5',
     md5(concat(md5(concat(password, username)), random-salt)))` 計算。（請記得 `md5()` 函式會以十六進位字串傳回其結果。）
 
-    ### 警告
+### 警告
 
-    對 MD5 加密密碼的支援已棄用，並將在 PostgreSQL 的未來版本中移除。關於改用其他密碼類型的詳細資訊，請參閱[第 20.5 節](../../server-administration/client-authentication/auth-password.md)。
+對 MD5 加密密碼的支援已棄用，並將在 PostgreSQL 的未來版本中移除。關於改用其他密碼類型的詳細資訊，請參閱[第 20.5 節](../../server-administration/client-authentication/auth-password.md)。
 
 AuthenticationGSS
-:   前端現在必須啟動 GSSAPI 協商。前端會傳送一個 GSSResponse 訊息作為回應，其中包含 GSSAPI 資料串流的第一部分。若需要更多訊息，伺服器會回應 AuthenticationGSSContinue。
+
+前端現在必須啟動 GSSAPI 協商。前端會傳送一個 GSSResponse 訊息作為回應，其中包含 GSSAPI 資料串流的第一部分。若需要更多訊息，伺服器會回應 AuthenticationGSSContinue。
 
 AuthenticationSSPI
-:   前端現在必須啟動 SSPI 協商。前端會傳送一個 GSSResponse 作為回應，其中包含 SSPI 資料串流的第一部分。若需要更多訊息，伺服器會回應 AuthenticationGSSContinue。
+
+前端現在必須啟動 SSPI 協商。前端會傳送一個 GSSResponse 作為回應，其中包含 SSPI 資料串流的第一部分。若需要更多訊息，伺服器會回應 AuthenticationGSSContinue。
 
 AuthenticationGSSContinue
-:   此訊息包含 GSSAPI 或 SSPI 協商前一步驟（AuthenticationGSS、AuthenticationSSPI 或前一個 AuthenticationGSSContinue）的回應資料。若此訊息中的 GSSAPI 或 SSPI 資料表示還需要更多資料才能完成認證，前端必須將那些資料以另一個 GSSResponse 訊息傳送。若 GSSAPI 或 SSPI 認證已由此訊息完成，伺服器接下來會傳送 AuthenticationOk 表示認證成功，或傳送 ErrorResponse 表示失敗。
+
+此訊息包含 GSSAPI 或 SSPI 協商前一步驟（AuthenticationGSS、AuthenticationSSPI 或前一個 AuthenticationGSSContinue）的回應資料。若此訊息中的 GSSAPI 或 SSPI 資料表示還需要更多資料才能完成認證，前端必須將那些資料以另一個 GSSResponse 訊息傳送。若 GSSAPI 或 SSPI 認證已由此訊息完成，伺服器接下來會傳送 AuthenticationOk 表示認證成功，或傳送 ErrorResponse 表示失敗。
 
 AuthenticationSASL
-:   前端現在必須使用訊息中所列的其中一種 SASL 機制啟動 SASL 協商。前端會傳送一個 SASLInitialResponse 作為回應，其中包含所選機制的名稱以及 SASL 資料串流的第一部分。若需要更多訊息，伺服器會回應 AuthenticationSASLContinue。詳細資訊請參閱[第 54.3 節](sasl-authentication.md)。
+
+前端現在必須使用訊息中所列的其中一種 SASL 機制啟動 SASL 協商。前端會傳送一個 SASLInitialResponse 作為回應，其中包含所選機制的名稱以及 SASL 資料串流的第一部分。若需要更多訊息，伺服器會回應 AuthenticationSASLContinue。詳細資訊請參閱[第 54.3 節](sasl-authentication.md)。
 
 AuthenticationSASLContinue
-:   此訊息包含 SASL 協商前一步驟（AuthenticationSASL 或前一個 AuthenticationSASLContinue）的挑戰資料。前端必須以 SASLResponse 訊息回應。
+
+此訊息包含 SASL 協商前一步驟（AuthenticationSASL 或前一個 AuthenticationSASLContinue）的挑戰資料。前端必須以 SASLResponse 訊息回應。
 
 AuthenticationSASLFinal
-:   SASL 認證已完成，並附帶給用戶端的額外機制專屬資料。伺服器接下來會傳送 AuthenticationOk 表示認證成功，或傳送 ErrorResponse 表示失敗。只有在 SASL 機制規定完成時要從伺服器傳送額外資料給用戶端時，才會傳送此訊息。
+
+SASL 認證已完成，並附帶給用戶端的額外機制專屬資料。伺服器接下來會傳送 AuthenticationOk 表示認證成功，或傳送 ErrorResponse 表示失敗。只有在 SASL 機制規定完成時要從伺服器傳送額外資料給用戶端時，才會傳送此訊息。
 
 NegotiateProtocolVersion
-:   伺服器不支援用戶端所請求的次要協定版本，但支援較早的協定版本；此訊息指出所支援的最高次要版本。若用戶端在啟動封包中請求了不支援的協定選項（亦即以 `_pq_.` 開頭者），也會傳送此訊息。
 
-    收到此訊息後，認證會使用伺服器所指出的版本繼續進行。若用戶端不支援該較舊版本，應該立即關閉連線。若伺服器未傳送此訊息，表示它支援用戶端所請求的協定版本以及所有協定選項。
+伺服器不支援用戶端所請求的次要協定版本，但支援較早的協定版本；此訊息指出所支援的最高次要版本。若用戶端在啟動封包中請求了不支援的協定選項（亦即以 `_pq_.` 開頭者），也會傳送此訊息。
+
+收到此訊息後，認證會使用伺服器所指出的版本繼續進行。若用戶端不支援該較舊版本，應該立即關閉連線。若伺服器未傳送此訊息，表示它支援用戶端所請求的協定版本以及所有協定選項。
 
 若前端不支援伺服器所請求的認證方法，則應該立即關閉連線。
 
@@ -90,21 +102,26 @@ NegotiateProtocolVersion
 此階段中後端可能傳送的訊息有：
 
 BackendKeyData
-:   此訊息提供祕密金鑰資料；前端若希望之後能發出取消請求，就必須保存這些資料。前端不應該回應此訊息，而應該繼續等待 ReadyForQuery 訊息。
 
-    PostgreSQL 伺服器一定會傳送此訊息，但已知某些不支援查詢取消的第三方後端協定實作不會傳送。
+此訊息提供祕密金鑰資料；前端若希望之後能發出取消請求，就必須保存這些資料。前端不應該回應此訊息，而應該繼續等待 ReadyForQuery 訊息。
+
+PostgreSQL 伺服器一定會傳送此訊息，但已知某些不支援查詢取消的第三方後端協定實作不會傳送。
 
 ParameterStatus
-:   此訊息告知前端後端參數目前的（初始）設定，例如 [client_encoding](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-ENCODING) 或 [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE)。前端可以忽略此訊息，或記錄這些設定以供日後使用；詳細資訊請參閱[第 54.2.7 節](protocol-flow.md#PROTOCOL-ASYNC)。前端不應該回應此訊息，而應該繼續等待 ReadyForQuery 訊息。
+
+此訊息告知前端後端參數目前的（初始）設定，例如 [client_encoding](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-ENCODING) 或 [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE)。前端可以忽略此訊息，或記錄這些設定以供日後使用；詳細資訊請參閱[第 54.2.7 節](protocol-flow.md#PROTOCOL-ASYNC)。前端不應該回應此訊息，而應該繼續等待 ReadyForQuery 訊息。
 
 ReadyForQuery
-:   啟動已完成。前端現在可以發出命令。
+
+啟動已完成。前端現在可以發出命令。
 
 ErrorResponse
-:   啟動失敗。傳送此訊息後連線即關閉。
+
+啟動失敗。傳送此訊息後連線即關閉。
 
 NoticeResponse
-:   已發出一則警告訊息。前端應該顯示該訊息，但繼續等待 ReadyForQuery 或 ErrorResponse。
+
+已發出一則警告訊息。前端應該顯示該訊息，但繼續等待 ReadyForQuery 或 ErrorResponse。
 
 ReadyForQuery 訊息與後端在每個命令循環之後發出的訊息相同。依前端程式撰寫上的需要，可以合理地將 ReadyForQuery 視為一個命令循環的開始，也可以將 ReadyForQuery 視為啟動階段以及其後每個命令循環的結束。
 
@@ -117,31 +134,40 @@ ReadyForQuery 訊息與後端在每個命令循環之後發出的訊息相同。
 後端可能傳送的回應訊息有：
 
 CommandComplete
-:   一個 SQL 命令已正常完成。
+
+一個 SQL 命令已正常完成。
 
 CopyInResponse
-:   後端已準備好將資料從前端複製到資料表；請參閱[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)。
+
+後端已準備好將資料從前端複製到資料表；請參閱[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)。
 
 CopyOutResponse
-:   後端已準備好將資料從資料表複製到前端；請參閱[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)。
+
+後端已準備好將資料從資料表複製到前端；請參閱[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)。
 
 RowDescription
-:   表示即將傳回資料列，以回應 `SELECT`、`FETCH` 等查詢。此訊息的內容描述資料列的欄位配置。之後，每個傳回給前端的資料列都會有一個 DataRow 訊息。
+
+表示即將傳回資料列，以回應 `SELECT`、`FETCH` 等查詢。此訊息的內容描述資料列的欄位配置。之後，每個傳回給前端的資料列都會有一個 DataRow 訊息。
 
 DataRow
-:   由 `SELECT`、`FETCH` 等查詢傳回的資料列集合中的一列。
+
+由 `SELECT`、`FETCH` 等查詢傳回的資料列集合中的一列。
 
 EmptyQueryResponse
-:   辨識到空的查詢字串。
+
+辨識到空的查詢字串。
 
 ErrorResponse
-:   發生錯誤。
+
+發生錯誤。
 
 ReadyForQuery
-:   查詢字串的處理已完成。之所以另外傳送一則訊息來表示這點，是因為查詢字串可能包含多個 SQL 命令。（CommandComplete 標示的是一個 SQL 命令處理的結束，而不是整個字串的結束。）無論處理是成功結束或因錯誤而結束，一定都會傳送 ReadyForQuery。
+
+查詢字串的處理已完成。之所以另外傳送一則訊息來表示這點，是因為查詢字串可能包含多個 SQL 命令。（CommandComplete 標示的是一個 SQL 命令處理的結束，而不是整個字串的結束。）無論處理是成功結束或因錯誤而結束，一定都會傳送 ReadyForQuery。
 
 NoticeResponse
-:   已發出一則與該查詢相關的警告訊息。通知是附加在其他回應之外的，也就是說，後端會繼續處理該命令。
+
+已發出一則與該查詢相關的警告訊息。通知是附加在其他回應之外的，也就是說，後端會繼續處理該命令。
 
 對 `SELECT` 查詢（或其他傳回資料列集合的查詢，例如 `EXPLAIN` 或 `SHOW`）的回應，通常由 RowDescription、零個或多個 DataRow 訊息，以及最後的 CommandComplete 組成。往返前端的 `COPY`（複製到前端或從前端複製）會啟動特殊的協定，如[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)所述。所有其他類型的查詢通常只會產生一個 CommandComplete 訊息。
 
@@ -306,16 +332,20 @@ Flush 訊息不會導致產生任何特定的輸出，而是強制後端送出�
 後端可能傳送的回應訊息有：
 
 ErrorResponse
-:   發生錯誤。
+
+發生錯誤。
 
 FunctionCallResponse
-:   函式呼叫已完成，並傳回訊息中所給的結果。（請注意，函式呼叫協定只能處理單一純量結果，不能處理資料列型別或結果集合。）
+
+函式呼叫已完成，並傳回訊息中所給的結果。（請注意，函式呼叫協定只能處理單一純量結果，不能處理資料列型別或結果集合。）
 
 ReadyForQuery
-:   函式呼叫的處理已完成。無論處理是成功結束或因錯誤而結束，一定都會傳送 ReadyForQuery。
+
+函式呼叫的處理已完成。無論處理是成功結束或因錯誤而結束，一定都會傳送 ReadyForQuery。
 
 NoticeResponse
-:   已發出一則與該函式呼叫相關的警告訊息。通知是附加在其他回應之外的，也就是說，後端會繼續處理該命令。
+
+已發出一則與該函式呼叫相關的警告訊息。通知是附加在其他回應之外的，也就是說，後端會繼續處理該命令。
 
 <a id="PROTOCOL-COPY"></a>
 

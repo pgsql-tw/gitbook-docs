@@ -1,6 +1,6 @@
 <a id="GIST"></a>
 
-## 65.2. GiST 索引 [#](#GIST)
+## 65.2. GiST 索引 [#](#gist) <a href="#gist" id="gist"></a>
 
 [65.2.1. 簡介](gist.md#GIST-INTRO)
 

@@ -1,6 +1,6 @@
 <a id="NLS-TRANSLATOR"></a>
 
-## 56.1. 給翻譯者 [#](#NLS-TRANSLATOR)
+## 56.1. 給翻譯者 [#](#nls-translator) <a href="#nls-translator" id="nls-translator"></a>
 
 [56.1.1. 需求](nls-translator.md#NLS-TRANSLATOR-REQUIREMENTS)
 

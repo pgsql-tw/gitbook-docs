@@ -1,6 +1,6 @@
 <a id="STORAGE-HOT"></a>
 
-## 66.7. 僅堆積元組（HOT） [#](#STORAGE-HOT)
+## 66.7. 僅堆積元組（HOT） [#](#storage-hot) <a href="#storage-hot" id="storage-hot"></a>
 
 為了支援高度並行，PostgreSQL 使用[多版本並行控制](../../the-sql-language/mvcc/mvcc-intro.md)（MVCC）來儲存資料列。然而，MVCC 對於更新查詢有一些缺點。具體來說，更新需要將資料列的新版本加入資料表。這也可能需要為每個被更新的資料列建立新的索引項目，而移除資料列的舊版本及其索引項目的成本可能很高。
 

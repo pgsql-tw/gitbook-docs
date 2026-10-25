@@ -1,6 +1,6 @@
 <a id="SYSTEM-CATALOG-DECLARATIONS"></a>
 
-## 68.1. 系統目錄宣告規則 [#](#SYSTEM-CATALOG-DECLARATIONS)
+## 68.1. 系統目錄宣告規則 [#](#system-catalog-declarations) <a href="#system-catalog-declarations" id="system-catalog-declarations"></a>
 
 目錄標頭檔的關鍵部分是一個 C 結構定義，描述目錄中每一筆資料列的配置。它以 `CATALOG` 巨集開頭，就 C 編譯器而言，這只是 `typedef struct
 FormData_catalogname` 的簡寫。結構中的每個成員欄位都會產生一個目錄欄位。成員欄位可以使用 `genbki.h` 中所述的 BKI 屬性巨集加以標註，例如為欄位定義預設值，或將它標記為可為 null 或不可為 null。`CATALOG` 這一行也可以使用 `genbki.h` 中所述的其他一些 BKI 屬性巨集加以標註，以定義整個目錄的其他屬性，例如它是否為共享關聯。

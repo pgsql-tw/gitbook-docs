@@ -1,6 +1,6 @@
 <a id="STORAGE-VM"></a>
 
-## 66.4. 可見性對應表 [#](#STORAGE-VM)
+## 66.4. 可見性對應表 [#](#storage-vm) <a href="#storage-vm" id="storage-vm"></a>
 
 <a id="id-1.10.18.6.2"></a><a id="id-1.10.18.6.3"></a>
 

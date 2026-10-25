@@ -1,6 +1,6 @@
 <a id="INDEX-UNIQUE-CHECKS"></a>
 
-## 63.5. 索引唯一性檢查 [#](#INDEX-UNIQUE-CHECKS)
+## 63.5. 索引唯一性檢查 [#](#index-unique-checks) <a href="#index-unique-checks" id="index-unique-checks"></a>
 
 PostgreSQL 使用*唯一值索引*來強制執行 SQL 的唯一性限制條件；唯一值索引是不允許多個項目具有相同鍵值的索引。支援此功能的存取方法會將 `amcanunique` 設為 true。（目前只有 B-tree 支援此功能。）列在 `INCLUDE` 子句中的欄位，在強制執行唯一性時不會被納入考量。
 

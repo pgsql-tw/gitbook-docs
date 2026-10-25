@@ -1,6 +1,6 @@
 <a id="GIN"></a>
 
-## 65.4. GIN 索引 [#](#GIN)
+## 65.4. GIN 索引 [#](#gin) <a href="#gin" id="gin"></a>
 
 [65.4.1. 簡介](gin.md#GIN-INTRO)
 

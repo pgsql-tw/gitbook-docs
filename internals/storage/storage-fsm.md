@@ -1,6 +1,6 @@
 <a id="STORAGE-FSM"></a>
 
-## 66.3. 可用空間對應表 [#](#STORAGE-FSM)
+## 66.3. 可用空間對應表 [#](#storage-fsm) <a href="#storage-fsm" id="storage-fsm"></a>
 
 <a id="id-1.10.18.5.2"></a><a id="id-1.10.18.5.3"></a>
 

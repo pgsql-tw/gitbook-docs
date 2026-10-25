@@ -1,6 +1,6 @@
 <a id="GENERIC-WAL"></a>
 
-## 64.1. 通用 WAL 記錄 [#](#GENERIC-WAL)
+## 64.1. 通用 WAL 記錄 [#](#generic-wal) <a href="#generic-wal" id="generic-wal"></a>
 
 雖然所有內建且會寫入 WAL 的模組都有各自的 WAL 記錄類型，但另外也有一種通用 WAL 記錄類型，以通用的方式描述對頁面的變更。
 

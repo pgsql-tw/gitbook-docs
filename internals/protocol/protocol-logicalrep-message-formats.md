@@ -1,6 +1,6 @@
 <a id="PROTOCOL-LOGICALREP-MESSAGE-FORMATS"></a>
 
-## 54.9. 邏輯複寫訊息格式 [#](#PROTOCOL-LOGICALREP-MESSAGE-FORMATS)
+## 54.9. 邏輯複寫訊息格式 [#](#protocol-logicalrep-message-formats) <a href="#protocol-logicalrep-message-formats" id="protocol-logicalrep-message-formats"></a>
 
 本節說明每種邏輯複寫訊息的詳細格式。這些訊息由複寫插槽的 SQL 介面傳回，或由 walsender 傳送。若由 walsender 傳送，這些訊息會封裝在[第 54.4 節](protocol-replication.md)所述的複寫協定 WAL 訊息之中，且大致遵循與實體複寫相同的訊息流程。
 

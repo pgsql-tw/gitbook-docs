@@ -1,6 +1,6 @@
 <a id="GEQO-BIBLIO"></a>
 
-## 61.4. 延伸閱讀 [#](#GEQO-BIBLIO)
+## 61.4. 延伸閱讀 [#](#geqo-biblio) <a href="#geqo-biblio" id="geqo-biblio"></a>
 
 以下資源提供遺傳演算法的更多資訊：
 

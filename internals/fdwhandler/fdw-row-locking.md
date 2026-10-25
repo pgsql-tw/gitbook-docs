@@ -1,6 +1,6 @@
 <a id="FDW-ROW-LOCKING"></a>
 
-## 58.5. 外部資料包裝器中的資料列鎖定 [#](#FDW-ROW-LOCKING)
+## 58.5. 外部資料包裝器中的資料列鎖定 [#](#fdw-row-locking) <a href="#fdw-row-locking" id="fdw-row-locking"></a>
 
 如果 FDW 的底層儲存機制有鎖定個別資料列以防止這些資料列被並行更新的概念，
 那麼 FDW 通常值得以在實務上盡可能接近一般

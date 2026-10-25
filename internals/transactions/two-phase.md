@@ -1,6 +1,6 @@
 <a id="TWO-PHASE"></a>
 
-## 67.4. 兩階段交易 [#](#TWO-PHASE)
+## 67.4. 兩階段交易 [#](#two-phase) <a href="#two-phase" id="two-phase"></a>
 
 PostgreSQL 支援兩階段提交（2PC）協定，讓多個分散式系統以交易方式共同運作。相關命令為 `PREPARE TRANSACTION`、`COMMIT PREPARED` 與 `ROLLBACK PREPARED`。兩階段交易是供外部交易管理系統使用的。PostgreSQL 遵循 X/Open XA 標準提出的功能與模型，但未實作部分較少使用的項目。
 

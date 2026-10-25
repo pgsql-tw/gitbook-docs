@@ -1,6 +1,6 @@
 <a id="STORAGE-FILE-LAYOUT"></a>
 
-## 66.1. 資料庫檔案配置 [#](#STORAGE-FILE-LAYOUT)
+## 66.1. 資料庫檔案配置 [#](#storage-file-layout) <a href="#storage-file-layout" id="storage-file-layout"></a>
 
 本節從檔案與目錄的層級說明儲存格式。
 

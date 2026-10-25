@@ -1,6 +1,6 @@
 <a id="ERROR-MESSAGE-REPORTING"></a>
 
-## 55.2. 在伺服器內回報錯誤 [#](#ERROR-MESSAGE-REPORTING)
+## 55.2. 在伺服器內回報錯誤 [#](#error-message-reporting) <a href="#error-message-reporting" id="error-message-reporting"></a>
 
 <a id="id-1.10.7.3.2"></a><a id="id-1.10.7.3.3"></a>
 

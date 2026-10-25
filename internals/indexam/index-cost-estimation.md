@@ -1,6 +1,6 @@
 <a id="INDEX-COST-ESTIMATION"></a>
 
-## 63.6. 索引成本估算函式 [#](#INDEX-COST-ESTIMATION)
+## 63.6. 索引成本估算函式 [#](#index-cost-estimation) <a href="#index-cost-estimation" id="index-cost-estimation"></a>
 
 `amcostestimate` 函式會收到描述某個可能之索引掃描的資訊，包括已判定可搭配該索引使用的 WHERE 與 ORDER BY 子句清單。它必須傳回存取該索引之成本的估計值，以及 WHERE 子句的選擇率（也就是在索引掃描期間將被擷取的父資料表資料列所佔的比例）。在簡單的情況下，成本估算器幾乎所有的工作都可以藉由呼叫最佳化器中的標準常式來完成；提供 `amcostestimate` 函式的用意，是讓索引存取方法能夠提供索引類型特有的知識，以便在有可能改進標準估計時加以改進。
 

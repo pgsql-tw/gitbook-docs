@@ -1,6 +1,6 @@
 <a id="SOURCE-FORMAT"></a>
 
-## 55.1. 格式 [#](#SOURCE-FORMAT)
+## 55.1. 格式 [#](#source-format) <a href="#source-format" id="source-format"></a>
 
 原始碼格式採用 4 欄寬的定位字元（tab）間距，並保留定位字元（也就是說，定位字元不會展開成空格）。每多一層邏輯縮排，就多一個定位停駐點。
 

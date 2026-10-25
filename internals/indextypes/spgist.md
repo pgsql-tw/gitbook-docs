@@ -1,6 +1,6 @@
 <a id="SPGIST"></a>
 
-## 65.3. SP-GiST 索引 [#](#SPGIST)
+## 65.3. SP-GiST 索引 [#](#spgist) <a href="#spgist" id="spgist"></a>
 
 [65.3.1. 簡介](spgist.md#SPGIST-INTRO)
 

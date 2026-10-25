@@ -1,6 +1,6 @@
 <a id="INDEX-LOCKING"></a>
 
-## 63.4. 索引鎖定的考量 [#](#INDEX-LOCKING)
+## 63.4. 索引鎖定的考量 [#](#index-locking) <a href="#index-locking" id="index-locking"></a>
 
 索引存取方法必須處理多個程序對索引的並行更新。PostgreSQL 核心系統在索引掃描期間會對索引取得 `AccessShareLock`，在更新索引時（包括一般的 `VACUUM`）則取得 `RowExclusiveLock`。由於這些鎖定類型彼此不衝突，存取方法要負責處理它可能需要的任何細粒度鎖定。只有在建立、移除索引或執行 `REINDEX` 時，才會對整個索引取得 `ACCESS EXCLUSIVE` 鎖定（使用 `CONCURRENTLY` 時則改為取得 `SHARE UPDATE EXCLUSIVE`）。
 

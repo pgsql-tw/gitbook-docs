@@ -1,6 +1,6 @@
 <a id="INDEX-API"></a>
 
-## 63.1. 索引的基本 API 結構 [#](#INDEX-API)
+## 63.1. 索引的基本 API 結構 [#](#index-api) <a href="#index-api" id="index-api"></a>
 
 每個索引存取方法都由
 [`pg_am`](../catalogs/catalog-pg-am.md)

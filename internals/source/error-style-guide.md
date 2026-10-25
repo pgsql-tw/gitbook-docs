@@ -1,6 +1,6 @@
 <a id="ERROR-STYLE-GUIDE"></a>
 
-## 55.3. 錯誤訊息風格指南 [#](#ERROR-STYLE-GUIDE)
+## 55.3. 錯誤訊息風格指南 [#](#error-style-guide) <a href="#error-style-guide" id="error-style-guide"></a>
 
 提供這份風格指南，是希望 PostgreSQL 所產生的所有訊息都能維持一致、對使用者友善的風格。
 

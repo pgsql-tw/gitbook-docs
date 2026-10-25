@@ -1,6 +1,6 @@
 <a id="CUSTOM-SCAN-PATH"></a>
 
-## 60.1. 建立自訂掃描路徑 [#](#CUSTOM-SCAN-PATH)
+## 60.1. 建立自訂掃描路徑 [#](#custom-scan-path) <a href="#custom-scan-path" id="custom-scan-path"></a>
 
 [60.1.1. 自訂掃描路徑回呼函式](custom-scan-path.md#CUSTOM-SCAN-PATH-CALLBACKS)
 

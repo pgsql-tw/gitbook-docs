@@ -1,6 +1,6 @@
 <a id="INDEX-FUNCTIONS"></a>
 
-## 63.2. 索引存取方法函式 [#](#INDEX-FUNCTIONS)
+## 63.2. 索引存取方法函式 [#](#index-functions) <a href="#index-functions" id="index-functions"></a>
 
 索引存取方法必須在 `IndexAmRoutine` 中提供的索引建構與維護函式如下：
 

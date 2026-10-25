@@ -1,6 +1,6 @@
 <a id="STORAGE-INIT"></a>
 
-## 66.5. 初始化分支檔案 [#](#STORAGE-INIT)
+## 66.5. 初始化分支檔案 [#](#storage-init) <a href="#storage-init" id="storage-init"></a>
 
 <a id="id-1.10.18.7.2"></a>
 

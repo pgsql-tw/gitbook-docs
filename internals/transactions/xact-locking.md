@@ -1,6 +1,6 @@
 <a id="XACT-LOCKING"></a>
 
-## 67.2. 交易與鎖定 [#](#XACT-LOCKING)
+## 67.2. 交易與鎖定 [#](#xact-locking) <a href="#xact-locking" id="xact-locking"></a>
 
 目前執行中交易的交易 ID 顯示於 [`pg_locks`](../views/view-pg-locks.md) 的 `virtualxid` 與 `transactionid` 欄位。唯讀交易有 `virtualxid`，但 `transactionid` 為 NULL；讀寫交易則會設定兩個欄位。
 

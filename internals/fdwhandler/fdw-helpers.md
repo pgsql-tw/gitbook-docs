@@ -1,6 +1,6 @@
 <a id="FDW-HELPERS"></a>
 
-## 58.3. 外部資料包裝器輔助函式 [#](#FDW-HELPERS)
+## 58.3. 外部資料包裝器輔助函式 [#](#fdw-helpers) <a href="#fdw-helpers" id="fdw-helpers"></a>
 
 核心伺服器匯出了數個輔助函式，讓
 外部資料包裝器的作者可以輕鬆存取

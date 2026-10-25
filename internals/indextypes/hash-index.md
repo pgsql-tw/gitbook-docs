@@ -1,6 +1,6 @@
 <a id="HASH-INDEX"></a>
 
-## 65.6. 雜湊索引 [#](#HASH-INDEX)
+## 65.6. 雜湊索引 [#](#hash-index) <a href="#hash-index" id="hash-index"></a>
 
 [65.6.1. 概述](hash-index.md#HASH-INTRO)
 

@@ -1,6 +1,6 @@
 <a id="SOURCE-CONVENTIONS"></a>
 
-## 55.4. 其他程式碼撰寫慣例 [#](#SOURCE-CONVENTIONS)
+## 55.4. 其他程式碼撰寫慣例 [#](#source-conventions) <a href="#source-conventions" id="source-conventions"></a>
 
 <a id="SOURCE-CONVENTIONS-C-STANDARD"></a>
 

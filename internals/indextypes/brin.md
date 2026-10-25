@@ -1,6 +1,6 @@
 <a id="BRIN"></a>
 
-## 65.5. BRIN 索引 [#](#BRIN)
+## 65.5. BRIN 索引 [#](#brin) <a href="#brin" id="brin"></a>
 
 [65.5.1. 簡介](brin.md#BRIN-INTRO)
 

@@ -1,6 +1,6 @@
 <a id="GEQO-INTRO"></a>
 
-## 61.1. 將查詢處理視為複雜最佳化問題 [#](#GEQO-INTRO)
+## 61.1. 將查詢處理視為複雜最佳化問題 [#](#geqo-intro) <a href="#geqo-intro" id="geqo-intro"></a>
 
 在所有關聯運算子中，最難處理與最佳化的是
 *連接*（join）。可能的查詢計畫數量會隨著
