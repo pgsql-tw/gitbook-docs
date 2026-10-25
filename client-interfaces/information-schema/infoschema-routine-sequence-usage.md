@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROUTINE-SEQUENCE-USAGE"></a>
-## 35.43. `routine_sequence_usage` [#](#INFOSCHEMA-ROUTINE-SEQUENCE-USAGE)
+## 35.43. `routine_sequence_usage` [#](#infoschema-routine-sequence-usage) <a href="#infoschema-routine-sequence-usage" id="infoschema-routine-sequence-usage"></a>
 
 檢視表 `routine_sequence_usage` 列出函式或程序在 SQL 主體或參數預設值表示式中所使用的所有序列。（這只適用於未加引號的 SQL 主體，不適用於加引號的主體或其他語言的函式。）只有當序列由目前已啟用的角色所擁有時，才會包含該序列。
 

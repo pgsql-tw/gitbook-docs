@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-VIEWS"></a>
-## 35.66. `views` [#](#INFOSCHEMA-VIEWS)
+## 35.66. `views` [#](#infoschema-views) <a href="#infoschema-views" id="infoschema-views"></a>
 
 檢視表 `views` 包含目前資料庫中定義的所有檢視表。只有目前使用者可存取的檢視表
 才會顯示（使用者為其擁有者或具有某項權限時即可存取）。

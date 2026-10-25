@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-USAGE-PRIVILEGES"></a>
-## 35.59. `usage_privileges` [#](#INFOSCHEMA-USAGE-PRIVILEGES)
+## 35.59. `usage_privileges` [#](#infoschema-usage-privileges) <a href="#infoschema-usage-privileges" id="infoschema-usage-privileges"></a>
 
 檢視表 `usage_privileges` 列出在各類物件上授與目前已啟用的角色、
 或由目前已啟用的角色授與的 `USAGE` 權限。在 PostgreSQL 中，目前適用於

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-USER-DEFINED-TYPES"></a>
-## 35.60. `user_defined_types` [#](#INFOSCHEMA-USER-DEFINED-TYPES)
+## 35.60. `user_defined_types` [#](#infoschema-user-defined-types) <a href="#infoschema-user-defined-types" id="infoschema-user-defined-types"></a>
 
 檢視表 `user_defined_types` 目前包含目前資料庫中定義的所有複合型別。
 只有目前使用者可存取的型別才會顯示（使用者為其擁有者或具有某項權限時即可存取）。

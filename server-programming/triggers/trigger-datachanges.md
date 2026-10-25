@@ -1,6 +1,6 @@
 <a id="TRIGGER-DATACHANGES"></a>
 
-## 37.2. 資料變更的可見性 [#](#TRIGGER-DATACHANGES)
+## 37.2. 資料變更的可見性 [#](#trigger-datachanges) <a href="#trigger-datachanges" id="trigger-datachanges"></a>
 
 如果你在觸發程序函式中執行 SQL 指令，而這些指令又存取了該觸發程序所屬的資料表，那麼你必須留意資料可見性規則，因為這些規則決定了這些 SQL 指令是否看得到那筆導致觸發程序被觸發的資料變更。簡要來說：
 

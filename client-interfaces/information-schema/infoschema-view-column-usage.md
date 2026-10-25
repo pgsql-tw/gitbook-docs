@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-VIEW-COLUMN-USAGE"></a>
-## 35.63. `view_column_usage` [#](#INFOSCHEMA-VIEW-COLUMN-USAGE)
+## 35.63. `view_column_usage` [#](#infoschema-view-column-usage) <a href="#infoschema-view-column-usage" id="infoschema-view-column-usage"></a>
 
 檢視表 `view_column_usage` 列出檢視表的查詢表示式（定義該檢視表的
 `SELECT` 陳述式）中使用的所有欄位。只有當包含該欄位的資料表由目前已啟用的

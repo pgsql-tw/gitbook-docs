@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-TRIGGERED-UPDATE-COLUMNS"></a>
-## 35.56. `triggered_update_columns` [#](#INFOSCHEMA-TRIGGERED-UPDATE-COLUMNS)
+## 35.56. `triggered_update_columns` [#](#infoschema-triggered-update-columns) <a href="#infoschema-triggered-update-columns" id="infoschema-triggered-update-columns"></a>
 
 對於目前資料庫中指定了欄位清單（例如 `UPDATE OF column1, column2`）的觸發程序，
 檢視表 `triggered_update_columns` 會列出這些欄位。未指定欄位清單的觸發程序

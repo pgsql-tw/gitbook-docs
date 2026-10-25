@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-TRIGGERS"></a>
-## 35.57. `triggers` [#](#INFOSCHEMA-TRIGGERS)
+## 35.57. `triggers` [#](#infoschema-triggers) <a href="#infoschema-triggers" id="infoschema-triggers"></a>
 
 檢視表 `triggers` 包含目前資料庫中，定義在目前使用者所擁有、或具有
 `SELECT` 以外某項權限之資料表與檢視表上的所有觸發程序。

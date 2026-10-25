@@ -1,5 +1,5 @@
 <a id="XFUNC-SQL"></a>
-## 36.5. 查詢語言（SQL）函式 [#](#XFUNC-SQL)
+## 36.5. 查詢語言（SQL）函式 [#](#xfunc-sql) <a href="#xfunc-sql" id="xfunc-sql"></a>
 
 [36.5.1. SQL 函式的引數](xfunc-sql.md#XFUNC-SQL-FUNCTION-ARGUMENTS)
 

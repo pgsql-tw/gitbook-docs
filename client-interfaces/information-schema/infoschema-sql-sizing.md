@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-SQL-SIZING"></a>
-## 35.51. `sql_sizing` [#](#INFOSCHEMA-SQL-SIZING)
+## 35.51. `sql_sizing` [#](#infoschema-sql-sizing) <a href="#infoschema-sql-sizing" id="infoschema-sql-sizing"></a>
 
 資料表 `sql_sizing` 包含 PostgreSQL 中各種大小限制與最大值的資訊。此資訊主要
 供 ODBC 介面使用；其他介面的使用者可能會覺得此資訊用處不大。因此，這裡不說明

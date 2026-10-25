@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROUTINE-ROUTINE-USAGE"></a>
-## 35.42. `routine_routine_usage` [#](#INFOSCHEMA-ROUTINE-ROUTINE-USAGE)
+## 35.42. `routine_routine_usage` [#](#infoschema-routine-routine-usage) <a href="#infoschema-routine-routine-usage" id="infoschema-routine-routine-usage"></a>
 
 檢視表 `routine_routine_usage` 列出被另一個（或同一個）函式或程序在 SQL 主體或參數預設值表示式中使用的所有函式或程序。（這只適用於未加引號的 SQL 主體，不適用於加引號的主體或其他語言的函式。）只有當被使用的函式由目前已啟用的角色所擁有時，才會在此包含該項目。（使用方的函式則沒有此限制。）
 

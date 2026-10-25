@@ -1,5 +1,5 @@
 <a id="XAGGR"></a>
-## 36.12. 使用者自訂聚合 [#](#XAGGR)
+## 36.12. 使用者自訂聚合 [#](#xaggr) <a href="#xaggr" id="xaggr"></a>
 
 [36.12.1. 移動式聚合模式](xaggr.md#XAGGR-MOVING-AGGREGATES)
 

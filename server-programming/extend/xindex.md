@@ -1,5 +1,5 @@
 <a id="XINDEX"></a>
-## 36.16. 將擴充功能與索引介接 [#](#XINDEX)
+## 36.16. 將擴充功能與索引介接 [#](#xindex) <a href="#xindex" id="xindex"></a>
 
 [36.16.1. 索引方法與運算子類別](xindex.md#XINDEX-OPCLASS)
 

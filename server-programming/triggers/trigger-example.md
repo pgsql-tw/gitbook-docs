@@ -1,6 +1,6 @@
 <a id="TRIGGER-EXAMPLE"></a>
 
-## 37.4. 完整的觸發程序範例 [#](#TRIGGER-EXAMPLE)
+## 37.4. 完整的觸發程序範例 [#](#trigger-example) <a href="#trigger-example" id="trigger-example"></a>
 
 以下是一個以 C 撰寫的觸發程序函式的極簡範例。（以程序語言撰寫的觸發程序範例，可以在各程序語言的文件中找到。）
 

@@ -1,5 +1,5 @@
 <a id="XOPER"></a>
-## 36.14. 使用者自訂運算子 [#](#XOPER)
+## 36.14. 使用者自訂運算子 [#](#xoper) <a href="#xoper" id="xoper"></a>
 
 <a id="id-1.8.3.17.2"></a>
 

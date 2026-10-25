@@ -1,5 +1,5 @@
 <a id="XPROC"></a>
-## 36.4. 使用者自訂程序 [#](#XPROC)
+## 36.4. 使用者自訂程序 [#](#xproc) <a href="#xproc" id="xproc"></a>
 
 <a id="id-1.8.3.7.2"></a>
 

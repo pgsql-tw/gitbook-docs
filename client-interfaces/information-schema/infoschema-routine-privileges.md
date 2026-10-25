@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROUTINE-PRIVILEGES"></a>
-## 35.41. `routine_privileges` [#](#INFOSCHEMA-ROUTINE-PRIVILEGES)
+## 35.41. `routine_privileges` [#](#infoschema-routine-privileges) <a href="#infoschema-routine-privileges" id="infoschema-routine-privileges"></a>
 
 檢視表 `routine_privileges` 列出在函式上授與目前已啟用角色、或由目前已啟用角色授與的所有權限。每一種函式、授與者與受授與者的組合各有一筆資料列。
 

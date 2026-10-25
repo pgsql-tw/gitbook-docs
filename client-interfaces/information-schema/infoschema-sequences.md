@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-SEQUENCES"></a>
-## 35.47. `sequences` [#](#INFOSCHEMA-SEQUENCES)
+## 35.47. `sequences` [#](#infoschema-sequences) <a href="#infoschema-sequences" id="infoschema-sequences"></a>
 
 檢視表 `sequences` 包含目前資料庫中定義的所有序列。只有目前使用者可存取的序列才會顯示（使用者為其擁有者或具有某項權限時即可存取）。
 

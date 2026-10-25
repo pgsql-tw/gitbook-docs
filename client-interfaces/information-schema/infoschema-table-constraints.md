@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-TABLE-CONSTRAINTS"></a>
-## 35.52. `table_constraints` [#](#INFOSCHEMA-TABLE-CONSTRAINTS)
+## 35.52. `table_constraints` [#](#infoschema-table-constraints) <a href="#infoschema-table-constraints" id="infoschema-table-constraints"></a>
 
 檢視表 `table_constraints` 包含屬於下列資料表的所有限制條件：目前使用者
 擁有，或具有 `SELECT` 以外某種權限的資料表。

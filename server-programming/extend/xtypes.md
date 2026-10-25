@@ -1,5 +1,5 @@
 <a id="XTYPES"></a>
-## 36.13. 使用者自訂型別 [#](#XTYPES)
+## 36.13. 使用者自訂型別 [#](#xtypes) <a href="#xtypes" id="xtypes"></a>
 
 [36.13.1. TOAST 相關考量](xtypes.md#XTYPES-TOAST)
 

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-TABLE-PRIVILEGES"></a>
-## 35.53. `table_privileges` [#](#INFOSCHEMA-TABLE-PRIVILEGES)
+## 35.53. `table_privileges` [#](#infoschema-table-privileges) <a href="#infoschema-table-privileges" id="infoschema-table-privileges"></a>
 
 檢視表 `table_privileges` 列出在資料表或檢視表上授與目前已啟用角色、
 或由目前已啟用角色所授與的所有權限。每個資料表、授與者與受授與者的組合

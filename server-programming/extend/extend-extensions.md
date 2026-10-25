@@ -1,5 +1,5 @@
 <a id="EXTEND-EXTENSIONS"></a>
-## 36.17. 將相關物件封裝成擴充功能 [#](#EXTEND-EXTENSIONS)
+## 36.17. 將相關物件封裝成擴充功能 [#](#extend-extensions) <a href="#extend-extensions" id="extend-extensions"></a>
 
 [36.17.1. 擴充功能檔案](extend-extensions.md#EXTEND-EXTENSIONS-FILES)
 

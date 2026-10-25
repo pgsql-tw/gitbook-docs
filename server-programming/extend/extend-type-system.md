@@ -1,5 +1,5 @@
 <a id="EXTEND-TYPE-SYSTEM"></a>
-## 36.2. PostgreSQL 型別系統 [#](#EXTEND-TYPE-SYSTEM)
+## 36.2. PostgreSQL 型別系統 [#](#extend-type-system) <a href="#extend-type-system" id="extend-type-system"></a>
 
 [36.2.1. 基礎型別](extend-type-system.md#EXTEND-TYPE-SYSTEM-BASE)
 

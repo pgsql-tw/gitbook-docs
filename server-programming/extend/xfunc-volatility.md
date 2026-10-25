@@ -1,5 +1,5 @@
 <a id="XFUNC-VOLATILITY"></a>
-## 36.7. 函式揮發性類別 [#](#XFUNC-VOLATILITY)
+## 36.7. 函式揮發性類別 [#](#xfunc-volatility) <a href="#xfunc-volatility" id="xfunc-volatility"></a>
 
 <a id="id-1.8.3.10.2"></a><a id="id-1.8.3.10.3"></a><a id="id-1.8.3.10.4"></a><a id="id-1.8.3.10.5"></a>
 

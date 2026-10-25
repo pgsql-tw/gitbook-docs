@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-VIEW-ROUTINE-USAGE"></a>
-## 35.64. `view_routine_usage` [#](#INFOSCHEMA-VIEW-ROUTINE-USAGE)
+## 35.64. `view_routine_usage` [#](#infoschema-view-routine-usage) <a href="#infoschema-view-routine-usage" id="infoschema-view-routine-usage"></a>
 
 檢視表 `view_routine_usage` 列出檢視表的查詢表示式（定義該檢視表的
 `SELECT` 陳述式）中使用的所有常式（函式與程序）。只有由目前已啟用的

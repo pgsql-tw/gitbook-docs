@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-TABLES"></a>
-## 35.54. `tables` [#](#INFOSCHEMA-TABLES)
+## 35.54. `tables` [#](#infoschema-tables) <a href="#infoschema-tables" id="infoschema-tables"></a>
 
 檢視表 `tables` 包含目前資料庫中定義的所有資料表與檢視表。只會顯示目前使用者
 有權存取（身為擁有者或具有某種權限）的資料表與檢視表。

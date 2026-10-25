@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-USER-MAPPINGS"></a>
-## 35.62. `user_mappings` [#](#INFOSCHEMA-USER-MAPPINGS)
+## 35.62. `user_mappings` [#](#infoschema-user-mappings) <a href="#infoschema-user-mappings" id="infoschema-user-mappings"></a>
 
 檢視表 `user_mappings` 包含目前資料庫中定義的所有使用者對應。只有目前使用者
 可存取相應外部伺服器的使用者對應才會顯示（使用者為該外部伺服器的擁有者或具有

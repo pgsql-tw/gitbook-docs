@@ -1,5 +1,5 @@
 <a id="TRIGGER-INTERFACE"></a>
-## 37.3. 以 C 撰寫觸發程序函式 [#](#TRIGGER-INTERFACE)
+## 37.3. 以 C 撰寫觸發程序函式 [#](#trigger-interface) <a href="#trigger-interface" id="trigger-interface"></a>
 
 <a id="id-1.8.4.7.2"></a><a id="id-1.8.4.7.3"></a>
 

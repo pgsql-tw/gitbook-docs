@@ -1,5 +1,5 @@
 <a id="XOPER-OPTIMIZATION"></a>
-## 36.15. 運算子最佳化資訊 [#](#XOPER-OPTIMIZATION)
+## 36.15. 運算子最佳化資訊 [#](#xoper-optimization) <a href="#xoper-optimization" id="xoper-optimization"></a>
 
 [36.15.1. `COMMUTATOR`](xoper-optimization.md#XOPER-COMMUTATOR)
 

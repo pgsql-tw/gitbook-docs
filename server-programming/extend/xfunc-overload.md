@@ -1,5 +1,5 @@
 <a id="XFUNC-OVERLOAD"></a>
-## 36.6. 函式多載 [#](#XFUNC-OVERLOAD)
+## 36.6. 函式多載 [#](#xfunc-overload) <a href="#xfunc-overload" id="xfunc-overload"></a>
 
 <a id="id-1.8.3.9.2"></a>
 

@@ -1,5 +1,5 @@
 <a id="EVENT-TRIGGER-DEFINITION"></a>
-## 38.1. 事件觸發程序行為概觀 [#](#EVENT-TRIGGER-DEFINITION)
+## 38.1. 事件觸發程序行為概觀 [#](#event-trigger-definition) <a href="#event-trigger-definition" id="event-trigger-definition"></a>
 
 [38.1.1. login](event-trigger-definition.md#EVENT-TRIGGER-LOGIN)
 

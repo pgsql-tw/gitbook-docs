@@ -1,6 +1,6 @@
 <a id="XFUNC-INTERNAL"></a>
 
-## 36.9. 內部函式 [#](#XFUNC-INTERNAL)
+## 36.9. 內部函式 [#](#xfunc-internal) <a href="#xfunc-internal" id="xfunc-internal"></a>
 
 <a id="id-1.8.3.12.2"></a>
 

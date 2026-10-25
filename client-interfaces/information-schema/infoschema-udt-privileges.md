@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-UDT-PRIVILEGES"></a>
-## 35.58. `udt_privileges` [#](#INFOSCHEMA-UDT-PRIVILEGES)
+## 35.58. `udt_privileges` [#](#infoschema-udt-privileges) <a href="#infoschema-udt-privileges" id="infoschema-udt-privileges"></a>
 
 檢視表 `udt_privileges` 列出在使用者自訂型別上授與目前已啟用的角色、
 或由目前已啟用的角色授與的 `USAGE` 權限。每個型別、授與者與受授與者的組合

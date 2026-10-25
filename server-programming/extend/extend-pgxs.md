@@ -1,5 +1,5 @@
 <a id="EXTEND-PGXS"></a>
-## 36.18. 擴充功能建置基礎架構 [#](#EXTEND-PGXS)
+## 36.18. 擴充功能建置基礎架構 [#](#extend-pgxs) <a href="#extend-pgxs" id="extend-pgxs"></a>
 
 <a id="id-1.8.3.21.2"></a>
 

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-SQL-IMPLEMENTATION-INFO"></a>
-## 35.49. `sql_implementation_info` [#](#INFOSCHEMA-SQL-IMPLEMENTATION-INFO)
+## 35.49. `sql_implementation_info` [#](#infoschema-sql-implementation-info) <a href="#infoschema-sql-implementation-info" id="infoschema-sql-implementation-info"></a>
 
 資料表 `sql_implementation_info` 包含 SQL 標準留給實作自行定義的各個方面的
 資訊。此資訊主要供 ODBC 介面使用；其他介面的使用者可能會覺得此資訊用處不大。

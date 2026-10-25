@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-SQL-FEATURES"></a>
-## 35.48. `sql_features` [#](#INFOSCHEMA-SQL-FEATURES)
+## 35.48. `sql_features` [#](#infoschema-sql-features) <a href="#infoschema-sql-features" id="infoschema-sql-features"></a>
 
 資料表 `sql_features` 包含 PostgreSQL 支援 SQL 標準中所定義之哪些正式功能的
 資訊。這與[附錄 D](../../appendixes/features/README.md)中呈現的資訊相同，

@@ -1,5 +1,5 @@
 <a id="XFUNC-C"></a>
-## 36.10. C 語言函式 [#](#XFUNC-C)
+## 36.10. C 語言函式 [#](#xfunc-c) <a href="#xfunc-c" id="xfunc-c"></a>
 
 [36.10.1. 動態載入](xfunc-c.md#XFUNC-C-DYNLOAD)
 

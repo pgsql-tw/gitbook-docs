@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-ROUTINE-TABLE-USAGE"></a>
-## 35.44. `routine_table_usage` [#](#INFOSCHEMA-ROUTINE-TABLE-USAGE)
+## 35.44. `routine_table_usage` [#](#infoschema-routine-table-usage) <a href="#infoschema-routine-table-usage" id="infoschema-routine-table-usage"></a>
 
 檢視表 `routine_table_usage` 旨在列出函式或程序所使用的所有資料表。PostgreSQL 目前不追蹤此資訊。
 

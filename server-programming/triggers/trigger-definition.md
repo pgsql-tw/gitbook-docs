@@ -1,6 +1,6 @@
 <a id="TRIGGER-DEFINITION"></a>
 
-## 37.1. 觸發程序行為總覽 [#](#TRIGGER-DEFINITION)
+## 37.1. 觸發程序行為總覽 [#](#trigger-definition) <a href="#trigger-definition" id="trigger-definition"></a>
 
 觸發程序是一種規格，用來指定資料庫在執行某種特定類型的操作時，應自動執行某個特定的函式。觸發程序可以掛在資料表（無論是否為分割資料表）、檢視表以及外部資料表上。
 

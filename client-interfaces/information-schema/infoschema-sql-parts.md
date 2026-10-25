@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-SQL-PARTS"></a>
-## 35.50. `sql_parts` [#](#INFOSCHEMA-SQL-PARTS)
+## 35.50. `sql_parts` [#](#infoschema-sql-parts) <a href="#infoschema-sql-parts" id="infoschema-sql-parts"></a>
 
 資料表 `sql_parts` 包含 PostgreSQL 支援 SQL 標準數個部分中哪些部分的資訊。
 

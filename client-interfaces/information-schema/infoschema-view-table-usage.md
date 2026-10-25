@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-VIEW-TABLE-USAGE"></a>
-## 35.65. `view_table_usage` [#](#INFOSCHEMA-VIEW-TABLE-USAGE)
+## 35.65. `view_table_usage` [#](#infoschema-view-table-usage) <a href="#infoschema-view-table-usage" id="infoschema-view-table-usage"></a>
 
 檢視表 `view_table_usage` 列出檢視表的查詢表示式（定義該檢視表的 `SELECT`
 陳述式）中使用的所有資料表。只有由目前已啟用的角色擁有的資料表才會納入。

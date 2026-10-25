@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-SCHEMATA"></a>
-## 35.46. `schemata` [#](#INFOSCHEMA-SCHEMATA)
+## 35.46. `schemata` [#](#infoschema-schemata) <a href="#infoschema-schemata" id="infoschema-schemata"></a>
 
 檢視表 `schemata` 包含目前資料庫中目前使用者可存取的所有綱要（使用者為其擁有者或具有某項權限時即可存取）。
 

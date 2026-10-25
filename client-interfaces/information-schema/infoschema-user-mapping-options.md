@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-USER-MAPPING-OPTIONS"></a>
-## 35.61. `user_mapping_options` [#](#INFOSCHEMA-USER-MAPPING-OPTIONS)
+## 35.61. `user_mapping_options` [#](#infoschema-user-mapping-options) <a href="#infoschema-user-mapping-options" id="infoschema-user-mapping-options"></a>
 
 檢視表 `user_mapping_options` 包含目前資料庫中為使用者對應定義的所有選項。
 只有目前使用者可存取相應外部伺服器的使用者對應才會顯示（使用者為該外部伺服器的

@@ -1,5 +1,5 @@
 <a id="INFOSCHEMA-TRANSFORMS"></a>
-## 35.55. `transforms` [#](#INFOSCHEMA-TRANSFORMS)
+## 35.55. `transforms` [#](#infoschema-transforms) <a href="#infoschema-transforms" id="infoschema-transforms"></a>
 
 檢視表 `transforms` 包含目前資料庫中所定義之轉換的資訊。更精確地說，
 轉換中所包含的每個函式（「from SQL」或「to SQL」函式）在此檢視表中各有一個資料列。

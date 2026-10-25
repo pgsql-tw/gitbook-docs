@@ -1,5 +1,5 @@
 <a id="XFUNC-OPTIMIZATION"></a>
-## 36.11. 函式最佳化資訊 [#](#XFUNC-OPTIMIZATION)
+## 36.11. 函式最佳化資訊 [#](#xfunc-optimization) <a href="#xfunc-optimization" id="xfunc-optimization"></a>
 
 <a id="id-1.8.3.14.2"></a>
 

@@ -1,5 +1,5 @@
 <a id="XFUNC"></a>
-## 36.3. 使用者自訂函式 [#](#XFUNC)
+## 36.3. 使用者自訂函式 [#](#xfunc) <a href="#xfunc" id="xfunc"></a>
 
 <a id="id-1.8.3.6.2"></a>
 
