@@ -1,6 +1,6 @@
 <a id="PLPGSQL-TRIGGER"></a>
 
-## 41.10. 觸發程序函式 [#](#PLPGSQL-TRIGGER)
+## 41.10. 觸發程序函式 [#](#plpgsql-trigger) <a href="#plpgsql-trigger" id="plpgsql-trigger"></a>
 
 [41.10.1. 資料異動的觸發程序](plpgsql-trigger.md#PLPGSQL-DML-TRIGGER)
 

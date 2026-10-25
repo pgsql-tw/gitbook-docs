@@ -1,5 +1,5 @@
 <a id="PLPERL-FUNCS"></a>
-## 43.1. PL/Perl 函式與引數 [#](#PLPERL-FUNCS)
+## 43.1. PL/Perl 函式與引數 [#](#plperl-funcs) <a href="#plperl-funcs" id="plperl-funcs"></a>
 
 若要建立 PL/Perl 語言的函式，請使用標準的
 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)

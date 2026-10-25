@@ -1,6 +1,6 @@
 <a id="XPLANG-INSTALL"></a>
 
-## 40.1. 安裝程序語言 [#](#XPLANG-INSTALL)
+## 40.1. 安裝程序語言 [#](#xplang-install) <a href="#xplang-install" id="xplang-install"></a>
 
 程序語言必須「安裝」到每一個要使用它的資料庫中。不過，安裝在 `template1` 資料庫中的程序語言會自動在之後建立的所有資料庫中可用，因為它們在 `template1` 中的項目會被 `CREATE DATABASE` 複製過去。因此資料庫管理者可以決定哪些語言在哪些資料庫中可用，也可以視需要讓某些語言預設就可用。
 

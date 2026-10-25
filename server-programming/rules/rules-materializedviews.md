@@ -1,6 +1,6 @@
 <a id="RULES-MATERIALIZEDVIEWS"></a>
 
-## 39.3. 具體化檢視表 [#](#RULES-MATERIALIZEDVIEWS)
+## 39.3. 具體化檢視表 [#](#rules-materializedviews) <a href="#rules-materializedviews" id="rules-materializedviews"></a>
 
 <a id="id-1.8.6.8.2"></a><a id="id-1.8.6.8.3"></a><a id="id-1.8.6.8.4"></a>
 

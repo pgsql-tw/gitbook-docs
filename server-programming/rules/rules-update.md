@@ -1,5 +1,5 @@
 <a id="RULES-UPDATE"></a>
-## 39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則 [#](#RULES-UPDATE)
+## 39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則 [#](#rules-update) <a href="#rules-update" id="rules-update"></a>
 
 [39.4.1. 更新規則的運作方式](rules-update.md#RULES-UPDATE-HOW)
 

@@ -1,5 +1,5 @@
 <a id="PLPERL-UNDER-THE-HOOD"></a>
-## 43.8. PL/Perl 內部運作原理 [#](#PLPERL-UNDER-THE-HOOD)
+## 43.8. PL/Perl 內部運作原理 [#](#plperl-under-the-hood) <a href="#plperl-under-the-hood" id="plperl-under-the-hood"></a>
 
 [43.8.1. 組態設定](plperl-under-the-hood.md#PLPERL-CONFIG)
 

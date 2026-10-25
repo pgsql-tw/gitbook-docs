@@ -1,6 +1,6 @@
 <a id="PLTCL-OVERVIEW"></a>
 
-## 42.1. 概觀 [#](#PLTCL-OVERVIEW)
+## 42.1. 概觀 [#](#pltcl-overview) <a href="#pltcl-overview" id="pltcl-overview"></a>
 
 PL/Tcl 提供了函式撰寫者在 C 語言中所能擁有的大部分能力，只有少數限制，並且額外加上 Tcl 所提供的強大字串處理函式庫。
 

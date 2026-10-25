@@ -1,6 +1,6 @@
 <a id="PLTCL-GLOBAL"></a>
 
-## 42.4. PL/Tcl 中的全域資料 [#](#PLTCL-GLOBAL)
+## 42.4. PL/Tcl 中的全域資料 [#](#pltcl-global) <a href="#pltcl-global" id="pltcl-global"></a>
 
 <a id="id-1.8.9.8.2"></a>
 

@@ -1,5 +1,5 @@
 <a id="EVENT-TRIGGER-INTERFACE"></a>
-## 38.2. 以 C 撰寫事件觸發程序函式 [#](#EVENT-TRIGGER-INTERFACE)
+## 38.2. 以 C 撰寫事件觸發程序函式 [#](#event-trigger-interface) <a href="#event-trigger-interface" id="event-trigger-interface"></a>
 
 <a id="id-1.8.5.6.2"></a>
 

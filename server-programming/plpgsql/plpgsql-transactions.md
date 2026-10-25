@@ -1,6 +1,6 @@
 <a id="PLPGSQL-TRANSACTIONS"></a>
 
-## 41.8. 交易管理 [#](#PLPGSQL-TRANSACTIONS)
+## 41.8. 交易管理 [#](#plpgsql-transactions) <a href="#plpgsql-transactions" id="plpgsql-transactions"></a>
 
 在以 `CALL` 指令呼叫的程序中，以及在匿名程式區塊（`DO` 指令）中，可以使用 `COMMIT` 與 `ROLLBACK` 指令來結束交易。以這些指令結束交易之後，會自動開始一個新的交易，因此並沒有獨立的 `START TRANSACTION` 指令。（請注意，`BEGIN` 與 `END` 在 PL/pgSQL 中有不同的意義。）
 

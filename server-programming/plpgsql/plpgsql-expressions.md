@@ -1,6 +1,6 @@
 <a id="PLPGSQL-EXPRESSIONS"></a>
 
-## 41.4. 運算式 [#](#PLPGSQL-EXPRESSIONS)
+## 41.4. 運算式 [#](#plpgsql-expressions) <a href="#plpgsql-expressions" id="plpgsql-expressions"></a>
 
 PL/pgSQL 陳述式中所使用的所有運算式，都是以伺服器主要的 SQL 執行器來處理。舉例來說，當你寫出像這樣的 PL/pgSQL 陳述式
 

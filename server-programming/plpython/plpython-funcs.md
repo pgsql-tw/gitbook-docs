@@ -1,6 +1,6 @@
 <a id="PLPYTHON-FUNCS"></a>
 
-## 44.1. PL/Python 函式 [#](#PLPYTHON-FUNCS)
+## 44.1. PL/Python 函式 [#](#plpython-funcs) <a href="#plpython-funcs" id="plpython-funcs"></a>
 
 PL/Python 中的函式是透過標準的 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 語法來宣告：
 

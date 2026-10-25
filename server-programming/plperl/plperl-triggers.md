@@ -1,6 +1,6 @@
 <a id="PLPERL-TRIGGERS"></a>
 
-## 43.6. PL/Perl 觸發程序 [#](#PLPERL-TRIGGERS)
+## 43.6. PL/Perl 觸發程序 [#](#plperl-triggers) <a href="#plperl-triggers" id="plperl-triggers"></a>
 
 PL/Perl 可以用來撰寫觸發程序函式。在觸發程序函式中，hash（雜湊）參照 `$_TD` 含有關於目前觸發程序事件的資訊。`$_TD` 是一個全域變數，它在觸發程序的每一次呼叫中都會取得各自獨立的區域值。`$_TD` hash 參照的各欄位如下：
 

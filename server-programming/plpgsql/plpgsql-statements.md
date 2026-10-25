@@ -1,6 +1,6 @@
 <a id="PLPGSQL-STATEMENTS"></a>
 
-## 41.5. 基本陳述式 [#](#PLPGSQL-STATEMENTS)
+## 41.5. 基本陳述式 [#](#plpgsql-statements) <a href="#plpgsql-statements" id="plpgsql-statements"></a>
 
 [41.5.1. 指派](plpgsql-statements.md#PLPGSQL-STATEMENTS-ASSIGNMENT)
 

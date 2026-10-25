@@ -1,6 +1,6 @@
 <a id="PLPGSQL-PORTING"></a>
 
-## 41.13. 從 Oracle PL/SQL 移植 [#](#PLPGSQL-PORTING)
+## 41.13. 從 Oracle PL/SQL 移植 [#](#plpgsql-porting) <a href="#plpgsql-porting" id="plpgsql-porting"></a>
 
 [41.13.1. 移植範例](plpgsql-porting.md#PLPGSQL-PORTING-EXAMPLES)
 

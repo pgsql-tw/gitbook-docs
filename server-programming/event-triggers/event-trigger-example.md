@@ -1,5 +1,5 @@
 <a id="EVENT-TRIGGER-EXAMPLE"></a>
-## 38.3. 完整的事件觸發程序範例 [#](#EVENT-TRIGGER-EXAMPLE)
+## 38.3. 完整的事件觸發程序範例 [#](#event-trigger-example) <a href="#event-trigger-example" id="event-trigger-example"></a>
 
 以下是一個以 C 撰寫的非常簡單的事件觸發程序函式範例。（以程序語言撰寫的觸發程序範例，可以在各程序語言各自的文件中找到。）
 

@@ -1,6 +1,6 @@
 <a id="RULES-TRIGGERS"></a>
 
-## 39.7. 規則與觸發程序的比較 [#](#RULES-TRIGGERS)
+## 39.7. 規則與觸發程序的比較 [#](#rules-triggers) <a href="#rules-triggers" id="rules-triggers"></a>
 
 <a id="id-1.8.6.12.2"></a><a id="id-1.8.6.12.3"></a>
 

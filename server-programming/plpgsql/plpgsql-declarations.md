@@ -1,6 +1,6 @@
 <a id="PLPGSQL-DECLARATIONS"></a>
 
-## 41.3. 宣告 [#](#PLPGSQL-DECLARATIONS)
+## 41.3. 宣告 [#](#plpgsql-declarations) <a href="#plpgsql-declarations" id="plpgsql-declarations"></a>
 
 [41.3.1. 宣告函式參數](plpgsql-declarations.md#PLPGSQL-DECLARATION-PARAMETERS)
 

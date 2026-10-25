@@ -1,6 +1,6 @@
 <a id="PLPGSQL-DEVELOPMENT-TIPS"></a>
 
-## 41.12. PL/pgSQL 開發技巧 [#](#PLPGSQL-DEVELOPMENT-TIPS)
+## 41.12. PL/pgSQL 開發技巧 [#](#plpgsql-development-tips) <a href="#plpgsql-development-tips" id="plpgsql-development-tips"></a>
 
 [41.12.1. 引號的處理](plpgsql-development-tips.md#PLPGSQL-QUOTE-TIPS)
 

@@ -1,6 +1,6 @@
 <a id="PLPERL-GLOBAL"></a>
 
-## 43.4. PL/Perl 中的全域值 [#](#PLPERL-GLOBAL)
+## 43.4. PL/Perl 中的全域值 [#](#plperl-global) <a href="#plperl-global" id="plperl-global"></a>
 
 你可以使用全域 hash（雜湊）`%_SHARED` 來儲存資料（包括程式碼參照），讓資料在目前工作階段的生命週期內於各次函式呼叫之間保留。
 

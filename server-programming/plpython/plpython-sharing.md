@@ -1,6 +1,6 @@
 <a id="PLPYTHON-SHARING"></a>
 
-## 44.3. 共用資料 [#](#PLPYTHON-SHARING)
+## 44.3. 共用資料 [#](#plpython-sharing) <a href="#plpython-sharing" id="plpython-sharing"></a>
 
 全域字典 `SD` 可用來儲存同一函式多次呼叫之間的私有資料。全域字典 `GD` 則儲存公開資料，工作階段中的所有 Python 函式都能存取，請謹慎使用。<a id="id-1.8.11.11.2.3"></a>
 

@@ -1,6 +1,6 @@
 <a id="PLTCL-ERROR-HANDLING"></a>
 
-## 42.8. PL/Tcl 中的錯誤處理 [#](#PLTCL-ERROR-HANDLING)
+## 42.8. PL/Tcl 中的錯誤處理 [#](#pltcl-error-handling) <a href="#pltcl-error-handling" id="pltcl-error-handling"></a>
 
 <a id="id-1.8.9.12.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="PLTCL-SUBTRANSACTIONS"></a>
 
-## 42.9. PL/Tcl 中的明確子交易 [#](#PLTCL-SUBTRANSACTIONS)
+## 42.9. PL/Tcl 中的明確子交易 [#](#pltcl-subtransactions) <a href="#pltcl-subtransactions" id="pltcl-subtransactions"></a>
 
 <a id="id-1.8.9.13.2"></a>
 

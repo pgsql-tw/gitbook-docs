@@ -1,6 +1,6 @@
 <a id="PLTCL-EVENT-TRIGGER"></a>
 
-## 42.7. PL/Tcl 中的事件觸發器函式 [#](#PLTCL-EVENT-TRIGGER)
+## 42.7. PL/Tcl 中的事件觸發器函式 [#](#pltcl-event-trigger) <a href="#pltcl-event-trigger" id="pltcl-event-trigger"></a>
 
 <a id="id-1.8.9.11.2"></a>
 

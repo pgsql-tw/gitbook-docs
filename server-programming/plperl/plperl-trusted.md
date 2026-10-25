@@ -1,6 +1,6 @@
 <a id="PLPERL-TRUSTED"></a>
 
-## 43.5. 受信任與不受信任的 PL/Perl [#](#PLPERL-TRUSTED)
+## 43.5. 受信任與不受信任的 PL/Perl [#](#plperl-trusted) <a href="#plperl-trusted" id="plperl-trusted"></a>
 
 <a id="id-1.8.10.13.2"></a>
 

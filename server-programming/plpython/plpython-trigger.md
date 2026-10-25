@@ -1,6 +1,6 @@
 <a id="PLPYTHON-TRIGGER"></a>
 
-## 44.5. 觸發程序函式 [#](#PLPYTHON-TRIGGER)
+## 44.5. 觸發程序函式 [#](#plpython-trigger) <a href="#plpython-trigger" id="plpython-trigger"></a>
 
 <a id="id-1.8.11.13.2"></a>
 

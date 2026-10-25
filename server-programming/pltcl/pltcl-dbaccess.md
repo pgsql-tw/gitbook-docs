@@ -1,6 +1,6 @@
 <a id="PLTCL-DBACCESS"></a>
 
-## 42.5. 從 PL/Tcl 存取資料庫 [#](#PLTCL-DBACCESS)
+## 42.5. 從 PL/Tcl 存取資料庫 [#](#pltcl-dbaccess) <a href="#pltcl-dbaccess" id="pltcl-dbaccess"></a>
 
 在本節中，我們遵循 Tcl 一般的慣例，在語法概要中使用問號（而非方括號）來表示可選的元素。以下這些指令可以用來從 PL/Tcl 函式的主體存取資料庫：
 

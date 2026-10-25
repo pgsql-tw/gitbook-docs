@@ -1,5 +1,5 @@
 <a id="EVENT-TRIGGER-TABLE-REWRITE-EXAMPLE"></a>
-## 38.4. 資料表重寫事件觸發程序範例 [#](#EVENT-TRIGGER-TABLE-REWRITE-EXAMPLE)
+## 38.4. 資料表重寫事件觸發程序範例 [#](#event-trigger-table-rewrite-example) <a href="#event-trigger-table-rewrite-example" id="event-trigger-table-rewrite-example"></a>
 
 由於 `table_rewrite` 事件，可以實作一套資料表重寫策略，僅允許在維護時段內進行重寫。
 

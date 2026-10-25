@@ -1,6 +1,6 @@
 <a id="PLTCL-FUNCTIONS"></a>
 
-## 42.2. PL/Tcl 函式與引數 [#](#PLTCL-FUNCTIONS)
+## 42.2. PL/Tcl 函式與引數 [#](#pltcl-functions) <a href="#pltcl-functions" id="pltcl-functions"></a>
 
 要以 PL/Tcl 語言建立函式，請使用標準的 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 語法：
 

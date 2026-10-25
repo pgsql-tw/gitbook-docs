@@ -1,6 +1,6 @@
 <a id="PLPGSQL-OVERVIEW"></a>
 
-## 41.1. 概觀 [#](#PLPGSQL-OVERVIEW)
+## 41.1. 概觀 [#](#plpgsql-overview) <a href="#plpgsql-overview" id="plpgsql-overview"></a>
 
 [41.1.1. 使用 PL/pgSQL 的優點](plpgsql-overview.md#PLPGSQL-ADVANTAGES)
 

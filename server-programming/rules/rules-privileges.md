@@ -1,6 +1,6 @@
 <a id="RULES-PRIVILEGES"></a>
 
-## 39.5. 規則與權限 [#](#RULES-PRIVILEGES)
+## 39.5. 規則與權限 [#](#rules-privileges) <a href="#rules-privileges" id="rules-privileges"></a>
 
 <a id="id-1.8.6.10.2"></a><a id="id-1.8.6.10.3"></a>
 

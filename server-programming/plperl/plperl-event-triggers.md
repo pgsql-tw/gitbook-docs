@@ -1,6 +1,6 @@
 <a id="PLPERL-EVENT-TRIGGERS"></a>
 
-## 43.7. PL/Perl 事件觸發器 [#](#PLPERL-EVENT-TRIGGERS)
+## 43.7. PL/Perl 事件觸發器 [#](#plperl-event-triggers) <a href="#plperl-event-triggers" id="plperl-event-triggers"></a>
 
 PL/Perl 可用來撰寫事件觸發器函式。在事件觸發器函式中，雜湊參照 `$_TD` 包含目前觸發事件的資訊。`$_TD` 是全域變數，但每次呼叫觸發器時都會取得獨立的區域值。`$_TD` 雜湊參照的欄位如下：
 

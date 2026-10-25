@@ -1,6 +1,6 @@
 <a id="RULES-STATUS"></a>
 
-## 39.6. 規則與指令狀態 [#](#RULES-STATUS)
+## 39.6. 規則與指令狀態 [#](#rules-status) <a href="#rules-status" id="rules-status"></a>
 
 PostgreSQL 伺服器對於它所收到的每一個指令，都會回傳一個指令狀態字串，例如 `INSERT 149592 1`。在沒有牽涉到規則時，這很單純；但是當查詢被規則重寫時，會發生什麼事呢？
 

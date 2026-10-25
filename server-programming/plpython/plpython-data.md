@@ -1,6 +1,6 @@
 <a id="PLPYTHON-DATA"></a>
 
-## 44.2. 資料值 [#](#PLPYTHON-DATA)
+## 44.2. 資料值 [#](#plpython-data) <a href="#plpython-data" id="plpython-data"></a>
 
 [44.2.1. 資料型別對應](plpython-data.md#PLPYTHON-DATA-TYPE-MAPPING)
 

@@ -1,5 +1,5 @@
 <a id="RULES-VIEWS"></a>
-## 39.2. 檢視表與規則系統 [#](#RULES-VIEWS)
+## 39.2. 檢視表與規則系統 [#](#rules-views) <a href="#rules-views" id="rules-views"></a>
 
 [39.2.1. `SELECT` 規則的運作方式](rules-views.md#RULES-SELECT)
 

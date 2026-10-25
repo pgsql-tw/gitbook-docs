@@ -1,5 +1,5 @@
 <a id="PLPGSQL-STRUCTURE"></a>
-## 41.2. PL/pgSQL 的結構 [#](#PLPGSQL-STRUCTURE)
+## 41.2. PL/pgSQL 的結構 [#](#plpgsql-structure) <a href="#plpgsql-structure" id="plpgsql-structure"></a>
 
 以 PL/pgSQL 撰寫的函式，是透過執行 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 命令向伺服器定義的。這樣的命令通常看起來像這樣：
 

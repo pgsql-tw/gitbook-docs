@@ -1,6 +1,6 @@
 <a id="PLTCL-TRIGGER"></a>
 
-## 42.6. PL/Tcl 中的觸發程序函式 [#](#PLTCL-TRIGGER)
+## 42.6. PL/Tcl 中的觸發程序函式 [#](#pltcl-trigger) <a href="#pltcl-trigger" id="pltcl-trigger"></a>
 
 <a id="id-1.8.9.10.2"></a>
 

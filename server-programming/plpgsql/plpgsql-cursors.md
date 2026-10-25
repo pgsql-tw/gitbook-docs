@@ -1,6 +1,6 @@
 <a id="PLPGSQL-CURSORS"></a>
 
-## 41.7. 游標 [#](#PLPGSQL-CURSORS)
+## 41.7. 游標 [#](#plpgsql-cursors) <a href="#plpgsql-cursors" id="plpgsql-cursors"></a>
 
 [41.7.1. 宣告游標變數](plpgsql-cursors.md#PLPGSQL-CURSOR-DECLARATIONS)
 

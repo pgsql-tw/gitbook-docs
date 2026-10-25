@@ -1,5 +1,5 @@
 <a id="PLPGSQL-IMPLEMENTATION"></a>
-## 41.11. PL/pgSQL 內部運作原理 [#](#PLPGSQL-IMPLEMENTATION)
+## 41.11. PL/pgSQL 內部運作原理 [#](#plpgsql-implementation) <a href="#plpgsql-implementation" id="plpgsql-implementation"></a>
 
 [41.11.1. 變數代換](plpgsql-implementation.md#PLPGSQL-VAR-SUBST)
 

@@ -1,6 +1,6 @@
 <a id="PLTCL-CONFIG"></a>
 
-## 42.11. PL/Tcl 組態設定 [#](#PLTCL-CONFIG)
+## 42.11. PL/Tcl 組態設定 [#](#pltcl-config) <a href="#pltcl-config" id="pltcl-config"></a>
 
 本節列出會影響 PL/Tcl 的組態參數。
 

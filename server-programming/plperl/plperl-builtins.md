@@ -1,5 +1,5 @@
 <a id="PLPERL-BUILTINS"></a>
-## 43.3. 內建函式 [#](#PLPERL-BUILTINS)
+## 43.3. 內建函式 [#](#plperl-builtins) <a href="#plperl-builtins" id="plperl-builtins"></a>
 
 [43.3.1. 從 PL/Perl 存取資料庫](plperl-builtins.md#PLPERL-DATABASE)
 

@@ -1,5 +1,5 @@
 <a id="EVENT-TRIGGER-DATABASE-LOGIN-EXAMPLE"></a>
-## 38.5. 資料庫登入事件觸發程序範例 [#](#EVENT-TRIGGER-DATABASE-LOGIN-EXAMPLE)
+## 38.5. 資料庫登入事件觸發程序範例 [#](#event-trigger-database-login-example) <a href="#event-trigger-database-login-example" id="event-trigger-database-login-example"></a>
 
 `login` 事件上的事件觸發程序，可以用來記錄使用者登入、依目前情況驗證連線並指派角色，或是初始化工作階段資料。非常重要的一點是，任何使用 `login` 事件的事件觸發程序，在執行任何寫入之前，都必須先檢查資料庫是否處於復原狀態。對備援伺服器進行寫入，會使它變得無法存取。
 

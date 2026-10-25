@@ -1,6 +1,6 @@
 <a id="PLPGSQL-CONTROL-STRUCTURES"></a>
 
-## 41.6. 控制結構 [#](#PLPGSQL-CONTROL-STRUCTURES)
+## 41.6. 控制結構 [#](#plpgsql-control-structures) <a href="#plpgsql-control-structures" id="plpgsql-control-structures"></a>
 
 [41.6.1. 從函式回傳](plpgsql-control-structures.md#PLPGSQL-STATEMENTS-RETURNING)
 
