@@ -54,7 +54,7 @@ CREATE COLLATION [ IF NOT EXISTS ] name FROM existing_collation
 :   若 *`provider`* 為 `libc`，則對 `LC_CTYPE` 區域類別使用指定的作業系統區域設定。
 
 *`provider`*
-:   指定與此定序相關之區域服務所使用的提供者。可能的值為 `builtin`、`icu`<a id="id-1.9.3.59.6.2.6.2.1.3"></a>（若伺服器建置時有 ICU 支援）或 `libc`。`libc` 是預設值。詳情請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)。
+:   指定與此定序相關之區域服務所使用的提供者。可能的值為 `builtin`、`icu`<a id="id-1.9.3.59.6.2.6.2.1.3"></a>（若伺服器建置時有 ICU 支援）或 `libc`。`libc` 是預設值。詳情請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#locale-providers)。
 
 `DETERMINISTIC`
 :   指定定序是否應使用確定性比較。預設為 true。確定性比較會將位元組不相等的字串視為不相等，即使比較認為它們在邏輯上相等也是如此。PostgreSQL 會使用逐位元組比較來決定平手的情況。非確定性的比較可以使定序成為例如不區分大小寫或不區分重音符號的定序。為此，你需要選擇適當的 `LOCALE` 設定，*並且*在此將定序設為非確定性。

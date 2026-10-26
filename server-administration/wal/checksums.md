@@ -2,7 +2,7 @@
 
 ## 28.2. 資料校驗和 [#](#checksums) <a href="#checksums" id="checksums"></a>
 
-[28.2.1. 離線啟用校驗和](checksums.md#CHECKSUMS-OFFLINE-ENABLE-DISABLE)
+[28.2.1. 離線啟用校驗和](checksums.md#checksums-offline-enable-disable)
 
 <a id="id-1.6.15.4.2"></a>
 
@@ -25,7 +25,7 @@
 
 <a id="CHECKSUMS-OFFLINE-ENABLE-DISABLE"></a>
 
-### 28.2.1. 離線啟用校驗和 [#](#CHECKSUMS-OFFLINE-ENABLE-DISABLE)
+### 28.2.1. 離線啟用校驗和 [#](#checksums-offline-enable-disable) <a href="#checksums-offline-enable-disable" id="checksums-offline-enable-disable"></a>
 
 [pg_checksums](../../reference/reference-server/app-pgchecksums.md)
 應用程式可用來針對離線叢集啟用或停用資料校驗和，也可以用來驗證校驗和。

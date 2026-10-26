@@ -2,13 +2,13 @@
 
 ## 17.5. 安裝後設定 [#](#install-post) <a href="#install-post" id="install-post"></a>
 
-[17.5.1. 共用函式庫](install-post.md#INSTALL-POST-SHLIBS)
+[17.5.1. 共用函式庫](install-post.md#install-post-shlibs)
 
-[17.5.2. 環境變數](install-post.md#INSTALL-POST-ENV-VARS)
+[17.5.2. 環境變數](install-post.md#install-post-env-vars)
 
 <a id="INSTALL-POST-SHLIBS"></a>
 
-### 17.5.1. 共用函式庫 [#](#INSTALL-POST-SHLIBS)
+### 17.5.1. 共用函式庫 [#](#install-post-shlibs) <a href="#install-post-shlibs" id="install-post-shlibs"></a>
 
 <a id="id-1.6.4.8.2.2"></a>
 
@@ -85,7 +85,7 @@ libpq.so.2.1: cannot open shared object file: No such file or directory
 
 <a id="INSTALL-POST-ENV-VARS"></a>
 
-### 17.5.2. 環境變數 [#](#INSTALL-POST-ENV-VARS)
+### 17.5.2. 環境變數 [#](#install-post-env-vars) <a href="#install-post-env-vars" id="install-post-env-vars"></a>
 
 <a id="id-1.6.4.8.3.2"></a>
 

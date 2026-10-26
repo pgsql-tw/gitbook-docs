@@ -4,7 +4,7 @@
 
 與邏輯解碼互動的 SQL 層級 API 詳細文件，請參閱[第 9.28.6 節](../../the-sql-language/functions/functions-admin.md#functions-replication)。
 
-同步複寫（請參閱[第 26.2.8 節](../../server-administration/high-availability/warm-standby.md#SYNCHRONOUS-REPLICATION)）僅支援透過串流複寫介面使用的複寫槽。函式介面和額外的非核心介面不支援同步複寫。
+同步複寫（請參閱[第 26.2.8 節](../../server-administration/high-availability/warm-standby.md#synchronous-replication)）僅支援透過串流複寫介面使用的複寫槽。函式介面和額外的非核心介面不支援同步複寫。
 
 ---
 

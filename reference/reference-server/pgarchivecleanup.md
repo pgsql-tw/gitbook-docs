@@ -49,7 +49,7 @@ pg_archivecleanup 假設 *`archivelocation`* 是擁有伺服器之使用者可�
 pg_archivecleanup 接受下列命令列引數：
 
 `-b`<br>`--clean-backup-history`
-:   一併移除備份歷史檔案。關於備份歷史檔案的詳細資訊，請參閱[第 25.3.2 節](../../server-administration/backup/continuous-archiving.md#BACKUP-BASE-BACKUP)。
+:   一併移除備份歷史檔案。關於備份歷史檔案的詳細資訊，請參閱[第 25.3.2 節](../../server-administration/backup/continuous-archiving.md#backup-base-backup)。
 
 `-d`<br>`--debug`
 :   在 `stderr` 上印出大量除錯日誌輸出。

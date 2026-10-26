@@ -29,7 +29,7 @@ PostgreSQL 提供了基礎架構，可用來建立自訂的連續封存模組
 且伺服器在該模組指出這些檔案已成功封存之前，
 都會避免回收或移除這些 WAL 檔案。至於每個 WAL 檔案該如何處理，
 最終取決於該模組，但
-[25.3.1 節](../../server-administration/backup/continuous-archiving.md#BACKUP-ARCHIVING-WAL)
+[25.3.1 節](../../server-administration/backup/continuous-archiving.md#backup-archiving-wal)
 列出了許多建議做法。
 
 封存模組至少必須包含一個初始化函式（見

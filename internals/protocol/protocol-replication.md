@@ -75,7 +75,7 @@ psql "dbname=postgres replication=database" -c "IDENTIFY_SYSTEM;"
 - `CREATE_REPLICATION_SLOT` *`slot_name`* [ `TEMPORARY` ] { `PHYSICAL` | `LOGICAL` *`output_plugin`* } [ ( *`option`* [, ...] ) ] <a id="id-1.10.6.9.7.1.4.1.8"></a> [#](#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT)
 
 
-  建立實體或邏輯複寫插槽。關於複寫插槽的更多資訊，請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)。
+  建立實體或邏輯複寫插槽。關於複寫插槽的更多資訊，請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#streaming-replication-slots)。
 
   - *`slot_name`*
 
@@ -137,7 +137,7 @@ psql "dbname=postgres replication=database" -c "IDENTIFY_SYSTEM;"
 - `ALTER_REPLICATION_SLOT` *`slot_name`* ( *`option`* [, ...] ) <a id="id-1.10.6.9.7.1.6.1.4"></a> [#](#PROTOCOL-REPLICATION-ALTER-REPLICATION-SLOT)
 
 
-  變更複寫插槽的定義。關於複寫插槽的更多資訊，請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)。此命令目前只支援邏輯複寫插槽。
+  變更複寫插槽的定義。關於複寫插槽的更多資訊，請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#streaming-replication-slots)。此命令目前只支援邏輯複寫插槽。
 
   - *`slot_name`*
 

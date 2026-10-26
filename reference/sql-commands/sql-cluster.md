@@ -71,7 +71,7 @@ pg_temp`。
 
 由於 `CLUSTER` 會記住哪些索引已被叢集化，你可以在第一次手動將想要叢集化的資料表叢集化，然後設定一個定期執行不帶任何參數之 `CLUSTER` 的維護腳本，讓所需的資料表定期重新叢集化。
 
-每個執行 `CLUSTER` 的後端都會在 `pg_stat_progress_cluster` 檢視表中回報其進度。詳情請參閱[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#CLUSTER-PROGRESS-REPORTING)。
+每個執行 `CLUSTER` 的後端都會在 `pg_stat_progress_cluster` 檢視表中回報其進度。詳情請參閱[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#cluster-progress-reporting)。
 
 將分割資料表叢集化時，會使用指定分割索引中對應的分割區，將其每個分割區叢集化。將分割資料表叢集化時，不可省略索引。對分割資料表執行的 `CLUSTER` 不能在交易區塊內執行。
 
@@ -124,7 +124,7 @@ CLUSTER index_name ON table_name
 
 ## 另請參閱
 
-[clusterdb](../reference-client/app-clusterdb.md), [第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#CLUSTER-PROGRESS-REPORTING)
+[clusterdb](../reference-client/app-clusterdb.md), [第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#cluster-progress-reporting)
 
 ---
 

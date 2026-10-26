@@ -2,9 +2,9 @@
 
 ## 29.9. 架構 [#](#logical-replication-architecture) <a href="#logical-replication-architecture" id="logical-replication-architecture"></a>
 
-[29.9.1. 初始快照](logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT)
+[29.9.1. 初始快照](logical-replication-architecture.md#logical-replication-snapshot)
 
-邏輯複寫的架構，與實體串流複寫類似（見[26.2.5 節](../high-availability/warm-standby.md#STREAMING-REPLICATION)）。
+邏輯複寫的架構，與實體串流複寫類似（見[26.2.5 節](../high-availability/warm-standby.md#streaming-replication)）。
 它是由 `walsender` 與 `apply`
 程序所實作的。walsender 程序會對 WAL 啟動邏輯解碼
 （說明於[第 47 章](../../server-programming/logicaldecoding/README.md)），
@@ -30,7 +30,7 @@
 
 <a id="LOGICAL-REPLICATION-SNAPSHOT"></a>
 
-### 29.9.1. 初始快照 [#](#LOGICAL-REPLICATION-SNAPSHOT)
+### 29.9.1. 初始快照 [#](#logical-replication-snapshot) <a href="#logical-replication-snapshot" id="logical-replication-snapshot"></a>
 
 現有已訂閱資料表中的初始資料，會被建立快照，並在特殊種類 apply
 程序的多個平行實例中複製。這些特殊的 apply 程序，是專門的資料表

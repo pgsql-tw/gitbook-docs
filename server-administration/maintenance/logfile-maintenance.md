@@ -35,7 +35,7 @@ stderr 輸出，傳送給某種日誌輪替程式。
 系統內建了一套日誌輪替機制，你可以透過
 在 `postgresql.conf` 中將組態參數 `logging_collector` 設為
 `true` 來啟用它。這套機制的控制
-參數說明於 [第 19.8.1 節](../runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)。你也可以透過這種方式
+參數說明於 [第 19.8.1 節](../runtime-config/runtime-config-logging.md#runtime-config-logging-where)。你也可以透過這種方式
 擷取以機器可讀的 CSV
 （comma-separated values，逗號分隔值）格式呈現的日誌資料。
 
@@ -66,7 +66,7 @@ logrotate 必須確保應用程式會將
 在 PostgreSQL 中，你則可以改用帶有 `logrotate`
 選項的 `pg_ctl` 來執行此操作。當伺服器收到這個指令時，會依據日誌組態，
 切換到新的日誌檔案，或是重新開啟
-現有的檔案（參見 [第 19.8.1 節](../runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)）。
+現有的檔案（參見 [第 19.8.1 節](../runtime-config/runtime-config-logging.md#runtime-config-logging-where)）。
 
 ### 注意
 

@@ -2,7 +2,7 @@
 
 ## 31.4. TAP 測試 [#](#regress-tap) <a href="#regress-tap" id="regress-tap"></a>
 
-[31.4.1. 環境變數](regress-tap.md#REGRESS-TAP-VARS)
+[31.4.1. 環境變數](regress-tap.md#regress-tap-vars)
 
 各種測試，特別是 `src/bin` 底下的用戶端程式測試，
 會使用 Perl TAP 工具，並透過 Perl 測試程式
@@ -55,7 +55,7 @@ TAP 風格的測試，這代表
 
 <a id="REGRESS-TAP-VARS"></a>
 
-### 31.4.1. 環境變數 [#](#REGRESS-TAP-VARS)
+### 31.4.1. 環境變數 [#](#regress-tap-vars) <a href="#regress-tap-vars" id="regress-tap-vars"></a>
 
 資料目錄會依測試檔名命名，若測試失敗，
 就會被保留下來。若設定了環境變數

@@ -2,15 +2,15 @@
 
 ## 17.7. 特定平台注意事項 [#](#installation-platform-notes) <a href="#installation-platform-notes" id="installation-platform-notes"></a>
 
-[17.7.1. Cygwin](installation-platform-notes.md#INSTALLATION-NOTES-CYGWIN)
+[17.7.1. Cygwin](installation-platform-notes.md#installation-notes-cygwin)
 
-[17.7.2. macOS](installation-platform-notes.md#INSTALLATION-NOTES-MACOS)
+[17.7.2. macOS](installation-platform-notes.md#installation-notes-macos)
 
-[17.7.3. MinGW](installation-platform-notes.md#INSTALLATION-NOTES-MINGW)
+[17.7.3. MinGW](installation-platform-notes.md#installation-notes-mingw)
 
-[17.7.4. Solaris](installation-platform-notes.md#INSTALLATION-NOTES-SOLARIS)
+[17.7.4. Solaris](installation-platform-notes.md#installation-notes-solaris)
 
-[17.7.5. Visual Studio](installation-platform-notes.md#INSTALLATION-NOTES-VISUAL-STUDIO)
+[17.7.5. Visual Studio](installation-platform-notes.md#installation-notes-visual-studio)
 
 本節記錄安裝與設定 PostgreSQL 時，其他與特定平台相關的問題。請務必
 同時閱讀安裝說明，特別是[第 17.1 節](install-requirements.md)。此外，關於
@@ -20,7 +20,7 @@
 
 <a id="INSTALLATION-NOTES-CYGWIN"></a>
 
-### 17.7.1. Cygwin [#](#INSTALLATION-NOTES-CYGWIN)
+### 17.7.1. Cygwin [#](#installation-notes-cygwin) <a href="#installation-notes-cygwin" id="installation-notes-cygwin"></a>
 
 <a id="id-1.6.4.10.4.2"></a>
 
@@ -65,7 +65,7 @@ make` 等等），並注意以下這些 Cygwin 特有的差異：
 
 <a id="INSTALLATION-NOTES-MACOS"></a>
 
-### 17.7.2. macOS [#](#INSTALLATION-NOTES-MACOS)
+### 17.7.2. macOS [#](#installation-notes-macos) <a href="#installation-notes-macos" id="installation-notes-macos"></a>
 
 <a id="id-1.6.4.10.5.2"></a>
 
@@ -131,7 +131,7 @@ install`，來繞過這個問題。不過，
 
 <a id="INSTALLATION-NOTES-MINGW"></a>
 
-### 17.7.3. MinGW [#](#INSTALLATION-NOTES-MINGW)
+### 17.7.3. MinGW [#](#installation-notes-mingw) <a href="#installation-notes-mingw" id="installation-notes-mingw"></a>
 
 <a id="id-1.6.4.10.6.2"></a>
 
@@ -151,7 +151,7 @@ Windows 版的 PostgreSQL 可以使用 MinGW（一個 Windows 上類似 Unix 的
 
 <a id="INSTALLATION-NOTES-SOLARIS"></a>
 
-### 17.7.4. Solaris [#](#INSTALLATION-NOTES-SOLARIS)
+### 17.7.4. Solaris [#](#installation-notes-solaris) <a href="#installation-notes-solaris" id="installation-notes-solaris"></a>
 
 <a id="id-1.6.4.10.7.2"></a>
 
@@ -234,7 +234,7 @@ Solaris 10u4 或更新版本，才能使用 DTrace。
 
 <a id="INSTALLATION-NOTES-VISUAL-STUDIO"></a>
 
-### 17.7.5. Visual Studio [#](#INSTALLATION-NOTES-VISUAL-STUDIO)
+### 17.7.5. Visual Studio [#](#installation-notes-visual-studio) <a href="#installation-notes-visual-studio" id="installation-notes-visual-studio"></a>
 
 <a id="id-1.6.4.10.8.2"></a>
 

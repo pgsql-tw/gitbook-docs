@@ -228,7 +228,7 @@ pg_upgrade 接受下列命令列引數：
 
 11. **升級串流複寫與日誌傳送的待命伺服器**
 
-    如果你使用了連結模式，並且有串流複寫（請參閱[第 26.2.5 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)）或日誌傳送（請參閱[第 26.2 節](../../server-administration/high-availability/warm-standby.md)）的待命伺服器，你可以依照下列步驟快速升級它們。你不會在待命伺服器上執行 pg_upgrade，而是在主要伺服器上執行 rsync。先不要啟動任何伺服器。
+    如果你使用了連結模式，並且有串流複寫（請參閱[第 26.2.5 節](../../server-administration/high-availability/warm-standby.md#streaming-replication)）或日誌傳送（請參閱[第 26.2 節](../../server-administration/high-availability/warm-standby.md)）的待命伺服器，你可以依照下列步驟快速升級它們。你不會在待命伺服器上執行 pg_upgrade，而是在主要伺服器上執行 rsync。先不要啟動任何伺服器。
 
     如果你*沒有*使用連結模式、沒有或不想使用 rsync，或者想要更簡單的做法，請略過本節的說明，在 pg_upgrade 完成且新的主要伺服器開始執行之後，直接重新建立待命伺服器即可。
 
@@ -379,7 +379,7 @@ pg_upgrade 不支援升級含有使用下列 `reg*` OID 參照系統資料型別
 
 （`regclass`、`regrole` 與 `regtype` 可以升級。）
 
-如果你想使用連結模式，但不希望舊叢集在新叢集啟動時被修改，請考慮使用複製（clone）模式。如果無法使用該模式，請製作舊叢集的副本，並以連結模式升級該副本。若要製作舊叢集的有效副本，請在伺服器執行時使用 `rsync` 建立舊叢集的不一致副本（dirty copy），然後關閉舊伺服器，再次執行 `rsync --checksum`，以任何變更更新該副本，使其達到一致。（之所以需要 `--checksum`，是因為 `rsync` 的檔案修改時間精細度只有一秒。）你可能會想排除某些檔案，例如 `postmaster.pid`，如[第 25.3.4 節](../../server-administration/backup/continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)所述。如果你的檔案系統支援檔案系統快照或寫入時複製（copy-on-write）的檔案副本，你可以利用它來製作舊叢集與資料表空間的備份，不過快照與副本必須同時建立，或在資料庫伺服器停止時建立。
+如果你想使用連結模式，但不希望舊叢集在新叢集啟動時被修改，請考慮使用複製（clone）模式。如果無法使用該模式，請製作舊叢集的副本，並以連結模式升級該副本。若要製作舊叢集的有效副本，請在伺服器執行時使用 `rsync` 建立舊叢集的不一致副本（dirty copy），然後關閉舊伺服器，再次執行 `rsync --checksum`，以任何變更更新該副本，使其達到一致。（之所以需要 `--checksum`，是因為 `rsync` 的檔案修改時間精細度只有一秒。）你可能會想排除某些檔案，例如 `postmaster.pid`，如[第 25.3.4 節](../../server-administration/backup/continuous-archiving.md#backup-lowlevel-base-backup)所述。如果你的檔案系統支援檔案系統快照或寫入時複製（copy-on-write）的檔案副本，你可以利用它來製作舊叢集與資料表空間的備份，不過快照與副本必須同時建立，或在資料庫伺服器停止時建立。
 
 <a id="id-1.9.5.13.10"></a>
 

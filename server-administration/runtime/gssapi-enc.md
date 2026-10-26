@@ -2,7 +2,7 @@
 
 ## 18.10. 使用 GSSAPI 加密的安全 TCP/IP 連線 [#](#gssapi-enc) <a href="#gssapi-enc" id="gssapi-enc"></a>
 
-[18.10.1. 基本設定](gssapi-enc.md#GSSAPI-SETUP)
+[18.10.1. 基本設定](gssapi-enc.md#gssapi-setup)
 
 <a id="id-1.6.5.13.2"></a>
 
@@ -15,7 +15,7 @@ GSSAPI 實作（例如 MIT Kerberos），
 
 <a id="GSSAPI-SETUP"></a>
 
-### 18.10.1. 基本設定 [#](#GSSAPI-SETUP)
+### 18.10.1. 基本設定 [#](#gssapi-setup) <a href="#gssapi-setup" id="gssapi-setup"></a>
 
 PostgreSQL 伺服器，會在同一個 TCP 連接埠上，
 同時聆聽一般連線與 GSSAPI 加密連線，

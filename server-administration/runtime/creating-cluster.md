@@ -2,9 +2,9 @@
 
 ## 18.2. 建立資料庫叢集 [#](#creating-cluster) <a href="#creating-cluster" id="creating-cluster"></a>
 
-[18.2.1. 次要檔案系統的使用](creating-cluster.md#CREATING-CLUSTER-MOUNT-POINTS)
+[18.2.1. 次要檔案系統的使用](creating-cluster.md#creating-cluster-mount-points)
 
-[18.2.2. 檔案系統](creating-cluster.md#CREATING-CLUSTER-FILESYSTEM)
+[18.2.2. 檔案系統](creating-cluster.md#creating-cluster-filesystem)
 
 <a id="id-1.6.5.5.2"></a><a id="id-1.6.5.5.3"></a>
 
@@ -132,7 +132,7 @@ postgres$ initdb -D /usr/local/pgsql/data
 
 <a id="CREATING-CLUSTER-MOUNT-POINTS"></a>
 
-### 18.2.1. 次要檔案系統的使用 [#](#CREATING-CLUSTER-MOUNT-POINTS)
+### 18.2.1. 次要檔案系統的使用 [#](#creating-cluster-mount-points) <a href="#creating-cluster-mount-points" id="creating-cluster-mount-points"></a>
 
 <a id="id-1.6.5.5.18.2"></a>
 
@@ -145,7 +145,7 @@ postgres$ initdb -D /usr/local/pgsql/data
 
 <a id="CREATING-CLUSTER-FILESYSTEM"></a>
 
-### 18.2.2. 檔案系統 [#](#CREATING-CLUSTER-FILESYSTEM)
+### 18.2.2. 檔案系統 [#](#creating-cluster-filesystem) <a href="#creating-cluster-filesystem" id="creating-cluster-filesystem"></a>
 
 一般而言，任何具備 POSIX 語意的檔案系統，
 都可以用於 PostgreSQL。使用者基於各種不同的原因，

@@ -6,7 +6,7 @@
 
 檢視表 `pg_replication_slots` 列出資料庫叢集中目前存在的所有複寫插槽，以及它們目前的狀態。
 
-關於複寫插槽的更多資訊，請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)與[第 47 章](../../server-programming/logicaldecoding/README.md)。
+關於複寫插槽的更多資訊，請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#streaming-replication-slots)與[第 47 章](../../server-programming/logicaldecoding/README.md)。
 
 <a id="id-1.10.5.24.5"></a>
 

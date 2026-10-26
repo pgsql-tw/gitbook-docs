@@ -48,7 +48,7 @@ PREPARE TRANSACTION transaction_id
 
 ### 注意
 
-不建議讓交易長時間停留在已準備狀態。這會妨礙 `VACUUM` 回收儲存空間的能力，在極端情況下甚至可能導致資料庫為了防止交易 ID 回捲而關閉（請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。也請記住，該交易會持續持有它原本所持有的所有鎖定。這項功能原本設計的用法是：一旦外部交易管理員確認其他資料庫也都已準備好可以提交，已準備好的交易通常就會馬上被提交或回復。
+不建議讓交易長時間停留在已準備狀態。這會妨礙 `VACUUM` 回收儲存空間的能力，在極端情況下甚至可能導致資料庫為了防止交易 ID 回捲而關閉（請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。也請記住，該交易會持續持有它原本所持有的所有鎖定。這項功能原本設計的用法是：一旦外部交易管理員確認其他資料庫也都已準備好可以提交，已準備好的交易通常就會馬上被提交或回復。
 
 若你尚未設定外部交易管理員來追蹤已準備好的交易並確保它們能及時結束，最好將 [max_prepared_transactions](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PREPARED-TRANSACTIONS) 設為零，停用已準備交易功能。這樣可以防止不小心建立了之後可能被遺忘、進而造成問題的已準備交易。
 

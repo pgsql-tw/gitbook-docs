@@ -240,7 +240,7 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 * 將一般使用者限制在使用者私有的綱要中。要實作這個模式，首先確保沒有任何綱要具有公開的 `CREATE` 權限。接著，為每個需要建立非暫時物件的使用者，建立一個與該使用者同名的綱要，例如 `CREATE SCHEMA alice AUTHORIZATION alice`。（回想一下，預設的搜尋路徑以 `$user` 開頭，而它會解析為使用者名稱。因此，如果每個使用者都有各自的綱要，他們預設就會存取自己的綱要。）這個模式是安全的綱要使用模式，除非不受信任的使用者是資料庫擁有者，或已被授予相關角色的 `ADMIN OPTION`；在這種情況下，不存在任何安全的綱要使用模式。
 
   在 PostgreSQL 15 及之後的版本中，預設設定就支援這個使用模式。在較早的版本中，或者在使用從較早版本升級而來的資料庫時，你需要從 `public` 綱要移除公開的 `CREATE` 權限（執行 `REVOKE CREATE ON SCHEMA public FROM PUBLIC`）。然後考慮稽核 `public` 綱要中是否有與 `pg_catalog` 綱要中之物件同名的物件。
-* 修改 [`postgresql.conf`](../../server-administration/runtime-config/config-setting.md#CONFIG-SETTING-CONFIGURATION-FILE) 或執行 `ALTER ROLE ALL SET search_path = "$user"`，將 public 綱要從預設的搜尋路徑中移除。接著，授予在 public 綱要中建立物件的權限。只有限定名稱才會選用 public 綱要中的物件。雖然限定的資料表參照沒有問題，但呼叫 public 綱要中的函式[會是不安全或不可靠的](../typeconv/typeconv-func.md)。如果你在 public 綱要中建立函式或擴充功能，請改用第一種模式。除此之外，就像第一種模式一樣，這種模式是安全的，除非不受信任的使用者是資料庫擁有者，或已被授予相關角色的 `ADMIN OPTION`。
+* 修改 [`postgresql.conf`](../../server-administration/runtime-config/config-setting.md#config-setting-configuration-file) 或執行 `ALTER ROLE ALL SET search_path = "$user"`，將 public 綱要從預設的搜尋路徑中移除。接著，授予在 public 綱要中建立物件的權限。只有限定名稱才會選用 public 綱要中的物件。雖然限定的資料表參照沒有問題，但呼叫 public 綱要中的函式[會是不安全或不可靠的](../typeconv/typeconv-func.md)。如果你在 public 綱要中建立函式或擴充功能，請改用第一種模式。除此之外，就像第一種模式一樣，這種模式是安全的，除非不受信任的使用者是資料庫擁有者，或已被授予相關角色的 `ADMIN OPTION`。
 * 保留預設的搜尋路徑，並授予在 public 綱要中建立物件的權限。所有使用者都會隱含地存取 public 綱要。這模擬了完全沒有綱要可用的情況，讓你可以從不支援綱要的環境平順地過渡。不過，這永遠不會是安全的模式。只有當資料庫只有單一使用者，或只有少數幾位互相信任的使用者時，才可以接受。在從 PostgreSQL 14 或更早版本升級而來的資料庫中，這是預設的模式。
 
 無論採用哪種模式，要安裝共用的應用程式（每個人都會使用的資料表、第三方提供的額外函式等等）時，都請把它們放在獨立的綱要中。記得授予適當的權限，讓其他使用者可以存取它們。使用者接著可以用綱要名稱限定這些額外物件的名稱來參照它們，或者依自己的選擇，將這些額外的綱要放入自己的搜尋路徑中。

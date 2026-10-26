@@ -124,7 +124,7 @@
        在資料表的可見性對應表中被標記為全部凍結的頁面數。
        這只是用於觸發自動清理（autovacuum）的估計值。它也可以
        與 <code class="structfield">relallvisible</code> 搭配使用，
-       用於排程手動清理，以及調校 <a class="link" href="../../server-administration/runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-FREEZING">VACUUM 的凍結
+       用於排程手動清理，以及調校 <a class="link" href="../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-vacuum-freezing">VACUUM 的凍結
        行為</a>。
 
        它由

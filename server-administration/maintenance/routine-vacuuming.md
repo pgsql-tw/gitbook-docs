@@ -2,27 +2,27 @@
 
 ## 24.1. 例行性資料庫清理 [#](#routine-vacuuming) <a href="#routine-vacuuming" id="routine-vacuuming"></a>
 
-[24.1.1. 清理基本概念](routine-vacuuming.md#VACUUM-BASICS)
+[24.1.1. 清理基本概念](routine-vacuuming.md#vacuum-basics)
 
-[24.1.2. 回收磁碟空間](routine-vacuuming.md#VACUUM-FOR-SPACE-RECOVERY)
+[24.1.2. 回收磁碟空間](routine-vacuuming.md#vacuum-for-space-recovery)
 
-[24.1.3. 更新規劃器統計資訊](routine-vacuuming.md#VACUUM-FOR-STATISTICS)
+[24.1.3. 更新規劃器統計資訊](routine-vacuuming.md#vacuum-for-statistics)
 
-[24.1.4. 更新可見性映射](routine-vacuuming.md#VACUUM-FOR-VISIBILITY-MAP)
+[24.1.4. 更新可見性映射](routine-vacuuming.md#vacuum-for-visibility-map)
 
-[24.1.5. 防止交易 ID 回捲失敗](routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)
+[24.1.5. 防止交易 ID 回捲失敗](routine-vacuuming.md#vacuum-for-wraparound)
 
-[24.1.6. Autovacuum 常駐程式](routine-vacuuming.md#AUTOVACUUM)
+[24.1.6. Autovacuum 常駐程式](routine-vacuuming.md#autovacuum)
 
 <a id="id-1.6.11.10.2"></a>
 
-PostgreSQL 資料庫需要定期進行稱為*清理*（vacuuming）的維護工作。對許多安裝而言，讓 *autovacuum 常駐程式*（autovacuum daemon）負責清理就已足夠，該常駐程式的說明請參閱[第 24.1.6 節](routine-vacuuming.md#AUTOVACUUM)。你可能需要調整該節所述的 autovacuum 參數，才能針對你的情況取得最佳效果。有些資料庫管理者則希望以手動管理的
+PostgreSQL 資料庫需要定期進行稱為*清理*（vacuuming）的維護工作。對許多安裝而言，讓 *autovacuum 常駐程式*（autovacuum daemon）負責清理就已足夠，該常駐程式的說明請參閱[第 24.1.6 節](routine-vacuuming.md#autovacuum)。你可能需要調整該節所述的 autovacuum 參數，才能針對你的情況取得最佳效果。有些資料庫管理者則希望以手動管理的
 `VACUUM` 指令來補充甚至取代常駐程式的工作，這類指令通常是透過 cron 或工作排程器（Task
 Scheduler）腳本依排程執行。若要正確設定手動管理的清理作業，就必須理解接下來幾個小節所討論的議題。即使是依賴 autovacuum 的管理者，也可能想略讀這部分內容，以協助理解並調整 autovacuum 的運作。
 
 <a id="VACUUM-BASICS"></a>
 
-### 24.1.1. 清理基本概念 [#](#VACUUM-BASICS)
+### 24.1.1. 清理基本概念 [#](#vacuum-basics) <a href="#vacuum-basics" id="vacuum-basics"></a>
 
 PostgreSQL 的
 [`VACUUM`](../../reference/sql-commands/sql-vacuum.md) 指令必須定期處理每個資料表，原因有以下幾點：
@@ -54,11 +54,11 @@ PostgreSQL 的
 `VACUUM` 會產生大量的 I/O
 流量，可能導致其他使用中的工作階段效能變差。
 有一些組態參數可以調整，用來降低背景清理作業對效能的影響——請參閱
-[第 19.10.2 節](../runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)。
+[第 19.10.2 節](../runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)。
 
 <a id="VACUUM-FOR-SPACE-RECOVERY"></a>
 
-### 24.1.2. 回收磁碟空間 [#](#VACUUM-FOR-SPACE-RECOVERY)
+### 24.1.2. 回收磁碟空間 [#](#vacuum-for-space-recovery) <a href="#vacuum-for-space-recovery" id="vacuum-for-space-recovery"></a>
 
 <a id="id-1.6.11.10.5.2"></a>
 
@@ -136,7 +136,7 @@ FULL` 來回收現在已不再使用的磁碟空間。
 
 <a id="VACUUM-FOR-STATISTICS"></a>
 
-### 24.1.3. 更新規劃器統計資訊 [#](#VACUUM-FOR-STATISTICS)
+### 24.1.3. 更新規劃器統計資訊 [#](#vacuum-for-statistics) <a href="#vacuum-for-statistics" id="vacuum-for-statistics"></a>
 
 <a id="id-1.6.11.10.6.2"></a><a id="id-1.6.11.10.6.3"></a>
 
@@ -211,7 +211,7 @@ autovacuum 常駐程式不會對分割資料表發出
 
 <a id="VACUUM-FOR-VISIBILITY-MAP"></a>
 
-### 24.1.4. 更新可見性映射 [#](#VACUUM-FOR-VISIBILITY-MAP)
+### 24.1.4. 更新可見性映射 [#](#vacuum-for-visibility-map) <a href="#vacuum-for-visibility-map" id="vacuum-for-visibility-map"></a>
 
 清理作業會為每個
 資料表維護一份[可見性映射](../../internals/storage/storage-vm.md)，用來追蹤哪些頁面只包含已知對所有使用中交易
@@ -231,7 +231,7 @@ autovacuum 常駐程式不會對分割資料表發出
 
 <a id="VACUUM-FOR-WRAPAROUND"></a>
 
-### 24.1.5. 防止交易 ID 回捲失敗 [#](#VACUUM-FOR-WRAPAROUND)
+### 24.1.5. 防止交易 ID 回捲失敗 [#](#vacuum-for-wraparound) <a href="#vacuum-for-wraparound" id="vacuum-for-wraparound"></a>
 
 <a id="id-1.6.11.10.8.2"></a><a id="id-1.6.11.10.8.3"></a>
 
@@ -474,7 +474,7 @@ HINT:  Execute a database-wide VACUUM in that database.
    `age(transactionid)` 很大的資料列來找出這些交易。這類交易
    應該被提交或復原（rollback）。
 2. 結束執行時間過長的開啟中交易。你可以透過檢查
-   [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW) 中
+   [`pg_stat_activity`](../monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view) 中
    `age(backend_xid)` 或 `age(backend_xmin)` 很大的資料列來找出這些交易。這類交易
    應該被提交或復原，或者可以用 `pg_terminate_backend` 終止該工作階段。
 3. 移除任何舊的複寫插槽（replication slot）。使用
@@ -584,7 +584,7 @@ MXID。
 
 <a id="AUTOVACUUM"></a>
 
-### 24.1.6. Autovacuum 常駐程式 [#](#AUTOVACUUM)
+### 24.1.6. Autovacuum 常駐程式 [#](#autovacuum) <a href="#autovacuum" id="autovacuum"></a>
 
 <a id="id-1.6.11.10.9.2"></a>
 
@@ -704,10 +704,10 @@ analyze threshold = analyze base threshold + analyze scale factor * number of tu
 [儲存參數](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。
 如果某項設定已透過資料表的儲存參數變更，處理該資料表時
 就會使用該值；否則就會使用全域設定。關於全域設定的更多細節，請參閱
-[第 19.10.1 節](../runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-AUTOVACUUM)。
+[第 19.10.1 節](../runtime-config/runtime-config-vacuum.md#runtime-config-autovacuum)。
 
 當有多個工作程序在執行時，autovacuum 成本延遲參數
-（請參閱[第 19.10.2 節](../runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)）會在所有執行中的工作程序之間「平衡」，讓
+（請參閱[第 19.10.2 節](../runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)）會在所有執行中的工作程序之間「平衡」，讓
 系統上的總 I/O 影響不論實際有多少工作程序
 在執行都維持相同。不過，任何正在處理已個別設定
 `autovacuum_vacuum_cost_delay` 或

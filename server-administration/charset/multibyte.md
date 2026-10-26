@@ -2,15 +2,15 @@
 
 ## 23.3. 字元集支援 [#](#multibyte) <a href="#multibyte" id="multibyte"></a>
 
-[23.3.1. 支援的字元集](multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)
+[23.3.1. 支援的字元集](multibyte.md#multibyte-charset-supported)
 
-[23.3.2. 設定字元集](multibyte.md#MULTIBYTE-SETTING)
+[23.3.2. 設定字元集](multibyte.md#multibyte-setting)
 
-[23.3.3. 伺服器與用戶端間的自動字元集轉換](multibyte.md#MULTIBYTE-AUTOMATIC-CONVERSION)
+[23.3.3. 伺服器與用戶端間的自動字元集轉換](multibyte.md#multibyte-automatic-conversion)
 
-[23.3.4. 可用的字元集轉換](multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED)
+[23.3.4. 可用的字元集轉換](multibyte.md#multibyte-conversions-supported)
 
-[23.3.5. 延伸閱讀](multibyte.md#MULTIBYTE-FURTHER-READING)
+[23.3.5. 延伸閱讀](multibyte.md#multibyte-further-reading)
 
 <a id="id-1.6.10.5.2"></a>
 
@@ -39,7 +39,7 @@ PostgreSQL 資料庫
 
 <a id="MULTIBYTE-CHARSET-SUPPORTED"></a>
 
-### 23.3.1. 支援的字元集 [#](#MULTIBYTE-CHARSET-SUPPORTED)
+### 23.3.1. 支援的字元集 [#](#multibyte-charset-supported) <a href="#multibyte-charset-supported" id="multibyte-charset-supported"></a>
 
 [表 23.3](multibyte.md#CHARSET-TABLE) 顯示了
 PostgreSQL 中可用的字元集。
@@ -72,7 +72,7 @@ PostgreSQL 將無法藉由
 
 <a id="MULTIBYTE-SETTING"></a>
 
-### 23.3.2. 設定字元集 [#](#MULTIBYTE-SETTING)
+### 23.3.2. 設定字元集 [#](#multibyte-setting) <a href="#multibyte-setting" id="multibyte-setting"></a>
 
 `initdb` 定義了
 PostgreSQL 叢集的預設字元集（編碼）。例如，
@@ -151,11 +151,11 @@ PostgreSQL 仍會允許超級使用者建立
 
 <a id="MULTIBYTE-AUTOMATIC-CONVERSION"></a>
 
-### 23.3.3. 伺服器與用戶端間的自動字元集轉換 [#](#MULTIBYTE-AUTOMATIC-CONVERSION)
+### 23.3.3. 伺服器與用戶端間的自動字元集轉換 [#](#multibyte-automatic-conversion) <a href="#multibyte-automatic-conversion" id="multibyte-automatic-conversion"></a>
 
 PostgreSQL 支援在許多字元
 集組合之間，於伺服器與用戶端之間進行自動字元集轉換
-（[第 23.3.4 節](multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED)
+（[第 23.3.4 節](multibyte.md#multibyte-conversions-supported)
 顯示了具體有哪些組合）。
 
 若要啟用自動字元集轉換，你必須
@@ -229,7 +229,7 @@ PostgreSQL 支援在許多字元
 
 <a id="MULTIBYTE-CONVERSIONS-SUPPORTED"></a>
 
-### 23.3.4. 可用的字元集轉換 [#](#MULTIBYTE-CONVERSIONS-SUPPORTED)
+### 23.3.4. 可用的字元集轉換 [#](#multibyte-conversions-supported) <a href="#multibyte-conversions-supported" id="multibyte-conversions-supported"></a>
 
 只要轉換函式列於
 [`pg_conversion`](../../internals/catalogs/catalog-pg-conversion.md)
@@ -385,7 +385,7 @@ PostgreSQL 支援在許多字元
 
 <a id="MULTIBYTE-FURTHER-READING"></a>
 
-### 23.3.5. 延伸閱讀 [#](#MULTIBYTE-FURTHER-READING)
+### 23.3.5. 延伸閱讀 [#](#multibyte-further-reading) <a href="#multibyte-further-reading" id="multibyte-further-reading"></a>
 
 以下是開始學習各種編碼系統的優良參考資料。
 

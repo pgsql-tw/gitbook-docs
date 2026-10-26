@@ -2,13 +2,13 @@
 
 ## 19.9. 執行時期統計資訊 [#](#runtime-config-statistics) <a href="#runtime-config-statistics" id="runtime-config-statistics"></a>
 
-[19.9.1. 累計查詢與索引統計資訊](runtime-config-statistics.md#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
+[19.9.1. 累計查詢與索引統計資訊](runtime-config-statistics.md#runtime-config-cumulative-statistics)
 
-[19.9.2. 統計資訊監控](runtime-config-statistics.md#RUNTIME-CONFIG-STATISTICS-MONITOR)
+[19.9.2. 統計資訊監控](runtime-config-statistics.md#runtime-config-statistics-monitor)
 
 <a id="RUNTIME-CONFIG-CUMULATIVE-STATISTICS"></a>
 
-### 19.9.1. 累計查詢與索引統計資訊 [#](#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
+### 19.9.1. 累計查詢與索引統計資訊 [#](#runtime-config-cumulative-statistics) <a href="#runtime-config-cumulative-statistics" id="runtime-config-cumulative-statistics"></a>
 
 這些參數控制伺服器層級的累計統計系統。
 啟用後，收集到的資料可以透過
@@ -47,14 +47,14 @@
 
 `track_cost_delay_timing` (`boolean`) <a id="id-1.6.6.12.2.3.4.1.3"></a> [#](#GUC-TRACK-COST-DELAY-TIMING)
 :   啟用以成本為基礎的 vacuum 延遲計時（參閱
-    [19.10.2 節](runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)）。此參數
+    [19.10.2 節](runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)）。此參數
     預設為關閉，因為它會反覆向作業系統查詢
     目前時間，在某些平台上可能造成顯著額外負擔。
     你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具
     來測量你的系統上計時功能的額外負擔。以成本為基礎的 vacuum 延遲
     計時資訊會顯示在
-    [`pg_stat_progress_vacuum`](../monitoring/progress-reporting.md#VACUUM-PROGRESS-REPORTING)、
-    [`pg_stat_progress_analyze`](../monitoring/progress-reporting.md#ANALYZE-PROGRESS-REPORTING)、
+    [`pg_stat_progress_vacuum`](../monitoring/progress-reporting.md#vacuum-progress-reporting)、
+    [`pg_stat_progress_analyze`](../monitoring/progress-reporting.md#analyze-progress-reporting)、
     在使用 `VERBOSE` 選項時 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與
     [ANALYZE](../../reference/sql-commands/sql-analyze.md) 的輸出中，
     以及在設定 [log_autovacuum_min_duration](runtime-config-logging.md#GUC-LOG-AUTOVACUUM-MIN-DURATION)
@@ -70,8 +70,8 @@
     你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具
     來測量你的系統上計時功能的額外負擔。
     I/O 計時資訊會顯示在
-    [`pg_stat_database`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW)、
-    [`pg_stat_io`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW)（若 `object`
+    [`pg_stat_database`](../monitoring/monitoring-stats.md#monitoring-pg-stat-database-view)、
+    [`pg_stat_io`](../monitoring/monitoring-stats.md#monitoring-pg-stat-io-view)（若 `object`
     不是 `wal`）、在使用
     [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 函式的輸出中（若
     `object` 不是 `wal`）、在使用 `BUFFERS`
@@ -92,7 +92,7 @@
     來測量你的系統上計時功能的額外負擔。
     I/O 計時資訊會顯示在
     `object` 為 `wal` 的
-    [`pg_stat_io`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW) 中，以及
+    [`pg_stat_io`](../monitoring/monitoring-stats.md#monitoring-pg-stat-io-view) 中，以及
     `object` 為 `wal` 時
     [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 函式的輸出中。
     只有超級使用者以及具備相應 `SET`
@@ -138,13 +138,13 @@
 
 <a id="RUNTIME-CONFIG-STATISTICS-MONITOR"></a>
 
-### 19.9.2. 統計資訊監控 [#](#RUNTIME-CONFIG-STATISTICS-MONITOR)
+### 19.9.2. 統計資訊監控 [#](#runtime-config-statistics-monitor) <a href="#runtime-config-statistics-monitor" id="runtime-config-statistics-monitor"></a>
 
 <a id="GUC-COMPUTE-QUERY-ID"></a>
 
 `compute_query_id` (`enum`) <a id="id-1.6.6.12.3.2.1.1.3"></a> [#](#GUC-COMPUTE-QUERY-ID)
 :   啟用核心內建的查詢識別碼計算功能。
-    查詢識別碼可以顯示在 [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
+    查詢識別碼可以顯示在 [`pg_stat_activity`](../monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view)
     檢視表中、透過 `EXPLAIN` 顯示，或若透過
     [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) 參數設定，也可以輸出到日誌中。
     [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 延伸模組同樣需要

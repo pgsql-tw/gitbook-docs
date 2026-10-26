@@ -61,7 +61,7 @@ pg_receivewal 會在預寫式日誌於伺服器上產生的同時即時串流接
 :   指定傳回伺服器之狀態封包間隔的秒數。這讓伺服器端更容易監控進度。值為零時會完全停用定期狀態更新，不過伺服器要求時仍會傳送更新，以避免逾時斷線。預設值為 10 秒。
 
 `-S slotname`<br>`--slot=slotname`
-:   要求 pg_receivewal 使用現有的複寫插槽（請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)）。使用此選項時，pg_receivewal 會向伺服器回報排清位置，指出每個區段何時已同步到磁碟，讓伺服器在該區段沒有其他用途時可以將其移除。
+:   要求 pg_receivewal 使用現有的複寫插槽（請參閱[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#streaming-replication-slots)）。使用此選項時，pg_receivewal 會向伺服器回報排清位置，指出每個區段何時已同步到磁碟，讓伺服器在該區段沒有其他用途時可以將其移除。
 
     當 pg_receivewal 的複寫用戶端在伺服器上被設定為同步待命伺服器時，使用複寫插槽會向伺服器回報排清位置，但只在 WAL 檔案關閉時才回報。因此，這種設定會導致主要伺服器上的交易等待很長的時間，實際上無法令人滿意地運作。必須另外指定 `--synchronous` 選項（見下文），才能使其正確運作。
 

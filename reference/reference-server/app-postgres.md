@@ -84,7 +84,7 @@ postgres — PostgreSQL 資料庫伺服器
 :   在每個命令結束時印出時間資訊與其他統計資料。這對效能評測或調整緩衝區數量很有用。
 
 `-S` *`work-mem`*
-:   指定排序與雜湊表在改用暫存磁碟檔案之前所使用的基本記憶體量。請參閱[第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)中組態參數 `work_mem` 的說明。
+:   指定排序與雜湊表在改用暫存磁碟檔案之前所使用的基本記憶體量。請參閱[第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#runtime-config-resource-memory)中組態參數 `work_mem` 的說明。
 
 `-V`<br>`--version`
 :   印出 postgres 的版本後結束。

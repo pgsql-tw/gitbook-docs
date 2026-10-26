@@ -2,11 +2,11 @@
 
 ## 25.1. SQL 傾印 [#](#backup-dump) <a href="#backup-dump" id="backup-dump"></a>
 
-[25.1.1. 還原傾印內容](backup-dump.md#BACKUP-DUMP-RESTORE)
+[25.1.1. 還原傾印內容](backup-dump.md#backup-dump-restore)
 
-[25.1.2. 使用 pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
+[25.1.2. 使用 pg_dumpall](backup-dump.md#backup-dump-all)
 
-[25.1.3. 處理大型資料庫](backup-dump.md#BACKUP-DUMP-LARGE)
+[25.1.3. 處理大型資料庫](backup-dump.md#backup-dump-large)
 
 這種傾印方式的概念，是產生一個包含 SQL 指令的檔案，
 當這個檔案被送回伺服器時，會重建出與傾印當下相同狀態的資料庫。
@@ -65,7 +65,7 @@ pg_dump 也是唯一在將資料庫轉移到不同機器架構時
 
 <a id="BACKUP-DUMP-RESTORE"></a>
 
-### 25.1.1. 還原傾印內容 [#](#BACKUP-DUMP-RESTORE)
+### 25.1.1. 還原傾印內容 [#](#backup-dump-restore) <a href="#backup-dump-restore" id="backup-dump-restore"></a>
 
 由 pg_dump 建立的文字檔案，設計上是要以
 psql 程式的預設設定來讀取的。還原一份文字傾印檔的
@@ -138,16 +138,16 @@ pg_dump 產生的傾印檔案，是相對於
 還原備份之後，最好對每個資料庫執行一次
 [`ANALYZE`](../../reference/sql-commands/sql-analyze.md)，
 讓查詢最佳化工具擁有有用的統計資訊；詳情請參閱
-[第 24.1.3 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)
+[第 24.1.3 節](../maintenance/routine-vacuuming.md#vacuum-for-statistics)
 與
-[第 24.1.6 節](../maintenance/routine-vacuuming.md#AUTOVACUUM)。
+[第 24.1.6 節](../maintenance/routine-vacuuming.md#autovacuum)。
 關於如何有效率地將大量資料載入 PostgreSQL，
 更多建議請參閱
 [第 14.4 節](../../the-sql-language/performance-tips/populate.md)。
 
 <a id="BACKUP-DUMP-ALL"></a>
 
-### 25.1.2. 使用 pg_dumpall [#](#BACKUP-DUMP-ALL)
+### 25.1.2. 使用 pg_dumpall [#](#backup-dump-all) <a href="#backup-dump-all" id="backup-dump-all"></a>
 
 pg_dump 一次只會傾印單一資料庫，
 且不會傾印關於角色或資料表空間的資訊
@@ -191,7 +191,7 @@ pg_dump。這代表雖然每個資料庫本身在內部是一致的，
 
 <a id="BACKUP-DUMP-LARGE"></a>
 
-### 25.1.3. 處理大型資料庫 [#](#BACKUP-DUMP-LARGE)
+### 25.1.3. 處理大型資料庫 [#](#backup-dump-large) <a href="#backup-dump-large" id="backup-dump-large"></a>
 
 有些作業系統有檔案大小上限，在建立大型 pg_dump
 輸出檔案時可能會造成問題。幸運的是，pg_dump

@@ -27,7 +27,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 
 `initdb` 會初始化資料庫叢集的預設區域設定與字元集編碼。這些設定也可以在建立各個資料庫時分別設定。`initdb` 會決定範本資料庫的這些設定，而這些設定將作為所有其他資料庫的預設值。
 
-預設情況下，`initdb` 使用區域設定提供者 `libc`（請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)）。`libc` 區域設定提供者會從環境取得區域設定，並依據區域設定決定編碼。
+預設情況下，`initdb` 使用區域設定提供者 `libc`（請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#locale-providers)）。`libc` 區域設定提供者會從環境取得區域設定，並依據區域設定決定編碼。
 
 若要為叢集選擇不同的區域設定，請使用 `--locale` 選項。另外也有個別的 `--lc-*` 與 `--icu-locale` 選項（見下文），可以為個別的區域設定類別設定值。請注意，不同區域設定類別的設定若不一致，可能會產生無意義的結果，因此使用時應該謹慎。
 
@@ -66,7 +66,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-ENCODING"></a>
 
 `-E encoding`<br>`--encoding=encoding` [#](#APP-INITDB-OPTION-ENCODING)
-:   選擇範本資料庫的編碼。除非你屆時另行覆寫，這也會是你之後建立之任何資料庫的預設編碼。PostgreSQL 伺服器所支援的字元集說明請見[第 23.3.1 節](../../server-administration/charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。
+:   選擇範本資料庫的編碼。除非你屆時另行覆寫，這也會是你之後建立之任何資料庫的預設編碼。PostgreSQL 伺服器所支援的字元集說明請見[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
 
     預設情況下，範本資料庫的編碼是由區域設定推導而來。若指定了 [`--no-locale`](app-initdb.md#APP-INITDB-OPTION-NO-LOCALE)（或等價地，若區域設定為 `C` 或 `POSIX`），則 ICU 提供者的預設編碼為 `UTF8`，`libc` 提供者的預設編碼為 `SQL_ASCII`。
 <a id="APP-INITDB-ALLOW-GROUP-ACCESS"></a>
@@ -109,7 +109,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 
 `--locale-provider={builtin|libc|icu}` [#](#APP-INITDB-OPTION-LOCALE-PROVIDER)
 :   此選項設定新叢集中所建立之資料庫的區域設定提供者。之後建立新資料庫時，可以在 `CREATE
-    DATABASE` 命令中覆寫此設定。預設值為 `libc`（請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)）。
+    DATABASE` 命令中覆寫此設定。預設值為 `libc`（請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#locale-providers)）。
 <a id="APP-INITDB-NO-DATA-CHECKSUMS"></a>
 
 `--no-data-checksums` [#](#APP-INITDB-NO-DATA-CHECKSUMS)

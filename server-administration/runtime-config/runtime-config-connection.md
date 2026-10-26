@@ -2,17 +2,17 @@
 
 ## 19.3. 連線與驗證 [#](#runtime-config-connection) <a href="#runtime-config-connection" id="runtime-config-connection"></a>
 
-[19.3.1. 連線設定](runtime-config-connection.md#RUNTIME-CONFIG-CONNECTION-SETTINGS)
+[19.3.1. 連線設定](runtime-config-connection.md#runtime-config-connection-settings)
 
-[19.3.2. TCP 設定](runtime-config-connection.md#RUNTIME-CONFIG-TCP-SETTINGS)
+[19.3.2. TCP 設定](runtime-config-connection.md#runtime-config-tcp-settings)
 
-[19.3.3. 驗證](runtime-config-connection.md#RUNTIME-CONFIG-CONNECTION-AUTHENTICATION)
+[19.3.3. 驗證](runtime-config-connection.md#runtime-config-connection-authentication)
 
-[19.3.4. SSL](runtime-config-connection.md#RUNTIME-CONFIG-CONNECTION-SSL)
+[19.3.4. SSL](runtime-config-connection.md#runtime-config-connection-ssl)
 
 <a id="RUNTIME-CONFIG-CONNECTION-SETTINGS"></a>
 
-### 19.3.1. 連線設定 [#](#RUNTIME-CONFIG-CONNECTION-SETTINGS)
+### 19.3.1. 連線設定 [#](#runtime-config-connection-settings) <a href="#runtime-config-connection-settings" id="runtime-config-connection-settings"></a>
 
 <a id="GUC-LISTEN-ADDRESSES"></a>
 
@@ -198,7 +198,7 @@
 
 <a id="RUNTIME-CONFIG-TCP-SETTINGS"></a>
 
-### 19.3.2. TCP 設定 [#](#RUNTIME-CONFIG-TCP-SETTINGS)
+### 19.3.2. TCP 設定 [#](#runtime-config-tcp-settings) <a href="#runtime-config-tcp-settings" id="runtime-config-tcp-settings"></a>
 
 <a id="GUC-TCP-KEEPALIVES-IDLE"></a>
 
@@ -278,7 +278,7 @@
 
 <a id="RUNTIME-CONFIG-CONNECTION-AUTHENTICATION"></a>
 
-### 19.3.3. 驗證 [#](#RUNTIME-CONFIG-CONNECTION-AUTHENTICATION)
+### 19.3.3. 驗證 [#](#runtime-config-connection-authentication) <a href="#runtime-config-connection-authentication" id="runtime-config-connection-authentication"></a>
 
 <a id="GUC-AUTHENTICATION-TIMEOUT"></a>
 
@@ -387,7 +387,7 @@
 
 <a id="RUNTIME-CONFIG-CONNECTION-SSL"></a>
 
-### 19.3.4. SSL [#](#RUNTIME-CONFIG-CONNECTION-SSL)
+### 19.3.4. SSL [#](#runtime-config-connection-ssl) <a href="#runtime-config-connection-ssl" id="runtime-config-connection-ssl"></a>
 
 有關設定 SSL 的更多資訊，請參閱[18.9 節](../runtime/ssl-tcp.md)。
 基於歷史因素，即使 SSL 協定本身已被棄用，

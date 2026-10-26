@@ -40,7 +40,7 @@ DROP SUBSCRIPTION [ IF EXISTS ] name [ CASCADE | RESTRICT ]
 
 ## 注意事項
 
-移除與遠端主機上某個複寫插槽相關聯的訂閱時（這是正常狀態），`DROP SUBSCRIPTION` 會連線到遠端主機，並在其操作過程中嘗試移除該複寫插槽（以及任何剩餘的資料表同步插槽）。這是必要的，如此才能釋放在遠端主機上為該訂閱配置的資源。若此動作失敗，不論是因為無法連線到遠端主機，或是因為遠端複寫插槽無法移除、不存在或從未存在，`DROP SUBSCRIPTION` 命令都會失敗。要在這種情況下繼續進行，請先執行 [`ALTER SUBSCRIPTION ... DISABLE`](sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-DISABLE) 停用該訂閱，然後執行 [`ALTER SUBSCRIPTION ... SET (slot_name = NONE)`](sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-SET) 將它與複寫插槽解除關聯。之後，`DROP SUBSCRIPTION` 就不會嘗試移除訂閱本身的複寫插槽。若仍有部分資料表同步尚未完成，它仍可能連線到發佈端以移除內部建立的資料表同步插槽；若無法連線到發佈端，則必須手動移除這些槽（以及主要的槽，若它仍存在）。否則，這個（些）槽會持續保留 WAL，最終可能導致磁碟空間被填滿。另請參閱[第 29.2.1 節](../../server-administration/logical-replication/logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT)。
+移除與遠端主機上某個複寫插槽相關聯的訂閱時（這是正常狀態），`DROP SUBSCRIPTION` 會連線到遠端主機，並在其操作過程中嘗試移除該複寫插槽（以及任何剩餘的資料表同步插槽）。這是必要的，如此才能釋放在遠端主機上為該訂閱配置的資源。若此動作失敗，不論是因為無法連線到遠端主機，或是因為遠端複寫插槽無法移除、不存在或從未存在，`DROP SUBSCRIPTION` 命令都會失敗。要在這種情況下繼續進行，請先執行 [`ALTER SUBSCRIPTION ... DISABLE`](sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-DISABLE) 停用該訂閱，然後執行 [`ALTER SUBSCRIPTION ... SET (slot_name = NONE)`](sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-SET) 將它與複寫插槽解除關聯。之後，`DROP SUBSCRIPTION` 就不會嘗試移除訂閱本身的複寫插槽。若仍有部分資料表同步尚未完成，它仍可能連線到發佈端以移除內部建立的資料表同步插槽；若無法連線到發佈端，則必須手動移除這些槽（以及主要的槽，若它仍存在）。否則，這個（些）槽會持續保留 WAL，最終可能導致磁碟空間被填滿。另請參閱[第 29.2.1 節](../../server-administration/logical-replication/logical-replication-subscription.md#logical-replication-subscription-slot)。
 
 若訂閱與某個複寫插槽相關聯，則 `DROP
 SUBSCRIPTION` 不能在交易區塊內執行。

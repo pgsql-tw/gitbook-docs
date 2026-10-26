@@ -16,7 +16,7 @@ pg_combinebackup — 從增量備份及其相依的備份重建完整備份
 
 ## 說明
 
-pg_combinebackup 用來從一個[增量備份](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)及其所相依的較早備份，重建出一份合成的完整備份。
+pg_combinebackup 用來從一個[增量備份](../../server-administration/backup/continuous-archiving.md#backup-incremental-backup)及其所相依的較早備份，重建出一份合成的完整備份。
 
 請在命令列上依照由舊到新的順序指定所有需要的備份。也就是說，第一個備份目錄應該是完整備份的路徑，最後一個則應該是你想要還原的最終增量備份的路徑。重建後的備份會寫入 `-o` 選項所指定的輸出目錄。
 

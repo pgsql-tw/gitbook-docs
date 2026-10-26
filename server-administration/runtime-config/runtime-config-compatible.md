@@ -2,13 +2,13 @@
 
 ## 19.13. 版本與平台相容性 [#](#runtime-config-compatible) <a href="#runtime-config-compatible" id="runtime-config-compatible"></a>
 
-[19.13.1. 舊版 PostgreSQL](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-VERSION)
+[19.13.1. 舊版 PostgreSQL](runtime-config-compatible.md#runtime-config-compatible-version)
 
-[19.13.2. 平台與用戶端相容性](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-CLIENTS)
+[19.13.2. 平台與用戶端相容性](runtime-config-compatible.md#runtime-config-compatible-clients)
 
 <a id="RUNTIME-CONFIG-COMPATIBLE-VERSION"></a>
 
-### 19.13.1. 舊版 PostgreSQL [#](#RUNTIME-CONFIG-COMPATIBLE-VERSION)
+### 19.13.1. 舊版 PostgreSQL [#](#runtime-config-compatible-version) <a href="#runtime-config-compatible-version" id="runtime-config-compatible-version"></a>
 
 <a id="GUC-ARRAY-NULLS"></a>
 
@@ -106,7 +106,7 @@
 
 <a id="RUNTIME-CONFIG-COMPATIBLE-CLIENTS"></a>
 
-### 19.13.2. 平台與用戶端相容性 [#](#RUNTIME-CONFIG-COMPATIBLE-CLIENTS)
+### 19.13.2. 平台與用戶端相容性 [#](#runtime-config-compatible-clients) <a href="#runtime-config-compatible-clients" id="runtime-config-compatible-clients"></a>
 
 <a id="GUC-TRANSFORM-NULL-EQUALS"></a>
 

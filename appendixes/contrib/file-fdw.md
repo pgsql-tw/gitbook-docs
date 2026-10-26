@@ -82,7 +82,7 @@
 
 **範例 F.1. 為 PostgreSQL CSV 日誌建立外部資料表**
 
-`file_fdw` 的一個明顯用途，是將 PostgreSQL 活動日誌以可查詢的資料表形式提供。為此，您必須先[記錄至 CSV 檔案](../../server-administration/runtime-config/runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)，此處將其稱為 `pglog.csv`。首先，將 `file_fdw` 安裝為擴充功能：
+`file_fdw` 的一個明顯用途，是將 PostgreSQL 活動日誌以可查詢的資料表形式提供。為此，您必須先[記錄至 CSV 檔案](../../server-administration/runtime-config/runtime-config-logging.md#runtime-config-logging-csvlog)，此處將其稱為 `pglog.csv`。首先，將 `file_fdw` 安裝為擴充功能：
 
 ```
 

@@ -42,7 +42,7 @@ createdb 接受下列命令列引數：
 :   回顯 createdb 產生並送往伺服器的命令。
 
 `-E encoding`<br>`--encoding=encoding`
-:   指定此資料庫要使用的字元編碼方式。PostgreSQL 伺服器支援的字元集說明於[第 23.3.1 節](../../server-administration/charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。
+:   指定此資料庫要使用的字元編碼方式。PostgreSQL 伺服器支援的字元集說明於[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
 
 `-l locale`<br>`--locale=locale`
 :   指定此資料庫要使用的區域設定。這等同於將 `--lc-collate`、`--lc-ctype` 與 `--icu-locale` 指定為相同的值。有些區域設定只對 ICU 有效，必須以 `--icu-locale` 設定。

@@ -10,7 +10,7 @@
 
 在下列*衝突*情境中，會觸發額外的日誌記錄，並收集衝突統計資訊
 （顯示於
-[`pg_stat_subscription_stats`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-SUBSCRIPTION-STATS) 檢視表中）：
+[`pg_stat_subscription_stats`](../monitoring/monitoring-stats.md#monitoring-pg-stat-subscription-stats) 檢視表中）：
 
 <a id="CONFLICT-INSERT-EXISTS"></a>
 

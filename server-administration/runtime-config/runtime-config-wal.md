@@ -2,26 +2,26 @@
 
 ## 19.5. 預寫式日誌 (WAL) [#](#runtime-config-wal) <a href="#runtime-config-wal" id="runtime-config-wal"></a>
 
-[19.5.1. 設定](runtime-config-wal.md#RUNTIME-CONFIG-WAL-SETTINGS)
+[19.5.1. 設定](runtime-config-wal.md#runtime-config-wal-settings)
 
-[19.5.2. 檢查點](runtime-config-wal.md#RUNTIME-CONFIG-WAL-CHECKPOINTS)
+[19.5.2. 檢查點](runtime-config-wal.md#runtime-config-wal-checkpoints)
 
-[19.5.3. 歸檔](runtime-config-wal.md#RUNTIME-CONFIG-WAL-ARCHIVING)
+[19.5.3. 歸檔](runtime-config-wal.md#runtime-config-wal-archiving)
 
-[19.5.4. 復原](runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY)
+[19.5.4. 復原](runtime-config-wal.md#runtime-config-wal-recovery)
 
-[19.5.5. 歸檔復原](runtime-config-wal.md#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY)
+[19.5.5. 歸檔復原](runtime-config-wal.md#runtime-config-wal-archive-recovery)
 
-[19.5.6. 復原目標](runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY-TARGET)
+[19.5.6. 復原目標](runtime-config-wal.md#runtime-config-wal-recovery-target)
 
-[19.5.7. WAL 摘要化](runtime-config-wal.md#RUNTIME-CONFIG-WAL-SUMMARIZATION)
+[19.5.7. WAL 摘要化](runtime-config-wal.md#runtime-config-wal-summarization)
 
 關於調校這些設定的更多資訊，
 請參閱[28.5 節](../wal/wal-configuration.md)。
 
 <a id="RUNTIME-CONFIG-WAL-SETTINGS"></a>
 
-### 19.5.1. 設定 [#](#RUNTIME-CONFIG-WAL-SETTINGS)
+### 19.5.1. 設定 [#](#runtime-config-wal-settings) <a href="#runtime-config-wal-settings" id="runtime-config-wal-settings"></a>
 
 <a id="GUC-WAL-LEVEL"></a>
 
@@ -357,7 +357,7 @@
 
 <a id="RUNTIME-CONFIG-WAL-CHECKPOINTS"></a>
 
-### 19.5.2. 檢查點 [#](#RUNTIME-CONFIG-WAL-CHECKPOINTS)
+### 19.5.2. 檢查點 [#](#runtime-config-wal-checkpoints) <a href="#runtime-config-wal-checkpoints" id="runtime-config-wal-checkpoints"></a>
 
 <a id="GUC-CHECKPOINT-TIMEOUT"></a>
 
@@ -440,7 +440,7 @@
 
 <a id="RUNTIME-CONFIG-WAL-ARCHIVING"></a>
 
-### 19.5.3. 歸檔 [#](#RUNTIME-CONFIG-WAL-ARCHIVING)
+### 19.5.3. 歸檔 [#](#runtime-config-wal-archiving) <a href="#runtime-config-wal-archiving" id="runtime-config-wal-archiving"></a>
 
 <a id="GUC-ARCHIVE-MODE"></a>
 
@@ -455,7 +455,7 @@
     時，WAL 歸檔器在歸檔復原或待命模式期間也會啟用。
     在 `always` 模式下，所有從歸檔還原，
     或透過串流複寫傳輸的檔案，都會（再次）被歸檔。詳情請參閱
-    [26.2.9 節](../high-availability/warm-standby.md#CONTINUOUS-ARCHIVING-IN-STANDBY)。
+    [26.2.9 節](../high-availability/warm-standby.md#continuous-archiving-in-standby)。
 
     `archive_mode` 是與
     `archive_command` 及
@@ -478,7 +478,7 @@
     使用 `%%` 可在命令中嵌入實際的 `%` 字元。
     此命令唯有在成功時才回傳退出狀態碼零，這一點非常重要。
     更多資訊請參閱
-    [25.3.1 節](../backup/continuous-archiving.md#BACKUP-ARCHIVING-WAL)。
+    [25.3.1 節](../backup/continuous-archiving.md#backup-archiving-wal)。
 
     此參數只能在 `postgresql.conf`
     檔案中或伺服器命令列上設定。它只有在
@@ -505,7 +505,7 @@
     同時被設定，就會引發錯誤。否則，
     就會使用指定的共享程式庫來進行歸檔。當此參數變更時，
     postmaster 會重新啟動 WAL 歸檔程序。更多資訊請參閱
-    [25.3.1 節](../backup/continuous-archiving.md#BACKUP-ARCHIVING-WAL) 與
+    [25.3.1 節](../backup/continuous-archiving.md#backup-archiving-wal) 與
     [第 49 章](../../server-programming/archive-modules/README.md)。
 
     此參數只能在
@@ -537,7 +537,7 @@
 
 <a id="RUNTIME-CONFIG-WAL-RECOVERY"></a>
 
-### 19.5.4. 復原 [#](#RUNTIME-CONFIG-WAL-RECOVERY)
+### 19.5.4. 復原 [#](#runtime-config-wal-recovery) <a href="#runtime-config-wal-recovery" id="runtime-config-wal-recovery"></a>
 
 <a id="id-1.6.6.8.6.2"></a>
 
@@ -571,7 +571,7 @@
 
 <a id="RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY"></a>
 
-### 19.5.5. 歸檔復原 [#](#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY)
+### 19.5.5. 歸檔復原 [#](#runtime-config-wal-archive-recovery) <a href="#runtime-config-wal-archive-recovery" id="runtime-config-wal-archive-recovery"></a>
 
 <a id="id-1.6.6.8.7.2"></a>
 
@@ -589,8 +589,8 @@
 透過連線至 `primary_conninfo` 設定所指定的傳送伺服器，
 及／或透過 `restore_command` 擷取新的 WAL 區段，
 繼續進行復原。在此模式下，本節與
-[19.6.3 節](runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-STANDBY)
-的參數都值得留意。[19.5.6 節](runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY-TARGET)
+[19.6.3 節](runtime-config-replication.md#runtime-config-replication-standby)
+的參數都值得留意。[19.5.6 節](runtime-config-wal.md#runtime-config-wal-recovery-target)
 的參數也會被套用，但在此模式下通常並不實用。
 
 若要以目標式復原模式啟動伺服器，請在資料目錄中建立一個名為
@@ -600,7 +600,7 @@
 則以待命模式優先。目標式復原模式會在已歸檔 WAL
 完全重播完成，或達到 `recovery_target` 時結束。
 在此模式下，本節與
-[19.5.6 節](runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY-TARGET)
+[19.5.6 節](runtime-config-wal.md#runtime-config-wal-recovery-target)
 兩者的參數都會被使用。
 
 <a id="GUC-RESTORE-COMMAND"></a>
@@ -690,7 +690,7 @@
 
 <a id="RUNTIME-CONFIG-WAL-RECOVERY-TARGET"></a>
 
-### 19.5.6. 復原目標 [#](#RUNTIME-CONFIG-WAL-RECOVERY-TARGET)
+### 19.5.6. 復原目標 [#](#runtime-config-wal-recovery-target) <a href="#runtime-config-wal-recovery-target" id="runtime-config-wal-recovery-target"></a>
 
 依預設，復原會一直復原到 WAL 日誌的結尾。以下參數
 可用來指定更早的停止點。
@@ -832,10 +832,10 @@
 
 <a id="RUNTIME-CONFIG-WAL-SUMMARIZATION"></a>
 
-### 19.5.7. WAL 摘要化 [#](#RUNTIME-CONFIG-WAL-SUMMARIZATION)
+### 19.5.7. WAL 摘要化 [#](#runtime-config-wal-summarization) <a href="#runtime-config-wal-summarization" id="runtime-config-wal-summarization"></a>
 
 以下設定控制 WAL 摘要化，這是執行
-[增量備份](../backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
+[增量備份](../backup/continuous-archiving.md#backup-incremental-backup)
 必須啟用的功能。
 
 <a id="GUC-SUMMARIZE-WAL"></a>

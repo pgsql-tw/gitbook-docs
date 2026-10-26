@@ -2,17 +2,17 @@
 
 ## 23.1. 區域設定支援 [#](#locale) <a href="#locale" id="locale"></a>
 
-[23.1.1. 概觀](locale.md#LOCALE-OVERVIEW)
+[23.1.1. 概觀](locale.md#locale-overview)
 
-[23.1.2. 行為](locale.md#LOCALE-BEHAVIOR)
+[23.1.2. 行為](locale.md#locale-behavior)
 
-[23.1.3. 選擇區域設定](locale.md#LOCALE-SELECTING-LOCALES)
+[23.1.3. 選擇區域設定](locale.md#locale-selecting-locales)
 
-[23.1.4. 區域設定提供者](locale.md#LOCALE-PROVIDERS)
+[23.1.4. 區域設定提供者](locale.md#locale-providers)
 
-[23.1.5. ICU 區域設定](locale.md#ICU-LOCALES)
+[23.1.5. ICU 區域設定](locale.md#icu-locales)
 
-[23.1.6. 問題](locale.md#LOCALE-PROBLEMS)
+[23.1.6. 問題](locale.md#locale-problems)
 
 <a id="id-1.6.10.3.2"></a>
 
@@ -23,7 +23,7 @@ C 與 POSIX 區域設定機制。如需更多資訊，請參閱你所使用
 
 <a id="LOCALE-OVERVIEW"></a>
 
-### 23.1.1. 概觀 [#](#LOCALE-OVERVIEW)
+### 23.1.1. 概觀 [#](#locale-overview) <a href="#locale-overview" id="locale-overview"></a>
 
 當使用 `initdb` 建立資料庫叢集時，區域設定支援
 會自動初始化。
@@ -83,7 +83,7 @@ Windows 使用較為冗長的區域設定名稱，例如 `German_Germany`
 除非在 `CREATE DATABASE` 指令中另行指定，否則建立新資料庫時都會沿用這些值。
 
 其他區域設定分類可以隨時透過
-設定與這些區域設定分類同名的伺服器組態參數來變更（詳情見[第 19.11.2 節](../runtime-config/runtime-config-client.md#RUNTIME-CONFIG-CLIENT-FORMAT)）。
+設定與這些區域設定分類同名的伺服器組態參數來變更（詳情見[第 19.11.2 節](../runtime-config/runtime-config-client.md#runtime-config-client-format)）。
 `initdb` 所選擇的值實際上只會被寫入
 組態檔 `postgresql.conf`，用於在伺服器
 啟動時做為預設值。如果你從 `postgresql.conf` 中
@@ -120,7 +120,7 @@ gettext 的文件。
 
 <a id="LOCALE-BEHAVIOR"></a>
 
-### 23.1.2. 行為 [#](#LOCALE-BEHAVIOR)
+### 23.1.2. 行為 [#](#locale-behavior) <a href="#locale-behavior" id="locale-behavior"></a>
 
 區域設定會影響下列 SQL 功能：
 
@@ -155,7 +155,7 @@ gettext 的文件。
 
 <a id="LOCALE-SELECTING-LOCALES"></a>
 
-### 23.1.3. 選擇區域設定 [#](#LOCALE-SELECTING-LOCALES)
+### 23.1.3. 選擇區域設定 [#](#locale-selecting-locales) <a href="#locale-selecting-locales" id="locale-selecting-locales"></a>
 
 可以依需求在不同的範疇選擇區域設定。
 上面的概觀說明了如何使用
@@ -183,7 +183,7 @@ gettext 的文件。
 
 <a id="LOCALE-PROVIDERS"></a>
 
-### 23.1.4. 區域設定提供者 [#](#LOCALE-PROVIDERS)
+### 23.1.4. 區域設定提供者 [#](#locale-providers) <a href="#locale-providers" id="locale-providers"></a>
 
 區域設定提供者指定了哪一個函式庫定義了
 定序與字元分類的區域設定行為。
@@ -259,7 +259,7 @@ initdb --locale-provider=icu --icu-locale=en
 
 <a id="ICU-LOCALES"></a>
 
-### 23.1.5. ICU 區域設定 [#](#ICU-LOCALES)
+### 23.1.5. ICU 區域設定 [#](#icu-locales) <a href="#icu-locales" id="icu-locales"></a>
 
 <a id="ICU-LOCALE-NAMES"></a>
 
@@ -375,11 +375,11 @@ SELECT 'N-45' < 'N-123' COLLATE mycollation5 as result;
 ```
 
 如需使用語言標籤搭配自訂定序資訊的更多細節與範例，
-詳見[第 23.2.3 節](collation.md#ICU-CUSTOM-COLLATIONS)。
+詳見[第 23.2.3 節](collation.md#icu-custom-collations)。
 
 <a id="LOCALE-PROBLEMS"></a>
 
-### 23.1.6. 問題 [#](#LOCALE-PROBLEMS)
+### 23.1.6. 問題 [#](#locale-problems) <a href="#locale-problems" id="locale-problems"></a>
 
 如果區域設定支援未依照上述說明運作，
 請檢查你作業系統中的區域設定支援是否

@@ -5,10 +5,10 @@
 **目錄**
 
 [29.1. 發佈](logical-replication-publication.md)
-:   [29.1.1. 複寫識別](logical-replication-publication.md#LOGICAL-REPLICATION-PUBLICATION-REPLICA-IDENTITY)
+:   [29.1.1. 複寫識別](logical-replication-publication.md#logical-replication-publication-replica-identity)
 
 [29.2. 訂閱](logical-replication-subscription.md)
-:   [29.2.1. 複寫插槽管理](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT)
+:   [29.2.1. 複寫插槽管理](logical-replication-subscription.md#logical-replication-subscription-slot)
 
     [29.2.2. 範例：設定邏輯複寫](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES)
 
@@ -17,7 +17,7 @@
 [29.3. 邏輯複寫失效切換](logical-replication-failover.md)
 
 [29.4. 資料列篩選器](logical-replication-row-filter.md)
-:   [29.4.1. 資料列篩選器規則](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RULES)
+:   [29.4.1. 資料列篩選器規則](logical-replication-row-filter.md#logical-replication-row-filter-rules)
 
     [29.4.2. 運算式限制](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
 
@@ -32,7 +32,7 @@
     [29.4.7. 範例](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
 
 [29.5. 欄位清單](logical-replication-col-lists.md)
-:   [29.5.1. 範例](logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
+:   [29.5.1. 範例](logical-replication-col-lists.md#logical-replication-col-list-examples)
 
 [29.6. 產生欄位的複寫](logical-replication-gencols.md)
 
@@ -41,19 +41,19 @@
 [29.8. 限制](logical-replication-restrictions.md)
 
 [29.9. 架構](logical-replication-architecture.md)
-:   [29.9.1. 初始快照](logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT)
+:   [29.9.1. 初始快照](logical-replication-architecture.md#logical-replication-snapshot)
 
 [29.10. 監控](logical-replication-monitoring.md)
 
 [29.11. 安全性](logical-replication-security.md)
 
 [29.12. 組態設定](logical-replication-config.md)
-:   [29.12.1. 發佈者](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-PUBLISHER)
+:   [29.12.1. 發佈者](logical-replication-config.md#logical-replication-config-publisher)
 
     [29.12.2. 訂閱者](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-SUBSCRIBER)
 
 [29.13. 升級](logical-replication-upgrade.md)
-:   [29.13.1. 為發佈者升級做準備](logical-replication-upgrade.md#PREPARE-PUBLISHER-UPGRADES)
+:   [29.13.1. 為發佈者升級做準備](logical-replication-upgrade.md#prepare-publisher-upgrades)
 
     [29.13.2. 為訂閱者升級做準備](logical-replication-upgrade.md#PREPARE-SUBSCRIBER-UPGRADES)
 

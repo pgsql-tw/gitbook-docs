@@ -2,21 +2,21 @@
 
 ## 15.3. 平行計畫 [#](#parallel-plans) <a href="#parallel-plans" id="parallel-plans"></a>
 
-[15.3.1. 平行掃描](parallel-plans.md#PARALLEL-SCANS)
+[15.3.1. 平行掃描](parallel-plans.md#parallel-scans)
 
-[15.3.2. 平行聯結](parallel-plans.md#PARALLEL-JOINS)
+[15.3.2. 平行聯結](parallel-plans.md#parallel-joins)
 
-[15.3.3. 平行彙總](parallel-plans.md#PARALLEL-AGGREGATION)
+[15.3.3. 平行彙總](parallel-plans.md#parallel-aggregation)
 
-[15.3.4. 平行 Append](parallel-plans.md#PARALLEL-APPEND)
+[15.3.4. 平行 Append](parallel-plans.md#parallel-append)
 
-[15.3.5. 平行計畫的提示](parallel-plans.md#PARALLEL-PLAN-TIPS)
+[15.3.5. 平行計畫的提示](parallel-plans.md#parallel-plan-tips)
 
 由於每個工作程序都會將計畫的平行部分執行到完成，因此不能單純拿一個一般的查詢計畫，以多個工作程序來執行它。每個工作程序都會產生一份完整的輸出結果集合副本，因此查詢不但不會比平常快，還會產生錯誤的結果。相反地，計畫的平行部分必須是查詢最佳化器內部所稱的*部分計畫*（partial plan）；也就是說，它的建構方式必須讓執行該計畫的每個程序只產生輸出資料列的一個子集合，並保證每一筆必要的輸出資料列都恰好由其中一個協作程序產生。一般而言，這表示對查詢驅動資料表的掃描必須是具平行感知能力（parallel-aware）的掃描。
 
 <a id="PARALLEL-SCANS"></a>
 
-### 15.3.1. 平行掃描 [#](#PARALLEL-SCANS)
+### 15.3.1. 平行掃描 [#](#parallel-scans) <a href="#parallel-scans" id="parallel-scans"></a>
 
 目前支援下列類型具平行感知能力的資料表掃描。
 
@@ -28,7 +28,7 @@
 
 <a id="PARALLEL-JOINS"></a>
 
-### 15.3.2. 平行聯結 [#](#PARALLEL-JOINS)
+### 15.3.2. 平行聯結 [#](#parallel-joins) <a href="#parallel-joins" id="parallel-joins"></a>
 
 就像在非平行計畫中一樣，驅動資料表可以使用巢狀迴圈、雜湊聯結或合併聯結與一個或多個其他資料表聯結。聯結的內側可以是規劃器原本就支援的任何一種非平行計畫，只要它在平行工作程序中執行是安全的即可。依聯結類型而定，內側也可以是平行計畫。
 
@@ -38,7 +38,7 @@
 
 <a id="PARALLEL-AGGREGATION"></a>
 
-### 15.3.3. 平行彙總 [#](#PARALLEL-AGGREGATION)
+### 15.3.3. 平行彙總 [#](#parallel-aggregation) <a href="#parallel-aggregation" id="parallel-aggregation"></a>
 
 PostgreSQL 以兩個階段進行彙總來支援平行彙總。首先，參與查詢平行部分的每個程序都會執行一個彙總步驟，為該程序所知道的每個群組產生部分結果。這在計畫中會顯示為 `Partial Aggregate` 節點。接著，部分結果會透過 `Gather` 或 `Gather Merge` 傳送給領導程序。最後，領導程序會跨所有工作程序重新彙總結果，以產生最終結果。這在計畫中會顯示為 `Finalize Aggregate` 節點。
 
@@ -48,7 +48,7 @@ PostgreSQL 以兩個階段進行彙總來支援平行彙總。首先，參與查
 
 <a id="PARALLEL-APPEND"></a>
 
-### 15.3.4. 平行 Append [#](#PARALLEL-APPEND)
+### 15.3.4. 平行 Append [#](#parallel-append) <a href="#parallel-append" id="parallel-append"></a>
 
 每當 PostgreSQL 需要將來自多個來源的資料列合併成單一結果集合時，它會使用 `Append` 或 `MergeAppend` 計畫節點。這通常發生在實作 `UNION ALL` 或掃描分割資料表時。這類節點可以像在任何其他計畫中一樣用在平行計畫中。不過，在平行計畫中，規劃器也可能改用 `Parallel Append` 節點。
 
@@ -60,7 +60,7 @@ PostgreSQL 以兩個階段進行彙總來支援平行彙總。首先，參與查
 
 <a id="PARALLEL-PLAN-TIPS"></a>
 
-### 15.3.5. 平行計畫的提示 [#](#PARALLEL-PLAN-TIPS)
+### 15.3.5. 平行計畫的提示 [#](#parallel-plan-tips) <a href="#parallel-plan-tips" id="parallel-plan-tips"></a>
 
 如果某個預期會產生平行計畫的查詢並沒有產生，可以嘗試降低 [parallel_setup_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-PARALLEL-SETUP-COST) 或 [parallel_tuple_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-PARALLEL-TUPLE-COST)。當然，這個計畫最後可能比規劃器原本偏好的循序計畫還慢，但並不一定總是如此。如果即使將這些設定設為非常小的值（例如將兩者都設為零）仍然得不到平行計畫，可能有某些原因使查詢規劃器無法為你的查詢產生平行計畫。可能的原因請參閱[第 15.2 節](when-can-parallel-query-be-used.md)與[第 15.4 節](parallel-safety.md)。
 

@@ -18,7 +18,7 @@ pg_basebackup — 製作 PostgreSQL 叢集的基礎備份
 
 pg_basebackup 用來對執行中的 PostgreSQL 資料庫叢集製作基礎備份。製作備份時不會影響資料庫的其他用戶端，而備份既可用於時間點復原（請參閱[第 25.3 節](../../server-administration/backup/continuous-archiving.md)），也可作為日誌傳送或串流複寫待命伺服器的起點（請參閱[第 26.2 節](../../server-administration/high-availability/warm-standby.md)）。
 
-pg_basebackup 可以製作資料庫的完整基礎備份或增量基礎備份。用於製作完整備份時，它會產生資料庫叢集檔案的精確複本。用於製作增量備份時，某些原本會包含在完整備份中的檔案，可能會被替換為同一檔案的增量版本，其中只包含自參考備份以來已修改過的區塊。增量備份不能直接使用；必須先使用 [pg_combinebackup](app-pgcombinebackup.md)，將它與其所依賴的先前備份合併。關於增量備份的更多資訊，請參閱[第 25.3.3 節](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)；從備份復原的步驟，請參閱[第 25.3.5 節](../../server-administration/backup/continuous-archiving.md#BACKUP-PITR-RECOVERY)。
+pg_basebackup 可以製作資料庫的完整基礎備份或增量基礎備份。用於製作完整備份時，它會產生資料庫叢集檔案的精確複本。用於製作增量備份時，某些原本會包含在完整備份中的檔案，可能會被替換為同一檔案的增量版本，其中只包含自參考備份以來已修改過的區塊。增量備份不能直接使用；必須先使用 [pg_combinebackup](app-pgcombinebackup.md)，將它與其所依賴的先前備份合併。關於增量備份的更多資訊，請參閱[第 25.3.3 節](../../server-administration/backup/continuous-archiving.md#backup-incremental-backup)；從備份復原的步驟，請參閱[第 25.3.5 節](../../server-administration/backup/continuous-archiving.md#backup-pitr-recovery)。
 
 在任何模式下，pg_basebackup 都會確保伺服器自動進入與離開備份模式。備份一律針對整個資料庫叢集進行；無法只備份個別資料庫或資料庫物件。若要進行選擇性備份，必須使用其他工具，例如 [pg_dump](app-pgdump.md)。
 
@@ -35,7 +35,7 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
 * 若待命伺服器在備份期間被提升為主要伺服器，備份會失敗。
 * 備份所需的所有 WAL 紀錄都必須包含足夠的全頁寫入（full-page write），這需要你在主要伺服器上啟用 `full_page_writes`。
 
-每當 pg_basebackup 正在製作基礎備份時，伺服器的 `pg_stat_progress_basebackup` 檢視表會回報備份的進度。詳細資訊請參閱[第 27.4.6 節](../../server-administration/monitoring/progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING)。
+每當 pg_basebackup 正在製作基礎備份時，伺服器的 `pg_stat_progress_basebackup` 檢視表會回報備份的進度。詳細資訊請參閱[第 27.4.6 節](../../server-administration/monitoring/progress-reporting.md#basebackup-progress-reporting)。
 
 <a id="id-1.9.4.10.6"></a>
 
@@ -64,7 +64,7 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
         若目標目錄指定為 `-`（破折號），tar 內容會寫到標準輸出，適合以管線傳給（例如）gzip。只有在叢集沒有額外的資料表空間，且未使用 WAL 串流時，才允許這麼做。
 
 `-i old_manifest_file`<br>`--incremental=old_manifest_file`
-:   執行[增量備份](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)。必須提供參考備份的備份清單（backup manifest），它會被上傳到伺服器，伺服器則會傳送所要求的增量備份作為回應。
+:   執行[增量備份](../../server-administration/backup/continuous-archiving.md#backup-incremental-backup)。必須提供參考備份的備份清單（backup manifest），它會被上傳到伺服器，伺服器則會傳送所要求的增量備份作為回應。
 
 `-R`<br>`--write-recovery-conf`
 :   在目標目錄中（或使用 tar 格式時，在基礎封存檔中）建立 [`standby.signal`](../../server-administration/high-availability/warm-standby.md#FILE-STANDBY-SIGNAL)
@@ -125,7 +125,7 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
 下列命令列選項控制備份的產生方式與程式的呼叫方式：
 
 `-c {fast|spread}`<br>`--checkpoint={fast|spread}`
-:   將檢查點模式設為 fast（立即）或 spread（預設）（請參閱[第 25.3.4 節](../../server-administration/backup/continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)）。
+:   將檢查點模式設為 fast（立即）或 spread（預設）（請參閱[第 25.3.4 節](../../server-administration/backup/continuous-archiving.md#backup-lowlevel-base-backup)）。
 
 `-C`<br>`--create-slot`
 :   指定應該在開始備份之前，建立由 `--slot` 選項命名的複寫插槽。若該插槽已存在，會引發錯誤。
@@ -306,7 +306,7 @@ $ pg_basebackup -D backup -Ft --compress=gzip:9
 
 ## 另請參閱
 
-[pg_dump](app-pgdump.md), [第 27.4.6 節](../../server-administration/monitoring/progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING)
+[pg_dump](app-pgdump.md), [第 27.4.6 節](../../server-administration/monitoring/progress-reporting.md#basebackup-progress-reporting)
 
 ---
 

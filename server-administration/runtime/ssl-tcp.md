@@ -2,15 +2,15 @@
 
 ## 18.9. 使用 SSL 的安全 TCP/IP 連線 [#](#ssl-tcp) <a href="#ssl-tcp" id="ssl-tcp"></a>
 
-[18.9.1. 基本設定](ssl-tcp.md#SSL-SETUP)
+[18.9.1. 基本設定](ssl-tcp.md#ssl-setup)
 
-[18.9.2. OpenSSL 組態設定](ssl-tcp.md#SSL-OPENSSL-CONFIG)
+[18.9.2. OpenSSL 組態設定](ssl-tcp.md#ssl-openssl-config)
 
-[18.9.3. 使用用戶端憑證](ssl-tcp.md#SSL-CLIENT-CERTIFICATES)
+[18.9.3. 使用用戶端憑證](ssl-tcp.md#ssl-client-certificates)
 
-[18.9.4. SSL 伺服器檔案的使用](ssl-tcp.md#SSL-SERVER-FILES)
+[18.9.4. SSL 伺服器檔案的使用](ssl-tcp.md#ssl-server-files)
 
-[18.9.5. 建立憑證](ssl-tcp.md#SSL-CERTIFICATE-CREATION)
+[18.9.5. 建立憑證](ssl-tcp.md#ssl-certificate-creation)
 
 <a id="id-1.6.5.12.2"></a>
 
@@ -30,7 +30,7 @@ SSL 這個術語，仍然沿用來指稱加密連線。
 
 <a id="SSL-SETUP"></a>
 
-### 18.9.1. 基本設定 [#](#SSL-SETUP)
+### 18.9.1. 基本設定 [#](#ssl-setup) <a href="#ssl-setup" id="ssl-setup"></a>
 
 在已編譯進 SSL 支援的情況下，只要在
 `postgresql.conf` 中，將參數
@@ -91,7 +91,7 @@ SSL 這個術語，仍然沿用來指稱加密連線。
 
 <a id="SSL-OPENSSL-CONFIG"></a>
 
-### 18.9.2. OpenSSL 組態設定 [#](#SSL-OPENSSL-CONFIG)
+### 18.9.2. OpenSSL 組態設定 [#](#ssl-openssl-config) <a href="#ssl-openssl-config" id="ssl-openssl-config"></a>
 
 PostgreSQL 會讀取系統層級的 OpenSSL 組態檔。
 依預設，此檔案命名為 `openssl.cnf`，
@@ -116,7 +116,7 @@ OpenSSL 支援種類繁多、強度各異的加密演算法
 
 <a id="SSL-CLIENT-CERTIFICATES"></a>
 
-### 18.9.3. 使用用戶端憑證 [#](#SSL-CLIENT-CERTIFICATES)
+### 18.9.3. 使用用戶端憑證 [#](#ssl-client-certificates) <a href="#ssl-client-certificates" id="ssl-client-certificates"></a>
 
 若要求用戶端提供受信任的憑證，請將您信任的根憑證授權單位
 （CA）憑證，放入資料目錄中的某個檔案，
@@ -179,7 +179,7 @@ OpenSSL 支援種類繁多、強度各異的加密演算法
 
 <a id="SSL-SERVER-FILES"></a>
 
-### 18.9.4. SSL 伺服器檔案的使用 [#](#SSL-SERVER-FILES)
+### 18.9.4. SSL 伺服器檔案的使用 [#](#ssl-server-files) <a href="#ssl-server-files" id="ssl-server-files"></a>
 
 [表 18.2](ssl-tcp.md#SSL-FILE-USAGE) 彙整了與伺服器上
 SSL 設定相關的檔案。（所示的檔案名稱為預設名稱，
@@ -210,7 +210,7 @@ SSL 組態。在 Windows 系統上，若在後端啟動時，
 
 <a id="SSL-CERTIFICATE-CREATION"></a>
 
-### 18.9.5. 建立憑證 [#](#SSL-CERTIFICATE-CREATION)
+### 18.9.5. 建立憑證 [#](#ssl-certificate-creation) <a href="#ssl-certificate-creation" id="ssl-certificate-creation"></a>
 
 若要為伺服器，建立一份有效期為 365 天的簡易自簽憑證，
 請使用以下 OpenSSL 指令，並將

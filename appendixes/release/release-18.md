@@ -301,9 +301,9 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   具體來說，它會回報 [`SELECT
   ... NOWAIT`](../../reference/sql-commands/sql-select.md#SQL-FOR-UPDATE-SHARE) 的鎖定失敗。
-* 修改 [`pg_stat_all_tables`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ALL-TABLES-VIEW)
+* 修改 [`pg_stat_all_tables`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-all-tables-view)
   及其變體，以回報花費在 [VACUUM](../../reference/sql-commands/sql-vacuum.md)、[ANALYZE](../../reference/sql-commands/sql-analyze.md) 及其
-  [自動](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)版本上的時間 (Sami Imseih)
+  [自動](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)版本上的時間 (Sami Imseih)
   [§](https://postgr.es/c/30a6ed0ce)
 
   新欄位為 `total_vacuum_time`、
@@ -314,7 +314,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/bb8dff999)
   [§](https://postgr.es/c/7720082ae)
 
-  此資訊會出現在伺服器日誌、系統檢視表 [`pg_stat_progress_vacuum`](../../server-administration/monitoring/progress-reporting.md#VACUUM-PROGRESS-REPORTING)
+  此資訊會出現在伺服器日誌、系統檢視表 [`pg_stat_progress_vacuum`](../../server-administration/monitoring/progress-reporting.md#vacuum-progress-reporting)
   與 [`pg_stat_progress_analyze`](../../server-administration/monitoring/progress-reporting.md#PG-STAT-PROGRESS-ANALYZE-VIEW)，
   以及 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與 [ANALYZE](../../reference/sql-commands/sql-analyze.md) 在 `VERBOSE`
   模式下的輸出中；必須以伺服器變數 [track_cost_delay_timing](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-TRACK-COST-DELAY-TIMING) 啟用追蹤。
@@ -332,7 +332,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   可以透過 [`pg_stat_get_backend_io()`](../../server-administration/monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 存取這些統計資訊。
   可以透過 [`pg_stat_reset_backend_stats()`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-FUNCS-TABLE) 清除個別後端的 I/O 統計資訊。
-* 新增 [`pg_stat_io`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW)
+* 新增 [`pg_stat_io`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-io-view)
   欄位，以位元組為單位回報 I/O 活動 (Nazir Bilal Yavuz)
   [§](https://postgr.es/c/f92c854cf)
 
@@ -372,7 +372,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   專門用於列出 [`PGDATA`](../../internals/storage/storage-file-layout.md)/[`pg_wal/summaries`](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-SUMMARY-KEEP-TIME) 的內容
   (Yushi Ogiwara)
   [§](https://postgr.es/c/4e1fad378)
-* 新增欄位 [`pg_stat_checkpointer`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-CHECKPOINTER-VIEW).`num_done`，
+* 新增欄位 [`pg_stat_checkpointer`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-checkpointer-view).`num_done`，
   用於回報已完成的檢查點數量 (Anton A. Melnikov)
   [§](https://postgr.es/c/559efce1d)
 
@@ -384,7 +384,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/17cc5f666)
 
   此外，也修改檢查點的伺服器日誌訊息，分別回報共享緩衝區與 SLRU 緩衝區的值。
-* 在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW) 中新增欄位，
+* 在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-database-view) 中新增欄位，
   用於回報平行工作程序的活動 (Benoit Lobréau)
   [§](https://postgr.es/c/e7a9496de)
 
@@ -459,7 +459,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   設定此變數後，可以在執行期間將 [autovacuum_max_workers](../../server-administration/runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS)
   調整到不超過此最大值，而不需要重新啟動伺服器。
-* 允許指定觸發 [autovacuum](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM) 的固定死亡資料列數量 (Nathan
+* 允許指定觸發 [autovacuum](../../server-administration/maintenance/routine-vacuuming.md#autovacuum) 的固定死亡資料列數量 (Nathan
   Bossart, Frédéric Yhuel)
   [§](https://postgr.es/c/306dc520b)
 
@@ -513,14 +513,14 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   Cherian, Amit Kapila, Zhijie Hou)
   [§](https://postgr.es/c/1462aad2e)
   [§](https://postgr.es/c/4868c96bc)
-* 在套用邏輯複寫變更時記錄[衝突](../../server-administration/high-availability/hot-standby.md#HOT-STANDBY-CONFLICT) (Zhijie Hou, Nisha Moond)
+* 在套用邏輯複寫變更時記錄[衝突](../../server-administration/high-availability/hot-standby.md#hot-standby-conflict) (Zhijie Hou, Nisha Moond)
   [§](https://postgr.es/c/9758174e2)
   [§](https://postgr.es/c/edcb71258)
   [§](https://postgr.es/c/640178c92)
   [§](https://postgr.es/c/6c2b5edec)
   [§](https://postgr.es/c/73eba5004)
 
-  同時也在 [`pg_stat_subscription_stats`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-SUBSCRIPTION-STATS) 的新欄位中回報。
+  同時也在 [`pg_stat_subscription_stats`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-subscription-stats) 的新欄位中回報。
 
 <a id="RELEASE-18-UTILITY"></a>
 
@@ -555,7 +555,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/329304c90)
 
   這些過去會產生錯誤。
-* 新增內建定序提供者 [`PG_UNICODE_FAST`](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)
+* 新增內建定序提供者 [`PG_UNICODE_FAST`](../../server-administration/charset/locale.md#locale-providers)
   (Jeff Davis)
   [§](https://postgr.es/c/d3d098316)
 

@@ -10,7 +10,7 @@
 
 `sslinfo` 模組提供目前用戶端連線至 PostgreSQL 時所提供之 SSL 憑證的相關資訊。若目前連線未使用 SSL，此模組就沒有用處（大多數函式會傳回 NULL）。
 
-透過此模組取得的部分資訊，也可以使用內建系統檢視表 [`pg_stat_ssl`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-SSL-VIEW) 取得。
+透過此模組取得的部分資訊，也可以使用內建系統檢視表 [`pg_stat_ssl`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-ssl-view) 取得。
 
 除非安裝時以 `--with-ssl=openssl` 進行設定，否則此擴充功能完全無法建置。
 

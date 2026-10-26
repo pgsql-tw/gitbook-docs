@@ -9,7 +9,7 @@ JIT 編譯主要對長時間執行、CPU 密集型的查詢有益。
 為判斷是否應使用 JIT 編譯，
 系統會使用該查詢的總估計成本（參見
 [第 69 章](../../internals/planner-stats-details/README.md) 與
-[第 19.7.2 節](../runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)）。
+[第 19.7.2 節](../runtime-config/runtime-config-query.md#runtime-config-query-constants)）。
 該查詢的估計成本會與 [jit_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-ABOVE-COST) 的設定值進行比較。若成本較高，
 就會執行 JIT 編譯。
 接著還需要再做兩項決定。

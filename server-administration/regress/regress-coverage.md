@@ -2,9 +2,9 @@
 
 ## 31.5. 測試涵蓋率檢驗 [#](#regress-coverage) <a href="#regress-coverage" id="regress-coverage"></a>
 
-[31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率](regress-coverage.md#REGRESS-COVERAGE-CONFIGURE)
+[31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率](regress-coverage.md#regress-coverage-configure)
 
-[31.5.2. 使用 Meson 檢驗涵蓋率](regress-coverage.md#REGRESS-COVERAGE-MESON)
+[31.5.2. 使用 Meson 檢驗涵蓋率](regress-coverage.md#regress-coverage-meson)
 
 PostgreSQL 原始碼可以搭配涵蓋率測試工具進行編譯，
 如此一來，就能檢驗程式碼中哪些部分，
@@ -14,7 +14,7 @@ PostgreSQL 原始碼可以搭配涵蓋率測試工具進行編譯，
 
 <a id="REGRESS-COVERAGE-CONFIGURE"></a>
 
-### 31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率 [#](#REGRESS-COVERAGE-CONFIGURE)
+### 31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率 [#](#regress-coverage-configure) <a href="#regress-coverage-configure" id="regress-coverage-configure"></a>
 
 典型的工作流程如下所示：
 
@@ -62,7 +62,7 @@ make coverage-clean
 
 <a id="REGRESS-COVERAGE-MESON"></a>
 
-### 31.5.2. 使用 Meson 檢驗涵蓋率 [#](#REGRESS-COVERAGE-MESON)
+### 31.5.2. 使用 Meson 檢驗涵蓋率 [#](#regress-coverage-meson) <a href="#regress-coverage-meson" id="regress-coverage-meson"></a>
 
 典型的工作流程如下所示：
 

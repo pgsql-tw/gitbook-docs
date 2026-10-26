@@ -7,7 +7,7 @@
 [26.1. 不同解決方案的比較](different-replication-solutions.md)
 
 [26.2. 日誌傳送待命伺服器](warm-standby.md)
-:   [26.2.1. 規劃](warm-standby.md#STANDBY-PLANNING)
+:   [26.2.1. 規劃](warm-standby.md#standby-planning)
 
     [26.2.2. 待命伺服器運作](warm-standby.md#STANDBY-SERVER-OPERATION)
 
@@ -28,7 +28,7 @@
 [26.3. 容錯移轉](warm-standby-failover.md)
 
 [26.4. 熱待命](hot-standby.md)
-:   [26.4.1. 使用者總覽](hot-standby.md#HOT-STANDBY-USERS)
+:   [26.4.1. 使用者總覽](hot-standby.md#hot-standby-users)
 
     [26.4.2. 處理查詢衝突](hot-standby.md#HOT-STANDBY-CONFLICT)
 

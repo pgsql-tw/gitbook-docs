@@ -118,7 +118,7 @@ libselinux 與 selinux-policy 版本而定，你可能會看到下列部分或�
 
 若 `PG_TEST_EXTRA` 包含 `sepgsql`，就會執行
 `sepgsql` 測試套件（請參閱
-[第 31.1.3 節](../../server-administration/regress/regress-run.md#REGRESS-ADDITIONAL)）。這種方法適用於
+[第 31.1.3 節](../../server-administration/regress/regress-run.md#regress-additional)）。這種方法適用於
 PostgreSQL 的開發期間。另外，也有一種執行測試的方式，可用來檢查資料庫執行個體是否已為
 `sepgsql` 正確設定。
 

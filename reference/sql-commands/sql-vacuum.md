@@ -98,7 +98,7 @@ vacuum）*。若要停用這項功能，可以使用 `PARALLEL`
 
 `DISABLE_PAGE_SKIPPING`
 :   一般而言，`VACUUM` 會根據
-    [能見度對照表](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-VISIBILITY-MAP)
+    [能見度對照表](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-visibility-map)
     略過某些頁面。已知全部資料列都已凍結的頁面永遠可以略過，
     而已知全部資料列對所有交易皆可見的頁面，除了在執行
     積極清理時之外，也可以略過。此外，除了在執行積極清理時
@@ -310,16 +310,16 @@ PostgreSQL 提供了「autovacuum」設施，
 其他活躍工作階段的效能變差。因此，有時建議使用以成本為基礎的
 清理延遲功能。在平行清理中，每個工作程序會依其已完成的工作量
 按比例休眠。詳情請參閱
-[第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)。
+[第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)。
 
 每個執行不含 `FULL` 選項之 `VACUUM`
 的後端程序，都會在 `pg_stat_progress_vacuum`
 檢視表中回報其進度。執行 `VACUUM FULL`
 的後端程序，則會改在 `pg_stat_progress_cluster`
 檢視表中回報進度。詳情請參閱
-[第 27.4.5 節](../../server-administration/monitoring/progress-reporting.md#VACUUM-PROGRESS-REPORTING)
+[第 27.4.5 節](../../server-administration/monitoring/progress-reporting.md#vacuum-progress-reporting)
 與
-[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#CLUSTER-PROGRESS-REPORTING)。
+[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#cluster-progress-reporting)。
 
 <a id="id-1.9.3.184.9"></a>
 
@@ -353,7 +353,7 @@ VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] [ ANALYZE ] [ table_and_columns [, ...] ]
 
 ## 參見
 
-[vacuumdb](../reference-client/app-vacuumdb.md)、[第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)、[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)、[第 27.4.5 節](../../server-administration/monitoring/progress-reporting.md#VACUUM-PROGRESS-REPORTING)、[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#CLUSTER-PROGRESS-REPORTING)
+[vacuumdb](../reference-client/app-vacuumdb.md)、[第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)、[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)、[第 27.4.5 節](../../server-administration/monitoring/progress-reporting.md#vacuum-progress-reporting)、[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#cluster-progress-reporting)
 
 ---
 

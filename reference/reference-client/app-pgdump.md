@@ -80,7 +80,7 @@ pg_dump 只會傾印單一資料庫。若要匯出整個叢集，或匯出叢集
     指定 `-e` 時，pg_dump 不會嘗試傾印所選擴充功能可能相依的任何其他資料庫物件。因此，無法保證特定擴充功能傾印的結果能單獨成功還原到乾淨的資料庫中。
 
 `-E encoding`<br>`--encoding=encoding`
-:   以指定的字元集編碼建立傾印。預設情況下，傾印會以資料庫編碼建立。（取得相同結果的另一種方式，是將環境變數 `PGCLIENTENCODING` 設為所要的傾印編碼。）支援的編碼說明於[第 23.3.1 節](../../server-administration/charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。
+:   以指定的字元集編碼建立傾印。預設情況下，傾印會以資料庫編碼建立。（取得相同結果的另一種方式，是將環境變數 `PGCLIENTENCODING` 設為所要的傾印編碼。）支援的編碼說明於[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
 
 `-f file`<br>`--file=file`
 :   將輸出送到指定的檔案。對於以檔案為基礎的輸出格式，可以省略此參數，此時會使用標準輸出。不過對於 directory 輸出格式則必須指定此參數，此時它指定的是目標目錄而不是檔案。在這種情況下，目錄由 `pg_dump` 建立，而且事先必須不存在。
@@ -445,7 +445,7 @@ CREATE DATABASE foo WITH TEMPLATE template0;
 
 當選擇不含綱要的傾印並使用 `--disable-triggers` 選項時，pg_dump 會發出命令，在插入資料之前停用使用者資料表上的觸發程序，然後在資料插入之後發出重新啟用它們的命令。若還原在中途停止，系統目錄可能會停留在錯誤的狀態。
 
-指定 `--statistics` 時，`pg_dump` 會在產生的傾印檔案中包含大部分的最佳化器統計資訊。這並不包括所有的統計資訊，例如以 [CREATE STATISTICS](../sql-commands/sql-createstatistics.md) 明確建立的統計資訊、由擴充功能加入的自訂統計資訊，或由累計統計系統收集的統計資訊。因此，從傾印檔案還原之後，執行 `ANALYZE` 以確保最佳效能可能仍然有用；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
+指定 `--statistics` 時，`pg_dump` 會在產生的傾印檔案中包含大部分的最佳化器統計資訊。這並不包括所有的統計資訊，例如以 [CREATE STATISTICS](../sql-commands/sql-createstatistics.md) 明確建立的統計資訊、由擴充功能加入的自訂統計資訊，或由累計統計系統收集的統計資訊。因此，從傾印檔案還原之後，執行 `ANALYZE` 以確保最佳效能可能仍然有用；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-statistics)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)。
 
 由於 pg_dump 被用來將資料轉移到較新版本的 PostgreSQL，可以預期 pg_dump 的輸出能載入比 pg_dump 版本更新的 PostgreSQL 伺服器版本。pg_dump 也可以從比它自身版本更舊的 PostgreSQL 伺服器傾印。（目前支援回溯到 9.2 版的伺服器。）不過，pg_dump 無法從比它自身主要版本更新的 PostgreSQL 伺服器傾印；它甚至會拒絕嘗試，而不是冒著產生無效傾印的風險。此外，並不保證 pg_dump 的輸出能載入到較舊主要版本的伺服器中——即使傾印是從該版本的伺服器取得的也一樣。將傾印檔案載入較舊的伺服器，可能需要手動編輯傾印檔案，移除較舊伺服器無法理解的語法。在跨版本的情況下，建議使用 `--quote-all-identifiers` 選項，因為它可以避免因不同 PostgreSQL 版本的保留字清單不同而產生的問題。
 

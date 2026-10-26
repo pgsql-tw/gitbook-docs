@@ -501,7 +501,7 @@ PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了�
 
 ### 9.28.6. 複寫管理函式 [#](#functions-replication) <a href="#functions-replication" id="functions-replication"></a>
 
-[表 9.101](functions-admin.md#FUNCTIONS-REPLICATION-TABLE) 所列的函式用於控制複寫功能並與之互動。關於底層功能的資訊，請參閱[第 26.2.5 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)、[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)與[第 48 章](../../server-programming/replication-origins/README.md)。複寫來源相關函式預設只允許超級使用者使用，但可以使用 `GRANT` 指令允許其他使用者使用。複寫槽相關函式則只限超級使用者與具有 `REPLICATION` 權限的使用者使用。
+[表 9.101](functions-admin.md#FUNCTIONS-REPLICATION-TABLE) 所列的函式用於控制複寫功能並與之互動。關於底層功能的資訊，請參閱[第 26.2.5 節](../../server-administration/high-availability/warm-standby.md#streaming-replication)、[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#streaming-replication-slots)與[第 48 章](../../server-programming/replication-origins/README.md)。複寫來源相關函式預設只允許超級使用者使用，但可以使用 `GRANT` 指令允許其他使用者使用。複寫槽相關函式則只限超級使用者與具有 `REPLICATION` 權限的使用者使用。
 
 這些函式中有許多在複寫協定中都有對應的指令；請參閱[第 54.4 節](../../internals/protocol/protocol-replication.md)。
 
@@ -899,7 +899,7 @@ PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了�
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        依據在作業系統中找到的所有語系，將定序加入系統目錄 <code class="structname">pg_collation</code>。這就是 <code class="command">initdb</code> 所使用的方式；詳情請參閱<a class="xref" href="../../server-administration/charset/collation.md#COLLATION-MANAGING">第 23.2.2 節</a>。如果之後在作業系統中安裝了其他語系，可以再次執行這個函式，為新的語系加入定序。與 <code class="structname">pg_collation</code> 中既有項目相符的語系會被略過。（但以已不再存在於作業系統中之語系為基礎的定序物件，並不會被這個函式移除。）<em class="parameter"><code>schema</code></em> 參數通常會是 <code class="literal">pg_catalog</code>，但這並非必要條件；定序也可以安裝到其他綱要中。函式會回傳它所建立的新定序物件數量。這個函式只限超級使用者使用。
+        依據在作業系統中找到的所有語系，將定序加入系統目錄 <code class="structname">pg_collation</code>。這就是 <code class="command">initdb</code> 所使用的方式；詳情請參閱<a class="xref" href="../../server-administration/charset/collation.md#collation-managing">第 23.2.2 節</a>。如果之後在作業系統中安裝了其他語系，可以再次執行這個函式，為新的語系加入定序。與 <code class="structname">pg_collation</code> 中既有項目相符的語系會被略過。（但以已不再存在於作業系統中之語系為基礎的定序物件，並不會被這個函式移除。）<em class="parameter"><code>schema</code></em> 參數通常會是 <code class="literal">pg_catalog</code>，但這並非必要條件；定序也可以安裝到其他綱要中。函式會回傳它所建立的新定序物件數量。這個函式只限超級使用者使用。
        </p></td></tr></tbody></table>
 
 <br>
@@ -908,7 +908,7 @@ PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了�
 
 ### 警告
 
-這些統計資訊操作函式所做的變更，很可能會被 [autovacuum](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)（或手動執行的 `VACUUM` 或 `ANALYZE`）覆寫，因此應視為暫時性的。
+這些統計資訊操作函式所做的變更，很可能會被 [autovacuum](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)（或手動執行的 `VACUUM` 或 `ANALYZE`）覆寫，因此應視為暫時性的。
 
 <a id="FUNCTIONS-ADMIN-STATSMOD"></a>
 

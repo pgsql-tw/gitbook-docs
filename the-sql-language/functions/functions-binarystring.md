@@ -384,7 +384,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
        → <code class="returnvalue">bytea</code>
 </p>
 <p>
-       將代表以 <em class="parameter"><code>src_encoding</code></em> 編碼之文字的二進位字串，轉換為以 <em class="parameter"><code>dest_encoding</code></em> 編碼的二進位字串（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">第 23.3.4 節</a>）。
+       將代表以 <em class="parameter"><code>src_encoding</code></em> 編碼之文字的二進位字串，轉換為以 <em class="parameter"><code>dest_encoding</code></em> 編碼的二進位字串（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#multibyte-conversions-supported">第 23.3.4 節</a>）。
       </p>
 <p>
 <code class="literal">convert('text_in_utf8', 'UTF8', 'LATIN1')</code>
@@ -396,7 +396,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
        → <code class="returnvalue">text</code>
 </p>
 <p>
-       將代表以 <em class="parameter"><code>src_encoding</code></em> 編碼之文字的二進位字串，轉換為資料庫編碼的 <code class="type">text</code>（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">第 23.3.4 節</a>）。
+       將代表以 <em class="parameter"><code>src_encoding</code></em> 編碼之文字的二進位字串，轉換為資料庫編碼的 <code class="type">text</code>（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#multibyte-conversions-supported">第 23.3.4 節</a>）。
       </p>
 <p>
 <code class="literal">convert_from('text_in_utf8', 'UTF8')</code>
@@ -408,7 +408,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
        → <code class="returnvalue">bytea</code>
 </p>
 <p>
-       將 <code class="type">text</code> 字串（資料庫編碼）轉換為以 <em class="parameter"><code>dest_encoding</code></em> 編碼的二進位字串（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED">第 23.3.4 節</a>）。
+       將 <code class="type">text</code> 字串（資料庫編碼）轉換為以 <em class="parameter"><code>dest_encoding</code></em> 編碼的二進位字串（可用的轉換請參閱<a class="xref" href="../../server-administration/charset/multibyte.md#multibyte-conversions-supported">第 23.3.4 節</a>）。
       </p>
 <p>
 <code class="literal">convert_to('some_text', 'UTF8')</code>

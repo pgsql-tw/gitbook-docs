@@ -1856,7 +1856,7 @@ uint32 WaitEventExtensionNew(const char *wait_event_name)
 範例。
 
 可以在
-[`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)中，
+[`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view)中，
 檢視自訂的等待事件：
 
 ```
@@ -2007,7 +2007,7 @@ extern bool InjectionPointDetach(const char *name);
 ### 36.10.15. 自訂累計統計資訊 [#](#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
 
 以 C 語言撰寫的附加元件，可以使用
-在[累計統計資訊系統](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-SETUP)中
+在[累計統計資訊系統](../../server-administration/monitoring/monitoring-stats.md#monitoring-stats-setup)中
 所註冊的自訂累計統計資訊型別。
 
 首先，定義一個 `PgStat_KindInfo`，其中包含

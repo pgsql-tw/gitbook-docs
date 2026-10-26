@@ -513,7 +513,7 @@ myschema.mytable ...`），資料表就會建立在指定的綱要中；否則�
 <a id="RELOPTION-AUTOVACUUM-ENABLED"></a>
 
 `autovacuum_enabled`, `toast.autovacuum_enabled` (`boolean`) <a id="id-1.9.3.85.6.3.4.4.1.4"></a> [#](#RELOPTION-AUTOVACUUM-ENABLED)
-:   啟用或停用特定資料表的 autovacuum 常駐程式。若為 true，autovacuum 常駐程式會依照[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)所討論的規則，對此資料表執行自動的 `VACUUM` 和／或 `ANALYZE` 操作。若為 false，則不會對此資料表執行 autovacuum，但為了防止交易 ID 迴繞（wraparound）時除外。關於防止迴繞的更多資訊，請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。請注意，若 [autovacuum](../../server-administration/runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM) 參數為 false，autovacuum 常駐程式就完全不會執行（為了防止交易 ID 迴繞時除外）；設定個別資料表的儲存參數並不會覆寫該設定。因此，明確將此儲存參數設為 `true` 幾乎沒有意義，只有設為 `false` 才有意義。
+:   啟用或停用特定資料表的 autovacuum 常駐程式。若為 true，autovacuum 常駐程式會依照[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)所討論的規則，對此資料表執行自動的 `VACUUM` 和／或 `ANALYZE` 操作。若為 false，則不會對此資料表執行 autovacuum，但為了防止交易 ID 迴繞（wraparound）時除外。關於防止迴繞的更多資訊，請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)。請注意，若 [autovacuum](../../server-administration/runtime-config/runtime-config-vacuum.md#GUC-AUTOVACUUM) 參數為 false，autovacuum 常駐程式就完全不會執行（為了防止交易 ID 迴繞時除外）；設定個別資料表的儲存參數並不會覆寫該設定。因此，明確將此儲存參數設為 `true` 幾乎沒有意義，只有設為 `false` 才有意義。
 <a id="RELOPTION-VACUUM-INDEX-CLEANUP"></a>
 
 `vacuum_index_cleanup`, `toast.vacuum_index_cleanup` (`enum`) <a id="id-1.9.3.85.6.3.4.5.1.4"></a> [#](#RELOPTION-VACUUM-INDEX-CLEANUP)

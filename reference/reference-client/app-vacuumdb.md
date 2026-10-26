@@ -93,7 +93,7 @@ vacuumdb 接受下列命令列引數：
     就此選項而言，關聯的 multixact ID 年齡是主關聯與其相關聯之 TOAST 資料表（若存在）兩者年齡中的最大值。由於 vacuumdb 所發出的命令在必要時也會處理該關聯的 TOAST 資料表，因此不需要另外考慮它。
 
 `--min-xid-age xid_age`
-:   只對交易 ID 年齡至少為 *`xid_age`* 的資料表執行清理或分析命令。此設定適合用來安排資料表的處理優先順序，以防止交易 ID 回捲（請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。
+:   只對交易 ID 年齡至少為 *`xid_age`* 的資料表執行清理或分析命令。此設定適合用來安排資料表的處理優先順序，以防止交易 ID 回捲（請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。
 
     就此選項而言，關聯的交易 ID 年齡是主關聯與其相關聯之 TOAST 資料表（若存在）兩者年齡中的最大值。由於 vacuumdb 所發出的命令在必要時也會處理該關聯的 TOAST 資料表，因此不需要另外考慮它。
 

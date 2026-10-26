@@ -2,11 +2,11 @@
 
 ## 18.6. 升級 PostgreSQL 叢集 [#](#upgrading) <a href="#upgrading" id="upgrading"></a>
 
-[18.6.1. 透過 pg_dumpall 升級資料](upgrading.md#UPGRADING-VIA-PGDUMPALL)
+[18.6.1. 透過 pg_dumpall 升級資料](upgrading.md#upgrading-via-pgdumpall)
 
-[18.6.2. 透過 pg_upgrade 升級資料](upgrading.md#UPGRADING-VIA-PG-UPGRADE)
+[18.6.2. 透過 pg_upgrade 升級資料](upgrading.md#upgrading-via-pg-upgrade)
 
-[18.6.3. 透過複寫升級資料](upgrading.md#UPGRADING-VIA-REPLICATION)
+[18.6.3. 透過複寫升級資料](upgrading.md#upgrading-via-replication)
 
 <a id="id-1.6.5.9.2"></a><a id="id-1.6.5.9.3"></a>
 
@@ -74,7 +74,7 @@ SQL
 
 <a id="UPGRADING-VIA-PGDUMPALL"></a>
 
-### 18.6.1. 透過 pg_dumpall 升級資料 [#](#UPGRADING-VIA-PGDUMPALL)
+### 18.6.1. 透過 pg_dumpall 升級資料 [#](#upgrading-via-pgdumpall) <a href="#upgrading-via-pgdumpall" id="upgrading-via-pgdumpall"></a>
 
 其中一種升級方法，是從某個 PostgreSQL 主要版本，
 傾印資料，再還原到另一個版本——若要這麼做，
@@ -112,7 +112,7 @@ pg_dump 與 pg_dumpall 程式，
 
    要製作備份，您可以使用目前執行版本所附帶的
    pg_dumpall 指令；詳情請參閱
-   [25.1.2 節](../backup/backup-dump.md#BACKUP-DUMP-ALL)。
+   [25.1.2 節](../backup/backup-dump.md#backup-dump-all)。
    不過，為了獲得最佳結果，請盡量使用
    PostgreSQL 18.6 版所附帶的
    pg_dumpall 指令，因為此版本，
@@ -195,7 +195,7 @@ pg_dumpall -p 5432 | psql -d postgres -p 5433
 
 <a id="UPGRADING-VIA-PG-UPGRADE"></a>
 
-### 18.6.2. 透過 pg_upgrade 升級資料 [#](#UPGRADING-VIA-PG-UPGRADE)
+### 18.6.2. 透過 pg_upgrade 升級資料 [#](#upgrading-via-pg-upgrade) <a href="#upgrading-via-pg-upgrade" id="upgrading-via-pg-upgrade"></a>
 
 [pg_upgrade](../../reference/reference-server/pgupgrade.md) 模組，
 可讓某個安裝，直接就地從一個 PostgreSQL 主要版本，
@@ -208,7 +208,7 @@ pg_dumpall -p 5432 | psql -d postgres -p 5433
 
 <a id="UPGRADING-VIA-REPLICATION"></a>
 
-### 18.6.3. 透過複寫升級資料 [#](#UPGRADING-VIA-REPLICATION)
+### 18.6.3. 透過複寫升級資料 [#](#upgrading-via-replication) <a href="#upgrading-via-replication" id="upgrading-via-replication"></a>
 
 您也可以使用邏輯複寫方法，建立一個使用較新版本 PostgreSQL
 的待命伺服器。之所以可行，是因為邏輯複寫，

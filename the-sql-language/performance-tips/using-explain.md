@@ -40,7 +40,7 @@ EXPLAIN SELECT * FROM tenk1;
 * 估計這個計畫節點輸出的資料列數。同樣地，這是假設節點會執行到完成。
 * 估計這個計畫節點輸出之資料列的平均寬度（以位元組為單位）。
 
-成本是以由規劃器成本參數所決定的任意單位來衡量的（請參閱[第 19.7.2 節](../../server-administration/runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)）。傳統的做法是以磁碟頁面擷取次數為單位來衡量成本；也就是說，[seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST) 慣例上設為 `1.0`，而其他成本參數則相對於它來設定。本節中的範例都是使用預設的成本參數執行的。
+成本是以由規劃器成本參數所決定的任意單位來衡量的（請參閱[第 19.7.2 節](../../server-administration/runtime-config/runtime-config-query.md#runtime-config-query-constants)）。傳統的做法是以磁碟頁面擷取次數為單位來衡量成本；也就是說，[seq_page_cost](../../server-administration/runtime-config/runtime-config-query.md#GUC-SEQ-PAGE-COST) 慣例上設為 `1.0`，而其他成本參數則相對於它來設定。本節中的範例都是使用預設的成本參數執行的。
 
 重要的是要了解，上層節點的成本包含了其所有子節點的成本。同樣重要的是要明白，成本只反映規劃器在意的事情。特別是，成本並未考慮將輸出值轉換為文字形式或傳送給用戶端所花費的時間，而這些可能是實際經過時間中的重要因素；但規劃器會忽略這些成本，因為它無法藉由改變計畫來改變它們。（我們相信，每個正確的計畫都會輸出相同的資料列集合。）
 
@@ -283,7 +283,7 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
 
 合併聯結要求其輸入資料依聯結鍵排序。在這個範例中，每個輸入都是藉由使用索引掃描、依正確的順序走訪資料列來排序的；但也可以使用循序掃描加排序。（在排序大量資料列時，循序掃描加排序往往勝過索引掃描，因為索引掃描需要非循序的磁碟存取。）
 
-查看替代計畫的一種方法，是使用[第 19.7.1 節](../../server-administration/runtime-config/runtime-config-query.md#RUNTIME-CONFIG-QUERY-ENABLE)所述的啟用／停用旗標，強制規劃器捨棄它認為最便宜的策略。（這是一個粗略但有用的工具。另請參閱[第 14.3 節](explicit-joins.md)。）例如，如果我們不確定合併聯結是否是上一個範例的最佳聯結類型，可以嘗試
+查看替代計畫的一種方法，是使用[第 19.7.1 節](../../server-administration/runtime-config/runtime-config-query.md#runtime-config-query-enable)所述的啟用／停用旗標，強制規劃器捨棄它認為最便宜的策略。（這是一個粗略但有用的工具。另請參閱[第 14.3 節](explicit-joins.md)。）例如，如果我們不確定合併聯結是否是上一個範例的最佳聯結類型，可以嘗試
 
 ```
 

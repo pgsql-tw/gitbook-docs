@@ -9,7 +9,7 @@
 
 ### 47.8.1. 概觀 [#](#LOGICALDECODING-SYNCHRONOUS-OVERVIEW)
 
-邏輯解碼可以用來建構[同步複寫](../../server-administration/high-availability/warm-standby.md#SYNCHRONOUS-REPLICATION)解決方案，其使用者介面與[串流複寫](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)的同步複寫相同。要做到這一點，必須使用串流複寫介面（見[第 47.3 節](logicaldecoding-walsender.md)）來串流輸出資料。用戶端必須傳送 `Standby status update (F)` 訊息（見[第 54.4 節](../../internals/protocol/protocol-replication.md)），就像串流複寫用戶端所做的那樣。
+邏輯解碼可以用來建構[同步複寫](../../server-administration/high-availability/warm-standby.md#synchronous-replication)解決方案，其使用者介面與[串流複寫](../../server-administration/high-availability/warm-standby.md#streaming-replication)的同步複寫相同。要做到這一點，必須使用串流複寫介面（見[第 47.3 節](logicaldecoding-walsender.md)）來串流輸出資料。用戶端必須傳送 `Standby status update (F)` 訊息（見[第 54.4 節](../../internals/protocol/protocol-replication.md)），就像串流複寫用戶端所做的那樣。
 
 ### 注意
 

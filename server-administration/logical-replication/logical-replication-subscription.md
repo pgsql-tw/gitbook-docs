@@ -2,11 +2,11 @@
 
 ## 29.2. 訂閱（Subscription） [#](#logical-replication-subscription) <a href="#logical-replication-subscription" id="logical-replication-subscription"></a>
 
-[29.2.1. 複寫插槽管理](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT)
+[29.2.1. 複寫插槽管理](logical-replication-subscription.md#logical-replication-subscription-slot)
 
-[29.2.2. 範例：設定邏輯複寫](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES)
+[29.2.2. 範例：設定邏輯複寫](logical-replication-subscription.md#logical-replication-subscription-examples)
 
-[29.2.3. 範例：延後建立複寫插槽](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT)
+[29.2.3. 範例：延後建立複寫插槽](logical-replication-subscription.md#logical-replication-subscription-examples-deferred-slot)
 
 *訂閱（subscription）* 是邏輯
 複寫的下游端。定義訂閱的節點稱為
@@ -24,12 +24,12 @@
 重疊。
 
 每個訂閱會透過一個複寫插槽接收變更（見
-[第 26.2.6 節](../high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)）。對於既有資料表資料的初始資料
+[第 26.2.6 節](../high-availability/warm-standby.md#streaming-replication-slots)）。對於既有資料表資料的初始資料
 同步，可能還需要額外的複寫
 插槽，這些插槽會在資料同步結束時被移除。
 
 邏輯複寫訂閱可以做為同步複寫的待命端
-（見 [第 26.2.8 節](../high-availability/warm-standby.md#SYNCHRONOUS-REPLICATION)）。待命端
+（見 [第 26.2.8 節](../high-availability/warm-standby.md#synchronous-replication)）。待命端
 名稱預設為訂閱名稱。也可以在訂閱連線
 資訊中以 `application_name` 指定其他
 名稱。
@@ -70,7 +70,7 @@
 
 <a id="LOGICAL-REPLICATION-SUBSCRIPTION-SLOT"></a>
 
-### 29.2.1. 複寫插槽管理 [#](#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT)
+### 29.2.1. 複寫插槽管理 [#](#logical-replication-subscription-slot) <a href="#logical-replication-subscription-slot" id="logical-replication-subscription-slot"></a>
 
 如前所述，每個（作用中的）訂閱都會從遠端
 （發布端）的複寫插槽接收變更。
@@ -118,7 +118,7 @@
 
 <a id="LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES"></a>
 
-### 29.2.2. 範例：設定邏輯複寫 [#](#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES)
+### 29.2.2. 範例：設定邏輯複寫 [#](#logical-replication-subscription-examples) <a href="#logical-replication-subscription-examples" id="logical-replication-subscription-examples"></a>
 
 在發布者端建立一些測試資料表。
 
@@ -304,10 +304,10 @@
 
 <a id="LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT"></a>
 
-### 29.2.3. 範例：延後建立複寫插槽 [#](#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT)
+### 29.2.3. 範例：延後建立複寫插槽 [#](#logical-replication-subscription-examples-deferred-slot) <a href="#logical-replication-subscription-examples-deferred-slot" id="logical-replication-subscription-examples-deferred-slot"></a>
 
 在某些情況下（例如
-[第 29.2.1 節](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT)），若遠端
+[第 29.2.1 節](logical-replication-subscription.md#logical-replication-subscription-slot)），若遠端
 複寫插槽未被自動建立，使用者必須在訂閱能被
 啟用之前手動建立該插槽。下列範例示範了建立
 插槽並啟用訂閱的步驟。這些範例指定了標準的邏輯

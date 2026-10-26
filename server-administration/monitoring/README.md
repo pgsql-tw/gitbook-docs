@@ -7,7 +7,7 @@
 [27.1. 標準 Unix 工具](monitoring-ps.md)
 
 [27.2. 累積統計資訊系統](monitoring-stats.md)
-:   [27.2.1. 統計資訊收集設定](monitoring-stats.md#MONITORING-STATS-SETUP)
+:   [27.2.1. 統計資訊收集設定](monitoring-stats.md#monitoring-stats-setup)
 
     [27.2.2. 檢視統計資訊](monitoring-stats.md#MONITORING-STATS-VIEWS)
 
@@ -62,7 +62,7 @@
 [27.3. 檢視鎖定](monitoring-locks.md)
 
 [27.4. 進度回報](progress-reporting.md)
-:   [27.4.1. ANALYZE 進度回報](progress-reporting.md#ANALYZE-PROGRESS-REPORTING)
+:   [27.4.1. ANALYZE 進度回報](progress-reporting.md#analyze-progress-reporting)
 
     [27.4.2. CLUSTER 進度回報](progress-reporting.md#CLUSTER-PROGRESS-REPORTING)
 
@@ -75,7 +75,7 @@
     [27.4.6. 基礎備份進度回報](progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING)
 
 [27.5. 動態追蹤](dynamic-trace.md)
-:   [27.5.1. 為動態追蹤編譯](dynamic-trace.md#COMPILING-FOR-TRACE)
+:   [27.5.1. 為動態追蹤編譯](dynamic-trace.md#compiling-for-trace)
 
     [27.5.2. 內建探針](dynamic-trace.md#TRACE-POINTS)
 
@@ -84,7 +84,7 @@
     [27.5.4. 定義新探針](dynamic-trace.md#DEFINING-TRACE-POINTS)
 
 [27.6. 監控磁碟用量](diskusage.md)
-:   [27.6.1. 判斷磁碟用量](diskusage.md#DISK-USAGE)
+:   [27.6.1. 判斷磁碟用量](diskusage.md#disk-usage)
 
     [27.6.2. 磁碟已滿故障](diskusage.md#DISK-FULL)
 

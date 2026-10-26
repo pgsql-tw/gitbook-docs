@@ -141,7 +141,7 @@ objid::bigint` 重新組合。整數鍵的顯示方式是：第一個鍵在 `cla
 
 `pg_locks` 提供整個資料庫叢集中所有鎖定的全域檢視，而不只是與目前資料庫相關的鎖定。雖然可以將它的 `relation` 欄位與 [`pg_class`](../catalogs/catalog-pg-class.md).`oid` 連接，以識別被鎖定的關聯，但這只對目前資料庫中的關聯（也就是 `database` 欄位為目前資料庫的 OID 或零的那些關聯）才能正確運作。
 
-可以將 `pid` 欄位與 [`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW) 檢視表的 `pid` 欄位連接，以取得持有或等待各個鎖定之工作階段的更多資訊，例如
+可以將 `pid` 欄位與 [`pg_stat_activity`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view) 檢視表的 `pid` 欄位連接，以取得持有或等待各個鎖定之工作階段的更多資訊，例如
 
 ```
 

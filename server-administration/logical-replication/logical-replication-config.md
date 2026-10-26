@@ -2,15 +2,15 @@
 
 ## 29.12. 組態設定 [#](#logical-replication-config) <a href="#logical-replication-config" id="logical-replication-config"></a>
 
-[29.12.1. 發布端](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-PUBLISHER)
+[29.12.1. 發布端](logical-replication-config.md#logical-replication-config-publisher)
 
-[29.12.2. 訂閱端](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-SUBSCRIBER)
+[29.12.2. 訂閱端](logical-replication-config.md#logical-replication-config-subscriber)
 
 邏輯複寫需要設定數個組態選項。這些選項僅與複寫的其中一側有關。
 
 <a id="LOGICAL-REPLICATION-CONFIG-PUBLISHER"></a>
 
-### 29.12.1. 發布端 [#](#LOGICAL-REPLICATION-CONFIG-PUBLISHER)
+### 29.12.1. 發布端 [#](#logical-replication-config-publisher) <a href="#logical-replication-config-publisher" id="logical-replication-config-publisher"></a>
 
 [`wal_level`](../runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) 必須
 設為 `logical`。
@@ -34,7 +34,7 @@
 
 <a id="LOGICAL-REPLICATION-CONFIG-SUBSCRIBER"></a>
 
-### 29.12.2. 訂閱端 [#](#LOGICAL-REPLICATION-CONFIG-SUBSCRIBER)
+### 29.12.2. 訂閱端 [#](#logical-replication-config-subscriber) <a href="#logical-replication-config-subscriber" id="logical-replication-config-subscriber"></a>
 
 [`max_active_replication_origins`](../runtime-config/runtime-config-replication.md#GUC-MAX-ACTIVE-REPLICATION-ORIGINS)
 必須至少設為將加入至該訂閱端的訂閱數量，

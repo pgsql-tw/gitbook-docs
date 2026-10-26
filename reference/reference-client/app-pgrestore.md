@@ -312,7 +312,7 @@ pg_restore 的限制詳述如下。
 
 關於 pg_dump 的限制詳情，另請參閱 [pg_dump](app-pgdump.md) 文件。
 
-預設情況下，若傾印檔中包含最佳化器統計資訊，`pg_restore` 會還原它們。若並非所有統計資訊都已還原，對每個還原的資料表執行 `ANALYZE` 可能會有幫助，讓最佳化器擁有有用的統計資訊；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
+預設情況下，若傾印檔中包含最佳化器統計資訊，`pg_restore` 會還原它們。若並非所有統計資訊都已還原，對每個還原的資料表執行 `ANALYZE` 可能會有幫助，讓最佳化器擁有有用的統計資訊；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-statistics)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)。
 
 <a id="APP-PGRESTORE-EXAMPLES"></a>
 

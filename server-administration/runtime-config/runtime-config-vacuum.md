@@ -2,13 +2,13 @@
 
 ## 19.10. Vacuum 處理 [#](#runtime-config-vacuum) <a href="#runtime-config-vacuum" id="runtime-config-vacuum"></a>
 
-[19.10.1. 自動 Vacuum](runtime-config-vacuum.md#RUNTIME-CONFIG-AUTOVACUUM)
+[19.10.1. 自動 Vacuum](runtime-config-vacuum.md#runtime-config-autovacuum)
 
-[19.10.2. 以成本為基礎的 Vacuum 延遲](runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)
+[19.10.2. 以成本為基礎的 Vacuum 延遲](runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)
 
-[19.10.3. 預設行為](runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-DEFAULT)
+[19.10.3. 預設行為](runtime-config-vacuum.md#runtime-config-vacuum-default)
 
-[19.10.4. 凍結](runtime-config-vacuum.md#RUNTIME-CONFIG-VACUUM-FREEZING)
+[19.10.4. 凍結](runtime-config-vacuum.md#runtime-config-vacuum-freezing)
 
 <a id="id-1.6.6.13.2"></a>
 
@@ -17,10 +17,10 @@
 
 <a id="RUNTIME-CONFIG-AUTOVACUUM"></a>
 
-### 19.10.1. 自動 Vacuum [#](#RUNTIME-CONFIG-AUTOVACUUM)
+### 19.10.1. 自動 Vacuum [#](#runtime-config-autovacuum) <a href="#runtime-config-autovacuum" id="runtime-config-autovacuum"></a>
 
 這些設定控制 *autovacuum* 功能的行為。
-詳情請參閱[24.1.6 節](../maintenance/routine-vacuuming.md#AUTOVACUUM)。
+詳情請參閱[24.1.6 節](../maintenance/routine-vacuuming.md#autovacuum)。
 請注意，這些設定中有許多可以逐資料表覆寫；
 請參閱[儲存參數](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。
 
@@ -210,7 +210,7 @@
 
 <a id="RUNTIME-CONFIG-RESOURCE-VACUUM-COST"></a>
 
-### 19.10.2. 以成本為基礎的 Vacuum 延遲 [#](#RUNTIME-CONFIG-RESOURCE-VACUUM-COST)
+### 19.10.2. 以成本為基礎的 Vacuum 延遲 [#](#runtime-config-resource-vacuum-cost) <a href="#runtime-config-resource-vacuum-cost" id="runtime-config-resource-vacuum-cost"></a>
 
 在執行 [VACUUM](../../reference/sql-commands/sql-vacuum.md)
 與 [ANALYZE](../../reference/sql-commands/sql-analyze.md)
@@ -293,7 +293,7 @@
 
 <a id="RUNTIME-CONFIG-VACUUM-DEFAULT"></a>
 
-### 19.10.3. 預設行為 [#](#RUNTIME-CONFIG-VACUUM-DEFAULT)
+### 19.10.3. 預設行為 [#](#runtime-config-vacuum-default) <a href="#runtime-config-vacuum-default" id="runtime-config-vacuum-default"></a>
 
 <a id="GUC-VACUUM-TRUNCATE"></a>
 
@@ -311,7 +311,7 @@
 
 <a id="RUNTIME-CONFIG-VACUUM-FREEZING"></a>
 
-### 19.10.4. 凍結 [#](#RUNTIME-CONFIG-VACUUM-FREEZING)
+### 19.10.4. 凍結 [#](#runtime-config-vacuum-freezing) <a href="#runtime-config-vacuum-freezing" id="runtime-config-vacuum-freezing"></a>
 
 為了在交易 ID 回捲後仍維持正確性，
 PostgreSQL 會將足夠舊的資料列標記為
@@ -321,7 +321,7 @@ PostgreSQL 會將足夠舊的資料列標記為
 控制 `VACUUM` 的凍結行為，應根據
 系統的 XID 消耗速率，以及主要工作負載的資料存取模式進行調校。
 有關交易 ID 回捲以及調校這些參數的詳情，
-請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#vacuum-for-wraparound)。
 
 <a id="GUC-VACUUM-FREEZE-TABLE-AGE"></a>
 
@@ -339,7 +339,7 @@ PostgreSQL 會將足夠舊的資料列標記為
     以便在為該資料表啟動防回捲 autovacuum 之前，
     定期的手動 `VACUUM` 仍有機會執行。詳情
     請參閱
-    [24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+    [24.1.5 節](../maintenance/routine-vacuuming.md#vacuum-for-wraparound)。
 <a id="GUC-VACUUM-FREEZE-MIN-AGE"></a>
 
 `vacuum_freeze_min_age` (`integer`) <a id="id-1.6.6.13.7.3.2.1.3"></a> [#](#GUC-VACUUM-FREEZE-MIN-AGE)
@@ -351,7 +351,7 @@ PostgreSQL 會將足夠舊的資料列標記為
     `VACUUM` 會默默地將有效值限制為
     [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE) 值的一半，
     以避免強制 autovacuum 之間的間隔過短。
-    詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+    詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#vacuum-for-wraparound)。
 <a id="GUC-VACUUM-FAILSAFE-AGE"></a>
 
 `vacuum_failsafe_age` (`integer`) <a id="id-1.6.6.13.7.3.3.1.3"></a> [#](#GUC-VACUUM-FAILSAFE-AGE)

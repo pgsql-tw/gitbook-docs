@@ -5,7 +5,7 @@
 **目錄**
 
 [25.1. SQL 傾印](backup-dump.md)
-:   [25.1.1. 還原傾印內容](backup-dump.md#BACKUP-DUMP-RESTORE)
+:   [25.1.1. 還原傾印內容](backup-dump.md#backup-dump-restore)
 
     [25.1.2. 使用 pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
 
@@ -14,7 +14,7 @@
 [25.2. 檔案系統層級備份](backup-file.md)
 
 [25.3. 持續歸檔與時間點還原（PITR）](continuous-archiving.md)
-:   [25.3.1. 設定 WAL 歸檔](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
+:   [25.3.1. 設定 WAL 歸檔](continuous-archiving.md#backup-archiving-wal)
 
     [25.3.2. 製作基礎備份](continuous-archiving.md#BACKUP-BASE-BACKUP)
 

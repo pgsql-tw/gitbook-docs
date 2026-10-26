@@ -2,13 +2,13 @@
 
 ## 30.4. 可擴充性 [#](#jit-extensibility) <a href="#jit-extensibility" id="jit-extensibility"></a>
 
-[30.4.1. 擴充套件的內嵌支援](jit-extensibility.md#JIT-EXTENSIBILITY-BITCODE)
+[30.4.1. 擴充套件的內嵌支援](jit-extensibility.md#jit-extensibility-bitcode)
 
-[30.4.2. 可插拔的 JIT 提供者](jit-extensibility.md#JIT-PLUGGABLE)
+[30.4.2. 可插拔的 JIT 提供者](jit-extensibility.md#jit-pluggable)
 
 <a id="JIT-EXTENSIBILITY-BITCODE"></a>
 
-### 30.4.1. 擴充套件的內嵌支援 [#](#JIT-EXTENSIBILITY-BITCODE)
+### 30.4.1. 擴充套件的內嵌支援 [#](#jit-extensibility-bitcode) <a href="#jit-extensibility-bitcode" id="jit-extensibility-bitcode"></a>
 
 PostgreSQL 的 JIT
 實作可以將型別為 `C` 與 `internal` 的函式本體，
@@ -31,7 +31,7 @@ PostgreSQL 的 JIT
 
 <a id="JIT-PLUGGABLE"></a>
 
-### 30.4.2. 可插拔的 JIT 提供者 [#](#JIT-PLUGGABLE)
+### 30.4.2. 可插拔的 JIT 提供者 [#](#jit-pluggable) <a href="#jit-pluggable" id="jit-pluggable"></a>
 
 PostgreSQL 提供一個基於 LLVM 的 JIT
 實作。JIT 提供者的介面是可插拔的，該提供者可以在

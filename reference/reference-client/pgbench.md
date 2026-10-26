@@ -1385,7 +1385,7 @@ statement latencies in milliseconds, failures and retries:
 
 ### 資料表存取方法
 
-你可以為 pgbench 資料表指定[資料表存取方法](../../internals/tableam/README.md)。環境變數 `PGOPTIONS` 指定透過命令列傳給 PostgreSQL 的資料庫組態選項（請參閱[第 19.1.4 節](../../server-administration/runtime-config/config-setting.md#CONFIG-SETTING-SHELL)）。例如，可以用下列方式，為 pgbench 所建立的資料表指定一個名為 `wuzza` 的假想預設資料表存取方法：
+你可以為 pgbench 資料表指定[資料表存取方法](../../internals/tableam/README.md)。環境變數 `PGOPTIONS` 指定透過命令列傳給 PostgreSQL 的資料庫組態選項（請參閱[第 19.1.4 節](../../server-administration/runtime-config/config-setting.md#config-setting-shell)）。例如，可以用下列方式，為 pgbench 所建立的資料表指定一個名為 `wuzza` 的假想預設資料表存取方法：
 
 ```
 

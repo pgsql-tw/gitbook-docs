@@ -2,57 +2,57 @@
 
 ## 27.2. 累計統計系統 [#](#monitoring-stats) <a href="#monitoring-stats" id="monitoring-stats"></a>
 
-[27.2.1. 統計收集設定](monitoring-stats.md#MONITORING-STATS-SETUP)
+[27.2.1. 統計收集設定](monitoring-stats.md#monitoring-stats-setup)
 
-[27.2.2. 檢視統計資訊](monitoring-stats.md#MONITORING-STATS-VIEWS)
+[27.2.2. 檢視統計資訊](monitoring-stats.md#monitoring-stats-views)
 
-[27.2.3. `pg_stat_activity`](monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
+[27.2.3. `pg_stat_activity`](monitoring-stats.md#monitoring-pg-stat-activity-view)
 
-[27.2.4. `pg_stat_replication`](monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW)
+[27.2.4. `pg_stat_replication`](monitoring-stats.md#monitoring-pg-stat-replication-view)
 
-[27.2.5. `pg_stat_replication_slots`](monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-SLOTS-VIEW)
+[27.2.5. `pg_stat_replication_slots`](monitoring-stats.md#monitoring-pg-stat-replication-slots-view)
 
-[27.2.6. `pg_stat_wal_receiver`](monitoring-stats.md#MONITORING-PG-STAT-WAL-RECEIVER-VIEW)
+[27.2.6. `pg_stat_wal_receiver`](monitoring-stats.md#monitoring-pg-stat-wal-receiver-view)
 
-[27.2.7. `pg_stat_recovery_prefetch`](monitoring-stats.md#MONITORING-PG-STAT-RECOVERY-PREFETCH)
+[27.2.7. `pg_stat_recovery_prefetch`](monitoring-stats.md#monitoring-pg-stat-recovery-prefetch)
 
-[27.2.8. `pg_stat_subscription`](monitoring-stats.md#MONITORING-PG-STAT-SUBSCRIPTION)
+[27.2.8. `pg_stat_subscription`](monitoring-stats.md#monitoring-pg-stat-subscription)
 
-[27.2.9. `pg_stat_subscription_stats`](monitoring-stats.md#MONITORING-PG-STAT-SUBSCRIPTION-STATS)
+[27.2.9. `pg_stat_subscription_stats`](monitoring-stats.md#monitoring-pg-stat-subscription-stats)
 
-[27.2.10. `pg_stat_ssl`](monitoring-stats.md#MONITORING-PG-STAT-SSL-VIEW)
+[27.2.10. `pg_stat_ssl`](monitoring-stats.md#monitoring-pg-stat-ssl-view)
 
-[27.2.11. `pg_stat_gssapi`](monitoring-stats.md#MONITORING-PG-STAT-GSSAPI-VIEW)
+[27.2.11. `pg_stat_gssapi`](monitoring-stats.md#monitoring-pg-stat-gssapi-view)
 
-[27.2.12. `pg_stat_archiver`](monitoring-stats.md#MONITORING-PG-STAT-ARCHIVER-VIEW)
+[27.2.12. `pg_stat_archiver`](monitoring-stats.md#monitoring-pg-stat-archiver-view)
 
-[27.2.13. `pg_stat_io`](monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW)
+[27.2.13. `pg_stat_io`](monitoring-stats.md#monitoring-pg-stat-io-view)
 
-[27.2.14. `pg_stat_bgwriter`](monitoring-stats.md#MONITORING-PG-STAT-BGWRITER-VIEW)
+[27.2.14. `pg_stat_bgwriter`](monitoring-stats.md#monitoring-pg-stat-bgwriter-view)
 
-[27.2.15. `pg_stat_checkpointer`](monitoring-stats.md#MONITORING-PG-STAT-CHECKPOINTER-VIEW)
+[27.2.15. `pg_stat_checkpointer`](monitoring-stats.md#monitoring-pg-stat-checkpointer-view)
 
-[27.2.16. `pg_stat_wal`](monitoring-stats.md#MONITORING-PG-STAT-WAL-VIEW)
+[27.2.16. `pg_stat_wal`](monitoring-stats.md#monitoring-pg-stat-wal-view)
 
-[27.2.17. `pg_stat_database`](monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW)
+[27.2.17. `pg_stat_database`](monitoring-stats.md#monitoring-pg-stat-database-view)
 
-[27.2.18. `pg_stat_database_conflicts`](monitoring-stats.md#MONITORING-PG-STAT-DATABASE-CONFLICTS-VIEW)
+[27.2.18. `pg_stat_database_conflicts`](monitoring-stats.md#monitoring-pg-stat-database-conflicts-view)
 
-[27.2.19. `pg_stat_all_tables`](monitoring-stats.md#MONITORING-PG-STAT-ALL-TABLES-VIEW)
+[27.2.19. `pg_stat_all_tables`](monitoring-stats.md#monitoring-pg-stat-all-tables-view)
 
-[27.2.20. `pg_stat_all_indexes`](monitoring-stats.md#MONITORING-PG-STAT-ALL-INDEXES-VIEW)
+[27.2.20. `pg_stat_all_indexes`](monitoring-stats.md#monitoring-pg-stat-all-indexes-view)
 
-[27.2.21. `pg_statio_all_tables`](monitoring-stats.md#MONITORING-PG-STATIO-ALL-TABLES-VIEW)
+[27.2.21. `pg_statio_all_tables`](monitoring-stats.md#monitoring-pg-statio-all-tables-view)
 
-[27.2.22. `pg_statio_all_indexes`](monitoring-stats.md#MONITORING-PG-STATIO-ALL-INDEXES-VIEW)
+[27.2.22. `pg_statio_all_indexes`](monitoring-stats.md#monitoring-pg-statio-all-indexes-view)
 
-[27.2.23. `pg_statio_all_sequences`](monitoring-stats.md#MONITORING-PG-STATIO-ALL-SEQUENCES-VIEW)
+[27.2.23. `pg_statio_all_sequences`](monitoring-stats.md#monitoring-pg-statio-all-sequences-view)
 
-[27.2.24. `pg_stat_user_functions`](monitoring-stats.md#MONITORING-PG-STAT-USER-FUNCTIONS-VIEW)
+[27.2.24. `pg_stat_user_functions`](monitoring-stats.md#monitoring-pg-stat-user-functions-view)
 
-[27.2.25. `pg_stat_slru`](monitoring-stats.md#MONITORING-PG-STAT-SLRU-VIEW)
+[27.2.25. `pg_stat_slru`](monitoring-stats.md#monitoring-pg-stat-slru-view)
 
-[27.2.26. 統計函式](monitoring-stats.md#MONITORING-STATS-FUNCTIONS)
+[27.2.26. 統計函式](monitoring-stats.md#monitoring-stats-functions)
 
 <a id="id-1.6.14.7.2"></a>
 
@@ -62,7 +62,7 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
 
 <a id="MONITORING-STATS-SETUP"></a>
 
-### 27.2.1. 統計收集設定 [#](#MONITORING-STATS-SETUP)
+### 27.2.1. 統計收集設定 [#](#monitoring-stats-setup) <a href="#monitoring-stats-setup" id="monitoring-stats-setup"></a>
 
 由於統計資訊的收集會為查詢執行帶來一些額外負擔，系統可以設定為收集或不收集資訊。這是透過通常設定於 `postgresql.conf` 中的設定參數來控制的。（有關設定組態參數的詳情，請參閱[第 19 章](../runtime-config/README.md)。）
 
@@ -84,9 +84,9 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
 
 <a id="MONITORING-STATS-VIEWS"></a>
 
-### 27.2.2. 檢視統計資訊 [#](#MONITORING-STATS-VIEWS)
+### 27.2.2. 檢視統計資訊 [#](#monitoring-stats-views) <a href="#monitoring-stats-views" id="monitoring-stats-views"></a>
 
-系統提供了幾個預先定義的檢視表，列於[表 27.1](monitoring-stats.md#MONITORING-STATS-DYNAMIC-VIEWS-TABLE)中，可用來顯示系統目前的狀態。此外還有其他幾個檢視表，列於[表 27.2](monitoring-stats.md#MONITORING-STATS-VIEWS-TABLE)中，可用來顯示累計的統計資訊。另外，也可以使用底層的累計統計函式來建立自訂檢視表，詳見[第 27.2.26 節](monitoring-stats.md#MONITORING-STATS-FUNCTIONS)中的討論。
+系統提供了幾個預先定義的檢視表，列於[表 27.1](monitoring-stats.md#MONITORING-STATS-DYNAMIC-VIEWS-TABLE)中，可用來顯示系統目前的狀態。此外還有其他幾個檢視表，列於[表 27.2](monitoring-stats.md#MONITORING-STATS-VIEWS-TABLE)中，可用來顯示累計的統計資訊。另外，也可以使用底層的累計統計函式來建立自訂檢視表，詳見[第 27.2.26 節](monitoring-stats.md#monitoring-stats-functions)中的討論。
 
 在使用累計統計檢視表與函式來監控所收集的資料時，必須了解這些資訊並非即時更新。每個伺服器程序會在進入閒置狀態之前，將累積的統計資訊刷寫（flush）至共享記憶體，但頻率不會超過每 `PGSTAT_MIN_INTERVAL` 毫秒一次（除非在建置伺服器時另行變更，否則預設為 1 秒）；因此仍在進行中的查詢或交易並不會影響所顯示的總計值，所顯示的資訊會落後於實際活動。然而，由 `track_activities` 所收集的目前查詢資訊則始終是最新的。
 
@@ -105,40 +105,40 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
 <a class="indexterm" id="id-1.6.14.7.6.7.2.2.1.1.2"></a>
 </td><td>
        每個伺服器程序一筆資料列，顯示與該程序目前活動相關的資訊，例如狀態與目前查詢。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-activity-view">
 <code class="structname">pg_stat_activity</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_replication</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.2.1.2"></a></td><td>每個 WAL 傳送程序一筆資料列，顯示有關該傳送程序所連線待命伺服器複寫情況的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-replication-view">
 <code class="structname">pg_stat_replication</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_wal_receiver</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.3.1.2"></a></td><td>僅有一筆資料列，顯示 WAL 接收程序從其所連線伺服器接收 WAL 的相關統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-WAL-RECEIVER-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-wal-receiver-view">
 <code class="structname">pg_stat_wal_receiver</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_recovery_prefetch</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.4.1.2"></a></td><td>僅有一筆資料列，顯示有關復原期間預先擷取區塊的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-RECOVERY-PREFETCH">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-recovery-prefetch">
 <code class="structname">pg_stat_recovery_prefetch</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_subscription</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.5.1.2"></a></td><td>每個訂閱至少一筆資料列，顯示有關訂閱工作程序的資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-SUBSCRIPTION">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-subscription">
 <code class="structname">pg_stat_subscription</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_ssl</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.6.1.2"></a></td><td>每個連線（一般連線與複寫連線）一筆資料列，顯示有關該連線所使用 SSL 的資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-SSL-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-ssl-view">
 <code class="structname">pg_stat_ssl</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_gssapi</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.7.1.2"></a></td><td>每個連線（一般連線與複寫連線）一筆資料列，顯示有關該連線所使用 GSSAPI 驗證與加密的資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-GSSAPI-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-gssapi-view">
 <code class="structname">pg_stat_gssapi</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_analyze</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.8.1.2"></a></td><td>每個正在執行 <code class="command">ANALYZE</code> 的後端（包括 autovacuum 工作程序）各一筆資料列，顯示目前進度。
-       請參閱<a class="xref" href="progress-reporting.md#ANALYZE-PROGRESS-REPORTING">第 27.4.1 節</a>。
+       請參閱<a class="xref" href="progress-reporting.md#analyze-progress-reporting">第 27.4.1 節</a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_create_index</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.9.1.2"></a></td><td>每個正在執行 <code class="command">CREATE INDEX</code> 或 <code class="command">REINDEX</code> 的後端各一筆資料列，顯示目前進度。
-      請參閱<a class="xref" href="progress-reporting.md#CREATE-INDEX-PROGRESS-REPORTING">第 27.4.4 節</a>。
+      請參閱<a class="xref" href="progress-reporting.md#create-index-progress-reporting">第 27.4.4 節</a>。
      </td></tr><tr><td><code class="structname">pg_stat_progress_vacuum</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.10.1.2"></a></td><td>每個正在執行 <code class="command">VACUUM</code> 的後端（包括 autovacuum 工作程序）各一筆資料列，顯示目前進度。
-       請參閱<a class="xref" href="progress-reporting.md#VACUUM-PROGRESS-REPORTING">第 27.4.5 節</a>。
+       請參閱<a class="xref" href="progress-reporting.md#vacuum-progress-reporting">第 27.4.5 節</a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_cluster</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.11.1.2"></a></td><td>每個正在執行
        <code class="command">CLUSTER</code> 或 <code class="command">VACUUM FULL</code> 的後端各一筆資料列，顯示目前進度。
-       請參閱<a class="xref" href="progress-reporting.md#CLUSTER-PROGRESS-REPORTING">第 27.4.2 節</a>。
+       請參閱<a class="xref" href="progress-reporting.md#cluster-progress-reporting">第 27.4.2 節</a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_basebackup</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.12.1.2"></a></td><td>每個正在串流基礎備份的 WAL 傳送程序各一筆資料列，
        顯示目前進度。
-       請參閱<a class="xref" href="progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING">第 27.4.6 節</a>。
+       請參閱<a class="xref" href="progress-reporting.md#basebackup-progress-reporting">第 27.4.6 節</a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_copy</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.13.1.2"></a></td><td>每個正在執行 <code class="command">COPY</code> 的後端各一筆資料列，顯示目前進度。
-       請參閱<a class="xref" href="progress-reporting.md#COPY-PROGRESS-REPORTING">第 27.4.3 節</a>。
+       請參閱<a class="xref" href="progress-reporting.md#copy-progress-reporting">第 27.4.3 節</a>。
       </td></tr></tbody></table>
 
 <br><a id="MONITORING-STATS-VIEWS-TABLE"></a>
@@ -147,45 +147,45 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
 
 <table border="1" class="table" summary="已收集的統計檢視表"><colgroup><col/><col/></colgroup><thead><tr><th>檢視表名稱</th><th>說明</th></tr></thead><tbody><tr><td><code class="structname">pg_stat_archiver</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.1.1.2"></a></td><td>僅有一筆資料列，顯示有關
        WAL 歸檔程序活動的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ARCHIVER-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-archiver-view">
 <code class="structname">pg_stat_archiver</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_bgwriter</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.2.1.2"></a></td><td>僅有一筆資料列，顯示有關
        背景寫入程序活動的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-BGWRITER-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-bgwriter-view">
 <code class="structname">pg_stat_bgwriter</code></a>。
      </td></tr><tr><td><code class="structname">pg_stat_checkpointer</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.3.1.2"></a></td><td>僅有一筆資料列，顯示有關
        檢查點程序活動的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-CHECKPOINTER-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-checkpointer-view">
 <code class="structname">pg_stat_checkpointer</code></a>。
      </td></tr><tr><td><code class="structname">pg_stat_database</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.4.1.2"></a></td><td>每個資料庫一筆資料列，顯示資料庫層級的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-database-view">
 <code class="structname">pg_stat_database</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_database_conflicts</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.5.1.2"></a></td><td>
        每個資料庫一筆資料列，顯示資料庫層級中，因與待命伺服器上復原作業衝突而導致查詢取消的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-DATABASE-CONFLICTS-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-database-conflicts-view">
 <code class="structname">pg_stat_database_conflicts</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_io</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.6.1.2"></a></td><td>
        後端類型、情境（context）及目標物件的每種組合各一筆資料列，
        包含叢集層級的 I/O 統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-IO-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-io-view">
 <code class="structname">pg_stat_io</code></a>。
      </td></tr><tr><td><code class="structname">pg_stat_replication_slots</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.7.1.2"></a></td><td>每個複寫插槽一筆資料列，顯示有關該
        複寫插槽使用情形的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-SLOTS-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-replication-slots-view">
 <code class="structname">pg_stat_replication_slots</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_slru</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.8.1.2"></a></td><td>每個 SLRU 一筆資料列，顯示相關作業的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-SLRU-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-slru-view">
 <code class="structname">pg_stat_slru</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_subscription_stats</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.9.1.2"></a></td><td>每個訂閱一筆資料列，顯示有關錯誤與衝突的統計資訊。
-      詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-SUBSCRIPTION-STATS">
+      詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-subscription-stats">
 <code class="structname">pg_stat_subscription_stats</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_wal</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.10.1.2"></a></td><td>僅有一筆資料列，顯示有關 WAL 活動的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-WAL-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-wal-view">
 <code class="structname">pg_stat_wal</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_all_tables</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.11.1.2"></a></td><td>
        目前資料庫中每個資料表各一筆資料列，顯示有關
        該特定資料表存取情形的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ALL-TABLES-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-all-tables-view">
 <code class="structname">pg_stat_all_tables</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_sys_tables</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.12.1.2"></a></td><td>與 <code class="structname">pg_stat_all_tables</code> 相同，
       但僅顯示系統資料表。</td></tr><tr><td><code class="structname">pg_stat_user_tables</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.13.1.2"></a></td><td>與 <code class="structname">pg_stat_all_tables</code> 相同，
@@ -198,35 +198,35 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
       但僅顯示使用者資料表。</td></tr><tr><td><code class="structname">pg_stat_all_indexes</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.17.1.2"></a></td><td>
        目前資料庫中每個索引各一筆資料列，顯示有關
        該特定索引存取情形的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ALL-INDEXES-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-all-indexes-view">
 <code class="structname">pg_stat_all_indexes</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_sys_indexes</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.18.1.2"></a></td><td>與 <code class="structname">pg_stat_all_indexes</code> 相同，
       但僅顯示系統資料表上的索引。</td></tr><tr><td><code class="structname">pg_stat_user_indexes</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.19.1.2"></a></td><td>與 <code class="structname">pg_stat_all_indexes</code> 相同，
       但僅顯示使用者資料表上的索引。</td></tr><tr><td><code class="structname">pg_stat_user_functions</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.20.1.2"></a></td><td>
        每個受追蹤的函式各一筆資料列，顯示有關
        該函式執行情形的統計資訊。詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-USER-FUNCTIONS-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-user-functions-view">
 <code class="structname">pg_stat_user_functions</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_xact_user_functions</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.21.1.2"></a></td><td>與 <code class="structname">pg_stat_user_functions</code> 類似，
       但僅計算目前交易期間的呼叫次數（這些呼叫<span class="emphasis"><em>尚未</em></span>
       被納入 <code class="structname">pg_stat_user_functions</code> 中）。</td></tr><tr><td><code class="structname">pg_statio_all_tables</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.22.1.2"></a></td><td>
        目前資料庫中每個資料表各一筆資料列，顯示有關
        該特定資料表 I/O 情形的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STATIO-ALL-TABLES-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-statio-all-tables-view">
 <code class="structname">pg_statio_all_tables</code></a>。
       </td></tr><tr><td><code class="structname">pg_statio_sys_tables</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.23.1.2"></a></td><td>與 <code class="structname">pg_statio_all_tables</code> 相同，
       但僅顯示系統資料表。</td></tr><tr><td><code class="structname">pg_statio_user_tables</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.24.1.2"></a></td><td>與 <code class="structname">pg_statio_all_tables</code> 相同，
       但僅顯示使用者資料表。</td></tr><tr><td><code class="structname">pg_statio_all_indexes</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.25.1.2"></a></td><td>
        目前資料庫中每個索引各一筆資料列，
        顯示有關該特定索引 I/O 情形的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STATIO-ALL-INDEXES-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-statio-all-indexes-view">
 <code class="structname">pg_statio_all_indexes</code></a>。
       </td></tr><tr><td><code class="structname">pg_statio_sys_indexes</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.26.1.2"></a></td><td>與 <code class="structname">pg_statio_all_indexes</code> 相同，
       但僅顯示系統資料表上的索引。</td></tr><tr><td><code class="structname">pg_statio_user_indexes</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.27.1.2"></a></td><td>與 <code class="structname">pg_statio_all_indexes</code> 相同，
       但僅顯示使用者資料表上的索引。</td></tr><tr><td><code class="structname">pg_statio_all_sequences</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.28.1.2"></a></td><td>
        目前資料庫中每個序列各一筆資料列，
        顯示有關該特定序列 I/O 情形的統計資訊。
-       詳情請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STATIO-ALL-SEQUENCES-VIEW">
+       詳情請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-statio-all-sequences-view">
 <code class="structname">pg_statio_all_sequences</code></a>。
      </td></tr><tr><td><code class="structname">pg_statio_sys_sequences</code><a class="indexterm" id="id-1.6.14.7.6.8.2.2.29.1.2"></a></td><td>與 <code class="structname">pg_statio_all_sequences</code> 相同，
       但僅顯示系統序列。（目前並未定義任何系統序列，
@@ -241,7 +241,7 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
 
 <a id="MONITORING-PG-STAT-ACTIVITY-VIEW"></a>
 
-### 27.2.3. `pg_stat_activity` [#](#MONITORING-PG-STAT-ACTIVITY-VIEW)
+### 27.2.3. `pg_stat_activity` [#](#monitoring-pg-stat-activity-view) <a href="#monitoring-pg-stat-activity-view" id="monitoring-pg-stat-activity-view"></a>
 
 <a id="id-1.6.14.7.7.2"></a>
 
@@ -582,7 +582,7 @@ description | Waiting for a newly initialized WAL file to reach durable storage
 
 <a id="MONITORING-PG-STAT-REPLICATION-VIEW"></a>
 
-### 27.2.4. `pg_stat_replication` [#](#MONITORING-PG-STAT-REPLICATION-VIEW)
+### 27.2.4. `pg_stat_replication` [#](#monitoring-pg-stat-replication-view) <a href="#monitoring-pg-stat-replication-view" id="monitoring-pg-stat-replication-view"></a>
 
 <a id="id-1.6.14.7.8.2"></a>
 
@@ -771,7 +771,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-REPLICATION-SLOTS-VIEW"></a>
 
-### 27.2.5. `pg_stat_replication_slots` [#](#MONITORING-PG-STAT-REPLICATION-SLOTS-VIEW)
+### 27.2.5. `pg_stat_replication_slots` [#](#monitoring-pg-stat-replication-slots-view) <a href="#monitoring-pg-stat-replication-slots-view" id="monitoring-pg-stat-replication-slots-view"></a>
 
 <a id="id-1.6.14.7.9.2"></a>
 
@@ -862,7 +862,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-WAL-RECEIVER-VIEW"></a>
 
-### 27.2.6. `pg_stat_wal_receiver` [#](#MONITORING-PG-STAT-WAL-RECEIVER-VIEW)
+### 27.2.6. `pg_stat_wal_receiver` [#](#monitoring-pg-stat-wal-receiver-view) <a href="#monitoring-pg-stat-wal-receiver-view" id="monitoring-pg-stat-wal-receiver-view"></a>
 
 <a id="id-1.6.14.7.10.2"></a>
 
@@ -969,7 +969,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-RECOVERY-PREFETCH"></a>
 
-### 27.2.7. `pg_stat_recovery_prefetch` [#](#MONITORING-PG-STAT-RECOVERY-PREFETCH)
+### 27.2.7. `pg_stat_recovery_prefetch` [#](#monitoring-pg-stat-recovery-prefetch) <a href="#monitoring-pg-stat-recovery-prefetch" id="monitoring-pg-stat-recovery-prefetch"></a>
 
 <a id="id-1.6.14.7.11.2"></a>
 
@@ -1065,7 +1065,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-SUBSCRIPTION"></a>
 
-### 27.2.8. `pg_stat_subscription` [#](#MONITORING-PG-STAT-SUBSCRIPTION)
+### 27.2.8. `pg_stat_subscription` [#](#monitoring-pg-stat-subscription) <a href="#monitoring-pg-stat-subscription" id="monitoring-pg-stat-subscription"></a>
 
 <a id="id-1.6.14.7.12.2"></a><a id="PG-STAT-SUBSCRIPTION"></a>
 
@@ -1147,7 +1147,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-SUBSCRIPTION-STATS"></a>
 
-### 27.2.9. `pg_stat_subscription_stats` [#](#MONITORING-PG-STAT-SUBSCRIPTION-STATS)
+### 27.2.9. `pg_stat_subscription_stats` [#](#monitoring-pg-stat-subscription-stats) <a href="#monitoring-pg-stat-subscription-stats" id="monitoring-pg-stat-subscription-stats"></a>
 
 <a id="id-1.6.14.7.13.2"></a>
 
@@ -1243,7 +1243,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-SSL-VIEW"></a>
 
-### 27.2.10. `pg_stat_ssl` [#](#MONITORING-PG-STAT-SSL-VIEW)
+### 27.2.10. `pg_stat_ssl` [#](#monitoring-pg-stat-ssl-view) <a href="#monitoring-pg-stat-ssl-view" id="monitoring-pg-stat-ssl-view"></a>
 
 <a id="id-1.6.14.7.14.2"></a>
 
@@ -1320,7 +1320,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-GSSAPI-VIEW"></a>
 
-### 27.2.11. `pg_stat_gssapi` [#](#MONITORING-PG-STAT-GSSAPI-VIEW)
+### 27.2.11. `pg_stat_gssapi` [#](#monitoring-pg-stat-gssapi-view) <a href="#monitoring-pg-stat-gssapi-view" id="monitoring-pg-stat-gssapi-view"></a>
 
 <a id="id-1.6.14.7.15.2"></a>
 
@@ -1374,7 +1374,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-ARCHIVER-VIEW"></a>
 
-### 27.2.12. `pg_stat_archiver` [#](#MONITORING-PG-STAT-ARCHIVER-VIEW)
+### 27.2.12. `pg_stat_archiver` [#](#monitoring-pg-stat-archiver-view) <a href="#monitoring-pg-stat-archiver-view" id="monitoring-pg-stat-archiver-view"></a>
 
 <a id="id-1.6.14.7.16.2"></a>
 
@@ -1436,7 +1436,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="MONITORING-PG-STAT-IO-VIEW"></a>
 
-### 27.2.13. `pg_stat_io` [#](#MONITORING-PG-STAT-IO-VIEW)
+### 27.2.13. `pg_stat_io` [#](#monitoring-pg-stat-io-view) <a href="#monitoring-pg-stat-io-view" id="monitoring-pg-stat-io-view"></a>
 
 <a id="id-1.6.14.7.17.2"></a>
 
@@ -1464,7 +1464,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 <code class="structfield">backend_type</code> <code class="type">text</code>
 </p>
 <p>
-        後端的類型（例如背景工作程序、autovacuum 工作程序）。請參閱<a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW">
+        後端的類型（例如背景工作程序、autovacuum 工作程序）。請參閱<a class="link" href="monitoring-stats.md#monitoring-pg-stat-activity-view">
 <code class="structname">pg_stat_activity</code></a>，以取得有關
         <code class="varname">backend_type</code> 的更多資訊。
         某些 <code class="varname">backend_type</code>
@@ -1724,7 +1724,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-BGWRITER-VIEW"></a>
 
-### 27.2.14. `pg_stat_bgwriter` [#](#MONITORING-PG-STAT-BGWRITER-VIEW)
+### 27.2.14. `pg_stat_bgwriter` [#](#monitoring-pg-stat-bgwriter-view) <a href="#monitoring-pg-stat-bgwriter-view" id="monitoring-pg-stat-bgwriter-view"></a>
 
 <a id="id-1.6.14.7.18.2"></a>
 
@@ -1767,7 +1767,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-CHECKPOINTER-VIEW"></a>
 
-### 27.2.15. `pg_stat_checkpointer` [#](#MONITORING-PG-STAT-CHECKPOINTER-VIEW)
+### 27.2.15. `pg_stat_checkpointer` [#](#monitoring-pg-stat-checkpointer-view) <a href="#monitoring-pg-stat-checkpointer-view" id="monitoring-pg-stat-checkpointer-view"></a>
 
 <a id="id-1.6.14.7.19.2"></a>
 
@@ -1857,7 +1857,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-WAL-VIEW"></a>
 
-### 27.2.16. `pg_stat_wal` [#](#MONITORING-PG-STAT-WAL-VIEW)
+### 27.2.16. `pg_stat_wal` [#](#monitoring-pg-stat-wal-view) <a href="#monitoring-pg-stat-wal-view" id="monitoring-pg-stat-wal-view"></a>
 
 <a id="id-1.6.14.7.20.2"></a>
 
@@ -1904,7 +1904,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-DATABASE-VIEW"></a>
 
-### 27.2.17. `pg_stat_database` [#](#MONITORING-PG-STAT-DATABASE-VIEW)
+### 27.2.17. `pg_stat_database` [#](#monitoring-pg-stat-database-view) <a href="#monitoring-pg-stat-database-view" id="monitoring-pg-stat-database-view"></a>
 
 <a id="id-1.6.14.7.21.2"></a>
 
@@ -1995,7 +1995,7 @@ writer` 的資料列中，`reads` 將
 <p>
        此資料庫中因與復原作業衝突而取消的查詢數量。
        （衝突僅發生於待命伺服器上；詳情請參閱
-       <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-DATABASE-CONFLICTS-VIEW">
+       <a class="link" href="monitoring-stats.md#monitoring-pg-stat-database-conflicts-view">
 <code class="structname">pg_stat_database_conflicts</code></a>。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">temp_files</code> <code class="type">bigint</code>
@@ -2058,7 +2058,7 @@ writer` 的資料列中，`reads` 將
        此資料庫中執行 SQL 陳述式所花費的時間，以毫秒為單位
        （這對應於
        <code class="literal">active</code> 與
-       <code class="literal">fastpath function call</code> 這兩個狀態，見 <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW">
+       <code class="literal">fastpath function call</code> 這兩個狀態，見 <a class="link" href="monitoring-stats.md#monitoring-pg-stat-activity-view">
 <code class="structname">pg_stat_activity</code></a>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">idle_in_transaction_time</code> <code class="type">double precision</code>
@@ -2067,7 +2067,7 @@ writer` 的資料列中，`reads` 將
        此資料庫中處於交易內閒置狀態所花費的時間，以毫秒為單位
        （這對應於
        <code class="literal">idle in transaction</code> 與
-       <code class="literal">idle in transaction (aborted)</code> 這兩個狀態，見 <a class="link" href="monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW">
+       <code class="literal">idle in transaction (aborted)</code> 這兩個狀態，見 <a class="link" href="monitoring-stats.md#monitoring-pg-stat-activity-view">
 <code class="structname">pg_stat_activity</code></a>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">sessions</code> <code class="type">bigint</code>
@@ -2113,7 +2113,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-DATABASE-CONFLICTS-VIEW"></a>
 
-### 27.2.18. `pg_stat_database_conflicts` [#](#MONITORING-PG-STAT-DATABASE-CONFLICTS-VIEW)
+### 27.2.18. `pg_stat_database_conflicts` [#](#monitoring-pg-stat-database-conflicts-view) <a href="#monitoring-pg-stat-database-conflicts-view" id="monitoring-pg-stat-database-conflicts-view"></a>
 
 <a id="id-1.6.14.7.22.2"></a>
 
@@ -2185,7 +2185,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-ALL-TABLES-VIEW"></a>
 
-### 27.2.19. `pg_stat_all_tables` [#](#MONITORING-PG-STAT-ALL-TABLES-VIEW)
+### 27.2.19. `pg_stat_all_tables` [#](#monitoring-pg-stat-all-tables-view) <a href="#monitoring-pg-stat-all-tables-view" id="monitoring-pg-stat-all-tables-view"></a>
 
 <a id="id-1.6.14.7.23.2"></a>
 
@@ -2383,7 +2383,7 @@ writer` 的資料列中，`reads` 將
 
 <a id="MONITORING-PG-STAT-ALL-INDEXES-VIEW"></a>
 
-### 27.2.20. `pg_stat_all_indexes` [#](#MONITORING-PG-STAT-ALL-INDEXES-VIEW)
+### 27.2.20. `pg_stat_all_indexes` [#](#monitoring-pg-stat-all-indexes-view) <a href="#monitoring-pg-stat-all-indexes-view" id="monitoring-pg-stat-all-indexes-view"></a>
 
 <a id="id-1.6.14.7.24.2"></a>
 
@@ -2507,7 +2507,7 @@ value2 ...` 結構的查詢，
 
 <a id="MONITORING-PG-STATIO-ALL-TABLES-VIEW"></a>
 
-### 27.2.21. `pg_statio_all_tables` [#](#MONITORING-PG-STATIO-ALL-TABLES-VIEW)
+### 27.2.21. `pg_statio_all_tables` [#](#monitoring-pg-statio-all-tables-view) <a href="#monitoring-pg-statio-all-tables-view" id="monitoring-pg-statio-all-tables-view"></a>
 
 <a id="id-1.6.14.7.25.2"></a>
 
@@ -2589,7 +2589,7 @@ value2 ...` 結構的查詢，
 
 <a id="MONITORING-PG-STATIO-ALL-INDEXES-VIEW"></a>
 
-### 27.2.22. `pg_statio_all_indexes` [#](#MONITORING-PG-STATIO-ALL-INDEXES-VIEW)
+### 27.2.22. `pg_statio_all_indexes` [#](#monitoring-pg-statio-all-indexes-view) <a href="#monitoring-pg-statio-all-indexes-view" id="monitoring-pg-statio-all-indexes-view"></a>
 
 <a id="id-1.6.14.7.26.2"></a>
 
@@ -2651,7 +2651,7 @@ value2 ...` 結構的查詢，
 
 <a id="MONITORING-PG-STATIO-ALL-SEQUENCES-VIEW"></a>
 
-### 27.2.23. `pg_statio_all_sequences` [#](#MONITORING-PG-STATIO-ALL-SEQUENCES-VIEW)
+### 27.2.23. `pg_statio_all_sequences` [#](#monitoring-pg-statio-all-sequences-view) <a href="#monitoring-pg-statio-all-sequences-view" id="monitoring-pg-statio-all-sequences-view"></a>
 
 <a id="id-1.6.14.7.27.2"></a>
 
@@ -2699,7 +2699,7 @@ value2 ...` 結構的查詢，
 
 <a id="MONITORING-PG-STAT-USER-FUNCTIONS-VIEW"></a>
 
-### 27.2.24. `pg_stat_user_functions` [#](#MONITORING-PG-STAT-USER-FUNCTIONS-VIEW)
+### 27.2.24. `pg_stat_user_functions` [#](#monitoring-pg-stat-user-functions-view) <a href="#monitoring-pg-stat-user-functions-view" id="monitoring-pg-stat-user-functions-view"></a>
 
 <a id="id-1.6.14.7.28.2"></a>
 
@@ -2755,7 +2755,7 @@ value2 ...` 結構的查詢，
 
 <a id="MONITORING-PG-STAT-SLRU-VIEW"></a>
 
-### 27.2.25. `pg_stat_slru` [#](#MONITORING-PG-STAT-SLRU-VIEW)
+### 27.2.25. `pg_stat_slru` [#](#monitoring-pg-stat-slru-view) <a href="#monitoring-pg-stat-slru-view" id="monitoring-pg-stat-slru-view"></a>
 
 <a id="id-1.6.14.7.29.2"></a><a id="id-1.6.14.7.29.3"></a>
 
@@ -2831,7 +2831,7 @@ PostgreSQL 透過 `SLRU`（*simple least-recently-used*）
 
 <a id="MONITORING-STATS-FUNCTIONS"></a>
 
-### 27.2.26. 統計函式 [#](#MONITORING-STATS-FUNCTIONS)
+### 27.2.26. 統計函式 [#](#monitoring-stats-functions) <a href="#monitoring-stats-functions" id="monitoring-stats-functions"></a>
 
 透過撰寫使用上述標準檢視表所使用之相同底層統計資訊存取函式的查詢，
 也可以建立其他檢視統計資訊的方式。有關函式名稱等

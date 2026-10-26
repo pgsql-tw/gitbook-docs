@@ -2,7 +2,7 @@
 
 ## 15.4. 平行安全性 [#](#parallel-safety) <a href="#parallel-safety" id="parallel-safety"></a>
 
-[15.4.1. 函式與彙總函式的平行標記](parallel-safety.md#PARALLEL-LABELING)
+[15.4.1. 函式與彙總函式的平行標記](parallel-safety.md#parallel-labeling)
 
 規劃器會將查詢中涉及的操作分類為*平行安全*（parallel safe）、*平行受限*（parallel restricted）或*平行不安全*（parallel unsafe）。平行安全的操作是與使用平行查詢不衝突的操作。平行受限的操作是不能在平行工作程序中執行，但在使用平行查詢時可以在領導程序中執行的操作。因此，平行受限的操作永遠不會出現在 `Gather` 或 `Gather Merge` 節點之下，但可以出現在包含這類節點之計畫的其他位置。平行不安全的操作則是在使用平行查詢時完全不能執行的操作，即使在領導程序中也不行。當查詢包含任何平行不安全的內容時，該查詢就會完全停用平行查詢。
 
@@ -15,7 +15,7 @@
 
 <a id="PARALLEL-LABELING"></a>
 
-### 15.4.1. 函式與彙總函式的平行標記 [#](#PARALLEL-LABELING)
+### 15.4.1. 函式與彙總函式的平行標記 [#](#parallel-labeling) <a href="#parallel-labeling" id="parallel-labeling"></a>
 
 規劃器無法自動判定使用者自訂的函式或彙總函式是平行安全、平行受限還是平行不安全的，因為這需要預測函式可能執行的每一項操作。一般而言，這等同於停機問題（Halting Problem），因此是不可能的。即使對於可以想像能夠判定的簡單函式，我們也不會嘗試，因為這樣做的成本很高而且容易出錯。取而代之的是，除非另有標記，所有使用者自訂的函式都會被假定為平行不安全。使用 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md) 或 [ALTER FUNCTION](../../reference/sql-commands/sql-alterfunction.md) 時，可以視情況指定 `PARALLEL SAFE`、`PARALLEL RESTRICTED` 或 `PARALLEL UNSAFE` 來設定標記。使用 [CREATE AGGREGATE](../../reference/sql-commands/sql-createaggregate.md) 時，可以為 `PARALLEL` 選項指定對應的值 `SAFE`、`RESTRICTED` 或 `UNSAFE`。
 

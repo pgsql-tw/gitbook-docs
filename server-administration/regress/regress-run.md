@@ -2,17 +2,17 @@
 
 ## 31.1. 執行測試 [#](#regress-run) <a href="#regress-run" id="regress-run"></a>
 
-[31.1.1. 針對暫時安裝執行測試](regress-run.md#REGRESS-RUN-TEMP-INST)
+[31.1.1. 針對暫時安裝執行測試](regress-run.md#regress-run-temp-inst)
 
-[31.1.2. 針對既有安裝執行測試](regress-run.md#REGRESS-RUN-EXISTING-INST)
+[31.1.2. 針對既有安裝執行測試](regress-run.md#regress-run-existing-inst)
 
-[31.1.3. 額外的測試套組](regress-run.md#REGRESS-ADDITIONAL)
+[31.1.3. 額外的測試套組](regress-run.md#regress-additional)
 
-[31.1.4. 地區設定與編碼](regress-run.md#REGRESS-RUN-LOCALE)
+[31.1.4. 地區設定與編碼](regress-run.md#regress-run-locale)
 
-[31.1.5. 自訂伺服器設定](regress-run.md#REGRESS-RUN-CUSTOM-SETTINGS)
+[31.1.5. 自訂伺服器設定](regress-run.md#regress-run-custom-settings)
 
-[31.1.6. 額外測試](regress-run.md#REGRESS-RUN-EXTRA-TESTS)
+[31.1.6. 額外測試](regress-run.md#regress-run-extra-tests)
 
 迴歸測試可以針對已安裝並正在執行的伺服器執行，
 也可以使用建置樹內的暫時安裝來執行。此外，
@@ -26,7 +26,7 @@
 
 <a id="REGRESS-RUN-TEMP-INST"></a>
 
-### 31.1.1. 針對暫時安裝執行測試 [#](#REGRESS-RUN-TEMP-INST)
+### 31.1.1. 針對暫時安裝執行測試 [#](#regress-run-temp-inst) <a href="#regress-run-temp-inst" id="regress-run-temp-inst"></a>
 
 若要在建置完成後、安裝之前執行平行迴歸測試，
 請在頂層目錄中輸入：
@@ -87,7 +87,7 @@ make MAX_CONNECTIONS=10 check
 
 <a id="REGRESS-RUN-EXISTING-INST"></a>
 
-### 31.1.2. 針對既有安裝執行測試 [#](#REGRESS-RUN-EXISTING-INST)
+### 31.1.2. 針對既有安裝執行測試 [#](#regress-run-existing-inst) <a href="#regress-run-existing-inst" id="regress-run-existing-inst"></a>
 
 若要在安裝完成後執行測試（請參閱
 [第 17 章](../installation/README.md)），
@@ -120,7 +120,7 @@ make installcheck-parallel
 
 <a id="REGRESS-ADDITIONAL"></a>
 
-### 31.1.3. 額外的測試套組 [#](#REGRESS-ADDITIONAL)
+### 31.1.3. 額外的測試套組 [#](#regress-additional) <a href="#regress-additional" id="regress-additional"></a>
 
 `make check` 與 `make installcheck`
 命令，只會執行「核心」迴歸測試，
@@ -286,7 +286,7 @@ make check-world PG_TEST_EXTRA='kerberos ldap ssl load_balance libpq_encryption'
 
 <a id="REGRESS-RUN-LOCALE"></a>
 
-### 31.1.4. 地區設定與編碼 [#](#REGRESS-RUN-LOCALE)
+### 31.1.4. 地區設定與編碼 [#](#regress-run-locale) <a href="#regress-run-locale" id="regress-run-locale"></a>
 
 依預設，使用暫時安裝的測試，
 會使用目前環境中所定義的地區設定，
@@ -327,7 +327,7 @@ make check LANG=C ENCODING=EUC_JP
 
 <a id="REGRESS-RUN-CUSTOM-SETTINGS"></a>
 
-### 31.1.5. 自訂伺服器設定 [#](#REGRESS-RUN-CUSTOM-SETTINGS)
+### 31.1.5. 自訂伺服器設定 [#](#regress-run-custom-settings) <a href="#regress-run-custom-settings" id="regress-run-custom-settings"></a>
 
 執行測試套組時，有幾種方式可以使用自訂的伺服器設定。
 這對於啟用額外的記錄、調整資源限制，
@@ -375,7 +375,7 @@ make check EXTRA_REGRESS_OPTS="--temp-config=test_postgresql.conf"
 
 <a id="REGRESS-RUN-EXTRA-TESTS"></a>
 
-### 31.1.6. 額外測試 [#](#REGRESS-RUN-EXTRA-TESTS)
+### 31.1.6. 額外測試 [#](#regress-run-extra-tests) <a href="#regress-run-extra-tests" id="regress-run-extra-tests"></a>
 
 核心迴歸測試套組中，含有少數幾個預設不會執行的測試檔案，
 原因是它們可能與平台相依，或需要非常長的時間才能執行完畢。

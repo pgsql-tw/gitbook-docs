@@ -2,21 +2,21 @@
 
 ## 19.4. 資源消耗 [#](#runtime-config-resource) <a href="#runtime-config-resource" id="runtime-config-resource"></a>
 
-[19.4.1. 記憶體](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)
+[19.4.1. 記憶體](runtime-config-resource.md#runtime-config-resource-memory)
 
-[19.4.2. 磁碟](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-DISK)
+[19.4.2. 磁碟](runtime-config-resource.md#runtime-config-resource-disk)
 
-[19.4.3. 核心資源使用量](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-KERNEL)
+[19.4.3. 核心資源使用量](runtime-config-resource.md#runtime-config-resource-kernel)
 
-[19.4.4. 背景寫入程序](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
+[19.4.4. 背景寫入程序](runtime-config-resource.md#runtime-config-resource-background-writer)
 
-[19.4.5. I/O](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-IO)
+[19.4.5. I/O](runtime-config-resource.md#runtime-config-resource-io)
 
-[19.4.6. 工作程序](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES)
+[19.4.6. 工作程序](runtime-config-resource.md#runtime-config-resource-worker-processes)
 
 <a id="RUNTIME-CONFIG-RESOURCE-MEMORY"></a>
 
-### 19.4.1. 記憶體 [#](#RUNTIME-CONFIG-RESOURCE-MEMORY)
+### 19.4.1. 記憶體 [#](#runtime-config-resource-memory) <a href="#runtime-config-resource-memory" id="runtime-config-resource-memory"></a>
 
 <a id="GUC-SHARED-BUFFERS"></a>
 
@@ -378,7 +378,7 @@
     不建議使用 `sysv` 選項（此選項在任何平台上
     都不是預設值），因為它通常需要
     非預設的核心設定，才能允許大量配置
-    （參閱[18.4.1 節](../runtime/kernel-resources.md#SYSVIPC)）。
+    （參閱[18.4.1 節](../runtime/kernel-resources.md#sysvipc)）。
     此參數只能在伺服器啟動時設定。
 <a id="GUC-DYNAMIC-SHARED-MEMORY-TYPE"></a>
 
@@ -416,7 +416,7 @@
 
 <a id="RUNTIME-CONFIG-RESOURCE-DISK"></a>
 
-### 19.4.2. 磁碟 [#](#RUNTIME-CONFIG-RESOURCE-DISK)
+### 19.4.2. 磁碟 [#](#runtime-config-resource-disk) <a href="#runtime-config-resource-disk" id="runtime-config-resource-disk"></a>
 
 <a id="GUC-TEMP-FILE-LIMIT"></a>
 
@@ -483,7 +483,7 @@
 
 <a id="RUNTIME-CONFIG-RESOURCE-KERNEL"></a>
 
-### 19.4.3. 核心資源使用量 [#](#RUNTIME-CONFIG-RESOURCE-KERNEL)
+### 19.4.3. 核心資源使用量 [#](#runtime-config-resource-kernel) <a href="#runtime-config-resource-kernel" id="runtime-config-resource-kernel"></a>
 
 <a id="GUC-MAX-FILES-PER-PROCESS"></a>
 
@@ -503,7 +503,7 @@
 
 <a id="RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER"></a>
 
-### 19.4.4. 背景寫入程序 [#](#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)
+### 19.4.4. 背景寫入程序 [#](#runtime-config-resource-background-writer) <a href="#runtime-config-resource-background-writer" id="runtime-config-resource-background-writer"></a>
 
 有一個獨立的伺服器程序，稱為*背景寫入程序
 （background writer）*，其功能是發出對「髒（dirty，
@@ -597,7 +597,7 @@
 
 <a id="RUNTIME-CONFIG-RESOURCE-IO"></a>
 
-### 19.4.5. I/O [#](#RUNTIME-CONFIG-RESOURCE-IO)
+### 19.4.5. I/O [#](#runtime-config-resource-io) <a href="#runtime-config-resource-io" id="runtime-config-resource-io"></a>
 
 <a id="GUC-BACKEND-FLUSH-AFTER"></a>
 
@@ -715,7 +715,7 @@
 
 <a id="RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES"></a>
 
-### 19.4.6. 工作程序 [#](#RUNTIME-CONFIG-RESOURCE-WORKER-PROCESSES)
+### 19.4.6. 工作程序 [#](#runtime-config-resource-worker-processes) <a href="#runtime-config-resource-worker-processes" id="runtime-config-resource-worker-processes"></a>
 
 <a id="GUC-MAX-WORKER-PROCESSES"></a>
 

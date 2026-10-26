@@ -9,7 +9,7 @@
 [17.2. 取得原始碼](install-getsource.md)
 
 [17.3. 以 Autoconf 與 Make 建置與安裝](install-make.md)
-:   [17.3.1. 精簡版](install-make.md#INSTALL-SHORT-MAKE)
+:   [17.3.1. 精簡版](install-make.md#install-short-make)
 
     [17.3.2. 安裝程序](install-make.md#INSTALL-PROCEDURE-MAKE)
 
@@ -18,7 +18,7 @@
     [17.3.4. `configure` 環境變數](install-make.md#CONFIGURE-ENVVARS)
 
 [17.4. 使用 Meson 建置與安裝](install-meson.md)
-:   [17.4.1. 簡短版本](install-meson.md#INSTALL-SHORT-MESON)
+:   [17.4.1. 簡短版本](install-meson.md#install-short-meson)
 
     [17.4.2. 安裝程序](install-meson.md#INSTALL-PROCEDURE-MESON)
 
@@ -27,14 +27,14 @@
     [17.4.4. `meson` 建置目標](install-meson.md#TARGETS-MESON)
 
 [17.5. 安裝後設定](install-post.md)
-:   [17.5.1. 共用函式庫](install-post.md#INSTALL-POST-SHLIBS)
+:   [17.5.1. 共用函式庫](install-post.md#install-post-shlibs)
 
     [17.5.2. 環境變數](install-post.md#INSTALL-POST-ENV-VARS)
 
 [17.6. 受支援的平台](supported-platforms.md)
 
 [17.7. 特定平台注意事項](installation-platform-notes.md)
-:   [17.7.1. Cygwin](installation-platform-notes.md#INSTALLATION-NOTES-CYGWIN)
+:   [17.7.1. Cygwin](installation-platform-notes.md#installation-notes-cygwin)
 
     [17.7.2. macOS](installation-platform-notes.md#INSTALLATION-NOTES-MACOS)
 

@@ -5,7 +5,7 @@
 [28.1. 可靠性](wal-reliability.md)
 
 [28.2. 資料檢查碼](checksums.md)
-:   [28.2.1. 離線啟用檢查碼](checksums.md#CHECKSUMS-OFFLINE-ENABLE-DISABLE)
+:   [28.2.1. 離線啟用檢查碼](checksums.md#checksums-offline-enable-disable)
 
 [28.3. 預寫式日誌（WAL）](wal-intro.md)
 

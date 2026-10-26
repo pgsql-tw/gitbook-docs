@@ -2,11 +2,11 @@
 
 ## 30.1. 什麼是 JIT 編譯？ [#](#jit-reason) <a href="#jit-reason" id="jit-reason"></a>
 
-[30.1.1. JIT 可加速的操作](jit-reason.md#JIT-ACCELERATED-OPERATIONS)
+[30.1.1. JIT 可加速的操作](jit-reason.md#jit-accelerated-operations)
 
-[30.1.2. 內嵌（Inlining）](jit-reason.md#JIT-INLINING)
+[30.1.2. 內嵌（Inlining）](jit-reason.md#jit-inlining)
 
-[30.1.3. 最佳化](jit-reason.md#JIT-OPTIMIZATION)
+[30.1.3. 最佳化](jit-reason.md#jit-optimization)
 
 即時編譯（Just-in-Time，JIT）是一種在執行期將某種形式的
 直譯式程式求值，轉換為原生程式的過程，並且是在執行期進行的。
@@ -23,7 +23,7 @@ JIT 編譯。
 
 <a id="JIT-ACCELERATED-OPERATIONS"></a>
 
-### 30.1.1. JIT 可加速的操作 [#](#JIT-ACCELERATED-OPERATIONS)
+### 30.1.1. JIT 可加速的操作 [#](#jit-accelerated-operations) <a href="#jit-accelerated-operations" id="jit-accelerated-operations"></a>
 
 目前 PostgreSQL 的 JIT
 實作支援加速運算式求值與
@@ -39,7 +39,7 @@ tuple 解構是將磁碟上的 tuple（見[第 66.6.1 節](../../internals/stora
 
 <a id="JIT-INLINING"></a>
 
-### 30.1.2. 內嵌（Inlining） [#](#JIT-INLINING)
+### 30.1.2. 內嵌（Inlining） [#](#jit-inlining) <a href="#jit-inlining" id="jit-inlining"></a>
 
 PostgreSQL 具有高度可擴充性，允許定義新的
 資料型別、函式、運算子與其他資料庫物件；見[第 36 章](../../server-programming/extend/README.md)。事實上，內建物件也是以幾乎
@@ -50,7 +50,7 @@ PostgreSQL 具有高度可擴充性，允許定義新的
 
 <a id="JIT-OPTIMIZATION"></a>
 
-### 30.1.3. 最佳化 [#](#JIT-OPTIMIZATION)
+### 30.1.3. 最佳化 [#](#jit-optimization) <a href="#jit-optimization" id="jit-optimization"></a>
 
 LLVM 支援對產生的
 程式碼進行最佳化。部分最佳化的成本很低，只要使用

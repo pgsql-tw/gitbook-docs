@@ -2,31 +2,31 @@
 
 ## 29.4. 資料列篩選器 [#](#logical-replication-row-filter) <a href="#logical-replication-row-filter" id="logical-replication-row-filter"></a>
 
-[29.4.1. 資料列篩選規則](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RULES)
+[29.4.1. 資料列篩選規則](logical-replication-row-filter.md#logical-replication-row-filter-rules)
 
-[29.4.2. 運算式限制](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
+[29.4.2. 運算式限制](logical-replication-row-filter.md#logical-replication-row-filter-restrictions)
 
-[29.4.3. UPDATE 轉換](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
+[29.4.3. UPDATE 轉換](logical-replication-row-filter.md#logical-replication-row-filter-transformations)
 
-[29.4.4. 分區表](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
+[29.4.4. 分區表](logical-replication-row-filter.md#logical-replication-row-filter-partitioned-table)
 
-[29.4.5. 初始資料同步](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
+[29.4.5. 初始資料同步](logical-replication-row-filter.md#logical-replication-row-filter-initial-data-sync)
 
-[29.4.6. 合併多個資料列篩選](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
+[29.4.6. 合併多個資料列篩選](logical-replication-row-filter.md#logical-replication-row-filter-combining)
 
-[29.4.7. 範例](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
+[29.4.7. 範例](logical-replication-row-filter.md#logical-replication-row-filter-examples)
 
 依預設，所有已發布資料表的資料都會複寫到對應的訂閱者。透過使用*資料列篩選器*，可以減少被複寫的資料量。使用者可能基於行為、安全性或效能上的考量而選擇使用資料列篩選器。若已發布的資料表設定了資料列篩選器，則只有資料滿足篩選運算式的資料列才會被複寫。這使得一組資料表可以只被部分複寫。資料列篩選器是以資料表為單位個別定義的。針對每個需要篩選掉部分資料的已發布資料表，在資料表名稱之後使用 `WHERE` 子句。`WHERE` 子句必須以括號括住。詳情請見 [CREATE PUBLICATION](../../reference/sql-commands/sql-createpublication.md)。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-RULES"></a>
 
-### 29.4.1. 資料列篩選規則 [#](#LOGICAL-REPLICATION-ROW-FILTER-RULES)
+### 29.4.1. 資料列篩選規則 [#](#logical-replication-row-filter-rules) <a href="#logical-replication-row-filter-rules" id="logical-replication-row-filter-rules"></a>
 
 資料列篩選器是在發布異動之*前*套用的。若篩選運算式的結果為 `false` 或 `NULL`，則該資料列不會被複寫。`WHERE` 子句運算式是以複寫連線所使用的同一角色來求值（也就是 [CREATE SUBSCRIPTION](../../reference/sql-commands/sql-createsubscription.md) 的 [`CONNECTION`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-CONNECTION) 子句中指定的角色）。資料列篩選器對 `TRUNCATE` 指令沒有作用。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS"></a>
 
-### 29.4.2. 運算式限制 [#](#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
+### 29.4.2. 運算式限制 [#](#logical-replication-row-filter-restrictions) <a href="#logical-replication-row-filter-restrictions" id="logical-replication-row-filter-restrictions"></a>
 
 `WHERE` 子句只允許使用簡單的運算式，不能包含使用者自訂函式、運算子、型別與定序、系統欄位參照，或非不可變（non-immutable）的內建函式。
 
@@ -34,7 +34,7 @@
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS"></a>
 
-### 29.4.3. UPDATE 轉換 [#](#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
+### 29.4.3. UPDATE 轉換 [#](#logical-replication-row-filter-transformations) <a href="#logical-replication-row-filter-transformations" id="logical-replication-row-filter-transformations"></a>
 
 每當處理一筆 `UPDATE` 時，會分別以更新前與更新後的資料列（即舊資料與新資料）來求值資料列篩選運算式。若兩者求值結果皆為 `true`，則複寫該筆 `UPDATE` 異動。若兩者求值結果皆為 `false`，則不複寫該筆異動。若只有其中一筆（舊資料或新資料）符合資料列篩選運算式，則該筆 `UPDATE` 會被轉換為 `INSERT` 或 `DELETE`，以避免資料不一致。訂閱者上的資料列應反映發布者上資料列篩選運算式所定義的結果。
 
@@ -54,21 +54,21 @@
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE"></a>
 
-### 29.4.4. 分區表 [#](#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
+### 29.4.4. 分區表 [#](#logical-replication-row-filter-partitioned-table) <a href="#logical-replication-row-filter-partitioned-table" id="logical-replication-row-filter-partitioned-table"></a>
 
 若發布項目包含分區表，則發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT) 決定要使用哪一個資料列篩選器。若 `publish_via_partition_root` 為 `true`，則使用*根分區表*的資料列篩選器。否則，若 `publish_via_partition_root` 為 `false`（預設值），則使用各*分區*自己的資料列篩選器。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC"></a>
 
-### 29.4.5. 初始資料同步 [#](#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
+### 29.4.5. 初始資料同步 [#](#logical-replication-row-filter-initial-data-sync) <a href="#logical-replication-row-filter-initial-data-sync" id="logical-replication-row-filter-initial-data-sync"></a>
 
 若訂閱需要複製既有資料表的資料，且發布項目含有 `WHERE` 子句，則只有滿足資料列篩選運算式的資料才會被複製到訂閱者。
 
-若訂閱訂閱了多個發布項目，而同一個資料表在其中以不同的 `WHERE` 子句被發布，則滿足*任一*運算式的資料列都會被複製。詳情請見 [第 29.4.6 節](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)。
+若訂閱訂閱了多個發布項目，而同一個資料表在其中以不同的 `WHERE` 子句被發布，則滿足*任一*運算式的資料列都會被複製。詳情請見 [第 29.4.6 節](logical-replication-row-filter.md#logical-replication-row-filter-combining)。
 
 ### 警告
 
-由於初始資料同步在複製既有資料表的資料時，並不會考量 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 參數，因此可能會複製到一些原本不會透過 DML 複寫的資料列。請參閱 [第 29.9.1 節](logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT)，範例請見 [第 29.2.2 節](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES)。
+由於初始資料同步在複製既有資料表的資料時，並不會考量 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 參數，因此可能會複製到一些原本不會透過 DML 複寫的資料列。請參閱 [第 29.9.1 節](logical-replication-architecture.md#logical-replication-snapshot)，範例請見 [第 29.2.2 節](logical-replication-subscription.md#logical-replication-subscription-examples)。
 
 ### 注意
 
@@ -76,7 +76,7 @@
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-COMBINING"></a>
 
-### 29.4.6. 合併多個資料列篩選 [#](#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
+### 29.4.6. 合併多個資料列篩選 [#](#logical-replication-row-filter-combining) <a href="#logical-replication-row-filter-combining" id="logical-replication-row-filter-combining"></a>
 
 若訂閱訂閱了多個發布項目，而同一個資料表在這些發布項目中（針對同一種 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 操作）以不同的資料列篩選器被發布，這些運算式會以 OR 邏輯組合，因此滿足*任一*運算式的資料列都會被複寫。這代表在下列情況下，同一資料表的其他資料列篩選器都會變得多餘：
 
@@ -86,7 +86,7 @@
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES"></a>
 
-### 29.4.7. 範例 [#](#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
+### 29.4.7. 範例 [#](#logical-replication-row-filter-examples) <a href="#logical-replication-row-filter-examples" id="logical-replication-row-filter-examples"></a>
 
 建立一些資料表，供以下範例使用。
 

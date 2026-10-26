@@ -2,16 +2,16 @@
 
 ## 27.6. 監控磁碟用量 [#](#diskusage) <a href="#diskusage" id="diskusage"></a>
 
-[27.6.1. 判斷磁碟用量](diskusage.md#DISK-USAGE)
+[27.6.1. 判斷磁碟用量](diskusage.md#disk-usage)
 
-[27.6.2. 磁碟已滿故障](diskusage.md#DISK-FULL)
+[27.6.2. 磁碟已滿故障](diskusage.md#disk-full)
 
 本節討論如何監控
 PostgreSQL 資料庫系統的磁碟用量。
 
 <a id="DISK-USAGE"></a>
 
-### 27.6.1. 判斷磁碟用量 [#](#DISK-USAGE)
+### 27.6.1. 判斷磁碟用量 [#](#disk-usage) <a href="#disk-usage" id="disk-usage"></a>
 
 <a id="id-1.6.14.11.3.2"></a>
 
@@ -106,7 +106,7 @@ ORDER BY relpages DESC;
 
 <a id="DISK-FULL"></a>
 
-### 27.6.2. 磁碟已滿故障 [#](#DISK-FULL)
+### 27.6.2. 磁碟已滿故障 [#](#disk-full) <a href="#disk-full" id="disk-full"></a>
 
 資料庫管理員最重要的磁碟監控工作，
 就是確保磁碟不會滿。資料磁碟寫滿

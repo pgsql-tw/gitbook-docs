@@ -2,21 +2,21 @@
 
 ## 25.3. 連續歸檔與時間點恢復（PITR） [#](#continuous-archiving) <a href="#continuous-archiving" id="continuous-archiving"></a>
 
-[25.3.1. 設定 WAL 歸檔](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
+[25.3.1. 設定 WAL 歸檔](continuous-archiving.md#backup-archiving-wal)
 
-[25.3.2. 製作基礎備份](continuous-archiving.md#BACKUP-BASE-BACKUP)
+[25.3.2. 製作基礎備份](continuous-archiving.md#backup-base-backup)
 
-[25.3.3. 製作增量備份](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
+[25.3.3. 製作增量備份](continuous-archiving.md#backup-incremental-backup)
 
-[25.3.4. 使用低階 API 製作基礎備份](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
+[25.3.4. 使用低階 API 製作基礎備份](continuous-archiving.md#backup-lowlevel-base-backup)
 
-[25.3.5. 使用連續歸檔備份進行恢復](continuous-archiving.md#BACKUP-PITR-RECOVERY)
+[25.3.5. 使用連續歸檔備份進行恢復](continuous-archiving.md#backup-pitr-recovery)
 
-[25.3.6. 時間軸](continuous-archiving.md#BACKUP-TIMELINES)
+[25.3.6. 時間軸](continuous-archiving.md#backup-timelines)
 
-[25.3.7. 提示與範例](continuous-archiving.md#BACKUP-TIPS)
+[25.3.7. 提示與範例](continuous-archiving.md#backup-tips)
 
-[25.3.8. 注意事項](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
+[25.3.8. 注意事項](continuous-archiving.md#continuous-archiving-caveats)
 
 <a id="id-1.6.12.7.2"></a><a id="id-1.6.12.7.3"></a><a id="id-1.6.12.7.4"></a>
 
@@ -80,7 +80,7 @@ pg_dumpall 並不會產生檔案系統層級的
 
 <a id="BACKUP-ARCHIVING-WAL"></a>
 
-### 25.3.1. 設定 WAL 歸檔 [#](#BACKUP-ARCHIVING-WAL)
+### 25.3.1. 設定 WAL 歸檔 [#](#backup-archiving-wal) <a href="#backup-archiving-wal" id="backup-archiving-wal"></a>
 
 抽象來說，一個正在執行的 PostgreSQL 系統
 會產生一段無限長的 WAL 記錄序列。系統會在實體上將這個
@@ -281,14 +281,14 @@ WAL 就不會包含足以供歸檔恢復使用的資訊。（當機恢復不受
 
 <a id="BACKUP-BASE-BACKUP"></a>
 
-### 25.3.2. 製作基礎備份 [#](#BACKUP-BASE-BACKUP)
+### 25.3.2. 製作基礎備份 [#](#backup-base-backup) <a href="#backup-base-backup" id="backup-base-backup"></a>
 
 執行基礎備份最簡單的方式，是使用
 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 工具。它可以將
 基礎備份製作為一般檔案或 tar 歸檔檔。若
 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 所能提供的彈性不夠，
 你也可以使用低階 API 製作基礎備份
-（見[第 25.3.4 節](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)）。
+（見[第 25.3.4 節](continuous-archiving.md#backup-lowlevel-base-backup)）。
 
 你不需要擔心製作基礎備份所花費的時間長短。
 不過，若你平常是在停用 `full_page_writes` 的情況下
@@ -331,7 +331,7 @@ WAL 就不會包含足以供歸檔恢復使用的資訊。（當機恢復不受
 
 <a id="BACKUP-INCREMENTAL-BACKUP"></a>
 
-### 25.3.3. 製作增量備份 [#](#BACKUP-INCREMENTAL-BACKUP)
+### 25.3.3. 製作增量備份 [#](#backup-incremental-backup) <a href="#backup-incremental-backup" id="backup-incremental-backup"></a>
 
 你可以透過指定 `--incremental` 選項，使用
 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 進行增量備份。你必須
@@ -371,7 +371,7 @@ checksum 狀態已變更時，使用
 以及任何相關的 WAL 歷史檔。你也仍然需要建立
 `recovery.signal`（或 `standby.signal`）
 並執行恢復，如
-[第 25.3.5 節](continuous-archiving.md#BACKUP-PITR-RECOVERY)所述。在還原時需要有較早的
+[第 25.3.5 節](continuous-archiving.md#backup-pitr-recovery)所述。在還原時需要有較早的
 備份可用，以及需要使用
 `pg_combinebackup`，這是在其他所有要求之外
 額外增加的要求。請注意，PostgreSQL
@@ -399,7 +399,7 @@ checksum 狀態已變更時，使用
 
 <a id="BACKUP-LOWLEVEL-BASE-BACKUP"></a>
 
-### 25.3.4. 使用低階 API 製作基礎備份 [#](#BACKUP-LOWLEVEL-BASE-BACKUP)
+### 25.3.4. 使用低階 API 製作基礎備份 [#](#backup-lowlevel-base-backup) <a href="#backup-lowlevel-base-backup" id="backup-lowlevel-base-backup"></a>
 
 除了使用
 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 製作完整或增量基礎備份之外，你也可以使用
@@ -593,7 +593,7 @@ pg_basebackup 方法多了幾個
 
 <a id="BACKUP-PITR-RECOVERY"></a>
 
-### 25.3.5. 使用連續歸檔備份進行恢復 [#](#BACKUP-PITR-RECOVERY)
+### 25.3.5. 使用連續歸檔備份進行恢復 [#](#backup-pitr-recovery) <a href="#backup-pitr-recovery" id="backup-pitr-recovery"></a>
 
 好，最糟的狀況發生了，你需要從備份中恢復。
 程序如下：
@@ -636,7 +636,7 @@ pg_basebackup 方法多了幾個
    而不是移動，這樣萬一發生問題而必須
    重新來過，你手上仍保有未經修改的原始檔案。）
 8. 在 `postgresql.conf` 中設定恢復組態
-   （見[第 19.5.5 節](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY)），並在叢集
+   （見[第 19.5.5 節](../runtime-config/runtime-config-wal.md#runtime-config-wal-archive-recovery)），並在叢集
    資料目錄中建立一個
    `recovery.signal` 檔案。你可能
    也會想暫時修改 `pg_hba.conf`，防止一般使用者
@@ -709,11 +709,11 @@ restore_command = 'cp /mnt/server/archivedir/%f %p'
 `00000001.history` 的檔案所發出的錯誤訊息。在
 簡單的恢復情境中，這同樣是正常現象，並不
 表示有問題；詳見
-[第 25.3.6 節](continuous-archiving.md#BACKUP-TIMELINES)的討論。
+[第 25.3.6 節](continuous-archiving.md#backup-timelines)的討論。
 
 若你想恢復到先前某個時間點（比方說，就在
 那位資淺 DBA 把你的主要交易資料表刪除之前那一刻），
-只需指定所需的[停止點](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-RECOVERY-TARGET)。你可以透過
+只需指定所需的[停止點](../runtime-config/runtime-config-wal.md#runtime-config-wal-recovery-target)。你可以透過
 日期／時間、具名的還原點，或某個特定交易
 ID 的完成情況，來指定這個停止點，也就是所謂的「恢復目標
 （recovery target）」。截至本文撰寫時，只有日期／時間及具名還原點這兩種選項
@@ -743,7 +743,7 @@ WAL 資料不需要再次掃描。
 
 <a id="BACKUP-TIMELINES"></a>
 
-### 25.3.6. 時間軸 [#](#BACKUP-TIMELINES)
+### 25.3.6. 時間軸 [#](#backup-timelines) <a href="#backup-timelines" id="backup-timelines"></a>
 
 <a id="id-1.6.12.7.14.2"></a>
 
@@ -810,7 +810,7 @@ ID 編號是 WAL 區段檔案名稱的一部分，因此新的時間軸
 
 <a id="BACKUP-TIPS"></a>
 
-### 25.3.7. 提示與範例 [#](#BACKUP-TIPS)
+### 25.3.7. 提示與範例 [#](#backup-tips) <a href="#backup-tips" id="backup-tips"></a>
 
 以下提供一些設定連續歸檔的提示。
 
@@ -888,7 +888,7 @@ archive_command = 'local_backup_script.sh "%p" "%f"'
 
 <a id="CONTINUOUS-ARCHIVING-CAVEATS"></a>
 
-### 25.3.8. 注意事項 [#](#CONTINUOUS-ARCHIVING-CAVEATS)
+### 25.3.8. 注意事項 [#](#continuous-archiving-caveats) <a href="#continuous-archiving-caveats" id="continuous-archiving-caveats"></a>
 
 截至本文撰寫時，連續歸檔技術仍有幾項
 限制。這些限制未來的版本應該會修正：

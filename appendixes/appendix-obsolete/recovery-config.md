@@ -13,7 +13,7 @@ PostgreSQL 11 及更早版本使用名為
 在 PostgreSQL 12 及以上版本中，
 [歸檔復原、串流複寫與 PITR](../../server-administration/backup/continuous-archiving.md)
 使用
-[一般伺服器設定參數](../../server-administration/runtime-config/runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-STANDBY)進行設定。
+[一般伺服器設定參數](../../server-administration/runtime-config/runtime-config-replication.md#runtime-config-replication-standby)進行設定。
 如同其他參數，這些參數可在 `postgresql.conf` 中設定，或透過
 [ALTER SYSTEM](../../reference/sql-commands/sql-altersystem.md)設定。
 
@@ -26,7 +26,7 @@ PostgreSQL 15 及更早版本具有 `promote_trigger_file` 設定；在 PostgreS
 已移除
 `standby_mode`
 <a id="id-1.11.16.3.7.2"></a>
-設定。現在改用資料目錄中的 `standby.signal` 檔案。詳細資訊請參閱[待命伺服器運作](../../server-administration/high-availability/warm-standby.md#STANDBY-SERVER-OPERATION)。
+設定。現在改用資料目錄中的 `standby.signal` 檔案。詳細資訊請參閱[待命伺服器運作](../../server-administration/high-availability/warm-standby.md#standby-server-operation)。
 
 ---
 

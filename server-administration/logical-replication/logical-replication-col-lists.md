@@ -2,7 +2,7 @@
 
 ## 29.5. 欄位清單 [#](#logical-replication-col-lists) <a href="#logical-replication-col-lists" id="logical-replication-col-lists"></a>
 
-[29.5.1. 範例](logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
+[29.5.1. 範例](logical-replication-col-lists.md#logical-replication-col-list-examples)
 
 每個發佈都可以選擇性地指定每個資料表的哪些欄位要
 複寫到訂閱者。訂閱者端的資料表至少必須
@@ -78,7 +78,7 @@
 
 <a id="LOGICAL-REPLICATION-COL-LIST-EXAMPLES"></a>
 
-### 29.5.1. 範例 [#](#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
+### 29.5.1. 範例 [#](#logical-replication-col-list-examples) <a href="#logical-replication-col-list-examples" id="logical-replication-col-list-examples"></a>
 
 建立下列範例中要使用的資料表 `t1`。
 

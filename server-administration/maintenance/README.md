@@ -5,7 +5,7 @@
 **目錄**
 
 [24.1. 常規 VACUUM 作業](routine-vacuuming.md)
-:   [24.1.1. VACUUM 基礎知識](routine-vacuuming.md#VACUUM-BASICS)
+:   [24.1.1. VACUUM 基礎知識](routine-vacuuming.md#vacuum-basics)
 
     [24.1.2. 回收磁碟空間](routine-vacuuming.md#VACUUM-FOR-SPACE-RECOVERY)
 
@@ -38,7 +38,7 @@ PostgreSQL 提供的備份與復原機制，
 另一大類主要的維護工作，是定期對資料庫進行「VACUUM 清理」。
 這項作業在[第 24.1 節](routine-vacuuming.md)中有所討論。
 與此密切相關的，是更新查詢規劃器所使用的統計資訊，
-這部分則在[第 24.1.3 節](routine-vacuuming.md#VACUUM-FOR-STATISTICS)中討論。
+這部分則在[第 24.1.3 節](routine-vacuuming.md#vacuum-for-statistics)中討論。
 
 另一項可能需要定期關注的工作，是日誌檔管理，
 這部分在[第 24.3 節](logfile-maintenance.md)中討論。

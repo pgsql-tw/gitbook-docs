@@ -19,7 +19,7 @@ CHECKPOINT
 
 檢查點是預寫式日誌序列中的一個時間點，在該點上，所有資料檔都已更新以反映日誌中的資訊。所有資料檔都會被寫入（flush）到磁碟。關於檢查點期間會發生哪些事的更多細節，請參閱[第 28.5 節](../../server-administration/wal/wal-configuration.md)。
 
-`CHECKPOINT` 命令會在下達命令時強制立即執行檢查點，而不等待系統排定的定期檢查點（由[第 19.5.2 節](../../server-administration/runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-CHECKPOINTS)中的設定控制）。`CHECKPOINT` 並非設計給正常運作期間使用。
+`CHECKPOINT` 命令會在下達命令時強制立即執行檢查點，而不等待系統排定的定期檢查點（由[第 19.5.2 節](../../server-administration/runtime-config/runtime-config-wal.md#runtime-config-wal-checkpoints)中的設定控制）。`CHECKPOINT` 並非設計給正常運作期間使用。
 
 若在復原期間執行，`CHECKPOINT` 命令會強制執行重新啟動點（請參閱[第 28.5 節](../../server-administration/wal/wal-configuration.md)），而不是寫入新的檢查點。
 

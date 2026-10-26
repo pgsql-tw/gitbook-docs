@@ -2,9 +2,9 @@
 
 ## 18.3. 啟動資料庫伺服器 [#](#server-start) <a href="#server-start" id="server-start"></a>
 
-[18.3.1. 伺服器啟動失敗](server-start.md#SERVER-START-FAILURES)
+[18.3.1. 伺服器啟動失敗](server-start.md#server-start-failures)
 
-[18.3.2. 用戶端連線問題](server-start.md#CLIENT-CONNECTION-PROBLEMS)
+[18.3.2. 用戶端連線問題](server-start.md#client-connection-problems)
 
 在任何人能夠存取資料庫之前，您必須先啟動資料庫伺服器。
 資料庫伺服器程式稱為
@@ -174,7 +174,7 @@ su postgres -c 'pg_ctl start -D /usr/local/pgsql/data -l serverlog'
 
 <a id="SERVER-START-FAILURES"></a>
 
-### 18.3.1. 伺服器啟動失敗 [#](#SERVER-START-FAILURES)
+### 18.3.1. 伺服器啟動失敗 [#](#server-start-failures) <a href="#server-start-failures" id="server-start-failures"></a>
 
 伺服器可能無法啟動，有幾個常見的原因。請檢查伺服器的
 日誌檔，或手動啟動伺服器（不重新導向標準輸出或標準錯誤），
@@ -240,11 +240,11 @@ DETAIL:  Failed system call was semget(5440126, 17, 03600).
 提高核心限制。
 
 關於設定 System V IPC 機制的詳細資訊，
-請參閱[18.4.1 節](kernel-resources.md#SYSVIPC)。
+請參閱[18.4.1 節](kernel-resources.md#sysvipc)。
 
 <a id="CLIENT-CONNECTION-PROBLEMS"></a>
 
-### 18.3.2. 用戶端連線問題 [#](#CLIENT-CONNECTION-PROBLEMS)
+### 18.3.2. 用戶端連線問題 [#](#client-connection-problems) <a href="#client-connection-problems" id="client-connection-problems"></a>
 
 雖然用戶端可能出現的錯誤狀況相當多樣，且因應用程式而異，
 但其中有幾種，可能與伺服器啟動的方式直接相關。

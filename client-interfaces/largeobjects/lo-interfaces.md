@@ -2,27 +2,27 @@
 
 ## 33.3. 用戶端介面 [#](#lo-interfaces) <a href="#lo-interfaces" id="lo-interfaces"></a>
 
-[33.3.1. 建立大型物件](lo-interfaces.md#LO-CREATE)
+[33.3.1. 建立大型物件](lo-interfaces.md#lo-create)
 
-[33.3.2. 匯入大型物件](lo-interfaces.md#LO-IMPORT)
+[33.3.2. 匯入大型物件](lo-interfaces.md#lo-import)
 
-[33.3.3. 匯出大型物件](lo-interfaces.md#LO-EXPORT)
+[33.3.3. 匯出大型物件](lo-interfaces.md#lo-export)
 
-[33.3.4. 開啟既有的大型物件](lo-interfaces.md#LO-OPEN)
+[33.3.4. 開啟既有的大型物件](lo-interfaces.md#lo-open)
 
-[33.3.5. 將資料寫入大型物件](lo-interfaces.md#LO-WRITE)
+[33.3.5. 將資料寫入大型物件](lo-interfaces.md#lo-write)
 
-[33.3.6. 從大型物件讀取資料](lo-interfaces.md#LO-READ)
+[33.3.6. 從大型物件讀取資料](lo-interfaces.md#lo-read)
 
-[33.3.7. 在大型物件中移動位置](lo-interfaces.md#LO-SEEK)
+[33.3.7. 在大型物件中移動位置](lo-interfaces.md#lo-seek)
 
-[33.3.8. 取得大型物件的目前位置](lo-interfaces.md#LO-TELL)
+[33.3.8. 取得大型物件的目前位置](lo-interfaces.md#lo-tell)
 
-[33.3.9. 截斷大型物件](lo-interfaces.md#LO-TRUNCATE)
+[33.3.9. 截斷大型物件](lo-interfaces.md#lo-truncate)
 
-[33.3.10. 關閉大型物件描述子](lo-interfaces.md#LO-CLOSE)
+[33.3.10. 關閉大型物件描述子](lo-interfaces.md#lo-close)
 
-[33.3.11. 移除大型物件](lo-interfaces.md#LO-UNLINK)
+[33.3.11. 移除大型物件](lo-interfaces.md#lo-unlink)
 
 本節說明 PostgreSQL 的 libpq
 用戶端介面函式庫為存取大型物件所提供的功能。
@@ -52,7 +52,7 @@ libpq 函式庫連結。
 
 <a id="LO-CREATE"></a>
 
-### 33.3.1. 建立大型物件 [#](#LO-CREATE)
+### 33.3.1. 建立大型物件 [#](#lo-create) <a href="#lo-create" id="lo-create"></a>
 
 <a id="id-1.7.4.8.7.2.1"></a>
 函式
@@ -113,7 +113,7 @@ inv_oid = lo_creat(conn, INV_READ|INV_WRITE);
 
 <a id="LO-IMPORT"></a>
 
-### 33.3.2. 匯入大型物件 [#](#LO-IMPORT)
+### 33.3.2. 匯入大型物件 [#](#lo-import) <a href="#lo-import" id="lo-import"></a>
 
 <a id="id-1.7.4.8.8.2.1"></a>
 若要將作業系統檔案匯入為大型物件，請呼叫
@@ -155,7 +155,7 @@ OID（這與 `lo_import` 的行為相同）。
 
 <a id="LO-EXPORT"></a>
 
-### 33.3.3. 匯出大型物件 [#](#LO-EXPORT)
+### 33.3.3. 匯出大型物件 [#](#lo-export) <a href="#lo-export" id="lo-export"></a>
 
 <a id="id-1.7.4.8.9.2.1"></a>
 若要將大型物件
@@ -174,7 +174,7 @@ int lo_export(PGconn *conn, Oid lobjId, const char *filename);
 
 <a id="LO-OPEN"></a>
 
-### 33.3.4. 開啟既有的大型物件 [#](#LO-OPEN)
+### 33.3.4. 開啟既有的大型物件 [#](#lo-open) <a href="#lo-open" id="lo-open"></a>
 
 <a id="id-1.7.4.8.10.2.1"></a>
 若要開啟既有的大型物件以進行讀取或寫入，請呼叫
@@ -231,7 +231,7 @@ inv_fd = lo_open(conn, inv_oid, INV_READ|INV_WRITE);
 
 <a id="LO-WRITE"></a>
 
-### 33.3.5. 將資料寫入大型物件 [#](#LO-WRITE)
+### 33.3.5. 將資料寫入大型物件 [#](#lo-write) <a href="#lo-write" id="lo-write"></a>
 
 <a id="id-1.7.4.8.11.2.1"></a>
 函式
@@ -256,7 +256,7 @@ int lo_write(PGconn *conn, int fd, const char *buf, size_t len);
 
 <a id="LO-READ"></a>
 
-### 33.3.6. 從大型物件讀取資料 [#](#LO-READ)
+### 33.3.6. 從大型物件讀取資料 [#](#lo-read) <a href="#lo-read" id="lo-read"></a>
 
 <a id="id-1.7.4.8.12.2.1"></a>
 函式
@@ -281,7 +281,7 @@ int lo_read(PGconn *conn, int fd, char *buf, size_t len);
 
 <a id="LO-SEEK"></a>
 
-### 33.3.7. 在大型物件中移動位置 [#](#LO-SEEK)
+### 33.3.7. 在大型物件中移動位置 [#](#lo-seek) <a href="#lo-seek" id="lo-seek"></a>
 
 <a id="id-1.7.4.8.13.2.1"></a>
 若要變更與大型物件描述子相關聯的目前讀取或寫入位置，
@@ -322,7 +322,7 @@ int64_t lo_lseek64(PGconn *conn, int fd, int64_t offset, int whence);
 
 <a id="LO-TELL"></a>
 
-### 33.3.8. 取得大型物件的目前位置 [#](#LO-TELL)
+### 33.3.8. 取得大型物件的目前位置 [#](#lo-tell) <a href="#lo-tell" id="lo-tell"></a>
 
 <a id="id-1.7.4.8.14.2.1"></a>
 若要取得大型物件描述子目前的讀取或寫入位置，
@@ -356,7 +356,7 @@ int64_t lo_tell64(PGconn *conn, int fd);
 
 <a id="LO-TRUNCATE"></a>
 
-### 33.3.9. 截斷大型物件 [#](#LO-TRUNCATE)
+### 33.3.9. 截斷大型物件 [#](#lo-truncate) <a href="#lo-truncate" id="lo-truncate"></a>
 
 <a id="id-1.7.4.8.15.2.1"></a>
 若要將大型物件截斷為給定長度，請呼叫
@@ -404,7 +404,7 @@ int lo_truncate64(PGconn *conn, int fd, int64_t len);
 
 <a id="LO-CLOSE"></a>
 
-### 33.3.10. 關閉大型物件描述子 [#](#LO-CLOSE)
+### 33.3.10. 關閉大型物件描述子 [#](#lo-close) <a href="#lo-close" id="lo-close"></a>
 
 <a id="id-1.7.4.8.16.2.1"></a>
 大型物件描述子可以藉由呼叫下列函式來關閉
@@ -424,7 +424,7 @@ int lo_close(PGconn *conn, int fd);
 
 <a id="LO-UNLINK"></a>
 
-### 33.3.11. 移除大型物件 [#](#LO-UNLINK)
+### 33.3.11. 移除大型物件 [#](#lo-unlink) <a href="#lo-unlink" id="lo-unlink"></a>
 
 <a id="id-1.7.4.8.17.2.1"></a>
 若要從資料庫中移除大型物件，請呼叫

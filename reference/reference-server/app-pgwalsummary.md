@@ -16,7 +16,7 @@ pg_walsummary — 印出 WAL 摘要檔案的內容
 
 ## 說明
 
-pg_walsummary 用於印出 WAL 摘要檔案的內容。這些二進位檔案位於資料目錄的 `pg_wal/summaries` 子目錄中，可以使用此工具轉換為文字。通常不需要這麼做，因為 WAL 摘要檔案主要是為了支援[增量備份](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)而存在，但它可能對除錯有幫助。
+pg_walsummary 用於印出 WAL 摘要檔案的內容。這些二進位檔案位於資料目錄的 `pg_wal/summaries` 子目錄中，可以使用此工具轉換為文字。通常不需要這麼做，因為 WAL 摘要檔案主要是為了支援[增量備份](../../server-administration/backup/continuous-archiving.md#backup-incremental-backup)而存在，但它可能對除錯有幫助。
 
 WAL 摘要檔案以資料表空間 OID、關聯 OID 與關聯分支（relation fork）作為索引。對於每個關聯分支，它會儲存在該檔案所摘要的範圍內被 WAL 修改過的區塊清單。它也可以儲存一個「限制區塊」（limit block）：若該關聯分支是在相關的 WAL 範圍內建立或截斷的，其值為 0；否則為該關聯分支被截斷到的最短長度。若該關聯分支在相關的 WAL 範圍內既未被建立、刪除，也未被截斷，則限制區塊為未定義或無限大，此工具不會印出它。
 

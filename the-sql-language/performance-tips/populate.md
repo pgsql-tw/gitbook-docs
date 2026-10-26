@@ -82,7 +82,7 @@
 
 ### 14.4.8. 事後執行 `ANALYZE` [#](#populate-analyze) <a href="#populate-analyze" id="populate-analyze"></a>
 
-每當你大幅改變了資料表中的資料分布時，強烈建議執行 [`ANALYZE`](../../reference/sql-commands/sql-analyze.md)。這包括將大量資料批次載入資料表的情況。執行 `ANALYZE`（或 `VACUUM ANALYZE`）可以確保規劃器擁有關於該資料表的最新統計資訊。如果沒有統計資訊或統計資訊已經過時，規劃器在規劃查詢時可能會做出不好的決策，導致任何統計資訊不準確或不存在的資料表效能不佳。請注意，如果啟用了 autovacuum 常駐程式，它可能會自動執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
+每當你大幅改變了資料表中的資料分布時，強烈建議執行 [`ANALYZE`](../../reference/sql-commands/sql-analyze.md)。這包括將大量資料批次載入資料表的情況。執行 `ANALYZE`（或 `VACUUM ANALYZE`）可以確保規劃器擁有關於該資料表的最新統計資訊。如果沒有統計資訊或統計資訊已經過時，規劃器在規劃查詢時可能會做出不好的決策，導致任何統計資訊不準確或不存在的資料表效能不佳。請注意，如果啟用了 autovacuum 常駐程式，它可能會自動執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-statistics)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)。
 
 <a id="POPULATE-PG-DUMP"></a>
 
@@ -99,7 +99,7 @@ pg_dump 產生的傾印指令碼會自動套用上述準則中的幾項，但不
 * 如果資料庫伺服器上有多顆 CPU 可用，請考慮使用 pg_restore 的 `--jobs` 選項。這可以讓資料載入與索引建立並行進行。
 * 事後執行 `ANALYZE`。
 
-只含資料的傾印仍然會使用 `COPY`，但它不會刪除或重新建立索引，而且通常也不會處理外鍵。[<a id="id-1.5.13.7.11.4.2"></a>[14]](#ftn.id-1.5.13.7.11.4.2) 因此，載入只含資料的傾印時，如果你想使用這些技巧，就要自行刪除並重新建立索引與外鍵。在載入資料時增加 `max_wal_size` 仍然有用，但不必增加 `maintenance_work_mem`；你應該在事後手動重新建立索引與外鍵時再這麼做。完成之後，別忘了執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
+只含資料的傾印仍然會使用 `COPY`，但它不會刪除或重新建立索引，而且通常也不會處理外鍵。[<a id="id-1.5.13.7.11.4.2"></a>[14]](#ftn.id-1.5.13.7.11.4.2) 因此，載入只含資料的傾印時，如果你想使用這些技巧，就要自行刪除並重新建立索引與外鍵。在載入資料時增加 `max_wal_size` 仍然有用，但不必增加 `maintenance_work_mem`；你應該在事後手動重新建立索引與外鍵時再這麼做。完成之後，別忘了執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-statistics)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)。
 
 <br>
 

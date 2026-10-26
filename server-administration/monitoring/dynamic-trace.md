@@ -2,13 +2,13 @@
 
 ## 27.5. 動態追蹤 [#](#dynamic-trace) <a href="#dynamic-trace" id="dynamic-trace"></a>
 
-[27.5.1. 為動態追蹤編譯](dynamic-trace.md#COMPILING-FOR-TRACE)
+[27.5.1. 為動態追蹤編譯](dynamic-trace.md#compiling-for-trace)
 
-[27.5.2. 內建探針](dynamic-trace.md#TRACE-POINTS)
+[27.5.2. 內建探針](dynamic-trace.md#trace-points)
 
-[27.5.3. 使用探針](dynamic-trace.md#USING-TRACE-POINTS)
+[27.5.3. 使用探針](dynamic-trace.md#using-trace-points)
 
-[27.5.4. 定義新探針](dynamic-trace.md#DEFINING-TRACE-POINTS)
+[27.5.4. 定義新探針](dynamic-trace.md#defining-trace-points)
 
 <a id="id-1.6.14.10.2"></a>
 
@@ -35,7 +35,7 @@ Linux 上的
 
 <a id="COMPILING-FOR-TRACE"></a>
 
-### 27.5.1. 為動態追蹤編譯 [#](#COMPILING-FOR-TRACE)
+### 27.5.1. 為動態追蹤編譯 [#](#compiling-for-trace) <a href="#compiling-for-trace" id="compiling-for-trace"></a>
 
 依預設，探針並不可用，因此你需要明確告知 configure
 指令碼，讓探針在 PostgreSQL 中可供使用。
@@ -45,7 +45,7 @@ Linux 上的
 
 <a id="TRACE-POINTS"></a>
 
-### 27.5.2. 內建探針 [#](#TRACE-POINTS)
+### 27.5.2. 內建探針 [#](#trace-points) <a href="#trace-points" id="trace-points"></a>
 
 原始碼中提供了許多標準探針，
 如[表 27.49](dynamic-trace.md#DTRACE-PROBE-POINT-TABLE)所示；
@@ -210,7 +210,7 @@ Linux 上的
 
 <a id="USING-TRACE-POINTS"></a>
 
-### 27.5.3. 使用探針 [#](#USING-TRACE-POINTS)
+### 27.5.3. 使用探針 [#](#using-trace-points) <a href="#using-trace-points" id="using-trace-points"></a>
 
 以下範例展示了一支 DTrace 指令碼，
 用來分析系統中的交易計數，
@@ -270,7 +270,7 @@ SystemTap 指令碼必須以雙底線取代連字號來參照探針名稱。
 
 <a id="DEFINING-TRACE-POINTS"></a>
 
-### 27.5.4. 定義新探針 [#](#DEFINING-TRACE-POINTS)
+### 27.5.4. 定義新探針 [#](#defining-trace-points) <a href="#defining-trace-points" id="defining-trace-points"></a>
 
 開發人員可以依需求，在程式碼中的任何位置定義新探針，
 不過這需要重新編譯。以下是插入新探針的步驟：

@@ -2,17 +2,17 @@
 
 ## 19.7. 查詢規劃 [#](#runtime-config-query) <a href="#runtime-config-query" id="runtime-config-query"></a>
 
-[19.7.1. 規劃器方法組態設定](runtime-config-query.md#RUNTIME-CONFIG-QUERY-ENABLE)
+[19.7.1. 規劃器方法組態設定](runtime-config-query.md#runtime-config-query-enable)
 
-[19.7.2. 規劃器成本常數](runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)
+[19.7.2. 規劃器成本常數](runtime-config-query.md#runtime-config-query-constants)
 
-[19.7.3. 基因查詢最佳化器](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)
+[19.7.3. 基因查詢最佳化器](runtime-config-query.md#runtime-config-query-geqo)
 
-[19.7.4. 其他規劃器選項](runtime-config-query.md#RUNTIME-CONFIG-QUERY-OTHER)
+[19.7.4. 其他規劃器選項](runtime-config-query.md#runtime-config-query-other)
 
 <a id="RUNTIME-CONFIG-QUERY-ENABLE"></a>
 
-### 19.7.1. 規劃器方法組態設定 [#](#RUNTIME-CONFIG-QUERY-ENABLE)
+### 19.7.1. 規劃器方法組態設定 [#](#runtime-config-query-enable) <a href="#runtime-config-query-enable" id="runtime-config-query-enable"></a>
 
 這些組態設定參數提供一種粗略的方法，
 用以影響查詢最佳化器所選擇的查詢計畫。若
@@ -21,7 +21,7 @@
 這些組態設定參數之一，強制最佳化器
 選擇不同的計畫。
 改善最佳化器所選計畫品質的較好方式，
-包括調整規劃器成本常數（參閱[19.7.2 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-CONSTANTS)）、
+包括調整規劃器成本常數（參閱[19.7.2 節](runtime-config-query.md#runtime-config-query-constants)）、
 手動執行 [`ANALYZE`](../../reference/sql-commands/sql-analyze.md)、
 提高 [default_statistics_target](runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET) 組態設定參數
 的值，以及使用 `ALTER TABLE SET
@@ -206,7 +206,7 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 
 <a id="RUNTIME-CONFIG-QUERY-CONSTANTS"></a>
 
-### 19.7.2. 規劃器成本常數 [#](#RUNTIME-CONFIG-QUERY-CONSTANTS)
+### 19.7.2. 規劃器成本常數 [#](#runtime-config-query-constants) <a href="#runtime-config-query-constants" id="runtime-config-query-constants"></a>
 
 本節所述的*成本*變數是以任意尺度衡量的。
 只有它們的相對值有意義，因此將這些值全部
@@ -382,7 +382,7 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 
 <a id="RUNTIME-CONFIG-QUERY-GEQO"></a>
 
-### 19.7.3. 基因查詢最佳化器 [#](#RUNTIME-CONFIG-QUERY-GEQO)
+### 19.7.3. 基因查詢最佳化器 [#](#runtime-config-query-geqo) <a href="#runtime-config-query-geqo" id="runtime-config-query-geqo"></a>
 
 基因查詢最佳化器（genetic query optimizer，GEQO）是一種使用啟發式
 搜尋進行查詢規劃的演算法。這可以縮短複雜查詢
@@ -458,7 +458,7 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 
 <a id="RUNTIME-CONFIG-QUERY-OTHER"></a>
 
-### 19.7.4. 其他規劃器選項 [#](#RUNTIME-CONFIG-QUERY-OTHER)
+### 19.7.4. 其他規劃器選項 [#](#runtime-config-query-other) <a href="#runtime-config-query-other" id="runtime-config-query-other"></a>
 
 <a id="GUC-DEFAULT-STATISTICS-TARGET"></a>
 

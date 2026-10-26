@@ -2,17 +2,17 @@
 
 ## 19.11. 用戶端連線預設值 [#](#runtime-config-client) <a href="#runtime-config-client" id="runtime-config-client"></a>
 
-[19.11.1. 陳述式行為](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-STATEMENT)
+[19.11.1. 陳述式行為](runtime-config-client.md#runtime-config-client-statement)
 
-[19.11.2. 地區設定與格式化](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-FORMAT)
+[19.11.2. 地區設定與格式化](runtime-config-client.md#runtime-config-client-format)
 
-[19.11.3. 共享程式庫預先載入](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-PRELOAD)
+[19.11.3. 共享程式庫預先載入](runtime-config-client.md#runtime-config-client-preload)
 
-[19.11.4. 其他預設值](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-OTHER)
+[19.11.4. 其他預設值](runtime-config-client.md#runtime-config-client-other)
 
 <a id="RUNTIME-CONFIG-CLIENT-STATEMENT"></a>
 
-### 19.11.1. 陳述式行為 [#](#RUNTIME-CONFIG-CLIENT-STATEMENT)
+### 19.11.1. 陳述式行為 [#](#runtime-config-client-statement) <a href="#runtime-config-client-statement" id="runtime-config-client-statement"></a>
 
 <a id="GUC-CLIENT-MIN-MESSAGES"></a>
 
@@ -494,7 +494,7 @@
 
 <a id="RUNTIME-CONFIG-CLIENT-FORMAT"></a>
 
-### 19.11.2. 地區設定與格式化 [#](#RUNTIME-CONFIG-CLIENT-FORMAT)
+### 19.11.2. 地區設定與格式化 [#](#runtime-config-client-format) <a href="#runtime-config-client-format" id="runtime-config-client-format"></a>
 
 <a id="GUC-DATESTYLE"></a>
 
@@ -592,7 +592,7 @@
 :   設定用戶端編碼（字元集）。
     預設會使用資料庫編碼。
     PostgreSQL 伺服器支援的字元集，
-    說明於[23.3.1 節](../charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。
+    說明於[23.3.1 節](../charset/multibyte.md#multibyte-charset-supported)。
 <a id="GUC-LC-MESSAGES"></a>
 
 `lc_messages` (`string`) <a id="id-1.6.6.14.3.2.7.1.3"></a> [#](#GUC-LC-MESSAGES)
@@ -666,7 +666,7 @@
 
 <a id="RUNTIME-CONFIG-CLIENT-PRELOAD"></a>
 
-### 19.11.3. 共享程式庫預先載入 [#](#RUNTIME-CONFIG-CLIENT-PRELOAD)
+### 19.11.3. 共享程式庫預先載入 [#](#runtime-config-client-preload) <a href="#runtime-config-client-preload" id="runtime-config-client-preload"></a>
 
 有多項設定可用於將共享程式庫預先載入
 伺服器，以載入額外功能或達成效能上的
@@ -804,7 +804,7 @@ PostgreSQL 程序語言程式庫
 
 `jit_provider` (`string`) <a id="id-1.6.6.14.4.6.4.1.3"></a> [#](#GUC-JIT-PROVIDER)
 :   此變數是要使用的 JIT 提供者程式庫名稱
-    （參閱[30.4.2 節](../jit/jit-extensibility.md#JIT-PLUGGABLE)）。
+    （參閱[30.4.2 節](../jit/jit-extensibility.md#jit-pluggable)）。
     預設值為 `llvmjit`。
     此參數只能在伺服器啟動時設定。
 
@@ -815,7 +815,7 @@ PostgreSQL 程序語言程式庫
 
 <a id="RUNTIME-CONFIG-CLIENT-OTHER"></a>
 
-### 19.11.4. 其他預設值 [#](#RUNTIME-CONFIG-CLIENT-OTHER)
+### 19.11.4. 其他預設值 [#](#runtime-config-client-other) <a href="#runtime-config-client-other" id="runtime-config-client-other"></a>
 
 <a id="GUC-DYNAMIC-LIBRARY-PATH"></a>
 

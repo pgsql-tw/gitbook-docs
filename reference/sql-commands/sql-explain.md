@@ -153,7 +153,7 @@ ROLLBACK;
 
 為了讓 PostgreSQL 查詢規劃器在最佳化查詢時能做出合理且有根據的決策，查詢中所使用之所有資料表的 [`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md)
 資料應該是最新的。通常
-[autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)會自動處理這件事。但若某個資料表的內容最近有大幅變更，你可能需要手動執行
+[autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)會自動處理這件事。但若某個資料表的內容最近有大幅變更，你可能需要手動執行
 [`ANALYZE`](sql-analyze.md)，而不是等待 autovacuum 跟上這些變更。
 
 為了測量執行計畫中每個節點的執行時間成本，目前 `EXPLAIN

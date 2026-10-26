@@ -5,7 +5,7 @@
 **目錄**
 
 [23.1. 區域設定支援](locale.md)
-:   [23.1.1. 概觀](locale.md#LOCALE-OVERVIEW)
+:   [23.1.1. 概觀](locale.md#locale-overview)
 
     [23.1.2. 行為](locale.md#LOCALE-BEHAVIOR)
 
@@ -18,14 +18,14 @@
     [23.1.6. 問題](locale.md#LOCALE-PROBLEMS)
 
 [23.2. 定序支援](collation.md)
-:   [23.2.1. 概念](collation.md#COLLATION-CONCEPTS)
+:   [23.2.1. 概念](collation.md#collation-concepts)
 
     [23.2.2. 管理定序](collation.md#COLLATION-MANAGING)
 
     [23.2.3. ICU 自訂定序](collation.md#ICU-CUSTOM-COLLATIONS)
 
 [23.3. 字元集支援](multibyte.md)
-:   [23.3.1. 支援的字元集](multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)
+:   [23.3.1. 支援的字元集](multibyte.md#multibyte-charset-supported)
 
     [23.3.2. 設定字元集](multibyte.md#MULTIBYTE-SETTING)
 

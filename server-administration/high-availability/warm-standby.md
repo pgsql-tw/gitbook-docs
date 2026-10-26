@@ -2,23 +2,23 @@
 
 ## 26.2. 日誌傳送待命伺服器 [#](#warm-standby) <a href="#warm-standby" id="warm-standby"></a>
 
-[26.2.1. 規劃](warm-standby.md#STANDBY-PLANNING)
+[26.2.1. 規劃](warm-standby.md#standby-planning)
 
-[26.2.2. 待命伺服器的運作](warm-standby.md#STANDBY-SERVER-OPERATION)
+[26.2.2. 待命伺服器的運作](warm-standby.md#standby-server-operation)
 
-[26.2.3. 為待命伺服器準備主要伺服器](warm-standby.md#PREPARING-PRIMARY-FOR-STANDBY)
+[26.2.3. 為待命伺服器準備主要伺服器](warm-standby.md#preparing-primary-for-standby)
 
-[26.2.4. 設定待命伺服器](warm-standby.md#STANDBY-SERVER-SETUP)
+[26.2.4. 設定待命伺服器](warm-standby.md#standby-server-setup)
 
-[26.2.5. 串流複寫](warm-standby.md#STREAMING-REPLICATION)
+[26.2.5. 串流複寫](warm-standby.md#streaming-replication)
 
-[26.2.6. 複寫插槽](warm-standby.md#STREAMING-REPLICATION-SLOTS)
+[26.2.6. 複寫插槽](warm-standby.md#streaming-replication-slots)
 
-[26.2.7. 串接複寫](warm-standby.md#CASCADING-REPLICATION)
+[26.2.7. 串接複寫](warm-standby.md#cascading-replication)
 
-[26.2.8. 同步複寫](warm-standby.md#SYNCHRONOUS-REPLICATION)
+[26.2.8. 同步複寫](warm-standby.md#synchronous-replication)
 
-[26.2.9. 待命伺服器上的持續歸檔](warm-standby.md#CONTINUOUS-ARCHIVING-IN-STANDBY)
+[26.2.9. 待命伺服器上的持續歸檔](warm-standby.md#continuous-archiving-in-standby)
 
 持續歸檔可用來建立*高可用性*（high
 availability，HA）的叢集組態：由一台或多台
@@ -43,7 +43,7 @@ availability，HA）的叢集組態：由一台或多台
 地球另一端的另一個系統。這種技術所需的頻寬
 會隨主要伺服器的交易速率而變化。
 以紀錄為基礎的日誌傳送粒度更細，會透過網路連線
-以增量方式串流傳送 WAL 變更（請參閱[第 26.2.5 節](warm-standby.md#STREAMING-REPLICATION)）。
+以增量方式串流傳送 WAL 變更（請參閱[第 26.2.5 節](warm-standby.md#streaming-replication)）。
 
 應該注意的是，日誌傳送是非同步的，也就是說，WAL
 紀錄是在交易提交之後才傳送的。因此，若主要伺服器
@@ -53,7 +53,7 @@ availability，HA）的叢集組態：由一台或多台
 `archive_timeout` 參數來限制，此參數最低可以設定到
 只有幾秒鐘。然而，這麼低的設定
 會大幅增加傳送檔案所需的頻寬。
-串流複寫（請參閱[第 26.2.5 節](warm-standby.md#STREAMING-REPLICATION)）
+串流複寫（請參閱[第 26.2.5 節](warm-standby.md#streaming-replication)）
 則可以讓資料遺失窗口小得多。
 
 復原效能足夠好，因此待命伺服器在被啟用後，
@@ -68,7 +68,7 @@ availability，HA）的叢集組態：由一台或多台
 
 <a id="id-1.6.13.16.7"></a><a id="id-1.6.13.16.8"></a><a id="id-1.6.13.16.9"></a><a id="id-1.6.13.16.10"></a><a id="id-1.6.13.16.11"></a><a id="id-1.6.13.16.12"></a><a id="STANDBY-PLANNING"></a>
 
-### 26.2.1. 規劃 [#](#STANDBY-PLANNING)
+### 26.2.1. 規劃 [#](#standby-planning) <a href="#standby-planning" id="standby-planning"></a>
 
 通常明智的做法是讓主要伺服器與待命伺服器
 盡可能相似，至少從資料庫伺服器的角度來看是如此。
@@ -98,7 +98,7 @@ Development Group）的政策是不在次要版本升級時
 
 <a id="STANDBY-SERVER-OPERATION"></a>
 
-### 26.2.2. 待命伺服器的運作 [#](#STANDBY-SERVER-OPERATION)
+### 26.2.2. 待命伺服器的運作 [#](#standby-server-operation) <a href="#standby-server-operation" id="standby-server-operation"></a>
 
 如果伺服器啟動時，資料目錄中存在
 <a id="FILE-STANDBY-SIGNAL"></a>
@@ -137,7 +137,7 @@ Development Group）的政策是不在次要版本升級時
 
 <a id="PREPARING-PRIMARY-FOR-STANDBY"></a>
 
-### 26.2.3. 為待命伺服器準備主要伺服器 [#](#PREPARING-PRIMARY-FOR-STANDBY)
+### 26.2.3. 為待命伺服器準備主要伺服器 [#](#preparing-primary-for-standby) <a href="#preparing-primary-for-standby" id="preparing-primary-for-standby"></a>
 
 在主要伺服器上設定持續歸檔，將 WAL 歸檔到
 待命伺服器可存取的歸檔目錄，如
@@ -155,15 +155,15 @@ Development Group）的政策是不在次要版本升級時
 如果會使用複寫插槽，
 也請確認 `max_replication_slots` 設得足夠高。
 
-依照[第 25.3.2 節](../backup/continuous-archiving.md#BACKUP-BASE-BACKUP)所述製作基礎備份，
+依照[第 25.3.2 節](../backup/continuous-archiving.md#backup-base-backup)所述製作基礎備份，
 用來初始建立（bootstrap）待命伺服器。
 
 <a id="STANDBY-SERVER-SETUP"></a>
 
-### 26.2.4. 設定待命伺服器 [#](#STANDBY-SERVER-SETUP)
+### 26.2.4. 設定待命伺服器 [#](#standby-server-setup) <a href="#standby-server-setup" id="standby-server-setup"></a>
 
 若要設定待命伺服器，請還原從主要伺服器取得的基礎備份
-（請參閱[第 25.3.5 節](../backup/continuous-archiving.md#BACKUP-PITR-RECOVERY)）。在待命伺服器的叢集資料
+（請參閱[第 25.3.5 節](../backup/continuous-archiving.md#backup-pitr-recovery)）。在待命伺服器的叢集資料
 目錄中建立一個
 [`standby.signal`](warm-standby.md#FILE-STANDBY-SIGNAL)<a id="id-1.6.13.16.16.2.3"></a>
 檔案。將 [restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) 設為一個從 WAL 歸檔
@@ -214,7 +214,7 @@ archive_cleanup_command = 'pg_archivecleanup /path/to/archive %r'
 
 <a id="STREAMING-REPLICATION"></a>
 
-### 26.2.5. 串流複寫 [#](#STREAMING-REPLICATION)
+### 26.2.5. 串流複寫 [#](#streaming-replication) <a href="#streaming-replication" id="streaming-replication"></a>
 
 <a id="id-1.6.13.16.17.2"></a>
 
@@ -224,7 +224,7 @@ archive_cleanup_command = 'pg_archivecleanup /path/to/archive %r'
 而不必等待 WAL 檔案被填滿。
 
 串流複寫預設是非同步的
-（請參閱[第 26.2.8 節](warm-standby.md#SYNCHRONOUS-REPLICATION)），在這種情況下，從
+（請參閱[第 26.2.8 節](warm-standby.md#synchronous-replication)），在這種情況下，從
 主要伺服器提交交易到變更在待命伺服器上變得可見之間，
 會有一小段延遲。不過這段延遲
 比以檔案為基礎的日誌傳送小得多，假設待命伺服器的效能
@@ -335,7 +335,7 @@ WAL 接收程序的程序狀態中，可以使用
 `ps` 命令顯示（詳情請參閱[第 27.1 節](../monitoring/monitoring-ps.md)）。
 
 你可以透過
-[`pg_stat_replication`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW) 檢視表取得 WAL 傳送程序的清單。
+[`pg_stat_replication`](../monitoring/monitoring-stats.md#monitoring-pg-stat-replication-view) 檢視表取得 WAL 傳送程序的清單。
 `pg_current_wal_lsn` 與該檢視表的 `sent_lsn` 欄位之間的差異很大時，
 可能表示主要伺服器的負載很重；而
 `sent_lsn` 與待命伺服器上的
@@ -343,14 +343,14 @@ WAL 接收程序的程序狀態中，可以使用
 網路延遲，或是待命伺服器的負載很重。
 
 在熱備援伺服器上，可以透過
-[`pg_stat_wal_receiver`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-WAL-RECEIVER-VIEW) 檢視表取得 WAL 接收程序的狀態。
+[`pg_stat_wal_receiver`](../monitoring/monitoring-stats.md#monitoring-pg-stat-wal-receiver-view) 檢視表取得 WAL 接收程序的狀態。
 `pg_last_wal_replay_lsn` 與該
 檢視表的 `flushed_lsn` 之間的差異很大時，表示接收 WAL
 的速度比重放它的速度還快。
 
 <a id="STREAMING-REPLICATION-SLOTS"></a>
 
-### 26.2.6. 複寫插槽 [#](#STREAMING-REPLICATION-SLOTS)
+### 26.2.6. 複寫插槽 [#](#streaming-replication-slots) <a href="#streaming-replication-slots" id="streaming-replication-slots"></a>
 
 <a id="id-1.6.13.16.18.2"></a>
 
@@ -358,7 +358,7 @@ WAL 接收程序的程序狀態中，可以使用
 主要伺服器在所有待命伺服器都收到 WAL 區段之前，
 不會移除這些區段；並確保即使
 待命伺服器已中斷連線，主要伺服器也不會移除可能導致
-[復原衝突](hot-standby.md#HOT-STANDBY-CONFLICT)的資料列。
+[復原衝突](hot-standby.md#hot-standby-conflict)的資料列。
 
 若不使用複寫插槽，也可以改用 [wal_keep_size](../runtime-config/runtime-config-replication.md#GUC-WAL-KEEP-SIZE)，
 或是使用
@@ -429,7 +429,7 @@ primary_slot_name = 'node_a_slot'
 
 <a id="CASCADING-REPLICATION"></a>
 
-### 26.2.7. 串接複寫 [#](#CASCADING-REPLICATION)
+### 26.2.7. 串接複寫 [#](#cascading-replication) <a href="#cascading-replication" id="cascading-replication"></a>
 
 <a id="id-1.6.13.16.19.2"></a>
 
@@ -451,7 +451,7 @@ primary_slot_name = 'node_a_slot'
 串流複寫就會繼續向下游進行。
 
 串接複寫目前是非同步的。同步複寫
-（請參閱[第 26.2.8 節](warm-standby.md#SYNCHRONOUS-REPLICATION)）的設定目前對
+（請參閱[第 26.2.8 節](warm-standby.md#synchronous-replication)）的設定目前對
 串接複寫沒有作用。
 
 無論串接的排列方式為何，熱備援回饋（hot standby feedback）都會向上游傳遞。
@@ -470,7 +470,7 @@ primary_slot_name = 'node_a_slot'
 
 <a id="SYNCHRONOUS-REPLICATION"></a>
 
-### 26.2.8. 同步複寫 [#](#SYNCHRONOUS-REPLICATION)
+### 26.2.8. 同步複寫 [#](#synchronous-replication) <a href="#synchronous-replication" id="synchronous-replication"></a>
 
 <a id="id-1.6.13.16.20.2"></a>
 
@@ -525,8 +525,8 @@ PostgreSQL 的串流複寫預設是非同步的。
 必須將 [synchronous_standby_names](../runtime-config/runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES) 設為
 非空值。`synchronous_commit` 也必須設為
 `on`，但由於這是預設值，通常不需要
-變更。（請參閱[第 19.5.1 節](../runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-SETTINGS)與
-[第 19.6.2 節](../runtime-config/runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-PRIMARY)。）
+變更。（請參閱[第 19.5.1 節](../runtime-config/runtime-config-wal.md#runtime-config-wal-settings)與
+[第 19.6.2 節](../runtime-config/runtime-config-replication.md#runtime-config-replication-primary)。）
 這個組態會讓每次提交都等待
 待命伺服器確認已將提交紀錄寫入持久性
 儲存裝置。
@@ -733,7 +733,7 @@ WAL 資料的產生速率。
 
 <a id="CONTINUOUS-ARCHIVING-IN-STANDBY"></a>
 
-### 26.2.9. 待命伺服器上的持續歸檔 [#](#CONTINUOUS-ARCHIVING-IN-STANDBY)
+### 26.2.9. 待命伺服器上的持續歸檔 [#](#continuous-archiving-in-standby) <a href="#continuous-archiving-in-standby" id="continuous-archiving-in-standby"></a>
 
 <a id="id-1.6.13.16.21.2"></a>
 

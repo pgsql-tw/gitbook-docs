@@ -72,7 +72,7 @@ and table_and_columns is:
 
 外部資料表只有在被明確選取時才會被分析。並非所有外部資料包裝器都支援 `ANALYZE`。若資料表的包裝器不支援 `ANALYZE`，此命令會印出警告且不做任何事。
 
-在 PostgreSQL 的預設設定中，autovacuum 常駐程式（請參閱[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)）會在資料表首次載入資料時，以及在一般運作過程中資料表內容變動時，負責自動分析資料表。停用 autovacuum 時，定期執行 `ANALYZE`，或在大幅變更資料表內容之後立即執行，是個好主意。準確的統計資訊有助於規劃器選擇最合適的查詢計畫，從而提升查詢處理的速度。對於以讀取為主的資料庫，常見的策略是每天在使用量低的時段執行一次 [`VACUUM`](sql-vacuum.md) 與 `ANALYZE`。（若更新活動頻繁，這樣做並不足夠。）
+在 PostgreSQL 的預設設定中，autovacuum 常駐程式（請參閱[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)）會在資料表首次載入資料時，以及在一般運作過程中資料表內容變動時，負責自動分析資料表。停用 autovacuum 時，定期執行 `ANALYZE`，或在大幅變更資料表內容之後立即執行，是個好主意。準確的統計資訊有助於規劃器選擇最合適的查詢計畫，從而提升查詢處理的速度。對於以讀取為主的資料庫，常見的策略是每天在使用量低的時段執行一次 [`VACUUM`](sql-vacuum.md) 與 `ANALYZE`。（若更新活動頻繁，這樣做並不足夠。）
 
 `ANALYZE` 執行期間，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog,
 pg_temp`。
@@ -100,7 +100,7 @@ autovacuum 常駐程式不會處理分割資料表；若始終只修改子系，
 
 若被分析的資料表完全為空，`ANALYZE` 不會為該資料表記錄新的統計資訊。任何既有的統計資訊都會保留。
 
-每個執行 `ANALYZE` 的後端都會在 `pg_stat_progress_analyze` 檢視表中回報其進度。詳情請參閱[第 27.4.1 節](../../server-administration/monitoring/progress-reporting.md#ANALYZE-PROGRESS-REPORTING)。
+每個執行 `ANALYZE` 的後端都會在 `pg_stat_progress_analyze` 檢視表中回報其進度。詳情請參閱[第 27.4.1 節](../../server-administration/monitoring/progress-reporting.md#analyze-progress-reporting)。
 
 <a id="id-1.9.3.46.9"></a>
 
@@ -119,7 +119,7 @@ ANALYZE [ VERBOSE ] [ table_and_columns [, ...] ]
 
 ## 另請參閱
 
-[VACUUM](sql-vacuum.md), [vacuumdb](../reference-client/app-vacuumdb.md), [第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST), [第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM), [第 27.4.1 節](../../server-administration/monitoring/progress-reporting.md#ANALYZE-PROGRESS-REPORTING)
+[VACUUM](sql-vacuum.md), [vacuumdb](../reference-client/app-vacuumdb.md), [第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost), [第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum), [第 27.4.1 節](../../server-administration/monitoring/progress-reporting.md#analyze-progress-reporting)
 
 ---
 

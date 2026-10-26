@@ -71,7 +71,7 @@ PostgreSQL 使用者執行。指定
 
 每個執行 `COPY` 的後端都會在
 `pg_stat_progress_copy` 檢視表中回報其進度。詳情請參閱
-[第 27.4.3 節](../../server-administration/monitoring/progress-reporting.md#COPY-PROGRESS-REPORTING)。
+[第 27.4.3 節](../../server-administration/monitoring/progress-reporting.md#copy-progress-reporting)。
 
 預設情況下，若 `COPY` 在處理過程中遇到錯誤，
 就會失敗。對於希望盡力載入
@@ -842,7 +842,7 @@ COPY [ BINARY ] table_name
 
 ## 另請參閱
 
-[第 27.4.3 節](../../server-administration/monitoring/progress-reporting.md#COPY-PROGRESS-REPORTING)
+[第 27.4.3 節](../../server-administration/monitoring/progress-reporting.md#copy-progress-reporting)
 
 ---
 

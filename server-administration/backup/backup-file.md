@@ -54,10 +54,10 @@ WAL 日誌位於不同磁碟，或是資料表空間位於不同的檔案系統�
 
 若無法取得同步快照，其中一個選項是將資料庫伺服器關閉
 足夠長的時間，以便建立所有的凍結快照。另一個選項則是
-執行持續歸檔式的基礎備份（[Section 25.3.2](continuous-archiving.md#BACKUP-BASE-BACKUP)），
+執行持續歸檔式的基礎備份（[Section 25.3.2](continuous-archiving.md#backup-base-backup)），
 因為這類備份不受備份期間檔案系統變動的影響。這需要
 僅在備份過程中啟用持續歸檔；還原時則採用持續歸檔還原
-（[Section 25.3.5](continuous-archiving.md#BACKUP-PITR-RECOVERY)）。
+（[Section 25.3.5](continuous-archiving.md#backup-pitr-recovery)）。
 
 另一個選項是使用 rsync 來執行檔案系統備份。做法是先在
 資料庫伺服器執行期間執行一次 rsync，

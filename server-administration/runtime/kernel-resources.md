@@ -2,15 +2,15 @@
 
 ## 18.4. 管理核心資源 [#](#kernel-resources) <a href="#kernel-resources" id="kernel-resources"></a>
 
-[18.4.1. 共享記憶體與號誌（Semaphore）](kernel-resources.md#SYSVIPC)
+[18.4.1. 共享記憶體與號誌（Semaphore）](kernel-resources.md#sysvipc)
 
-[18.4.2. systemd RemoveIPC](kernel-resources.md#SYSTEMD-REMOVEIPC)
+[18.4.2. systemd RemoveIPC](kernel-resources.md#systemd-removeipc)
 
-[18.4.3. 資源限制](kernel-resources.md#KERNEL-RESOURCES-LIMITS)
+[18.4.3. 資源限制](kernel-resources.md#kernel-resources-limits)
 
-[18.4.4. Linux 記憶體超額分配（Overcommit）](kernel-resources.md#LINUX-MEMORY-OVERCOMMIT)
+[18.4.4. Linux 記憶體超額分配（Overcommit）](kernel-resources.md#linux-memory-overcommit)
 
-[18.4.5. Linux 大頁（Huge Pages）](kernel-resources.md#LINUX-HUGE-PAGES)
+[18.4.5. Linux 大頁（Huge Pages）](kernel-resources.md#linux-huge-pages)
 
 PostgreSQL 有時可能會耗盡各種作業系統資源限制，
 特別是當同一系統上同時執行多份伺服器複本時，
@@ -21,7 +21,7 @@ PostgreSQL 所使用的核心資源，
 
 <a id="SYSVIPC"></a>
 
-### 18.4.1. 共享記憶體與號誌（Semaphore） [#](#SYSVIPC)
+### 18.4.1. 共享記憶體與號誌（Semaphore） [#](#sysvipc) <a href="#sysvipc" id="sysvipc"></a>
 
 <a id="id-1.6.5.7.3.2"></a><a id="id-1.6.5.7.3.3"></a>
 
@@ -45,7 +45,7 @@ System V IPC 功能，通常受到系統層級配置上限的限制。
 當 PostgreSQL 超過這些限制之一時，
 伺服器將拒絕啟動，並應留下一則說明問題內容
 及處理方式的指示性錯誤訊息。（另請參閱
-[18.3.1 節](server-start.md#SERVER-START-FAILURES)。）
+[18.3.1 節](server-start.md#server-start-failures)。）
 相關的核心參數，在不同系統上，命名方式相當一致；
 [表 18.1](kernel-resources.md#SYSVIPC-PARAMETERS) 提供了概觀。
 不過，設定這些參數的方法則各異。以下針對部分平台，
@@ -308,7 +308,7 @@ Solaris<br>illumos
 
 <a id="SYSTEMD-REMOVEIPC"></a>
 
-### 18.4.2. systemd RemoveIPC [#](#SYSTEMD-REMOVEIPC)
+### 18.4.2. systemd RemoveIPC [#](#systemd-removeipc) <a href="#systemd-removeipc" id="systemd-removeipc"></a>
 
 <a id="id-1.6.5.7.4.2"></a>
 
@@ -371,7 +371,7 @@ RemoveIPC=no
 
 <a id="KERNEL-RESOURCES-LIMITS"></a>
 
-### 18.4.3. 資源限制 [#](#KERNEL-RESOURCES-LIMITS)
+### 18.4.3. 資源限制 [#](#kernel-resources-limits) <a href="#kernel-resources-limits" id="kernel-resources-limits"></a>
 
 類 Unix 作業系統，會強制實施各種可能干擾
 PostgreSQL 伺服器運作的資源限制。特別重要的，
@@ -450,7 +450,7 @@ PostgreSQL 伺服器每個連線使用一個伺服器程序（server process）�
 
 <a id="LINUX-MEMORY-OVERCOMMIT"></a>
 
-### 18.4.4. Linux 記憶體超額分配（Overcommit） [#](#LINUX-MEMORY-OVERCOMMIT)
+### 18.4.4. Linux 記憶體超額分配（Overcommit） [#](#linux-memory-overcommit) <a href="#linux-memory-overcommit" id="linux-memory-overcommit"></a>
 
 <a id="id-1.6.5.7.6.2"></a><a id="id-1.6.5.7.6.3"></a><a id="id-1.6.5.7.6.4"></a>
 
@@ -551,7 +551,7 @@ export PG_OOM_ADJUST_VALUE=0
 
 <a id="LINUX-HUGE-PAGES"></a>
 
-### 18.4.5. Linux 大頁（Huge Pages） [#](#LINUX-HUGE-PAGES)
+### 18.4.5. Linux 大頁（Huge Pages） [#](#linux-huge-pages) <a href="#linux-huge-pages" id="linux-huge-pages"></a>
 
 在使用大塊連續記憶體時（如 PostgreSQL 所做的那樣），
 使用大頁（huge pages），能夠降低額外負擔，

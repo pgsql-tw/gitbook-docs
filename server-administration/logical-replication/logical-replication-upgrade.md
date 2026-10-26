@@ -2,18 +2,18 @@
 
 ## 29.13. 升級 [#](#logical-replication-upgrade) <a href="#logical-replication-upgrade" id="logical-replication-upgrade"></a>
 
-[29.13.1. 準備升級發佈者](logical-replication-upgrade.md#PREPARE-PUBLISHER-UPGRADES)
+[29.13.1. 準備升級發佈者](logical-replication-upgrade.md#prepare-publisher-upgrades)
 
-[29.13.2. 準備升級訂閱者](logical-replication-upgrade.md#PREPARE-SUBSCRIBER-UPGRADES)
+[29.13.2. 準備升級訂閱者](logical-replication-upgrade.md#prepare-subscriber-upgrades)
 
-[29.13.3. 升級邏輯複寫叢集](logical-replication-upgrade.md#UPGRADING-LOGICAL-REPLICATION-CLUSTERS)
+[29.13.3. 升級邏輯複寫叢集](logical-replication-upgrade.md#upgrading-logical-replication-clusters)
 
 只有當舊邏輯複寫叢集的所有成員版本都是 17.0 或更新版本時，才能遷移
 [*[邏輯複寫叢集](../../appendixes/glossary/README.md#GLOSSARY-LOGICAL-REPLICATION-CLUSTER)*](../../appendixes/glossary/README.md#GLOSSARY-LOGICAL-REPLICATION-CLUSTER)。
 
 <a id="PREPARE-PUBLISHER-UPGRADES"></a>
 
-### 29.13.1. 準備升級發佈者 [#](#PREPARE-PUBLISHER-UPGRADES)
+### 29.13.1. 準備升級發佈者 [#](#prepare-publisher-upgrades) <a href="#prepare-publisher-upgrades" id="prepare-publisher-upgrades"></a>
 
 pg_upgrade 會嘗試遷移邏輯複寫插槽。
 這樣可以避免你必須在新的發佈者上手動重新定義相同的
@@ -49,9 +49,9 @@ pg_upgrade 要能夠升級邏輯複寫插槽，需要滿足一些前置條件。
 
 <a id="PREPARE-SUBSCRIBER-UPGRADES"></a>
 
-### 29.13.2. 準備升級訂閱者 [#](#PREPARE-SUBSCRIBER-UPGRADES)
+### 29.13.2. 準備升級訂閱者 [#](#prepare-subscriber-upgrades) <a href="#prepare-subscriber-upgrades" id="prepare-subscriber-upgrades"></a>
 
-在新的訂閱者上設定好 [訂閱者組態](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-SUBSCRIBER)。
+在新的訂閱者上設定好 [訂閱者組態](logical-replication-config.md#logical-replication-config-subscriber)。
 pg_upgrade 會嘗試遷移訂閱相依項目，
 其中包括存放在
 [pg_subscription_rel](../../internals/catalogs/catalog-pg-subscription-rel.md)
@@ -78,7 +78,7 @@ pg_upgrade 要能夠升級訂閱，需要滿足一些前置條件。
 
 <a id="UPGRADING-LOGICAL-REPLICATION-CLUSTERS"></a>
 
-### 29.13.3. 升級邏輯複寫叢集 [#](#UPGRADING-LOGICAL-REPLICATION-CLUSTERS)
+### 29.13.3. 升級邏輯複寫叢集 [#](#upgrading-logical-replication-clusters) <a href="#upgrading-logical-replication-clusters" id="upgrading-logical-replication-clusters"></a>
 
 在升級訂閱者的過程中，發佈者仍然可以執行寫入操作。
 這些變更會在訂閱者升級完成後，複寫到訂閱者。
@@ -89,16 +89,16 @@ pg_upgrade 要能夠升級訂閱，需要滿足一些前置條件。
 詳情請參閱[第 29.8 節](logical-replication-restrictions.md)。
 
 發佈者升級的前置條件，同樣也適用於邏輯複寫叢集升級。
-詳情請參閱[第 29.13.1 節](logical-replication-upgrade.md#PREPARE-PUBLISHER-UPGRADES)。
+詳情請參閱[第 29.13.1 節](logical-replication-upgrade.md#prepare-publisher-upgrades)。
 
 訂閱者升級的前置條件，同樣也適用於邏輯複寫叢集升級。
-詳情請參閱[第 29.13.2 節](logical-replication-upgrade.md#PREPARE-SUBSCRIBER-UPGRADES)。
+詳情請參閱[第 29.13.2 節](logical-replication-upgrade.md#prepare-subscriber-upgrades)。
 
 ### 警告
 
 升級邏輯複寫叢集需要在多個節點上執行多個步驟。
 由於並非所有操作都具有交易性，建議你依照
-[第 25.3.2 節](../backup/continuous-archiving.md#BACKUP-BASE-BACKUP) 所述的方式先進行備份。
+[第 25.3.2 節](../backup/continuous-archiving.md#backup-base-backup) 所述的方式先進行備份。
 
 （以上為警告內容；以下步驟清單不屬於警告。）
 

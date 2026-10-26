@@ -551,7 +551,7 @@ B-Tree 索引會藉由執行*由下而上索引刪除*作業，
 垃圾的 tuple。這與 autovacuum 背景工作程序所執行的「由上而下」
 索引清理形成對比，後者是在
 超過某些*量化*的資料表層級
-門檻時觸發（請參閱[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)）。
+門檻時觸發（請參閱[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)）。
 
 ### 注意
 

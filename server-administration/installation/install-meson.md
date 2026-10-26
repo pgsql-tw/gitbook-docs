@@ -2,17 +2,17 @@
 
 ## 17.4. 使用 Meson 建置與安裝 [#](#install-meson) <a href="#install-meson" id="install-meson"></a>
 
-[17.4.1. 簡短版本](install-meson.md#INSTALL-SHORT-MESON)
+[17.4.1. 簡短版本](install-meson.md#install-short-meson)
 
-[17.4.2. 安裝程序](install-meson.md#INSTALL-PROCEDURE-MESON)
+[17.4.2. 安裝程序](install-meson.md#install-procedure-meson)
 
-[17.4.3. `meson setup` 選項](install-meson.md#MESON-OPTIONS)
+[17.4.3. `meson setup` 選項](install-meson.md#meson-options)
 
-[17.4.4. `meson` 建置目標](install-meson.md#TARGETS-MESON)
+[17.4.4. `meson` 建置目標](install-meson.md#targets-meson)
 
 <a id="INSTALL-SHORT-MESON"></a>
 
-### 17.4.1. 簡短版本 [#](#INSTALL-SHORT-MESON)
+### 17.4.1. 簡短版本 [#](#install-short-meson) <a href="#install-short-meson" id="install-short-meson"></a>
 
 ```
 
@@ -35,7 +35,7 @@ su - postgres
 
 <a id="INSTALL-PROCEDURE-MESON"></a>
 
-### 17.4.2. 安裝程序 [#](#INSTALL-PROCEDURE-MESON)
+### 17.4.2. 安裝程序 [#](#install-procedure-meson) <a href="#install-procedure-meson" id="install-procedure-meson"></a>
 
 <a id="MESON-CONFIGURE"></a>1. **設定**
 
@@ -77,7 +77,7 @@ su - postgres
    ```
 
    `meson configure` 常用的命令列選項，請參見
-   [第 17.4.3 節](install-meson.md#MESON-OPTIONS) 的說明。
+   [第 17.4.3 節](install-meson.md#meson-options) 的說明。
 <a id="MESON-BUILD"></a>2. **建置**
 
    Meson 預設使用 [Ninja](https://ninja-build.org/) 建置工具。若要用 Meson
@@ -160,7 +160,7 @@ uninstall` 指令。
 
 <a id="MESON-OPTIONS"></a>
 
-### 17.4.3. `meson setup` 選項 [#](#MESON-OPTIONS)
+### 17.4.3. `meson setup` 選項 [#](#meson-options) <a href="#meson-options" id="meson-options"></a>
 
 以下說明 `meson setup` 的命令列選項。這份清單並不完整
 （可用 `meson configure --help` 取得完整清單）。此處未列出的選項是給進階使用情境用的，
@@ -174,7 +174,7 @@ setup` 時使用。
 
 這些選項用來控制 `ninja install`（或 `meson install`）要把檔案放到哪裡。
 `--prefix` 選項（範例見
-[第 17.4.1 節](install-meson.md#INSTALL-SHORT-MESON)）對多數情況來說已經足夠。
+[第 17.4.1 節](install-meson.md#install-short-meson)）對多數情況來說已經足夠。
 若你有特殊需求，可以用本節所述的其他選項來自訂安裝子目錄。
 不過請留意，變更各子目錄的相對位置，可能會導致安裝結果無法「可搬遷（relocatable）」，
 也就是安裝完成後將無法再搬動它。
@@ -557,7 +557,7 @@ setup` 時使用。
     在這種情況下，你就需要另外提供讓執行檔能找到共用函式庫
     的其他方式。通常這需要設定作業系統的
     動態連結器，讓它搜尋該函式庫目錄；詳情請見
-    [第 17.5.1 節](install-post.md#INSTALL-POST-SHLIBS)。
+    [第 17.5.1 節](install-post.md#install-post-shlibs)。
 <a id="CONFIGURE-BINARY-NAME-MESON"></a>
 
 `-DBINARY_NAME=PATH` [#](#CONFIGURE-BINARY-NAME-MESON)
@@ -717,7 +717,7 @@ PostgreSQL 時才有意義。這些選項並不建議用於正式環境的建置
     因為它們在多使用者系統上執行並不安全、需要特殊軟體才能執行，
     或是相當耗費資源。參數是一份以空白分隔的清單，
     列出要啟用的測試。詳見
-    [第 31.1.3 節](../regress/regress-run.md#REGRESS-ADDITIONAL)。若執行測試時已設定
+    [第 31.1.3 節](../regress/regress-run.md#regress-additional)。若執行測試時已設定
     `PG_TEST_EXTRA` 環境變數，則會覆寫此設定時期的選項。
 <a id="CONFIGURE-B-COVERAGE-MESON"></a>
 
@@ -760,7 +760,7 @@ PostgreSQL 時才有意義。這些選項並不建議用於正式環境的建置
 
 <a id="TARGETS-MESON"></a>
 
-### 17.4.4. `meson` 建置目標 [#](#TARGETS-MESON)
+### 17.4.4. `meson` 建置目標 [#](#targets-meson) <a href="#targets-meson" id="targets-meson"></a>
 
 個別的建置目標可以用 `ninja` *`target`* 來建置。
 若未指定目標，則會建置除文件以外的所有項目。個別的建置產物，

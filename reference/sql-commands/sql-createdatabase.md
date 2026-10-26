@@ -60,7 +60,7 @@ name` 來指定不同的範本。特別是，寫出 `TEMPLATE template0` 可以�
 <a id="CREATE-DATABASE-ENCODING"></a>
 
 *`encoding`* [#](#CREATE-DATABASE-ENCODING)
-:   新資料庫所使用的字元集編碼。可指定字串常數（例如 `'SQL_ASCII'`）、整數編碼編號，或使用 `DEFAULT` 表示採用預設編碼（也就是範本資料庫的編碼）。PostgreSQL 伺服器支援的字元集說明請參閱[第 23.3.1 節](../../server-administration/charset/multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)。其他限制請見下文。
+:   新資料庫所使用的字元集編碼。可指定字串常數（例如 `'SQL_ASCII'`）、整數編碼編號，或使用 `DEFAULT` 表示採用預設編碼（也就是範本資料庫的編碼）。PostgreSQL 伺服器支援的字元集說明請參閱[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。其他限制請見下文。
 <a id="CREATE-DATABASE-STRATEGY"></a>
 
 *`strategy`* [#](#CREATE-DATABASE-STRATEGY)
@@ -109,7 +109,7 @@ name` 來指定不同的範本。特別是，寫出 `TEMPLATE template0` 可以�
 <a id="CREATE-DATABASE-LOCALE-PROVIDER"></a>
 
 *`locale_provider`* [#](#CREATE-DATABASE-LOCALE-PROVIDER)
-:   指定此資料庫中預設定序所使用的提供者。可能的值為 `builtin`、`icu`<a id="id-1.9.3.61.6.2.12.2.1.3"></a>（若伺服器建置時加入了 ICU 支援）或 `libc`。預設情況下，提供者與 [*`template`*](sql-createdatabase.md#CREATE-DATABASE-TEMPLATE) 的提供者相同。詳情請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#LOCALE-PROVIDERS)。
+:   指定此資料庫中預設定序所使用的提供者。可能的值為 `builtin`、`icu`<a id="id-1.9.3.61.6.2.12.2.1.3"></a>（若伺服器建置時加入了 ICU 支援）或 `libc`。預設情況下，提供者與 [*`template`*](sql-createdatabase.md#CREATE-DATABASE-TEMPLATE) 的提供者相同。詳情請參閱[第 23.1.4 節](../../server-administration/charset/locale.md#locale-providers)。
 <a id="CREATE-DATABASE-COLLATION-VERSION"></a>
 
 *`collation_version`* [#](#CREATE-DATABASE-COLLATION-VERSION)

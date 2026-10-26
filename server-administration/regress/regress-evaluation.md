@@ -2,21 +2,21 @@
 
 ## 31.2. 測試評估 [#](#regress-evaluation) <a href="#regress-evaluation" id="regress-evaluation"></a>
 
-[31.2.1. 錯誤訊息差異](regress-evaluation.md#REGRESS-EVALUATION-MESSAGE-DIFFERENCES)
+[31.2.1. 錯誤訊息差異](regress-evaluation.md#regress-evaluation-message-differences)
 
-[31.2.2. 地區設定差異](regress-evaluation.md#REGRESS-EVALUATION-LOCALE-DIFFERENCES)
+[31.2.2. 地區設定差異](regress-evaluation.md#regress-evaluation-locale-differences)
 
-[31.2.3. 日期與時間差異](regress-evaluation.md#REGRESS-EVALUATION-DATE-TIME-DIFFERENCES)
+[31.2.3. 日期與時間差異](regress-evaluation.md#regress-evaluation-date-time-differences)
 
-[31.2.4. 浮點數差異](regress-evaluation.md#REGRESS-EVALUATION-FLOAT-DIFFERENCES)
+[31.2.4. 浮點數差異](regress-evaluation.md#regress-evaluation-float-differences)
 
-[31.2.5. 資料列順序差異](regress-evaluation.md#REGRESS-EVALUATION-ORDERING-DIFFERENCES)
+[31.2.5. 資料列順序差異](regress-evaluation.md#regress-evaluation-ordering-differences)
 
-[31.2.6. 堆疊深度不足](regress-evaluation.md#REGRESS-EVALUATION-STACK-DEPTH)
+[31.2.6. 堆疊深度不足](regress-evaluation.md#regress-evaluation-stack-depth)
 
-[31.2.7. 「random」測試](regress-evaluation.md#REGRESS-EVALUATION-RANDOM-TEST)
+[31.2.7. 「random」測試](regress-evaluation.md#regress-evaluation-random-test)
 
-[31.2.8. 組態參數](regress-evaluation.md#REGRESS-EVALUATION-CONFIG-PARAMS)
+[31.2.8. 組態參數](regress-evaluation.md#regress-evaluation-config-params)
 
 有些正確安裝且功能完全正常的
 PostgreSQL 安裝，
@@ -59,7 +59,7 @@ PostgreSQL 安裝，
 
 <a id="REGRESS-EVALUATION-MESSAGE-DIFFERENCES"></a>
 
-### 31.2.1. 錯誤訊息差異 [#](#REGRESS-EVALUATION-MESSAGE-DIFFERENCES)
+### 31.2.1. 錯誤訊息差異 [#](#regress-evaluation-message-differences) <a href="#regress-evaluation-message-differences" id="regress-evaluation-message-differences"></a>
 
 部分迴歸測試會涉及刻意輸入的無效值。
 錯誤訊息可能來自 PostgreSQL 程式碼本身，
@@ -70,7 +70,7 @@ PostgreSQL 安裝，
 
 <a id="REGRESS-EVALUATION-LOCALE-DIFFERENCES"></a>
 
-### 31.2.2. 地區設定差異 [#](#REGRESS-EVALUATION-LOCALE-DIFFERENCES)
+### 31.2.2. 地區設定差異 [#](#regress-evaluation-locale-differences) <a href="#regress-evaluation-locale-differences" id="regress-evaluation-locale-differences"></a>
 
 若你針對以非 C 定序順序地區設定初始化的伺服器
 執行測試，可能會因排序順序而出現差異，
@@ -113,7 +113,7 @@ make check NO_LOCALE=1
 
 <a id="REGRESS-EVALUATION-DATE-TIME-DIFFERENCES"></a>
 
-### 31.2.3. 日期與時間差異 [#](#REGRESS-EVALUATION-DATE-TIME-DIFFERENCES)
+### 31.2.3. 日期與時間差異 [#](#regress-evaluation-date-time-differences) <a href="#regress-evaluation-date-time-differences" id="regress-evaluation-date-time-differences"></a>
 
 大多數日期與時間結果，都取決於時區環境。
 參考檔案是針對時區
@@ -125,7 +125,7 @@ make check NO_LOCALE=1
 
 <a id="REGRESS-EVALUATION-FLOAT-DIFFERENCES"></a>
 
-### 31.2.4. 浮點數差異 [#](#REGRESS-EVALUATION-FLOAT-DIFFERENCES)
+### 31.2.4. 浮點數差異 [#](#regress-evaluation-float-differences) <a href="#regress-evaluation-float-differences" id="regress-evaluation-float-differences"></a>
 
 部分測試涉及從資料表欄位計算 64 位元浮點數
 （`double precision`）。
@@ -147,7 +147,7 @@ make check NO_LOCALE=1
 
 <a id="REGRESS-EVALUATION-ORDERING-DIFFERENCES"></a>
 
-### 31.2.5. 資料列順序差異 [#](#REGRESS-EVALUATION-ORDERING-DIFFERENCES)
+### 31.2.5. 資料列順序差異 [#](#regress-evaluation-ordering-differences) <a href="#regress-evaluation-ordering-differences" id="regress-evaluation-ordering-differences"></a>
 
 你可能會看到，同樣一批資料列，
 輸出順序卻與預期檔案中所呈現的不同。
@@ -182,7 +182,7 @@ make check NO_LOCALE=1
 
 <a id="REGRESS-EVALUATION-STACK-DEPTH"></a>
 
-### 31.2.6. 堆疊深度不足 [#](#REGRESS-EVALUATION-STACK-DEPTH)
+### 31.2.6. 堆疊深度不足 [#](#regress-evaluation-stack-depth) <a href="#regress-evaluation-stack-depth" id="regress-evaluation-stack-depth"></a>
 
 若 `errors` 測試在執行
 `select infinite_recurse()` 命令時
@@ -203,7 +203,7 @@ make check NO_LOCALE=1
 
 <a id="REGRESS-EVALUATION-RANDOM-TEST"></a>
 
-### 31.2.7. 「random」測試 [#](#REGRESS-EVALUATION-RANDOM-TEST)
+### 31.2.7. 「random」測試 [#](#regress-evaluation-random-test) <a href="#regress-evaluation-random-test" id="regress-evaluation-random-test"></a>
 
 `random` 測試指令碼的用意，
 就是要產生隨機結果。在極少數情況下，
@@ -219,7 +219,7 @@ diff results/random.out expected/random.out
 
 <a id="REGRESS-EVALUATION-CONFIG-PARAMS"></a>
 
-### 31.2.8. 組態參數 [#](#REGRESS-EVALUATION-CONFIG-PARAMS)
+### 31.2.8. 組態參數 [#](#regress-evaluation-config-params) <a href="#regress-evaluation-config-params" id="regress-evaluation-config-params"></a>
 
 當你針對既有安裝執行測試時，
 某些非預設的參數設定，可能會導致測試失敗。

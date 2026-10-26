@@ -21,7 +21,7 @@ ID `4/12532` 的 `procNumber`
 PostgreSQL 叢集中的所有資料庫共用。此分配發生在交易第一次寫入資料庫時。這表示編號較小的 xid 比編號較大的 xid 更早開始寫入。請注意，交易執行第一次資料庫寫入的順序，可能與交易開始的順序不同，特別是當交易一開始執行的是只進行資料庫讀取的陳述式時。
 
 內部交易 ID 型別 `xid` 寬 32 位元，
-每 40 億個交易就會[回捲](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)一次。每次回捲時，一個 32 位元的 epoch 會遞增。另外還有一個 64 位元的型別 `xid8`，它包含此 epoch，因此在整個安裝的生命週期內都不會回捲；它可以透過型別轉換轉為 xid。
+每 40 億個交易就會[回捲](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)一次。每次回捲時，一個 32 位元的 epoch 會遞增。另外還有一個 64 位元的型別 `xid8`，它包含此 epoch，因此在整個安裝的生命週期內都不會回捲；它可以透過型別轉換轉為 xid。
 [表 9.84](../../the-sql-language/functions/functions-info.md#FUNCTIONS-PG-SNAPSHOT) 中的函式
 會傳回 `xid8` 值。xid 是 PostgreSQL 的 [MVCC](../../the-sql-language/mvcc/README.md) 並行機制與串流複寫的基礎。
 

@@ -2,24 +2,24 @@
 
 ## 19.6. 複寫 [#](#runtime-config-replication) <a href="#runtime-config-replication" id="runtime-config-replication"></a>
 
-[19.6.1. 傳送端伺服器](runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-SENDER)
+[19.6.1. 傳送端伺服器](runtime-config-replication.md#runtime-config-replication-sender)
 
-[19.6.2. 主要伺服器](runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-PRIMARY)
+[19.6.2. 主要伺服器](runtime-config-replication.md#runtime-config-replication-primary)
 
-[19.6.3. 待命伺服器](runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-STANDBY)
+[19.6.3. 待命伺服器](runtime-config-replication.md#runtime-config-replication-standby)
 
-[19.6.4. 訂閱端](runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-SUBSCRIBER)
+[19.6.4. 訂閱端](runtime-config-replication.md#runtime-config-replication-subscriber)
 
 這些設定控制內建
 *串流複寫（streaming replication）*功能（參閱
-[26.2.5 節](../high-availability/warm-standby.md#STREAMING-REPLICATION)），以及內建
+[26.2.5 節](../high-availability/warm-standby.md#streaming-replication)），以及內建
 *邏輯複寫（logical replication）*功能（參閱
 [第 29 章](../logical-replication/README.md)）。
 
 對於*串流複寫*而言，伺服器可以是
 主要伺服器或待命伺服器。主要伺服器可以傳送資料，而待命伺服器
 永遠是被複寫資料的接收端。當使用串接式複寫
-（cascading replication，參閱[26.2.7 節](../high-availability/warm-standby.md#CASCADING-REPLICATION)）時，
+（cascading replication，參閱[26.2.7 節](../high-availability/warm-standby.md#cascading-replication)）時，
 待命伺服器也可以同時是傳送端與接收端。
 這些參數主要用於傳送端與待命伺服器，不過有些
 參數僅在主要伺服器上才有意義。如有需要，
@@ -36,7 +36,7 @@
 
 <a id="RUNTIME-CONFIG-REPLICATION-SENDER"></a>
 
-### 19.6.1. 傳送端伺服器 [#](#RUNTIME-CONFIG-REPLICATION-SENDER)
+### 19.6.1. 傳送端伺服器 [#](#runtime-config-replication-sender) <a href="#runtime-config-replication-sender" id="runtime-config-replication-sender"></a>
 
 這些參數可以在任何要將複寫資料傳送給一個或多個
 standby 伺服器的伺服器上設定。
@@ -68,7 +68,7 @@ Primary 永遠是傳送端伺服器，因此這些參數必須
 
 `max_replication_slots` (`integer`) <a id="id-1.6.6.9.5.3.2.1.3"></a> [#](#GUC-MAX-REPLICATION-SLOTS)
 :   指定伺服器所能支援的最大複寫插槽
-    （replication slot，參閱[26.2.6 節](../high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)）數量。
+    （replication slot，參閱[26.2.6 節](../high-availability/warm-standby.md#streaming-replication-slots)）數量。
     預設值為 10。此參數只能在
     伺服器啟動時設定。
     若設定的值低於目前既有複寫插槽的數量，
@@ -153,7 +153,7 @@ Primary 永遠是傳送端伺服器，因此這些參數必須
 
 `max_slot_wal_keep_size` (`integer`) <a id="id-1.6.6.9.5.3.5.1.3"></a> [#](#GUC-MAX-SLOT-WAL-KEEP-SIZE)
 :   指定在檢查點時，[複寫
-    插槽](../high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)在
+    插槽](../high-availability/warm-standby.md#streaming-replication-slots)在
     `pg_wal` 目錄中允許保留的 WAL 檔案最大大小。
     若 `max_slot_wal_keep_size` 為 -1（預設值），
     複寫插槽可保留的 WAL 檔案大小不受限制。否則，如果
@@ -220,14 +220,14 @@ Primary 永遠是傳送端伺服器，因此這些參數必須
 
 <a id="RUNTIME-CONFIG-REPLICATION-PRIMARY"></a>
 
-### 19.6.2. 主要伺服器 [#](#RUNTIME-CONFIG-REPLICATION-PRIMARY)
+### 19.6.2. 主要伺服器 [#](#runtime-config-replication-primary) <a href="#runtime-config-replication-primary" id="runtime-config-replication-primary"></a>
 
 這些參數可以在要將複寫資料傳送給一個或多個
 standby 伺服器的 primary 伺服器上設定。
 請注意，除了這些參數之外，
 primary 伺服器上也必須妥善設定
 [wal_level](runtime-config-wal.md#GUC-WAL-LEVEL)，並可選擇性啟用 WAL
-歸檔（參閱[19.5.3 節](runtime-config-wal.md#RUNTIME-CONFIG-WAL-ARCHIVING)）。
+歸檔（參閱[19.5.3 節](runtime-config-wal.md#runtime-config-wal-archiving)）。
 這些參數在 standby 伺服器上的值無關緊要，
 不過你可能會想要先在那裡設定好，
 以備 standby 日後成為 primary 之用。
@@ -237,14 +237,14 @@ primary 伺服器上也必須妥善設定
 `synchronous_standby_names` (`string`) <a id="id-1.6.6.9.6.3.1.1.3"></a> [#](#GUC-SYNCHRONOUS-STANDBY-NAMES)
 :   指定一份可以支援*同步複寫（synchronous
     replication）*的 standby 伺服器清單，如
-    [26.2.8 節](../high-availability/warm-standby.md#SYNCHRONOUS-REPLICATION)所述。
+    [26.2.8 節](../high-availability/warm-standby.md#synchronous-replication)所述。
     會有一個或多個作用中的同步 standby；
     等待提交的交易，會在這些 standby 伺服器
     確認收到其資料之後才被允許繼續進行。
     同步 standby 將是那些名稱出現在
     此清單中，且目前既已連線，又以即時方式串流資料的
     伺服器（如
-    [`pg_stat_replication`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW) 檢視表中
+    [`pg_stat_replication`](../monitoring/monitoring-stats.md#monitoring-pg-stat-replication-view) 檢視表中
     狀態為 `streaming` 所示）。
     指定多個同步 standby，可以達成非常高的可用性
     並防止資料遺失。
@@ -372,10 +372,10 @@ primary 伺服器上也必須妥善設定
 
 <a id="RUNTIME-CONFIG-REPLICATION-STANDBY"></a>
 
-### 19.6.3. 待命伺服器 [#](#RUNTIME-CONFIG-REPLICATION-STANDBY)
+### 19.6.3. 待命伺服器 [#](#runtime-config-replication-standby) <a href="#runtime-config-replication-standby" id="runtime-config-replication-standby"></a>
 
 這些設定控制要接收複寫資料的
-[standby 伺服器](../high-availability/warm-standby.md#STANDBY-SERVER-OPERATION)
+[standby 伺服器](../high-availability/warm-standby.md#standby-server-operation)
 的行為。它們在 primary 伺服器上的值無關緊要。
 
 <a id="GUC-PRIMARY-CONNINFO"></a>
@@ -420,7 +420,7 @@ primary 伺服器上也必須妥善設定
 `primary_slot_name` (`string`) <a id="id-1.6.6.9.7.3.2.1.3"></a> [#](#GUC-PRIMARY-SLOT-NAME)
 :   選擇性指定一個既有的複寫插槽，在透過串流複寫連線到
     傳送端伺服器時使用，以控制上游節點的資源
-    移除（參閱[26.2.6 節](../high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)）。
+    移除（參閱[26.2.6 節](../high-availability/warm-standby.md#streaming-replication-slots)）。
     此參數只能在 `postgresql.conf`
     檔案中或伺服器命令列上設定。
     如果 WAL 接收程序正在執行時變更了此參數，
@@ -442,7 +442,7 @@ primary 伺服器上也必須妥善設定
 :   當 hot standby 為作用中狀態時，此參數決定
     standby 伺服器在取消與即將套用的 WAL 項目
     衝突的 standby 查詢之前，應等待多久，如
-    [26.4.2 節](../high-availability/hot-standby.md#HOT-STANDBY-CONFLICT)所述。
+    [26.4.2 節](../high-availability/hot-standby.md#hot-standby-conflict)所述。
     `max_standby_archive_delay` 適用於正從 WAL 歸檔
     讀取 WAL 資料（因此並非最新資料）的情況。
     若此值指定時未帶單位，則以毫秒為單位。
@@ -463,7 +463,7 @@ primary 伺服器上也必須妥善設定
 :   當 hot standby 為作用中狀態時，此參數決定
     standby 伺服器在取消與即將套用的 WAL 項目
     衝突的 standby 查詢之前，應等待多久，如
-    [26.4.2 節](../high-availability/hot-standby.md#HOT-STANDBY-CONFLICT)所述。
+    [26.4.2 節](../high-availability/hot-standby.md#hot-standby-conflict)所述。
     `max_standby_streaming_delay` 適用於正透過串流複寫
     接收 WAL 資料的情況。
     若此值指定時未帶單位，則以毫秒為單位。
@@ -496,7 +496,7 @@ primary 伺服器上也必須妥善設定
 :   指定 standby 上的 WAL 接收程序向 primary 或上游
     standby 傳送複寫進度資訊的最小頻率，
     可以透過
-    [`pg_stat_replication`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-REPLICATION-VIEW)
+    [`pg_stat_replication`](../monitoring/monitoring-stats.md#monitoring-pg-stat-replication-view)
     檢視表查看此資訊。standby 會回報
     最後寫入的預寫日誌位置、最後刷寫到磁碟的位置，
     以及最後套用的位置。
@@ -634,7 +634,7 @@ primary 伺服器上也必須妥善設定
 
 <a id="RUNTIME-CONFIG-REPLICATION-SUBSCRIBER"></a>
 
-### 19.6.4. 訂閱端 [#](#RUNTIME-CONFIG-REPLICATION-SUBSCRIBER)
+### 19.6.4. 訂閱端 [#](#runtime-config-replication-subscriber) <a href="#runtime-config-replication-subscriber" id="runtime-config-replication-subscriber"></a>
 
 這些設定控制邏輯複寫訂閱端的行為。
 它們在發布端上的值無關緊要。

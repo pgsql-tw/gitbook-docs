@@ -29,7 +29,7 @@ BRIN 索引實際儲存哪些資料，以及索引能夠滿足哪些查詢，取
 
 建立索引時，會掃描所有現有的堆積頁面，並為每個範圍建立一個摘要索引 tuple，包括結尾處可能不完整的範圍。當新頁面填入資料時，已摘要的頁面範圍會使摘要資訊以新 tuple 的資料更新。當建立的新頁面不在最後一個已摘要的範圍內時，該新頁面所屬的範圍不會自動取得摘要 tuple；這些 tuple 會維持未摘要的狀態，直到之後執行摘要作業，為該範圍建立初始摘要為止。
 
-有幾種方式可以觸發頁面範圍的初始摘要。如果資料表被執行 vacuum，無論是手動執行或由 [autovacuum](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM) 執行，所有現有的未摘要頁面範圍都會被摘要。此外，如果啟用了索引的 [autosummarize](../../reference/sql-commands/sql-createindex.md#INDEX-RELOPTION-AUTOSUMMARIZE) 參數（預設並未啟用），則每當 autovacuum 在該資料庫中執行時，所有已填滿的未摘要頁面範圍都會進行摘要，無論資料表本身是否被 autovacuum 處理；請參閱下文。
+有幾種方式可以觸發頁面範圍的初始摘要。如果資料表被執行 vacuum，無論是手動執行或由 [autovacuum](../../server-administration/maintenance/routine-vacuuming.md#autovacuum) 執行，所有現有的未摘要頁面範圍都會被摘要。此外，如果啟用了索引的 [autosummarize](../../reference/sql-commands/sql-createindex.md#INDEX-RELOPTION-AUTOSUMMARIZE) 參數（預設並未啟用），則每當 autovacuum 在該資料庫中執行時，所有已填滿的未摘要頁面範圍都會進行摘要，無論資料表本身是否被 autovacuum 處理；請參閱下文。
 
 最後，也可以使用下列函式（這些函式執行期間，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog, pg_temp`）：
 

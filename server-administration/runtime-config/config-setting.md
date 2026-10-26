@@ -2,19 +2,19 @@
 
 ## 19.1. 設定參數 [#](#config-setting) <a href="#config-setting" id="config-setting"></a>
 
-[19.1.1. 參數名稱與數值](config-setting.md#CONFIG-SETTING-NAMES-VALUES)
+[19.1.1. 參數名稱與數值](config-setting.md#config-setting-names-values)
 
-[19.1.2. 透過組態設定檔進行參數互動](config-setting.md#CONFIG-SETTING-CONFIGURATION-FILE)
+[19.1.2. 透過組態設定檔進行參數互動](config-setting.md#config-setting-configuration-file)
 
-[19.1.3. 透過 SQL 進行參數互動](config-setting.md#CONFIG-SETTING-SQL)
+[19.1.3. 透過 SQL 進行參數互動](config-setting.md#config-setting-sql)
 
-[19.1.4. 透過 Shell 進行參數互動](config-setting.md#CONFIG-SETTING-SHELL)
+[19.1.4. 透過 Shell 進行參數互動](config-setting.md#config-setting-shell)
 
-[19.1.5. 管理組態設定檔內容](config-setting.md#CONFIG-INCLUDES)
+[19.1.5. 管理組態設定檔內容](config-setting.md#config-includes)
 
 <a id="CONFIG-SETTING-NAMES-VALUES"></a>
 
-### 19.1.1. 參數名稱與數值 [#](#CONFIG-SETTING-NAMES-VALUES)
+### 19.1.1. 參數名稱與數值 [#](#config-setting-names-values) <a href="#config-setting-names-values" id="config-setting-names-values"></a>
 
 所有參數名稱皆不區分大小寫。每個參數的值皆屬於五種型別之一：
 布林（boolean）、字串（string）、整數（integer）、浮點數（floating point），
@@ -80,7 +80,7 @@
 
 <a id="CONFIG-SETTING-CONFIGURATION-FILE"></a>
 
-### 19.1.2. 透過組態設定檔進行參數互動 [#](#CONFIG-SETTING-CONFIGURATION-FILE)
+### 19.1.2. 透過組態設定檔進行參數互動 [#](#config-setting-configuration-file) <a href="#config-setting-configuration-file" id="config-setting-configuration-file"></a>
 
 設定這些參數最基本的方式，是編輯
 `postgresql.conf`<a id="id-1.6.6.4.3.2.2"></a> 檔案，
@@ -153,7 +153,7 @@ SIGHUP 訊號未產生預期效果時用於診斷問題。
 
 <a id="CONFIG-SETTING-SQL"></a>
 
-### 19.1.3. 透過 SQL 進行參數互動 [#](#CONFIG-SETTING-SQL)
+### 19.1.3. 透過 SQL 進行參數互動 [#](#config-setting-sql) <a href="#config-setting-sql" id="config-setting-sql"></a>
 
 PostgreSQL 提供三個 SQL
 命令，用來建立組態設定預設值。
@@ -217,7 +217,7 @@ PostgreSQL 提供三個 SQL
 
 <a id="CONFIG-SETTING-SHELL"></a>
 
-### 19.1.4. 透過 Shell 進行參數互動 [#](#CONFIG-SETTING-SHELL)
+### 19.1.4. 透過 Shell 進行參數互動 [#](#config-setting-shell) <a href="#config-setting-shell" id="config-setting-shell"></a>
 
 除了設定全域預設值，或在資料庫或角色層級
 附加覆寫值之外，你也可以透過 shell 機制
@@ -260,7 +260,7 @@ PostgreSQL 提供三個 SQL
 
 <a id="CONFIG-INCLUDES"></a>
 
-### 19.1.5. 管理組態設定檔內容 [#](#CONFIG-INCLUDES)
+### 19.1.5. 管理組態設定檔內容 [#](#config-includes) <a href="#config-includes" id="config-includes"></a>
 
 PostgreSQL 提供多項功能，可將複雜的
 `postgresql.conf` 檔案拆分為子檔案。

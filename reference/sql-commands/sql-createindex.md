@@ -233,7 +233,7 @@ Indexes:
 
 對於支援有序掃描的索引方法（目前只有 B-tree），可以指定選擇性子句 `ASC`、`DESC`、`NULLS FIRST` 及／或 `NULLS LAST` 來修改索引的排序順序。由於有序索引可以向前或向後掃描，建立單一欄位的 `DESC` 索引通常沒有用處——該排序順序用一般索引就已經能取得。這些選項的價值在於，可以建立與混合排序查詢所要求之排序順序相符的多欄位索引，例如 `SELECT ... ORDER BY x ASC, y DESC`。若你需要在依賴索引來避免排序步驟的查詢中，支援「null 排在低處」的行為，而非預設的「null 排在高處」，`NULLS` 選項就很有用。
 
-系統會定期收集資料表所有欄位的統計資訊。新建立的非運算式索引可以立即使用這些統計資訊來判斷索引的效用。對於新的運算式索引，必須執行 [`ANALYZE`](sql-analyze.md) 或等待 [autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)分析該資料表，才能為這些索引產生統計資訊。
+系統會定期收集資料表所有欄位的統計資訊。新建立的非運算式索引可以立即使用這些統計資訊來判斷索引的效用。對於新的運算式索引，必須執行 [`ANALYZE`](sql-analyze.md) 或等待 [autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)分析該資料表，才能為這些索引產生統計資訊。
 
 `CREATE INDEX` 執行期間，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog, pg_temp`。
 
@@ -259,7 +259,7 @@ PostgreSQL 可以在建立索引時利用多個 CPU，以更快處理資料表�
 
 PostgreSQL 先前的版本也有 R-tree 索引方法。此方法已被移除，因為它相較於 GiST 方法沒有顯著的優勢。若指定了 `USING rtree`，`CREATE INDEX` 會將它解讀為 `USING gist`，以簡化舊資料庫轉換到 GiST 的過程。
 
-每個執行 `CREATE INDEX` 的後端都會在 `pg_stat_progress_create_index` 檢視表中回報其進度。詳情請參閱[第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#CREATE-INDEX-PROGRESS-REPORTING)。
+每個執行 `CREATE INDEX` 的後端都會在 `pg_stat_progress_create_index` 檢視表中回報其進度。詳情請參閱[第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#create-index-progress-reporting)。
 
 <a id="id-1.9.3.69.8"></a>
 
@@ -357,7 +357,7 @@ CREATE INDEX CONCURRENTLY sales_quantity_index ON sales_table (quantity);
 
 ## 另請參閱
 
-[ALTER INDEX](sql-alterindex.md), [DROP INDEX](sql-dropindex.md), [REINDEX](sql-reindex.md), [第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#CREATE-INDEX-PROGRESS-REPORTING)
+[ALTER INDEX](sql-alterindex.md), [DROP INDEX](sql-dropindex.md), [REINDEX](sql-reindex.md), [第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#create-index-progress-reporting)
 
 ---
 

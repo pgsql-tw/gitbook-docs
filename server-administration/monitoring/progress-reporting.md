@@ -2,17 +2,17 @@
 
 ## 27.4. 進度回報 [#](#progress-reporting) <a href="#progress-reporting" id="progress-reporting"></a>
 
-[27.4.1. ANALYZE 進度回報](progress-reporting.md#ANALYZE-PROGRESS-REPORTING)
+[27.4.1. ANALYZE 進度回報](progress-reporting.md#analyze-progress-reporting)
 
-[27.4.2. CLUSTER 進度回報](progress-reporting.md#CLUSTER-PROGRESS-REPORTING)
+[27.4.2. CLUSTER 進度回報](progress-reporting.md#cluster-progress-reporting)
 
-[27.4.3. COPY 進度回報](progress-reporting.md#COPY-PROGRESS-REPORTING)
+[27.4.3. COPY 進度回報](progress-reporting.md#copy-progress-reporting)
 
-[27.4.4. CREATE INDEX 進度回報](progress-reporting.md#CREATE-INDEX-PROGRESS-REPORTING)
+[27.4.4. CREATE INDEX 進度回報](progress-reporting.md#create-index-progress-reporting)
 
-[27.4.5. VACUUM 進度回報](progress-reporting.md#VACUUM-PROGRESS-REPORTING)
+[27.4.5. VACUUM 進度回報](progress-reporting.md#vacuum-progress-reporting)
 
-[27.4.6. 基礎備份進度回報](progress-reporting.md#BASEBACKUP-PROGRESS-REPORTING)
+[27.4.6. 基礎備份進度回報](progress-reporting.md#basebackup-progress-reporting)
 
 PostgreSQL 具備在命令執行期間，
 回報特定命令執行進度的能力。目前支援進度回報的命令，
@@ -27,7 +27,7 @@ PostgreSQL 具備在命令執行期間，
 
 <a id="ANALYZE-PROGRESS-REPORTING"></a>
 
-### 27.4.1. ANALYZE 進度回報 [#](#ANALYZE-PROGRESS-REPORTING)
+### 27.4.1. ANALYZE 進度回報 [#](#analyze-progress-reporting) <a href="#analyze-progress-reporting" id="analyze-progress-reporting"></a>
 
 <a id="id-1.6.14.9.3.2"></a>
 
@@ -118,7 +118,7 @@ PostgreSQL 具備在命令執行期間，
 </p>
 <p>
        因基於成本的延遲（請參閱
-       <a class="xref" href="../runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST">19.10.2 節</a>）
+       <a class="xref" href="../runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost">19.10.2 節</a>）
        而耗費在休眠上的總時間，以毫秒為單位
        （若已啟用 <a class="xref" href="../runtime-config/runtime-config-statistics.md#GUC-TRACK-COST-DELAY-TIMING">track_cost_delay_timing</a>，
        否則為零）。
@@ -167,7 +167,7 @@ PostgreSQL 具備在命令執行期間，
 
 <a id="CLUSTER-PROGRESS-REPORTING"></a>
 
-### 27.4.2. CLUSTER 進度回報 [#](#CLUSTER-PROGRESS-REPORTING)
+### 27.4.2. CLUSTER 進度回報 [#](#cluster-progress-reporting) <a href="#cluster-progress-reporting" id="cluster-progress-reporting"></a>
 
 <a id="id-1.6.14.9.4.2"></a>
 
@@ -293,7 +293,7 @@ PostgreSQL 具備在命令執行期間，
 
 <a id="COPY-PROGRESS-REPORTING"></a>
 
-### 27.4.3. COPY 進度回報 [#](#COPY-PROGRESS-REPORTING)
+### 27.4.3. COPY 進度回報 [#](#copy-progress-reporting) <a href="#copy-progress-reporting" id="copy-progress-reporting"></a>
 
 <a id="id-1.6.14.9.5.2"></a>
 
@@ -388,7 +388,7 @@ PostgreSQL 具備在命令執行期間，
 
 <a id="CREATE-INDEX-PROGRESS-REPORTING"></a>
 
-### 27.4.4. CREATE INDEX 進度回報 [#](#CREATE-INDEX-PROGRESS-REPORTING)
+### 27.4.4. CREATE INDEX 進度回報 [#](#create-index-progress-reporting) <a href="#create-index-progress-reporting" id="create-index-progress-reporting"></a>
 
 <a id="id-1.6.14.9.6.2"></a>
 
@@ -585,7 +585,7 @@ PostgreSQL 具備在命令執行期間，
 
 <a id="VACUUM-PROGRESS-REPORTING"></a>
 
-### 27.4.5. VACUUM 進度回報 [#](#VACUUM-PROGRESS-REPORTING)
+### 27.4.5. VACUUM 進度回報 [#](#vacuum-progress-reporting) <a href="#vacuum-progress-reporting" id="vacuum-progress-reporting"></a>
 
 <a id="id-1.6.14.9.7.2"></a>
 
@@ -600,7 +600,7 @@ PostgreSQL 具備在命令執行期間，
 回報的，因為 `VACUUM FULL` 與
 `CLUSTER` 都會重寫資料表，
 而一般的 `VACUUM` 則只會就地修改資料表。
-請參閱 [27.4.2 節](progress-reporting.md#CLUSTER-PROGRESS-REPORTING)。
+請參閱 [27.4.2 節](progress-reporting.md#cluster-progress-reporting)。
 
 <a id="PG-STAT-PROGRESS-VACUUM-VIEW"></a>
 
@@ -710,7 +710,7 @@ PostgreSQL 具備在命令執行期間，
 </p>
 <p>
        因基於成本的延遲（請參閱
-       <a class="xref" href="../runtime-config/runtime-config-vacuum.md#RUNTIME-CONFIG-RESOURCE-VACUUM-COST">19.10.2 節</a>）
+       <a class="xref" href="../runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost">19.10.2 節</a>）
        而耗費在休眠上的總時間，以毫秒為單位
        （若已啟用 <a class="xref" href="../runtime-config/runtime-config-statistics.md#GUC-TRACK-COST-DELAY-TIMING">track_cost_delay_timing</a>，
        否則為零）。這包括任何相關聯的平行工作者
@@ -775,7 +775,7 @@ PostgreSQL 具備在命令執行期間，
 
 <a id="BASEBACKUP-PROGRESS-REPORTING"></a>
 
-### 27.4.6. 基礎備份進度回報 [#](#BASEBACKUP-PROGRESS-REPORTING)
+### 27.4.6. 基礎備份進度回報 [#](#basebackup-progress-reporting) <a href="#basebackup-progress-reporting" id="basebackup-progress-reporting"></a>
 
 <a id="id-1.6.14.9.8.2"></a>
 

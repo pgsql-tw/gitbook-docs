@@ -2,11 +2,11 @@
 
 ## 23.2. 定序支援 [#](#collation) <a href="#collation" id="collation"></a>
 
-[23.2.1. 概念](collation.md#COLLATION-CONCEPTS)
+[23.2.1. 概念](collation.md#collation-concepts)
 
-[23.2.2. 管理定序](collation.md#COLLATION-MANAGING)
+[23.2.2. 管理定序](collation.md#collation-managing)
 
-[23.2.3. ICU 自訂定序](collation.md#ICU-CUSTOM-COLLATIONS)
+[23.2.3. ICU 自訂定序](collation.md#icu-custom-collations)
 
 <a id="id-1.6.10.4.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="COLLATION-CONCEPTS"></a>
 
-### 23.2.1. 概念 [#](#COLLATION-CONCEPTS)
+### 23.2.1. 概念 [#](#collation-concepts) <a href="#collation-concepts" id="collation-concepts"></a>
 
 概念上，每一個可定序資料型別的運算式都有一個
 定序。（內建的可定序資料型別為
@@ -172,7 +172,7 @@ SELECT * FROM test1 ORDER BY a || b COLLATE "fr_FR";
 
 <a id="COLLATION-MANAGING"></a>
 
-### 23.2.2. 管理定序 [#](#COLLATION-MANAGING)
+### 23.2.2. 管理定序 [#](#collation-managing) <a href="#collation-managing" id="collation-managing"></a>
 
 定序是一種 SQL 綱要物件，它將一個 SQL 名稱對應到
 作業系統中已安裝函式庫所提供的區域設定。定序
@@ -429,7 +429,7 @@ libc 風格的區域設定名稱會被轉換為語言標籤。
 
 新的 ICU 定序可以透過在語言標籤中加入
 定序屬性，對定序行為進行廣泛的自訂。詳見
-[第 23.2.3 節](collation.md#ICU-CUSTOM-COLLATIONS)。
+[第 23.2.3 節](collation.md#icu-custom-collations)。
 
 <a id="COLLATION-COPY"></a>
 
@@ -503,7 +503,7 @@ CREATE COLLATION ignore_accents (provider = icu, locale = 'und-u-ks-level1-kc-tr
 
 <a id="ICU-CUSTOM-COLLATIONS"></a>
 
-### 23.2.3. ICU 自訂定序 [#](#ICU-CUSTOM-COLLATIONS)
+### 23.2.3. ICU 自訂定序 [#](#icu-custom-collations) <a href="#icu-custom-collations" id="icu-custom-collations"></a>
 
 ICU 允許透過在語言標籤中定義帶有定序設定的新定序，
 對定序行為進行廣泛的控制。這些
@@ -776,7 +776,7 @@ ORDER BY c COLLATE ebcdic;
 
 #### 23.2.3.5. ICU 外部參考資料 [#](#ICU-EXTERNAL-REFERENCES)
 
-本節（[第 23.2.3 節](collation.md#ICU-CUSTOM-COLLATIONS)）僅對 ICU
+本節（[第 23.2.3 節](collation.md#icu-custom-collations)）僅對 ICU
 行為與語言標籤做了簡短概述。技術細節、額外選項及新行為，
 請參閱以下文件：
 

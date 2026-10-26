@@ -34,7 +34,7 @@
 
 [表 9.71](functions-info.md#FUNCTIONS-INFO-SESSION-TABLE) 列出了幾個擷取工作階段與系統資訊的函式。
 
-除了本節所列的函式之外，還有一些與統計系統相關的函式也會提供系統資訊。詳情請參閱[第 27.2.26 節](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-FUNCTIONS)。
+除了本節所列的函式之外，還有一些與統計系統相關的函式也會提供系統資訊。詳情請參閱[第 27.2.26 節](../../server-administration/monitoring/monitoring-stats.md#monitoring-stats-functions)。
 
 <a id="FUNCTIONS-INFO-SESSION-TABLE"></a>
 

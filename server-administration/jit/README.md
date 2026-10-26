@@ -3,7 +3,7 @@
 **目錄**
 
 [30.1. 什麼是 JIT 編譯？](jit-reason.md)
-:   [30.1.1. JIT 加速的操作](jit-reason.md#JIT-ACCELERATED-OPERATIONS)
+:   [30.1.1. JIT 加速的操作](jit-reason.md#jit-accelerated-operations)
 
     [30.1.2. 內嵌](jit-reason.md#JIT-INLINING)
 
@@ -14,7 +14,7 @@
 [30.3. 設定](jit-configuration.md)
 
 [30.4. 擴充能力](jit-extensibility.md)
-:   [30.4.1. 擴充套件的內嵌支援](jit-extensibility.md#JIT-EXTENSIBILITY-BITCODE)
+:   [30.4.1. 擴充套件的內嵌支援](jit-extensibility.md#jit-extensibility-bitcode)
 
     [30.4.2. 可插拔的 JIT 提供者](jit-extensibility.md#JIT-PLUGGABLE)
 

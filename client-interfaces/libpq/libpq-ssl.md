@@ -159,7 +159,7 @@ OpenSSL 會以
 `sslpassword` 參數的處理方式；請參閱
 [`PQsetSSLKeyPassHook_OpenSSL`](libpq-connect.md#libpq-pqsetsslkeypasshook-openssl)。
 
-關於建立憑證的說明，請參閱[第 18.9.5 節](../../server-administration/runtime/ssl-tcp.md#SSL-CERTIFICATE-CREATION)。
+關於建立憑證的說明，請參閱[第 18.9.5 節](../../server-administration/runtime/ssl-tcp.md#ssl-certificate-creation)。
 
 <a id="LIBPQ-SSL-PROTECTION"></a>
 

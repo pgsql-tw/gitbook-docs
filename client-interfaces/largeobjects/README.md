@@ -9,7 +9,7 @@
 [33.2. 實作特性](lo-implementation.md)
 
 [33.3. 用戶端介面](lo-interfaces.md)
-:   [33.3.1. 建立大型物件](lo-interfaces.md#LO-CREATE)
+:   [33.3.1. 建立大型物件](lo-interfaces.md#lo-create)
 
     [33.3.2. 匯入大型物件](lo-interfaces.md#LO-IMPORT)
 

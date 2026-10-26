@@ -7,7 +7,7 @@
 [15.2. 何時可以使用平行查詢？](when-can-parallel-query-be-used.md)
 
 [15.3. 平行計畫](parallel-plans.md)
-:   [15.3.1. 平行掃描](parallel-plans.md#PARALLEL-SCANS)
+:   [15.3.1. 平行掃描](parallel-plans.md#parallel-scans)
 
     [15.3.2. 平行聯結](parallel-plans.md#PARALLEL-JOINS)
 
@@ -18,7 +18,7 @@
     [15.3.5. 平行計畫的提示](parallel-plans.md#PARALLEL-PLAN-TIPS)
 
 [15.4. 平行安全性](parallel-safety.md)
-:   [15.4.1. 函式與彙總函式的平行標記](parallel-safety.md#PARALLEL-LABELING)
+:   [15.4.1. 函式與彙總函式的平行標記](parallel-safety.md#parallel-labeling)
 
 <a id="id-1.5.14.2"></a>
 

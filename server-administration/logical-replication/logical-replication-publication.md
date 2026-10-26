@@ -2,7 +2,7 @@
 
 ## 29.1. 發佈 [#](#logical-replication-publication) <a href="#logical-replication-publication" id="logical-replication-publication"></a>
 
-[29.1.1. 複寫識別](logical-replication-publication.md#LOGICAL-REPLICATION-PUBLICATION-REPLICA-IDENTITY)
+[29.1.1. 複寫識別](logical-replication-publication.md#logical-replication-publication-replica-identity)
 
 *發佈（publication）* 可以定義在任何實體
 複寫的主要伺服器上。定義發佈的節點稱為
@@ -37,7 +37,7 @@ TABLE` 與 `DROP TABLE` 操作都是
 
 <a id="LOGICAL-REPLICATION-PUBLICATION-REPLICA-IDENTITY"></a>
 
-### 29.1.1. 複寫識別 [#](#LOGICAL-REPLICATION-PUBLICATION-REPLICA-IDENTITY)
+### 29.1.1. 複寫識別 [#](#logical-replication-publication-replica-identity) <a href="#logical-replication-publication-replica-identity" id="logical-replication-publication-replica-identity"></a>
 
 已發佈的資料表必須設定*複寫識別（replica identity）*，
 才能複寫 `UPDATE`

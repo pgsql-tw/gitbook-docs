@@ -33,7 +33,7 @@
 ### 注意
 
 PostgreSQL 也有串流複寫插槽
-（見[26.2.5 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)），但其用法略有不同。
+（見[26.2.5 節](../../server-administration/high-availability/warm-standby.md#streaming-replication)），但其用法略有不同。
 
 複寫插槽有一個識別碼，在一個 PostgreSQL 叢集中的
 所有資料庫間皆為唯一。插槽的存續與使用它的連線無關，且具備當機安全性。
@@ -64,7 +64,7 @@ PostgreSQL 也有串流複寫插槽
 ### 小心
 
 複寫插槽的存續會跨越當機，且對其消費者的狀態一無所知。即使沒有任何連線在使用它們，它們仍會阻止所需資源被移除。這會消耗儲存空間，因為只要仍被某個複寫
-插槽所需要，`VACUUM` 就無法移除所需的 WAL 或系統目錄中所需的資料列。在極端情況下，這可能導致資料庫為防止交易 ID 回捲而關閉（見[24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。
+插槽所需要，`VACUUM` 就無法移除所需的 WAL 或系統目錄中所需的資料列。在極端情況下，這可能導致資料庫為防止交易 ID 回捲而關閉（見[24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。
 因此，若某個插槽已不再需要，就應將其刪除。
 
 <a id="LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION"></a>

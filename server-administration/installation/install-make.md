@@ -2,17 +2,17 @@
 
 ## 17.3. 以 Autoconf 與 Make 建置與安裝 [#](#install-make) <a href="#install-make" id="install-make"></a>
 
-[17.3.1. 精簡版](install-make.md#INSTALL-SHORT-MAKE)
+[17.3.1. 精簡版](install-make.md#install-short-make)
 
-[17.3.2. 安裝程序](install-make.md#INSTALL-PROCEDURE-MAKE)
+[17.3.2. 安裝程序](install-make.md#install-procedure-make)
 
-[17.3.3. `configure` 選項](install-make.md#CONFIGURE-OPTIONS)
+[17.3.3. `configure` 選項](install-make.md#configure-options)
 
-[17.3.4. `configure` 環境變數](install-make.md#CONFIGURE-ENVVARS)
+[17.3.4. `configure` 環境變數](install-make.md#configure-envvars)
 
 <a id="INSTALL-SHORT-MAKE"></a>
 
-### 17.3.1. 精簡版 [#](#INSTALL-SHORT-MAKE)
+### 17.3.1. 精簡版 [#](#install-short-make) <a href="#install-short-make" id="install-short-make"></a>
 
 ```
 
@@ -34,7 +34,7 @@ su - postgres
 
 <a id="INSTALL-PROCEDURE-MAKE"></a>
 
-### 17.3.2. 安裝程序 [#](#INSTALL-PROCEDURE-MAKE)
+### 17.3.2. 安裝程序 [#](#install-procedure-make) <a href="#install-procedure-make" id="install-procedure-make"></a>
 
 <a id="CONFIGURE"></a>1. **設定**
 
@@ -73,10 +73,10 @@ su - postgres
    你可以透過提供一或多個命令列選項給 `configure`，來自訂建置與
    安裝程序。一般來說，你可能會想自訂安裝位置，或是要建置的選用
    功能集合。`configure` 有大量選項，這些選項說明於
-   [17.3.3 節](install-make.md#CONFIGURE-OPTIONS)。
+   [17.3.3 節](install-make.md#configure-options)。
 
    此外，`configure` 也會回應特定的環境變數，說明於
-   [17.3.4 節](install-make.md#CONFIGURE-ENVVARS)。這些變數提供了
+   [17.3.4 節](install-make.md#configure-envvars)。這些變數提供了
    額外的自訂設定方式。
 <a id="BUILD"></a>2. **建置**
 
@@ -223,7 +223,7 @@ su - postgres
 
 <a id="CONFIGURE-OPTIONS"></a>
 
-### 17.3.3. `configure` 選項 [#](#CONFIGURE-OPTIONS)
+### 17.3.3. `configure` 選項 [#](#configure-options) <a href="#configure-options" id="configure-options"></a>
 
 <a id="id-1.6.4.6.4.2"></a>
 
@@ -657,7 +657,7 @@ PostgreSQL 功能。這些功能之所以非預設，大多是因為
     其他方式，讓可執行檔能找到共用函式庫。
     一般來說，這需要設定作業系統的動態連結器，
     使其搜尋該函式庫目錄；詳見
-    [17.5.1 節](install-post.md#INSTALL-POST-SHLIBS)以取得更多細節。
+    [17.5.1 節](install-post.md#install-post-shlibs)以取得更多細節。
 
 <a id="CONFIGURE-OPTIONS-MISC"></a>
 
@@ -844,7 +844,7 @@ PostgreSQL 功能。這些功能之所以非預設，大多是因為
 
 <a id="CONFIGURE-ENVVARS"></a>
 
-### 17.3.4. `configure` 環境變數 [#](#CONFIGURE-ENVVARS)
+### 17.3.4. `configure` 環境變數 [#](#configure-envvars) <a href="#configure-envvars" id="configure-envvars"></a>
 
 <a id="id-1.6.4.6.5.2"></a>
 

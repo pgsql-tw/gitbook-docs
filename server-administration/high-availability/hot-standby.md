@@ -2,15 +2,15 @@
 
 ## 26.4. 熱備援 [#](#hot-standby) <a href="#hot-standby" id="hot-standby"></a>
 
-[26.4.1. 使用者總覽](hot-standby.md#HOT-STANDBY-USERS)
+[26.4.1. 使用者總覽](hot-standby.md#hot-standby-users)
 
-[26.4.2. 處理查詢衝突](hot-standby.md#HOT-STANDBY-CONFLICT)
+[26.4.2. 處理查詢衝突](hot-standby.md#hot-standby-conflict)
 
-[26.4.3. 管理員總覽](hot-standby.md#HOT-STANDBY-ADMIN)
+[26.4.3. 管理員總覽](hot-standby.md#hot-standby-admin)
 
-[26.4.4. 熱備援參數參考](hot-standby.md#HOT-STANDBY-PARAMETERS)
+[26.4.4. 熱備援參數參考](hot-standby.md#hot-standby-parameters)
 
-[26.4.5. 注意事項](hot-standby.md#HOT-STANDBY-CAVEATS)
+[26.4.5. 注意事項](hot-standby.md#hot-standby-caveats)
 
 <a id="id-1.6.13.18.2"></a>
 
@@ -25,7 +25,7 @@
 
 <a id="HOT-STANDBY-USERS"></a>
 
-### 26.4.1. 使用者總覽 [#](#HOT-STANDBY-USERS)
+### 26.4.1. 使用者總覽 [#](#hot-standby-users) <a href="#hot-standby-users" id="hot-standby-users"></a>
 
 當待命伺服器上的
 [hot_standby](../runtime-config/runtime-config-replication.md#GUC-HOT-STANDBY)
@@ -121,7 +121,7 @@ Snapshot 的建立時機可能是在每個查詢開始時，或是在每個交�
 
 <a id="HOT-STANDBY-CONFLICT"></a>
 
-### 26.4.2. 處理查詢衝突 [#](#HOT-STANDBY-CONFLICT)
+### 26.4.2. 處理查詢衝突 [#](#hot-standby-conflict) <a href="#hot-standby-conflict" id="hot-standby-conflict"></a>
 
 主要伺服器與待命伺服器在許多方面都屬於鬆散連接的關係。
 主要伺服器上的操作，會對待命伺服器產生影響。因此，
@@ -221,7 +221,7 @@ PostgreSQL 會允許清理這些舊版本資料列。然而，
 所有僅索引掃描（index-only scan，包括在待命伺服器上執行的那些），
 都必須使用與可見性對照表（visibility map）「一致」的 MVCC
 snapshot。因此，只要 `VACUUM`
-[將某個頁面在可見性對照表中標記為全可見](../maintenance/routine-vacuuming.md#VACUUM-FOR-VISIBILITY-MAP)，
+[將某個頁面在可見性對照表中標記為全可見](../maintenance/routine-vacuuming.md#vacuum-for-visibility-map)，
 而該頁面包含一個或多個*不*對所有待命查詢可見的資料列，
 就必然會產生衝突。因此，即使是對一個沒有任何已更新或已刪除、
 需要清理之資料列的資料表執行 `VACUUM`，
@@ -263,7 +263,7 @@ snapshot。因此，只要 `VACUUM`
 
 <a id="HOT-STANDBY-ADMIN"></a>
 
-### 26.4.3. 管理員總覽 [#](#HOT-STANDBY-ADMIN)
+### 26.4.3. 管理員總覽 [#](#hot-standby-admin) <a href="#hot-standby-admin" id="hot-standby-admin"></a>
 
 如果 `postgresql.conf` 中的 `hot_standby`
 為 `on`（此為預設值），且存在一個
@@ -481,10 +481,10 @@ hint bit 資訊。`CHECKPOINT` 指令在復原期間
 
 <a id="HOT-STANDBY-PARAMETERS"></a>
 
-### 26.4.4. 熱備援參數參考 [#](#HOT-STANDBY-PARAMETERS)
+### 26.4.4. 熱備援參數參考 [#](#hot-standby-parameters) <a href="#hot-standby-parameters" id="hot-standby-parameters"></a>
 
-上面在[第 26.4.2 節](hot-standby.md#HOT-STANDBY-CONFLICT)
-及[第 26.4.3 節](hot-standby.md#HOT-STANDBY-ADMIN)中，
+上面在[第 26.4.2 節](hot-standby.md#hot-standby-conflict)
+及[第 26.4.3 節](hot-standby.md#hot-standby-admin)中，
 已經提到過各種參數。
 
 在主要伺服器上，可以使用
@@ -504,7 +504,7 @@ hint bit 資訊。`CHECKPOINT` 指令在復原期間
 
 <a id="HOT-STANDBY-CAVEATS"></a>
 
-### 26.4.5. 注意事項 [#](#HOT-STANDBY-CAVEATS)
+### 26.4.5. 注意事項 [#](#hot-standby-caveats) <a href="#hot-standby-caveats" id="hot-standby-caveats"></a>
 
 熱備援存在幾項限制。這些限制未來版本有可能、
 也很可能會被修正：

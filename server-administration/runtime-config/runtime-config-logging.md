@@ -2,23 +2,23 @@
 
 ## 19.8. 錯誤回報與日誌記錄 [#](#runtime-config-logging) <a href="#runtime-config-logging" id="runtime-config-logging"></a>
 
-[19.8.1. 記錄位置](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)
+[19.8.1. 記錄位置](runtime-config-logging.md#runtime-config-logging-where)
 
-[19.8.2. 記錄時機](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHEN)
+[19.8.2. 記錄時機](runtime-config-logging.md#runtime-config-logging-when)
 
-[19.8.3. 記錄內容](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHAT)
+[19.8.3. 記錄內容](runtime-config-logging.md#runtime-config-logging-what)
 
-[19.8.4. 使用 CSV 格式日誌輸出](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)
+[19.8.4. 使用 CSV 格式日誌輸出](runtime-config-logging.md#runtime-config-logging-csvlog)
 
-[19.8.5. 使用 JSON 格式日誌輸出](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG)
+[19.8.5. 使用 JSON 格式日誌輸出](runtime-config-logging.md#runtime-config-logging-jsonlog)
 
-[19.8.6. 程序標題](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-PROC-TITLE)
+[19.8.6. 程序標題](runtime-config-logging.md#runtime-config-logging-proc-title)
 
 <a id="id-1.6.6.11.2"></a>
 
 <a id="RUNTIME-CONFIG-LOGGING-WHERE"></a>
 
-### 19.8.1. 記錄位置 [#](#RUNTIME-CONFIG-LOGGING-WHERE)
+### 19.8.1. 記錄位置 [#](#runtime-config-logging-where) <a href="#runtime-config-logging-where" id="runtime-config-logging-where"></a>
 
 <a id="id-1.6.6.11.3.2"></a><a id="id-1.6.6.11.3.3"></a>
 
@@ -316,7 +316,7 @@
 
 <a id="RUNTIME-CONFIG-LOGGING-WHEN"></a>
 
-### 19.8.2. 記錄時機 [#](#RUNTIME-CONFIG-LOGGING-WHEN)
+### 19.8.2. 記錄時機 [#](#runtime-config-logging-when) <a href="#runtime-config-logging-when" id="runtime-config-logging-when"></a>
 
 <a id="GUC-LOG-MIN-MESSAGES"></a>
 
@@ -486,7 +486,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 
 <a id="RUNTIME-CONFIG-LOGGING-WHAT"></a>
 
-### 19.8.3. 記錄內容 [#](#RUNTIME-CONFIG-LOGGING-WHAT)
+### 19.8.3. 記錄內容 [#](#runtime-config-logging-what) <a href="#runtime-config-logging-what" id="runtime-config-logging-what"></a>
 
 ### 注意
 
@@ -899,7 +899,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 
 <a id="RUNTIME-CONFIG-LOGGING-CSVLOG"></a>
 
-### 19.8.4. 使用 CSV 格式日誌輸出 [#](#RUNTIME-CONFIG-LOGGING-CSVLOG)
+### 19.8.4. 使用 CSV 格式日誌輸出 [#](#runtime-config-logging-csvlog) <a href="#runtime-config-logging-csvlog" id="runtime-config-logging-csvlog"></a>
 
 在 `log_destination` 清單中包含
 `csvlog`，能提供一種方便的方式，
@@ -1004,7 +1004,7 @@ COPY postgres_log FROM '/full/path/to/logfile.csv' WITH csv;
 
 <a id="RUNTIME-CONFIG-LOGGING-JSONLOG"></a>
 
-### 19.8.5. 使用 JSON 格式日誌輸出 [#](#RUNTIME-CONFIG-LOGGING-JSONLOG)
+### 19.8.5. 使用 JSON 格式日誌輸出 [#](#runtime-config-logging-jsonlog) <a href="#runtime-config-logging-jsonlog" id="runtime-config-logging-jsonlog"></a>
 
 在 `log_destination` 清單中包含
 `jsonlog`，能提供一種方便的方式，
@@ -1030,7 +1030,7 @@ JSON 格式輸出日誌行。
 
 <a id="RUNTIME-CONFIG-LOGGING-PROC-TITLE"></a>
 
-### 19.8.6. 程序標題 [#](#RUNTIME-CONFIG-LOGGING-PROC-TITLE)
+### 19.8.6. 程序標題 [#](#runtime-config-logging-proc-title) <a href="#runtime-config-logging-proc-title" id="runtime-config-logging-proc-title"></a>
 
 這些設定控制伺服器程序的程序標題會如何被修改。
 程序標題通常透過 ps 等程式檢視，
