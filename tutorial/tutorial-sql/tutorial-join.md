@@ -1,6 +1,6 @@
 <a id="TUTORIAL-JOIN"></a>
 
-## 2.6. 資料表之間的聯結（JOIN） [#](#TUTORIAL-JOIN)
+## 2.6. 資料表之間的聯結（JOIN） [#](#tutorial-join) <a href="#tutorial-join" id="tutorial-join"></a>
 
 <a id="id-1.4.4.7.2"></a>
 

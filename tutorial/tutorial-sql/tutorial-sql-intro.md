@@ -1,6 +1,6 @@
 <a id="TUTORIAL-SQL-INTRO"></a>
 
-## 2.1. 簡介 [#](#TUTORIAL-SQL-INTRO)
+## 2.1. 簡介 [#](#tutorial-sql-intro) <a href="#tutorial-sql-intro" id="tutorial-sql-intro"></a>
 
 本章概要說明如何使用 SQL 執行簡單的操作。本教學只是入門介紹，絕非完整的 SQL 教學。坊間已有許多關於 SQL 的書籍，包括 [[melt93]](../../bibliography.md#MELT93) 與 [[date97]](../../bibliography.md#DATE97)。請注意，PostgreSQL 的部分語言功能是標準的延伸。
 

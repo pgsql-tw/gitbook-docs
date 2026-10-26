@@ -1,6 +1,6 @@
 <a id="DDL-BASICS"></a>
 
-## 5.1. 資料表基礎 [#](#DDL-BASICS)
+## 5.1. 資料表基礎 [#](#ddl-basics) <a href="#ddl-basics" id="ddl-basics"></a>
 
 <a id="id-1.5.4.3.2"></a><a id="id-1.5.4.3.3"></a><a id="id-1.5.4.3.4"></a>
 

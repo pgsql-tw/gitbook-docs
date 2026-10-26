@@ -1,6 +1,6 @@
 <a id="DDL-PRIV"></a>
 
-## 5.8. 權限 [#](#DDL-PRIV)
+## 5.8. 權限 [#](#ddl-priv) <a href="#ddl-priv" id="ddl-priv"></a>
 
 <a id="id-1.5.4.10.2"></a><a id="id-1.5.4.10.3"></a><a id="id-1.5.4.10.4"></a><a id="id-1.5.4.10.5"></a><a id="id-1.5.4.10.6"></a><a id="id-1.5.4.10.7"></a><a id="id-1.5.4.10.8"></a>
 

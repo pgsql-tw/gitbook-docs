@@ -1,6 +1,6 @@
 <a id="DDL-SCHEMAS"></a>
 
-## 5.10. 綱要 [#](#DDL-SCHEMAS)
+## 5.10. 綱要 [#](#ddl-schemas) <a href="#ddl-schemas" id="ddl-schemas"></a>
 
 [5.10.1. 建立綱要](ddl-schemas.md#DDL-SCHEMAS-CREATE)
 

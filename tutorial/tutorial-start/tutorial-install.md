@@ -1,6 +1,6 @@
 <a id="TUTORIAL-INSTALL"></a>
 
-## 1.1. 安裝 [#](#TUTORIAL-INSTALL)
+## 1.1. 安裝 [#](#tutorial-install) <a href="#tutorial-install" id="tutorial-install"></a>
 
 使用 PostgreSQL 之前，當然必須先安裝它。PostgreSQL 可能已經安裝在你的環境中，原因可能是你的作業系統發行版本已內含 PostgreSQL，或是系統管理員已經安裝過。若是如此，請參閱作業系統文件或詢問系統管理員，以瞭解如何存取 PostgreSQL。
 

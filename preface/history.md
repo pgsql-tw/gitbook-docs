@@ -1,6 +1,6 @@
 <a id="HISTORY"></a>
 
-## 2. PostgreSQL 簡史 [#](#HISTORY)
+## 2. PostgreSQL 簡史 [#](#history) <a href="#history" id="history"></a>
 
 [2.1. 柏克萊 POSTGRES 專案](history.md#HISTORY-BERKELEY)
 

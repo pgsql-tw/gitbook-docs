@@ -1,6 +1,6 @@
 <a id="DDL-PARTITIONING"></a>
 
-## 5.12. 資料表分割 [#](#DDL-PARTITIONING)
+## 5.12. 資料表分割 [#](#ddl-partitioning) <a href="#ddl-partitioning" id="ddl-partitioning"></a>
 
 [5.12.1. 概觀](ddl-partitioning.md#DDL-PARTITIONING-OVERVIEW)
 

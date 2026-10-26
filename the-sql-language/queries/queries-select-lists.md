@@ -1,6 +1,6 @@
 <a id="QUERIES-SELECT-LISTS"></a>
 
-## 7.3. 選取清單 [#](#QUERIES-SELECT-LISTS)
+## 7.3. 選取清單 [#](#queries-select-lists) <a href="#queries-select-lists" id="queries-select-lists"></a>
 
 [7.3.1. 選取清單項目](queries-select-lists.md#QUERIES-SELECT-LIST-ITEMS)
 

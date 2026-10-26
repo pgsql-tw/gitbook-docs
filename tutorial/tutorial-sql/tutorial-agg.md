@@ -1,6 +1,6 @@
 <a id="TUTORIAL-AGG"></a>
 
-## 2.7. 彙總函式 [#](#TUTORIAL-AGG)
+## 2.7. 彙總函式 [#](#tutorial-agg) <a href="#tutorial-agg" id="tutorial-agg"></a>
 
 <a id="id-1.4.4.8.2"></a>
 

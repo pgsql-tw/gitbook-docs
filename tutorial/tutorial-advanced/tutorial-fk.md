@@ -1,6 +1,6 @@
 <a id="TUTORIAL-FK"></a>
 
-## 3.3. 外部索引鍵 [#](#TUTORIAL-FK)
+## 3.3. 外部索引鍵 [#](#tutorial-fk) <a href="#tutorial-fk" id="tutorial-fk"></a>
 
 <a id="id-1.4.5.4.2"></a><a id="id-1.4.5.4.3"></a>
 

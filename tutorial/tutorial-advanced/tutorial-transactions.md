@@ -1,6 +1,6 @@
 <a id="TUTORIAL-TRANSACTIONS"></a>
 
-## 3.4. 交易 [#](#TUTORIAL-TRANSACTIONS)
+## 3.4. 交易 [#](#tutorial-transactions) <a href="#tutorial-transactions" id="tutorial-transactions"></a>
 
 <a id="id-1.4.5.5.2"></a>
 

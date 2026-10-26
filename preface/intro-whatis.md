@@ -1,6 +1,6 @@
 <a id="INTRO-WHATIS"></a>
 
-## 1. 什麼是 PostgreSQL？ [#](#INTRO-WHATIS)
+## 1. 什麼是 PostgreSQL？ [#](#intro-whatis) <a href="#intro-whatis" id="intro-whatis"></a>
 
 PostgreSQL 是一套物件關聯式資料庫管理系統（ORDBMS），以加州大學柏克萊分校資訊科學系所開發的 [POSTGRES 第 4.2 版](https://dsf.berkeley.edu/postgres.html)為基礎。POSTGRES 開創了許多概念，這些概念直到很久以後才出現在部分商業資料庫系統中。
 

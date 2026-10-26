@@ -1,6 +1,6 @@
 <a id="TUTORIAL-UPDATE"></a>
 
-## 2.8. 更新 [#](#TUTORIAL-UPDATE)
+## 2.8. 更新 [#](#tutorial-update) <a href="#tutorial-update" id="tutorial-update"></a>
 
 <a id="id-1.4.4.9.2"></a>
 

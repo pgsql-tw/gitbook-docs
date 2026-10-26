@@ -1,6 +1,6 @@
 <a id="SQL-EXPRESSIONS"></a>
 
-## 4.2. 值運算式 [#](#SQL-EXPRESSIONS)
+## 4.2. 值運算式 [#](#sql-expressions) <a href="#sql-expressions" id="sql-expressions"></a>
 
 [4.2.1. 欄位參照](sql-expressions.md#SQL-EXPRESSIONS-COLUMN-REFS)
 

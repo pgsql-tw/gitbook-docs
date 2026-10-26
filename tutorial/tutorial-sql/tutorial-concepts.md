@@ -1,6 +1,6 @@
 <a id="TUTORIAL-CONCEPTS"></a>
 
-## 2.2. 概念 [#](#TUTORIAL-CONCEPTS)
+## 2.2. 概念 [#](#tutorial-concepts) <a href="#tutorial-concepts" id="tutorial-concepts"></a>
 
 <a id="id-1.4.4.3.2.1"></a>
 <a id="id-1.4.4.3.2.2"></a>

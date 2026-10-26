@@ -1,6 +1,6 @@
 <a id="DDL-FOREIGN-DATA"></a>
 
-## 5.13. 外部資料 [#](#DDL-FOREIGN-DATA)
+## 5.13. 外部資料 [#](#ddl-foreign-data) <a href="#ddl-foreign-data" id="ddl-foreign-data"></a>
 
 <a id="id-1.5.4.15.2"></a><a id="id-1.5.4.15.3"></a><a id="id-1.5.4.15.4"></a>
 

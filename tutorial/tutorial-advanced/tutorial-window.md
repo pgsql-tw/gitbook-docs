@@ -1,6 +1,6 @@
 <a id="TUTORIAL-WINDOW"></a>
 
-## 3.5. Window 函式 [#](#TUTORIAL-WINDOW)
+## 3.5. Window 函式 [#](#tutorial-window) <a href="#tutorial-window" id="tutorial-window"></a>
 
 <a id="id-1.4.5.6.2"></a>
 

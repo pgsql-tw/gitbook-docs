@@ -1,6 +1,6 @@
 <a id="TUTORIAL-ARCH"></a>
 
-## 1.2. 架構基礎 [#](#TUTORIAL-ARCH)
+## 1.2. 架構基礎 [#](#tutorial-arch) <a href="#tutorial-arch" id="tutorial-arch"></a>
 
 在繼續之前，你應該先瞭解 PostgreSQL 的基本系統架構。瞭解 PostgreSQL 各個部分如何互動，會讓本章的內容更容易理解。
 

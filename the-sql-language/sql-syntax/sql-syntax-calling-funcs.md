@@ -1,6 +1,6 @@
 <a id="SQL-SYNTAX-CALLING-FUNCS"></a>
 
-## 4.3. 呼叫函式 [#](#SQL-SYNTAX-CALLING-FUNCS)
+## 4.3. 呼叫函式 [#](#sql-syntax-calling-funcs) <a href="#sql-syntax-calling-funcs" id="sql-syntax-calling-funcs"></a>
 
 [4.3.1. 使用位置表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
 

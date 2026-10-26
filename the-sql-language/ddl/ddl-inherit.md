@@ -1,6 +1,6 @@
 <a id="DDL-INHERIT"></a>
 
-## 5.11. 繼承 [#](#DDL-INHERIT)
+## 5.11. 繼承 [#](#ddl-inherit) <a href="#ddl-inherit" id="ddl-inherit"></a>
 
 [5.11.1. 注意事項](ddl-inherit.md#DDL-INHERIT-CAVEATS)
 

@@ -1,6 +1,6 @@
 <a id="DDL-GENERATED-COLUMNS"></a>
 
-## 5.4. 產生欄位 [#](#DDL-GENERATED-COLUMNS)
+## 5.4. 產生欄位 [#](#ddl-generated-columns) <a href="#ddl-generated-columns" id="ddl-generated-columns"></a>
 
 <a id="id-1.5.4.6.2"></a>
 

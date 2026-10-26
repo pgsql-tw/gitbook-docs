@@ -1,6 +1,6 @@
 <a id="TUTORIAL-ADVANCED-INTRO"></a>
 
-## 3.1. 簡介 [#](#TUTORIAL-ADVANCED-INTRO)
+## 3.1. 簡介 [#](#tutorial-advanced-intro) <a href="#tutorial-advanced-intro" id="tutorial-advanced-intro"></a>
 
 前一章介紹了使用 SQL 在 PostgreSQL 中儲存及存取資料的基礎。現在我們將討論一些更進階的 SQL 功能，讓管理更簡單，並防止資料遺失或損毀。最後，我們會介紹一些 PostgreSQL 的擴充功能。
 

@@ -1,6 +1,6 @@
 <a id="DML-INSERT"></a>
 
-## 6.1. 插入資料 [#](#DML-INSERT)
+## 6.1. 插入資料 [#](#dml-insert) <a href="#dml-insert" id="dml-insert"></a>
 
 <a id="id-1.5.5.3.2"></a><a id="id-1.5.5.3.3"></a>
 

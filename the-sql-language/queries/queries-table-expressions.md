@@ -1,6 +1,6 @@
 <a id="QUERIES-TABLE-EXPRESSIONS"></a>
 
-## 7.2. 資料表運算式 [#](#QUERIES-TABLE-EXPRESSIONS)
+## 7.2. 資料表運算式 [#](#queries-table-expressions) <a href="#queries-table-expressions" id="queries-table-expressions"></a>
 
 [7.2.1. `FROM` 子句](queries-table-expressions.md#QUERIES-FROM)
 

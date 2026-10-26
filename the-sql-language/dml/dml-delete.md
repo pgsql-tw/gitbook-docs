@@ -1,6 +1,6 @@
 <a id="DML-DELETE"></a>
 
-## 6.3. 刪除資料 [#](#DML-DELETE)
+## 6.3. 刪除資料 [#](#dml-delete) <a href="#dml-delete" id="dml-delete"></a>
 
 <a id="id-1.5.5.5.2"></a><a id="id-1.5.5.5.3"></a>
 

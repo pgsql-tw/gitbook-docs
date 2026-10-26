@@ -1,6 +1,6 @@
 <a id="SQL-SYNTAX-LEXICAL"></a>
 
-## 4.1. 詞彙結構 [#](#SQL-SYNTAX-LEXICAL)
+## 4.1. 詞彙結構 [#](#sql-syntax-lexical) <a href="#sql-syntax-lexical" id="sql-syntax-lexical"></a>
 
 [4.1.1. 識別字與關鍵字](sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)
 

@@ -1,6 +1,6 @@
 <a id="TUTORIAL-SELECT"></a>
 
-## 2.5. 查詢資料表 [#](#TUTORIAL-SELECT)
+## 2.5. 查詢資料表 [#](#tutorial-select) <a href="#tutorial-select" id="tutorial-select"></a>
 
 <a id="id-1.4.4.6.2.1"></a>
 <a id="id-1.4.4.6.2.2"></a>

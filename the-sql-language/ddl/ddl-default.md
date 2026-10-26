@@ -1,6 +1,6 @@
 <a id="DDL-DEFAULT"></a>
 
-## 5.2. 預設值 [#](#DDL-DEFAULT)
+## 5.2. 預設值 [#](#ddl-default) <a href="#ddl-default" id="ddl-default"></a>
 
 <a id="id-1.5.4.4.2"></a>
 

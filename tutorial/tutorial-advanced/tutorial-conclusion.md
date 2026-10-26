@@ -1,6 +1,6 @@
 <a id="TUTORIAL-CONCLUSION"></a>
 
-## 3.7. 結語 [#](#TUTORIAL-CONCLUSION)
+## 3.7. 結語 [#](#tutorial-conclusion) <a href="#tutorial-conclusion" id="tutorial-conclusion"></a>
 
 這份入門教學主要面向 SQL 新手，因此尚未涵蓋 PostgreSQL 的許多功能。本書其餘部分會更詳細地討論這些功能。
 

@@ -1,6 +1,6 @@
 <a id="TUTORIAL-ACCESSDB"></a>
 
-## 1.4. 存取資料庫 [#](#TUTORIAL-ACCESSDB)
+## 1.4. 存取資料庫 [#](#tutorial-accessdb) <a href="#tutorial-accessdb" id="tutorial-accessdb"></a>
 
 <a id="id-1.4.3.5.2"></a>
 

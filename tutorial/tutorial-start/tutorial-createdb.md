@@ -1,6 +1,6 @@
 <a id="TUTORIAL-CREATEDB"></a>
 
-## 1.3. 建立資料庫 [#](#TUTORIAL-CREATEDB)
+## 1.3. 建立資料庫 [#](#tutorial-createdb) <a href="#tutorial-createdb" id="tutorial-createdb"></a>
 
 <a id="id-1.4.3.4.2"></a><a id="id-1.4.3.4.3"></a>
 

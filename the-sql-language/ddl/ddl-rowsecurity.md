@@ -1,6 +1,6 @@
 <a id="DDL-ROWSECURITY"></a>
 
-## 5.9. 資料列安全政策 [#](#DDL-ROWSECURITY)
+## 5.9. 資料列安全政策 [#](#ddl-rowsecurity) <a href="#ddl-rowsecurity" id="ddl-rowsecurity"></a>
 
 <a id="id-1.5.4.11.2"></a><a id="id-1.5.4.11.3"></a>
 

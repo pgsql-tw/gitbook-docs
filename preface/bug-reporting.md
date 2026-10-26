@@ -1,6 +1,6 @@
 <a id="BUG-REPORTING"></a>
 
-## 5. 錯誤回報指引 [#](#BUG-REPORTING)
+## 5. 錯誤回報指引 [#](#bug-reporting) <a href="#bug-reporting" id="bug-reporting"></a>
 
 [5.1. 辨識錯誤](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
 

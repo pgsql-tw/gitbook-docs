@@ -1,6 +1,6 @@
 <a id="TUTORIAL-INHERITANCE"></a>
 
-## 3.6. 繼承 [#](#TUTORIAL-INHERITANCE)
+## 3.6. 繼承 [#](#tutorial-inheritance) <a href="#tutorial-inheritance" id="tutorial-inheritance"></a>
 
 <a id="id-1.4.5.7.2"></a>
 

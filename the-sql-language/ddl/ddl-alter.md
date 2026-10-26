@@ -1,6 +1,6 @@
 <a id="DDL-ALTER"></a>
 
-## 5.7. 修改資料表 [#](#DDL-ALTER)
+## 5.7. 修改資料表 [#](#ddl-alter) <a href="#ddl-alter" id="ddl-alter"></a>
 
 [5.7.1. 新增欄位](ddl-alter.md#DDL-ALTER-ADDING-A-COLUMN)
 

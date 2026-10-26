@@ -1,6 +1,6 @@
 <a id="TUTORIAL-TABLE"></a>
 
-## 2.3. 建立新資料表 [#](#TUTORIAL-TABLE)
+## 2.3. 建立新資料表 [#](#tutorial-table) <a href="#tutorial-table" id="tutorial-table"></a>
 
 <a id="id-1.4.4.4.2"></a>
 

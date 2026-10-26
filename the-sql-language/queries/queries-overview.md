@@ -1,6 +1,6 @@
 <a id="QUERIES-OVERVIEW"></a>
 
-## 7.1. 概觀 [#](#QUERIES-OVERVIEW)
+## 7.1. 概觀 [#](#queries-overview) <a href="#queries-overview" id="queries-overview"></a>
 
 從資料庫取出資料的過程或指令，稱為*查詢*（query）。在 SQL 中，使用 [`SELECT`](../../reference/sql-commands/sql-select.md) 指令來指定查詢。`SELECT` 指令的一般語法是
 

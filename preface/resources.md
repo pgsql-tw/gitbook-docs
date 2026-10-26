@@ -1,6 +1,6 @@
 <a id="RESOURCES"></a>
 
-## 4. 更多資訊 [#](#RESOURCES)
+## 4. 更多資訊 [#](#resources) <a href="#resources" id="resources"></a>
 
 除了文件（也就是本書）之外，還有其他關於 PostgreSQL 的資源：
 

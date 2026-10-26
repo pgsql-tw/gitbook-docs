@@ -1,6 +1,6 @@
 <a id="DDL-SYSTEM-COLUMNS"></a>
 
-## 5.6. 系統欄位 [#](#DDL-SYSTEM-COLUMNS)
+## 5.6. 系統欄位 [#](#ddl-system-columns) <a href="#ddl-system-columns" id="ddl-system-columns"></a>
 
 每個資料表都有數個由系統隱含定義的*系統欄位*（system column）。因此，這些名稱不能用作使用者自訂欄位的名稱。（請注意，這些限制與該名稱是否為關鍵字無關；為名稱加上引號並不能讓你避開這些限制。）你其實不需要關心這些欄位；只要知道它們存在就好。
 

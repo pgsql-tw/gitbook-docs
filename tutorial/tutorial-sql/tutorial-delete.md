@@ -1,6 +1,6 @@
 <a id="TUTORIAL-DELETE"></a>
 
-## 2.9. 刪除 [#](#TUTORIAL-DELETE)
+## 2.9. 刪除 [#](#tutorial-delete) <a href="#tutorial-delete" id="tutorial-delete"></a>
 
 <a id="id-1.4.4.10.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="DML-RETURNING"></a>
 
-## 6.4. 從修改的資料列回傳資料 [#](#DML-RETURNING)
+## 6.4. 從修改的資料列回傳資料 [#](#dml-returning) <a href="#dml-returning" id="dml-returning"></a>
 
 <a id="id-1.5.5.6.2"></a><a id="id-1.5.5.6.3"></a><a id="id-1.5.5.6.4"></a><a id="id-1.5.5.6.5"></a><a id="id-1.5.5.6.6"></a>
 

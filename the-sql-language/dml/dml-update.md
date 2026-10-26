@@ -1,6 +1,6 @@
 <a id="DML-UPDATE"></a>
 
-## 6.2. 更新資料 [#](#DML-UPDATE)
+## 6.2. 更新資料 [#](#dml-update) <a href="#dml-update" id="dml-update"></a>
 
 <a id="id-1.5.5.4.2"></a><a id="id-1.5.5.4.3"></a>
 

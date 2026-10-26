@@ -1,6 +1,6 @@
 <a id="DDL-IDENTITY-COLUMNS"></a>
 
-## 5.3. 識別欄位 [#](#DDL-IDENTITY-COLUMNS)
+## 5.3. 識別欄位 [#](#ddl-identity-columns) <a href="#ddl-identity-columns" id="ddl-identity-columns"></a>
 
 <a id="id-1.5.4.5.2"></a>
 

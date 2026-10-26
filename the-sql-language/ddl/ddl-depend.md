@@ -1,6 +1,6 @@
 <a id="DDL-DEPEND"></a>
 
-## 5.15. 相依性追蹤 [#](#DDL-DEPEND)
+## 5.15. 相依性追蹤 [#](#ddl-depend) <a href="#ddl-depend" id="ddl-depend"></a>
 
 <a id="id-1.5.4.17.2"></a><a id="id-1.5.4.17.3"></a>
 

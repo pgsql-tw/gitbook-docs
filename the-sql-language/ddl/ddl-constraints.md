@@ -1,6 +1,6 @@
 <a id="DDL-CONSTRAINTS"></a>
 
-## 5.5. 限制條件 [#](#DDL-CONSTRAINTS)
+## 5.5. 限制條件 [#](#ddl-constraints) <a href="#ddl-constraints" id="ddl-constraints"></a>
 
 [5.5.1. 檢查限制條件](ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
 
