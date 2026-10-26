@@ -1,6 +1,6 @@
 <a id="COLOR-WHEN"></a>
 
-## N.1. 何時使用色彩 [#](#COLOR-WHEN)
+## N.1. 何時使用色彩 [#](#color-when) <a href="#color-when" id="color-when"></a>
 
 若要使用彩色輸出，請依下列方式設定環境變數 `PG_COLOR`<a id="id-1.11.15.4.2.2"></a>：
 

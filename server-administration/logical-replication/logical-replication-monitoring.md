@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-MONITORING"></a>
 
-## 29.10. 監控 [#](#LOGICAL-REPLICATION-MONITORING)
+## 29.10. 監控 [#](#logical-replication-monitoring) <a href="#logical-replication-monitoring" id="logical-replication-monitoring"></a>
 
 由於邏輯複寫的架構與[實體串流複寫](../high-availability/warm-standby.md#STREAMING-REPLICATION)相近，發佈節點的監控方式也類似於實體複寫主要伺服器的監控（請參閱[第 26.2.5.2 節](../high-availability/warm-standby.md#STREAMING-REPLICATION-MONITORING)）。
 

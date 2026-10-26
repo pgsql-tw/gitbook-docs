@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-CONFIG"></a>
 
-## 29.12. 組態設定 [#](#LOGICAL-REPLICATION-CONFIG)
+## 29.12. 組態設定 [#](#logical-replication-config) <a href="#logical-replication-config" id="logical-replication-config"></a>
 
 [29.12.1. 發布端](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-PUBLISHER)
 

@@ -1,6 +1,6 @@
 <a id="JIT-DECISION"></a>
 
-## 30.2. 何時該使用 JIT？ [#](#JIT-DECISION)
+## 30.2. 何時該使用 JIT？ [#](#jit-decision) <a href="#jit-decision" id="jit-decision"></a>
 
 JIT 編譯主要對長時間執行、CPU 密集型的查詢有益。
 這類查詢通常是分析型查詢。對於短查詢而言，

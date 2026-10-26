@@ -1,6 +1,6 @@
 <a id="LO-INTRO"></a>
 
-## 33.1. 簡介 [#](#LO-INTRO)
+## 33.1. 簡介 [#](#lo-intro) <a href="#lo-intro" id="lo-intro"></a>
 
 <a id="id-1.7.4.6.2"></a>
 

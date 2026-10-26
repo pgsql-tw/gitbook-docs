@@ -1,6 +1,6 @@
 <a id="LO-EXAMPLESECT"></a>
 
-## 33.5. 範例程式 [#](#LO-EXAMPLESECT)
+## 33.5. 範例程式 [#](#lo-examplesect) <a href="#lo-examplesect" id="lo-examplesect"></a>
 
 [範例 33.1](lo-examplesect.md#LO-EXAMPLE) 是一個範例程式，示範如何使用
 libpq 中的大型物件

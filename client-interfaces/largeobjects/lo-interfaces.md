@@ -1,6 +1,6 @@
 <a id="LO-INTERFACES"></a>
 
-## 33.3. 用戶端介面 [#](#LO-INTERFACES)
+## 33.3. 用戶端介面 [#](#lo-interfaces) <a href="#lo-interfaces" id="lo-interfaces"></a>
 
 [33.3.1. 建立大型物件](lo-interfaces.md#LO-CREATE)
 

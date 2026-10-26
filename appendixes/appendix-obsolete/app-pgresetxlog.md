@@ -1,6 +1,6 @@
 <a id="APP-PGRESETXLOG"></a>
 
-## O.4. `pg_resetxlog` 已改名為 `pg_resetwal` [#](#APP-PGRESETXLOG)
+## O.4. `pg_resetxlog` 已改名為 `pg_resetwal` [#](#app-pgresetxlog) <a href="#app-pgresetxlog" id="app-pgresetxlog"></a>
 
 <a id="id-1.11.16.6.2"></a>
 

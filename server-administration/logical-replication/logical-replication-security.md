@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-SECURITY"></a>
 
-## 29.11. 安全性 [#](#LOGICAL-REPLICATION-SECURITY)
+## 29.11. 安全性 [#](#logical-replication-security) <a href="#logical-replication-security" id="logical-replication-security"></a>
 
 用於複寫連線的角色，必須具有 `REPLICATION` 屬性（或為超級使用者）。
 若該角色缺少 `SUPERUSER` 與 `BYPASSRLS`，

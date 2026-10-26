@@ -1,6 +1,6 @@
 <a id="REGRESS-TAP"></a>
 
-## 31.4. TAP 測試 [#](#REGRESS-TAP)
+## 31.4. TAP 測試 [#](#regress-tap) <a href="#regress-tap" id="regress-tap"></a>
 
 [31.4.1. 環境變數](regress-tap.md#REGRESS-TAP-VARS)
 

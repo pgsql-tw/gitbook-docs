@@ -1,6 +1,6 @@
 <a id="JIT-CONFIGURATION"></a>
 
-## 30.3. 設定 [#](#JIT-CONFIGURATION)
+## 30.3. 設定 [#](#jit-configuration) <a href="#jit-configuration" id="jit-configuration"></a>
 
 設定變數 [jit](../runtime-config/runtime-config-query.md#GUC-JIT) 決定是否啟用 JIT 編譯。啟用後，設定變數 [jit_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-ABOVE-COST)、[jit_inline_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-INLINE-ABOVE-COST) 與 [jit_optimize_above_cost](../runtime-config/runtime-config-query.md#GUC-JIT-OPTIMIZE-ABOVE-COST)，會決定是否對查詢進行 JIT 編譯，以及投入多少編譯工作。
 

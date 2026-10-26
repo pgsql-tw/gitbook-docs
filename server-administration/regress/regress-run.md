@@ -1,6 +1,6 @@
 <a id="REGRESS-RUN"></a>
 
-## 31.1. 執行測試 [#](#REGRESS-RUN)
+## 31.1. 執行測試 [#](#regress-run) <a href="#regress-run" id="regress-run"></a>
 
 [31.1.1. 針對暫時安裝執行測試](regress-run.md#REGRESS-RUN-TEMP-INST)
 

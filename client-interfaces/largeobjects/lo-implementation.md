@@ -1,6 +1,6 @@
 <a id="LO-IMPLEMENTATION"></a>
 
-## 33.2. 實作特性 [#](#LO-IMPLEMENTATION)
+## 33.2. 實作特性 [#](#lo-implementation) <a href="#lo-implementation" id="lo-implementation"></a>
 
 大型物件的實作會將大型物件分割成「區塊（chunk）」，
 並將這些區塊存放在資料庫的資料列中。B-tree 索引可確保在進行隨機

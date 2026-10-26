@@ -1,6 +1,6 @@
 <a id="REGRESS-COVERAGE"></a>
 
-## 31.5. 測試涵蓋率檢驗 [#](#REGRESS-COVERAGE)
+## 31.5. 測試涵蓋率檢驗 [#](#regress-coverage) <a href="#regress-coverage" id="regress-coverage"></a>
 
 [31.5.1. 使用 Autoconf 與 Make 檢驗涵蓋率](regress-coverage.md#REGRESS-COVERAGE-CONFIGURE)
 

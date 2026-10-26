@@ -1,6 +1,6 @@
 <a id="REGRESS-EVALUATION"></a>
 
-## 31.2. 測試評估 [#](#REGRESS-EVALUATION)
+## 31.2. 測試評估 [#](#regress-evaluation) <a href="#regress-evaluation" id="regress-evaluation"></a>
 
 [31.2.1. 錯誤訊息差異](regress-evaluation.md#REGRESS-EVALUATION-MESSAGE-DIFFERENCES)
 

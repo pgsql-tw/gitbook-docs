@@ -1,6 +1,6 @@
 <a id="DOCGUIDE-STYLE"></a>
 
-## J.6. 風格指南 [#](#DOCGUIDE-STYLE)
+## J.6. 風格指南 [#](#docguide-style) <a href="#docguide-style" id="docguide-style"></a>
 
 [J.6.1. 參考頁面](docguide-style.md#DOCGUIDE-STYLE-REF-PAGES)
 

@@ -1,6 +1,6 @@
 <a id="REGRESS-VARIANT"></a>
 
-## 31.3. 變體比對檔案 [#](#REGRESS-VARIANT)
+## 31.3. 變體比對檔案 [#](#regress-variant) <a href="#regress-variant" id="regress-variant"></a>
 
 由於部分測試本質上會產生依環境而異的結果，
 我們提供了指定替代「預期」結果檔案的方式。

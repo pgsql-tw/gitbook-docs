@@ -1,6 +1,6 @@
 <a id="JIT-EXTENSIBILITY"></a>
 
-## 30.4. 可擴充性 [#](#JIT-EXTENSIBILITY)
+## 30.4. 可擴充性 [#](#jit-extensibility) <a href="#jit-extensibility" id="jit-extensibility"></a>
 
 [30.4.1. 擴充套件的內嵌支援](jit-extensibility.md#JIT-EXTENSIBILITY-BITCODE)
 

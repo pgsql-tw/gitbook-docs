@@ -1,6 +1,6 @@
 <a id="JIT-REASON"></a>
 
-## 30.1. 什麼是 JIT 編譯？ [#](#JIT-REASON)
+## 30.1. 什麼是 JIT 編譯？ [#](#jit-reason) <a href="#jit-reason" id="jit-reason"></a>
 
 [30.1.1. JIT 可加速的操作](jit-reason.md#JIT-ACCELERATED-OPERATIONS)
 

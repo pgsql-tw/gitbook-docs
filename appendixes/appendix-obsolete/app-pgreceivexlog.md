@@ -1,6 +1,6 @@
 <a id="APP-PGRECEIVEXLOG"></a>
 
-## O.5. `pg_receivexlog` 已改名為 `pg_receivewal` [#](#APP-PGRECEIVEXLOG)
+## O.5. `pg_receivexlog` 已改名為 `pg_receivewal` [#](#app-pgreceivexlog) <a href="#app-pgreceivexlog" id="app-pgreceivexlog"></a>
 
 <a id="id-1.11.16.7.2"></a>
 

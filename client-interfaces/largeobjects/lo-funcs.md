@@ -1,6 +1,6 @@
 <a id="LO-FUNCS"></a>
 
-## 33.4. 伺服器端函式 [#](#LO-FUNCS)
+## 33.4. 伺服器端函式 [#](#lo-funcs) <a href="#lo-funcs" id="lo-funcs"></a>
 
 專為從 SQL 操作大型物件而設計的伺服器端函式，
 列於[表 33.1](lo-funcs.md#LO-FUNCS-TABLE)。

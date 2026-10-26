@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-ARCHITECTURE"></a>
 
-## 29.9. 架構 [#](#LOGICAL-REPLICATION-ARCHITECTURE)
+## 29.9. 架構 [#](#logical-replication-architecture) <a href="#logical-replication-architecture" id="logical-replication-architecture"></a>
 
 [29.9.1. 初始快照](logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT)
 

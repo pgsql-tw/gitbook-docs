@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-UPGRADE"></a>
 
-## 29.13. 升級 [#](#LOGICAL-REPLICATION-UPGRADE)
+## 29.13. 升級 [#](#logical-replication-upgrade) <a href="#logical-replication-upgrade" id="logical-replication-upgrade"></a>
 
 [29.13.1. 準備升級發佈者](logical-replication-upgrade.md#PREPARE-PUBLISHER-UPGRADES)
 
