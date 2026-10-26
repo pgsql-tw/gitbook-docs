@@ -1,6 +1,6 @@
 <a id="GSSAPI-ENC"></a>
 
-## 18.10. 使用 GSSAPI 加密的安全 TCP/IP 連線 [#](#GSSAPI-ENC)
+## 18.10. 使用 GSSAPI 加密的安全 TCP/IP 連線 [#](#gssapi-enc) <a href="#gssapi-enc" id="gssapi-enc"></a>
 
 [18.10.1. 基本設定](gssapi-enc.md#GSSAPI-SETUP)
 

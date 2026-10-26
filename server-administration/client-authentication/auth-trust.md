@@ -1,6 +1,6 @@
 <a id="AUTH-TRUST"></a>
 
-## 20.4. 信任驗證 [#](#AUTH-TRUST)
+## 20.4. 信任驗證 [#](#auth-trust) <a href="#auth-trust" id="auth-trust"></a>
 
 當指定 `trust` 驗證時，PostgreSQL
 會假設任何能夠連線到伺服器的人，都已被授權以其所指定的任何資料庫使用者名稱

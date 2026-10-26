@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-WAL"></a>
 
-## 19.5. 預寫式日誌 (WAL) [#](#RUNTIME-CONFIG-WAL)
+## 19.5. 預寫式日誌 (WAL) [#](#runtime-config-wal) <a href="#runtime-config-wal" id="runtime-config-wal"></a>
 
 [19.5.1. 設定](runtime-config-wal.md#RUNTIME-CONFIG-WAL-SETTINGS)
 

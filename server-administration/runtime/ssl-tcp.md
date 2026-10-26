@@ -1,6 +1,6 @@
 <a id="SSL-TCP"></a>
 
-## 18.9. 使用 SSL 的安全 TCP/IP 連線 [#](#SSL-TCP)
+## 18.9. 使用 SSL 的安全 TCP/IP 連線 [#](#ssl-tcp) <a href="#ssl-tcp" id="ssl-tcp"></a>
 
 [18.9.1. 基本設定](ssl-tcp.md#SSL-SETUP)
 

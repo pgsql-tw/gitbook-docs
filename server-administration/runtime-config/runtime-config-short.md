@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-SHORT"></a>
 
-## 19.18. 簡短選項 [#](#RUNTIME-CONFIG-SHORT)
+## 19.18. 簡短選項 [#](#runtime-config-short) <a href="#runtime-config-short" id="runtime-config-short"></a>
 
 為方便起見，部分參數也提供單一字母的命令列選項開關，
 詳情請參閱[表 19.5](runtime-config-short.md#RUNTIME-CONFIG-SHORT-TABLE)。其中有些選項是基於歷史因素而存在，其以單一字母選項的形式出現，

@@ -1,6 +1,6 @@
 <a id="AUTH-PEER"></a>
 
-## 20.9. Peer 驗證 [#](#AUTH-PEER)
+## 20.9. Peer 驗證 [#](#auth-peer) <a href="#auth-peer" id="auth-peer"></a>
 
 <a id="id-1.6.7.16.2"></a>
 

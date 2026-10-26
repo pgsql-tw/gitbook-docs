@@ -1,6 +1,6 @@
 <a id="AUTH-USERNAME-MAPS"></a>
 
-## 20.2. 使用者名稱對應 [#](#AUTH-USERNAME-MAPS)
+## 20.2. 使用者名稱對應 [#](#auth-username-maps) <a href="#auth-username-maps" id="auth-username-maps"></a>
 
 <a id="id-1.6.7.9.2"></a>
 

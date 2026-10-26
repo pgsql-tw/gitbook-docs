@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-LOCKS"></a>
 
-## 19.12. 鎖定管理 [#](#RUNTIME-CONFIG-LOCKS)
+## 19.12. 鎖定管理 [#](#runtime-config-locks) <a href="#runtime-config-locks" id="runtime-config-locks"></a>
 
 <a id="GUC-DEADLOCK-TIMEOUT"></a>
 

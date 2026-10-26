@@ -1,6 +1,6 @@
 <a id="SERVER-START"></a>
 
-## 18.3. 啟動資料庫伺服器 [#](#SERVER-START)
+## 18.3. 啟動資料庫伺服器 [#](#server-start) <a href="#server-start" id="server-start"></a>
 
 [18.3.1. 伺服器啟動失敗](server-start.md#SERVER-START-FAILURES)
 

@@ -1,6 +1,6 @@
 <a id="SSPI-AUTH"></a>
 
-## 20.7. SSPI 驗證 [#](#SSPI-AUTH)
+## 20.7. SSPI 驗證 [#](#sspi-auth) <a href="#sspi-auth" id="sspi-auth"></a>
 
 <a id="id-1.6.7.14.2"></a>
 

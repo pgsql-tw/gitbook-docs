@@ -1,6 +1,6 @@
 <a id="CONFIG-SETTING"></a>
 
-## 19.1. 設定參數 [#](#CONFIG-SETTING)
+## 19.1. 設定參數 [#](#config-setting) <a href="#config-setting" id="config-setting"></a>
 
 [19.1.1. 參數名稱與數值](config-setting.md#CONFIG-SETTING-NAMES-VALUES)
 

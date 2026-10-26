@@ -1,6 +1,6 @@
 <a id="AUTH-PASSWORD"></a>
 
-## 20.5. 密碼驗證 [#](#AUTH-PASSWORD)
+## 20.5. 密碼驗證 [#](#auth-password) <a href="#auth-password" id="auth-password"></a>
 
 <a id="id-1.6.7.12.2"></a><a id="id-1.6.7.12.3"></a><a id="id-1.6.7.12.4"></a>
 

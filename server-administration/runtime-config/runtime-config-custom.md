@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-CUSTOM"></a>
 
-## 19.16. 自訂選項 [#](#RUNTIME-CONFIG-CUSTOM)
+## 19.16. 自訂選項 [#](#runtime-config-custom) <a href="#runtime-config-custom" id="runtime-config-custom"></a>
 
 此功能讓附加模組（例如程序語言）能新增 PostgreSQL 原本不認得的參數，使擴充模組也能透過標準方式設定。
 

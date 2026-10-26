@@ -1,6 +1,6 @@
 <a id="PARALLEL-SAFETY"></a>
 
-## 15.4. 平行安全性 [#](#PARALLEL-SAFETY)
+## 15.4. 平行安全性 [#](#parallel-safety) <a href="#parallel-safety" id="parallel-safety"></a>
 
 [15.4.1. 函式與彙總函式的平行標記](parallel-safety.md#PARALLEL-LABELING)
 

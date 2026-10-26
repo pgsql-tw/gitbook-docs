@@ -1,6 +1,6 @@
 <a id="GSSAPI-AUTH"></a>
 
-## 20.6. GSSAPI 驗證 [#](#GSSAPI-AUTH)
+## 20.6. GSSAPI 驗證 [#](#gssapi-auth) <a href="#gssapi-auth" id="gssapi-auth"></a>
 
 <a id="id-1.6.7.13.2"></a>
 

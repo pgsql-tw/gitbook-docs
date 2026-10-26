@@ -1,6 +1,6 @@
 <a id="INSTALL-MAKE"></a>
 
-## 17.3. 以 Autoconf 與 Make 建置與安裝 [#](#INSTALL-MAKE)
+## 17.3. 以 Autoconf 與 Make 建置與安裝 [#](#install-make) <a href="#install-make" id="install-make"></a>
 
 [17.3.1. 精簡版](install-make.md#INSTALL-SHORT-MAKE)
 

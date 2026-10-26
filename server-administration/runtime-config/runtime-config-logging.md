@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-LOGGING"></a>
 
-## 19.8. 錯誤回報與日誌記錄 [#](#RUNTIME-CONFIG-LOGGING)
+## 19.8. 錯誤回報與日誌記錄 [#](#runtime-config-logging) <a href="#runtime-config-logging" id="runtime-config-logging"></a>
 
 [19.8.1. 記錄位置](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-WHERE)
 

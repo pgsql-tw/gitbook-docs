@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-FILE-LOCATIONS"></a>
 
-## 19.2. 檔案位置 [#](#RUNTIME-CONFIG-FILE-LOCATIONS)
+## 19.2. 檔案位置 [#](#runtime-config-file-locations) <a href="#runtime-config-file-locations" id="runtime-config-file-locations"></a>
 
 除了前面已提過的 `postgresql.conf` 檔案之外，
 PostgreSQL 還會使用另外兩個需要手動編輯的組態檔，

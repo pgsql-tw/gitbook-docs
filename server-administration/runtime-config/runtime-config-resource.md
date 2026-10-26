@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-RESOURCE"></a>
 
-## 19.4. 資源消耗 [#](#RUNTIME-CONFIG-RESOURCE)
+## 19.4. 資源消耗 [#](#runtime-config-resource) <a href="#runtime-config-resource" id="runtime-config-resource"></a>
 
 [19.4.1. 記憶體](runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)
 

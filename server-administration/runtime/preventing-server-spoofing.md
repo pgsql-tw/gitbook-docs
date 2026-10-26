@@ -1,6 +1,6 @@
 <a id="PREVENTING-SERVER-SPOOFING"></a>
 
-## 18.7. 防止伺服器被偽造（Spoofing） [#](#PREVENTING-SERVER-SPOOFING)
+## 18.7. 防止伺服器被偽造（Spoofing） [#](#preventing-server-spoofing) <a href="#preventing-server-spoofing" id="preventing-server-spoofing"></a>
 
 <a id="id-1.6.5.10.2"></a>
 

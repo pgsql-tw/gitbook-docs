@@ -1,6 +1,6 @@
 <a id="PARALLEL-PLANS"></a>
 
-## 15.3. 平行計畫 [#](#PARALLEL-PLANS)
+## 15.3. 平行計畫 [#](#parallel-plans) <a href="#parallel-plans" id="parallel-plans"></a>
 
 [15.3.1. 平行掃描](parallel-plans.md#PARALLEL-SCANS)
 

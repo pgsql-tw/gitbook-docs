@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-COMPATIBLE"></a>
 
-## 19.13. 版本與平台相容性 [#](#RUNTIME-CONFIG-COMPATIBLE)
+## 19.13. 版本與平台相容性 [#](#runtime-config-compatible) <a href="#runtime-config-compatible" id="runtime-config-compatible"></a>
 
 [19.13.1. 舊版 PostgreSQL](runtime-config-compatible.md#RUNTIME-CONFIG-COMPATIBLE-VERSION)
 

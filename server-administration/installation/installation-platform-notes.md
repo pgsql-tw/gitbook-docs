@@ -1,6 +1,6 @@
 <a id="INSTALLATION-PLATFORM-NOTES"></a>
 
-## 17.7. 特定平台注意事項 [#](#INSTALLATION-PLATFORM-NOTES)
+## 17.7. 特定平台注意事項 [#](#installation-platform-notes) <a href="#installation-platform-notes" id="installation-platform-notes"></a>
 
 [17.7.1. Cygwin](installation-platform-notes.md#INSTALLATION-NOTES-CYGWIN)
 

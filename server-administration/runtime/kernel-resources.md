@@ -1,6 +1,6 @@
 <a id="KERNEL-RESOURCES"></a>
 
-## 18.4. 管理核心資源 [#](#KERNEL-RESOURCES)
+## 18.4. 管理核心資源 [#](#kernel-resources) <a href="#kernel-resources" id="kernel-resources"></a>
 
 [18.4.1. 共享記憶體與號誌（Semaphore）](kernel-resources.md#SYSVIPC)
 

@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-DEVELOPER"></a>
 
-## 19.17. 開發人員選項 [#](#RUNTIME-CONFIG-DEVELOPER)
+## 19.17. 開發人員選項 [#](#runtime-config-developer) <a href="#runtime-config-developer" id="runtime-config-developer"></a>
 
 以下參數是供開發人員測試之用，絕不應該用於正式環境的資料庫。不過其中有些參數可用於協助修復嚴重損毀的資料庫。因此，這些參數已從範例
 `postgresql.conf` 檔案中排除。請注意，其中許多參數需要特殊的原始碼編譯旗標才能運作。

@@ -1,6 +1,6 @@
 <a id="CREATING-CLUSTER"></a>
 
-## 18.2. 建立資料庫叢集 [#](#CREATING-CLUSTER)
+## 18.2. 建立資料庫叢集 [#](#creating-cluster) <a href="#creating-cluster" id="creating-cluster"></a>
 
 [18.2.1. 次要檔案系統的使用](creating-cluster.md#CREATING-CLUSTER-MOUNT-POINTS)
 

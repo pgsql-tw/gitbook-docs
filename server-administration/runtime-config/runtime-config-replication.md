@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-REPLICATION"></a>
 
-## 19.6. 複寫 [#](#RUNTIME-CONFIG-REPLICATION)
+## 19.6. 複寫 [#](#runtime-config-replication) <a href="#runtime-config-replication" id="runtime-config-replication"></a>
 
 [19.6.1. 傳送端伺服器](runtime-config-replication.md#RUNTIME-CONFIG-REPLICATION-SENDER)
 

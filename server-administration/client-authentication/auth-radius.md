@@ -1,6 +1,6 @@
 <a id="AUTH-RADIUS"></a>
 
-## 20.11. RADIUS 驗證 [#](#AUTH-RADIUS)
+## 20.11. RADIUS 驗證 [#](#auth-radius) <a href="#auth-radius" id="auth-radius"></a>
 
 <a id="id-1.6.7.18.2"></a>
 

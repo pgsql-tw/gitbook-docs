@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-CLIENT"></a>
 
-## 19.11. 用戶端連線預設值 [#](#RUNTIME-CONFIG-CLIENT)
+## 19.11. 用戶端連線預設值 [#](#runtime-config-client) <a href="#runtime-config-client" id="runtime-config-client"></a>
 
 [19.11.1. 陳述式行為](runtime-config-client.md#RUNTIME-CONFIG-CLIENT-STATEMENT)
 

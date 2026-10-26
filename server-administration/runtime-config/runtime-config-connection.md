@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-CONNECTION"></a>
 
-## 19.3. 連線與驗證 [#](#RUNTIME-CONFIG-CONNECTION)
+## 19.3. 連線與驗證 [#](#runtime-config-connection) <a href="#runtime-config-connection" id="runtime-config-connection"></a>
 
 [19.3.1. 連線設定](runtime-config-connection.md#RUNTIME-CONFIG-CONNECTION-SETTINGS)
 

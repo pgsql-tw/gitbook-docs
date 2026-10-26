@@ -1,6 +1,6 @@
 <a id="INSTALL-REQUIREMENTS"></a>
 
-## 17.1. 需求 [#](#INSTALL-REQUIREMENTS)
+## 17.1. 需求 [#](#install-requirements) <a href="#install-requirements" id="install-requirements"></a>
 
 一般來說，現代的 Unix 相容平台應該都能執行
 PostgreSQL。

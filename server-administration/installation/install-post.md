@@ -1,6 +1,6 @@
 <a id="INSTALL-POST"></a>
 
-## 17.5. 安裝後設定 [#](#INSTALL-POST)
+## 17.5. 安裝後設定 [#](#install-post) <a href="#install-post" id="install-post"></a>
 
 [17.5.1. 共用函式庫](install-post.md#INSTALL-POST-SHLIBS)
 

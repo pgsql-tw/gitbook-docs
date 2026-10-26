@@ -1,6 +1,6 @@
 <a id="AUTH-PG-HBA-CONF"></a>
 
-## 20.1. `pg_hba.conf` 檔案 [#](#AUTH-PG-HBA-CONF)
+## 20.1. `pg_hba.conf` 檔案 [#](#auth-pg-hba-conf) <a href="#auth-pg-hba-conf" id="auth-pg-hba-conf"></a>
 
 <a id="id-1.6.7.8.2"></a>
 

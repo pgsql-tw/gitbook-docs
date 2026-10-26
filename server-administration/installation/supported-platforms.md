@@ -1,6 +1,6 @@
 <a id="SUPPORTED-PLATFORMS"></a>
 
-## 17.6. 受支援的平台 [#](#SUPPORTED-PLATFORMS)
+## 17.6. 受支援的平台 [#](#supported-platforms) <a href="#supported-platforms" id="supported-platforms"></a>
 
 一個平台（也就是 CPU 架構與作業系統的組合）如果程式碼中含有能在該平台上運作的支援措施，且最近曾驗證能在該平台上建置並通過回歸測試，就會被 PostgreSQL 開發社群視為受支援的平台。目前，平台相容性的大部分測試都是由
 [PostgreSQL Build Farm](https://buildfarm.postgresql.org/) 的測試機器自動完成。

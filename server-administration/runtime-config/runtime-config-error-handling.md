@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-ERROR-HANDLING"></a>
 
-## 19.14. 錯誤處理 [#](#RUNTIME-CONFIG-ERROR-HANDLING)
+## 19.14. 錯誤處理 [#](#runtime-config-error-handling) <a href="#runtime-config-error-handling" id="runtime-config-error-handling"></a>
 
 <a id="GUC-EXIT-ON-ERROR"></a>
 

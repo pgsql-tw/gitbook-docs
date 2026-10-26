@@ -1,6 +1,6 @@
 <a id="AUTH-IDENT"></a>
 
-## 20.8. Ident 認證 [#](#AUTH-IDENT)
+## 20.8. Ident 認證 [#](#auth-ident) <a href="#auth-ident" id="auth-ident"></a>
 
 <a id="id-1.6.7.15.2"></a>
 

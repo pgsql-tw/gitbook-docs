@@ -1,6 +1,6 @@
 <a id="UPGRADING"></a>
 
-## 18.6. 升級 PostgreSQL 叢集 [#](#UPGRADING)
+## 18.6. 升級 PostgreSQL 叢集 [#](#upgrading) <a href="#upgrading" id="upgrading"></a>
 
 [18.6.1. 透過 pg_dumpall 升級資料](upgrading.md#UPGRADING-VIA-PGDUMPALL)
 

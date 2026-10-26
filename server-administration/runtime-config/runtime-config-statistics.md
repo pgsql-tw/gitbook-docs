@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-STATISTICS"></a>
 
-## 19.9. 執行時期統計資訊 [#](#RUNTIME-CONFIG-STATISTICS)
+## 19.9. 執行時期統計資訊 [#](#runtime-config-statistics) <a href="#runtime-config-statistics" id="runtime-config-statistics"></a>
 
 [19.9.1. 累計查詢與索引統計資訊](runtime-config-statistics.md#RUNTIME-CONFIG-CUMULATIVE-STATISTICS)
 

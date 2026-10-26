@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-QUERY"></a>
 
-## 19.7. 查詢規劃 [#](#RUNTIME-CONFIG-QUERY)
+## 19.7. 查詢規劃 [#](#runtime-config-query) <a href="#runtime-config-query" id="runtime-config-query"></a>
 
 [19.7.1. 規劃器方法組態設定](runtime-config-query.md#RUNTIME-CONFIG-QUERY-ENABLE)
 

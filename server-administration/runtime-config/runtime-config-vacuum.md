@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-VACUUM"></a>
 
-## 19.10. Vacuum 處理 [#](#RUNTIME-CONFIG-VACUUM)
+## 19.10. Vacuum 處理 [#](#runtime-config-vacuum) <a href="#runtime-config-vacuum" id="runtime-config-vacuum"></a>
 
 [19.10.1. 自動 Vacuum](runtime-config-vacuum.md#RUNTIME-CONFIG-AUTOVACUUM)
 

@@ -1,6 +1,6 @@
 <a id="ENCRYPTION-OPTIONS"></a>
 
-## 18.8. 加密選項 [#](#ENCRYPTION-OPTIONS)
+## 18.8. 加密選項 [#](#encryption-options) <a href="#encryption-options" id="encryption-options"></a>
 
 <a id="id-1.6.5.11.2"></a>
 

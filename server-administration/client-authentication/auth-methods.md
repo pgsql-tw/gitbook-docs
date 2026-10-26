@@ -1,6 +1,6 @@
 <a id="AUTH-METHODS"></a>
 
-## 20.3. 認證方法 [#](#AUTH-METHODS)
+## 20.3. 認證方法 [#](#auth-methods) <a href="#auth-methods" id="auth-methods"></a>
 
 PostgreSQL 提供多種驗證使用者的方法：
 

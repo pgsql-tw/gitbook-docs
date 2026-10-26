@@ -1,6 +1,6 @@
 <a id="SERVER-SHUTDOWN"></a>
 
-## 18.5. 關閉伺服器 [#](#SERVER-SHUTDOWN)
+## 18.5. 關閉伺服器 [#](#server-shutdown) <a href="#server-shutdown" id="server-shutdown"></a>
 
 <a id="id-1.6.5.8.2"></a>
 

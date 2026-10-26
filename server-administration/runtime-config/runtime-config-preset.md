@@ -1,6 +1,6 @@
 <a id="RUNTIME-CONFIG-PRESET"></a>
 
-## 19.15. 預設選項 [#](#RUNTIME-CONFIG-PRESET)
+## 19.15. 預設選項 [#](#runtime-config-preset) <a href="#runtime-config-preset" id="runtime-config-preset"></a>
 
 以下這些「參數」皆為唯讀。
 因此，這些參數已從範例

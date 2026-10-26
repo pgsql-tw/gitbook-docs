@@ -1,6 +1,6 @@
 <a id="INSTALL-MESON"></a>
 
-## 17.4. 使用 Meson 建置與安裝 [#](#INSTALL-MESON)
+## 17.4. 使用 Meson 建置與安裝 [#](#install-meson) <a href="#install-meson" id="install-meson"></a>
 
 [17.4.1. 簡短版本](install-meson.md#INSTALL-SHORT-MESON)
 
