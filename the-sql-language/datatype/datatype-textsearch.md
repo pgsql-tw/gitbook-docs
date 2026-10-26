@@ -1,6 +1,6 @@
 <a id="DATATYPE-TEXTSEARCH"></a>
 
-## 8.11. 全文檢索型別 [#](#DATATYPE-TEXTSEARCH)
+## 8.11. 全文檢索型別 [#](#datatype-textsearch) <a href="#datatype-textsearch" id="datatype-textsearch"></a>
 
 [8.11.1. `tsvector`](datatype-textsearch.md#DATATYPE-TSVECTOR)
 

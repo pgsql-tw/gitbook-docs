@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-WINDOW"></a>
 
-## 9.22. Window 函式 [#](#FUNCTIONS-WINDOW)
+## 9.22. Window 函式 [#](#functions-window) <a href="#functions-window" id="functions-window"></a>
 
 <a id="id-1.5.8.28.2"></a>
 

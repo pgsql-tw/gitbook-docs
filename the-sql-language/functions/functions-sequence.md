@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-SEQUENCE"></a>
 
-## 9.17. 序列操作函式 [#](#FUNCTIONS-SEQUENCE)
+## 9.17. 序列操作函式 [#](#functions-sequence) <a href="#functions-sequence" id="functions-sequence"></a>
 
 <a id="id-1.5.8.23.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-TEXTSEARCH"></a>
 
-## 9.13. 文字搜尋函式與運算子 [#](#FUNCTIONS-TEXTSEARCH)
+## 9.13. 文字搜尋函式與運算子 [#](#functions-textsearch) <a href="#functions-textsearch" id="functions-textsearch"></a>
 
 <a id="id-1.5.8.19.2"></a><a id="id-1.5.8.19.3"></a>
 

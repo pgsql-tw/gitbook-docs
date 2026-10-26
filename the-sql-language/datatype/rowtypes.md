@@ -1,6 +1,6 @@
 <a id="ROWTYPES"></a>
 
-## 8.16. 複合型別 [#](#ROWTYPES)
+## 8.16. 複合型別 [#](#rowtypes) <a href="#rowtypes" id="rowtypes"></a>
 
 [8.16.1. 複合型別的宣告](rowtypes.md#ROWTYPES-DECLARING)
 

@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-DATETIME"></a>
 
-## 9.9. 日期／時間函式與運算子 [#](#FUNCTIONS-DATETIME)
+## 9.9. 日期／時間函式與運算子 [#](#functions-datetime) <a href="#functions-datetime" id="functions-datetime"></a>
 
 [9.9.1. `EXTRACT`、`date_part`](functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT)
 

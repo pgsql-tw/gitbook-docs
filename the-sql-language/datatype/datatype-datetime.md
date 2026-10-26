@@ -1,5 +1,5 @@
 <a id="DATATYPE-DATETIME"></a>
-## 8.5. 日期／時間型別 [#](#DATATYPE-DATETIME)
+## 8.5. 日期／時間型別 [#](#datatype-datetime) <a href="#datatype-datetime" id="datatype-datetime"></a>
 
 [8.5.1. 日期／時間輸入](datatype-datetime.md#DATATYPE-DATETIME-INPUT)
 

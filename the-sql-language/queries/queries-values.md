@@ -1,6 +1,6 @@
 <a id="QUERIES-VALUES"></a>
 
-## 7.7. `VALUES` 清單 [#](#QUERIES-VALUES)
+## 7.7. `VALUES` 清單 [#](#queries-values) <a href="#queries-values" id="queries-values"></a>
 
 <a id="id-1.5.6.11.2"></a>
 

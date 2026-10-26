@@ -1,6 +1,6 @@
 <a id="DATATYPE-NUMERIC"></a>
 
-## 8.1. 數值型別 [#](#DATATYPE-NUMERIC)
+## 8.1. 數值型別 [#](#datatype-numeric) <a href="#datatype-numeric" id="datatype-numeric"></a>
 
 [8.1.1. 整數型別](datatype-numeric.md#DATATYPE-INT)
 

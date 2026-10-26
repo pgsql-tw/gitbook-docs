@@ -1,6 +1,6 @@
 <a id="DATATYPE-XML"></a>
 
-## 8.13. XML 型別 [#](#DATATYPE-XML)
+## 8.13. XML 型別 [#](#datatype-xml) <a href="#datatype-xml" id="datatype-xml"></a>
 
 [8.13.1. 建立 XML 值](datatype-xml.md#DATATYPE-XML-CREATING)
 

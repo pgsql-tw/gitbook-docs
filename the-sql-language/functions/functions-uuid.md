@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-UUID"></a>
 
-## 9.14. UUID 函式 [#](#FUNCTIONS-UUID)
+## 9.14. UUID 函式 [#](#functions-uuid) <a href="#functions-uuid" id="functions-uuid"></a>
 
 <a id="id-1.5.8.20.2"></a><a id="id-1.5.8.20.3"></a><a id="id-1.5.8.20.4"></a><a id="id-1.5.8.20.5"></a><a id="id-1.5.8.20.6"></a><a id="id-1.5.8.20.7"></a>
 

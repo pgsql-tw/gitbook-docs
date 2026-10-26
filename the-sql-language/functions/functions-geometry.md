@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-GEOMETRY"></a>
 
-## 9.11. 幾何函式與運算子 [#](#FUNCTIONS-GEOMETRY)
+## 9.11. 幾何函式與運算子 [#](#functions-geometry) <a href="#functions-geometry" id="functions-geometry"></a>
 
 幾何型別 `point`、`box`、`lseg`、`line`、`path`、`polygon` 與 `circle`，擁有一大組原生支援的函式與運算子，列於[表 9.36](functions-geometry.md#FUNCTIONS-GEOMETRY-OP-TABLE)、[表 9.37](functions-geometry.md#FUNCTIONS-GEOMETRY-FUNC-TABLE) 與[表 9.38](functions-geometry.md#FUNCTIONS-GEOMETRY-CONV-TABLE)。
 

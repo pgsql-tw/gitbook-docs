@@ -1,6 +1,6 @@
 <a id="DATATYPE-BOOLEAN"></a>
 
-## 8.6. 布林型別 [#](#DATATYPE-BOOLEAN)
+## 8.6. 布林型別 [#](#datatype-boolean) <a href="#datatype-boolean" id="datatype-boolean"></a>
 
 <a id="id-1.5.7.14.2"></a><a id="id-1.5.7.14.3"></a><a id="id-1.5.7.14.4"></a>
 

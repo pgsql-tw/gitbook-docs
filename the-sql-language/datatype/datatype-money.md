@@ -1,6 +1,6 @@
 <a id="DATATYPE-MONEY"></a>
 
-## 8.2. 貨幣型別 [#](#DATATYPE-MONEY)
+## 8.2. 貨幣型別 [#](#datatype-money) <a href="#datatype-money" id="datatype-money"></a>
 
 `money` 型別以固定的小數精度儲存貨幣金額；請參閱[表 8.3](datatype-money.md#DATATYPE-MONEY-TABLE)。小數精度由資料庫的 [lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY) 設定決定。表中所列的範圍假設有兩位小數。輸入時可接受多種格式，包括整數與浮點數常數，以及典型的貨幣格式，例如 `'$1,000.00'`。輸出通常採用後者的形式，但取決於語系。
 

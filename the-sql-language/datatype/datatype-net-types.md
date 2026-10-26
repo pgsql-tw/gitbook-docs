@@ -1,6 +1,6 @@
 <a id="DATATYPE-NET-TYPES"></a>
 
-## 8.9. 網路位址型別 [#](#DATATYPE-NET-TYPES)
+## 8.9. 網路位址型別 [#](#datatype-net-types) <a href="#datatype-net-types" id="datatype-net-types"></a>
 
 [8.9.1. `inet`](datatype-net-types.md#DATATYPE-INET)
 

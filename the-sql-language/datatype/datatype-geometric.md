@@ -1,5 +1,5 @@
 <a id="DATATYPE-GEOMETRIC"></a>
-## 8.8. 幾何型別 [#](#DATATYPE-GEOMETRIC)
+## 8.8. 幾何型別 [#](#datatype-geometric) <a href="#datatype-geometric" id="datatype-geometric"></a>
 
 [8.8.1. 點](datatype-geometric.md#DATATYPE-GEOMETRIC-POINTS)
 

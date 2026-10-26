@@ -1,5 +1,5 @@
 <a id="DATATYPE-CHARACTER"></a>
-## 8.3. 字元型別 [#](#DATATYPE-CHARACTER)
+## 8.3. 字元型別 [#](#datatype-character) <a href="#datatype-character" id="datatype-character"></a>
 
 <a id="id-1.5.7.11.2"></a><a id="id-1.5.7.11.3"></a><a id="id-1.5.7.11.4"></a><a id="id-1.5.7.11.5"></a><a id="id-1.5.7.11.6"></a><a id="id-1.5.7.11.7"></a><a id="id-1.5.7.11.8"></a><a id="id-1.5.7.11.9"></a><a id="DATATYPE-CHARACTER-TABLE"></a>
 

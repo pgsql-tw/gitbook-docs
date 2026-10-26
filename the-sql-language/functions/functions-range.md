@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-RANGE"></a>
 
-## 9.20. 範圍／多重範圍函式與運算子 [#](#FUNCTIONS-RANGE)
+## 9.20. 範圍／多重範圍函式與運算子 [#](#functions-range) <a href="#functions-range" id="functions-range"></a>
 
 範圍型別的概觀請參閱[第 8.17 節](../datatype/rangetypes.md)。
 

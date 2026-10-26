@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-NET"></a>
 
-## 9.12. 網路位址函式與運算子 [#](#FUNCTIONS-NET)
+## 9.12. 網路位址函式與運算子 [#](#functions-net) <a href="#functions-net" id="functions-net"></a>
 
 IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子，以及[表 9.39](functions-net.md#CIDR-INET-OPERATORS-TABLE) 與[表 9.40](functions-net.md#CIDR-INET-FUNCTIONS-TABLE) 所列的特殊運算子與函式。
 

@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-FORMATTING"></a>
 
-## 9.8. 資料型別格式化函式 [#](#FUNCTIONS-FORMATTING)
+## 9.8. 資料型別格式化函式 [#](#functions-formatting) <a href="#functions-formatting" id="functions-formatting"></a>
 
 <a id="id-1.5.8.14.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-ENUM"></a>
 
-## 9.10. 列舉支援函式 [#](#FUNCTIONS-ENUM)
+## 9.10. 列舉支援函式 [#](#functions-enum) <a href="#functions-enum" id="functions-enum"></a>
 
 對於列舉型別（說明於[第 8.7 節](../datatype/datatype-enum.md)），有幾個函式可以讓程式寫得更簡潔，而不必把列舉型別的特定值寫死在程式中。這些函式列於[表 9.35](functions-enum.md#FUNCTIONS-ENUM-TABLE)。範例假設有一個如下建立的列舉型別：
 

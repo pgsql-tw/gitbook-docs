@@ -1,6 +1,6 @@
 <a id="DATATYPE-BIT"></a>
 
-## 8.10. 位元字串型別 [#](#DATATYPE-BIT)
+## 8.10. 位元字串型別 [#](#datatype-bit) <a href="#datatype-bit" id="datatype-bit"></a>
 
 <a id="id-1.5.7.18.2"></a>
 

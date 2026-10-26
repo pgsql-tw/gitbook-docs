@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-JSON"></a>
 
-## 9.16. JSON 函式與運算子 [#](#FUNCTIONS-JSON)
+## 9.16. JSON 函式與運算子 [#](#functions-json) <a href="#functions-json" id="functions-json"></a>
 
 [9.16.1. 處理與建立 JSON 資料](functions-json.md#FUNCTIONS-JSON-PROCESSING)
 

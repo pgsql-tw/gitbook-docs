@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-STRING"></a>
 
-## 9.4. 字串函式與運算子 [#](#FUNCTIONS-STRING)
+## 9.4. 字串函式與運算子 [#](#functions-string) <a href="#functions-string" id="functions-string"></a>
 
 [9.4.1. `format`](functions-string.md#FUNCTIONS-STRING-FORMAT)
 

@@ -1,6 +1,6 @@
 <a id="QUERIES-UNION"></a>
 
-## 7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`） [#](#QUERIES-UNION)
+## 7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`） [#](#queries-union) <a href="#queries-union" id="queries-union"></a>
 
 <a id="id-1.5.6.8.2"></a><a id="id-1.5.6.8.3"></a><a id="id-1.5.6.8.4"></a><a id="id-1.5.6.8.5"></a><a id="id-1.5.6.8.6"></a><a id="id-1.5.6.8.7"></a><a id="id-1.5.6.8.8"></a>
 

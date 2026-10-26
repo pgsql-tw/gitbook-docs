@@ -1,5 +1,5 @@
 <a id="ARRAYS"></a>
-## 8.15. 陣列 [#](#ARRAYS)
+## 8.15. 陣列 [#](#arrays) <a href="#arrays" id="arrays"></a>
 
 [8.15.1. 陣列型別的宣告](arrays.md#ARRAYS-DECLARATION)
 

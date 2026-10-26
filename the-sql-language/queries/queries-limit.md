@@ -1,6 +1,6 @@
 <a id="QUERIES-LIMIT"></a>
 
-## 7.6. `LIMIT` 與 `OFFSET` [#](#QUERIES-LIMIT)
+## 7.6. `LIMIT` 與 `OFFSET` [#](#queries-limit) <a href="#queries-limit" id="queries-limit"></a>
 
 <a id="id-1.5.6.10.2"></a><a id="id-1.5.6.10.3"></a>
 

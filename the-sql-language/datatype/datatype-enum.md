@@ -1,6 +1,6 @@
 <a id="DATATYPE-ENUM"></a>
 
-## 8.7. 列舉型別 [#](#DATATYPE-ENUM)
+## 8.7. 列舉型別 [#](#datatype-enum) <a href="#datatype-enum" id="datatype-enum"></a>
 
 [8.7.1. 列舉型別的宣告](datatype-enum.md#DATATYPE-ENUM-DECLARATION)
 

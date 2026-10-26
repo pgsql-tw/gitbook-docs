@@ -1,6 +1,6 @@
 <a id="QUERIES-ORDER"></a>
 
-## 7.5. 排序資料列（`ORDER BY`） [#](#QUERIES-ORDER)
+## 7.5. 排序資料列（`ORDER BY`） [#](#queries-order) <a href="#queries-order" id="queries-order"></a>
 
 <a id="id-1.5.6.9.2"></a><a id="id-1.5.6.9.3"></a>
 

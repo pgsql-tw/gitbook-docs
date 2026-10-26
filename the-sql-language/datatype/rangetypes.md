@@ -1,6 +1,6 @@
 <a id="RANGETYPES"></a>
 
-## 8.17. 範圍型別 [#](#RANGETYPES)
+## 8.17. 範圍型別 [#](#rangetypes) <a href="#rangetypes" id="rangetypes"></a>
 
 [8.17.1. 內建的範圍與多重範圍型別](rangetypes.md#RANGETYPES-BUILTIN)
 

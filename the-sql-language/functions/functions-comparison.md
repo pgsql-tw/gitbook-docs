@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-COMPARISON"></a>
 
-## 9.2. 比較函式與運算子 [#](#FUNCTIONS-COMPARISON)
+## 9.2. 比較函式與運算子 [#](#functions-comparison) <a href="#functions-comparison" id="functions-comparison"></a>
 
 <a id="id-1.5.8.8.2"></a>
 

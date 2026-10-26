@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-MERGE-SUPPORT"></a>
 
-## 9.23. 合併支援函式 [#](#FUNCTIONS-MERGE-SUPPORT)
+## 9.23. 合併支援函式 [#](#functions-merge-support) <a href="#functions-merge-support" id="functions-merge-support"></a>
 
 <a id="id-1.5.8.29.2"></a>
 

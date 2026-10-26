@@ -1,6 +1,6 @@
 <a id="DOMAINS"></a>
 
-## 8.18. 網域型別 [#](#DOMAINS)
+## 8.18. 網域型別 [#](#domains) <a href="#domains" id="domains"></a>
 
 <a id="id-1.5.7.26.2"></a><a id="id-1.5.7.26.3"></a>
 

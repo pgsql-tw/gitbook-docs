@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-CONDITIONAL"></a>
 
-## 9.18. 條件運算式 [#](#FUNCTIONS-CONDITIONAL)
+## 9.18. 條件運算式 [#](#functions-conditional) <a href="#functions-conditional" id="functions-conditional"></a>
 
 [9.18.1. `CASE`](functions-conditional.md#FUNCTIONS-CASE)
 

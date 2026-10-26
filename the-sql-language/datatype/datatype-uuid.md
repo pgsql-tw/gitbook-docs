@@ -1,6 +1,6 @@
 <a id="DATATYPE-UUID"></a>
 
-## 8.12. UUID 型別 [#](#DATATYPE-UUID)
+## 8.12. UUID 型別 [#](#datatype-uuid) <a href="#datatype-uuid" id="datatype-uuid"></a>
 
 <a id="id-1.5.7.20.2"></a>
 

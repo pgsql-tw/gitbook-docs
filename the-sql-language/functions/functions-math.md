@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-MATH"></a>
 
-## 9.3. 數學函式與運算子 [#](#FUNCTIONS-MATH)
+## 9.3. 數學函式與運算子 [#](#functions-math) <a href="#functions-math" id="functions-math"></a>
 
 許多 PostgreSQL 型別都提供了數學運算子。對於沒有標準數學慣例的型別（例如日期／時間型別），我們會在後續各節中說明實際的行為。
 

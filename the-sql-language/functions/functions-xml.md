@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-XML"></a>
 
-## 9.15. XML 函式 [#](#FUNCTIONS-XML)
+## 9.15. XML 函式 [#](#functions-xml) <a href="#functions-xml" id="functions-xml"></a>
 
 [9.15.1. 產生 XML 內容](functions-xml.md#FUNCTIONS-PRODUCING-XML)
 

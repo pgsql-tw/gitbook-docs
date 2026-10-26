@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-AGGREGATE"></a>
 
-## 9.21. 彙總函式 [#](#FUNCTIONS-AGGREGATE)
+## 9.21. 彙總函式 [#](#functions-aggregate) <a href="#functions-aggregate" id="functions-aggregate"></a>
 
 <a id="id-1.5.8.27.2"></a>
 

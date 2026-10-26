@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-LOGICAL"></a>
 
-## 9.1. 邏輯運算子 [#](#FUNCTIONS-LOGICAL)
+## 9.1. 邏輯運算子 [#](#functions-logical) <a href="#functions-logical" id="functions-logical"></a>
 
 <a id="id-1.5.8.7.2"></a><a id="id-1.5.8.7.3"></a>
 

@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-BINARYSTRING"></a>
 
-## 9.5. 二進位字串函式與運算子 [#](#FUNCTIONS-BINARYSTRING)
+## 9.5. 二進位字串函式與運算子 [#](#functions-binarystring) <a href="#functions-binarystring" id="functions-binarystring"></a>
 
 <a id="id-1.5.8.11.2"></a>
 

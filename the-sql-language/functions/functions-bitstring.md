@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-BITSTRING"></a>
 
-## 9.6. 位元字串函式與運算子 [#](#FUNCTIONS-BITSTRING)
+## 9.6. 位元字串函式與運算子 [#](#functions-bitstring) <a href="#functions-bitstring" id="functions-bitstring"></a>
 
 <a id="id-1.5.8.12.2"></a>
 

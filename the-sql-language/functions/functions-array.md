@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-ARRAY"></a>
 
-## 9.19. 陣列函式與運算子 [#](#FUNCTIONS-ARRAY)
+## 9.19. 陣列函式與運算子 [#](#functions-array) <a href="#functions-array" id="functions-array"></a>
 
 [表 9.56](functions-array.md#ARRAY-OPERATORS-TABLE) 列出了可用於陣列型別的特殊運算子。除此之外，陣列也可以使用[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。比較運算子會使用元素資料型別的預設 B-tree 比較函式逐一比較陣列的內容，並依據第一個差異進行排序。在多維陣列中，元素是依列主序（row-major order）走訪的（最後一個下標變化最快）。如果兩個陣列的內容相等但維度不同，則由維度資訊中的第一個差異決定排序順序。
 

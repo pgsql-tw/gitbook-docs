@@ -1,6 +1,6 @@
 <a id="DATATYPE-BINARY"></a>
 
-## 8.4. 二進位資料型別 [#](#DATATYPE-BINARY)
+## 8.4. 二進位資料型別 [#](#datatype-binary) <a href="#datatype-binary" id="datatype-binary"></a>
 
 [8.4.1. `bytea` 十六進位格式](datatype-binary.md#DATATYPE-BINARY-BYTEA-HEX-FORMAT)
 

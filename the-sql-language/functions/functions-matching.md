@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-MATCHING"></a>
 
-## 9.7. 模式比對 [#](#FUNCTIONS-MATCHING)
+## 9.7. 模式比對 [#](#functions-matching) <a href="#functions-matching" id="functions-matching"></a>
 
 [9.7.1. `LIKE`](functions-matching.md#FUNCTIONS-LIKE)
 

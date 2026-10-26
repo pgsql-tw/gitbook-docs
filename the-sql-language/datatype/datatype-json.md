@@ -1,5 +1,5 @@
 <a id="DATATYPE-JSON"></a>
-## 8.14. JSON 型別 [#](#DATATYPE-JSON)
+## 8.14. JSON 型別 [#](#datatype-json) <a href="#datatype-json" id="datatype-json"></a>
 
 [8.14.1. JSON 輸入與輸出語法](datatype-json.md#JSON-KEYS-ELEMENTS)
 
