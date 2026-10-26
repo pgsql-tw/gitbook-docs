@@ -1,6 +1,6 @@
 <a id="EXPLICIT-JOINS"></a>
 
-## 14.3. 以明確的 `JOIN` 子句控制規劃器 [#](#EXPLICIT-JOINS)
+## 14.3. 以明確的 `JOIN` 子句控制規劃器 [#](#explicit-joins) <a href="#explicit-joins" id="explicit-joins"></a>
 
 <a id="id-1.5.13.6.2"></a>
 

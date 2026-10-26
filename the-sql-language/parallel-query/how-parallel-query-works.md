@@ -1,6 +1,6 @@
 <a id="HOW-PARALLEL-QUERY-WORKS"></a>
 
-## 15.1. 平行查詢的運作方式 [#](#HOW-PARALLEL-QUERY-WORKS)
+## 15.1. 平行查詢的運作方式 [#](#how-parallel-query-works) <a href="#how-parallel-query-works" id="how-parallel-query-works"></a>
 
 當最佳化器判定平行查詢是某個查詢最快的執行策略時，它會建立一個包含 *Gather* 或 *Gather Merge* 節點的查詢計畫。以下是一個簡單的範例：
 

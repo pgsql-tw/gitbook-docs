@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-EVENT-TRIGGERS"></a>
 
-## 9.30. 事件觸發程序函式 [#](#FUNCTIONS-EVENT-TRIGGERS)
+## 9.30. 事件觸發程序函式 [#](#functions-event-triggers) <a href="#functions-event-triggers" id="functions-event-triggers"></a>
 
 [9.30.1. 在命令結束時擷取變更](functions-event-triggers.md#PG-EVENT-TRIGGER-DDL-COMMAND-END-FUNCTIONS)
 

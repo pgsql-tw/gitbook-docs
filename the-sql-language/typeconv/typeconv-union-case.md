@@ -1,6 +1,6 @@
 <a id="TYPECONV-UNION-CASE"></a>
 
-## 10.5. `UNION`、`CASE` 與相關結構 [#](#TYPECONV-UNION-CASE)
+## 10.5. `UNION`、`CASE` 與相關結構 [#](#typeconv-union-case) <a href="#typeconv-union-case" id="typeconv-union-case"></a>
 
 <a id="id-1.5.9.10.2"></a><a id="id-1.5.9.10.3"></a><a id="id-1.5.9.10.4"></a><a id="id-1.5.9.10.5"></a><a id="id-1.5.9.10.6"></a><a id="id-1.5.9.10.7"></a>
 

@@ -1,6 +1,6 @@
 <a id="POPULATE"></a>
 
-## 14.4. 填入資料庫 [#](#POPULATE)
+## 14.4. 填入資料庫 [#](#populate) <a href="#populate" id="populate"></a>
 
 [14.4.1. 停用自動提交](populate.md#DISABLE-AUTOCOMMIT)
 

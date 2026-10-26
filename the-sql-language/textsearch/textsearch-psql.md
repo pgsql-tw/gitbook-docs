@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-PSQL"></a>
 
-## 12.10. psql 支援 [#](#TEXTSEARCH-PSQL)
+## 12.10. psql 支援 [#](#textsearch-psql) <a href="#textsearch-psql" id="textsearch-psql"></a>
 
 在 psql 中，可以使用一組指令取得文字搜尋設定物件的資訊：
 

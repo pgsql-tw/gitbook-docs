@@ -1,6 +1,6 @@
 <a id="INDEXES-TYPES"></a>
 
-## 11.2. 索引類型 [#](#INDEXES-TYPES)
+## 11.2. 索引類型 [#](#indexes-types) <a href="#indexes-types" id="indexes-types"></a>
 
 [11.2.1. B-Tree](indexes-types.md#INDEXES-TYPES-BTREE)
 

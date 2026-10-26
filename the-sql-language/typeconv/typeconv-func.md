@@ -1,6 +1,6 @@
 <a id="TYPECONV-FUNC"></a>
 
-## 10.3. 函式 [#](#TYPECONV-FUNC)
+## 10.3. 函式 [#](#typeconv-func) <a href="#typeconv-func" id="typeconv-func"></a>
 
 <a id="id-1.5.9.8.2"></a>
 

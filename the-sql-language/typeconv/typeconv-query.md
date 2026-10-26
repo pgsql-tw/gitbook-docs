@@ -1,6 +1,6 @@
 <a id="TYPECONV-QUERY"></a>
 
-## 10.4. 值的儲存 [#](#TYPECONV-QUERY)
+## 10.4. 值的儲存 [#](#typeconv-query) <a href="#typeconv-query" id="typeconv-query"></a>
 
 要插入資料表的值，會依下列步驟轉換為目標欄位的資料型別。
 

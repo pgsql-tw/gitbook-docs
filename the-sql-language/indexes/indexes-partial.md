@@ -1,6 +1,6 @@
 <a id="INDEXES-PARTIAL"></a>
 
-## 11.8. 部分索引 [#](#INDEXES-PARTIAL)
+## 11.8. 部分索引 [#](#indexes-partial) <a href="#indexes-partial" id="indexes-partial"></a>
 
 <a id="id-1.5.10.11.2"></a>
 

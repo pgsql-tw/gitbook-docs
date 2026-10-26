@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-COMPARISONS"></a>
 
-## 9.25. 資料列與陣列比較 [#](#FUNCTIONS-COMPARISONS)
+## 9.25. 資料列與陣列比較 [#](#functions-comparisons) <a href="#functions-comparisons" id="functions-comparisons"></a>
 
 [9.25.1. `IN`](functions-comparisons.md#FUNCTIONS-COMPARISONS-IN-SCALAR)
 

@@ -1,6 +1,6 @@
 <a id="INDEXES-INDEX-ONLY-SCANS"></a>
 
-## 11.9. 僅索引掃描與涵蓋索引 [#](#INDEXES-INDEX-ONLY-SCANS)
+## 11.9. 僅索引掃描與涵蓋索引 [#](#indexes-index-only-scans) <a href="#indexes-index-only-scans" id="indexes-index-only-scans"></a>
 
 <a id="id-1.5.10.12.2"></a><a id="id-1.5.10.12.3"></a><a id="id-1.5.10.12.4"></a><a id="id-1.5.10.12.5"></a>
 

@@ -1,6 +1,6 @@
 <a id="EXPLICIT-LOCKING"></a>
 
-## 13.3. 明確鎖定 [#](#EXPLICIT-LOCKING)
+## 13.3. 明確鎖定 [#](#explicit-locking) <a href="#explicit-locking" id="explicit-locking"></a>
 
 [13.3.1. 資料表層級鎖定](explicit-locking.md#LOCKING-TABLES)
 

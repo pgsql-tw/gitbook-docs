@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-TABLES"></a>
 
-## 12.2. 資料表與索引 [#](#TEXTSEARCH-TABLES)
+## 12.2. 資料表與索引 [#](#textsearch-tables) <a href="#textsearch-tables" id="textsearch-tables"></a>
 
 [12.2.1. 搜尋資料表](textsearch-tables.md#TEXTSEARCH-TABLES-SEARCH)
 

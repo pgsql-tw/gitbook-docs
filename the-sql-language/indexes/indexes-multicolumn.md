@@ -1,6 +1,6 @@
 <a id="INDEXES-MULTICOLUMN"></a>
 
-## 11.3. 多欄位索引 [#](#INDEXES-MULTICOLUMN)
+## 11.3. 多欄位索引 [#](#indexes-multicolumn) <a href="#indexes-multicolumn" id="indexes-multicolumn"></a>
 
 <a id="id-1.5.10.6.2"></a>
 

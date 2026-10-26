@@ -1,6 +1,6 @@
 <a id="INDEXES-COLLATIONS"></a>
 
-## 11.11. 索引與定序 [#](#INDEXES-COLLATIONS)
+## 11.11. 索引與定序 [#](#indexes-collations) <a href="#indexes-collations" id="indexes-collations"></a>
 
 每個索引欄位只能支援一種定序。如果需要多種定序，可能必須建立多個索引。
 

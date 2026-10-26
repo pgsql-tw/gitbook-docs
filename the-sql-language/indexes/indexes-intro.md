@@ -1,6 +1,6 @@
 <a id="INDEXES-INTRO"></a>
 
-## 11.1. 簡介 [#](#INDEXES-INTRO)
+## 11.1. 簡介 [#](#indexes-intro) <a href="#indexes-intro" id="indexes-intro"></a>
 
 假設我們有一個類似這樣的資料表：
 

@@ -1,6 +1,6 @@
 <a id="APPLEVEL-CONSISTENCY"></a>
 
-## 13.4. 應用程式層級的資料一致性檢查 [#](#APPLEVEL-CONSISTENCY)
+## 13.4. 應用程式層級的資料一致性檢查 [#](#applevel-consistency) <a href="#applevel-consistency" id="applevel-consistency"></a>
 
 [13.4.1. 以 Serializable 交易確保一致性](applevel-consistency.md#SERIALIZABLE-CONSISTENCY)
 

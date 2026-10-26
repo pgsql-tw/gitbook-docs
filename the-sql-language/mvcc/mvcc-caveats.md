@@ -1,6 +1,6 @@
 <a id="MVCC-CAVEATS"></a>
 
-## 13.6. 注意事項 [#](#MVCC-CAVEATS)
+## 13.6. 注意事項 [#](#mvcc-caveats) <a href="#mvcc-caveats" id="mvcc-caveats"></a>
 
 有些 DDL 指令（目前只有 [`TRUNCATE`](../../reference/sql-commands/sql-truncate.md) 與會重寫資料表的 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 形式）並不是 MVCC 安全的。這表示在截斷或重寫提交之後，如果並行交易使用的是在該 DDL 指令提交之前所取得的快照，資料表對它們而言會顯示為空的。這只會對在 DDL 指令開始之前沒有存取過該資料表的交易造成問題；任何存取過該資料表的交易，至少都會持有一個 `ACCESS SHARE` 資料表鎖定，而這會阻擋 DDL 指令，直到該交易完成為止。因此，這些指令不會讓對目標資料表的連續查詢看到任何明顯的資料表內容不一致，但可能會造成目標資料表與資料庫中其他資料表的內容之間出現可見的不一致。
 

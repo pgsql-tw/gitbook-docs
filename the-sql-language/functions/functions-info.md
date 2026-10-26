@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-INFO"></a>
 
-## 9.27. 系統資訊函式與運算子 [#](#FUNCTIONS-INFO)
+## 9.27. 系統資訊函式與運算子 [#](#functions-info) <a href="#functions-info" id="functions-info"></a>
 
 [9.27.1. 工作階段資訊函式](functions-info.md#FUNCTIONS-INFO-SESSION)
 

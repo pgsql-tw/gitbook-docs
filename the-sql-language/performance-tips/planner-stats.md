@@ -1,6 +1,6 @@
 <a id="PLANNER-STATS"></a>
 
-## 14.2. 規劃器使用的統計資訊 [#](#PLANNER-STATS)
+## 14.2. 規劃器使用的統計資訊 [#](#planner-stats) <a href="#planner-stats" id="planner-stats"></a>
 
 [14.2.1. 單一欄位統計資訊](planner-stats.md#PLANNER-STATS-SINGLE-COLUMN)
 

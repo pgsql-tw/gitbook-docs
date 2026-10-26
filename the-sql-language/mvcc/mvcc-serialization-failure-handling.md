@@ -1,6 +1,6 @@
 <a id="MVCC-SERIALIZATION-FAILURE-HANDLING"></a>
 
-## 13.5. 序列化失敗的處理 [#](#MVCC-SERIALIZATION-FAILURE-HANDLING)
+## 13.5. 序列化失敗的處理 [#](#mvcc-serialization-failure-handling) <a href="#mvcc-serialization-failure-handling" id="mvcc-serialization-failure-handling"></a>
 
 <a id="id-1.5.12.8.2"></a><a id="id-1.5.12.8.3"></a>
 

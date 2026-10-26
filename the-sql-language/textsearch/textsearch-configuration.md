@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-CONFIGURATION"></a>
 
-## 12.7. 設定範例 [#](#TEXTSEARCH-CONFIGURATION)
+## 12.7. 設定範例 [#](#textsearch-configuration) <a href="#textsearch-configuration" id="textsearch-configuration"></a>
 
 文字搜尋設定指定了將文件轉換為 `tsvector` 所需的所有選項：用來將文字切分為語彙單元的剖析器，以及用來將每個語彙單元轉換為詞素的字典。每次呼叫 `to_tsvector` 或 `to_tsquery` 時，都需要一個文字搜尋設定來進行處理。設定參數 [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) 指定預設設定的名稱，當文字搜尋函式省略明確的設定參數時，就會使用這個設定。它可以在 `postgresql.conf` 中設定，也可以使用 `SET` 指令為個別工作階段設定。
 

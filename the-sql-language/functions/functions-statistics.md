@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-STATISTICS"></a>
 
-## 9.31. 統計資訊函式 [#](#FUNCTIONS-STATISTICS)
+## 9.31. 統計資訊函式 [#](#functions-statistics) <a href="#functions-statistics" id="functions-statistics"></a>
 
 [9.31.1. 檢視 MCV 清單](functions-statistics.md#FUNCTIONS-STATISTICS-MCV)
 

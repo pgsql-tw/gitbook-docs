@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-TRIGGER"></a>
 
-## 9.29. 觸發程序函式 [#](#FUNCTIONS-TRIGGER)
+## 9.29. 觸發程序函式 [#](#functions-trigger) <a href="#functions-trigger" id="functions-trigger"></a>
 
 雖然觸發程序的許多用途都涉及使用者撰寫的觸發程序函式，但 PostgreSQL 也提供了一些內建的觸發程序函式，可以直接用在使用者定義的觸發程序中。這些函式彙整於[表 9.110](functions-trigger.md#BUILTIN-TRIGGERS-TABLE)。（另外還有其他實作外鍵限制條件與延遲索引限制條件的內建觸發程序函式。由於使用者不需要直接使用它們，因此這裡不加以說明。）
 

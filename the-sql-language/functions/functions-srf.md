@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-SRF"></a>
 
-## 9.26. 集合回傳函式 [#](#FUNCTIONS-SRF)
+## 9.26. 集合回傳函式 [#](#functions-srf) <a href="#functions-srf" id="functions-srf"></a>
 
 <a id="id-1.5.8.32.2"></a>
 

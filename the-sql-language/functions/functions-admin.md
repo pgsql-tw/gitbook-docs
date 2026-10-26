@@ -1,6 +1,6 @@
 <a id="FUNCTIONS-ADMIN"></a>
 
-## 9.28. 系統管理函式 [#](#FUNCTIONS-ADMIN)
+## 9.28. 系統管理函式 [#](#functions-admin) <a href="#functions-admin" id="functions-admin"></a>
 
 [9.28.1. 組態設定函式](functions-admin.md#FUNCTIONS-ADMIN-SET)
 

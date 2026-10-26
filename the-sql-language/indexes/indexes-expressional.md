@@ -1,6 +1,6 @@
 <a id="INDEXES-EXPRESSIONAL"></a>
 
-## 11.7. 運算式索引 [#](#INDEXES-EXPRESSIONAL)
+## 11.7. 運算式索引 [#](#indexes-expressional) <a href="#indexes-expressional" id="indexes-expressional"></a>
 
 <a id="id-1.5.10.10.2"></a>
 

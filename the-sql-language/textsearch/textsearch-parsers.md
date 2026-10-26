@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-PARSERS"></a>
 
-## 12.5. 剖析器 [#](#TEXTSEARCH-PARSERS)
+## 12.5. 剖析器 [#](#textsearch-parsers) <a href="#textsearch-parsers" id="textsearch-parsers"></a>
 
 文字搜尋剖析器負責將原始文件文字切分為*語彙單元*（token），並識別每個語彙單元的類型，而可能的類型集合是由剖析器本身定義的。請注意，剖析器完全不會修改文字，它只是找出可能的單字邊界。由於職責範圍有限，針對特定應用自訂剖析器的需求，比自訂字典的需求要少。目前 PostgreSQL 只提供一個內建剖析器，而它已被證明適用於各式各樣的應用。
 

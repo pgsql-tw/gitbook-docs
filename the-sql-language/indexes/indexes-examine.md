@@ -1,6 +1,6 @@
 <a id="INDEXES-EXAMINE"></a>
 
-## 11.12. 檢查索引的使用情形 [#](#INDEXES-EXAMINE)
+## 11.12. 檢查索引的使用情形 [#](#indexes-examine) <a href="#indexes-examine" id="indexes-examine"></a>
 
 <a id="id-1.5.10.15.2"></a>
 

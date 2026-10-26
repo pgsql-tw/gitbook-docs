@@ -1,6 +1,6 @@
 <a id="WHEN-CAN-PARALLEL-QUERY-BE-USED"></a>
 
-## 15.2. 何時可以使用平行查詢？ [#](#WHEN-CAN-PARALLEL-QUERY-BE-USED)
+## 15.2. 何時可以使用平行查詢？ [#](#when-can-parallel-query-be-used) <a href="#when-can-parallel-query-be-used" id="when-can-parallel-query-be-used"></a>
 
 有幾項設定會導致查詢規劃器在任何情況下都不產生平行查詢計畫。要產生任何平行查詢計畫，下列設定必須依所示方式設定。
 

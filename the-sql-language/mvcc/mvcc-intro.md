@@ -1,6 +1,6 @@
 <a id="MVCC-INTRO"></a>
 
-## 13.1. 簡介 [#](#MVCC-INTRO)
+## 13.1. 簡介 [#](#mvcc-intro) <a href="#mvcc-intro" id="mvcc-intro"></a>
 
 <a id="id-1.5.12.4.2"></a><a id="id-1.5.12.4.3"></a><a id="id-1.5.12.4.4"></a><a id="id-1.5.12.4.5"></a>
 

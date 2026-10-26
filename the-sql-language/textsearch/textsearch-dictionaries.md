@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-DICTIONARIES"></a>
 
-## 12.6. 字典 [#](#TEXTSEARCH-DICTIONARIES)
+## 12.6. 字典 [#](#textsearch-dictionaries) <a href="#textsearch-dictionaries" id="textsearch-dictionaries"></a>
 
 [12.6.1. 停用詞](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)
 

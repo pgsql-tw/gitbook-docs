@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-INTRO"></a>
 
-## 12.1. 簡介 [#](#TEXTSEARCH-INTRO)
+## 12.1. 簡介 [#](#textsearch-intro) <a href="#textsearch-intro" id="textsearch-intro"></a>
 
 [12.1.1. 什麼是文件？](textsearch-intro.md#TEXTSEARCH-DOCUMENT)
 

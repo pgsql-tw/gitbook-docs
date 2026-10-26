@@ -1,6 +1,6 @@
 <a id="INDEXES-UNIQUE"></a>
 
-## 11.6. 唯一值索引 [#](#INDEXES-UNIQUE)
+## 11.6. 唯一值索引 [#](#indexes-unique) <a href="#indexes-unique" id="indexes-unique"></a>
 
 <a id="id-1.5.10.9.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="TYPECONV-SELECT"></a>
 
-## 10.6. `SELECT` 輸出欄位 [#](#TYPECONV-SELECT)
+## 10.6. `SELECT` 輸出欄位 [#](#typeconv-select) <a href="#typeconv-select" id="typeconv-select"></a>
 
 <a id="id-1.5.9.11.2"></a>
 

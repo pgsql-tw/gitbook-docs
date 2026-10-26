@@ -1,6 +1,6 @@
 <a id="TRANSACTION-ISO"></a>
 
-## 13.2. 交易隔離 [#](#TRANSACTION-ISO)
+## 13.2. 交易隔離 [#](#transaction-iso) <a href="#transaction-iso" id="transaction-iso"></a>
 
 [13.2.1. Read Committed 隔離等級](transaction-iso.md#XACT-READ-COMMITTED)
 

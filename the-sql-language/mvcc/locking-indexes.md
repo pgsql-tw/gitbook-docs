@@ -1,6 +1,6 @@
 <a id="LOCKING-INDEXES"></a>
 
-## 13.7. 鎖定與索引 [#](#LOCKING-INDEXES)
+## 13.7. 鎖定與索引 [#](#locking-indexes) <a href="#locking-indexes" id="locking-indexes"></a>
 
 <a id="id-1.5.12.10.2"></a>
 

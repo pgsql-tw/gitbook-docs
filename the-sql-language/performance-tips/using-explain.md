@@ -1,6 +1,6 @@
 <a id="USING-EXPLAIN"></a>
 
-## 14.1. 使用 `EXPLAIN` [#](#USING-EXPLAIN)
+## 14.1. 使用 `EXPLAIN` [#](#using-explain) <a href="#using-explain" id="using-explain"></a>
 
 [14.1.1. `EXPLAIN` 基礎](using-explain.md#USING-EXPLAIN-BASICS)
 

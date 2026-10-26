@@ -1,6 +1,6 @@
 <a id="TYPECONV-OVERVIEW"></a>
 
-## 10.1. 概觀 [#](#TYPECONV-OVERVIEW)
+## 10.1. 概觀 [#](#typeconv-overview) <a href="#typeconv-overview" id="typeconv-overview"></a>
 
 SQL 是強型別語言。也就是說，每個資料項目都有一個對應的資料型別，決定它的行為與可用的方式。PostgreSQL 擁有可擴充的型別系統，比其他 SQL 實作更為通用且有彈性。因此，PostgreSQL 中大多數的型別轉換行為都是由通用規則決定，而不是由臨時性的經驗法則決定。這使得即使是使用者自訂型別，也能用在混合型別的運算式中。
 

@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-DEBUGGING"></a>
 
-## 12.8. 測試與除錯文字搜尋 [#](#TEXTSEARCH-DEBUGGING)
+## 12.8. 測試與除錯文字搜尋 [#](#textsearch-debugging) <a href="#textsearch-debugging" id="textsearch-debugging"></a>
 
 [12.8.1. 設定測試](textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING)
 

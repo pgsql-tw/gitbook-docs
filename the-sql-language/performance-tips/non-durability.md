@@ -1,6 +1,6 @@
 <a id="NON-DURABILITY"></a>
 
-## 14.5. 非持久性設定 [#](#NON-DURABILITY)
+## 14.5. 非持久性設定 [#](#non-durability) <a href="#non-durability" id="non-durability"></a>
 
 <a id="id-1.5.13.8.2"></a>
 

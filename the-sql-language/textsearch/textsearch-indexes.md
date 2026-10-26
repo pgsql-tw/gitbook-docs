@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-INDEXES"></a>
 
-## 12.9. 文字搜尋的建議索引型別 [#](#TEXTSEARCH-INDEXES)
+## 12.9. 文字搜尋的建議索引型別 [#](#textsearch-indexes) <a href="#textsearch-indexes" id="textsearch-indexes"></a>
 
 <a id="id-1.5.11.12.2"></a>
 

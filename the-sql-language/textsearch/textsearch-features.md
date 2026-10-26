@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-FEATURES"></a>
 
-## 12.4. 其他功能 [#](#TEXTSEARCH-FEATURES)
+## 12.4. 其他功能 [#](#textsearch-features) <a href="#textsearch-features" id="textsearch-features"></a>
 
 [12.4.1. 操作文件](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)
 

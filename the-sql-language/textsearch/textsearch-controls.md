@@ -1,6 +1,6 @@
 <a id="TEXTSEARCH-CONTROLS"></a>
 
-## 12.3. 控制文字搜尋 [#](#TEXTSEARCH-CONTROLS)
+## 12.3. 控制文字搜尋 [#](#textsearch-controls) <a href="#textsearch-controls" id="textsearch-controls"></a>
 
 [12.3.1. 剖析文件](textsearch-controls.md#TEXTSEARCH-PARSING-DOCUMENTS)
 

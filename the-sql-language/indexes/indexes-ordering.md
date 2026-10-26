@@ -1,6 +1,6 @@
 <a id="INDEXES-ORDERING"></a>
 
-## 11.4. 索引與 `ORDER BY` [#](#INDEXES-ORDERING)
+## 11.4. 索引與 `ORDER BY` [#](#indexes-ordering) <a href="#indexes-ordering" id="indexes-ordering"></a>
 
 <a id="id-1.5.10.7.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="INDEXES-BITMAP-SCANS"></a>
 
-## 11.5. 組合多個索引 [#](#INDEXES-BITMAP-SCANS)
+## 11.5. 組合多個索引 [#](#indexes-bitmap-scans) <a href="#indexes-bitmap-scans" id="indexes-bitmap-scans"></a>
 
 <a id="id-1.5.10.8.2"></a><a id="id-1.5.10.8.3"></a>
 
