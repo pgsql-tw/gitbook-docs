@@ -1,1 +1,1 @@
-{% include_relative SUMMARY.md %}
+{% include_relative README.md %}
