@@ -9,7 +9,7 @@
 * 透過 SQL 中的 [`DECLARE`](../../reference/sql-commands/sql-declare.md)
   陳述式
 * 透過前端／後端協定中的 Bind 訊息，如
-  [第 54.2.3 節](../protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)所述
+  [第 54.2.3 節](../protocol/protocol-flow.md#protocol-flow-ext-query)所述
 * 透過伺服器程式設計介面（SPI），如
   [第 45.1 節](../../server-programming/spi/spi-interface.md)所述
 

@@ -2,21 +2,21 @@
 
 ## 65.2. GiST 索引 [#](#gist) <a href="#gist" id="gist"></a>
 
-[65.2.1. 簡介](gist.md#GIST-INTRO)
+[65.2.1. 簡介](gist.md#gist-intro)
 
-[65.2.2. 內建運算子類別](gist.md#GIST-BUILTIN-OPCLASSES)
+[65.2.2. 內建運算子類別](gist.md#gist-builtin-opclasses)
 
-[65.2.3. 擴充性](gist.md#GIST-EXTENSIBILITY)
+[65.2.3. 擴充性](gist.md#gist-extensibility)
 
-[65.2.4. 實作](gist.md#GIST-IMPLEMENTATION)
+[65.2.4. 實作](gist.md#gist-implementation)
 
-[65.2.5. 範例](gist.md#GIST-EXAMPLES)
+[65.2.5. 範例](gist.md#gist-examples)
 
 <a id="id-1.10.17.3.2"></a>
 
 <a id="GIST-INTRO"></a>
 
-### 65.2.1. 簡介 [#](#GIST-INTRO)
+### 65.2.1. 簡介 [#](#gist-intro) <a href="#gist-intro" id="gist-intro"></a>
 
 GiST 代表通用搜尋樹（Generalized Search Tree）。它是一種平衡的樹狀結構存取方法，作為實作任意索引機制的基礎範本。B-tree、R-tree 以及許多其他索引機制都可以在 GiST 中實作。
 
@@ -26,7 +26,7 @@ GiST 的一項優點是，它讓具備適當存取方法的自訂資料型別，
 
 <a id="GIST-BUILTIN-OPCLASSES"></a>
 
-### 65.2.2. 內建運算子類別 [#](#GIST-BUILTIN-OPCLASSES)
+### 65.2.2. 內建運算子類別 [#](#gist-builtin-opclasses) <a href="#gist-builtin-opclasses" id="gist-builtin-opclasses"></a>
 
 核心 PostgreSQL 發行版本包含[表 65.1](gist.md#GIST-BUILTIN-OPCLASSES-TABLE) 所列的 GiST 運算子類別。（[附錄 F](../../appendixes/contrib/README.md) 中所述的部分選用模組提供了額外的 GiST 運算子類別。）
 
@@ -47,7 +47,7 @@ CREATE INDEX ON my_table USING GIST (my_inet_column inet_ops);
 
 <a id="GIST-EXTENSIBILITY"></a>
 
-### 65.2.3. 擴充性 [#](#GIST-EXTENSIBILITY)
+### 65.2.3. 擴充性 [#](#gist-extensibility) <a href="#gist-extensibility" id="gist-extensibility"></a>
 
 傳統上，實作新的索引存取方法意味著大量困難的工作。必須了解資料庫的內部運作，例如鎖定管理器與預寫式日誌（Write-Ahead Log）。GiST 介面具有高度抽象性，只要求存取方法實作者實作被存取資料型別的語意。GiST 層本身會處理並行、日誌記錄以及樹狀結構的搜尋。
 
@@ -745,7 +745,7 @@ PostgreSQL 提供了一個轉換函式：`gist_translate_cmptype_common` 用於�
 
 <a id="GIST-IMPLEMENTATION"></a>
 
-### 65.2.4. 實作 [#](#GIST-IMPLEMENTATION)
+### 65.2.4. 實作 [#](#gist-implementation) <a href="#gist-implementation" id="gist-implementation"></a>
 
 <a id="GIST-BUFFERING-BUILD"></a>
 
@@ -753,7 +753,7 @@ PostgreSQL 提供了一個轉換函式：`gist_translate_cmptype_common` 用於�
 
 建立 GiST 索引最簡單的方式，就是將所有項目逐一插入。對於大型索引來說，這往往很慢，因為如果索引元組散布在整個索引中，而且索引大到無法放入快取，就會需要大量的隨機 I/O。PostgreSQL 支援兩種替代方法來初次建立 GiST 索引：*排序*（sorted）模式與*緩衝*（buffered）模式。
 
-只有在索引所使用的每個運算子類別都提供 `sortsupport` 函式（如[第 65.2.3 節](gist.md#GIST-EXTENSIBILITY)所述）時，才能使用排序方法。如果都有提供，這種方法通常是最好的，因此預設會使用它。
+只有在索引所使用的每個運算子類別都提供 `sortsupport` 函式（如[第 65.2.3 節](gist.md#gist-extensibility)所述）時，才能使用排序方法。如果都有提供，這種方法通常是最好的，因此預設會使用它。
 
 緩衝方法的運作方式是不立即將元組直接插入索引。對於未排序的資料集，它可以大幅減少所需的隨機 I/O 量。對於排序良好的資料集，好處較小或不存在，因為每次只有少數頁面會收到新的元組，而且即使整個索引放不進快取，這些頁面也放得進去。
 
@@ -763,7 +763,7 @@ PostgreSQL 提供了一個轉換函式：`gist_translate_cmptype_common` 用於�
 
 <a id="GIST-EXAMPLES"></a>
 
-### 65.2.5. 範例 [#](#GIST-EXAMPLES)
+### 65.2.5. 範例 [#](#gist-examples) <a href="#gist-examples" id="gist-examples"></a>
 
 PostgreSQL 原始碼發行版本包含數個使用 GiST 實作之索引方法的範例。核心系統目前提供文字搜尋支援（為 `tsvector` 與 `tsquery` 建立索引），以及為部分內建幾何資料型別提供相當於 R-Tree 的功能（請參閱 `src/backend/access/gist/gistproc.c`）。下列 `contrib` 模組也包含 GiST 運算子類別：
 

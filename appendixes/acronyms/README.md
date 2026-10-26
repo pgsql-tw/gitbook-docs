@@ -211,7 +211,7 @@ SQL
 :   [結構化查詢語言](https://en.wikipedia.org/wiki/SQL)
 
 SRF
-:   [傳回集合的函式](../../server-programming/extend/xfunc-c.md#XFUNC-C-RETURN-SET)
+:   [傳回集合的函式](../../server-programming/extend/xfunc-c.md#xfunc-c-return-set)
 
 SSH
 :   [安全 Shell](https://en.wikipedia.org/wiki/Secure_Shell)

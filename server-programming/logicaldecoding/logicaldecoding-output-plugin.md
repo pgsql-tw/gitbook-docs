@@ -1,15 +1,15 @@
 <a id="LOGICALDECODING-OUTPUT-PLUGIN"></a>
 ## 47.6. 邏輯解碼輸出外掛程式 [#](#logicaldecoding-output-plugin) <a href="#logicaldecoding-output-plugin" id="logicaldecoding-output-plugin"></a>
 
-[47.6.1. 初始化函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-INIT)
+[47.6.1. 初始化函式](logicaldecoding-output-plugin.md#logicaldecoding-output-init)
 
-[47.6.2. 能力](logicaldecoding-output-plugin.md#LOGICALDECODING-CAPABILITIES)
+[47.6.2. 能力](logicaldecoding-output-plugin.md#logicaldecoding-capabilities)
 
-[47.6.3. 輸出模式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-MODE)
+[47.6.3. 輸出模式](logicaldecoding-output-plugin.md#logicaldecoding-output-mode)
 
-[47.6.4. 輸出外掛程式回呼](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-CALLBACKS)
+[47.6.4. 輸出外掛程式回呼](logicaldecoding-output-plugin.md#logicaldecoding-output-plugin-callbacks)
 
-[47.6.5. 產生輸出用的函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-OUTPUT)
+[47.6.5. 產生輸出用的函式](logicaldecoding-output-plugin.md#logicaldecoding-output-plugin-output)
 
 在 PostgreSQL 原始碼樹的
 [`contrib/test_decoding`](../../appendixes/contrib/test-decoding.md)
@@ -17,7 +17,7 @@
 
 <a id="LOGICALDECODING-OUTPUT-INIT"></a>
 
-### 47.6.1. 初始化函式 [#](#LOGICALDECODING-OUTPUT-INIT)
+### 47.6.1. 初始化函式 [#](#logicaldecoding-output-init) <a href="#logicaldecoding-output-init" id="logicaldecoding-output-init"></a>
 
 <a id="id-1.8.14.12.3.2"></a>
 
@@ -87,7 +87,7 @@ typedef void (*LogicalOutputPluginInit) (struct OutputPluginCallbacks *cb);
 
 <a id="LOGICALDECODING-CAPABILITIES"></a>
 
-### 47.6.2. 能力 [#](#LOGICALDECODING-CAPABILITIES)
+### 47.6.2. 能力 [#](#logicaldecoding-capabilities) <a href="#logicaldecoding-capabilities" id="logicaldecoding-capabilities"></a>
 
 為了解碼、格式化並輸出變更，輸出外掛程式可以使用
 後端大部分的一般基礎架構，包括呼叫輸出函式。只要
@@ -111,7 +111,7 @@ CREATE TABLE another_catalog_table(data text) WITH (user_catalog_table = true);
 
 <a id="LOGICALDECODING-OUTPUT-MODE"></a>
 
-### 47.6.3. 輸出模式 [#](#LOGICALDECODING-OUTPUT-MODE)
+### 47.6.3. 輸出模式 [#](#logicaldecoding-output-mode) <a href="#logicaldecoding-output-mode" id="logicaldecoding-output-mode"></a>
 
 輸出外掛程式回呼，可以以幾乎任意的
 格式，將資料傳遞給消費端。對於某些使用情境而言，例如
@@ -129,7 +129,7 @@ CREATE TABLE another_catalog_table(data text) WITH (user_catalog_table = true);
 
 <a id="LOGICALDECODING-OUTPUT-PLUGIN-CALLBACKS"></a>
 
-### 47.6.4. 輸出外掛程式回呼 [#](#LOGICALDECODING-OUTPUT-PLUGIN-CALLBACKS)
+### 47.6.4. 輸出外掛程式回呼 [#](#logicaldecoding-output-plugin-callbacks) <a href="#logicaldecoding-output-plugin-callbacks" id="logicaldecoding-output-plugin-callbacks"></a>
 
 輸出外掛程式會透過它需要提供的
 各種回呼，得知正在發生的變更。
@@ -194,7 +194,7 @@ typedef struct OutputPluginOptions
 `output_type` 必須設定為
 `OUTPUT_PLUGIN_TEXTUAL_OUTPUT`
 或 `OUTPUT_PLUGIN_BINARY_OUTPUT` 其中之一。另請參閱
-[47.6.3 節](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-MODE)。
+[47.6.3 節](logicaldecoding-output-plugin.md#logicaldecoding-output-mode)。
 若 `receive_rewrites` 為 true，則系統
 也會針對某些 DDL 操作期間，由堆積重寫（heap rewrite）所產生的變更，
 呼叫輸出外掛程式。這對於處理 DDL
@@ -628,7 +628,7 @@ typedef void (*LogicalDecodeStreamTruncateCB) (struct LogicalDecodingContext *ct
 
 <a id="LOGICALDECODING-OUTPUT-PLUGIN-OUTPUT"></a>
 
-### 47.6.5. 產生輸出用的函式 [#](#LOGICALDECODING-OUTPUT-PLUGIN-OUTPUT)
+### 47.6.5. 產生輸出用的函式 [#](#logicaldecoding-output-plugin-output) <a href="#logicaldecoding-output-plugin-output" id="logicaldecoding-output-plugin-output"></a>
 
 若要真正產生輸出，輸出外掛程式可以在
 `begin_cb`、`commit_cb`

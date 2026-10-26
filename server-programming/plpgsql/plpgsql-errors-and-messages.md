@@ -2,13 +2,13 @@
 
 ## 41.9. 錯誤與訊息 [#](#plpgsql-errors-and-messages) <a href="#plpgsql-errors-and-messages" id="plpgsql-errors-and-messages"></a>
 
-[41.9.1. 回報錯誤與訊息](plpgsql-errors-and-messages.md#PLPGSQL-STATEMENTS-RAISE)
+[41.9.1. 回報錯誤與訊息](plpgsql-errors-and-messages.md#plpgsql-statements-raise)
 
-[41.9.2. 檢查斷言](plpgsql-errors-and-messages.md#PLPGSQL-STATEMENTS-ASSERT)
+[41.9.2. 檢查斷言](plpgsql-errors-and-messages.md#plpgsql-statements-assert)
 
 <a id="PLPGSQL-STATEMENTS-RAISE"></a>
 
-### 41.9.1. 回報錯誤與訊息 [#](#PLPGSQL-STATEMENTS-RAISE)
+### 41.9.1. 回報錯誤與訊息 [#](#plpgsql-statements-raise) <a href="#plpgsql-statements-raise" id="plpgsql-statements-raise"></a>
 
 <a id="id-1.8.8.11.2.2"></a><a id="id-1.8.8.11.2.3"></a>
 
@@ -108,7 +108,7 @@ RAISE unique_violation USING MESSAGE = 'Duplicate user ID: ' || user_id;
 
 <a id="PLPGSQL-STATEMENTS-ASSERT"></a>
 
-### 41.9.2. 檢查斷言 [#](#PLPGSQL-STATEMENTS-ASSERT)
+### 41.9.2. 檢查斷言 [#](#plpgsql-statements-assert) <a href="#plpgsql-statements-assert" id="plpgsql-statements-assert"></a>
 
 <a id="id-1.8.8.11.3.2"></a><a id="id-1.8.8.11.3.3"></a><a id="id-1.8.8.11.3.4"></a>
 

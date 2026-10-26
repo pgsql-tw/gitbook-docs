@@ -922,7 +922,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
 
 <br>
 
-`concat`、`concat_ws` 與 `format` 函式是可變參數（variadic）函式，因此可以將要串接或格式化的值，以標有 `VARIADIC` 關鍵字的陣列形式傳入（請參閱[第 36.5.6 節](../../server-programming/extend/xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)）。陣列的元素會被視為函式的個別一般引數。如果可變參數陣列引數為 NULL，`concat` 與 `concat_ws` 會回傳 NULL，但 `format` 會將 NULL 視為零個元素的陣列。
+`concat`、`concat_ws` 與 `format` 函式是可變參數（variadic）函式，因此可以將要串接或格式化的值，以標有 `VARIADIC` 關鍵字的陣列形式傳入（請參閱[第 36.5.6 節](../../server-programming/extend/xfunc-sql.md#xfunc-sql-variadic-functions)）。陣列的元素會被視為函式的個別一般引數。如果可變參數陣列引數為 NULL，`concat` 與 `concat_ws` 會回傳 NULL，但 `format` 會將 NULL 視為零個元素的陣列。
 
 另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `string_agg`，以及[表 9.13](functions-binarystring.md#FUNCTIONS-BINARYSTRING-CONVERSIONS) 中用於在字串與 `bytea` 型別之間轉換的函式。
 

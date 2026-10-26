@@ -53,17 +53,17 @@ ereport(ERROR,
 * `errmsg(const char *msg, ...)` 指定主要錯誤訊息文字，以及可能要插入其中的執行期值。插入的內容以 `sprintf` 風格的格式代碼指定。除了 `sprintf` 接受的標準格式代碼之外，還可以使用格式代碼 `%m` 來插入 `strerror` 針對 `errno` 目前值所傳回的錯誤訊息。[<a id="id-1.10.7.3.10.2.2.1.7"></a>[18]](#ftn.id-1.10.7.3.10.2.2.1.7) `%m` 不需要在 `errmsg` 的參數列表中有任何對應的項目。請注意，訊息字串會在處理格式代碼之前先經過 `gettext`，以便進行可能的在地化。
 * `errmsg_internal(const char *msg, ...)` 與 `errmsg` 相同，差別在於訊息字串不會被翻譯，也不會被納入國際化訊息字典中。這應該用於那些大概不值得花費翻譯功夫的「不可能發生」情況。
 * `errmsg_plural(const char *fmt_singular, const char *fmt_plural,
-  unsigned long n, ...)` 類似 `errmsg`，但支援訊息的各種複數形式。*`fmt_singular`* 是英文的單數格式，*`fmt_plural`* 是英文的複數格式，*`n`* 是決定需要哪一種複數形式的整數值，其餘參數則依照所選的格式字串來格式化。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#NLS-GUIDELINES)。
+  unsigned long n, ...)` 類似 `errmsg`，但支援訊息的各種複數形式。*`fmt_singular`* 是英文的單數格式，*`fmt_plural`* 是英文的複數格式，*`n`* 是決定需要哪一種複數形式的整數值，其餘參數則依照所選的格式字串來格式化。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#nls-guidelines)。
 * `errdetail(const char *msg, ...)` 提供一則選用的「詳細」訊息；當有額外資訊似乎不適合放在主要訊息中時使用。訊息字串的處理方式與 `errmsg` 完全相同。
 * `errdetail_internal(const char *msg, ...)` 與 `errdetail` 相同，差別在於訊息字串不會被翻譯，也不會被納入國際化訊息字典中。這應該用於不值得花費翻譯功夫的詳細訊息，例如因為它們太過技術性，對大多數使用者沒有用處。
 * `errdetail_plural(const char *fmt_singular, const char *fmt_plural,
-  unsigned long n, ...)` 類似 `errdetail`，但支援訊息的各種複數形式。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#NLS-GUIDELINES)。
+  unsigned long n, ...)` 類似 `errdetail`，但支援訊息的各種複數形式。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#nls-guidelines)。
 * `errdetail_log(const char *msg, ...)` 與 `errdetail` 相同，差別在於這個字串只會送到伺服器日誌，永遠不會送到用戶端。如果同時使用了 `errdetail`（或上述其等效函式之一）與 `errdetail_log`，則一個字串會送到用戶端，另一個送到日誌。這對於太過涉及安全性、或太過龐大而不適合放進送給用戶端之報告的錯誤細節很有用。
 * `errdetail_log_plural(const char *fmt_singular, const char
-  *fmt_plural, unsigned long n, ...)` 類似 `errdetail_log`，但支援訊息的各種複數形式。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#NLS-GUIDELINES)。
+  *fmt_plural, unsigned long n, ...)` 類似 `errdetail_log`，但支援訊息的各種複數形式。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#nls-guidelines)。
 * `errhint(const char *msg, ...)` 提供一則選用的「提示」訊息；用於提供如何修正問題的建議，而不是關於出了什麼錯的事實細節。訊息字串的處理方式與 `errmsg` 完全相同。
 * `errhint_plural(const char *fmt_singular, const char *fmt_plural,
-  unsigned long n, ...)` 類似 `errhint`，但支援訊息的各種複數形式。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#NLS-GUIDELINES)。
+  unsigned long n, ...)` 類似 `errhint`，但支援訊息的各種複數形式。更多資訊請參閱[第 56.2.2 節](../nls/nls-programmer.md#nls-guidelines)。
 * `errcontext(const char *msg, ...)` 通常不會直接在 `ereport` 訊息呼叫處被呼叫；而是用在 `error_context_stack` 回呼函式中，提供錯誤發生時的情境資訊，例如在 PL 函式中的目前位置。訊息字串的處理方式與 `errmsg` 完全相同。與其他輔助函式不同，它在每次 `ereport` 呼叫中可以被呼叫超過一次；如此提供的各個字串會以換行分隔並串接起來。
 * `errposition(int cursorpos)` 指定錯誤在查詢字串中的文字位置。目前它只對查詢處理的詞法分析與語法分析階段所偵測到的錯誤有用。
 * `errtable(Relation rel)` 指定一個關聯，其名稱與綱要名稱應該作為輔助欄位納入錯誤報告中。

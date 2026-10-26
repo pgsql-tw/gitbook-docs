@@ -749,7 +749,7 @@ PostgreSQL 時才有意義。這些選項並不建議用於正式環境的建置
     執行使用者自訂的程式碼。
     這有助於以受控的方式進行測試，以及調查並行相關的情境。
     此選項預設為停用。更多細節請見
-    [第 36.10.14 節](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)。此
+    [第 36.10.14 節](../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points)。此
     選項僅供開發者用於測試。
 <a id="CONFIGURE-SEGSIZE-BLOCKS-MESON"></a>
 

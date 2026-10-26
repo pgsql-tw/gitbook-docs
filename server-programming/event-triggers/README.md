@@ -5,7 +5,7 @@
 **目錄**
 
 [38.1. 事件觸發程序行為概觀](event-trigger-definition.md)
-:   [38.1.1. login](event-trigger-definition.md#EVENT-TRIGGER-LOGIN)
+:   [38.1.1. login](event-trigger-definition.md#event-trigger-login)
 
     [38.1.2. ddl_command_start](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_START)
 

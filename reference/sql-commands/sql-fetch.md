@@ -47,7 +47,7 @@ ALL` 一律會讓游標停留在最後一筆資料列之後或第一筆資料列
 
 ### 注意
 
-本頁說明的是在 SQL 命令層級使用游標的方式。若您要在 PL/pgSQL 函式中使用游標，規則有所不同——請參閱[第 41.7.3 節](../../server-programming/plpgsql/plpgsql-cursors.md#PLPGSQL-CURSOR-USING)。
+本頁說明的是在 SQL 命令層級使用游標的方式。若您要在 PL/pgSQL 函式中使用游標，規則有所不同——請參閱[第 41.7.3 節](../../server-programming/plpgsql/plpgsql-cursors.md#plpgsql-cursor-using)。
 
 <a id="id-1.9.3.149.7"></a>
 

@@ -104,11 +104,11 @@ PostgreSQL 會建立一個資料型別為 *`stype`* 的暫存變數，用來保�
 
 有時候，將最終函式宣告為不只接受狀態值，還接受與彙總函式輸入值相對應的額外參數，會很有用。這麼做的主要理由，是最終函式為多型，而狀態值的資料型別不足以確定結果型別的情況。這些額外參數一律以 NULL 傳入（因此使用 `FINALFUNC_EXTRA` 選項時，最終函式不可以是 strict），但它們仍然是有效的參數。例如，最終函式可以利用 `get_fn_expr_argtype` 來識別目前呼叫中實際的引數型別。
 
-彙總函式可以選擇支援*移動彙總模式*，如[第 36.12.1 節](../../server-programming/extend/xaggr.md#XAGGR-MOVING-AGGREGATES)所述。這需要指定 `MSFUNC`、`MINVFUNC` 與 `MSTYPE` 參數，並可選擇指定 `MSSPACE`、`MFINALFUNC`、`MFINALFUNC_EXTRA`、`MFINALFUNC_MODIFY` 與 `MINITCOND` 參數。除了 `MINVFUNC` 之外，這些參數的作用都與不帶 `M` 的對應簡單彙總參數相同；它們為彙總函式定義了另一套包含反向轉換函式的實作。
+彙總函式可以選擇支援*移動彙總模式*，如[第 36.12.1 節](../../server-programming/extend/xaggr.md#xaggr-moving-aggregates)所述。這需要指定 `MSFUNC`、`MINVFUNC` 與 `MSTYPE` 參數，並可選擇指定 `MSSPACE`、`MFINALFUNC`、`MFINALFUNC_EXTRA`、`MFINALFUNC_MODIFY` 與 `MINITCOND` 參數。除了 `MINVFUNC` 之外，這些參數的作用都與不帶 `M` 的對應簡單彙總參數相同；它們為彙總函式定義了另一套包含反向轉換函式的實作。
 
 在參數清單中使用 `ORDER BY` 的語法，會建立一種稱為*有序集合彙總函式*的特殊彙總函式；若指定了 `HYPOTHETICAL`，則會建立*假設集合彙總函式*。這些彙總函式以與順序相關的方式，作用於已排序之值所構成的群組，因此指定輸入排序順序是呼叫中不可或缺的一部分。此外，它們可以有*直接*引數，也就是每次彙總只求值一次、而不是每筆輸入資料列求值一次的引數。假設集合彙總函式是有序集合彙總函式的一個子類別，其中部分直接引數必須在數量與資料型別上與彙總引數欄位相符。這使得這些直接引數的值，可以作為一筆額外的「假設」資料列，加入彙總輸入資料列的集合中。
 
-彙總函式可以選擇支援*部分彙總*，如[第 36.12.4 節](../../server-programming/extend/xaggr.md#XAGGR-PARTIAL-AGGREGATES)所述。這需要指定 `COMBINEFUNC` 參數。若 *`state_data_type`* 為 `internal`，通常也適合提供 `SERIALFUNC` 與 `DESERIALFUNC` 參數，以便能夠進行平行彙總。請注意，彙總函式也必須標示為 `PARALLEL SAFE`，才能啟用平行彙總。
+彙總函式可以選擇支援*部分彙總*，如[第 36.12.4 節](../../server-programming/extend/xaggr.md#xaggr-partial-aggregates)所述。這需要指定 `COMBINEFUNC` 參數。若 *`state_data_type`* 為 `internal`，通常也適合提供 `SERIALFUNC` 與 `DESERIALFUNC` 參數，以便能夠進行平行彙總。請注意，彙總函式也必須標示為 `PARALLEL SAFE`，才能啟用平行彙總。
 
 行為類似 `MIN` 或 `MAX` 的彙總函式，有時可以藉由查詢索引而非掃描每一筆輸入資料列來最佳化。若此彙總函式可以這樣最佳化，請指定一個*排序運算子*來表明。基本的要求是，彙總函式必須產生由該運算子所導出之排序順序中的第一個元素；換句話說：
 

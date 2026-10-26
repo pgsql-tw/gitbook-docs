@@ -869,7 +869,7 @@ PostgreSQL 程序語言程式庫
     （`name.control`）的路徑。其餘的
     延伸模組指令碼與次要控制檔案，
     則會從找到主要控制檔案的同一個目錄載入。
-    詳情請參閱[36.17.1 節](../../server-programming/extend/extend-extensions.md#EXTEND-EXTENSIONS-FILES)。
+    詳情請參閱[36.17.1 節](../../server-programming/extend/extend-extensions.md#extend-extensions-files)。
 
     `extension_control_path` 的值必須是
     以冒號（在 Windows 上為分號）分隔的絕對目錄路徑

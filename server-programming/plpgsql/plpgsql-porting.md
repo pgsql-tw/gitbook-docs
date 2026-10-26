@@ -2,11 +2,11 @@
 
 ## 41.13. 從 Oracle PL/SQL 移植 [#](#plpgsql-porting) <a href="#plpgsql-porting" id="plpgsql-porting"></a>
 
-[41.13.1. 移植範例](plpgsql-porting.md#PLPGSQL-PORTING-EXAMPLES)
+[41.13.1. 移植範例](plpgsql-porting.md#plpgsql-porting-examples)
 
-[41.13.2. 其他需要注意的事項](plpgsql-porting.md#PLPGSQL-PORTING-OTHER)
+[41.13.2. 其他需要注意的事項](plpgsql-porting.md#plpgsql-porting-other)
 
-[41.13.3. 附錄](plpgsql-porting.md#PLPGSQL-PORTING-APPENDIX)
+[41.13.3. 附錄](plpgsql-porting.md#plpgsql-porting-appendix)
 
 <a id="id-1.8.8.15.2"></a><a id="id-1.8.8.15.3"></a>
 
@@ -14,8 +14,8 @@
 
 PL/pgSQL 在許多方面都與 PL/SQL 相似。它是一種區塊結構式的命令式語言，而且所有變數都必須先宣告。指派、迴圈與條件式也都很類似。從 PL/SQL 移植到 PL/pgSQL 時，你應該謹記在心的主要差異如下：
 
-* 如果 SQL 指令中所使用的某個名稱，既可能是該指令中所用資料表的欄位名稱，也可能是對函式某個變數的引用，PL/SQL 會把它當作欄位名稱。而 PL/pgSQL 在預設情況下會拋出錯誤，指出該名稱有歧義。你可以指定 `plpgsql.variable_conflict` = `use_column`，把這個行為改成與 PL/SQL 一致，如[第 41.11.1 節](plpgsql-implementation.md#PLPGSQL-VAR-SUBST)所述。通常最好一開始就避免這類歧義，但如果你必須移植大量倚賴這種行為的程式碼，設定 `variable_conflict` 可能會是最好的解法。
-* 在 PostgreSQL 中，函式本文必須寫成字串常數。因此你需要使用錢字號引號（dollar quoting），或是把函式本文中的單引號跳脫掉。（參閱[第 41.12.1 節](plpgsql-development-tips.md#PLPGSQL-QUOTE-TIPS)。）
+* 如果 SQL 指令中所使用的某個名稱，既可能是該指令中所用資料表的欄位名稱，也可能是對函式某個變數的引用，PL/SQL 會把它當作欄位名稱。而 PL/pgSQL 在預設情況下會拋出錯誤，指出該名稱有歧義。你可以指定 `plpgsql.variable_conflict` = `use_column`，把這個行為改成與 PL/SQL 一致，如[第 41.11.1 節](plpgsql-implementation.md#plpgsql-var-subst)所述。通常最好一開始就避免這類歧義，但如果你必須移植大量倚賴這種行為的程式碼，設定 `variable_conflict` 可能會是最好的解法。
+* 在 PostgreSQL 中，函式本文必須寫成字串常數。因此你需要使用錢字號引號（dollar quoting），或是把函式本文中的單引號跳脫掉。（參閱[第 41.12.1 節](plpgsql-development-tips.md#plpgsql-quote-tips)。）
 * 資料型別的名稱常常需要轉換。例如在 Oracle 中，字串值通常宣告為 `varchar2` 型別，這是一個非 SQL 標準的型別。在 PostgreSQL 中，請改用 `varchar` 或 `text` 型別。同樣地，請把 `number` 型別換成 `numeric`，或是在有更合適的選擇時改用其他數值資料型別。
 * 請改用綱要（而非套件）來把你的函式組織成群組。
 * 由於沒有套件，也就沒有套件層級的變數。這點有些惱人。你可以改用暫存資料表來保存每個工作階段的狀態。
@@ -25,7 +25,7 @@ PL/pgSQL 在許多方面都與 PL/SQL 相似。它是一種區塊結構式的命
 
 <a id="PLPGSQL-PORTING-EXAMPLES"></a>
 
-### 41.13.1. 移植範例 [#](#PLPGSQL-PORTING-EXAMPLES)
+### 41.13.1. 移植範例 [#](#plpgsql-porting-examples) <a href="#plpgsql-porting-examples" id="plpgsql-porting-examples"></a>
 
 [範例 41.9](plpgsql-porting.md#PGSQL-PORTING-EX1) 展示如何把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL。
 
@@ -153,7 +153,7 @@ $func$ LANGUAGE plpgsql;
 
 <br>
 
-[範例 41.11](plpgsql-porting.md#PLPGSQL-PORTING-EX3) 展示如何移植一個帶有 `OUT` 參數並進行字串處理的函式。PostgreSQL 沒有內建的 `instr` 函式，但你可以結合其他函式自行建立一個。在[第 41.13.3 節](plpgsql-porting.md#PLPGSQL-PORTING-APPENDIX)中有一份 `instr` 的 PL/pgSQL 實作，你可以拿來讓移植工作更輕鬆。
+[範例 41.11](plpgsql-porting.md#PLPGSQL-PORTING-EX3) 展示如何移植一個帶有 `OUT` 參數並進行字串處理的函式。PostgreSQL 沒有內建的 `instr` 函式，但你可以結合其他函式自行建立一個。在[第 41.13.3 節](plpgsql-porting.md#plpgsql-porting-appendix)中有一份 `instr` 的 PL/pgSQL 實作，你可以拿來讓移植工作更輕鬆。
 
 <a id="PLPGSQL-PORTING-EX3"></a>
 
@@ -336,7 +336,7 @@ $$ LANGUAGE plpgsql;
 
 <a id="PLPGSQL-PORTING-OTHER"></a>
 
-### 41.13.2. 其他需要注意的事項 [#](#PLPGSQL-PORTING-OTHER)
+### 41.13.2. 其他需要注意的事項 [#](#plpgsql-porting-other) <a href="#plpgsql-porting-other" id="plpgsql-porting-other"></a>
 
 本節說明把 Oracle PL/SQL 函式移植到 PostgreSQL 時，另外幾件需要注意的事情。
 
@@ -367,7 +367,7 @@ END;
 
 #### 41.13.2.2. `EXECUTE` [#](#PLPGSQL-PORTING-OTHER-EXECUTE)
 
-PL/pgSQL 版本的 `EXECUTE` 運作方式與 PL/SQL 版本類似，但你必須記得依照[第 41.5.4 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN)所述使用 `quote_literal` 與 `quote_ident`。除非你使用這些函式，否則 `EXECUTE 'SELECT * FROM $1';` 這類寫法並不能可靠地運作。
+PL/pgSQL 版本的 `EXECUTE` 運作方式與 PL/SQL 版本類似，但你必須記得依照[第 41.5.4 節](plpgsql-statements.md#plpgsql-statements-executing-dyn)所述使用 `quote_literal` 與 `quote_ident`。除非你使用這些函式，否則 `EXECUTE 'SELECT * FROM $1';` 這類寫法並不能可靠地運作。
 
 <a id="PLPGSQL-PORTING-OPTIMIZATION"></a>
 
@@ -386,7 +386,7 @@ $$ LANGUAGE plpgsql STRICT IMMUTABLE;
 
 <a id="PLPGSQL-PORTING-APPENDIX"></a>
 
-### 41.13.3. 附錄 [#](#PLPGSQL-PORTING-APPENDIX)
+### 41.13.3. 附錄 [#](#plpgsql-porting-appendix) <a href="#plpgsql-porting-appendix" id="plpgsql-porting-appendix"></a>
 
 本節包含一組與 Oracle 相容的 `instr` 函式的程式碼，你可以用它們來簡化移植工作。
 

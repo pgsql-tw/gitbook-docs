@@ -59,7 +59,7 @@ CALL name ( [ argument ] [, ...] )
 
 PL/pgSQL 對
 `CALL` 命令中輸出參數的處理方式不同；
-請參閱[第 41.6.3 節](../../server-programming/plpgsql/plpgsql-control-structures.md#PLPGSQL-STATEMENTS-CALLING-PROCEDURE)。
+請參閱[第 41.6.3 節](../../server-programming/plpgsql/plpgsql-control-structures.md#plpgsql-statements-calling-procedure)。
 
 <a id="id-1.9.3.48.8"></a>
 

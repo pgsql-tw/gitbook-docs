@@ -109,7 +109,7 @@
 <code class="structfield">inactive_since</code> <code class="type">timestamptz</code>
 </p>
 <p>
-        插槽變為非使用中的時間。若插槽目前正在串流，則為 <code class="literal">NULL</code>。若插槽變為無效，此值將永遠不會再更新。對於正從主要伺服器同步過來的待命伺服器插槽（其 <code class="structfield">synced</code> 欄位為 <code class="literal">true</code>），<code class="structfield">inactive_since</code> 表示插槽同步（請參閱 <a class="xref" href="../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION">第 47.2.3 節</a>）最近一次停止的時間。若插槽一直保持同步，則為 <code class="literal">NULL</code>。這有助於待命伺服器插槽追蹤同步是在何時中斷的。
+        插槽變為非使用中的時間。若插槽目前正在串流，則為 <code class="literal">NULL</code>。若插槽變為無效，此值將永遠不會再更新。對於正從主要伺服器同步過來的待命伺服器插槽（其 <code class="structfield">synced</code> 欄位為 <code class="literal">true</code>），<code class="structfield">inactive_since</code> 表示插槽同步（請參閱 <a class="xref" href="../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization">第 47.2.3 節</a>）最近一次停止的時間。若插槽一直保持同步，則為 <code class="literal">NULL</code>。這有助於待命伺服器插槽追蹤同步是在何時中斷的。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">conflicting</code> <code class="type">bool</code>
 </p>

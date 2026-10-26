@@ -24,7 +24,7 @@
 
 * 由於背景工作程序總數不能超過 [max_worker_processes](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 的限制，而無法取得任何背景工作程序。
 * 由於為平行查詢目的而啟動的背景工作程序總數不能超過 [max_parallel_workers](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS) 的限制，而無法取得任何背景工作程序。
-* 用戶端傳送了取回數量不為零的 Execute 訊息。請參閱[延伸查詢協定](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)的討論。由於 [libpq](../../client-interfaces/libpq/README.md) 目前沒有提供傳送這種訊息的方式，這種情況只會在使用不依賴 libpq 的用戶端時發生。如果這種情況經常發生，在可能發生的工作階段中將 [max_parallel_workers_per_gather](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER) 設為零或許是個好主意，以避免產生在循序執行時可能不是最佳的查詢計畫。
+* 用戶端傳送了取回數量不為零的 Execute 訊息。請參閱[延伸查詢協定](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)的討論。由於 [libpq](../../client-interfaces/libpq/README.md) 目前沒有提供傳送這種訊息的方式，這種情況只會在使用不依賴 libpq 的用戶端時發生。如果這種情況經常發生，在可能發生的工作階段中將 [max_parallel_workers_per_gather](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER) 設為零或許是個好主意，以避免產生在循序執行時可能不是最佳的查詢計畫。
 
 ---
 

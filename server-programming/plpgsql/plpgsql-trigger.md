@@ -2,9 +2,9 @@
 
 ## 41.10. 觸發程序函式 [#](#plpgsql-trigger) <a href="#plpgsql-trigger" id="plpgsql-trigger"></a>
 
-[41.10.1. 資料異動的觸發程序](plpgsql-trigger.md#PLPGSQL-DML-TRIGGER)
+[41.10.1. 資料異動的觸發程序](plpgsql-trigger.md#plpgsql-dml-trigger)
 
-[41.10.2. 事件的觸發程序](plpgsql-trigger.md#PLPGSQL-EVENT-TRIGGER)
+[41.10.2. 事件的觸發程序](plpgsql-trigger.md#plpgsql-event-trigger)
 
 <a id="id-1.8.8.12.2"></a>
 
@@ -12,7 +12,7 @@ PL/pgSQL 可以用來定義因資料異動或資料庫事件而執行的觸發�
 
 <a id="PLPGSQL-DML-TRIGGER"></a>
 
-### 41.10.1. 資料異動的觸發程序 [#](#PLPGSQL-DML-TRIGGER)
+### 41.10.1. 資料異動的觸發程序 [#](#plpgsql-dml-trigger) <a href="#plpgsql-dml-trigger" id="plpgsql-dml-trigger"></a>
 
 [資料異動觸發程序](../triggers/README.md)宣告為一個不帶引數、回傳型別為 `trigger` 的函式。請注意，即使該函式預期會收到在 `CREATE TRIGGER` 中指定的一些引數，它仍然必須宣告為不帶引數——這類引數是透過 `TG_ARGV` 傳入的，如下所述。
 
@@ -440,7 +440,7 @@ CREATE TRIGGER emp_audit_del
 
 <a id="PLPGSQL-EVENT-TRIGGER"></a>
 
-### 41.10.2. 事件的觸發程序 [#](#PLPGSQL-EVENT-TRIGGER)
+### 41.10.2. 事件的觸發程序 [#](#plpgsql-event-trigger) <a href="#plpgsql-event-trigger" id="plpgsql-event-trigger"></a>
 
 PL/pgSQL 可以用來定義[事件觸發程序](../event-triggers/README.md)。PostgreSQL 要求，要被當成事件觸發程序呼叫的函式，必須宣告為不帶引數、回傳型別為 `event_trigger` 的函式。
 

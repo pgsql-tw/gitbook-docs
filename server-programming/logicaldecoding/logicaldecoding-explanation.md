@@ -1,19 +1,19 @@
 <a id="LOGICALDECODING-EXPLANATION"></a>
 ## 47.2. 邏輯解碼概念 [#](#logicaldecoding-explanation) <a href="#logicaldecoding-explanation" id="logicaldecoding-explanation"></a>
 
-[47.2.1. 邏輯解碼](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-LOG-DEC)
+[47.2.1. 邏輯解碼](logicaldecoding-explanation.md#logicaldecoding-explanation-log-dec)
 
-[47.2.2. 複寫插槽](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS)
+[47.2.2. 複寫插槽](logicaldecoding-explanation.md#logicaldecoding-replication-slots)
 
-[47.2.3. 複寫插槽同步](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
+[47.2.3. 複寫插槽同步](logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)
 
-[47.2.4. 輸出外掛程式](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
+[47.2.4. 輸出外掛程式](logicaldecoding-explanation.md#logicaldecoding-explanation-output-plugins)
 
-[47.2.5. 匯出的快照](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
+[47.2.5. 匯出的快照](logicaldecoding-explanation.md#logicaldecoding-explanation-exported-snapshots)
 
 <a id="LOGICALDECODING-EXPLANATION-LOG-DEC"></a>
 
-### 47.2.1. 邏輯解碼 [#](#LOGICALDECODING-EXPLANATION-LOG-DEC)
+### 47.2.1. 邏輯解碼 [#](#logicaldecoding-explanation-log-dec) <a href="#logicaldecoding-explanation-log-dec" id="logicaldecoding-explanation-log-dec"></a>
 
 <a id="id-1.8.14.8.2.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="LOGICALDECODING-REPLICATION-SLOTS"></a>
 
-### 47.2.2. 複寫插槽 [#](#LOGICALDECODING-REPLICATION-SLOTS)
+### 47.2.2. 複寫插槽 [#](#logicaldecoding-replication-slots) <a href="#logicaldecoding-replication-slots" id="logicaldecoding-replication-slots"></a>
 
 <a id="id-1.8.14.8.3.2"></a>
 
@@ -69,7 +69,7 @@ PostgreSQL 也有串流複寫插槽
 
 <a id="LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION"></a>
 
-### 47.2.3. 複寫插槽同步 [#](#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
+### 47.2.3. 複寫插槽同步 [#](#logicaldecoding-replication-slots-synchronization) <a href="#logicaldecoding-replication-slots-synchronization" id="logicaldecoding-replication-slots-synchronization"></a>
 
 可以在建立插槽時，透過
 [`pg_create_logical_replication_slot`](../../the-sql-language/functions/functions-admin.md#PG-CREATE-LOGICAL-REPLICATION-SLOT) 的
@@ -162,13 +162,13 @@ DETAIL:  Synchronization could lead to data loss, because the remote slot needs 
 
 <a id="LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS"></a>
 
-### 47.2.4. 輸出外掛程式 [#](#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
+### 47.2.4. 輸出外掛程式 [#](#logicaldecoding-explanation-output-plugins) <a href="#logicaldecoding-explanation-output-plugins" id="logicaldecoding-explanation-output-plugins"></a>
 
 輸出外掛程式會將資料，從先寫式日誌的內部表示法，轉換為複寫插槽消費者所需要的格式。
 
 <a id="LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS"></a>
 
-### 47.2.5. 匯出的快照 [#](#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
+### 47.2.5. 匯出的快照 [#](#logicaldecoding-explanation-exported-snapshots) <a href="#logicaldecoding-explanation-exported-snapshots" id="logicaldecoding-explanation-exported-snapshots"></a>
 
 當使用串流複寫介面建立新的複寫插槽時
 （見[CREATE_REPLICATION_SLOT](../../internals/protocol/protocol-replication.md#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT)），

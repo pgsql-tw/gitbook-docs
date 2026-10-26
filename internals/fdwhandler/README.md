@@ -7,7 +7,7 @@
 [58.1. 外部資料包裝器函式](fdw-functions.md)
 
 [58.2. 外部資料包裝器回呼常式](fdw-callbacks.md)
-:   [58.2.1. 掃描外部資料表的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-SCAN)
+:   [58.2.1. 掃描外部資料表的 FDW 常式](fdw-callbacks.md#fdw-callbacks-scan)
 
     [58.2.2. 掃描外部資料表連接的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-JOIN-SCAN)
 

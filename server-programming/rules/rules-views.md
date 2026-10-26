@@ -1,13 +1,13 @@
 <a id="RULES-VIEWS"></a>
 ## 39.2. 檢視表與規則系統 [#](#rules-views) <a href="#rules-views" id="rules-views"></a>
 
-[39.2.1. `SELECT` 規則的運作方式](rules-views.md#RULES-SELECT)
+[39.2.1. `SELECT` 規則的運作方式](rules-views.md#rules-select)
 
-[39.2.2. 非 `SELECT` 陳述式中的檢視表規則](rules-views.md#RULES-VIEWS-NON-SELECT)
+[39.2.2. 非 `SELECT` 陳述式中的檢視表規則](rules-views.md#rules-views-non-select)
 
-[39.2.3. PostgreSQL 中檢視表的強大之處](rules-views.md#RULES-VIEWS-POWER)
+[39.2.3. PostgreSQL 中檢視表的強大之處](rules-views.md#rules-views-power)
 
-[39.2.4. 更新檢視表](rules-views.md#RULES-VIEWS-UPDATE)
+[39.2.4. 更新檢視表](rules-views.md#rules-views-update)
 
 <a id="id-1.8.6.7.2"></a><a id="id-1.8.6.7.3"></a>
 
@@ -40,11 +40,11 @@ CREATE RULE "_RETURN" AS ON SELECT TO myview DO INSTEAD
 `UPDATE` 或 `DELETE` 指令，
 儘管它並沒有底層的儲存空間。
 這一點將在下文的
-[39.2.4 節](rules-views.md#RULES-VIEWS-UPDATE)中進一步討論。
+[39.2.4 節](rules-views.md#rules-views-update)中進一步討論。
 
 <a id="RULES-SELECT"></a>
 
-### 39.2.1. `SELECT` 規則的運作方式 [#](#RULES-SELECT)
+### 39.2.1. `SELECT` 規則的運作方式 [#](#rules-select) <a href="#rules-select" id="rules-select"></a>
 
 <a id="id-1.8.6.7.6.2"></a>
 
@@ -355,7 +355,7 @@ SELECT shoe_ready.shoename, shoe_ready.sh_avail,
 
 <a id="RULES-VIEWS-NON-SELECT"></a>
 
-### 39.2.2. 非 `SELECT` 陳述式中的檢視表規則 [#](#RULES-VIEWS-NON-SELECT)
+### 39.2.2. 非 `SELECT` 陳述式中的檢視表規則 [#](#rules-views-non-select) <a href="#rules-views-non-select" id="rules-views-non-select"></a>
 
 上面對檢視表規則的說明中，並未觸及查詢樹的
 兩個細節：指令類型與結果關係。
@@ -445,7 +445,7 @@ SELECT t1.a, t2.b, t1.ctid FROM t1, t2 WHERE t1.a = t2.a;
 
 <a id="RULES-VIEWS-POWER"></a>
 
-### 39.2.3. PostgreSQL 中檢視表的強大之處 [#](#RULES-VIEWS-POWER)
+### 39.2.3. PostgreSQL 中檢視表的強大之處 [#](#rules-views-power) <a href="#rules-views-power" id="rules-views-power"></a>
 
 上面說明了規則系統如何將檢視表
 定義，併入原本的查詢樹中。在第二個範例中，一個
@@ -469,7 +469,7 @@ PostgreSQL 中所實作的規則系統，
 
 <a id="RULES-VIEWS-UPDATE"></a>
 
-### 39.2.4. 更新檢視表 [#](#RULES-VIEWS-UPDATE)
+### 39.2.4. 更新檢視表 [#](#rules-views-update) <a href="#rules-views-update" id="rules-views-update"></a>
 
 若某個檢視表被指定為
 `INSERT`、`UPDATE`、

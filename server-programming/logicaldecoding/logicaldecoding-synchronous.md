@@ -1,13 +1,13 @@
 <a id="LOGICALDECODING-SYNCHRONOUS"></a>
 ## 47.8. 邏輯解碼的同步複寫支援 [#](#logicaldecoding-synchronous) <a href="#logicaldecoding-synchronous" id="logicaldecoding-synchronous"></a>
 
-[47.8.1. 概觀](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-OVERVIEW)
+[47.8.1. 概觀](logicaldecoding-synchronous.md#logicaldecoding-synchronous-overview)
 
-[47.8.2. 注意事項](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS)
+[47.8.2. 注意事項](logicaldecoding-synchronous.md#logicaldecoding-synchronous-caveats)
 
 <a id="LOGICALDECODING-SYNCHRONOUS-OVERVIEW"></a>
 
-### 47.8.1. 概觀 [#](#LOGICALDECODING-SYNCHRONOUS-OVERVIEW)
+### 47.8.1. 概觀 [#](#logicaldecoding-synchronous-overview) <a href="#logicaldecoding-synchronous-overview" id="logicaldecoding-synchronous-overview"></a>
 
 邏輯解碼可以用來建構[同步複寫](../../server-administration/high-availability/warm-standby.md#synchronous-replication)解決方案，其使用者介面與[串流複寫](../../server-administration/high-availability/warm-standby.md#streaming-replication)的同步複寫相同。要做到這一點，必須使用串流複寫介面（見[第 47.3 節](logicaldecoding-walsender.md)）來串流輸出資料。用戶端必須傳送 `Standby status update (F)` 訊息（見[第 54.4 節](../../internals/protocol/protocol-replication.md)），就像串流複寫用戶端所做的那樣。
 
@@ -17,9 +17,9 @@
 
 <a id="LOGICALDECODING-SYNCHRONOUS-CAVEATS"></a>
 
-### 47.8.2. 注意事項 [#](#LOGICALDECODING-SYNCHRONOUS-CAVEATS)
+### 47.8.2. 注意事項 [#](#logicaldecoding-synchronous-caveats) <a href="#logicaldecoding-synchronous-caveats" id="logicaldecoding-synchronous-caveats"></a>
 
-在同步複寫的設定中，如果交易以互斥方式鎖定了［使用者的］目錄資料表，就可能發生死結。關於使用者目錄資料表的資訊，請參閱[第 47.6.2 節](logicaldecoding-output-plugin.md#LOGICALDECODING-CAPABILITIES)。這是因為交易的邏輯解碼在存取目錄資料表時，可能會對它們加鎖。為了避免這種情況，使用者必須避免對［使用者的］目錄資料表取得互斥鎖定。以下幾種方式都可能導致這個問題：
+在同步複寫的設定中，如果交易以互斥方式鎖定了［使用者的］目錄資料表，就可能發生死結。關於使用者目錄資料表的資訊，請參閱[第 47.6.2 節](logicaldecoding-output-plugin.md#logicaldecoding-capabilities)。這是因為交易的邏輯解碼在存取目錄資料表時，可能會對它們加鎖。為了避免這種情況，使用者必須避免對［使用者的］目錄資料表取得互斥鎖定。以下幾種方式都可能導致這個問題：
 
 * 在交易中對 `pg_class` 發出明確的 `LOCK`。
 * 在交易中對 `pg_class` 執行 `CLUSTER`。

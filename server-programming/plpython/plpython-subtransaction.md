@@ -2,13 +2,13 @@
 
 ## 44.7. 明確的子交易 [#](#plpython-subtransaction) <a href="#plpython-subtransaction" id="plpython-subtransaction"></a>
 
-[44.7.1. 子交易情境管理器](plpython-subtransaction.md#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
+[44.7.1. 子交易情境管理器](plpython-subtransaction.md#plpython-subtransaction-context-managers)
 
-如同[第 44.6.2 節](plpython-database.md#PLPYTHON-TRAPPING)所述，從資料庫存取所造成的錯誤中復原，可能會導致一種不樂見的情況：某些操作在其中一個操作失敗之前已經成功，而在從該錯誤復原之後，資料就停留在不一致的狀態。PL/Python 以明確子交易的形式為這個問題提供了解決方案。
+如同[第 44.6.2 節](plpython-database.md#plpython-trapping)所述，從資料庫存取所造成的錯誤中復原，可能會導致一種不樂見的情況：某些操作在其中一個操作失敗之前已經成功，而在從該錯誤復原之後，資料就停留在不一致的狀態。PL/Python 以明確子交易的形式為這個問題提供了解決方案。
 
 <a id="PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS"></a>
 
-### 44.7.1. 子交易情境管理器 [#](#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
+### 44.7.1. 子交易情境管理器 [#](#plpython-subtransaction-context-managers) <a href="#plpython-subtransaction-context-managers" id="plpython-subtransaction-context-managers"></a>
 
 考慮一個實作兩個帳戶之間轉帳的函式：
 

@@ -71,13 +71,13 @@ $$ LANGUAGE plpgsql;
 ### 注意
 
 事實上，每一個 PL/pgSQL 函式主體外面都隱含包著一個「外層區塊」。這個區塊提供了函式參數（若有的話）的宣告，以及一些特殊變數，例如
-`FOUND`（見[41.5.5 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-DIAGNOSTICS)）。這個外層區塊以函式名稱作為標籤，意味著參數與特殊變數都可以用函式名稱來限定。
+`FOUND`（見[41.5.5 節](plpgsql-statements.md#plpgsql-statements-diagnostics)）。這個外層區塊以函式名稱作為標籤，意味著參數與特殊變數都可以用函式名稱來限定。
 
 請務必不要將 PL/pgSQL 中用於陳述式分組的
 `BEGIN`／`END`，與名稱相似、用於交易控制的 SQL 命令混淆。PL/pgSQL 的
 `BEGIN`／`END`
 僅用於分組；它們並不會開始或結束交易。關於在 PL/pgSQL 中管理交易的資訊，請見[41.8 節](plpgsql-transactions.md)。此外，含有
-`EXCEPTION` 子句的區塊，實際上會形成一個子交易，可在不影響外層交易的情況下回復（rollback）。詳情請見[41.6.8 節](plpgsql-control-structures.md#PLPGSQL-ERROR-TRAPPING)。
+`EXCEPTION` 子句的區塊，實際上會形成一個子交易，可在不影響外層交易的情況下回復（rollback）。詳情請見[41.6.8 節](plpgsql-control-structures.md#plpgsql-error-trapping)。
 
 ---
 

@@ -16,7 +16,7 @@
 
 B-tree 檢查函式會驗證特定關聯表示法結構中的各種*不變量*。索引掃描與其他重要作業背後的存取方法函式正確性，依賴這些不變量始終成立。舉例來說，某些函式會驗證所有 B-tree 頁面中的項目都處於「邏輯」順序（例如，對 `text` 建立的 B-tree 索引，其索引 tuple 應依排序規則的字典順序排列）。若該不變量因故不成立，受影響頁面的二元搜尋可能會錯誤地引導索引掃描，導致 SQL 查詢傳回錯誤結果。若結構看起來有效，不會引發錯誤。執行這些檢查函式時，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog, pg_temp`。
 
-驗證作業使用與索引掃描本身相同的程序，這些程序可能是使用者定義的運算子類別程式碼。舉例來說，B-tree 索引驗證依賴一個或多個 B-tree 支援函式 1 常式進行的比較。運算子類別支援函式的詳細資訊請參閱[第 36.16.3 節](../../server-programming/extend/xindex.md#XINDEX-SUPPORT)。
+驗證作業使用與索引掃描本身相同的程序，這些程序可能是使用者定義的運算子類別程式碼。舉例來說，B-tree 索引驗證依賴一個或多個 B-tree 支援函式 1 常式進行的比較。運算子類別支援函式的詳細資訊請參閱[第 36.16.3 節](../../server-programming/extend/xindex.md#xindex-support)。
 
 不同於透過引發錯誤來報告毀損的 B-tree 檢查函式，堆積檢查函式 `verify_heapam` 會檢查資料表，並嘗試傳回一個資料列集合，每個偵測到的毀損對應一列。即使如此，若 `verify_heapam` 依賴的機制本身已毀損，函式仍可能無法繼續，並改為引發錯誤。
 

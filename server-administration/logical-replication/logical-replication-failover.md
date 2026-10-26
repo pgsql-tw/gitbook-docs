@@ -5,7 +5,7 @@
 發布端節點必須對應有一個實體待命伺服器。透過在建立訂閱時指定
 `failover = true`，可以將主要伺服器上、對應各訂閱的邏輯插槽
 同步到待命伺服器。詳情請參閱
-[第 47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)。
+[第 47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)。
 啟用
 [`failover`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
 參數，可確保待命伺服器被提升之後，這些訂閱能夠順利轉換；

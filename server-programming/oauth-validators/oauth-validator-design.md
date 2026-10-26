@@ -1,11 +1,11 @@
 <a id="OAUTH-VALIDATOR-DESIGN"></a>
 ## 50.1. 安全地設計驗證器模組 [#](#oauth-validator-design) <a href="#oauth-validator-design" id="oauth-validator-design"></a>
 
-[50.1.1. 驗證器的職責](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
+[50.1.1. 驗證器的職責](oauth-validator-design.md#oauth-validator-design-responsibilities)
 
-[50.1.2. 一般撰碼準則](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
+[50.1.2. 一般撰碼準則](oauth-validator-design.md#oauth-validator-design-guidelines)
 
-[50.1.3. 授權使用者（使用者對應委派）](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
+[50.1.3. 授權使用者（使用者對應委派）](oauth-validator-design.md#oauth-validator-design-usermap-delegation)
 
 ### 警告
 
@@ -13,7 +13,7 @@
 
 <a id="OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES"></a>
 
-### 50.1.1. 驗證器的職責 [#](#OAUTH-VALIDATOR-DESIGN-RESPONSIBILITIES)
+### 50.1.1. 驗證器的職責 [#](#oauth-validator-design-responsibilities) <a href="#oauth-validator-design-responsibilities" id="oauth-validator-design-responsibilities"></a>
 
 儘管不同的模組在權杖驗證上可能採取截然不同的做法，一般而言，實作都需要執行三項各自獨立的動作：
 
@@ -51,7 +51,7 @@
 
 <a id="OAUTH-VALIDATOR-DESIGN-GUIDELINES"></a>
 
-### 50.1.2. 一般撰碼準則 [#](#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
+### 50.1.2. 一般撰碼準則 [#](#oauth-validator-design-guidelines) <a href="#oauth-validator-design-guidelines" id="oauth-validator-design-guidelines"></a>
 
 開發者在實作權杖驗證時，應牢記以下幾點：
 
@@ -81,7 +81,7 @@
 
 <a id="OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION"></a>
 
-### 50.1.3. 授權使用者（使用者對應委派） [#](#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
+### 50.1.3. 授權使用者（使用者對應委派） [#](#oauth-validator-design-usermap-delegation) <a href="#oauth-validator-design-usermap-delegation" id="oauth-validator-design-usermap-delegation"></a>
 
 驗證模組的標準產出是使用者識別碼，伺服器接著會將其與任何已設定的
 [`pg_ident.conf`

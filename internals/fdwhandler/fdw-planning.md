@@ -153,7 +153,7 @@ FDW 還可以支援直接執行某些位於
 掃描／連接後的處理步驟）呼叫此函式。
 
 `PlanForeignModify` 與
-[第 58.2.4 節](fdw-callbacks.md#FDW-CALLBACKS-UPDATE)所述的其他回呼函式，其設計基於以下假設：
+[第 58.2.4 節](fdw-callbacks.md#fdw-callbacks-update)所述的其他回呼函式，其設計基於以下假設：
 外部關聯會以一般方式被掃描，然後
 由本地的 `ModifyTable`
 計畫節點驅動個別資料列的更新。對於更新除了外部資料表之外
@@ -164,7 +164,7 @@ FDW 還可以支援直接執行某些位於
 與 `ModifyTable` 做法相互競爭。這種做法
 也可用於實作遠端 `SELECT FOR UPDATE`，
 而不使用
-[第 58.2.6 節](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)所述的資料列鎖定回呼函式。請記住，
+[第 58.2.6 節](fdw-callbacks.md#fdw-callbacks-row-locking)所述的資料列鎖定回呼函式。請記住，
 插入 `UPPERREL_FINAL` 的路徑必須負責
 實作該查詢的*所有*行為。
 

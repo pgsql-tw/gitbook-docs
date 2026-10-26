@@ -37,7 +37,7 @@ noddl(PG_FUNCTION_ARGS)
 }
 ```
 
-編譯完原始碼之後（見[第 36.10.5 節](../extend/xfunc-c.md#DFUNC)），宣告函式與觸發程序：
+編譯完原始碼之後（見[第 36.10.5 節](../extend/xfunc-c.md#dfunc)），宣告函式與觸發程序：
 
 ```
 

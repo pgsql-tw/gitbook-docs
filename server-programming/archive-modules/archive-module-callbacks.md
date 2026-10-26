@@ -2,19 +2,19 @@
 
 ## 49.2. 封存模組回呼函式 [#](#archive-module-callbacks) <a href="#archive-module-callbacks" id="archive-module-callbacks"></a>
 
-[49.2.1. 啟動回呼函式](archive-module-callbacks.md#ARCHIVE-MODULE-STARTUP)
+[49.2.1. 啟動回呼函式](archive-module-callbacks.md#archive-module-startup)
 
-[49.2.2. 檢查回呼函式](archive-module-callbacks.md#ARCHIVE-MODULE-CHECK)
+[49.2.2. 檢查回呼函式](archive-module-callbacks.md#archive-module-check)
 
-[49.2.3. 封存回呼函式](archive-module-callbacks.md#ARCHIVE-MODULE-ARCHIVE)
+[49.2.3. 封存回呼函式](archive-module-callbacks.md#archive-module-archive)
 
-[49.2.4. 關閉回呼函式](archive-module-callbacks.md#ARCHIVE-MODULE-SHUTDOWN)
+[49.2.4. 關閉回呼函式](archive-module-callbacks.md#archive-module-shutdown)
 
 封存回呼函式定義了模組實際的封存行為。伺服器會依需要呼叫這些函式，以處理每一個 WAL 檔案。
 
 <a id="ARCHIVE-MODULE-STARTUP"></a>
 
-### 49.2.1. 啟動回呼函式 [#](#ARCHIVE-MODULE-STARTUP)
+### 49.2.1. 啟動回呼函式 [#](#archive-module-startup) <a href="#archive-module-startup" id="archive-module-startup"></a>
 
 `startup_cb` 回呼函式會在模組載入後不久被呼叫。這個回呼函式
 可以用來執行任何需要的額外初始化工作。若封存模組有任何狀態，可以使用
@@ -27,7 +27,7 @@ typedef void (*ArchiveStartupCB) (ArchiveModuleState *state);
 
 <a id="ARCHIVE-MODULE-CHECK"></a>
 
-### 49.2.2. 檢查回呼函式 [#](#ARCHIVE-MODULE-CHECK)
+### 49.2.2. 檢查回呼函式 [#](#archive-module-check) <a href="#archive-module-check" id="archive-module-check"></a>
 
 `check_configured_cb` 回呼函式會被呼叫，用來判斷模組是否
 已完成完整設定並準備好接受 WAL 檔案（例如，其設定參數已設為有效值）。若未定義
@@ -62,7 +62,7 @@ WARNING:  archive_mode enabled, yet archiving is not configured
 
 <a id="ARCHIVE-MODULE-ARCHIVE"></a>
 
-### 49.2.3. 封存回呼函式 [#](#ARCHIVE-MODULE-ARCHIVE)
+### 49.2.3. 封存回呼函式 [#](#archive-module-archive) <a href="#archive-module-archive" id="archive-module-archive"></a>
 
 `archive_file_cb` 回呼函式會被呼叫，用來封存一個
 單一 WAL 檔案。
@@ -89,7 +89,7 @@ typedef bool (*ArchiveFileCB) (ArchiveModuleState *state, const char *file, cons
 
 <a id="ARCHIVE-MODULE-SHUTDOWN"></a>
 
-### 49.2.4. 關閉回呼函式 [#](#ARCHIVE-MODULE-SHUTDOWN)
+### 49.2.4. 關閉回呼函式 [#](#archive-module-shutdown) <a href="#archive-module-shutdown" id="archive-module-shutdown"></a>
 
 `shutdown_cb` 回呼函式會在封存程序結束時
 （例如發生錯誤之後），或是

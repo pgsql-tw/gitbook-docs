@@ -2,7 +2,7 @@
 
 ## 51.5. 規劃器／最佳化器 [#](#planner-optimizer) <a href="#planner-optimizer" id="planner-optimizer"></a>
 
-[51.5.1. 產生可能的計畫](planner-optimizer.md#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
+[51.5.1. 產生可能的計畫](planner-optimizer.md#planner-optimizer-generating-possible-plans)
 
 *規劃器／最佳化器*的任務是建立最佳的執行計畫。一個給定的 SQL 查詢（因而也是一棵查詢樹）實際上可以用許多不同的方式執行，而每一種方式都會產生相同的結果集合。若在計算上可行，查詢最佳化器會檢查每一個可能的執行計畫，最終選出預期執行最快的執行計畫。
 
@@ -14,7 +14,7 @@
 
 <a id="PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS"></a>
 
-### 51.5.1. 產生可能的計畫 [#](#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
+### 51.5.1. 產生可能的計畫 [#](#planner-optimizer-generating-possible-plans) <a href="#planner-optimizer-generating-possible-plans" id="planner-optimizer-generating-possible-plans"></a>
 
 規劃器／最佳化器首先會為查詢中使用的每一個個別關聯（資料表）產生掃描計畫。可能的計畫取決於每個關聯上可用的索引。對關聯執行循序掃描永遠是可行的，因此一定會建立一個循序掃描計畫。假設某個關聯上定義了一個索引（例如 B-tree 索引），而查詢包含限制條件 `relation.attribute OPR constant`。若 `relation.attribute` 剛好符合該 B-tree 索引的鍵，且 `OPR` 是該索引的*運算子類別*中所列的運算子之一，就會再建立一個使用該 B-tree 索引掃描此關聯的計畫。若還有其他索引存在，且查詢中的限制條件剛好符合某個索引的鍵，就會考慮更多計畫。對於排序順序能符合查詢之 `ORDER BY` 子句（若有的話）的索引，或排序順序可能有助於合併連接（見下文）的索引，也會產生索引掃描計畫。
 

@@ -2,33 +2,33 @@
 
 ## 54.2. 訊息流程 [#](#protocol-flow) <a href="#protocol-flow" id="protocol-flow"></a>
 
-[54.2.1. 啟動](protocol-flow.md#PROTOCOL-FLOW-START-UP)
+[54.2.1. 啟動](protocol-flow.md#protocol-flow-start-up)
 
-[54.2.2. 簡單查詢](protocol-flow.md#PROTOCOL-FLOW-SIMPLE-QUERY)
+[54.2.2. 簡單查詢](protocol-flow.md#protocol-flow-simple-query)
 
-[54.2.3. 延伸查詢](protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+[54.2.3. 延伸查詢](protocol-flow.md#protocol-flow-ext-query)
 
-[54.2.4. 管線化](protocol-flow.md#PROTOCOL-FLOW-PIPELINING)
+[54.2.4. 管線化](protocol-flow.md#protocol-flow-pipelining)
 
-[54.2.5. 函式呼叫](protocol-flow.md#PROTOCOL-FLOW-FUNCTION-CALL)
+[54.2.5. 函式呼叫](protocol-flow.md#protocol-flow-function-call)
 
-[54.2.6. COPY 操作](protocol-flow.md#PROTOCOL-COPY)
+[54.2.6. COPY 操作](protocol-flow.md#protocol-copy)
 
-[54.2.7. 非同步操作](protocol-flow.md#PROTOCOL-ASYNC)
+[54.2.7. 非同步操作](protocol-flow.md#protocol-async)
 
-[54.2.8. 取消進行中的請求](protocol-flow.md#PROTOCOL-FLOW-CANCELING-REQUESTS)
+[54.2.8. 取消進行中的請求](protocol-flow.md#protocol-flow-canceling-requests)
 
-[54.2.9. 終止](protocol-flow.md#PROTOCOL-FLOW-TERMINATION)
+[54.2.9. 終止](protocol-flow.md#protocol-flow-termination)
 
-[54.2.10. SSL 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-SSL)
+[54.2.10. SSL 工作階段加密](protocol-flow.md#protocol-flow-ssl)
 
-[54.2.11. GSSAPI 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-GSSAPI)
+[54.2.11. GSSAPI 工作階段加密](protocol-flow.md#protocol-flow-gssapi)
 
 本節說明訊息流程以及各訊息類型的語意。（各訊息確切的表示方式請參閱[第 54.7 節](protocol-message-formats.md)。）依連線狀態的不同，有幾種不同的子協定：啟動、查詢、函式呼叫、`COPY` 以及終止。另外也有針對非同步操作（包括通知回應與命令取消）的特別規定，這些操作可能在啟動階段之後的任何時間發生。
 
 <a id="PROTOCOL-FLOW-START-UP"></a>
 
-### 54.2.1. 啟動 [#](#PROTOCOL-FLOW-START-UP)
+### 54.2.1. 啟動 [#](#protocol-flow-start-up) <a href="#protocol-flow-start-up" id="protocol-flow-start-up"></a>
 
 要開始一個工作階段，前端會開啟與伺服器的連線並傳送啟動訊息。此訊息包含使用者名稱以及該使用者想要連線的資料庫名稱；它也指出要使用的特定協定版本。（啟動訊息也可以選擇性地包含執行期參數的額外設定。）接著，伺服器會使用這些資訊以及其設定檔（例如 `pg_hba.conf`）的內容，判斷此連線是否可暫時接受，以及需要哪些額外的認證（若有的話）。
 
@@ -109,7 +109,7 @@ PostgreSQL 伺服器一定會傳送此訊息，但已知某些不支援查詢取
 
 ParameterStatus
 
-此訊息告知前端後端參數目前的（初始）設定，例如 [client_encoding](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-ENCODING) 或 [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE)。前端可以忽略此訊息，或記錄這些設定以供日後使用；詳細資訊請參閱[第 54.2.7 節](protocol-flow.md#PROTOCOL-ASYNC)。前端不應該回應此訊息，而應該繼續等待 ReadyForQuery 訊息。
+此訊息告知前端後端參數目前的（初始）設定，例如 [client_encoding](../../server-administration/runtime-config/runtime-config-client.md#GUC-CLIENT-ENCODING) 或 [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE)。前端可以忽略此訊息，或記錄這些設定以供日後使用；詳細資訊請參閱[第 54.2.7 節](protocol-flow.md#protocol-async)。前端不應該回應此訊息，而應該繼續等待 ReadyForQuery 訊息。
 
 ReadyForQuery
 
@@ -127,7 +127,7 @@ ReadyForQuery 訊息與後端在每個命令循環之後發出的訊息相同。
 
 <a id="PROTOCOL-FLOW-SIMPLE-QUERY"></a>
 
-### 54.2.2. 簡單查詢 [#](#PROTOCOL-FLOW-SIMPLE-QUERY)
+### 54.2.2. 簡單查詢 [#](#protocol-flow-simple-query) <a href="#protocol-flow-simple-query" id="protocol-flow-simple-query"></a>
 
 簡單查詢循環由前端傳送 Query 訊息給後端而開始。此訊息包含以文字字串表示的一個 SQL 命令（或多個命令）。接著，後端會依查詢命令字串的內容傳送一個或多個回應訊息，最後傳送 ReadyForQuery 回應訊息。ReadyForQuery 告知前端它可以安全地傳送新命令。（前端其實不一定要等到 ReadyForQuery 才發出下一個命令，但這樣一來，前端就必須自行負責處理較早的命令失敗、而已發出的較晚命令卻成功時的情況。）
 
@@ -139,11 +139,11 @@ CommandComplete
 
 CopyInResponse
 
-後端已準備好將資料從前端複製到資料表；請參閱[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)。
+後端已準備好將資料從前端複製到資料表；請參閱[第 54.2.6 節](protocol-flow.md#protocol-copy)。
 
 CopyOutResponse
 
-後端已準備好將資料從資料表複製到前端；請參閱[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)。
+後端已準備好將資料從資料表複製到前端；請參閱[第 54.2.6 節](protocol-flow.md#protocol-copy)。
 
 RowDescription
 
@@ -169,7 +169,7 @@ NoticeResponse
 
 已發出一則與該查詢相關的警告訊息。通知是附加在其他回應之外的，也就是說，後端會繼續處理該命令。
 
-對 `SELECT` 查詢（或其他傳回資料列集合的查詢，例如 `EXPLAIN` 或 `SHOW`）的回應，通常由 RowDescription、零個或多個 DataRow 訊息，以及最後的 CommandComplete 組成。往返前端的 `COPY`（複製到前端或從前端複製）會啟動特殊的協定，如[第 54.2.6 節](protocol-flow.md#PROTOCOL-COPY)所述。所有其他類型的查詢通常只會產生一個 CommandComplete 訊息。
+對 `SELECT` 查詢（或其他傳回資料列集合的查詢，例如 `EXPLAIN` 或 `SHOW`）的回應，通常由 RowDescription、零個或多個 DataRow 訊息，以及最後的 CommandComplete 組成。往返前端的 `COPY`（複製到前端或從前端複製）會啟動特殊的協定，如[第 54.2.6 節](protocol-flow.md#protocol-copy)所述。所有其他類型的查詢通常只會產生一個 CommandComplete 訊息。
 
 由於一個查詢字串可能包含多個查詢（以分號分隔），在後端完成查詢字串的處理之前，可能會有多個這樣的回應序列。當整個字串都已處理完畢、且後端已準備好接受新的查詢字串時，就會發出 ReadyForQuery。
 
@@ -179,7 +179,7 @@ NoticeResponse
 
 在簡單 Query 模式中，所擷取值的格式一律是文字，除非所給的命令是從以 `BINARY` 選項宣告的游標執行 `FETCH`。在那種情況下，所擷取的值是二進位格式。RowDescription 訊息中所給的格式代碼會指出正在使用哪一種格式。
 
-前端只要在等待任何其他類型的訊息時，都必須準備好接受 ErrorResponse 與 NoticeResponse 訊息。關於後端可能因外部事件而產生的訊息，另請參閱[第 54.2.7 節](protocol-flow.md#PROTOCOL-ASYNC)。
+前端只要在等待任何其他類型的訊息時，都必須準備好接受 ErrorResponse 與 NoticeResponse 訊息。關於後端可能因外部事件而產生的訊息，另請參閱[第 54.2.7 節](protocol-flow.md#protocol-async)。
 
 建議的做法是以狀態機的風格撰寫前端程式，在任何合理的時間點都能接受任何訊息類型，而不是把對確切訊息順序的假設寫死在程式中。
 
@@ -247,7 +247,7 @@ SELCT 1/0;
 
 <a id="PROTOCOL-FLOW-EXT-QUERY"></a>
 
-### 54.2.3. 延伸查詢 [#](#PROTOCOL-FLOW-EXT-QUERY)
+### 54.2.3. 延伸查詢 [#](#protocol-flow-ext-query) <a href="#protocol-flow-ext-query" id="protocol-flow-ext-query"></a>
 
 延伸查詢協定將上述的簡單查詢協定拆成多個步驟。預備步驟的結果可以重複使用多次，以提高效率。此外，還可以使用其他功能，例如能以個別參數的形式提供資料值，而不必將它們直接插入查詢字串中。
 
@@ -303,7 +303,7 @@ Flush 訊息不會導致產生任何特定的輸出，而是強制後端送出�
 
 <a id="PROTOCOL-FLOW-PIPELINING"></a>
 
-### 54.2.4. 管線化 [#](#PROTOCOL-FLOW-PIPELINING)
+### 54.2.4. 管線化 [#](#protocol-flow-pipelining) <a href="#protocol-flow-pipelining" id="protocol-flow-pipelining"></a>
 
 <a id="id-1.10.6.7.6.2"></a>
 
@@ -319,7 +319,7 @@ Flush 訊息不會導致產生任何特定的輸出，而是強制後端送出�
 
 <a id="PROTOCOL-FLOW-FUNCTION-CALL"></a>
 
-### 54.2.5. 函式呼叫 [#](#PROTOCOL-FLOW-FUNCTION-CALL)
+### 54.2.5. 函式呼叫 [#](#protocol-flow-function-call) <a href="#protocol-flow-function-call" id="protocol-flow-function-call"></a>
 
 函式呼叫子協定允許用戶端請求直接呼叫資料庫 `pg_proc` 系統目錄中存在的任何函式。用戶端必須擁有該函式的執行權限。
 
@@ -349,7 +349,7 @@ NoticeResponse
 
 <a id="PROTOCOL-COPY"></a>
 
-### 54.2.6. COPY 操作 [#](#PROTOCOL-COPY)
+### 54.2.6. COPY 操作 [#](#protocol-copy) <a href="#protocol-copy" id="protocol-copy"></a>
 
 `COPY` 命令可以與伺服器之間進行高速的大量資料傳輸。複製輸入（copy-in）與複製輸出（copy-out）操作各自會將連線切換到不同的子協定，並持續到操作完成為止。
 
@@ -363,7 +363,7 @@ NoticeResponse
 
 若後端在複製輸出模式期間偵測到錯誤，後端會發出 ErrorResponse 訊息並回到正常處理。前端應該將收到 ErrorResponse 視為複製輸出模式的結束。
 
-NoticeResponse 與 ParameterStatus 訊息可能穿插在 CopyData 訊息之間；前端必須處理這些情況，也應該準備好處理其他非同步訊息類型（請參閱[第 54.2.7 節](protocol-flow.md#PROTOCOL-ASYNC)）。除此之外，CopyData 或 CopyDone 以外的任何訊息類型都可以視為複製輸出模式的結束。
+NoticeResponse 與 ParameterStatus 訊息可能穿插在 CopyData 訊息之間；前端必須處理這些情況，也應該準備好處理其他非同步訊息類型（請參閱[第 54.2.7 節](protocol-flow.md#protocol-async)）。除此之外，CopyData 或 CopyDone 以外的任何訊息類型都可以視為複製輸出模式的結束。
 
 還有另一種與複製相關的模式，稱為雙向複製（copy-both），它可以*雙向*（往返伺服器）進行高速的大量資料傳輸。當處於 walsender 模式的後端執行 `START_REPLICATION` 陳述式時，就會開始雙向複製模式。後端會傳送 CopyBothResponse 訊息給前端。接著，後端與前端都可以傳送 CopyData 訊息，直到其中一端傳送 CopyDone 訊息為止。用戶端傳送 CopyDone 訊息之後，連線會從雙向複製模式轉為複製輸出模式，而用戶端不可以再傳送任何 CopyData 訊息。同樣地，當伺服器傳送 CopyDone 訊息時，連線會轉為複製輸入模式，而伺服器不可以再傳送任何 CopyData 訊息。雙方都傳送了 CopyDone 訊息之後，複製模式即結束，後端會回到命令處理模式。若後端在雙向複製模式期間偵測到錯誤，後端會發出 ErrorResponse 訊息，丟棄前端訊息直到收到 Sync 訊息為止，然後發出 ReadyForQuery 並回到正常處理。前端應該將收到 ErrorResponse 視為兩個方向的複製都已結束；這種情況下不應該傳送 CopyDone。關於透過雙向複製模式傳輸的子協定，詳細資訊請參閱[第 54.4 節](protocol-replication.md)。
 
@@ -371,7 +371,7 @@ CopyInResponse、CopyOutResponse 與 CopyBothResponse 訊息包含一些欄位�
 
 <a id="PROTOCOL-ASYNC"></a>
 
-### 54.2.7. 非同步操作 [#](#PROTOCOL-ASYNC)
+### 54.2.7. 非同步操作 [#](#protocol-async) <a href="#protocol-async" id="protocol-async"></a>
 
 在某些情況下，後端會傳送並非由前端命令串流特別引發的訊息。前端必須隨時準備好處理這些訊息，即使沒有在進行查詢時也一樣。至少，在開始讀取查詢回應之前，應該先檢查這些情況。
 
@@ -393,7 +393,7 @@ NoticeResponse 訊息可能因外部活動而產生；例如，若資料庫管�
 
 <a id="PROTOCOL-FLOW-CANCELING-REQUESTS"></a>
 
-### 54.2.8. 取消進行中的請求 [#](#PROTOCOL-FLOW-CANCELING-REQUESTS)
+### 54.2.8. 取消進行中的請求 [#](#protocol-flow-canceling-requests) <a href="#protocol-flow-canceling-requests" id="protocol-flow-canceling-requests"></a>
 
 在查詢處理期間，前端可能會請求取消該查詢。基於實作效率的考量，取消請求不會直接在與後端已開啟的連線上傳送：我們不希望後端在查詢處理期間持續檢查是否有來自前端的新輸入。取消請求應該相對不常發生，因此我們讓它稍微麻煩一些，以避免在正常情況下付出代價。
 
@@ -409,7 +409,7 @@ NoticeResponse 訊息可能因外部活動而產生；例如，若資料庫管�
 
 <a id="PROTOCOL-FLOW-TERMINATION"></a>
 
-### 54.2.9. 終止 [#](#PROTOCOL-FLOW-TERMINATION)
+### 54.2.9. 終止 [#](#protocol-flow-termination) <a href="#protocol-flow-termination" id="protocol-flow-termination"></a>
 
 正常而得體的終止程序是：前端傳送 Terminate 訊息，並立即關閉連線。收到此訊息後，後端會關閉連線並終止。
 
@@ -421,7 +421,7 @@ NoticeResponse 訊息可能因外部活動而產生；例如，若資料庫管�
 
 <a id="PROTOCOL-FLOW-SSL"></a>
 
-### 54.2.10. SSL 工作階段加密 [#](#PROTOCOL-FLOW-SSL)
+### 54.2.10. SSL 工作階段加密 [#](#protocol-flow-ssl) <a href="#protocol-flow-ssl" id="protocol-flow-ssl"></a>
 
 若 PostgreSQL 建置時含有 SSL 支援，前端／後端之間的通訊就可以使用 SSL 加密。這可以在攻擊者可能擷取工作階段流量的環境中提供通訊安全。關於以 SSL 加密 PostgreSQL 工作階段的更多資訊，請參閱[第 18.9 節](../../server-administration/runtime/ssl-tcp.md)。
 
@@ -442,7 +442,7 @@ TLS ALPN Protocol IDs](https://www.iana.org/assignments/tls-extensiontype-values
 
 <a id="PROTOCOL-FLOW-GSSAPI"></a>
 
-### 54.2.11. GSSAPI 工作階段加密 [#](#PROTOCOL-FLOW-GSSAPI)
+### 54.2.11. GSSAPI 工作階段加密 [#](#protocol-flow-gssapi) <a href="#protocol-flow-gssapi" id="protocol-flow-gssapi"></a>
 
 若 PostgreSQL 建置時含有 GSSAPI 支援，前端／後端之間的通訊就可以使用 GSSAPI 加密。這可以在攻擊者可能擷取工作階段流量的環境中提供通訊安全。關於以 GSSAPI 加密 PostgreSQL 工作階段的更多資訊，請參閱[第 18.10 節](../../server-administration/runtime/gssapi-enc.md)。
 

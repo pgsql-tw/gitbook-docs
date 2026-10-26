@@ -2,13 +2,13 @@
 
 ## 56.1. 給翻譯者 [#](#nls-translator) <a href="#nls-translator" id="nls-translator"></a>
 
-[56.1.1. 需求](nls-translator.md#NLS-TRANSLATOR-REQUIREMENTS)
+[56.1.1. 需求](nls-translator.md#nls-translator-requirements)
 
-[56.1.2. 基本概念](nls-translator.md#NLS-TRANSLATOR-CONCEPTS)
+[56.1.2. 基本概念](nls-translator.md#nls-translator-concepts)
 
-[56.1.3. 建立與維護訊息目錄](nls-translator.md#NLS-TRANSLATOR-MESSAGE-CATALOGS)
+[56.1.3. 建立與維護訊息目錄](nls-translator.md#nls-translator-message-catalogs)
 
-[56.1.4. 編輯 PO 檔案](nls-translator.md#NLS-TRANSLATOR-EDITING-PO)
+[56.1.4. 編輯 PO 檔案](nls-translator.md#nls-translator-editing-po)
 
 PostgreSQL
 程式（伺服器與用戶端）可以用
@@ -21,7 +21,7 @@ PostgreSQL 貢獻心力的人協助。你完全不必是
 
 <a id="NLS-TRANSLATOR-REQUIREMENTS"></a>
 
-### 56.1.1. 需求 [#](#NLS-TRANSLATOR-REQUIREMENTS)
+### 56.1.1. 需求 [#](#nls-translator-requirements) <a href="#nls-translator-requirements" id="nls-translator-requirements"></a>
 
 我們不會評斷你的語言能力——本節談的是
 軟體工具。理論上，你只需要一個文字編輯器。但
@@ -48,7 +48,7 @@ PostgreSQL 貢獻心力的人協助。你完全不必是
 
 <a id="NLS-TRANSLATOR-CONCEPTS"></a>
 
-### 56.1.2. 基本概念 [#](#NLS-TRANSLATOR-CONCEPTS)
+### 56.1.2. 基本概念 [#](#nls-translator-concepts) <a href="#nls-translator-concepts" id="nls-translator-concepts"></a>
 
 原始（英文）訊息與其（可能已）
 翻譯之對應訊息所組成的配對，保存在*訊息
@@ -126,7 +126,7 @@ fuzzy 訊息不會提供給終端使用者。另一個
 
 <a id="NLS-TRANSLATOR-MESSAGE-CATALOGS"></a>
 
-### 56.1.3. 建立與維護訊息目錄 [#](#NLS-TRANSLATOR-MESSAGE-CATALOGS)
+### 56.1.3. 建立與維護訊息目錄 [#](#nls-translator-message-catalogs) <a href="#nls-translator-message-catalogs" id="nls-translator-message-catalogs"></a>
 
 那麼，要如何建立一個「空白」的訊息
 目錄呢？首先，進入包含你想翻譯其訊息之程式的
@@ -194,7 +194,7 @@ make update-po
 
 <a id="NLS-TRANSLATOR-EDITING-PO"></a>
 
-### 56.1.4. 編輯 PO 檔案 [#](#NLS-TRANSLATOR-EDITING-PO)
+### 56.1.4. 編輯 PO 檔案 [#](#nls-translator-editing-po) <a href="#nls-translator-editing-po" id="nls-translator-editing-po"></a>
 
 PO 檔案可以用一般的文字編輯器編輯。另外也有
 數種專門用於 PO 檔案的編輯器，可以透過

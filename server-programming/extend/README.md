@@ -7,7 +7,7 @@
 [36.1. 可擴充性如何運作](extend-how.md)
 
 [36.2. PostgreSQL 型別系統](extend-type-system.md)
-:   [36.2.1. 基礎型別](extend-type-system.md#EXTEND-TYPE-SYSTEM-BASE)
+:   [36.2.1. 基礎型別](extend-type-system.md#extend-type-system-base)
 
     [36.2.2. 容器型別](extend-type-system.md#EXTEND-TYPE-SYSTEM-CONTAINER)
 
@@ -22,7 +22,7 @@
 [36.4. 使用者定義程序](xproc.md)
 
 [36.5. 查詢語言（SQL）函式](xfunc-sql.md)
-:   [36.5.1. SQL 函式的引數](xfunc-sql.md#XFUNC-SQL-FUNCTION-ARGUMENTS)
+:   [36.5.1. SQL 函式的引數](xfunc-sql.md#xfunc-sql-function-arguments)
 
     [36.5.2. 基礎型別上的 SQL 函式](xfunc-sql.md#XFUNC-SQL-BASE-FUNCTIONS)
 
@@ -55,7 +55,7 @@
 [36.9. 內部函式](xfunc-internal.md)
 
 [36.10. C 語言函式](xfunc-c.md)
-:   [36.10.1. 動態載入](xfunc-c.md#XFUNC-C-DYNLOAD)
+:   [36.10.1. 動態載入](xfunc-c.md#xfunc-c-dynload)
 
     [36.10.2. C 語言函式中的基礎型別](xfunc-c.md#XFUNC-C-BASETYPE)
 
@@ -90,7 +90,7 @@
 [36.11. 函式最佳化資訊](xfunc-optimization.md)
 
 [36.12. 使用者定義聚合函式](xaggr.md)
-:   [36.12.1. 移動聚合模式](xaggr.md#XAGGR-MOVING-AGGREGATES)
+:   [36.12.1. 移動聚合模式](xaggr.md#xaggr-moving-aggregates)
 
     [36.12.2. 多型與可變數量聚合函式](xaggr.md#XAGGR-POLYMORPHIC-AGGREGATES)
 
@@ -101,12 +101,12 @@
     [36.12.5. 聚合函式的支援函式](xaggr.md#XAGGR-SUPPORT-FUNCTIONS)
 
 [36.13. 使用者定義型別](xtypes.md)
-:   [36.13.1. TOAST 考量事項](xtypes.md#XTYPES-TOAST)
+:   [36.13.1. TOAST 考量事項](xtypes.md#xtypes-toast)
 
 [36.14. 使用者定義運算子](xoper.md)
 
 [36.15. 運算子最佳化資訊](xoper-optimization.md)
-:   [36.15.1. `COMMUTATOR`](xoper-optimization.md#XOPER-COMMUTATOR)
+:   [36.15.1. `COMMUTATOR`](xoper-optimization.md#xoper-commutator)
 
     [36.15.2. `NEGATOR`](xoper-optimization.md#XOPER-NEGATOR)
 
@@ -119,7 +119,7 @@
     [36.15.6. `MERGES`](xoper-optimization.md#XOPER-MERGES)
 
 [36.16. 將擴充功能與索引介接](xindex.md)
-:   [36.16.1. 索引方法與運算子類別](xindex.md#XINDEX-OPCLASS)
+:   [36.16.1. 索引方法與運算子類別](xindex.md#xindex-opclass)
 
     [36.16.2. 索引方法策略](xindex.md#XINDEX-STRATEGIES)
 
@@ -136,7 +136,7 @@
     [36.16.8. 運算子類別的特殊功能](xindex.md#XINDEX-OPCLASS-FEATURES)
 
 [36.17. 將相關物件封裝為擴充功能](extend-extensions.md)
-:   [36.17.1. 擴充功能檔案](extend-extensions.md#EXTEND-EXTENSIONS-FILES)
+:   [36.17.1. 擴充功能檔案](extend-extensions.md#extend-extensions-files)
 
     [36.17.2. 擴充功能可重新定位性](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)
 

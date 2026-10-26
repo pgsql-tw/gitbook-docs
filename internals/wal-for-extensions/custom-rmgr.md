@@ -59,7 +59,7 @@ typedef struct RmgrData
 extern void RegisterCustomRmgr(RmgrId rmid, const RmgrData *rmgr);
 ```
 
-`RegisterCustomRmgr` 必須從擴充功能模組的 [_PG_init](../../server-programming/extend/xfunc-c.md#XFUNC-C-DYNLOAD) 函式中呼叫。開發新的擴充功能期間，請使用 `RM_EXPERIMENTAL_ID` 作為 *`rmid`*。當你準備好將擴充功能發布給使用者時，請在 [Custom WAL Resource Manager](https://wiki.postgresql.org/wiki/CustomWALResourceManagers) 頁面上保留一個新的資源管理器 ID。
+`RegisterCustomRmgr` 必須從擴充功能模組的 [_PG_init](../../server-programming/extend/xfunc-c.md#xfunc-c-dynload) 函式中呼叫。開發新的擴充功能期間，請使用 `RM_EXPERIMENTAL_ID` 作為 *`rmid`*。當你準備好將擴充功能發布給使用者時，請在 [Custom WAL Resource Manager](https://wiki.postgresql.org/wiki/CustomWALResourceManagers) 頁面上保留一個新的資源管理器 ID。
 
 將實作自訂資源管理器的擴充功能模組放入 [shared_preload_libraries](../../server-administration/runtime-config/runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES)，使它在 PostgreSQL 啟動期間就提早載入。
 

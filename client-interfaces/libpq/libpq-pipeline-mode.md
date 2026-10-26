@@ -30,7 +30,7 @@ libpq 管線模式讓應用程式
 PostgreSQL 14 中引入的，但它是用戶端功能，
 不需要伺服器的特殊支援，可在任何
 支援 v3 延伸查詢協定的伺服器上運作。詳細資訊請參閱
-[第 54.2.4 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-PIPELINING)。
+[第 54.2.4 節](../../internals/protocol/protocol-flow.md#protocol-flow-pipelining)。
 
 <a id="LIBPQ-PIPELINE-USING"></a>
 
@@ -297,7 +297,7 @@ PostgreSQL 原始碼發行版的
 `PQpipelineSync`<a id="id-1.7.3.12.10.2.4.1.2"></a> [#](#LIBPQ-PQPIPELINESYNC)
 
 藉由送出
-[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+[同步訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)
 並刷寫送出緩衝區，在管線中標記一個同步點。這會作為
 隱含交易的分界以及錯誤復原
 點；請參閱[第 32.5.1.3 節](libpq-pipeline-mode.md#LIBPQ-PIPELINE-ERRORS)。
@@ -309,7 +309,7 @@ PostgreSQL 原始碼發行版的
 
 成功時傳回 1。若連線不處於
 管線模式，或送出
-[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+[同步訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)
 失敗，則傳回 0。
 
 <a id="LIBPQ-PQSENDPIPELINESYNC"></a>
@@ -317,7 +317,7 @@ PostgreSQL 原始碼發行版的
 `PQsendPipelineSync`<a id="id-1.7.3.12.10.2.5.1.2"></a> [#](#LIBPQ-PQSENDPIPELINESYNC)
 
 藉由送出
-[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+[同步訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)
 但不刷寫送出緩衝區，在管線中標記一個同步點。這會作為
 隱含交易的分界以及錯誤復原
 點；請參閱[第 32.5.1.3 節](libpq-pipeline-mode.md#LIBPQ-PIPELINE-ERRORS)。
@@ -329,7 +329,7 @@ PostgreSQL 原始碼發行版的
 
 成功時傳回 1。若連線不處於
 管線模式，或送出
-[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+[同步訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)
 失敗，則傳回 0。
 請注意，該訊息本身不會自動刷寫到伺服器；
 必要時請使用 `PQflush`。

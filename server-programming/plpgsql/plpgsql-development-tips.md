@@ -2,9 +2,9 @@
 
 ## 41.12. PL/pgSQL 開發技巧 [#](#plpgsql-development-tips) <a href="#plpgsql-development-tips" id="plpgsql-development-tips"></a>
 
-[41.12.1. 引號的處理](plpgsql-development-tips.md#PLPGSQL-QUOTE-TIPS)
+[41.12.1. 引號的處理](plpgsql-development-tips.md#plpgsql-quote-tips)
 
-[41.12.2. 額外的編譯期與執行期檢查](plpgsql-development-tips.md#PLPGSQL-EXTRA-CHECKS)
+[41.12.2. 額外的編譯期與執行期檢查](plpgsql-development-tips.md#plpgsql-extra-checks)
 
 開發 PL/pgSQL 的一種好方法，是用你慣用的文字編輯器來撰寫函式，然後在另一個視窗中用 psql 載入並測試這些函式。如果你採用這種做法，建議使用 `CREATE OR REPLACE FUNCTION` 來撰寫函式。這樣一來，你只要重新載入該檔案就能更新函式定義。例如：
 
@@ -28,7 +28,7 @@ $$ LANGUAGE plpgsql;
 
 <a id="PLPGSQL-QUOTE-TIPS"></a>
 
-### 41.12.1. 引號的處理 [#](#PLPGSQL-QUOTE-TIPS)
+### 41.12.1. 引號的處理 [#](#plpgsql-quote-tips) <a href="#plpgsql-quote-tips" id="plpgsql-quote-tips"></a>
 
 PL/pgSQL 函式的程式碼在 `CREATE FUNCTION` 中是以字串常數的形式指定的。如果你以一般方式、用前後單引號來撰寫這個字串常數，那麼函式本體中的任何單引號都必須加倍；同樣地，任何反斜線也都必須加倍（假設使用的是跳脫字串語法）。把引號加倍充其量只是件麻煩事，但在比較複雜的情況下，程式碼會變得完全難以理解，因為你很容易就會發現自己需要連寫半打甚至更多的引號。建議你改以「錢字號引用（dollar-quoted）」的字串常數來撰寫函式本體（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）。在錢字號引用的做法中，你完全不需要把任何引號加倍，只要注意為每一層需要的巢狀結構選用不同的錢字號引用分隔字串即可。例如，你可以把 `CREATE FUNCTION` 指令寫成：
 
@@ -160,7 +160,7 @@ $PROC$ LANGUAGE plpgsql;
 
 <a id="PLPGSQL-EXTRA-CHECKS"></a>
 
-### 41.12.2. 額外的編譯期與執行期檢查 [#](#PLPGSQL-EXTRA-CHECKS)
+### 41.12.2. 額外的編譯期與執行期檢查 [#](#plpgsql-extra-checks) <a href="#plpgsql-extra-checks" id="plpgsql-extra-checks"></a>
 
 為了協助使用者在簡單但常見的問題造成損害之前就先找出它們，PL/pgSQL 提供了額外的檢查（*`checks`*）。啟用之後，依組態而定，它們可以在函式編譯期間發出 `WARNING` 或 `ERROR`。收到 `WARNING` 的函式仍然可以執行而不會再產生其他訊息，因此建議你在獨立的開發環境中進行測試。
 

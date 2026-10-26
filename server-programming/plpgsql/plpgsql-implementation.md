@@ -1,15 +1,15 @@
 <a id="PLPGSQL-IMPLEMENTATION"></a>
 ## 41.11. PL/pgSQL 內部運作原理 [#](#plpgsql-implementation) <a href="#plpgsql-implementation" id="plpgsql-implementation"></a>
 
-[41.11.1. 變數代換](plpgsql-implementation.md#PLPGSQL-VAR-SUBST)
+[41.11.1. 變數代換](plpgsql-implementation.md#plpgsql-var-subst)
 
-[41.11.2. 計畫快取](plpgsql-implementation.md#PLPGSQL-PLAN-CACHING)
+[41.11.2. 計畫快取](plpgsql-implementation.md#plpgsql-plan-caching)
 
 本節討論一些對 PL/pgSQL 使用者而言，經常十分重要的實作細節。
 
 <a id="PLPGSQL-VAR-SUBST"></a>
 
-### 41.11.1. 變數代換 [#](#PLPGSQL-VAR-SUBST)
+### 41.11.1. 變數代換 [#](#plpgsql-var-subst) <a href="#plpgsql-var-subst" id="plpgsql-var-subst"></a>
 
 PL/pgSQL 函式中的 SQL 陳述式與運算式，
 可以參照該函式的變數與參數。在幕後，
@@ -32,7 +32,7 @@ INSERT INTO foo (foo) VALUES (foo(foo));
 
 換個方式理解，變數代換只能將資料值插入 SQL
 命令中；它無法動態變更該命令所參照的資料庫物件。（若您想要
-這麼做，就必須如[41.5.4 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN)所述，
+這麼做，就必須如[41.5.4 節](plpgsql-statements.md#plpgsql-statements-executing-dyn)所述，
 動態建構命令字串。）
 
 由於變數名稱在語法上與資料表欄位名稱並無不同，因此在同時
@@ -154,7 +154,7 @@ $$ LANGUAGE plpgsql;
 在提供給 `EXECUTE` 或其變體的命令字串中，不會發生變數代換。
 若您需要將某個變動的值插入此類命令中，
 請將其作為建構字串值的一部分來處理，或使用 `USING`，
-如[41.5.4 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN)中所示範。
+如[41.5.4 節](plpgsql-statements.md#plpgsql-statements-executing-dyn)中所示範。
 
 目前變數代換只在 `SELECT`、
 `INSERT`、`UPDATE`、
@@ -168,7 +168,7 @@ $$ LANGUAGE plpgsql;
 
 <a id="PLPGSQL-PLAN-CACHING"></a>
 
-### 41.11.2. 計畫快取 [#](#PLPGSQL-PLAN-CACHING)
+### 41.11.2. 計畫快取 [#](#plpgsql-plan-caching) <a href="#plpgsql-plan-caching" id="plpgsql-plan-caching"></a>
 
 PL/pgSQL 直譯器會在該函式（於各工作階段中）首次被呼叫時，
 剖析其原始碼文字，並產生一個內部的二進位指令樹。

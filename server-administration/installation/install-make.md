@@ -832,7 +832,7 @@ PostgreSQL 功能。這些功能之所以非預設，大多是因為
     程式碼路徑中，執行使用者自訂的程式碼。這有助於
     以可控制的方式進行測試，以及調查並行情境。
     這個選項預設為停用。詳見
-    [36.10.14 節](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)
+    [36.10.14 節](../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points)
     以取得更多細節。這個選項僅供開發人員在測試時使用。
 <a id="CONFIGURE-OPTION-WITH-SEGSIZE-BLOCKS"></a>
 

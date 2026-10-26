@@ -7,14 +7,14 @@
 [51.2. 如何建立連線](connect-estab.md)
 
 [51.3. 剖析器階段](parser-stage.md)
-:   [51.3.1. Parser](parser-stage.md#PARSER-STAGE-PARSER)
+:   [51.3.1. Parser](parser-stage.md#parser-stage-parser)
 
     [51.3.2. Transformation Process](parser-stage.md#PARSER-STAGE-TRANSFORMATION-PROCESS)
 
 [51.4. PostgreSQL 規則系統](rule-system.md)
 
 [51.5. 規劃器／最佳化器](planner-optimizer.md)
-:   [51.5.1. Generating Possible Plans](planner-optimizer.md#PLANNER-OPTIMIZER-GENERATING-POSSIBLE-PLANS)
+:   [51.5.1. Generating Possible Plans](planner-optimizer.md#planner-optimizer-generating-possible-plans)
 
 [51.6. 執行器](executor.md)
 

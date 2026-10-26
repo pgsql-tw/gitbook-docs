@@ -460,7 +460,7 @@ PostgreSQL 也支援回報動態資訊，說明系統目前正在進行的確切
        請參閱<a class="xref" href="monitoring-stats.md#WAIT-EVENT-EXTENSION-TABLE">表 27.8</a>。
       </td></tr><tr><td><code class="literal">InjectionPoint</code></td><td>伺服器程序正在等待某個注入點（injection point）達到
        測試中所定義的結果。詳情請參閱
-       <a class="xref" href="../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS">第 36.10.14 節</a>。此
+       <a class="xref" href="../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points">第 36.10.14 節</a>。此
        類型並無預先定義的等待點。
       </td></tr><tr><td><code class="literal">IO</code></td><td>伺服器程序正在等待某項 I/O 作業完成。
        <code class="literal">wait_event</code> 將標明特定的等待點；

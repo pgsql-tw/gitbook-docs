@@ -4,7 +4,7 @@
 
 <a id="id-1.10.5.31.2"></a>
 
-檢視表 `pg_shmem_allocations` 顯示從伺服器主要共享記憶體區段所進行的配置。這包含 PostgreSQL 本身所配置的記憶體，以及擴充功能使用[第 36.10.11 節](../../server-programming/extend/xfunc-c.md#XFUNC-SHARED-ADDIN)所詳述之機制配置的記憶體。
+檢視表 `pg_shmem_allocations` 顯示從伺服器主要共享記憶體區段所進行的配置。這包含 PostgreSQL 本身所配置的記憶體，以及擴充功能使用[第 36.10.11 節](../../server-programming/extend/xfunc-c.md#xfunc-shared-addin)所詳述之機制配置的記憶體。
 
 請注意，此檢視表不包含使用動態共享記憶體基礎架構所配置的記憶體。
 

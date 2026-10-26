@@ -1003,16 +1003,16 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
 #### E.6.3.8. 原始碼 [#](#RELEASE-18-SOURCE-CODE)
 
-* 將[注入點](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)的載入與執行分開
+* 將[注入點](../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points)的載入與執行分開
   (Michael Paquier, Heikki Linnakangas)
   [§](https://postgr.es/c/4b211003e)
   [§](https://postgr.es/c/a0a5869a8)
 
-  現在可以透過 [`INJECTION_POINT_LOAD()`](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS) 建立注入點但不執行，
-  並可以透過 [`INJECTION_POINT_CACHED()`](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS) 執行這類注入點。
+  現在可以透過 [`INJECTION_POINT_LOAD()`](../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points) 建立注入點但不執行，
+  並可以透過 [`INJECTION_POINT_CACHED()`](../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points) 執行這類注入點。
 * 支援注入點的執行期引數 (Michael Paquier)
   [§](https://postgr.es/c/371f2db8b)
-* 允許使用 [`IS_INJECTION_POINT_ATTACHED()`](../../server-programming/extend/xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS) 撰寫內嵌的注入點測試程式碼
+* 允許使用 [`IS_INJECTION_POINT_ATTACHED()`](../../server-programming/extend/xfunc-c.md#xfunc-addin-injection-points) 撰寫內嵌的注入點測試程式碼
   (Heikki Linnakangas)
   [§](https://postgr.es/c/20e0e7da9)
 * 使用 SIMD（單一指令多重資料）提升處理長 [`JSON`](../../the-sql-language/datatype/datatype-json.md) 字串的效能 (David
@@ -1055,7 +1055,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   `amconsistentordering` (Mark Dilger)
   [§](https://postgr.es/c/56fead44d)
   [§](https://postgr.es/c/af4002b38)
-* 新增 GiST 支援函式 [`stratnum()`](../../internals/indextypes/gist.md#GIST-EXTENSIBILITY)
+* 新增 GiST 支援函式 [`stratnum()`](../../internals/indextypes/gist.md#gist-extensibility)
   (Paul A. Jungwirth)
   [§](https://postgr.es/c/7406ab623)
 * 在 [pg_controldata](../../reference/reference-server/app-pgcontroldata.md) 中記錄
@@ -1085,7 +1085,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/218527d01)
 
   錯誤一律透過 `ereport()` 回報。
-* 新增關於 API 與 ABI 相容性的[文件章節](../../server-programming/extend/xfunc-c.md#XFUNC-API-ABI-STABILITY-GUIDANCE) (David Wheeler, Peter Eisentraut)
+* 新增關於 API 與 ABI 相容性的[文件章節](../../server-programming/extend/xfunc-c.md#xfunc-api-abi-stability-guidance) (David Wheeler, Peter Eisentraut)
   [§](https://postgr.es/c/e54a42ac9)
 * 移除 Windows 上 Meson 建置的實驗性標示 (Aleksander Alekseev)
   [§](https://postgr.es/c/5afaba629)

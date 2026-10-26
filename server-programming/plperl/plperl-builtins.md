@@ -1,13 +1,13 @@
 <a id="PLPERL-BUILTINS"></a>
 ## 43.3. 內建函式 [#](#plperl-builtins) <a href="#plperl-builtins" id="plperl-builtins"></a>
 
-[43.3.1. 從 PL/Perl 存取資料庫](plperl-builtins.md#PLPERL-DATABASE)
+[43.3.1. 從 PL/Perl 存取資料庫](plperl-builtins.md#plperl-database)
 
-[43.3.2. PL/Perl 中的公用函式](plperl-builtins.md#PLPERL-UTILITY-FUNCTIONS)
+[43.3.2. PL/Perl 中的公用函式](plperl-builtins.md#plperl-utility-functions)
 
 <a id="PLPERL-DATABASE"></a>
 
-### 43.3.1. 從 PL/Perl 存取資料庫 [#](#PLPERL-DATABASE)
+### 43.3.1. 從 PL/Perl 存取資料庫 [#](#plperl-database) <a href="#plperl-database" id="plperl-database"></a>
 
 要從您的 Perl 函式存取資料庫本身，
 可以透過以下函式來完成：
@@ -280,7 +280,7 @@ SQL 指令 `COMMIT` 或 `ROLLBACK`。
 
 <a id="PLPERL-UTILITY-FUNCTIONS"></a>
 
-### 43.3.2. PL/Perl 中的公用函式 [#](#PLPERL-UTILITY-FUNCTIONS)
+### 43.3.2. PL/Perl 中的公用函式 [#](#plperl-utility-functions) <a href="#plperl-utility-functions" id="plperl-utility-functions"></a>
 
 `elog(level, msg)` <a id="id-1.8.10.11.3.2.1.1.2"></a>
 

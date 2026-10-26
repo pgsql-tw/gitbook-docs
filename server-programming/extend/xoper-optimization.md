@@ -1,17 +1,17 @@
 <a id="XOPER-OPTIMIZATION"></a>
 ## 36.15. 運算子最佳化資訊 [#](#xoper-optimization) <a href="#xoper-optimization" id="xoper-optimization"></a>
 
-[36.15.1. `COMMUTATOR`](xoper-optimization.md#XOPER-COMMUTATOR)
+[36.15.1. `COMMUTATOR`](xoper-optimization.md#xoper-commutator)
 
-[36.15.2. `NEGATOR`](xoper-optimization.md#XOPER-NEGATOR)
+[36.15.2. `NEGATOR`](xoper-optimization.md#xoper-negator)
 
-[36.15.3. `RESTRICT`](xoper-optimization.md#XOPER-RESTRICT)
+[36.15.3. `RESTRICT`](xoper-optimization.md#xoper-restrict)
 
-[36.15.4. `JOIN`](xoper-optimization.md#XOPER-JOIN)
+[36.15.4. `JOIN`](xoper-optimization.md#xoper-join)
 
-[36.15.5. `HASHES`](xoper-optimization.md#XOPER-HASHES)
+[36.15.5. `HASHES`](xoper-optimization.md#xoper-hashes)
 
-[36.15.6. `MERGES`](xoper-optimization.md#XOPER-MERGES)
+[36.15.6. `MERGES`](xoper-optimization.md#xoper-merges)
 
 <a id="id-1.8.3.18.2"></a>
 
@@ -32,7 +32,7 @@ PostgreSQL 的運算子定義可以包含
 
 <a id="XOPER-COMMUTATOR"></a>
 
-### 36.15.1. `COMMUTATOR` [#](#XOPER-COMMUTATOR)
+### 36.15.1. `COMMUTATOR` [#](#xoper-commutator) <a href="#xoper-commutator" id="xoper-commutator"></a>
 
 `COMMUTATOR` 子句（若有提供）會指出某個運算子，作為
 目前所定義運算子的交換子（commutator）。我們稱運算子 A 是運算子 B 的
@@ -60,7 +60,7 @@ PostgreSQL *不會*單純
 
 <a id="XOPER-NEGATOR"></a>
 
-### 36.15.2. `NEGATOR` [#](#XOPER-NEGATOR)
+### 36.15.2. `NEGATOR` [#](#xoper-negator) <a href="#xoper-negator" id="xoper-negator"></a>
 
 `NEGATOR` 子句（若有提供）會指出某個運算子，作為
 目前所定義運算子的否定子（negator）。我們稱運算子 A
@@ -83,7 +83,7 @@ PostgreSQL *不會*單純
 
 <a id="XOPER-RESTRICT"></a>
 
-### 36.15.3. `RESTRICT` [#](#XOPER-RESTRICT)
+### 36.15.3. `RESTRICT` [#](#xoper-restrict) <a href="#xoper-restrict" id="xoper-restrict"></a>
 
 `RESTRICT` 子句（若有提供）會為該運算子指出一個限制選擇率
 估算函式。（請注意，這裡指的是函式名稱，而非運算子名稱。）`RESTRICT`
@@ -138,7 +138,7 @@ column OP constant
 
 <a id="XOPER-JOIN"></a>
 
-### 36.15.4. `JOIN` [#](#XOPER-JOIN)
+### 36.15.4. `JOIN` [#](#xoper-join) <a href="#xoper-join" id="xoper-join"></a>
 
 `JOIN` 子句（若有提供）會為該運算子指出一個連接選擇率
 估算函式。（請注意，這裡指的是函式名稱，而非運算子名稱。）`JOIN`
@@ -163,7 +163,7 @@ table1.column1 OP table2.column2
 
 <a id="XOPER-HASHES"></a>
 
-### 36.15.5. `HASHES` [#](#XOPER-HASHES)
+### 36.15.5. `HASHES` [#](#xoper-hashes) <a href="#xoper-hashes" id="xoper-hashes"></a>
 
 `HASHES` 子句（若有出現）會告訴系統，
 可以針對以此運算子為基礎的連接，使用雜湊連接方法。`HASHES`
@@ -223,7 +223,7 @@ null 結果的錯誤。）
 
 <a id="XOPER-MERGES"></a>
 
-### 36.15.6. `MERGES` [#](#XOPER-MERGES)
+### 36.15.6. `MERGES` [#](#xoper-merges) <a href="#xoper-merges" id="xoper-merges"></a>
 
 `MERGES` 子句（若有出現）會告訴系統，
 可以針對以此運算子為基礎的連接，使用合併連接方法。`MERGES`

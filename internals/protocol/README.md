@@ -5,7 +5,7 @@
 **目錄**
 
 [54.1. 概觀](protocol-overview.md)
-:   [54.1.1. 訊息傳遞概觀](protocol-overview.md#PROTOCOL-MESSAGE-CONCEPTS)
+:   [54.1.1. 訊息傳遞概觀](protocol-overview.md#protocol-message-concepts)
 
     [54.1.2. 延伸查詢概觀](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
 
@@ -14,7 +14,7 @@
     [54.1.4. 協定版本](protocol-overview.md#PROTOCOL-VERSIONS)
 
 [54.2. 訊息流程](protocol-flow.md)
-:   [54.2.1. 啟動](protocol-flow.md#PROTOCOL-FLOW-START-UP)
+:   [54.2.1. 啟動](protocol-flow.md#protocol-flow-start-up)
 
     [54.2.2. 簡單查詢](protocol-flow.md#PROTOCOL-FLOW-SIMPLE-QUERY)
 
@@ -37,14 +37,14 @@
     [54.2.11. GSSAPI 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-GSSAPI)
 
 [54.3. SASL 認證](sasl-authentication.md)
-:   [54.3.1. SCRAM-SHA-256 認證](sasl-authentication.md#SASL-SCRAM-SHA-256)
+:   [54.3.1. SCRAM-SHA-256 認證](sasl-authentication.md#sasl-scram-sha-256)
 
     [54.3.2. OAUTHBEARER 認證](sasl-authentication.md#SASL-OAUTHBEARER)
 
 [54.4. 串流複寫協定](protocol-replication.md)
 
 [54.5. 邏輯串流複寫協定](protocol-logical-replication.md)
-:   [54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#PROTOCOL-LOGICAL-REPLICATION-PARAMS)
+:   [54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#protocol-logical-replication-params)
 
     [54.5.2. 邏輯複寫協定訊息](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES)
 

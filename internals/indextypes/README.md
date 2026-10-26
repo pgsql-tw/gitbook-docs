@@ -5,7 +5,7 @@
 **目錄**
 
 [65.1. B-Tree 索引](btree.md)
-:   [65.1.1. 簡介](btree.md#BTREE-INTRO)
+:   [65.1.1. 簡介](btree.md#btree-intro)
 
     [65.1.2. B-Tree 運算子類別的行為](btree.md#BTREE-BEHAVIOR)
 
@@ -14,7 +14,7 @@
     [65.1.4. 實作](btree.md#BTREE-IMPLEMENTATION)
 
 [65.2. GiST 索引](gist.md)
-:   [65.2.1. 簡介](gist.md#GIST-INTRO)
+:   [65.2.1. 簡介](gist.md#gist-intro)
 
     [65.2.2. 內建運算子類別](gist.md#GIST-BUILTIN-OPCLASSES)
 
@@ -25,7 +25,7 @@
     [65.2.5. 範例](gist.md#GIST-EXAMPLES)
 
 [65.3. SP-GiST 索引](spgist.md)
-:   [65.3.1. 簡介](spgist.md#SPGIST-INTRO)
+:   [65.3.1. 簡介](spgist.md#spgist-intro)
 
     [65.3.2. 內建運算子類別](spgist.md#SPGIST-BUILTIN-OPCLASSES)
 

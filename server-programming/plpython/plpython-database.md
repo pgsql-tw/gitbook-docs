@@ -2,15 +2,15 @@
 
 ## 44.6. 資料庫存取 [#](#plpython-database) <a href="#plpython-database" id="plpython-database"></a>
 
-[44.6.1. 資料庫存取函式](plpython-database.md#PLPYTHON-DATABASE-ACCESS-FUNCS)
+[44.6.1. 資料庫存取函式](plpython-database.md#plpython-database-access-funcs)
 
-[44.6.2. 攔截錯誤](plpython-database.md#PLPYTHON-TRAPPING)
+[44.6.2. 攔截錯誤](plpython-database.md#plpython-trapping)
 
 PL/Python 語言模組會自動匯入一個名為 `plpy` 的 Python 模組。這個模組中的函式與常數可以在你的 Python 程式碼中以 `plpy.foo` 的形式使用。
 
 <a id="PLPYTHON-DATABASE-ACCESS-FUNCS"></a>
 
-### 44.6.1. 資料庫存取函式 [#](#PLPYTHON-DATABASE-ACCESS-FUNCS)
+### 44.6.1. 資料庫存取函式 [#](#plpython-database-access-funcs) <a href="#plpython-database-access-funcs" id="plpython-database-access-funcs"></a>
 
 `plpy` 模組提供了數個用來執行資料庫指令的函式：
 
@@ -152,7 +152,7 @@ PL/Python 語言模組會自動匯入一個名為 `plpy` 的 Python 模組。這
 
 <a id="PLPYTHON-TRAPPING"></a>
 
-### 44.6.2. 攔截錯誤 [#](#PLPYTHON-TRAPPING)
+### 44.6.2. 攔截錯誤 [#](#plpython-trapping) <a href="#plpython-trapping" id="plpython-trapping"></a>
 
 存取資料庫的函式可能會遇到錯誤，而這些錯誤會使它們中止並拋出例外。`plpy.execute` 與 `plpy.prepare` 兩者都可能拋出 `plpy.SPIError` 之子類別的實例，這在預設情況下會終止該函式。這個錯誤可以像處理其他任何 Python 例外一樣，用 `try/except` 結構來處理。例如：
 

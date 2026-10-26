@@ -7,7 +7,7 @@
 [47.1. 邏輯解碼範例](logicaldecoding-example.md)
 
 [47.2. 邏輯解碼的概念](logicaldecoding-explanation.md)
-:   [47.2.1. 邏輯解碼](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-LOG-DEC)
+:   [47.2.1. 邏輯解碼](logicaldecoding-explanation.md#logicaldecoding-explanation-log-dec)
 
     [47.2.2. 複寫插槽](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS)
 
@@ -24,7 +24,7 @@
 [47.5. 與邏輯解碼相關的系統目錄](logicaldecoding-catalogs.md)
 
 [47.6. 邏輯解碼輸出外掛程式](logicaldecoding-output-plugin.md)
-:   [47.6.1. 初始化函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-INIT)
+:   [47.6.1. 初始化函式](logicaldecoding-output-plugin.md#logicaldecoding-output-init)
 
     [47.6.2. 功能](logicaldecoding-output-plugin.md#LOGICALDECODING-CAPABILITIES)
 
@@ -37,7 +37,7 @@
 [47.7. 邏輯解碼輸出寫入器](logicaldecoding-writer.md)
 
 [47.8. 邏輯解碼的同步複寫支援](logicaldecoding-synchronous.md)
-:   [47.8.1. 概觀](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-OVERVIEW)
+:   [47.8.1. 概觀](logicaldecoding-synchronous.md#logicaldecoding-synchronous-overview)
 
     [47.8.2. 注意事項](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS)
 

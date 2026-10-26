@@ -1,19 +1,19 @@
 <a id="EVENT-TRIGGER-DEFINITION"></a>
 ## 38.1. 事件觸發程序行為概觀 [#](#event-trigger-definition) <a href="#event-trigger-definition" id="event-trigger-definition"></a>
 
-[38.1.1. login](event-trigger-definition.md#EVENT-TRIGGER-LOGIN)
+[38.1.1. login](event-trigger-definition.md#event-trigger-login)
 
-[38.1.2. ddl_command_start](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_START)
+[38.1.2. ddl_command_start](event-trigger-definition.md#event-trigger-ddl_command_start)
 
-[38.1.3. ddl_command_end](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_END)
+[38.1.3. ddl_command_end](event-trigger-definition.md#event-trigger-ddl_command_end)
 
-[38.1.4. sql_drop](event-trigger-definition.md#EVENT-TRIGGER-SQL_DROP)
+[38.1.4. sql_drop](event-trigger-definition.md#event-trigger-sql_drop)
 
-[38.1.5. table_rewrite](event-trigger-definition.md#EVENT-TRIGGER-TABLE_REWRITE)
+[38.1.5. table_rewrite](event-trigger-definition.md#event-trigger-table_rewrite)
 
-[38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
+[38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#event-trigger-aborted-transactions)
 
-[38.1.7. 建立事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-CREATING)
+[38.1.7. 建立事件觸發程序](event-trigger-definition.md#event-trigger-creating)
 
 當事件觸發程序所關聯的事件，在其所定義的資料庫中發生時，該事件觸發程序便會被觸發。目前支援的事件有
 `login`、
@@ -25,7 +25,7 @@
 
 <a id="EVENT-TRIGGER-LOGIN"></a>
 
-### 38.1.1. login [#](#EVENT-TRIGGER-LOGIN)
+### 38.1.1. login [#](#event-trigger-login) <a href="#event-trigger-login" id="event-trigger-login"></a>
 
 `login` 事件會在已通過驗證的使用者登入系統時發生。此事件的觸發程序若有任何錯誤，都可能導致無法成功登入系統。這類錯誤可透過在連線字串或組態檔中，將 [event_triggers](../../server-administration/runtime-config/runtime-config-client.md#GUC-EVENT-TRIGGERS) 設為 `false` 來加以規避。或者，您也可以將系統以單使用者模式重新啟動（因為事件觸發程序在此模式下會被停用）。關於使用單使用者模式的詳情，請參閱 [postgres](../../reference/reference-server/app-postgres.md) 參考頁面。
 `login` 事件也會在待命伺服器上觸發。為避免伺服器變得無法存取，這類觸發程序在待命伺服器上執行時，必須避免對資料庫寫入任何內容。此外，建議避免在 `login` 事件觸發程序中執行長時間執行的查詢。請注意，舉例來說，在 psql 中取消連線，並不會取消正在進行中的 `login` 觸發程序。
@@ -34,7 +34,7 @@
 
 <a id="EVENT-TRIGGER-DDL_COMMAND_START"></a>
 
-### 38.1.2. ddl_command_start [#](#EVENT-TRIGGER-DDL_COMMAND_START)
+### 38.1.2. ddl_command_start [#](#event-trigger-ddl_command_start) <a href="#event-trigger-ddl_command_start" id="event-trigger-ddl_command_start"></a>
 
 `ddl_command_start` 事件會在執行 DDL 命令之前緊接著發生。在此語境下，DDL 命令是指：
 
@@ -67,7 +67,7 @@
 
 <a id="EVENT-TRIGGER-DDL_COMMAND_END"></a>
 
-### 38.1.3. ddl_command_end [#](#EVENT-TRIGGER-DDL_COMMAND_END)
+### 38.1.3. ddl_command_end [#](#event-trigger-ddl_command_end) <a href="#event-trigger-ddl_command_end" id="event-trigger-ddl_command_end"></a>
 
 `ddl_command_end` 事件會在執行與
 `ddl_command_start` 相同的一組命令之後緊接著發生。若要取得所發生 DDL
@@ -76,7 +76,7 @@
 
 <a id="EVENT-TRIGGER-SQL_DROP"></a>
 
-### 38.1.4. sql_drop [#](#EVENT-TRIGGER-SQL_DROP)
+### 38.1.4. sql_drop [#](#event-trigger-sql_drop) <a href="#event-trigger-sql_drop" id="event-trigger-sql_drop"></a>
 
 `sql_drop` 事件會在任何刪除資料庫物件的操作，其
 `ddl_command_end` 事件觸發程序執行之前緊接著發生。請注意，除了明顯的
@@ -89,7 +89,7 @@
 
 <a id="EVENT-TRIGGER-TABLE_REWRITE"></a>
 
-### 38.1.5. table_rewrite [#](#EVENT-TRIGGER-TABLE_REWRITE)
+### 38.1.5. table_rewrite [#](#event-trigger-table_rewrite) <a href="#event-trigger-table_rewrite" id="event-trigger-table_rewrite"></a>
 
 `table_rewrite` 事件會在資料表因
 `ALTER TABLE` 與 `ALTER TYPE`
@@ -102,7 +102,7 @@
 
 <a id="EVENT-TRIGGER-ABORTED-TRANSACTIONS"></a>
 
-### 38.1.6. 中止交易中的事件觸發程序 [#](#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
+### 38.1.6. 中止交易中的事件觸發程序 [#](#event-trigger-aborted-transactions) <a href="#event-trigger-aborted-transactions" id="event-trigger-aborted-transactions"></a>
 
 事件觸發程序（如同其他函式）無法在已中止的交易中執行。因此，若某個 DDL 命令因錯誤而失敗，任何相關聯的
 `ddl_command_end` 觸發程序都不會被執行。反之，若某個
@@ -111,7 +111,7 @@
 
 <a id="EVENT-TRIGGER-CREATING"></a>
 
-### 38.1.7. 建立事件觸發程序 [#](#EVENT-TRIGGER-CREATING)
+### 38.1.7. 建立事件觸發程序 [#](#event-trigger-creating) <a href="#event-trigger-creating" id="event-trigger-creating"></a>
 
 事件觸發程序是使用 [CREATE EVENT TRIGGER](../../reference/sql-commands/sql-createeventtrigger.md) 命令建立的。若要建立事件觸發程序，您必須先建立一個傳回型別為特殊型別
 `event_trigger` 的函式。此函式不需要（也不可以）傳回值；此傳回型別僅作為一種訊號，表示該函式將以事件觸發程序的形式被呼叫。

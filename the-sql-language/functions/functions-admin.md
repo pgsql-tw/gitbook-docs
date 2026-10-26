@@ -703,7 +703,7 @@ PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了�
         → <code class="returnvalue">void</code>
 </p>
 <p>
-        將邏輯容錯移轉複寫槽從主要伺服器同步到備用伺服器。這個函式只能在備用伺服器上執行。暫時的已同步複寫槽（如果有的話）不能用於邏輯解碼，且必須在提升之後刪除。詳情請參閱<a class="xref" href="../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION">第 47.2.3 節</a>。請注意，這個函式主要是供測試與除錯之用，應謹慎使用。此外，如果已啟用 <a class="link" href="../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS"><code class="varname">
+        將邏輯容錯移轉複寫槽從主要伺服器同步到備用伺服器。這個函式只能在備用伺服器上執行。暫時的已同步複寫槽（如果有的話）不能用於邏輯解碼，且必須在提升之後刪除。詳情請參閱<a class="xref" href="../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization">第 47.2.3 節</a>。請注意，這個函式主要是供測試與除錯之用，應謹慎使用。此外，如果已啟用 <a class="link" href="../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS"><code class="varname">
         sync_replication_slots</code></a>，且 slotsync 工作程序已在執行複寫槽的同步，就無法執行這個函式。
        </p>
 <div class="caution"><h3 class="title">Caution</h3><p>

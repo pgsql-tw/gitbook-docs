@@ -2,7 +2,7 @@
 
 ## 60.2. 建立自訂掃描計畫 [#](#custom-scan-plan) <a href="#custom-scan-plan" id="custom-scan-plan"></a>
 
-[60.2.1. 自訂掃描計畫回呼函式](custom-scan-plan.md#CUSTOM-SCAN-PLAN-CALLBACKS)
+[60.2.1. 自訂掃描計畫回呼函式](custom-scan-plan.md#custom-scan-plan-callbacks)
 
 自訂掃描在完成的計畫樹中以下列結構表示：
 
@@ -29,7 +29,7 @@ typedef struct CustomScan
 
 <a id="CUSTOM-SCAN-PLAN-CALLBACKS"></a>
 
-### 60.2.1. 自訂掃描計畫回呼函式 [#](#CUSTOM-SCAN-PLAN-CALLBACKS)
+### 60.2.1. 自訂掃描計畫回呼函式 [#](#custom-scan-plan-callbacks) <a href="#custom-scan-plan-callbacks" id="custom-scan-plan-callbacks"></a>
 
 ```
 

@@ -2,9 +2,9 @@
 
 ## 54.3. SASL 身分驗證 [#](#sasl-authentication) <a href="#sasl-authentication" id="sasl-authentication"></a>
 
-[54.3.1. SCRAM-SHA-256 身分驗證](sasl-authentication.md#SASL-SCRAM-SHA-256)
+[54.3.1. SCRAM-SHA-256 身分驗證](sasl-authentication.md#sasl-scram-sha-256)
 
-[54.3.2. OAUTHBEARER 身分驗證](sasl-authentication.md#SASL-OAUTHBEARER)
+[54.3.2. OAUTHBEARER 身分驗證](sasl-authentication.md#sasl-oauthbearer)
 
 *SASL* 是用於連線導向協定的身分驗證框架。目前，PostgreSQL 實作了三種 SASL 身分驗證機制：SCRAM-SHA-256、SCRAM-SHA-256-PLUS 與 OAUTHBEARER。未來可能會加入更多機制。下列步驟說明一般而言 SASL 身分驗證如何進行，而接下來的小節則會提供特定機制的更多細節。
 
@@ -21,7 +21,7 @@
 
 <a id="SASL-SCRAM-SHA-256"></a>
 
-### 54.3.1. SCRAM-SHA-256 身分驗證 [#](#SASL-SCRAM-SHA-256)
+### 54.3.1. SCRAM-SHA-256 身分驗證 [#](#sasl-scram-sha-256) <a href="#sasl-scram-sha-256" id="sasl-scram-sha-256"></a>
 
 `SCRAM-SHA-256` 及其具備通道綁定（channel binding）的變體 `SCRAM-SHA-256-PLUS`，都是以密碼為基礎的身分驗證機制。[RFC 7677](https://datatracker.ietf.org/doc/html/rfc7677) 與 [RFC 5802](https://datatracker.ietf.org/doc/html/rfc5802) 中有詳細說明。
 
@@ -47,7 +47,7 @@ SCRAM 規格規定密碼也要使用 UTF-8，並以 *SASLprep* 演算法處理�
 
 <a id="SASL-OAUTHBEARER"></a>
 
-### 54.3.2. OAUTHBEARER 身分驗證 [#](#SASL-OAUTHBEARER)
+### 54.3.2. OAUTHBEARER 身分驗證 [#](#sasl-oauthbearer) <a href="#sasl-oauthbearer" id="sasl-oauthbearer"></a>
 
 `OAUTHBEARER` 是一種用於聯合身分驗證（federated authentication）、以權杖為基礎的機制。[RFC 7628](https://datatracker.ietf.org/doc/html/rfc7628) 中有詳細說明。
 

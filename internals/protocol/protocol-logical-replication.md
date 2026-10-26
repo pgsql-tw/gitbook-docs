@@ -2,11 +2,11 @@
 
 ## 54.5. 邏輯串流複寫協定 [#](#protocol-logical-replication) <a href="#protocol-logical-replication" id="protocol-logical-replication"></a>
 
-[54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#PROTOCOL-LOGICAL-REPLICATION-PARAMS)
+[54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#protocol-logical-replication-params)
 
-[54.5.2. 邏輯複寫協定訊息](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES)
+[54.5.2. 邏輯複寫協定訊息](protocol-logical-replication.md#protocol-logical-messages)
 
-[54.5.3. 邏輯複寫協定訊息流程](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES-FLOW)
+[54.5.3. 邏輯複寫協定訊息流程](protocol-logical-replication.md#protocol-logical-messages-flow)
 
 本節說明邏輯複寫協定，也就是由 `START_REPLICATION` `SLOT` *`slot_name`* `LOGICAL` 複寫命令啟動的訊息流程。
 
@@ -16,7 +16,7 @@ PostgreSQL 的邏輯解碼支援輸出外掛程式。`pgoutput` 是內建邏輯�
 
 <a id="PROTOCOL-LOGICAL-REPLICATION-PARAMS"></a>
 
-### 54.5.1. 邏輯串流複寫參數 [#](#PROTOCOL-LOGICAL-REPLICATION-PARAMS)
+### 54.5.1. 邏輯串流複寫參數 [#](#protocol-logical-replication-params) <a href="#protocol-logical-replication-params" id="protocol-logical-replication-params"></a>
 
 使用 `START_REPLICATION` 命令時，`pgoutput` 接受下列選項：
 
@@ -56,7 +56,7 @@ origin
 
 <a id="PROTOCOL-LOGICAL-MESSAGES"></a>
 
-### 54.5.2. 邏輯複寫協定訊息 [#](#PROTOCOL-LOGICAL-MESSAGES)
+### 54.5.2. 邏輯複寫協定訊息 [#](#protocol-logical-messages) <a href="#protocol-logical-messages" id="protocol-logical-messages"></a>
 
 以下各小節將討論個別的協定訊息。個別訊息的說明請參閱[第 54.9 節](protocol-logicalrep-message-formats.md)。
 
@@ -66,7 +66,7 @@ origin
 
 <a id="PROTOCOL-LOGICAL-MESSAGES-FLOW"></a>
 
-### 54.5.3. 邏輯複寫協定訊息流程 [#](#PROTOCOL-LOGICAL-MESSAGES-FLOW)
+### 54.5.3. 邏輯複寫協定訊息流程 [#](#protocol-logical-messages-flow) <a href="#protocol-logical-messages-flow" id="protocol-logical-messages-flow"></a>
 
 除了 `START_REPLICATION` 命令與重播進度訊息之外，所有資訊都只會從後端流向前端。
 

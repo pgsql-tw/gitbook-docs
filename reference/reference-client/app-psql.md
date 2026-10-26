@@ -605,7 +605,7 @@ name`。
 
 `\dAc[x+] [access-method-pattern [input-type-pattern]]` [#](#APP-PSQL-META-COMMAND-DAC)
 :   列出運算子類別
-    （請參閱[第 36.16.1 節](../../server-programming/extend/xindex.md#XINDEX-OPCLASS)）。
+    （請參閱[第 36.16.1 節](../../server-programming/extend/xindex.md#xindex-opclass)）。
     若指定了 *`access-method-pattern`*，
     則只列出與名稱符合該模式之存取方法相關聯的運算子類別。
     若指定了 *`input-type-pattern`*，
@@ -616,7 +616,7 @@ name`。
 
 `\dAf[x+] [access-method-pattern [input-type-pattern]]` [#](#APP-PSQL-META-COMMAND-DAF)
 :   列出運算子家族
-    （請參閱[第 36.16.5 節](../../server-programming/extend/xindex.md#XINDEX-OPFAMILY)）。
+    （請參閱[第 36.16.5 節](../../server-programming/extend/xindex.md#xindex-opfamily)）。
     若指定了 *`access-method-pattern`*，
     則只列出與名稱符合該模式之存取方法相關聯的運算子家族。
     若指定了 *`input-type-pattern`*，
@@ -627,7 +627,7 @@ name`。
 
 `\dAo[x+] [access-method-pattern [operator-family-pattern]]` [#](#APP-PSQL-META-COMMAND-DAO)
 :   列出與運算子家族相關聯的運算子
-    （請參閱[第 36.16.2 節](../../server-programming/extend/xindex.md#XINDEX-STRATEGIES)）。
+    （請參閱[第 36.16.2 節](../../server-programming/extend/xindex.md#xindex-strategies)）。
     若指定了 *`access-method-pattern`*，
     則只列出與名稱符合該模式之存取方法相關聯的運算子家族成員。
     若指定了 *`operator-family-pattern`*，
@@ -638,7 +638,7 @@ name`。
 
 `\dAp[x+] [access-method-pattern [operator-family-pattern]]` [#](#APP-PSQL-META-COMMAND-DAP)
 :   列出與運算子家族相關聯的支援函式
-    （請參閱[第 36.16.3 節](../../server-programming/extend/xindex.md#XINDEX-SUPPORT)）。
+    （請參閱[第 36.16.3 節](../../server-programming/extend/xindex.md#xindex-support)）。
     若指定了 *`access-method-pattern`*，
     則只列出與名稱符合該模式之存取方法相關聯的運算子家族的函式。
     若指定了 *`operator-family-pattern`*，
@@ -1529,7 +1529,7 @@ name`。
 <a id="APP-PSQL-META-COMMAND-PIPELINE"></a>
 
 `\startpipeline`<br>`\sendpipeline`<br>`\syncpipeline`<br>`\endpipeline`<br>`\flushrequest`<br>`\flush`<br>`\getresults [ number_results ]` [#](#APP-PSQL-META-COMMAND-PIPELINE)
-:   這組命令實作 SQL 陳述式的管線化。管線必須以 `\startpipeline` 開始，並以 `\endpipeline` 結束。兩者之間可以有任意數量的 `\syncpipeline` 命令，它會送出一個 [sync 訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)，但不會結束進行中的管線，並會將傳送緩衝區中的資料送出（flush）。在管線模式下，陳述式會送到伺服器，而不等待先前陳述式的結果。詳細資訊請參閱[第 32.5 節](../../client-interfaces/libpq/libpq-pipeline-mode.md)。
+:   這組命令實作 SQL 陳述式的管線化。管線必須以 `\startpipeline` 開始，並以 `\endpipeline` 結束。兩者之間可以有任意數量的 `\syncpipeline` 命令，它會送出一個 [sync 訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)，但不會結束進行中的管線，並會將傳送緩衝區中的資料送出（flush）。在管線模式下，陳述式會送到伺服器，而不等待先前陳述式的結果。詳細資訊請參閱[第 32.5 節](../../client-interfaces/libpq/libpq-pipeline-mode.md)。
 
     管線進行期間執行的所有查詢都使用延伸查詢協定。查詢以分號結尾時會附加到管線中。中繼命令 `\bind`、`\bind_named`、`\close_prepared` 或 `\parse` 可以在進行中的管線中使用。管線進行期間，`\sendpipeline` 會將目前的查詢緩衝區附加到管線中。其他中繼命令，例如 `\g`、`\gx` 或 `\gdesc`，在管線模式下不允許使用。
 

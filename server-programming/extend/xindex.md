@@ -1,21 +1,21 @@
 <a id="XINDEX"></a>
 ## 36.16. 將擴充功能與索引介接 [#](#xindex) <a href="#xindex" id="xindex"></a>
 
-[36.16.1. 索引方法與運算子類別](xindex.md#XINDEX-OPCLASS)
+[36.16.1. 索引方法與運算子類別](xindex.md#xindex-opclass)
 
-[36.16.2. 索引方法策略](xindex.md#XINDEX-STRATEGIES)
+[36.16.2. 索引方法策略](xindex.md#xindex-strategies)
 
-[36.16.3. 索引方法支援常式](xindex.md#XINDEX-SUPPORT)
+[36.16.3. 索引方法支援常式](xindex.md#xindex-support)
 
-[36.16.4. 一個範例](xindex.md#XINDEX-EXAMPLE)
+[36.16.4. 一個範例](xindex.md#xindex-example)
 
-[36.16.5. 運算子類別與運算子家族](xindex.md#XINDEX-OPFAMILY)
+[36.16.5. 運算子類別與運算子家族](xindex.md#xindex-opfamily)
 
-[36.16.6. 系統對運算子類別的相依性](xindex.md#XINDEX-OPCLASS-DEPENDENCIES)
+[36.16.6. 系統對運算子類別的相依性](xindex.md#xindex-opclass-dependencies)
 
-[36.16.7. 排序運算子](xindex.md#XINDEX-ORDERING-OPS)
+[36.16.7. 排序運算子](xindex.md#xindex-ordering-ops)
 
-[36.16.8. 運算子類別的特殊功能](xindex.md#XINDEX-OPCLASS-FEATURES)
+[36.16.8. 運算子類別的特殊功能](xindex.md#xindex-opclass-features)
 
 <a id="id-1.8.3.19.2"></a>
 
@@ -33,7 +33,7 @@
 
 <a id="XINDEX-OPCLASS"></a>
 
-### 36.16.1. 索引方法與運算子類別 [#](#XINDEX-OPCLASS)
+### 36.16.1. 索引方法與運算子類別 [#](#xindex-opclass) <a href="#xindex-opclass" id="xindex-opclass"></a>
 
 運算子類別與索引存取方法相關聯，例如
 [B-Tree](../../internals/indextypes/btree.md)
@@ -72,7 +72,7 @@
 
 <a id="XINDEX-STRATEGIES"></a>
 
-### 36.16.2. 索引方法策略 [#](#XINDEX-STRATEGIES)
+### 36.16.2. 索引方法策略 [#](#xindex-strategies) <a href="#xindex-strategies" id="xindex-strategies"></a>
 
 與運算子類別相關聯的運算子，是以「策略編號」（strategy number）
 來識別的，這些編號用來在其運算子類別的情境中識別
@@ -175,11 +175,11 @@ BRIN 索引與 GiST、SP-GiST 及 GIN 索引類似，同樣沒有
 `WHERE` 子句的最上層，才能搭配索引使用。
 （有些索引存取方法也支援*排序運算子*，
 這類運算子通常不會傳回布林值；此功能會在
-[第 36.16.7 節](xindex.md#XINDEX-ORDERING-OPS)討論。）
+[第 36.16.7 節](xindex.md#xindex-ordering-ops)討論。）
 
 <a id="XINDEX-SUPPORT"></a>
 
-### 36.16.3. 索引方法支援常式 [#](#XINDEX-SUPPORT)
+### 36.16.3. 索引方法支援常式 [#](#xindex-support) <a href="#xindex-support" id="xindex-support"></a>
 
 光有策略通常還不足以讓系統知道如何
 使用索引。實務上，索引方法還需要
@@ -205,7 +205,7 @@ B-tree 需要一個比較支援函式，
 並允許運算子類別的作者依需要另外提供四個
 支援函式，如[表 36.9](xindex.md#XINDEX-BTREE-SUPPORT-TABLE)所示（原文此處寫作「四個」，但表 36.9 實際列出編號 2～6 共五個可選的支援函式）。
 這些支援函式的要求進一步說明於
-[第 65.1.3 節](../../internals/indextypes/btree.md#BTREE-SUPPORT-FUNCS)。
+[第 65.1.3 節](../../internals/indextypes/btree.md#btree-support-funcs)。
 
 <a id="XINDEX-BTREE-SUPPORT-TABLE"></a>
 
@@ -346,7 +346,7 @@ BRIN 索引有五個基本支援函式，其中一個是可選的，
 
 <a id="XINDEX-EXAMPLE"></a>
 
-### 36.16.4. 一個範例 [#](#XINDEX-EXAMPLE)
+### 36.16.4. 一個範例 [#](#xindex-example) <a href="#xindex-example" id="xindex-example"></a>
 
 現在我們已經了解了這些概念，以下是先前所承諾的
 建立新運算子類別的範例。
@@ -501,7 +501,7 @@ CREATE OPERATOR CLASS complex_abs_ops
 
 <a id="XINDEX-OPFAMILY"></a>
 
-### 36.16.5. 運算子類別與運算子家族 [#](#XINDEX-OPFAMILY)
+### 36.16.5. 運算子類別與運算子家族 [#](#xindex-opfamily) <a href="#xindex-opfamily" id="xindex-opfamily"></a>
 
 到目前為止，我們一直隱含地假設一個運算子類別只處理
 單一資料型別。雖然在特定的索引欄位中確實只能有一種資料型別，
@@ -659,7 +659,7 @@ ALTER OPERATOR FAMILY integer_ops USING btree ADD
 作為家族中鬆散的成員。
 
 在 B-tree 運算子家族中，家族內所有的運算子都必須以相容的方式排序，
-詳情請見[第 65.1.2 節](../../internals/indextypes/btree.md#BTREE-BEHAVIOR)。對於家族中的每個
+詳情請見[第 65.1.2 節](../../internals/indextypes/btree.md#btree-behavior)。對於家族中的每個
 運算子，都必須有一個支援函式，其兩個輸入資料型別與該運算子
 相同。建議一個家族應該是完整的，也就是說，對於
 每一種資料型別組合，都應包含所有的運算子。每個運算子類別
@@ -703,7 +703,7 @@ GiST、SP-GiST 與 GIN 索引並沒有任何明確的
 
 <a id="XINDEX-OPCLASS-DEPENDENCIES"></a>
 
-### 36.16.6. 系統對運算子類別的相依性 [#](#XINDEX-OPCLASS-DEPENDENCIES)
+### 36.16.6. 系統對運算子類別的相依性 [#](#xindex-opclass-dependencies) <a href="#xindex-opclass-dependencies" id="xindex-opclass-dependencies"></a>
 
 <a id="id-1.8.3.19.10.2"></a>
 
@@ -795,7 +795,7 @@ BY` 子句所關聯的 B-tree 運算子類別沒有相符的 in_range 支援函�
 
 <a id="XINDEX-ORDERING-OPS"></a>
 
-### 36.16.7. 排序運算子 [#](#XINDEX-ORDERING-OPS)
+### 36.16.7. 排序運算子 [#](#xindex-ordering-ops) <a href="#xindex-ordering-ops" id="xindex-ordering-ops"></a>
 
 某些索引存取方法（目前僅有 GiST 與 SP-GiST）支援
 *排序運算子*（ordering operator）的概念。到目前為止我們所討論的，
@@ -852,7 +852,7 @@ OPERATOR 15    <-> (point, point) FOR ORDER BY float_ops
 
 <a id="XINDEX-OPCLASS-FEATURES"></a>
 
-### 36.16.8. 運算子類別的特殊功能 [#](#XINDEX-OPCLASS-FEATURES)
+### 36.16.8. 運算子類別的特殊功能 [#](#xindex-opclass-features) <a href="#xindex-opclass-features" id="xindex-opclass-features"></a>
 
 還有兩項我們尚未討論到的運算子類別特殊功能，
 之所以尚未討論，主要是因為它們對最常用的

@@ -2,13 +2,13 @@
 
 ## 54.1. 概觀 [#](#protocol-overview) <a href="#protocol-overview" id="protocol-overview"></a>
 
-[54.1.1. 訊息傳遞概觀](protocol-overview.md#PROTOCOL-MESSAGE-CONCEPTS)
+[54.1.1. 訊息傳遞概觀](protocol-overview.md#protocol-message-concepts)
 
-[54.1.2. 延伸查詢概觀](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
+[54.1.2. 延伸查詢概觀](protocol-overview.md#protocol-query-concepts)
 
-[54.1.3. 格式與格式代碼](protocol-overview.md#PROTOCOL-FORMAT-CODES)
+[54.1.3. 格式與格式代碼](protocol-overview.md#protocol-format-codes)
 
-[54.1.4. 協定版本](protocol-overview.md#PROTOCOL-VERSIONS)
+[54.1.4. 協定版本](protocol-overview.md#protocol-versions)
 
 此協定在啟動與正常運作時有不同的階段。在啟動階段，前端開啟與伺服器的連線，並以伺服器滿意的方式驗明自己的身分。（依所使用的認證方法而定，這可能只涉及單一訊息，也可能涉及多個訊息。）若一切順利，伺服器接著會將狀態資訊傳送給前端，最後進入正常運作。除了最初的啟動請求訊息之外，協定的這個部分是由伺服器主導的。
 
@@ -22,7 +22,7 @@
 
 <a id="PROTOCOL-MESSAGE-CONCEPTS"></a>
 
-### 54.1.1. 訊息傳遞概觀 [#](#PROTOCOL-MESSAGE-CONCEPTS)
+### 54.1.1. 訊息傳遞概觀 [#](#protocol-message-concepts) <a href="#protocol-message-concepts" id="protocol-message-concepts"></a>
 
 所有的通訊都是透過訊息串流進行。訊息的第一個位元組標識訊息類型，接下來的四個位元組指定訊息其餘部分的長度（此長度計數包含它自己，但不包含訊息類型位元組）。訊息的其餘內容由訊息類型決定。基於歷史因素，用戶端傳送的第一則訊息（啟動訊息）沒有開頭的訊息類型位元組。
 
@@ -32,7 +32,7 @@
 
 <a id="PROTOCOL-QUERY-CONCEPTS"></a>
 
-### 54.1.2. 延伸查詢概觀 [#](#PROTOCOL-QUERY-CONCEPTS)
+### 54.1.2. 延伸查詢概觀 [#](#protocol-query-concepts) <a href="#protocol-query-concepts" id="protocol-query-concepts"></a>
 
 在延伸查詢協定中，SQL 命令的執行被分成多個步驟。步驟之間保留的狀態由兩種物件表示：*預備陳述式*與 *portal*。預備陳述式代表剖析文字查詢字串並進行語意分析的結果。預備陳述式本身尚未準備好執行，因為它可能缺少*參數*的具體值。portal 代表一個已準備好執行或已部分執行的陳述式，其中所有缺少的參數值都已填入。（對於 `SELECT` 陳述式，portal 相當於一個已開啟的游標，但我們選擇使用不同的術語，因為游標無法處理非 `SELECT` 的陳述式。）
 
@@ -42,7 +42,7 @@
 
 <a id="PROTOCOL-FORMAT-CODES"></a>
 
-### 54.1.3. 格式與格式代碼 [#](#PROTOCOL-FORMAT-CODES)
+### 54.1.3. 格式與格式代碼 [#](#protocol-format-codes) <a href="#protocol-format-codes" id="protocol-format-codes"></a>
 
 特定資料型別的資料可能以數種不同*格式*中的任何一種傳輸。截至 PostgreSQL 7.4，僅支援「文字」與「二進位」兩種格式，但協定為未來的擴充預留了空間。任何值所需的格式由*格式代碼*指定。用戶端可以為每個傳輸的參數值以及查詢結果的每個欄位指定格式代碼。文字的格式代碼為零，二進位的格式代碼為一，所有其他格式代碼都保留供未來定義。
 
@@ -52,7 +52,7 @@
 
 <a id="PROTOCOL-VERSIONS"></a>
 
-### 54.1.4. 協定版本 [#](#PROTOCOL-VERSIONS)
+### 54.1.4. 協定版本 [#](#protocol-versions) <a href="#protocol-versions" id="protocol-versions"></a>
 
 協定目前最新的版本是 3.2 版。然而，為了與尚未支援版本協商的舊版伺服器及中介軟體保持向後相容，libpq 預設仍使用協定 3.0 版。
 

@@ -65,7 +65,7 @@ GIN 的運算子類別必須提供兩個方法：
 
 `Datum *extractQuery(Datum query, int32 *nkeys, StrategyNumber n, bool **pmatch, Pointer **extra_data, bool **nullFlags, int32 *searchMode)`
 
-給定一個要查詢的值，傳回一個以 palloc 配置的鍵陣列；也就是說，`query` 是可索引運算子右側的值，而該運算子的左側是被索引的欄位。`n` 是該運算子在運算子類別中的策略編號（請參閱[第 36.16.2 節](../../server-programming/extend/xindex.md#XINDEX-STRATEGIES)）。`extractQuery` 通常需要參考 `n` 來判斷 `query` 的資料型別，以及應該用來擷取鍵值的方法。傳回的鍵數量必須存入 `*nkeys`。如果任何鍵可能為 null，還要以 palloc 配置一個包含 `*nkeys` 個 `bool` 欄位的陣列，將其位址存入 `*nullFlags`，並視需要設定這些 null 旗標。如果所有鍵都不是 null，`*nullFlags` 可以保持為 `NULL`（其初始值）。如果 `query` 不含任何鍵，傳回值可以是 `NULL`。
+給定一個要查詢的值，傳回一個以 palloc 配置的鍵陣列；也就是說，`query` 是可索引運算子右側的值，而該運算子的左側是被索引的欄位。`n` 是該運算子在運算子類別中的策略編號（請參閱[第 36.16.2 節](../../server-programming/extend/xindex.md#xindex-strategies)）。`extractQuery` 通常需要參考 `n` 來判斷 `query` 的資料型別，以及應該用來擷取鍵值的方法。傳回的鍵數量必須存入 `*nkeys`。如果任何鍵可能為 null，還要以 palloc 配置一個包含 `*nkeys` 個 `bool` 欄位的陣列，將其位址存入 `*nullFlags`，並視需要設定這些 null 旗標。如果所有鍵都不是 null，`*nullFlags` 可以保持為 `NULL`（其初始值）。如果 `query` 不含任何鍵，傳回值可以是 `NULL`。
 
 `searchMode` 是一個輸出引數，讓 `extractQuery` 可以指定搜尋執行方式的細節。如果 `*searchMode` 設為 `GIN_SEARCH_MODE_DEFAULT`（這是呼叫前它被初始化的值），則只有與至少一個傳回的鍵相符的項目才會被視為候選相符項目。如果 `*searchMode` 設為 `GIN_SEARCH_MODE_INCLUDE_EMPTY`，則除了包含至少一個相符鍵的項目之外，完全不含任何鍵的項目也會被視為候選相符項目。（例如，這個模式對於實作「是…的子集」運算子很有用。）如果 `*searchMode` 設為 `GIN_SEARCH_MODE_ALL`，則索引中所有非 null 的項目都會被視為候選相符項目，無論它們是否與任何傳回的鍵相符。（這個模式比其他兩種選擇慢得多，因為它基本上需要掃描整個索引，但為了正確實作邊界情況，它可能是必要的。在大多數情況下都需要這個模式的運算子，大概不適合作為 GIN 運算子類別。）用來設定此模式的符號定義在 `access/gin.h` 中。
 

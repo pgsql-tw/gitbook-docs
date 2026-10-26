@@ -1,9 +1,9 @@
 <a id="RULES-UPDATE"></a>
 ## 39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則 [#](#rules-update) <a href="#rules-update" id="rules-update"></a>
 
-[39.4.1. 更新規則的運作方式](rules-update.md#RULES-UPDATE-HOW)
+[39.4.1. 更新規則的運作方式](rules-update.md#rules-update-how)
 
-[39.4.2. 與檢視表的協同運作](rules-update.md#RULES-UPDATE-VIEWS)
+[39.4.2. 與檢視表的協同運作](rules-update.md#rules-update-views)
 
 <a id="id-1.8.6.9.2"></a><a id="id-1.8.6.9.3"></a><a id="id-1.8.6.9.4"></a>
 
@@ -41,7 +41,7 @@ RULE` 指令允許更多做法：
 
 <a id="RULES-UPDATE-HOW"></a>
 
-### 39.4.1. 更新規則的運作方式 [#](#RULES-UPDATE-HOW)
+### 39.4.1. 更新規則的運作方式 [#](#rules-update-how) <a href="#rules-update-how" id="rules-update-how"></a>
 
 請記住這個語法：
 
@@ -366,7 +366,7 @@ SELECT shoelace_data.sl_name, 0,
 
 <a id="RULES-UPDATE-VIEWS"></a>
 
-### 39.4.2. 與檢視表的協同運作 [#](#RULES-UPDATE-VIEWS)
+### 39.4.2. 與檢視表的協同運作 [#](#rules-update-views) <a href="#rules-update-views" id="rules-update-views"></a>
 
 <a id="id-1.8.6.9.8.2"></a>
 

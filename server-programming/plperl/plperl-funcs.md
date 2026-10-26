@@ -160,7 +160,7 @@ true 或 false。若函式的結果型別為 `bool`，
 來決定其結果為 true 或 false。
 在函式內執行 SPI 查詢時，
 布林值的查詢引數與結果同樣也會進行類似的轉換
-（[43.3.1 節](plperl-builtins.md#PLPERL-DATABASE)）。
+（[43.3.1 節](plperl-builtins.md#plperl-database)）。
 
 Perl 可以將 PostgreSQL 陣列
 以 Perl 陣列參照的形式傳回。以下是一個範例：

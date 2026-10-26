@@ -2,23 +2,23 @@
 
 ## 41.5. 基本陳述式 [#](#plpgsql-statements) <a href="#plpgsql-statements" id="plpgsql-statements"></a>
 
-[41.5.1. 指派](plpgsql-statements.md#PLPGSQL-STATEMENTS-ASSIGNMENT)
+[41.5.1. 指派](plpgsql-statements.md#plpgsql-statements-assignment)
 
-[41.5.2. 執行 SQL 指令](plpgsql-statements.md#PLPGSQL-STATEMENTS-GENERAL-SQL)
+[41.5.2. 執行 SQL 指令](plpgsql-statements.md#plpgsql-statements-general-sql)
 
-[41.5.3. 執行只回傳單一資料列的指令](plpgsql-statements.md#PLPGSQL-STATEMENTS-SQL-ONEROW)
+[41.5.3. 執行只回傳單一資料列的指令](plpgsql-statements.md#plpgsql-statements-sql-onerow)
 
-[41.5.4. 執行動態指令](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN)
+[41.5.4. 執行動態指令](plpgsql-statements.md#plpgsql-statements-executing-dyn)
 
-[41.5.5. 取得結果狀態](plpgsql-statements.md#PLPGSQL-STATEMENTS-DIAGNOSTICS)
+[41.5.5. 取得結果狀態](plpgsql-statements.md#plpgsql-statements-diagnostics)
 
-[41.5.6. 什麼都不做](plpgsql-statements.md#PLPGSQL-STATEMENTS-NULL)
+[41.5.6. 什麼都不做](plpgsql-statements.md#plpgsql-statements-null)
 
-在本節與接下來的幾節中，我們會說明所有 PL/pgSQL 明確認得的陳述式型式。任何不被認定為這些陳述式型式之一的東西，都會被視為是一個 SQL 指令，並送到主要的資料庫引擎去執行，如[第 41.5.2 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-GENERAL-SQL)所述。
+在本節與接下來的幾節中，我們會說明所有 PL/pgSQL 明確認得的陳述式型式。任何不被認定為這些陳述式型式之一的東西，都會被視為是一個 SQL 指令，並送到主要的資料庫引擎去執行，如[第 41.5.2 節](plpgsql-statements.md#plpgsql-statements-general-sql)所述。
 
 <a id="PLPGSQL-STATEMENTS-ASSIGNMENT"></a>
 
-### 41.5.1. 指派 [#](#PLPGSQL-STATEMENTS-ASSIGNMENT)
+### 41.5.1. 指派 [#](#plpgsql-statements-assignment) <a href="#plpgsql-statements-assignment" id="plpgsql-statements-assignment"></a>
 
 要把一個值指派給 PL/pgSQL 變數，寫法是：
 
@@ -44,7 +44,7 @@ complex_array[n].realpart = 12.3;
 
 <a id="PLPGSQL-STATEMENTS-GENERAL-SQL"></a>
 
-### 41.5.2. 執行 SQL 指令 [#](#PLPGSQL-STATEMENTS-GENERAL-SQL)
+### 41.5.2. 執行 SQL 指令 [#](#plpgsql-statements-general-sql) <a href="#plpgsql-statements-general-sql" id="plpgsql-statements-general-sql"></a>
 
 一般來說，任何不回傳資料列的 SQL 指令，只要把該指令寫出來，就可以在 PL/pgSQL 函式中執行。例如，你可以這樣寫來建立一個資料表並填入資料：
 
@@ -54,15 +54,15 @@ CREATE TABLE mytable (id int primary key, data text);
 INSERT INTO mytable VALUES (1,'one'), (2,'two');
 ```
 
-如果該指令確實會回傳資料列（例如 `SELECT`，或帶有 `RETURNING` 的 `INSERT`／`UPDATE`／`DELETE`／`MERGE`），則有兩種做法。當該指令最多只會回傳一筆資料列，或是你只在意輸出的第一筆資料列時，照常寫出該指令，但加上一個 `INTO` 子句來擷取輸出，詳見[第 41.5.3 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-SQL-ONEROW)。若要處理所有的輸出資料列，就把該指令寫成 `FOR` 迴圈的資料來源，詳見[第 41.6.6 節](plpgsql-control-structures.md#PLPGSQL-RECORDS-ITERATING)。
+如果該指令確實會回傳資料列（例如 `SELECT`，或帶有 `RETURNING` 的 `INSERT`／`UPDATE`／`DELETE`／`MERGE`），則有兩種做法。當該指令最多只會回傳一筆資料列，或是你只在意輸出的第一筆資料列時，照常寫出該指令，但加上一個 `INTO` 子句來擷取輸出，詳見[第 41.5.3 節](plpgsql-statements.md#plpgsql-statements-sql-onerow)。若要處理所有的輸出資料列，就把該指令寫成 `FOR` 迴圈的資料來源，詳見[第 41.6.6 節](plpgsql-control-structures.md#plpgsql-records-iterating)。
 
 通常只執行靜態定義的 SQL 指令是不夠的。一般來說，你會希望指令能使用不同的資料值，甚至希望它在更根本的層面上有所變化，例如在不同時候使用不同的資料表名稱。同樣地，依情況不同有兩種做法。
 
-PL/pgSQL 的變數值可以自動插入到可最佳化的 SQL 指令中，這些指令是 `SELECT`、`INSERT`、`UPDATE`、`DELETE`、`MERGE`，以及某些包含上述指令之一的公用指令，例如 `EXPLAIN` 與 `CREATE TABLE ... AS SELECT`。在這些指令中，任何出現在指令文字裡的 PL/pgSQL 變數名稱都會被替換成一個查詢參數，然後在執行期以該變數目前的值作為參數值提供。這與先前針對運算式所描述的處理方式完全相同；細節請見[第 41.11.1 節](plpgsql-implementation.md#PLPGSQL-VAR-SUBST)。
+PL/pgSQL 的變數值可以自動插入到可最佳化的 SQL 指令中，這些指令是 `SELECT`、`INSERT`、`UPDATE`、`DELETE`、`MERGE`，以及某些包含上述指令之一的公用指令，例如 `EXPLAIN` 與 `CREATE TABLE ... AS SELECT`。在這些指令中，任何出現在指令文字裡的 PL/pgSQL 變數名稱都會被替換成一個查詢參數，然後在執行期以該變數目前的值作為參數值提供。這與先前針對運算式所描述的處理方式完全相同；細節請見[第 41.11.1 節](plpgsql-implementation.md#plpgsql-var-subst)。
 
-以這種方式執行可最佳化的 SQL 指令時，PL/pgSQL 可能會快取並重複使用該指令的執行計畫，詳見[第 41.11.2 節](plpgsql-implementation.md#PLPGSQL-PLAN-CACHING)。
+以這種方式執行可最佳化的 SQL 指令時，PL/pgSQL 可能會快取並重複使用該指令的執行計畫，詳見[第 41.11.2 節](plpgsql-implementation.md#plpgsql-plan-caching)。
 
-不可最佳化的 SQL 指令（也稱為公用指令）無法接受查詢參數。因此在這類指令中，PL/pgSQL 變數的自動替換並不會生效。若要在從 PL/pgSQL 執行的公用指令中加入非常數的文字，你必須把該公用指令組成一個字串，然後用 `EXECUTE` 執行它，詳見[第 41.5.4 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-EXECUTING-DYN)。
+不可最佳化的 SQL 指令（也稱為公用指令）無法接受查詢參數。因此在這類指令中，PL/pgSQL 變數的自動替換並不會生效。若要在從 PL/pgSQL 執行的公用指令中加入非常數的文字，你必須把該公用指令組成一個字串，然後用 `EXECUTE` 執行它，詳見[第 41.5.4 節](plpgsql-statements.md#plpgsql-statements-executing-dyn)。
 
 如果你想以提供資料值以外的其他方式修改指令，例如更換資料表名稱，也必須使用 `EXECUTE`。
 
@@ -73,7 +73,7 @@ PL/pgSQL 的變數值可以自動插入到可最佳化的 SQL 指令中，這些
 PERFORM query;
 ```
 
-這會執行 *`query`* 並捨棄其結果。撰寫 *`query`* 的方式和你寫 SQL `SELECT` 指令時一樣，只是把開頭的關鍵字 `SELECT` 換成 `PERFORM`。對於 `WITH` 查詢，請使用 `PERFORM` 然後把查詢放在括號中。（在這種情況下，該查詢只能回傳一筆資料列。）PL/pgSQL 變數會如同上述方式被替換進查詢中，執行計畫也以相同方式快取。此外，如果該查詢產生了至少一筆資料列，特殊變數 `FOUND` 會被設為 true；若沒有產生任何資料列則為 false（參閱[第 41.5.5 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-DIAGNOSTICS)）。
+這會執行 *`query`* 並捨棄其結果。撰寫 *`query`* 的方式和你寫 SQL `SELECT` 指令時一樣，只是把開頭的關鍵字 `SELECT` 換成 `PERFORM`。對於 `WITH` 查詢，請使用 `PERFORM` 然後把查詢放在括號中。（在這種情況下，該查詢只能回傳一筆資料列。）PL/pgSQL 變數會如同上述方式被替換進查詢中，執行計畫也以相同方式快取。此外，如果該查詢產生了至少一筆資料列，特殊變數 `FOUND` 會被設為 true；若沒有產生任何資料列則為 false（參閱[第 41.5.5 節](plpgsql-statements.md#plpgsql-statements-diagnostics)）。
 
 ### 注意
 
@@ -88,7 +88,7 @@ PERFORM create_mv('cs_session_page_requests_mv', my_query);
 
 <a id="PLPGSQL-STATEMENTS-SQL-ONEROW"></a>
 
-### 41.5.3. 執行只回傳單一資料列的指令 [#](#PLPGSQL-STATEMENTS-SQL-ONEROW)
+### 41.5.3. 執行只回傳單一資料列的指令 [#](#plpgsql-statements-sql-onerow) <a href="#plpgsql-statements-sql-onerow" id="plpgsql-statements-sql-onerow"></a>
 
 <a id="id-1.8.8.7.5.2"></a><a id="id-1.8.8.7.5.3"></a>
 
@@ -113,7 +113,7 @@ MERGE ... RETURNING expressions INTO [STRICT] target;
 
 `INTO` 子句幾乎可以出現在 SQL 指令中的任何地方。習慣上，它會寫在 `SELECT` 指令的 *`select_expressions`* 清單之前或之後，或是寫在其他型式指令的結尾。建議你遵循這個慣例，以免未來版本的 PL/pgSQL 剖析器變得更嚴格。
 
-如果 `INTO` 子句中沒有指定 `STRICT`，那麼 *`target`* 會被設為該指令回傳的第一筆資料列；若指令沒有回傳任何資料列，則被設為 NULL。（請注意，除非你使用了 `ORDER BY`，否則「第一筆資料列」並沒有明確的定義。）第一筆之後的任何結果資料列都會被捨棄。你可以檢查特殊變數 `FOUND`（參閱[第 41.5.5 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-DIAGNOSTICS)）來判斷是否有回傳資料列：
+如果 `INTO` 子句中沒有指定 `STRICT`，那麼 *`target`* 會被設為該指令回傳的第一筆資料列；若指令沒有回傳任何資料列，則被設為 NULL。（請注意，除非你使用了 `ORDER BY`，否則「第一筆資料列」並沒有明確的定義。）第一筆之後的任何結果資料列都會被捨棄。你可以檢查特殊變數 `FOUND`（參閱[第 41.5.5 節](plpgsql-statements.md#plpgsql-statements-diagnostics)）來判斷是否有回傳資料列：
 
 ```
 
@@ -173,9 +173,9 @@ CONTEXT:  PL/pgSQL function get_userid(text) line 6 at SQL statement
 
 <a id="PLPGSQL-STATEMENTS-EXECUTING-DYN"></a>
 
-### 41.5.4. 執行動態指令 [#](#PLPGSQL-STATEMENTS-EXECUTING-DYN)
+### 41.5.4. 執行動態指令 [#](#plpgsql-statements-executing-dyn) <a href="#plpgsql-statements-executing-dyn" id="plpgsql-statements-executing-dyn"></a>
 
-你常常會想在 PL/pgSQL 函式內部產生動態指令，也就是每次執行時會牽涉到不同資料表或不同資料型別的指令。在這種情境下，PL/pgSQL 平常快取指令執行計畫的做法（詳見[第 41.11.2 節](plpgsql-implementation.md#PLPGSQL-PLAN-CACHING)）就派不上用場。為了處理這類問題，於是提供了 `EXECUTE` 陳述式：
+你常常會想在 PL/pgSQL 函式內部產生動態指令，也就是每次執行時會牽涉到不同資料表或不同資料型別的指令。在這種情境下，PL/pgSQL 平常快取指令執行計畫的做法（詳見[第 41.11.2 節](plpgsql-implementation.md#plpgsql-plan-caching)）就派不上用場。為了處理這類問題，於是提供了 `EXECUTE` 陳述式：
 
 ```
 
@@ -240,7 +240,7 @@ PL/pgSQL 的 `EXECUTE` 陳述式與 PostgreSQL 伺服器所支援的 [`EXECUTE`]
 
 <a id="id-1.8.8.7.6.13.2"></a><a id="id-1.8.8.7.6.13.3"></a><a id="id-1.8.8.7.6.13.4"></a><a id="id-1.8.8.7.6.13.5"></a>
 
-在處理動態指令時，你常常必須處理單引號的跳脫問題。在函式主體中為固定文字加引號，建議的方式是使用錢號引號（dollar quoting）。（如果你有沒使用錢號引號的舊程式碼，請參考[第 41.12.1 節](plpgsql-development-tips.md#PLPGSQL-QUOTE-TIPS)中的概觀，在把那些程式碼改寫成較合理的方式時，它能省下你一些工夫。）
+在處理動態指令時，你常常必須處理單引號的跳脫問題。在函式主體中為固定文字加引號，建議的方式是使用錢號引號（dollar quoting）。（如果你有沒使用錢號引號的舊程式碼，請參考[第 41.12.1 節](plpgsql-development-tips.md#plpgsql-quote-tips)中的概觀，在把那些程式碼改寫成較合理的方式時，它能省下你一些工夫。）
 
 動態值需要小心處理，因為它們可能含有引號字元。以下是使用 `format()` 的例子（這裡假設你是用錢號引號括住函式主體，所以引號不需要重複兩次）：
 
@@ -332,7 +332,7 @@ EXECUTE format('UPDATE tbl SET %I = $1 WHERE key = $2', colname)
 
 <a id="PLPGSQL-STATEMENTS-DIAGNOSTICS"></a>
 
-### 41.5.5. 取得結果狀態 [#](#PLPGSQL-STATEMENTS-DIAGNOSTICS)
+### 41.5.5. 取得結果狀態 [#](#plpgsql-statements-diagnostics) <a href="#plpgsql-statements-diagnostics" id="plpgsql-statements-diagnostics"></a>
 
 有好幾種方式可以判斷一個指令的效果。第一種方式是使用 `GET DIAGNOSTICS` 指令，其形式為：
 
@@ -352,7 +352,7 @@ GET DIAGNOSTICS integer_var = ROW_COUNT;
 
 **表 41.1. 可用的診斷資訊項目**
 
-<table border="1" class="table" summary="可用的診斷資訊項目"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="varname">ROW_COUNT</code></td><td><code class="type">bigint</code></td><td>最近一個 <acronym class="acronym">SQL</acronym> 指令所處理的資料列數</td></tr><tr><td><code class="literal">PG_CONTEXT</code></td><td><code class="type">text</code></td><td>描述目前呼叫堆疊的文字行（參閱<a class="xref" href="plpgsql-control-structures.md#PLPGSQL-CALL-STACK">第 41.6.9 節</a>）</td></tr><tr><td><code class="literal">PG_ROUTINE_OID</code></td><td><code class="type">oid</code></td><td>目前函式的 OID</td></tr></tbody></table>
+<table border="1" class="table" summary="可用的診斷資訊項目"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="varname">ROW_COUNT</code></td><td><code class="type">bigint</code></td><td>最近一個 <acronym class="acronym">SQL</acronym> 指令所處理的資料列數</td></tr><tr><td><code class="literal">PG_CONTEXT</code></td><td><code class="type">text</code></td><td>描述目前呼叫堆疊的文字行（參閱<a class="xref" href="plpgsql-control-structures.md#plpgsql-call-stack">第 41.6.9 節</a>）</td></tr><tr><td><code class="literal">PG_ROUTINE_OID</code></td><td><code class="type">oid</code></td><td>目前函式的 OID</td></tr></tbody></table>
 
 <br>
 
@@ -372,7 +372,7 @@ GET DIAGNOSTICS integer_var = ROW_COUNT;
 
 <a id="PLPGSQL-STATEMENTS-NULL"></a>
 
-### 41.5.6. 什麼都不做 [#](#PLPGSQL-STATEMENTS-NULL)
+### 41.5.6. 什麼都不做 [#](#plpgsql-statements-null) <a href="#plpgsql-statements-null" id="plpgsql-statements-null"></a>
 
 有時候，一個什麼都不做的佔位陳述式是有用的。例如，它可以表明 if/then/else 串鏈中的某一支是刻意留空的。為此，請使用 `NULL` 陳述式：
 

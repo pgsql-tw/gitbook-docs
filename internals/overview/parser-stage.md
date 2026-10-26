@@ -2,9 +2,9 @@
 
 ## 51.3. 剖析器階段 [#](#parser-stage) <a href="#parser-stage" id="parser-stage"></a>
 
-[51.3.1. 剖析器](parser-stage.md#PARSER-STAGE-PARSER)
+[51.3.1. 剖析器](parser-stage.md#parser-stage-parser)
 
-[51.3.2. 轉換程序](parser-stage.md#PARSER-STAGE-TRANSFORMATION-PROCESS)
+[51.3.2. 轉換程序](parser-stage.md#parser-stage-transformation-process)
 
 *剖析器階段*由兩個部分組成：
 
@@ -13,7 +13,7 @@
 
 <a id="PARSER-STAGE-PARSER"></a>
 
-### 51.3.1. 剖析器 [#](#PARSER-STAGE-PARSER)
+### 51.3.1. 剖析器 [#](#parser-stage-parser) <a href="#parser-stage-parser" id="parser-stage-parser"></a>
 
 剖析器必須檢查查詢字串（以純文字形式傳入）的語法是否有效。若語法正確，就會建構一棵*剖析樹*並將其傳回；否則會傳回錯誤。剖析器與詞法分析器是使用知名的 Unix 工具 bison 與 flex 實作的。
 
@@ -31,7 +31,7 @@
 
 <a id="PARSER-STAGE-TRANSFORMATION-PROCESS"></a>
 
-### 51.3.2. 轉換程序 [#](#PARSER-STAGE-TRANSFORMATION-PROCESS)
+### 51.3.2. 轉換程序 [#](#parser-stage-transformation-process) <a href="#parser-stage-transformation-process" id="parser-stage-transformation-process"></a>
 
 剖析器階段只使用關於 SQL 語法結構的固定規則來建立剖析樹。它不會在系統目錄中進行任何查找，因此不可能理解所要求之操作的詳細語意。剖析器完成之後，*轉換程序*會以剖析器傳回的樹作為輸入，並進行必要的語意解讀，以了解查詢參照了哪些資料表、函式與運算子。為了表示這些資訊而建構的資料結構稱為*查詢樹*。
 

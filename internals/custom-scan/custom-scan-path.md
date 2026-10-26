@@ -2,7 +2,7 @@
 
 ## 60.1. 建立自訂掃描路徑 [#](#custom-scan-path) <a href="#custom-scan-path" id="custom-scan-path"></a>
 
-[60.1.1. 自訂掃描路徑回呼函式](custom-scan-path.md#CUSTOM-SCAN-PATH-CALLBACKS)
+[60.1.1. 自訂掃描路徑回呼函式](custom-scan-path.md#custom-scan-path-callbacks)
 
 自訂掃描提供者通常會藉由設定下列掛鉤，為基礎關聯加入路徑；這個掛鉤會在核心程式碼為該關聯產生它所能產生的所有存取路徑之後被呼叫（Gather 與 Gather Merge 路徑除外，這兩種路徑會在此呼叫之後才建立，以便能使用該掛鉤所加入的部分路徑）：
 
@@ -51,7 +51,7 @@ extern PGDLLIMPORT set_join_pathlist_hook_type set_join_pathlist_hook;
 
 <a id="CUSTOM-SCAN-PATH-CALLBACKS"></a>
 
-### 60.1.1. 自訂掃描路徑回呼函式 [#](#CUSTOM-SCAN-PATH-CALLBACKS)
+### 60.1.1. 自訂掃描路徑回呼函式 [#](#custom-scan-path-callbacks) <a href="#custom-scan-path-callbacks" id="custom-scan-path-callbacks"></a>
 
 ```
 

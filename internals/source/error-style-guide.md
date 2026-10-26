@@ -6,7 +6,7 @@
 
 <a id="ERROR-STYLE-GUIDE-WHAT-GOES-WHERE"></a>
 
-### 什麼內容放在哪裡 [#](#ERROR-STYLE-GUIDE-WHAT-GOES-WHERE)
+### 什麼內容放在哪裡 [#](#error-style-guide-what-goes-where) <a href="#error-style-guide-what-goes-where" id="error-style-guide-what-goes-where"></a>
 
 主要訊息應該簡短、陳述事實，並避免提及實作細節，例如特定的函式名稱。「簡短」的意思是「在一般情況下應該能放在一行之內」。如果需要讓主要訊息保持簡短，或者你覺得需要提及實作細節（例如失敗的是哪一個系統呼叫），請使用詳細訊息。主要訊息與詳細訊息都應該陳述事實。關於如何修正問題的建議，請使用提示訊息，尤其是當該建議不一定總是適用的時候。
 
@@ -31,7 +31,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-FORMATTING"></a>
 
-### 格式 [#](#ERROR-STYLE-GUIDE-FORMATTING)
+### 格式 [#](#error-style-guide-formatting) <a href="#error-style-guide-formatting" id="error-style-guide-formatting"></a>
 
 不要在訊息文字中加入任何關於格式的特定假設。要預期用戶端與伺服器日誌會依照它們自己的需要來換行。在較長的訊息中，可以使用換行字元（\n）來表示建議的分段位置。不要以換行字元結束訊息。不要使用定位字元（tab）或其他格式字元。（在顯示錯誤情境時，會自動加上換行來分隔各層情境，例如函式呼叫。）
 
@@ -39,7 +39,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-QUOTATION-MARKS"></a>
 
-### 引號 [#](#ERROR-STYLE-GUIDE-QUOTATION-MARKS)
+### 引號 [#](#error-style-guide-quotation-marks) <a href="#error-style-guide-quotation-marks" id="error-style-guide-quotation-marks"></a>
 
 英文文字在適合使用引號時應該使用雙引號。其他語言的文字應該一致地使用同一種引號，並與出版慣例以及其他程式的電腦輸出保持一致。
 
@@ -47,7 +47,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-QUOTES"></a>
 
-### 引號的使用 [#](#ERROR-STYLE-GUIDE-QUOTES)
+### 引號的使用 [#](#error-style-guide-quotes) <a href="#error-style-guide-quotes" id="error-style-guide-quotes"></a>
 
 一律使用引號來界定檔案名稱、使用者提供的識別字、設定變數名稱，以及其他可能包含文字的變數。不要用引號來標示不會包含文字的變數（例如運算子名稱）。
 
@@ -57,7 +57,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-GRAMMAR-PUNCTUATION"></a>
 
-### 文法與標點符號 [#](#ERROR-STYLE-GUIDE-GRAMMAR-PUNCTUATION)
+### 文法與標點符號 [#](#error-style-guide-grammar-punctuation) <a href="#error-style-guide-grammar-punctuation" id="error-style-guide-grammar-punctuation"></a>
 
 主要錯誤訊息與詳細／提示訊息的規則不同：
 
@@ -71,7 +71,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-CASE"></a>
 
-### 大寫與小寫 [#](#ERROR-STYLE-GUIDE-CASE)
+### 大寫與小寫 [#](#error-style-guide-case) <a href="#error-style-guide-case" id="error-style-guide-case"></a>
 
 訊息的用字使用小寫，包括主要錯誤訊息的第一個字母。如果訊息中出現 SQL 命令與關鍵字，則使用大寫。
 
@@ -79,7 +79,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-PASSIVE-VOICE"></a>
 
-### 避免被動語態 [#](#ERROR-STYLE-GUIDE-PASSIVE-VOICE)
+### 避免被動語態 [#](#error-style-guide-passive-voice) <a href="#error-style-guide-passive-voice" id="error-style-guide-passive-voice"></a>
 
 使用主動語態。當有一個執行動作的主詞時，使用完整的句子（「A could not do B」）。如果主詞會是程式本身，則使用省略主詞的電報式寫法；不要用「I」來指稱程式。
 
@@ -87,7 +87,7 @@ Hint:       The addendum, written as a complete sentence.
 
 <a id="ERROR-STYLE-GUIDE-TENSE"></a>
 
-### 現在式與過去式 [#](#ERROR-STYLE-GUIDE-TENSE)
+### 現在式與過去式 [#](#error-style-guide-tense) <a href="#error-style-guide-tense" id="error-style-guide-tense"></a>
 
 如果嘗試做某件事失敗了，但下次也許能夠成功（也許是在修正某個問題之後），使用過去式。如果失敗確定是永久性的，則使用現在式。
 
@@ -113,7 +113,7 @@ cannot open file "%s"
 
 <a id="ERROR-STYLE-GUIDE-OBJECT-TYPE"></a>
 
-### 物件的類型 [#](#ERROR-STYLE-GUIDE-OBJECT-TYPE)
+### 物件的類型 [#](#error-style-guide-object-type) <a href="#error-style-guide-object-type" id="error-style-guide-object-type"></a>
 
 提到物件名稱時，要說明它是哪一種物件。
 
@@ -121,7 +121,7 @@ cannot open file "%s"
 
 <a id="ERROR-STYLE-GUIDE-BRACKETS"></a>
 
-### 方括號 [#](#ERROR-STYLE-GUIDE-BRACKETS)
+### 方括號 [#](#error-style-guide-brackets) <a href="#error-style-guide-brackets" id="error-style-guide-brackets"></a>
 
 方括號只能用於 (1) 在命令語法摘要中表示選用的引數，或 (2) 表示陣列下標。
 
@@ -129,7 +129,7 @@ cannot open file "%s"
 
 <a id="ERROR-STYLE-GUIDE-ERROR-MESSAGES"></a>
 
-### 組合錯誤訊息 [#](#ERROR-STYLE-GUIDE-ERROR-MESSAGES)
+### 組合錯誤訊息 [#](#error-style-guide-error-messages) <a href="#error-style-guide-error-messages" id="error-style-guide-error-messages"></a>
 
 當訊息中包含在其他地方產生的文字時，請以這種風格嵌入：
 
@@ -142,7 +142,7 @@ could not open file %s: %m
 
 <a id="ERROR-STYLE-GUIDE-ERROR-REASONS"></a>
 
-### 錯誤的原因 [#](#ERROR-STYLE-GUIDE-ERROR-REASONS)
+### 錯誤的原因 [#](#error-style-guide-error-reasons) <a href="#error-style-guide-error-reasons" id="error-style-guide-error-reasons"></a>
 
 訊息應該一律說明錯誤發生的原因。例如：
 
@@ -156,7 +156,7 @@ BETTER: could not open file %s (I/O failure)
 
 <a id="ERROR-STYLE-GUIDE-FUNCTION-NAMES"></a>
 
-### 函式名稱 [#](#ERROR-STYLE-GUIDE-FUNCTION-NAMES)
+### 函式名稱 [#](#error-style-guide-function-names) <a href="#error-style-guide-function-names" id="error-style-guide-function-names"></a>
 
 不要在錯誤文字中包含回報錯誤之常式的名稱。在需要時，我們有其他機制可以找出這一點，而且對大多數使用者來說，這不是有幫助的資訊。如果錯誤文字少了函式名稱就不太說得通，那就換個說法。
 
@@ -180,7 +180,7 @@ BETTER: could not open file %s: %m
 
 <a id="ERROR-STYLE-GUIDE-TRICKY-WORDS"></a>
 
-### 應避免的棘手用字 [#](#ERROR-STYLE-GUIDE-TRICKY-WORDS)
+### 應避免的棘手用字 [#](#error-style-guide-tricky-words) <a href="#error-style-guide-tricky-words" id="error-style-guide-tricky-words"></a>
 
 **Unable（無法）。**
 「Unable」幾乎就是被動語態。視情況改用「cannot」或「could not」比較好。
@@ -214,7 +214,7 @@ BETTER: unrecognized node type: 42
 
 <a id="ERROR-STYLE-GUIDE-SPELLING"></a>
 
-### 正確拼寫 [#](#ERROR-STYLE-GUIDE-SPELLING)
+### 正確拼寫 [#](#error-style-guide-spelling) <a href="#error-style-guide-spelling" id="error-style-guide-spelling"></a>
 
 要把字完整拼寫出來。例如，避免使用：
 
@@ -228,9 +228,9 @@ BETTER: unrecognized node type: 42
 
 <a id="ERROR-STYLE-GUIDE-LOCALIZATION"></a>
 
-### 在地化 [#](#ERROR-STYLE-GUIDE-LOCALIZATION)
+### 在地化 [#](#error-style-guide-localization) <a href="#error-style-guide-localization" id="error-style-guide-localization"></a>
 
-請記住，錯誤訊息文字需要被翻譯成其他語言。請遵循[第 56.2.2 節](../nls/nls-programmer.md#NLS-GUIDELINES)中的準則，以免讓譯者的工作變得困難。
+請記住，錯誤訊息文字需要被翻譯成其他語言。請遵循[第 56.2.2 節](../nls/nls-programmer.md#nls-guidelines)中的準則，以免讓譯者的工作變得困難。
 
 ---
 

@@ -1,15 +1,15 @@
 <a id="XAGGR"></a>
 ## 36.12. 使用者自訂聚合 [#](#xaggr) <a href="#xaggr" id="xaggr"></a>
 
-[36.12.1. 移動式聚合模式](xaggr.md#XAGGR-MOVING-AGGREGATES)
+[36.12.1. 移動式聚合模式](xaggr.md#xaggr-moving-aggregates)
 
-[36.12.2. 多型與可變引數聚合](xaggr.md#XAGGR-POLYMORPHIC-AGGREGATES)
+[36.12.2. 多型與可變引數聚合](xaggr.md#xaggr-polymorphic-aggregates)
 
-[36.12.3. 有序集合聚合](xaggr.md#XAGGR-ORDERED-SET-AGGREGATES)
+[36.12.3. 有序集合聚合](xaggr.md#xaggr-ordered-set-aggregates)
 
-[36.12.4. 部分聚合](xaggr.md#XAGGR-PARTIAL-AGGREGATES)
+[36.12.4. 部分聚合](xaggr.md#xaggr-partial-aggregates)
 
-[36.12.5. 聚合的支援函式](xaggr.md#XAGGR-SUPPORT-FUNCTIONS)
+[36.12.5. 聚合的支援函式](xaggr.md#xaggr-support-functions)
 
 <a id="id-1.8.3.15.2"></a>
 
@@ -134,7 +134,7 @@ SQL 中的聚合函式呼叫，允許使用 `DISTINCT`
 
 <a id="XAGGR-MOVING-AGGREGATES"></a>
 
-### 36.12.1. 移動式聚合模式 [#](#XAGGR-MOVING-AGGREGATES)
+### 36.12.1. 移動式聚合模式 [#](#xaggr-moving-aggregates) <a href="#xaggr-moving-aggregates" id="xaggr-moving-aggregates"></a>
 
 <a id="id-1.8.3.15.12.2"></a><a id="id-1.8.3.15.12.3"></a>
 
@@ -243,7 +243,7 @@ PostgreSQL 的限制。
 
 <a id="XAGGR-POLYMORPHIC-AGGREGATES"></a>
 
-### 36.12.2. 多型與可變引數聚合 [#](#XAGGR-POLYMORPHIC-AGGREGATES)
+### 36.12.2. 多型與可變引數聚合 [#](#xaggr-polymorphic-aggregates) <a href="#xaggr-polymorphic-aggregates" id="xaggr-polymorphic-aggregates"></a>
 
 <a id="id-1.8.3.15.13.2"></a><a id="id-1.8.3.15.13.3"></a>
 
@@ -251,7 +251,7 @@ PostgreSQL 的限制。
 狀態轉換函式或最終函式，如此一來，同一組函式
 就可以用來實作多個聚合。
 關於多型函式的說明，請參閱
-[36.2.5 節](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)。
+[36.2.5 節](extend-type-system.md#extend-types-polymorphic)。
 更進一步，聚合函式本身也可以指定為
 多型的輸入型別與狀態型別，讓單一個
 聚合定義，能為多種輸入資料型別服務。
@@ -341,7 +341,7 @@ CREATE AGGREGATE array_agg (anynonarray)
 可以透過將聚合函式的最後一個引數宣告為
 `VARIADIC` 陣列，讓該聚合函式能接受數量不定的引數，
 其做法與一般函式大致相同；請參閱
-[36.5.6 節](xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)。聚合的轉換
+[36.5.6 節](xfunc-sql.md#xfunc-sql-variadic-functions)。聚合的轉換
 函式，其最後一個引數必須是相同的陣列型別。該
 轉換函式通常也會被標記為 `VARIADIC`，
 但這並非嚴格必要。
@@ -376,7 +376,7 @@ SELECT myaggregate(a, b, c ORDER BY a) FROM ...
 
 <a id="XAGGR-ORDERED-SET-AGGREGATES"></a>
 
-### 36.12.3. 有序集合聚合 [#](#XAGGR-ORDERED-SET-AGGREGATES)
+### 36.12.3. 有序集合聚合 [#](#xaggr-ordered-set-aggregates) <a href="#xaggr-ordered-set-aggregates" id="xaggr-ordered-set-aggregates"></a>
 
 <a id="id-1.8.3.15.14.2"></a>
 
@@ -465,7 +465,7 @@ null 值。與一般
 
 <a id="XAGGR-PARTIAL-AGGREGATES"></a>
 
-### 36.12.4. 部分聚合 [#](#XAGGR-PARTIAL-AGGREGATES)
+### 36.12.4. 部分聚合 [#](#xaggr-partial-aggregates) <a href="#xaggr-partial-aggregates" id="xaggr-partial-aggregates"></a>
 
 <a id="id-1.8.3.15.15.2"></a>
 
@@ -539,7 +539,7 @@ null 值。與一般
 
 <a id="XAGGR-SUPPORT-FUNCTIONS"></a>
 
-### 36.12.5. 聚合的支援函式 [#](#XAGGR-SUPPORT-FUNCTIONS)
+### 36.12.5. 聚合的支援函式 [#](#xaggr-support-functions) <a href="#xaggr-support-functions" id="xaggr-support-functions"></a>
 
 <a id="id-1.8.3.15.16.2"></a>
 
@@ -564,7 +564,7 @@ if (AggCheckCallContext(fcinfo, NULL))
 `AggCheckCallContext` 的第二個引數，可以用來
 取得目前保存聚合狀態值的記憶體上下文。
 對於希望將「展開」物件
-（請參閱[36.13.1 節](xtypes.md#XTYPES-TOAST)）作為狀態值使用的轉換函式而言，
+（請參閱[36.13.1 節](xtypes.md#xtypes-toast)）作為狀態值使用的轉換函式而言，
 這相當有用。在第一次呼叫時，轉換函式應該傳回一個
 記憶體上下文為聚合狀態上下文子項的展開物件，
 接著在後續呼叫時，持續傳回同一個展開物件。可參考

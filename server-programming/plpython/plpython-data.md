@@ -2,21 +2,21 @@
 
 ## 44.2. 資料值 [#](#plpython-data) <a href="#plpython-data" id="plpython-data"></a>
 
-[44.2.1. 資料型別對應](plpython-data.md#PLPYTHON-DATA-TYPE-MAPPING)
+[44.2.1. 資料型別對應](plpython-data.md#plpython-data-type-mapping)
 
-[44.2.2. Null、None](plpython-data.md#PLPYTHON-DATA-NULL)
+[44.2.2. Null、None](plpython-data.md#plpython-data-null)
 
-[44.2.3. 陣列、list](plpython-data.md#PLPYTHON-ARRAYS)
+[44.2.3. 陣列、list](plpython-data.md#plpython-arrays)
 
-[44.2.4. 複合型別](plpython-data.md#PLPYTHON-DATA-COMPOSITE-TYPES)
+[44.2.4. 複合型別](plpython-data.md#plpython-data-composite-types)
 
-[44.2.5. 集合回傳函式](plpython-data.md#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+[44.2.5. 集合回傳函式](plpython-data.md#plpython-data-set-returning-funcs)
 
 一般來說，PL/Python 的目標是在 PostgreSQL 與 Python 兩個世界之間提供一種「自然」的對應關係。下面所描述的資料對應規則正是依循這個原則。
 
 <a id="PLPYTHON-DATA-TYPE-MAPPING"></a>
 
-### 44.2.1. 資料型別對應 [#](#PLPYTHON-DATA-TYPE-MAPPING)
+### 44.2.1. 資料型別對應 [#](#plpython-data-type-mapping) <a href="#plpython-data-type-mapping" id="plpython-data-type-mapping"></a>
 
 當 PL/Python 函式被呼叫時，它的引數會從 PostgreSQL 的資料型別轉換成對應的 Python 型別：
 
@@ -41,7 +41,7 @@
 
 <a id="PLPYTHON-DATA-NULL"></a>
 
-### 44.2.2. Null、None [#](#PLPYTHON-DATA-NULL)
+### 44.2.2. Null、None [#](#plpython-data-null) <a href="#plpython-data-null" id="plpython-data-null"></a>
 
 如果把 SQL 的 NULL 值<a id="id-1.8.11.10.4.2.1"></a>傳給函式，在 Python 中該引數值會呈現為 `None`。例如，[第 44.1 節](plpython-funcs.md)中所示的 `pymax` 函式定義，對於 NULL 輸入會回傳錯誤的答案。我們可以在函式定義中加上 `STRICT`，讓 PostgreSQL 做出比較合理的處理：如果傳入的是 NULL 值，該函式根本不會被呼叫，而會直接自動回傳 NULL 結果。或者，我們也可以在函式本體中檢查 NULL 輸入：
 
@@ -62,7 +62,7 @@ $$ LANGUAGE plpython3u;
 
 <a id="PLPYTHON-ARRAYS"></a>
 
-### 44.2.3. 陣列、list [#](#PLPYTHON-ARRAYS)
+### 44.2.3. 陣列、list [#](#plpython-arrays) <a href="#plpython-arrays" id="plpython-arrays"></a>
 
 SQL 的陣列值會以 Python list（串列）的形式傳入 PL/Python。若要從 PL/Python 函式回傳 SQL 陣列值，就回傳一個 Python list：
 
@@ -119,7 +119,7 @@ SELECT return_str_arr();
 
 <a id="PLPYTHON-DATA-COMPOSITE-TYPES"></a>
 
-### 44.2.4. 複合型別 [#](#PLPYTHON-DATA-COMPOSITE-TYPES)
+### 44.2.4. 複合型別 [#](#plpython-data-composite-types) <a href="#plpython-data-composite-types" id="plpython-data-composite-types"></a>
 
 複合型別的引數會以 Python 映射（mapping）的形式傳給函式。映射的元素名稱就是該複合型別的屬性名稱。如果傳入之資料列中的某個屬性是 NULL 值，它在映射中的值就是 `None`。以下是一個例子：
 
@@ -234,7 +234,7 @@ CALL python_triple(5, 10);
 
 <a id="PLPYTHON-DATA-SET-RETURNING-FUNCS"></a>
 
-### 44.2.5. 集合回傳函式 [#](#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+### 44.2.5. 集合回傳函式 [#](#plpython-data-set-returning-funcs) <a href="#plpython-data-set-returning-funcs" id="plpython-data-set-returning-funcs"></a>
 
 PL/Python 函式也可以回傳純量或複合型別的集合。達成這件事的方式有好幾種，因為回傳的物件在內部會被轉換成迭代器。以下的例子假設我們有這個複合型別：
 

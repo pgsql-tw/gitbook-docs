@@ -4,7 +4,7 @@
 
 <a id="SOURCE-CONVENTIONS-C-STANDARD"></a>
 
-### C 標準 [#](#SOURCE-CONVENTIONS-C-STANDARD)
+### C 標準 [#](#source-conventions-c-standard) <a href="#source-conventions-c-standard" id="source-conventions-c-standard"></a>
 
 PostgreSQL 中的程式碼應該只依賴 C99 標準中提供的語言功能。也就是說，符合 C99 標準的編譯器必須能夠編譯 postgres，至少除了少數與平台相關的部分之外是如此。
 
@@ -16,7 +16,7 @@ C 標準較新修訂版的功能或編譯器特有的功能，若有提供替代
 
 <a id="SOURCE-CONVENTIONS-MACROS-INLINE"></a>
 
-### 類函式巨集與行內函式 [#](#SOURCE-CONVENTIONS-MACROS-INLINE)
+### 類函式巨集與行內函式 [#](#source-conventions-macros-inline) <a href="#source-conventions-macros-inline" id="source-conventions-macros-inline"></a>
 
 帶有參數的巨集與 `static inline` 函式都可以使用。如果寫成巨集會有多次求值的風險，則以後者為佳，例如下面這種情況：
 
@@ -47,7 +47,7 @@ MemoryContextSwitchTo(MemoryContext context)
 
 <a id="SOURCE-CONVENTIONS-SIGNAL-HANDLERS"></a>
 
-### 撰寫訊號處理常式 [#](#SOURCE-CONVENTIONS-SIGNAL-HANDLERS)
+### 撰寫訊號處理常式 [#](#source-conventions-signal-handlers) <a href="#source-conventions-signal-handlers" id="source-conventions-signal-handlers"></a>
 
 要適合在訊號處理常式中執行，程式碼必須寫得非常小心。根本問題在於，除非訊號被阻擋，否則訊號處理常式可能在任何時刻中斷程式碼。如果訊號處理常式內的程式碼與外部程式碼使用相同的狀態，就可能造成混亂。舉例來說，想想看如果訊號處理常式試圖取得一個被中斷的程式碼已經持有的鎖定，會發生什麼事。
 
@@ -67,7 +67,7 @@ handle_sighup(SIGNAL_ARGS)
 
 <a id="SOURCE-CONVENTIONS-FUNCTION-POINTERS"></a>
 
-### 呼叫函式指標 [#](#SOURCE-CONVENTIONS-FUNCTION-POINTERS)
+### 呼叫函式指標 [#](#source-conventions-function-pointers) <a href="#source-conventions-function-pointers" id="source-conventions-function-pointers"></a>
 
 為了清楚起見，如果指標是一個單純的變數，在呼叫其所指向的函式時，建議明確地對函式指標取值（dereference），例如：
 

@@ -42,7 +42,7 @@ PostgreSQL 並不提供識別主要伺服器失效、並通知待命資料庫伺
 機制的方式，以確保在真正需要時它確實能夠運作。建議撰寫書面的管理程序。
 
 若你已選擇啟用邏輯複寫插槽同步（請參閱
-[第 47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)），
+[第 47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)），
 那麼在切換到待命伺服器之前，建議先檢查待命伺服器上已同步的邏輯插槽
 是否已準備好進行失效切換。你可以依照
 [第 29.3 節](../logical-replication/logical-replication-failover.md)

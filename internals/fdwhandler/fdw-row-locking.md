@@ -21,7 +21,7 @@ PostgreSQL 資料表所用語意的方式來執行資料列層級鎖定。
 就像 PostgreSQL 的 TID 那樣。
 
 預設情況下，PostgreSQL 在與 FDW 介接時會忽略鎖定方面的考量，
-但 FDW 不需要核心程式碼的任何明確支援就能執行提早鎖定。[第 58.2.6 節](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)所述的 API 函式
+但 FDW 不需要核心程式碼的任何明確支援就能執行提早鎖定。[第 58.2.6 節](fdw-callbacks.md#fdw-callbacks-row-locking)所述的 API 函式
 是在 PostgreSQL 9.5 中加入的，它們讓 FDW 在需要時
 可以使用延後鎖定。
 
@@ -56,7 +56,7 @@ PostgreSQL 資料表所用語意的方式來執行資料列層級鎖定。
 FOR UPDATE/SHARE` 命令指定要鎖定的外部資料表，`ForeignScan` 操作
 同樣可以透過以相當於
 `SELECT FOR UPDATE/SHARE` 的方式擷取元組來執行提早鎖定。若要改為執行延後鎖定，
-請提供[第 58.2.6 節](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)中定義的
+請提供[第 58.2.6 節](fdw-callbacks.md#fdw-callbacks-row-locking)中定義的
 回呼函式。
 在 `GetForeignRowMarkType` 中，依據所要求的鎖定強度，選擇 rowmark 選項
 `ROW_MARK_EXCLUSIVE`、`ROW_MARK_NOKEYEXCLUSIVE`、

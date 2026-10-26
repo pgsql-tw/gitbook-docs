@@ -2,17 +2,17 @@
 
 ## 41.3. 宣告 [#](#plpgsql-declarations) <a href="#plpgsql-declarations" id="plpgsql-declarations"></a>
 
-[41.3.1. 宣告函式參數](plpgsql-declarations.md#PLPGSQL-DECLARATION-PARAMETERS)
+[41.3.1. 宣告函式參數](plpgsql-declarations.md#plpgsql-declaration-parameters)
 
-[41.3.2. `ALIAS`](plpgsql-declarations.md#PLPGSQL-DECLARATION-ALIAS)
+[41.3.2. `ALIAS`](plpgsql-declarations.md#plpgsql-declaration-alias)
 
-[41.3.3. 複製型別](plpgsql-declarations.md#PLPGSQL-DECLARATION-TYPE)
+[41.3.3. 複製型別](plpgsql-declarations.md#plpgsql-declaration-type)
 
-[41.3.4. 資料列型別](plpgsql-declarations.md#PLPGSQL-DECLARATION-ROWTYPES)
+[41.3.4. 資料列型別](plpgsql-declarations.md#plpgsql-declaration-rowtypes)
 
-[41.3.5. record 型別](plpgsql-declarations.md#PLPGSQL-DECLARATION-RECORDS)
+[41.3.5. record 型別](plpgsql-declarations.md#plpgsql-declaration-records)
 
-[41.3.6. PL/pgSQL 變數的定序](plpgsql-declarations.md#PLPGSQL-DECLARATION-COLLATION)
+[41.3.6. PL/pgSQL 變數的定序](plpgsql-declarations.md#plpgsql-declaration-collation)
 
 在區塊中使用的所有變數，都必須在該區塊的宣告區段中宣告。（唯一的例外是：走訪一段整數值範圍的 `FOR` 迴圈，其迴圈變數會自動被宣告為整數變數；同樣地，走訪某個游標結果的 `FOR` 迴圈，其迴圈變數也會自動被宣告為 record（記錄）變數。）
 
@@ -37,7 +37,7 @@ arow RECORD;
 name [ CONSTANT ] type [ COLLATE collation_name ] [ NOT NULL ] [ { DEFAULT | := | = } expression ];
 ```
 
-`DEFAULT` 子句若有給定，會指定進入該區塊時要指派給變數的初始值。若未給定 `DEFAULT` 子句，變數就會被初始化為 SQL 空值（null）。`CONSTANT` 選項可防止變數在初始化之後被指派新值，使其值在整個區塊期間維持不變。`COLLATE` 選項可指定該變數要使用的定序（請參閱[第 41.3.6 節](plpgsql-declarations.md#PLPGSQL-DECLARATION-COLLATION)）。若指定了 `NOT NULL`，則指派空值時會產生執行期錯誤。所有宣告為 `NOT NULL` 的變數，都必須指定一個非空值的預設值。等號（`=`）可以用來取代符合 PL/SQL 規範的 `:=`。
+`DEFAULT` 子句若有給定，會指定進入該區塊時要指派給變數的初始值。若未給定 `DEFAULT` 子句，變數就會被初始化為 SQL 空值（null）。`CONSTANT` 選項可防止變數在初始化之後被指派新值，使其值在整個區塊期間維持不變。`COLLATE` 選項可指定該變數要使用的定序（請參閱[第 41.3.6 節](plpgsql-declarations.md#plpgsql-declaration-collation)）。若指定了 `NOT NULL`，則指派空值時會產生執行期錯誤。所有宣告為 `NOT NULL` 的變數，都必須指定一個非空值的預設值。等號（`=`）可以用來取代符合 PL/SQL 規範的 `:=`。
 
 變數的預設值會在每次進入該區塊時重新求值並指派給變數（而不是每次函式呼叫只做一次）。因此舉例來說，把 `now()` 指派給型別為 `timestamp` 的變數，會使該變數取得目前這次函式呼叫的時間，而不是函式被預先編譯時的時間。
 
@@ -61,7 +61,7 @@ DECLARE
 
 <a id="PLPGSQL-DECLARATION-PARAMETERS"></a>
 
-### 41.3.1. 宣告函式參數 [#](#PLPGSQL-DECLARATION-PARAMETERS)
+### 41.3.1. 宣告函式參數 [#](#plpgsql-declaration-parameters) <a href="#plpgsql-declaration-parameters" id="plpgsql-declaration-parameters"></a>
 
 傳遞給函式的參數是以 `$1`、`$2` 等識別符號來命名的。你也可以選擇為 `$n` 這類參數名稱宣告別名，以提高可讀性。之後不論是別名或是數字識別符號，都可以用來指涉該參數值。
 
@@ -160,7 +160,7 @@ SELECT * FROM sum_n_product(2, 4);
    6 |    8
 ```
 
-如[第 36.5.4 節](../extend/xfunc-sql.md#XFUNC-OUTPUT-PARAMETERS)所討論的，這實際上會為函式的結果建立一個匿名的 record 型別。若有給定 `RETURNS` 子句，它必須寫成 `RETURNS record`。
+如[第 36.5.4 節](../extend/xfunc-sql.md#xfunc-output-parameters)所討論的，這實際上會為函式的結果建立一個匿名的 record 型別。若有給定 `RETURNS` 子句，它必須寫成 `RETURNS record`。
 
 這對程序（procedure）也同樣適用，例如：
 
@@ -184,7 +184,7 @@ CALL sum_n_product(2, 4, NULL, NULL);
    6 |    8
 ```
 
-不過，當你從 PL/pgSQL 呼叫程序時，對於任何輸出參數都應該改寫上一個變數；該變數將會接收呼叫的結果。詳情請參閱[第 41.6.3 節](plpgsql-control-structures.md#PLPGSQL-STATEMENTS-CALLING-PROCEDURE)。
+不過，當你從 PL/pgSQL 呼叫程序時，對於任何輸出參數都應該改寫上一個變數；該變數將會接收呼叫的結果。詳情請參閱[第 41.6.3 節](plpgsql-control-structures.md#plpgsql-statements-calling-procedure)。
 
 宣告 PL/pgSQL 函式的另一種方式是使用 `RETURNS TABLE`，例如：
 
@@ -202,7 +202,7 @@ $$ LANGUAGE plpgsql;
 這完全等同於宣告一個或多個 `OUT` 參數並指定 `RETURNS SETOF
 sometype`。
 
-當 PL/pgSQL 函式的回傳型別被宣告為多型型別時（請參閱[第 36.2.5 節](../extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)），系統會建立一個特別的參數 `$0`。它的資料型別就是該函式實際的回傳型別，由實際的輸入型別推導而來。這讓函式能夠取得自己實際的回傳型別，用法如[第 41.3.3 節](plpgsql-declarations.md#PLPGSQL-DECLARATION-TYPE)所示。`$0` 會被初始化為空值，並且可以被函式修改，因此如果需要的話，它可以用來存放回傳值，不過這並非必要。`$0` 也可以被賦予別名。舉例來說，下面這個函式適用於任何具有 `+` 運算子的資料型別：
+當 PL/pgSQL 函式的回傳型別被宣告為多型型別時（請參閱[第 36.2.5 節](../extend/extend-type-system.md#extend-types-polymorphic)），系統會建立一個特別的參數 `$0`。它的資料型別就是該函式實際的回傳型別，由實際的輸入型別推導而來。這讓函式能夠取得自己實際的回傳型別，用法如[第 41.3.3 節](plpgsql-declarations.md#plpgsql-declaration-type)所示。`$0` 會被初始化為空值，並且可以被函式修改，因此如果需要的話，它可以用來存放回傳值，不過這並非必要。`$0` 也可以被賦予別名。舉例來說，下面這個函式適用於任何具有 `+` 運算子的資料型別：
 
 ```
 
@@ -253,7 +253,7 @@ SELECT add_three_values(1, 2, 4.7);
 
 <a id="PLPGSQL-DECLARATION-ALIAS"></a>
 
-### 41.3.2. `ALIAS` [#](#PLPGSQL-DECLARATION-ALIAS)
+### 41.3.2. `ALIAS` [#](#plpgsql-declaration-alias) <a href="#plpgsql-declaration-alias" id="plpgsql-declaration-alias"></a>
 
 ```
 
@@ -275,7 +275,7 @@ DECLARE
 
 <a id="PLPGSQL-DECLARATION-TYPE"></a>
 
-### 41.3.3. 複製型別 [#](#PLPGSQL-DECLARATION-TYPE)
+### 41.3.3. 複製型別 [#](#plpgsql-declaration-type) <a href="#plpgsql-declaration-type" id="plpgsql-declaration-type"></a>
 
 ```
 
@@ -306,7 +306,7 @@ user_ids users.user_id%TYPE ARRAY[4];  -- equivalent to the above
 
 <a id="PLPGSQL-DECLARATION-ROWTYPES"></a>
 
-### 41.3.4. 資料列型別 [#](#PLPGSQL-DECLARATION-ROWTYPES)
+### 41.3.4. 資料列型別 [#](#plpgsql-declaration-rowtypes) <a href="#plpgsql-declaration-rowtypes" id="plpgsql-declaration-rowtypes"></a>
 
 ```
 
@@ -340,7 +340,7 @@ SELECT merge_fields(t.*) FROM table1 t WHERE ... ;
 
 <a id="PLPGSQL-DECLARATION-RECORDS"></a>
 
-### 41.3.5. record 型別 [#](#PLPGSQL-DECLARATION-RECORDS)
+### 41.3.5. record 型別 [#](#plpgsql-declaration-records) <a href="#plpgsql-declaration-records" id="plpgsql-declaration-records"></a>
 
 ```
 
@@ -353,7 +353,7 @@ record 變數與資料列型別變數類似，但它們沒有預先定義的結�
 
 <a id="PLPGSQL-DECLARATION-COLLATION"></a>
 
-### 41.3.6. PL/pgSQL 變數的定序 [#](#PLPGSQL-DECLARATION-COLLATION)
+### 41.3.6. PL/pgSQL 變數的定序 [#](#plpgsql-declaration-collation) <a href="#plpgsql-declaration-collation" id="plpgsql-declaration-collation"></a>
 
 <a id="id-1.8.8.5.14.2"></a>
 

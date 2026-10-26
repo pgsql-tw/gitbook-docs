@@ -2,13 +2,13 @@
 
 ## 56.2. 給程式設計者 [#](#nls-programmer) <a href="#nls-programmer" id="nls-programmer"></a>
 
-[56.2.1. 運作機制](nls-programmer.md#NLS-MECHANICS)
+[56.2.1. 運作機制](nls-programmer.md#nls-mechanics)
 
-[56.2.2. 訊息撰寫指南](nls-programmer.md#NLS-GUIDELINES)
+[56.2.2. 訊息撰寫指南](nls-programmer.md#nls-guidelines)
 
 <a id="NLS-MECHANICS"></a>
 
-### 56.2.1. 運作機制 [#](#NLS-MECHANICS)
+### 56.2.1. 運作機制 [#](#nls-mechanics) <a href="#nls-mechanics" id="nls-mechanics"></a>
 
 本節說明如何在屬於 PostgreSQL 發行版本一部分的程式或函式庫中實作母語支援。目前它只適用於 C 程式。
 
@@ -74,7 +74,7 @@
 
 <a id="NLS-GUIDELINES"></a>
 
-### 56.2.2. 訊息撰寫指南 [#](#NLS-GUIDELINES)
+### 56.2.2. 訊息撰寫指南 [#](#nls-guidelines) <a href="#nls-guidelines" id="nls-guidelines"></a>
 
 以下是撰寫容易翻譯之訊息的一些指南。
 

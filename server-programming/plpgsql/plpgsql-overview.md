@@ -2,9 +2,9 @@
 
 ## 41.1. 概觀 [#](#plpgsql-overview) <a href="#plpgsql-overview" id="plpgsql-overview"></a>
 
-[41.1.1. 使用 PL/pgSQL 的優點](plpgsql-overview.md#PLPGSQL-ADVANTAGES)
+[41.1.1. 使用 PL/pgSQL 的優點](plpgsql-overview.md#plpgsql-advantages)
 
-[41.1.2. 支援的引數與結果資料型別](plpgsql-overview.md#PLPGSQL-ARGS-RESULTS)
+[41.1.2. 支援的引數與結果資料型別](plpgsql-overview.md#plpgsql-args-results)
 
 PL/pgSQL 是 PostgreSQL 資料庫系統可載入的程序語言。PL/pgSQL 的設計目標是要打造一個可載入的程序語言，它能夠：
 
@@ -21,7 +21,7 @@ PL/pgSQL 是 PostgreSQL 資料庫系統可載入的程序語言。PL/pgSQL 的�
 
 <a id="PLPGSQL-ADVANTAGES"></a>
 
-### 41.1.1. 使用 PL/pgSQL 的優點 [#](#PLPGSQL-ADVANTAGES)
+### 41.1.1. 使用 PL/pgSQL 的優點 [#](#plpgsql-advantages) <a href="#plpgsql-advantages" id="plpgsql-advantages"></a>
 
 SQL 是 PostgreSQL 以及大多數其他關聯式資料庫所使用的查詢語言。它具可攜性，也容易學習。但是每一個 SQL 陳述式都必須由資料庫伺服器個別執行。
 
@@ -39,13 +39,13 @@ SQL 是 PostgreSQL 以及大多數其他關聯式資料庫所使用的查詢語�
 
 <a id="PLPGSQL-ARGS-RESULTS"></a>
 
-### 41.1.2. 支援的引數與結果資料型別 [#](#PLPGSQL-ARGS-RESULTS)
+### 41.1.2. 支援的引數與結果資料型別 [#](#plpgsql-args-results) <a href="#plpgsql-args-results" id="plpgsql-args-results"></a>
 
 以 PL/pgSQL 撰寫的函式可以接受伺服器所支援的任何純量或陣列資料型別作為引數，也可以回傳這些型別中任一種的結果。它們也可以接受或回傳任何以名稱指定的複合型別（資料列型別）。你也可以把 PL/pgSQL 函式宣告成接受 `record`，意思是任何複合型別都可以作為輸入；或是宣告成回傳 `record`，意思是其結果為一個資料列型別，而其欄位由呼叫端查詢中的指定內容決定，詳見[第 7.2.1.4 節](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS)。
 
-PL/pgSQL 函式可以使用 `VARIADIC` 標記宣告成接受可變數量的引數。其運作方式與 SQL 函式完全相同，詳見[第 36.5.6 節](../extend/xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)。
+PL/pgSQL 函式可以使用 `VARIADIC` 標記宣告成接受可變數量的引數。其運作方式與 SQL 函式完全相同，詳見[第 36.5.6 節](../extend/xfunc-sql.md#xfunc-sql-variadic-functions)。
 
-PL/pgSQL 函式也可以宣告成接受並回傳[第 36.2.5 節](../extend/extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)所描述的多型型別，如此一來，函式實際處理的資料型別就可以隨每次呼叫而不同。範例請見[第 41.3.1 節](plpgsql-declarations.md#PLPGSQL-DECLARATION-PARAMETERS)。
+PL/pgSQL 函式也可以宣告成接受並回傳[第 36.2.5 節](../extend/extend-type-system.md#extend-types-polymorphic)所描述的多型型別，如此一來，函式實際處理的資料型別就可以隨每次呼叫而不同。範例請見[第 41.3.1 節](plpgsql-declarations.md#plpgsql-declaration-parameters)。
 
 PL/pgSQL 函式還可以宣告成回傳任何能以單一實例回傳之資料型別的「集合」（或資料表）。這樣的函式會針對結果集合中每個想要的元素執行 `RETURN NEXT`，或是使用 `RETURN QUERY` 輸出計算某個查詢所得的結果，藉此產生輸出。
 
@@ -53,7 +53,7 @@ PL/pgSQL 函式還可以宣告成回傳任何能以單一實例回傳之資料�
 
 PL/pgSQL 函式也可以用輸出參數來取代明確指定回傳型別。這並不會為這個語言增加任何根本性的能力，但通常很方便，尤其是在要回傳多個值的時候。`RETURNS TABLE` 標記法也可以用來取代 `RETURNS SETOF`。
 
-具體的範例請見[第 41.3.1 節](plpgsql-declarations.md#PLPGSQL-DECLARATION-PARAMETERS)與[第 41.6.1 節](plpgsql-control-structures.md#PLPGSQL-STATEMENTS-RETURNING)。
+具體的範例請見[第 41.3.1 節](plpgsql-declarations.md#plpgsql-declaration-parameters)與[第 41.6.1 節](plpgsql-control-structures.md#plpgsql-statements-returning)。
 
 ---
 

@@ -593,7 +593,7 @@ myschema.mytable ...`），資料表就會建立在指定的綱要中；否則�
 <a id="RELOPTION-USER-CATALOG-TABLE"></a>
 
 `user_catalog_table` (`boolean`) <a id="id-1.9.3.85.6.3.4.24.1.3"></a> [#](#RELOPTION-USER-CATALOG-TABLE)
-:   將此資料表宣告為額外的目錄資料表，以供邏輯複寫使用。詳細資訊請參閱[第 47.6.2 節](../../server-programming/logicaldecoding/logicaldecoding-output-plugin.md#LOGICALDECODING-CAPABILITIES)。TOAST 資料表不能設定此參數。
+:   將此資料表宣告為額外的目錄資料表，以供邏輯複寫使用。詳細資訊請參閱[第 47.6.2 節](../../server-programming/logicaldecoding/logicaldecoding-output-plugin.md#logicaldecoding-capabilities)。TOAST 資料表不能設定此參數。
 
 <a id="SQL-CREATETABLE-NOTES"></a>
 

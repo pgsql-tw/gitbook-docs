@@ -1,7 +1,7 @@
 <a id="XTYPES"></a>
 ## 36.13. 使用者自訂型別 [#](#xtypes) <a href="#xtypes" id="xtypes"></a>
 
-[36.13.1. TOAST 相關考量](xtypes.md#XTYPES-TOAST)
+[36.13.1. TOAST 相關考量](xtypes.md#xtypes-toast)
 
 <a id="id-1.8.3.16.2"></a>
 
@@ -214,7 +214,7 @@ datum 的總大小（包含長度欄位本身）儲存在此欄位中，
 
 <a id="XTYPES-TOAST"></a>
 
-### 36.13.1. TOAST 相關考量 [#](#XTYPES-TOAST)
+### 36.13.1. TOAST 相關考量 [#](#xtypes-toast) <a href="#xtypes-toast" id="xtypes-toast"></a>
 
 <a id="id-1.8.3.16.17.2"></a>
 

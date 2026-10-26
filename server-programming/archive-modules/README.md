@@ -7,7 +7,7 @@
 [49.1. 初始化函式](archive-module-init.md)
 
 [49.2. 封存模組回呼](archive-module-callbacks.md)
-:   [49.2.1. 啟動回呼](archive-module-callbacks.md#ARCHIVE-MODULE-STARTUP)
+:   [49.2.1. 啟動回呼](archive-module-callbacks.md#archive-module-startup)
 
     [49.2.2. 檢查回呼](archive-module-callbacks.md#ARCHIVE-MODULE-CHECK)
 

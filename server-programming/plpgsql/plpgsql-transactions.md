@@ -32,7 +32,7 @@ CALL transaction_test1();
 
 只有在從最上層發出的 `CALL` 或 `DO` 呼叫中，或是在中間沒有夾雜其他指令的巢狀 `CALL` 或 `DO` 呼叫中，才能進行交易控制。舉例來說，如果呼叫堆疊是 `CALL proc1()` → `CALL proc2()` → `CALL proc3()`，那麼第二個與第三個程序都可以執行交易控制動作。但如果呼叫堆疊是 `CALL proc1()` → `SELECT func2()` → `CALL proc3()`，那麼最後那個程序就不能做交易控制，因為中間夾了一個 `SELECT`。
 
-PL/pgSQL 不支援交易儲存點（`SAVEPOINT`／`ROLLBACK TO SAVEPOINT`／`RELEASE SAVEPOINT` 指令）。交易儲存點的典型使用模式，可以改用帶有例外處理常式的區塊來取代（參閱[第 41.6.8 節](plpgsql-control-structures.md#PLPGSQL-ERROR-TRAPPING)）。在內部，帶有例外處理常式的區塊會形成一個子交易，這也表示不能在這樣的區塊內結束交易。
+PL/pgSQL 不支援交易儲存點（`SAVEPOINT`／`ROLLBACK TO SAVEPOINT`／`RELEASE SAVEPOINT` 指令）。交易儲存點的典型使用模式，可以改用帶有例外處理常式的區塊來取代（參閱[第 41.6.8 節](plpgsql-control-structures.md#plpgsql-error-trapping)）。在內部，帶有例外處理常式的區塊會形成一個子交易，這也表示不能在這樣的區塊內結束交易。
 
 游標迴圈有一些特別要注意的地方。請看這個例子：
 

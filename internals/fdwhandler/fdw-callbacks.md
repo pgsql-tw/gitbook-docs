@@ -2,29 +2,29 @@
 
 ## 58.2. 外部資料包裝器回呼函式 [#](#fdw-callbacks) <a href="#fdw-callbacks" id="fdw-callbacks"></a>
 
-[58.2.1. 掃描外部資料表的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-SCAN)
+[58.2.1. 掃描外部資料表的 FDW 函式](fdw-callbacks.md#fdw-callbacks-scan)
 
-[58.2.2. 掃描外部資料表連接的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-JOIN-SCAN)
+[58.2.2. 掃描外部資料表連接的 FDW 函式](fdw-callbacks.md#fdw-callbacks-join-scan)
 
-[58.2.3. 規劃掃描／連接後處理的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-UPPER-PLANNING)
+[58.2.3. 規劃掃描／連接後處理的 FDW 函式](fdw-callbacks.md#fdw-callbacks-upper-planning)
 
-[58.2.4. 更新外部資料表的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-UPDATE)
+[58.2.4. 更新外部資料表的 FDW 函式](fdw-callbacks.md#fdw-callbacks-update)
 
-[58.2.5. `TRUNCATE` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-TRUNCATE)
+[58.2.5. `TRUNCATE` 的 FDW 函式](fdw-callbacks.md#fdw-callbacks-truncate)
 
-[58.2.6. 資料列鎖定的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)
+[58.2.6. 資料列鎖定的 FDW 函式](fdw-callbacks.md#fdw-callbacks-row-locking)
 
-[58.2.7. `EXPLAIN` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-EXPLAIN)
+[58.2.7. `EXPLAIN` 的 FDW 函式](fdw-callbacks.md#fdw-callbacks-explain)
 
-[58.2.8. `ANALYZE` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-ANALYZE)
+[58.2.8. `ANALYZE` 的 FDW 函式](fdw-callbacks.md#fdw-callbacks-analyze)
 
-[58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-IMPORT)
+[58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 函式](fdw-callbacks.md#fdw-callbacks-import)
 
-[58.2.10. 平行執行的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-PARALLEL)
+[58.2.10. 平行執行的 FDW 函式](fdw-callbacks.md#fdw-callbacks-parallel)
 
-[58.2.11. 非同步執行的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-ASYNC)
+[58.2.11. 非同步執行的 FDW 函式](fdw-callbacks.md#fdw-callbacks-async)
 
-[58.2.12. 路徑重新參數化的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
+[58.2.12. 路徑重新參數化的 FDW 函式](fdw-callbacks.md#fdw-callbacks-reparameterize-paths)
 
 FDW 處理函式會回傳一個以 palloc 配置的 `FdwRoutine` 結構，其中包含指向下文所述各回呼函式的指標。與掃描相關的函式是必要的，其餘則可選擇性提供。
 
@@ -32,7 +32,7 @@ FDW 處理函式會回傳一個以 palloc 配置的 `FdwRoutine` 結構，其中
 
 <a id="FDW-CALLBACKS-SCAN"></a>
 
-### 58.2.1. 掃描外部資料表的 FDW 函式 [#](#FDW-CALLBACKS-SCAN)
+### 58.2.1. 掃描外部資料表的 FDW 函式 [#](#fdw-callbacks-scan) <a href="#fdw-callbacks-scan" id="fdw-callbacks-scan"></a>
 
 ```
 
@@ -121,7 +121,7 @@ EndForeignScan(ForeignScanState *node);
 
 <a id="FDW-CALLBACKS-JOIN-SCAN"></a>
 
-### 58.2.2. 掃描外部資料表連接的 FDW 函式 [#](#FDW-CALLBACKS-JOIN-SCAN)
+### 58.2.2. 掃描外部資料表連接的 FDW 函式 [#](#fdw-callbacks-join-scan) <a href="#fdw-callbacks-join-scan" id="fdw-callbacks-join-scan"></a>
 
 若 FDW 支援在遠端執行外部資料表之間的連接（而不是擷取兩個資料表的資料後在本地端進行連接），它應該提供這個回呼函式：
 
@@ -152,7 +152,7 @@ GetForeignJoinPaths(PlannerInfo *root,
 
 <a id="FDW-CALLBACKS-UPPER-PLANNING"></a>
 
-### 58.2.3. 規劃掃描／連接後處理的 FDW 函式 [#](#FDW-CALLBACKS-UPPER-PLANNING)
+### 58.2.3. 規劃掃描／連接後處理的 FDW 函式 [#](#fdw-callbacks-upper-planning) <a href="#fdw-callbacks-upper-planning" id="fdw-callbacks-upper-planning"></a>
 
 若 FDW 支援在遠端執行掃描／連接後的處理（例如遠端彙總），它應該提供這個回呼函式：
 
@@ -174,7 +174,7 @@ GetForeignUpperPaths(PlannerInfo *root,
 
 <a id="FDW-CALLBACKS-UPDATE"></a>
 
-### 58.2.4. 更新外部資料表的 FDW 函式 [#](#FDW-CALLBACKS-UPDATE)
+### 58.2.4. 更新外部資料表的 FDW 函式 [#](#fdw-callbacks-update) <a href="#fdw-callbacks-update" id="fdw-callbacks-update"></a>
 
 若 FDW 支援可寫入的外部資料表，它應該依 FDW 的需求與能力，提供下列部分或全部的回呼函式：
 
@@ -420,7 +420,7 @@ EndDirectModify(ForeignScanState *node);
 
 <a id="FDW-CALLBACKS-TRUNCATE"></a>
 
-### 58.2.5. `TRUNCATE` 的 FDW 函式 [#](#FDW-CALLBACKS-TRUNCATE)
+### 58.2.5. `TRUNCATE` 的 FDW 函式 [#](#fdw-callbacks-truncate) <a href="#fdw-callbacks-truncate" id="fdw-callbacks-truncate"></a>
 
 ```
 
@@ -444,7 +444,7 @@ ExecForeignTruncate(List *rels,
 
 <a id="FDW-CALLBACKS-ROW-LOCKING"></a>
 
-### 58.2.6. 資料列鎖定的 FDW 函式 [#](#FDW-CALLBACKS-ROW-LOCKING)
+### 58.2.6. 資料列鎖定的 FDW 函式 [#](#fdw-callbacks-row-locking) <a href="#fdw-callbacks-row-locking" id="fdw-callbacks-row-locking"></a>
 
 若 FDW 希望支援*延遲資料列鎖定*（late row locking，如[第 58.5 節](fdw-row-locking.md)所述），它必須提供下列回呼函式：
 
@@ -501,7 +501,7 @@ RecheckForeignScan(ForeignScanState *node,
 
 <a id="FDW-CALLBACKS-EXPLAIN"></a>
 
-### 58.2.7. `EXPLAIN` 的 FDW 函式 [#](#FDW-CALLBACKS-EXPLAIN)
+### 58.2.7. `EXPLAIN` 的 FDW 函式 [#](#fdw-callbacks-explain) <a href="#fdw-callbacks-explain" id="fdw-callbacks-explain"></a>
 
 ```
 
@@ -544,7 +544,7 @@ ANALYZE` 的情況下，可以檢視 `ForeignScanState` 節點的狀態以提供
 
 <a id="FDW-CALLBACKS-ANALYZE"></a>
 
-### 58.2.8. `ANALYZE` 的 FDW 函式 [#](#FDW-CALLBACKS-ANALYZE)
+### 58.2.8. `ANALYZE` 的 FDW 函式 [#](#fdw-callbacks-analyze) <a href="#fdw-callbacks-analyze" id="fdw-callbacks-analyze"></a>
 
 ```
 
@@ -575,7 +575,7 @@ AcquireSampleRowsFunc(Relation relation,
 
 <a id="FDW-CALLBACKS-IMPORT"></a>
 
-### 58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 函式 [#](#FDW-CALLBACKS-IMPORT)
+### 58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 函式 [#](#fdw-callbacks-import) <a href="#fdw-callbacks-import" id="fdw-callbacks-import"></a>
 
 ```
 
@@ -596,7 +596,7 @@ FDW 也不必自行實作 `list_type` 與 `table_list` 所指定的過濾，因�
 
 <a id="FDW-CALLBACKS-PARALLEL"></a>
 
-### 58.2.10. 平行執行的 FDW 函式 [#](#FDW-CALLBACKS-PARALLEL)
+### 58.2.10. 平行執行的 FDW 函式 [#](#fdw-callbacks-parallel) <a href="#fdw-callbacks-parallel" id="fdw-callbacks-parallel"></a>
 
 `ForeignScan` 節點可以選擇性地支援平行執行。平行的 `ForeignScan` 會在多個程序中執行，並且必須在所有協同運作的程序之間，讓每個資料列恰好只回傳一次。為此，各程序可以透過固定大小的動態共享記憶體區塊來協調。此共享記憶體不保證在每個程序中都對應到相同的位址，因此其中不得包含指標。下列函式全都是選擇性的，但若要支援平行執行，其中大部分都是必要的。
 
@@ -656,7 +656,7 @@ ShutdownForeignScan(ForeignScanState *node);
 
 <a id="FDW-CALLBACKS-ASYNC"></a>
 
-### 58.2.11. 非同步執行的 FDW 函式 [#](#FDW-CALLBACKS-ASYNC)
+### 58.2.11. 非同步執行的 FDW 函式 [#](#fdw-callbacks-async) <a href="#fdw-callbacks-async" id="fdw-callbacks-async"></a>
 
 `ForeignScan` 節點可以選擇性地支援非同步執行，如 `src/backend/executor/README` 中所述。下列函式全都是選擇性的，但若要支援非同步執行，則全部都是必要的。
 
@@ -696,7 +696,7 @@ ForeignAsyncNotify(AsyncRequest *areq);
 
 <a id="FDW-CALLBACKS-REPARAMETERIZE-PATHS"></a>
 
-### 58.2.12. 路徑重新參數化的 FDW 函式 [#](#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
+### 58.2.12. 路徑重新參數化的 FDW 函式 [#](#fdw-callbacks-reparameterize-paths) <a href="#fdw-callbacks-reparameterize-paths" id="fdw-callbacks-reparameterize-paths"></a>
 
 ```
 

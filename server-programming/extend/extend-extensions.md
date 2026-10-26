@@ -1,19 +1,19 @@
 <a id="EXTEND-EXTENSIONS"></a>
 ## 36.17. 將相關物件封裝成擴充功能 [#](#extend-extensions) <a href="#extend-extensions" id="extend-extensions"></a>
 
-[36.17.1. 擴充功能檔案](extend-extensions.md#EXTEND-EXTENSIONS-FILES)
+[36.17.1. 擴充功能檔案](extend-extensions.md#extend-extensions-files)
 
-[36.17.2. 擴充功能的可重新定位性](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)
+[36.17.2. 擴充功能的可重新定位性](extend-extensions.md#extend-extensions-relocation)
 
-[36.17.3. 擴充功能組態資料表](extend-extensions.md#EXTEND-EXTENSIONS-CONFIG-TABLES)
+[36.17.3. 擴充功能組態資料表](extend-extensions.md#extend-extensions-config-tables)
 
-[36.17.4. 擴充功能更新](extend-extensions.md#EXTEND-EXTENSIONS-UPDATES)
+[36.17.4. 擴充功能更新](extend-extensions.md#extend-extensions-updates)
 
-[36.17.5. 使用更新指令碼安裝擴充功能](extend-extensions.md#EXTEND-EXTENSIONS-UPDATE-SCRIPTS)
+[36.17.5. 使用更新指令碼安裝擴充功能](extend-extensions.md#extend-extensions-update-scripts)
 
-[36.17.6. 擴充功能的安全性考量](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY)
+[36.17.6. 擴充功能的安全性考量](extend-extensions.md#extend-extensions-security)
 
-[36.17.7. 擴充功能範例](extend-extensions.md#EXTEND-EXTENSIONS-EXAMPLE)
+[36.17.7. 擴充功能範例](extend-extensions.md#extend-extensions-example)
 
 <a id="id-1.8.3.20.2"></a>
 
@@ -56,7 +56,7 @@ PostgreSQL 不允許您刪除某個
 傾印出來。這樣的變更，通常只有在您
 同時對該擴充功能的指令碼檔案，做出相同變更時，才有意義。
 （不過，對於包含組態資料的資料表，另有特殊規定；
-請參閱[36.17.3 節](extend-extensions.md#EXTEND-EXTENSIONS-CONFIG-TABLES)。）
+請參閱[36.17.3 節](extend-extensions.md#extend-extensions-config-tables)。）
 在正式環境中，通常最好建立一個擴充功能
 更新指令碼，來對擴充功能成員物件進行變更。
 
@@ -115,7 +115,7 @@ PostgreSQL 目前不支援在擴充功能指令碼中
 
 <a id="EXTEND-EXTENSIONS-FILES"></a>
 
-### 36.17.1. 擴充功能檔案 [#](#EXTEND-EXTENSIONS-FILES)
+### 36.17.1. 擴充功能檔案 [#](#extend-extensions-files) <a href="#extend-extensions-files" id="extend-extensions-files"></a>
 
 <a id="id-1.8.3.20.11.2"></a>
 
@@ -235,7 +235,7 @@ PostgreSQL 目前不支援在擴充功能指令碼中
     此外，將擴充功能標記為 trusted，
     需要付出相當額外的心力，才能安全地撰寫該擴充功能的
     安裝與更新指令碼；
-    請參閱[36.17.6 節](extend-extensions.md#EXTEND-EXTENSIONS-SECURITY)。
+    請參閱[36.17.6 節](extend-extensions.md#extend-extensions-security)。
 <a id="EXTEND-EXTENSIONS-FILES-RELOCATABLE"></a>
 
 `relocatable`（`boolean`） [#](#EXTEND-EXTENSIONS-FILES-RELOCATABLE)
@@ -243,7 +243,7 @@ PostgreSQL 目前不支援在擴充功能指令碼中
     將其所包含的物件移動到不同的綱要中，
     則稱為*可重新定位（relocatable）*的。預設值為
     `false`，也就是該擴充功能不可重新定位。
-    詳情請參閱[36.17.2 節](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)。
+    詳情請參閱[36.17.2 節](extend-extensions.md#extend-extensions-relocation)。
 <a id="EXTEND-EXTENSIONS-FILES-SCHEMA"></a>
 
 `schema`（`string`） [#](#EXTEND-EXTENSIONS-FILES-SCHEMA)
@@ -252,7 +252,7 @@ PostgreSQL 目前不支援在擴充功能指令碼中
     而不能是其他任何綱要。
     `schema` 參數，只有在初次建立擴充功能時，
     才會被參考，在擴充功能更新期間則不會。
-    詳情請參閱[36.17.2 節](extend-extensions.md#EXTEND-EXTENSIONS-RELOCATION)。
+    詳情請參閱[36.17.2 節](extend-extensions.md#extend-extensions-relocation)。
 
 除了主要的控制檔
 `extension.control` 之外，
@@ -278,7 +278,7 @@ PostgreSQL 目前不支援在擴充功能指令碼中
 忽略（視為註解）。這項規定，通常用於
 在指令碼檔案被餵給 psql，而非透過
 `CREATE EXTENSION` 載入時，拋出錯誤（請參閱
-[36.17.7 節](extend-extensions.md#EXTEND-EXTENSIONS-EXAMPLE)中的範例指令碼）。
+[36.17.7 節](extend-extensions.md#extend-extensions-example)中的範例指令碼）。
 若沒有這項規定，使用者可能會不小心，
 將該擴充功能的內容，當作「鬆散」的物件載入，
 而不是當作一個擴充功能載入，這種狀態，
@@ -308,7 +308,7 @@ PostgreSQL 沒有辦法得知控制檔
 
 <a id="EXTEND-EXTENSIONS-RELOCATION"></a>
 
-### 36.17.2. 擴充功能的可重新定位性 [#](#EXTEND-EXTENSIONS-RELOCATION)
+### 36.17.2. 擴充功能的可重新定位性 [#](#extend-extensions-relocation) <a href="#extend-extensions-relocation" id="extend-extensions-relocation"></a>
 
 使用者經常希望，將擴充功能所包含的物件，
 載入到與該擴充功能作者原本設想不同的綱要中。共有
@@ -417,7 +417,7 @@ SET LOCAL search_path TO @extschema@, pg_temp;
 
 <a id="EXTEND-EXTENSIONS-CONFIG-TABLES"></a>
 
-### 36.17.3. 擴充功能組態資料表 [#](#EXTEND-EXTENSIONS-CONFIG-TABLES)
+### 36.17.3. 擴充功能組態資料表 [#](#extend-extensions-config-tables) <a href="#extend-extensions-config-tables" id="extend-extensions-config-tables"></a>
 
 有些擴充功能，包含組態資料表，
 其中含有使用者在安裝該擴充功能後，
@@ -499,7 +499,7 @@ SELECT pg_catalog.pg_extension_config_dump('my_config', 'WHERE NOT standard_entr
 
 <a id="EXTEND-EXTENSIONS-UPDATES"></a>
 
-### 36.17.4. 擴充功能更新 [#](#EXTEND-EXTENSIONS-UPDATES)
+### 36.17.4. 擴充功能更新 [#](#extend-extensions-updates) <a href="#extend-extensions-updates" id="extend-extensions-updates"></a>
 
 擴充功能機制的優點之一，是它提供了方便的
 方式，管理定義擴充功能物件的 SQL 指令的更新。
@@ -574,7 +574,7 @@ SELECT * FROM pg_extension_update_paths('extension_name');
 
 <a id="EXTEND-EXTENSIONS-UPDATE-SCRIPTS"></a>
 
-### 36.17.5. 使用更新指令碼安裝擴充功能 [#](#EXTEND-EXTENSIONS-UPDATE-SCRIPTS)
+### 36.17.5. 使用更新指令碼安裝擴充功能 [#](#extend-extensions-update-scripts) <a href="#extend-extensions-update-scripts" id="extend-extensions-update-scripts"></a>
 
 一個存在了一段時間的擴充功能，可能會有
 好幾個版本，作者需要為它們撰寫更新指令碼。
@@ -612,7 +612,7 @@ EXTENSION` 能夠自動依循更新鏈。
 
 <a id="EXTEND-EXTENSIONS-SECURITY"></a>
 
-### 36.17.6. 擴充功能的安全性考量 [#](#EXTEND-EXTENSIONS-SECURITY)
+### 36.17.6. 擴充功能的安全性考量 [#](#extend-extensions-security) <a href="#extend-extensions-security" id="extend-extensions-security"></a>
 
 廣泛發行的擴充功能，應該對其所在的資料庫，
 盡量不做假設。因此，撰寫擴充功能所提供的函式時，
@@ -720,7 +720,7 @@ PostgreSQL 原始碼發行套件中的
 
 <a id="EXTEND-EXTENSIONS-EXAMPLE"></a>
 
-### 36.17.7. 擴充功能範例 [#](#EXTEND-EXTENSIONS-EXAMPLE)
+### 36.17.7. 擴充功能範例 [#](#extend-extensions-example) <a href="#extend-extensions-example" id="extend-extensions-example"></a>
 
 以下是一個純 SQL 擴充功能的完整範例，
 一個雙元素的複合型別，可以在其名為「k」與「v」

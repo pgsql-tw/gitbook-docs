@@ -1,37 +1,37 @@
 <a id="XFUNC-C"></a>
 ## 36.10. C 語言函式 [#](#xfunc-c) <a href="#xfunc-c" id="xfunc-c"></a>
 
-[36.10.1. 動態載入](xfunc-c.md#XFUNC-C-DYNLOAD)
+[36.10.1. 動態載入](xfunc-c.md#xfunc-c-dynload)
 
-[36.10.2. C 語言函式中的基礎型別](xfunc-c.md#XFUNC-C-BASETYPE)
+[36.10.2. C 語言函式中的基礎型別](xfunc-c.md#xfunc-c-basetype)
 
-[36.10.3. 版本 1 呼叫慣例](xfunc-c.md#XFUNC-C-V1-CALL-CONV)
+[36.10.3. 版本 1 呼叫慣例](xfunc-c.md#xfunc-c-v1-call-conv)
 
-[36.10.4. 撰寫程式碼](xfunc-c.md#XFUNC-C-CODE)
+[36.10.4. 撰寫程式碼](xfunc-c.md#xfunc-c-code)
 
-[36.10.5. 編譯與連結動態載入的函式](xfunc-c.md#DFUNC)
+[36.10.5. 編譯與連結動態載入的函式](xfunc-c.md#dfunc)
 
-[36.10.6. 伺服器 API 與 ABI 穩定性指引](xfunc-c.md#XFUNC-API-ABI-STABILITY-GUIDANCE)
+[36.10.6. 伺服器 API 與 ABI 穩定性指引](xfunc-c.md#xfunc-api-abi-stability-guidance)
 
-[36.10.7. 複合型別引數](xfunc-c.md#XFUNC-C-COMPOSITE-TYPE-ARGS)
+[36.10.7. 複合型別引數](xfunc-c.md#xfunc-c-composite-type-args)
 
-[36.10.8. 傳回資料列（複合型別）](xfunc-c.md#XFUNC-C-RETURNING-ROWS)
+[36.10.8. 傳回資料列（複合型別）](xfunc-c.md#xfunc-c-returning-rows)
 
-[36.10.9. 傳回集合](xfunc-c.md#XFUNC-C-RETURN-SET)
+[36.10.9. 傳回集合](xfunc-c.md#xfunc-c-return-set)
 
-[36.10.10. 多型引數與傳回型別](xfunc-c.md#XFUNC-C-POLYMORPHIC)
+[36.10.10. 多型引數與傳回型別](xfunc-c.md#xfunc-c-polymorphic)
 
-[36.10.11. 共享記憶體](xfunc-c.md#XFUNC-SHARED-ADDIN)
+[36.10.11. 共享記憶體](xfunc-c.md#xfunc-shared-addin)
 
-[36.10.12. LWLocks](xfunc-c.md#XFUNC-ADDIN-LWLOCKS)
+[36.10.12. LWLocks](xfunc-c.md#xfunc-addin-lwlocks)
 
-[36.10.13. 自訂等待事件](xfunc-c.md#XFUNC-ADDIN-WAIT-EVENTS)
+[36.10.13. 自訂等待事件](xfunc-c.md#xfunc-addin-wait-events)
 
-[36.10.14. 注入點（Injection Points）](xfunc-c.md#XFUNC-ADDIN-INJECTION-POINTS)
+[36.10.14. 注入點（Injection Points）](xfunc-c.md#xfunc-addin-injection-points)
 
-[36.10.15. 自訂累計統計資訊](xfunc-c.md#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
+[36.10.15. 自訂累計統計資訊](xfunc-c.md#xfunc-addin-custom-cumulative-statistics)
 
-[36.10.16. 使用 C++ 來擴充功能](xfunc-c.md#EXTEND-CPP)
+[36.10.16. 使用 C++ 來擴充功能](xfunc-c.md#extend-cpp)
 
 <a id="id-1.8.3.13.2"></a>
 
@@ -51,7 +51,7 @@
 
 <a id="XFUNC-C-DYNLOAD"></a>
 
-### 36.10.1. 動態載入 [#](#XFUNC-C-DYNLOAD)
+### 36.10.1. 動態載入 [#](#xfunc-c-dynload) <a href="#xfunc-c-dynload" id="xfunc-c-dynload"></a>
 
 <a id="id-1.8.3.13.5.2"></a>
 
@@ -109,7 +109,7 @@ C 名稱，則會假設其與 SQL 函式名稱相同。
 PostgreSQL 不會自動編譯 C
 函式。物件檔案必須先編譯完成，才能在 `CREATE
 FUNCTION` 指令中參照它。詳情請參閱
-[36.10.5 節](xfunc-c.md#DFUNC)。
+[36.10.5 節](xfunc-c.md#dfunc)。
 
 <a id="id-1.8.3.13.5.9"></a><a id="id-1.8.3.13.5.10"></a>
 
@@ -170,7 +170,7 @@ PostgreSQL 所限制，但建議使用語意化版本
 
 <a id="XFUNC-C-BASETYPE"></a>
 
-### 36.10.2. C 語言函式中的基礎型別 [#](#XFUNC-C-BASETYPE)
+### 36.10.2. C 語言函式中的基礎型別 [#](#xfunc-c-basetype) <a href="#xfunc-c-basetype" id="xfunc-c-basetype"></a>
 
 <a id="id-1.8.3.13.6.2"></a>
 
@@ -331,7 +331,7 @@ memcpy(destination->data, buffer, 40);
 
 <a id="XFUNC-C-V1-CALL-CONV"></a>
 
-### 36.10.3. 版本 1 呼叫慣例 [#](#XFUNC-C-V1-CALL-CONV)
+### 36.10.3. 版本 1 呼叫慣例 [#](#xfunc-c-v1-call-conv) <a href="#xfunc-c-v1-call-conv" id="xfunc-c-v1-call-conv"></a>
 
 版本 1 的呼叫慣例，依靠巨集來隱藏傳遞引數與結果時
 大部分的複雜性。版本 1 函式的 C
@@ -623,7 +623,7 @@ storagetype` 來指定。*`storagetype`* 可以是
 或 `main` 其中之一。）
 
 最後，版本 1 的函式呼叫慣例，讓
-傳回集合結果（[36.10.9 節](xfunc-c.md#XFUNC-C-RETURN-SET)）、
+傳回集合結果（[36.10.9 節](xfunc-c.md#xfunc-c-return-set)）、
 實作觸發程序函式（[第 37 章](../triggers/README.md)），以及
 程序語言呼叫處理常式（[第 57 章](../../internals/plhandler/README.md)）都成為可能。詳情
 請參閱原始碼發行套件中的
@@ -631,7 +631,7 @@ storagetype` 來指定。*`storagetype`* 可以是
 
 <a id="XFUNC-C-CODE"></a>
 
-### 36.10.4. 撰寫程式碼 [#](#XFUNC-C-CODE)
+### 36.10.4. 撰寫程式碼 [#](#xfunc-c-code) <a href="#xfunc-c-code" id="xfunc-c-code"></a>
 
 在進入更進階的主題之前，我們應該先討論一些
 PostgreSQL C 語言函式的撰寫程式碼
@@ -655,9 +655,9 @@ C++、FORTRAN 或 Pascal 等其他語言，往往
 * 編譯並連結您的程式碼，使其可以動態
   載入 PostgreSQL 中，永遠
   需要特殊的旗標。關於如何在您特定的
-  作業系統上完成這項工作，詳細說明請參閱[36.10.5 節](xfunc-c.md#DFUNC)。
+  作業系統上完成這項工作，詳細說明請參閱[36.10.5 節](xfunc-c.md#dfunc)。
 * 請記得為您的共享函式庫定義一個「魔術區塊」，
-  如[36.10.1 節](xfunc-c.md#XFUNC-C-DYNLOAD)所述。
+  如[36.10.1 節](xfunc-c.md#xfunc-c-dynload)所述。
 * 配置記憶體時，請使用
   PostgreSQL 的函式
   `palloc`<a id="id-1.8.3.13.8.3.1.4.1.3"></a> 與 `pfree`<a id="id-1.8.3.13.8.3.1.4.1.5"></a>，
@@ -694,7 +694,7 @@ C++、FORTRAN 或 Pascal 等其他語言，往往
 
 <a id="DFUNC"></a>
 
-### 36.10.5. 編譯與連結動態載入的函式 [#](#DFUNC)
+### 36.10.5. 編譯與連結動態載入的函式 [#](#dfunc) <a href="#dfunc" id="dfunc"></a>
 
 在您能夠使用以
 C 撰寫的 PostgreSQL 擴充功能函式之前，
@@ -828,11 +828,11 @@ PostgreSQL 中。在向 `CREATE FUNCTION`
 達到最佳的可攜性，通常也應該省略。
 
 關於伺服器預期在哪裡找到共享函式庫檔案，
-請回頭參閱[36.10.1 節](xfunc-c.md#XFUNC-C-DYNLOAD)。
+請回頭參閱[36.10.1 節](xfunc-c.md#xfunc-c-dynload)。
 
 <a id="XFUNC-API-ABI-STABILITY-GUIDANCE"></a>
 
-### 36.10.6. 伺服器 API 與 ABI 穩定性指引 [#](#XFUNC-API-ABI-STABILITY-GUIDANCE)
+### 36.10.6. 伺服器 API 與 ABI 穩定性指引 [#](#xfunc-api-abi-stability-guidance) <a href="#xfunc-api-abi-stability-guidance" id="xfunc-api-abi-stability-guidance"></a>
 
 本節針對擴充功能與其他伺服器外掛程式的作者，
 提供了關於
@@ -912,7 +912,7 @@ ABI，也就是應用程式二進位介面（application binary interface），
 因此，使用伺服器 API 的擴充功能，必須
 針對每個主要發行版重新編譯。納入
 `PG_MODULE_MAGIC`
-（請參閱[36.10.1 節](xfunc-c.md#XFUNC-C-DYNLOAD)），可以確保為
+（請參閱[36.10.1 節](xfunc-c.md#xfunc-c-dynload)），可以確保為
 某個主要版本所編譯的程式碼，會被其他主要版本
 拒絕。
 
@@ -952,7 +952,7 @@ API（而且在大多數情況下，實際的界線
 
 <a id="XFUNC-C-COMPOSITE-TYPE-ARGS"></a>
 
-### 36.10.7. 複合型別引數 [#](#XFUNC-C-COMPOSITE-TYPE-ARGS)
+### 36.10.7. 複合型別引數 [#](#xfunc-c-composite-type-args) <a href="#xfunc-c-composite-type-args" id="xfunc-c-composite-type-args"></a>
 
 複合型別並不像 C 結構那樣具有固定的配置方式。
 複合型別的實例，可以含有空值（null）欄位。此外，
@@ -1031,7 +1031,7 @@ CREATE FUNCTION c_overpaid(emp, integer) RETURNS boolean
 
 <a id="XFUNC-C-RETURNING-ROWS"></a>
 
-### 36.10.8. 傳回資料列（複合型別） [#](#XFUNC-C-RETURNING-ROWS)
+### 36.10.8. 傳回資料列（複合型別） [#](#xfunc-c-returning-rows) <a href="#xfunc-c-returning-rows" id="xfunc-c-returning-rows"></a>
 
 要從 C 語言函式傳回資料列或複合型別的值，
 您可以使用一組特殊的 API，其中提供了巨集與
@@ -1185,7 +1185,7 @@ HeapTupleGetDatum(HeapTuple tuple)
 
 <a id="XFUNC-C-RETURN-SET"></a>
 
-### 36.10.9. 傳回集合 [#](#XFUNC-C-RETURN-SET)
+### 36.10.9. 傳回集合 [#](#xfunc-c-return-set) <a href="#xfunc-c-return-set" id="xfunc-c-return-set"></a>
 
 C 語言函式在傳回集合（多筆資料列）時，
 有兩種選擇。其中一種方法稱為 *ValuePerCall*
@@ -1539,10 +1539,10 @@ CREATE OR REPLACE FUNCTION retcomposite(IN integer, IN integer,
 
 <a id="XFUNC-C-POLYMORPHIC"></a>
 
-### 36.10.10. 多型引數與傳回型別 [#](#XFUNC-C-POLYMORPHIC)
+### 36.10.10. 多型引數與傳回型別 [#](#xfunc-c-polymorphic) <a href="#xfunc-c-polymorphic" id="xfunc-c-polymorphic"></a>
 
 C 語言函式可以被宣告為接受並
-傳回[36.2.5 節](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)中所述的多型型別。
+傳回[36.2.5 節](extend-type-system.md#extend-types-polymorphic)中所述的多型型別。
 當某個函式的引數或傳回型別
 被定義為多型型別時，函式的作者無法
 事先知道它會被以哪種資料型別呼叫，或
@@ -1646,7 +1646,7 @@ CREATE FUNCTION make_array(anyelement) RETURNS anyarray
 
 <a id="XFUNC-SHARED-ADDIN"></a>
 
-### 36.10.11. 共享記憶體 [#](#XFUNC-SHARED-ADDIN)
+### 36.10.11. 共享記憶體 [#](#xfunc-shared-addin) <a href="#xfunc-shared-addin" id="xfunc-shared-addin"></a>
 
 <a id="XFUNC-SHARED-ADDIN-AT-STARTUP"></a>
 
@@ -1758,7 +1758,7 @@ void *GetNamedDSMSegment(const char *name, size_t size,
 
 <a id="XFUNC-ADDIN-LWLOCKS"></a>
 
-### 36.10.12. LWLocks [#](#XFUNC-ADDIN-LWLOCKS)
+### 36.10.12. LWLocks [#](#xfunc-addin-lwlocks) <a href="#xfunc-addin-lwlocks" id="xfunc-addin-lwlocks"></a>
 
 <a id="XFUNC-ADDIN-LWLOCKS-AT-STARTUP"></a>
 
@@ -1839,7 +1839,7 @@ void LWLockRegisterTranche(int tranche_id, const char *tranche_name)
 
 <a id="XFUNC-ADDIN-WAIT-EVENTS"></a>
 
-### 36.10.13. 自訂等待事件 [#](#XFUNC-ADDIN-WAIT-EVENTS)
+### 36.10.13. 自訂等待事件 [#](#xfunc-addin-wait-events) <a href="#xfunc-addin-wait-events" id="xfunc-addin-wait-events"></a>
 
 附加元件可以透過呼叫以下函式，
 在 `Extension` 這個等待事件類型下，
@@ -1871,7 +1871,7 @@ uint32 WaitEventExtensionNew(const char *wait_event_name)
 
 <a id="XFUNC-ADDIN-INJECTION-POINTS"></a>
 
-### 36.10.14. 注入點（Injection Points） [#](#XFUNC-ADDIN-INJECTION-POINTS)
+### 36.10.14. 注入點（Injection Points） [#](#xfunc-addin-injection-points) <a href="#xfunc-addin-injection-points" id="xfunc-addin-injection-points"></a>
 
 具有給定 `name` 的注入點，是使用以下巨集
 來宣告的：
@@ -2004,7 +2004,7 @@ extern bool InjectionPointDetach(const char *name);
 
 <a id="XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS"></a>
 
-### 36.10.15. 自訂累計統計資訊 [#](#XFUNC-ADDIN-CUSTOM-CUMULATIVE-STATISTICS)
+### 36.10.15. 自訂累計統計資訊 [#](#xfunc-addin-custom-cumulative-statistics) <a href="#xfunc-addin-custom-cumulative-statistics" id="xfunc-addin-custom-cumulative-statistics"></a>
 
 以 C 語言撰寫的附加元件，可以使用
 在[累計統計資訊系統](../../server-administration/monitoring/monitoring-stats.md#monitoring-stats-setup)中
@@ -2064,7 +2064,7 @@ extern PgStat_Kind pgstat_register_kind(PgStat_Kind kind,
 
 <a id="EXTEND-CPP"></a>
 
-### 36.10.16. 使用 C++ 來擴充功能 [#](#EXTEND-CPP)
+### 36.10.16. 使用 C++ 來擴充功能 [#](#extend-cpp) <a href="#extend-cpp" id="extend-cpp"></a>
 
 <a id="id-1.8.3.13.20.2"></a>
 

@@ -2,7 +2,7 @@
 
 ## 60.3. 執行自訂掃描 [#](#custom-scan-execution) <a href="#custom-scan-execution" id="custom-scan-execution"></a>
 
-[60.3.1. 自訂掃描執行回呼函式](custom-scan-execution.md#CUSTOM-SCAN-EXECUTION-CALLBACKS)
+[60.3.1. 自訂掃描執行回呼函式](custom-scan-execution.md#custom-scan-execution-callbacks)
 
 執行 `CustomScan` 時，它的執行狀態以 `CustomScanState` 表示，其宣告如下：
 
@@ -20,7 +20,7 @@ typedef struct CustomScanState
 
 <a id="CUSTOM-SCAN-EXECUTION-CALLBACKS"></a>
 
-### 60.3.1. 自訂掃描執行回呼函式 [#](#CUSTOM-SCAN-EXECUTION-CALLBACKS)
+### 60.3.1. 自訂掃描執行回呼函式 [#](#custom-scan-execution-callbacks) <a href="#custom-scan-execution-callbacks" id="custom-scan-execution-callbacks"></a>
 
 ```
 

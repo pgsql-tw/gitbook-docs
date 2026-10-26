@@ -139,7 +139,7 @@ pg_createsubscriber 會使用 pg_resetwal 變更系統識別碼。這可以避�
 7. 為每個訂閱將複寫進度設定到複寫起點。當目標伺服器開始復原程序時，它會追上複寫起點。這正是每個訂閱要作為初始複寫位置使用的確切 LSN。由於訂閱已建立，可以取得複寫來源（replication origin）名稱。複寫來源名稱與複寫起點會用於 [`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-ADVANCE) 來設定初始複寫位置。
 8. 在目標伺服器上為每個指定的資料庫啟用訂閱。訂閱會從複寫起點開始套用交易。
 9. 若待命伺服器原本使用 [primary_slot_name](../../server-administration/runtime-config/runtime-config-replication.md#GUC-PRIMARY-SLOT-NAME)，從此之後它已沒有用處，因此將其移除。
-10. 若待命伺服器包含[容錯移轉複寫插槽](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)，這些插槽無法再被同步，因此將其移除。
+10. 若待命伺服器包含[容錯移轉複寫插槽](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)，這些插槽無法再被同步，因此將其移除。
 11. 更新目標伺服器上的系統識別碼。會執行 [pg_resetwal](app-pgresetwal.md) 來修改系統識別碼。由於 `pg_resetwal` 的要求，目標伺服器會被停止。
 
 <a id="id-1.9.5.7.8"></a>

@@ -1,29 +1,29 @@
 <a id="XFUNC-SQL"></a>
 ## 36.5. 查詢語言（SQL）函式 [#](#xfunc-sql) <a href="#xfunc-sql" id="xfunc-sql"></a>
 
-[36.5.1. SQL 函式的引數](xfunc-sql.md#XFUNC-SQL-FUNCTION-ARGUMENTS)
+[36.5.1. SQL 函式的引數](xfunc-sql.md#xfunc-sql-function-arguments)
 
-[36.5.2. 基礎型別上的 SQL 函式](xfunc-sql.md#XFUNC-SQL-BASE-FUNCTIONS)
+[36.5.2. 基礎型別上的 SQL 函式](xfunc-sql.md#xfunc-sql-base-functions)
 
-[36.5.3. 複合型別上的 SQL 函式](xfunc-sql.md#XFUNC-SQL-COMPOSITE-FUNCTIONS)
+[36.5.3. 複合型別上的 SQL 函式](xfunc-sql.md#xfunc-sql-composite-functions)
 
-[36.5.4. 具有輸出參數的 SQL 函式](xfunc-sql.md#XFUNC-OUTPUT-PARAMETERS)
+[36.5.4. 具有輸出參數的 SQL 函式](xfunc-sql.md#xfunc-output-parameters)
 
-[36.5.5. 具有輸出參數的 SQL 程序](xfunc-sql.md#XFUNC-OUTPUT-PARAMETERS-PROC)
+[36.5.5. 具有輸出參數的 SQL 程序](xfunc-sql.md#xfunc-output-parameters-proc)
 
-[36.5.6. 具有可變數量引數的 SQL 函式](xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)
+[36.5.6. 具有可變數量引數的 SQL 函式](xfunc-sql.md#xfunc-sql-variadic-functions)
 
-[36.5.7. 具有引數預設值的 SQL 函式](xfunc-sql.md#XFUNC-SQL-PARAMETER-DEFAULTS)
+[36.5.7. 具有引數預設值的 SQL 函式](xfunc-sql.md#xfunc-sql-parameter-defaults)
 
-[36.5.8. 作為資料表來源的 SQL 函式](xfunc-sql.md#XFUNC-SQL-TABLE-FUNCTIONS)
+[36.5.8. 作為資料表來源的 SQL 函式](xfunc-sql.md#xfunc-sql-table-functions)
 
-[36.5.9. 傳回集合的 SQL 函式](xfunc-sql.md#XFUNC-SQL-FUNCTIONS-RETURNING-SET)
+[36.5.9. 傳回集合的 SQL 函式](xfunc-sql.md#xfunc-sql-functions-returning-set)
 
-[36.5.10. 傳回 `TABLE` 的 SQL 函式](xfunc-sql.md#XFUNC-SQL-FUNCTIONS-RETURNING-TABLE)
+[36.5.10. 傳回 `TABLE` 的 SQL 函式](xfunc-sql.md#xfunc-sql-functions-returning-table)
 
-[36.5.11. 多型 SQL 函式](xfunc-sql.md#XFUNC-SQL-POLYMORPHIC-FUNCTIONS)
+[36.5.11. 多型 SQL 函式](xfunc-sql.md#xfunc-sql-polymorphic-functions)
 
-[36.5.12. 具有定序的 SQL 函式](xfunc-sql.md#XFUNC-SQL-COLLATIONS)
+[36.5.12. 具有定序的 SQL 函式](xfunc-sql.md#xfunc-sql-collations)
 
 <a id="id-1.8.3.8.2"></a>
 
@@ -113,7 +113,7 @@ CALL clean_emp();
 
 <a id="XFUNC-SQL-FUNCTION-ARGUMENTS"></a>
 
-### 36.5.1. SQL 函式的引數 [#](#XFUNC-SQL-FUNCTION-ARGUMENTS)
+### 36.5.1. SQL 函式的引數 [#](#xfunc-sql-function-arguments) <a href="#xfunc-sql-function-arguments" id="xfunc-sql-function-arguments"></a>
 
 <a id="id-1.8.3.8.9.2"></a>
 
@@ -165,7 +165,7 @@ SQL 函式引數的能力。要用於較舊伺服器的函式
 
 <a id="XFUNC-SQL-BASE-FUNCTIONS"></a>
 
-### 36.5.2. 基礎型別上的 SQL 函式 [#](#XFUNC-SQL-BASE-FUNCTIONS)
+### 36.5.2. 基礎型別上的 SQL 函式 [#](#xfunc-sql-base-functions) <a href="#xfunc-sql-base-functions" id="xfunc-sql-base-functions"></a>
 
 最簡單的 SQL 函式沒有任何引數，
 單純傳回一個基礎型別，例如 `integer`：
@@ -302,7 +302,7 @@ $$ LANGUAGE SQL;
 
 <a id="XFUNC-SQL-COMPOSITE-FUNCTIONS"></a>
 
-### 36.5.3. 複合型別上的 SQL 函式 [#](#XFUNC-SQL-COMPOSITE-FUNCTIONS)
+### 36.5.3. 複合型別上的 SQL 函式 [#](#xfunc-sql-composite-functions) <a href="#xfunc-sql-composite-functions" id="xfunc-sql-composite-functions"></a>
 
 在撰寫引數為複合型別的函式時，我們不僅必須指定
 要使用哪一個引數，還必須指定該引數所需要的屬性
@@ -445,7 +445,7 @@ SELECT * FROM new_emp();
  None | 1000.0 |  25 | (2,2)
 ```
 
-第二種方式在[36.5.8 節](xfunc-sql.md#XFUNC-SQL-TABLE-FUNCTIONS)中有更完整的說明。
+第二種方式在[36.5.8 節](xfunc-sql.md#xfunc-sql-table-functions)中有更完整的說明。
 
 當你使用一個傳回複合型別的函式時，
 你可能只想要其結果中的一個欄位（屬性）。
@@ -503,7 +503,7 @@ SELECT getname(new_emp());
 
 <a id="XFUNC-OUTPUT-PARAMETERS"></a>
 
-### 36.5.4. 具有輸出參數的 SQL 函式 [#](#XFUNC-OUTPUT-PARAMETERS)
+### 36.5.4. 具有輸出參數的 SQL 函式 [#](#xfunc-output-parameters) <a href="#xfunc-output-parameters" id="xfunc-output-parameters"></a>
 
 <a id="id-1.8.3.8.12.2"></a>
 
@@ -523,7 +523,7 @@ SELECT add_em(3,7);
 (1 row)
 ```
 
-這與[36.5.2 節](xfunc-sql.md#XFUNC-SQL-BASE-FUNCTIONS)中所示的
+這與[36.5.2 節](xfunc-sql.md#xfunc-sql-base-functions)中所示的
 `add_em` 版本，本質上並沒有什麼不同。輸出
 參數真正的價值，在於它們提供了一種方便的方式，
 可以定義傳回多個欄位的函式。舉例來說，
@@ -584,7 +584,7 @@ DROP FUNCTION sum_n_product (int, int);
 
 <a id="XFUNC-OUTPUT-PARAMETERS-PROC"></a>
 
-### 36.5.5. 具有輸出參數的 SQL 程序 [#](#XFUNC-OUTPUT-PARAMETERS-PROC)
+### 36.5.5. 具有輸出參數的 SQL 程序 [#](#xfunc-output-parameters-proc) <a href="#xfunc-output-parameters-proc" id="xfunc-output-parameters-proc"></a>
 
 <a id="id-1.8.3.8.13.2"></a>
 
@@ -619,11 +619,11 @@ CALL tp1(17, 100.0, NULL);
 
 從 PL/pgSQL 呼叫程序時，
 你必須寫一個用來接收此程序輸出的變數，而不是寫
-`NULL`。詳情請參閱[41.6.3 節](../plpgsql/plpgsql-control-structures.md#PLPGSQL-STATEMENTS-CALLING-PROCEDURE)。
+`NULL`。詳情請參閱[41.6.3 節](../plpgsql/plpgsql-control-structures.md#plpgsql-statements-calling-procedure)。
 
 <a id="XFUNC-SQL-VARIADIC-FUNCTIONS"></a>
 
-### 36.5.6. 具有可變數量引數的 SQL 函式 [#](#XFUNC-SQL-VARIADIC-FUNCTIONS)
+### 36.5.6. 具有可變數量引數的 SQL 函式 [#](#xfunc-sql-variadic-functions) <a href="#xfunc-sql-variadic-functions" id="xfunc-sql-variadic-functions"></a>
 
 <a id="id-1.8.3.8.14.2"></a><a id="id-1.8.3.8.14.3"></a>
 
@@ -712,7 +712,7 @@ SELECT mleast(arr => ARRAY[10, -1, 5, 4.4]);
 
 <a id="XFUNC-SQL-PARAMETER-DEFAULTS"></a>
 
-### 36.5.7. 具有引數預設值的 SQL 函式 [#](#XFUNC-SQL-PARAMETER-DEFAULTS)
+### 36.5.7. 具有引數預設值的 SQL 函式 [#](#xfunc-sql-parameter-defaults) <a href="#xfunc-sql-parameter-defaults" id="xfunc-sql-parameter-defaults"></a>
 
 <a id="id-1.8.3.8.15.2"></a>
 
@@ -766,7 +766,7 @@ ERROR:  function foo() does not exist
 
 <a id="XFUNC-SQL-TABLE-FUNCTIONS"></a>
 
-### 36.5.8. 作為資料表來源的 SQL 函式 [#](#XFUNC-SQL-TABLE-FUNCTIONS)
+### 36.5.8. 作為資料表來源的 SQL 函式 [#](#xfunc-sql-table-functions) <a href="#xfunc-sql-table-functions" id="xfunc-sql-table-functions"></a>
 
 所有的 SQL 函式都可以用在查詢的 `FROM` 子句中，
 但對於傳回複合型別的函式而言，這特別有用。
@@ -805,7 +805,7 @@ SELECT *, upper(fooname) FROM getfoo(1) AS t1;
 
 <a id="XFUNC-SQL-FUNCTIONS-RETURNING-SET"></a>
 
-### 36.5.9. 傳回集合的 SQL 函式 [#](#XFUNC-SQL-FUNCTIONS-RETURNING-SET)
+### 36.5.9. 傳回集合的 SQL 函式 [#](#xfunc-sql-functions-returning-set) <a href="#xfunc-sql-functions-returning-set" id="xfunc-sql-functions-returning-set"></a>
 
 <a id="id-1.8.3.8.17.2"></a>
 
@@ -1082,7 +1082,7 @@ PostgreSQL 中，行為都會相同。
 
 <a id="XFUNC-SQL-FUNCTIONS-RETURNING-TABLE"></a>
 
-### 36.5.10. 傳回 `TABLE` 的 SQL 函式 [#](#XFUNC-SQL-FUNCTIONS-RETURNING-TABLE)
+### 36.5.10. 傳回 `TABLE` 的 SQL 函式 [#](#xfunc-sql-functions-returning-table) <a href="#xfunc-sql-functions-returning-table" id="xfunc-sql-functions-returning-table"></a>
 
 <a id="id-1.8.3.8.18.2"></a>
 
@@ -1113,10 +1113,10 @@ $$ LANGUAGE SQL;
 
 <a id="XFUNC-SQL-POLYMORPHIC-FUNCTIONS"></a>
 
-### 36.5.11. 多型 SQL 函式 [#](#XFUNC-SQL-POLYMORPHIC-FUNCTIONS)
+### 36.5.11. 多型 SQL 函式 [#](#xfunc-sql-polymorphic-functions) <a href="#xfunc-sql-polymorphic-functions" id="xfunc-sql-polymorphic-functions"></a>
 
 SQL 函式可以被宣告為接受並
-傳回[36.2.5 節](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)中所述的多型（polymorphic）型別。以下是一個
+傳回[36.2.5 節](extend-type-system.md#extend-types-polymorphic)中所述的多型（polymorphic）型別。以下是一個
 名為 `make_array` 的多型函式，它會從
 兩個任意資料型別的元素建構出一個陣列：
 
@@ -1258,7 +1258,7 @@ SELECT concat_values('|', 1, 4, 2);
 
 <a id="XFUNC-SQL-COLLATIONS"></a>
 
-### 36.5.12. 具有定序的 SQL 函式 [#](#XFUNC-SQL-COLLATIONS)
+### 36.5.12. 具有定序的 SQL 函式 [#](#xfunc-sql-collations) <a href="#xfunc-sql-collations" id="xfunc-sql-collations"></a>
 
 <a id="id-1.8.3.8.20.2"></a>
 

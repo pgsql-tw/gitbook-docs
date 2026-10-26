@@ -1,13 +1,13 @@
 <a id="PLPERL-UNDER-THE-HOOD"></a>
 ## 43.8. PL/Perl 內部運作原理 [#](#plperl-under-the-hood) <a href="#plperl-under-the-hood" id="plperl-under-the-hood"></a>
 
-[43.8.1. 組態設定](plperl-under-the-hood.md#PLPERL-CONFIG)
+[43.8.1. 組態設定](plperl-under-the-hood.md#plperl-config)
 
-[43.8.2. 限制與缺少的功能](plperl-under-the-hood.md#PLPERL-MISSING)
+[43.8.2. 限制與缺少的功能](plperl-under-the-hood.md#plperl-missing)
 
 <a id="PLPERL-CONFIG"></a>
 
-### 43.8.1. 組態設定 [#](#PLPERL-CONFIG)
+### 43.8.1. 組態設定 [#](#plperl-config) <a href="#plperl-config" id="plperl-config"></a>
 
 本節列出會影響 PL/Perl 的組態參數。
 
@@ -67,7 +67,7 @@ PL/PerlU 函式時，或是因呼叫了另一種語言、或某個新的 SQL 角
 
 <a id="PLPERL-MISSING"></a>
 
-### 43.8.2. 限制與缺少的功能 [#](#PLPERL-MISSING)
+### 43.8.2. 限制與缺少的功能 [#](#plperl-missing) <a href="#plperl-missing" id="plperl-missing"></a>
 
 以下功能目前在 PL/Perl 中仍付之闕如，歡迎大家貢獻心力予以補上。
 

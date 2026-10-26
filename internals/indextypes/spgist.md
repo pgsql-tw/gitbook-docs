@@ -2,20 +2,20 @@
 
 ## 65.3. SP-GiST 索引 [#](#spgist) <a href="#spgist" id="spgist"></a>
 
-[65.3.1. 簡介](spgist.md#SPGIST-INTRO)
+[65.3.1. 簡介](spgist.md#spgist-intro)
 
-[65.3.2. 內建運算子類別](spgist.md#SPGIST-BUILTIN-OPCLASSES)
+[65.3.2. 內建運算子類別](spgist.md#spgist-builtin-opclasses)
 
-[65.3.3. 擴充性](spgist.md#SPGIST-EXTENSIBILITY)
+[65.3.3. 擴充性](spgist.md#spgist-extensibility)
 
-[65.3.4. 實作](spgist.md#SPGIST-IMPLEMENTATION)
+[65.3.4. 實作](spgist.md#spgist-implementation)
 
-[65.3.5. 範例](spgist.md#SPGIST-EXAMPLES)
+[65.3.5. 範例](spgist.md#spgist-examples)
 
 <a id="id-1.10.17.4.2"></a>
 <a id="SPGIST-INTRO"></a>
 
-### 65.3.1. 簡介 [#](#SPGIST-INTRO)
+### 65.3.1. 簡介 [#](#spgist-intro) <a href="#spgist-intro" id="spgist-intro"></a>
 
 SP-GiST 是 space-partitioned GiST（空間分割 GiST）的縮寫。SP-GiST 支援分割式搜尋樹，有助於開發各種不同的非平衡資料結構，例如四元樹（quad-tree）、k-d 樹與基數樹（radix tree，即 trie）。這些結構的共同特徵是會反覆將搜尋空間劃分成不必大小相等的分割區。與分割規則相當契合的搜尋可以非常快速。
 
@@ -27,7 +27,7 @@ SP-GiST 是 space-partitioned GiST（空間分割 GiST）的縮寫。SP-GiST 支
 
 <a id="SPGIST-BUILTIN-OPCLASSES"></a>
 
-### 65.3.2. 內建運算子類別 [#](#SPGIST-BUILTIN-OPCLASSES)
+### 65.3.2. 內建運算子類別 [#](#spgist-builtin-opclasses) <a href="#spgist-builtin-opclasses" id="spgist-builtin-opclasses"></a>
 
 PostgreSQL 核心發行版本包含[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 所列的 SP-GiST 運算子類別。
 
@@ -45,7 +45,7 @@ PostgreSQL 核心發行版本包含[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES
 
 <a id="SPGIST-EXTENSIBILITY"></a>
 
-### 65.3.3. 擴充性 [#](#SPGIST-EXTENSIBILITY)
+### 65.3.3. 擴充性 [#](#spgist-extensibility) <a href="#spgist-extensibility" id="spgist-extensibility"></a>
 
 SP-GiST 提供具有高度抽象性的介面，只要求存取方法的開發者實作特定資料型別專屬的方法。SP-GiST 核心負責有效率的磁碟對應以及樹狀結構的搜尋。它也會處理並行與日誌記錄方面的考量。
 
@@ -354,7 +354,7 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
 
 <a id="SPGIST-IMPLEMENTATION"></a>
 
-### 65.3.4. 實作 [#](#SPGIST-IMPLEMENTATION)
+### 65.3.4. 實作 [#](#spgist-implementation) <a href="#spgist-implementation" id="spgist-implementation"></a>
 
 本節說明實作細節，以及其他對 SP-GiST 運算子類別實作者而言值得了解的技巧。
 
@@ -390,7 +390,7 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
 
 <a id="SPGIST-EXAMPLES"></a>
 
-### 65.3.5. 範例 [#](#SPGIST-EXAMPLES)
+### 65.3.5. 範例 [#](#spgist-examples) <a href="#spgist-examples" id="spgist-examples"></a>
 
 PostgreSQL 原始碼發行版本包含數個 SP-GiST 索引運算子類別的範例，如[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 所述。程式碼請參閱 `src/backend/access/spgist/` 與 `src/backend/utils/adt/`。
 

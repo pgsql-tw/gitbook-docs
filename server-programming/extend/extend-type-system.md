@@ -1,15 +1,15 @@
 <a id="EXTEND-TYPE-SYSTEM"></a>
 ## 36.2. PostgreSQL 型別系統 [#](#extend-type-system) <a href="#extend-type-system" id="extend-type-system"></a>
 
-[36.2.1. 基礎型別](extend-type-system.md#EXTEND-TYPE-SYSTEM-BASE)
+[36.2.1. 基礎型別](extend-type-system.md#extend-type-system-base)
 
-[36.2.2. 容器型別](extend-type-system.md#EXTEND-TYPE-SYSTEM-CONTAINER)
+[36.2.2. 容器型別](extend-type-system.md#extend-type-system-container)
 
-[36.2.3. 網域](extend-type-system.md#EXTEND-TYPE-SYSTEM-DOMAINS)
+[36.2.3. 網域](extend-type-system.md#extend-type-system-domains)
 
-[36.2.4. 虛擬型別](extend-type-system.md#EXTEND-TYPE-SYSTEM-PSEUDO)
+[36.2.4. 虛擬型別](extend-type-system.md#extend-type-system-pseudo)
 
-[36.2.5. 多型型別](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC)
+[36.2.5. 多型型別](extend-type-system.md#extend-types-polymorphic)
 
 <a id="id-1.8.3.5.2"></a><a id="id-1.8.3.5.3"></a><a id="id-1.8.3.5.4"></a><a id="id-1.8.3.5.5"></a><a id="id-1.8.3.5.6"></a><a id="id-1.8.3.5.7"></a>
 
@@ -18,7 +18,7 @@ PostgreSQL 的資料型別可以分為基礎
 
 <a id="EXTEND-TYPE-SYSTEM-BASE"></a>
 
-### 36.2.1. 基礎型別 [#](#EXTEND-TYPE-SYSTEM-BASE)
+### 36.2.1. 基礎型別 [#](#extend-type-system-base) <a href="#extend-type-system-base" id="extend-type-system-base"></a>
 
 基礎型別是指像 `integer` 這樣，在
 SQL 語言層級之下實作的型別
@@ -33,7 +33,7 @@ PostgreSQL 只能透過使用者所提供的函式來操作這類
 
 <a id="EXTEND-TYPE-SYSTEM-CONTAINER"></a>
 
-### 36.2.2. 容器型別 [#](#EXTEND-TYPE-SYSTEM-CONTAINER)
+### 36.2.2. 容器型別 [#](#extend-type-system-container) <a href="#extend-type-system-container" id="extend-type-system-container"></a>
 
 PostgreSQL 有三種「容器」
 型別，也就是包含其他型別多個值的型別。這三種分別是陣列、複合型別與範圍型別。
@@ -53,7 +53,7 @@ PostgreSQL 有三種「容器」
 
 <a id="EXTEND-TYPE-SYSTEM-DOMAINS"></a>
 
-### 36.2.3. 網域 [#](#EXTEND-TYPE-SYSTEM-DOMAINS)
+### 36.2.3. 網域 [#](#extend-type-system-domains) <a href="#extend-type-system-domains" id="extend-type-system-domains"></a>
 
 網域是以某個特定的底層型別為基礎，並且在許多用途上，都可以與其底層型別
 互換使用。不過，網域可以帶有限制條件，將其有效值限縮為底層
@@ -63,7 +63,7 @@ SQL 命令 [CREATE DOMAIN](../../reference/sql-commands/sql-createdomain.md) 建
 
 <a id="EXTEND-TYPE-SYSTEM-PSEUDO"></a>
 
-### 36.2.4. 虛擬型別 [#](#EXTEND-TYPE-SYSTEM-PSEUDO)
+### 36.2.4. 虛擬型別 [#](#extend-type-system-pseudo) <a href="#extend-type-system-pseudo" id="extend-type-system-pseudo"></a>
 
 有少數幾種特殊用途的「虛擬型別」。
 虛擬型別不能作為資料表的欄位，或容器型別的組成部分，但可以用來宣告函式的
@@ -73,7 +73,7 @@ SQL 命令 [CREATE DOMAIN](../../reference/sql-commands/sql-createdomain.md) 建
 
 <a id="EXTEND-TYPES-POLYMORPHIC"></a>
 
-### 36.2.5. 多型型別 [#](#EXTEND-TYPES-POLYMORPHIC)
+### 36.2.5. 多型型別 [#](#extend-types-polymorphic) <a href="#extend-types-polymorphic" id="extend-types-polymorphic"></a>
 
 <a id="id-1.8.3.5.13.2"></a><a id="id-1.8.3.5.13.3"></a><a id="id-1.8.3.5.13.4"></a><a id="id-1.8.3.5.13.5"></a>
 
@@ -83,7 +83,7 @@ SQL 命令 [CREATE DOMAIN](../../reference/sql-commands/sql-createdomain.md) 建
 定義即可對許多不同的資料型別進行操作，實際的資料型別會由特定呼叫中
 實際傳入的資料型別所決定。多型型別列於
 [表 36.1](extend-type-system.md#EXTEND-TYPES-POLYMORPHIC-TABLE) 中。其用法範例
-出現在[36.5.11 節](xfunc-sql.md#XFUNC-SQL-POLYMORPHIC-FUNCTIONS)中。
+出現在[36.5.11 節](xfunc-sql.md#xfunc-sql-polymorphic-functions)中。
 
 <a id="EXTEND-TYPES-POLYMORPHIC-TABLE"></a>
 
@@ -226,7 +226,7 @@ RETURNS anycompatible AS ...
 型別有任何關聯。結果將採用後兩個輸入值的共通型別。
 
 可變引數函式（接受可變數量引數的函式，如
-[36.5.6 節](xfunc-sql.md#XFUNC-SQL-VARIADIC-FUNCTIONS)所述）也可以是
+[36.5.6 節](xfunc-sql.md#xfunc-sql-variadic-functions)所述）也可以是
 多型函式：做法是將其最後一個參數宣告為
 `VARIADIC` `anyarray` 或
 `VARIADIC` `anycompatiblearray`。

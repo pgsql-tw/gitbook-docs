@@ -527,7 +527,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-PIPELINE"></a>
 
 `\startpipeline`<br>`\syncpipeline`<br>`\endpipeline` [#](#PGBENCH-METACOMMAND-PIPELINE)
-:   這組命令實作 SQL 陳述式的管線化。管線必須以 `\startpipeline` 開始，並以 `\endpipeline` 結束。兩者之間可以有任意數量的 `\syncpipeline` 命令，它會送出一個[同步訊息](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)，而不結束進行中的管線，並把傳送緩衝區的內容送出（flush）。在管線模式中，陳述式會送到伺服器，而不等待先前陳述式的結果。詳細資訊請參閱[第 32.5 節](../../client-interfaces/libpq/libpq-pipeline-mode.md)。管線模式需要使用延伸查詢協定。
+:   這組命令實作 SQL 陳述式的管線化。管線必須以 `\startpipeline` 開始，並以 `\endpipeline` 結束。兩者之間可以有任意數量的 `\syncpipeline` 命令，它會送出一個[同步訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)，而不結束進行中的管線，並把傳送緩衝區的內容送出（flush）。在管線模式中，陳述式會送到伺服器，而不等待先前陳述式的結果。詳細資訊請參閱[第 32.5 節](../../client-interfaces/libpq/libpq-pipeline-mode.md)。管線模式需要使用延伸查詢協定。
 
 <a id="PGBENCH-BUILTIN-OPERATORS"></a>
 

@@ -9,7 +9,7 @@
 [43.2. PL/Perl 中的資料值](plperl-data.md)
 
 [43.3. 內建函式](plperl-builtins.md)
-:   [43.3.1. 從 PL/Perl 存取資料庫](plperl-builtins.md#PLPERL-DATABASE)
+:   [43.3.1. 從 PL/Perl 存取資料庫](plperl-builtins.md#plperl-database)
 
     [43.3.2. PL/Perl 中的公用函式](plperl-builtins.md#PLPERL-UTILITY-FUNCTIONS)
 
@@ -22,7 +22,7 @@
 [43.7. PL/Perl 事件觸發程序](plperl-event-triggers.md)
 
 [43.8. PL/Perl 的內部運作](plperl-under-the-hood.md)
-:   [43.8.1. 組態設定](plperl-under-the-hood.md#PLPERL-CONFIG)
+:   [43.8.1. 組態設定](plperl-under-the-hood.md#plperl-config)
 
     [43.8.2. 限制與缺少的功能](plperl-under-the-hood.md#PLPERL-MISSING)
 

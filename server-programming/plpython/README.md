@@ -7,7 +7,7 @@
 [44.1. PL/Python 函式](plpython-funcs.md)
 
 [44.2. 資料值](plpython-data.md)
-:   [44.2.1. 資料型別對應](plpython-data.md#PLPYTHON-DATA-TYPE-MAPPING)
+:   [44.2.1. 資料型別對應](plpython-data.md#plpython-data-type-mapping)
 
     [44.2.2. Null、None](plpython-data.md#PLPYTHON-DATA-NULL)
 
@@ -24,12 +24,12 @@
 [44.5. 觸發程序函式](plpython-trigger.md)
 
 [44.6. 存取資料庫](plpython-database.md)
-:   [44.6.1. 資料庫存取函式](plpython-database.md#PLPYTHON-DATABASE-ACCESS-FUNCS)
+:   [44.6.1. 資料庫存取函式](plpython-database.md#plpython-database-access-funcs)
 
     [44.6.2. 攔截錯誤](plpython-database.md#PLPYTHON-TRAPPING)
 
 [44.7. 明確子交易](plpython-subtransaction.md)
-:   [44.7.1. 子交易情境管理器](plpython-subtransaction.md#PLPYTHON-SUBTRANSACTION-CONTEXT-MANAGERS)
+:   [44.7.1. 子交易情境管理器](plpython-subtransaction.md#plpython-subtransaction-context-managers)
 
 [44.8. 交易管理](plpython-transactions.md)
 

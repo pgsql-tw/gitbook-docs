@@ -2,29 +2,29 @@
 
 ## 41.6. 控制結構 [#](#plpgsql-control-structures) <a href="#plpgsql-control-structures" id="plpgsql-control-structures"></a>
 
-[41.6.1. 從函式回傳](plpgsql-control-structures.md#PLPGSQL-STATEMENTS-RETURNING)
+[41.6.1. 從函式回傳](plpgsql-control-structures.md#plpgsql-statements-returning)
 
-[41.6.2. 從程序回傳](plpgsql-control-structures.md#PLPGSQL-STATEMENTS-RETURNING-PROCEDURE)
+[41.6.2. 從程序回傳](plpgsql-control-structures.md#plpgsql-statements-returning-procedure)
 
-[41.6.3. 呼叫程序](plpgsql-control-structures.md#PLPGSQL-STATEMENTS-CALLING-PROCEDURE)
+[41.6.3. 呼叫程序](plpgsql-control-structures.md#plpgsql-statements-calling-procedure)
 
-[41.6.4. 條件式](plpgsql-control-structures.md#PLPGSQL-CONDITIONALS)
+[41.6.4. 條件式](plpgsql-control-structures.md#plpgsql-conditionals)
 
-[41.6.5. 簡單迴圈](plpgsql-control-structures.md#PLPGSQL-CONTROL-STRUCTURES-LOOPS)
+[41.6.5. 簡單迴圈](plpgsql-control-structures.md#plpgsql-control-structures-loops)
 
-[41.6.6. 走訪查詢結果](plpgsql-control-structures.md#PLPGSQL-RECORDS-ITERATING)
+[41.6.6. 走訪查詢結果](plpgsql-control-structures.md#plpgsql-records-iterating)
 
-[41.6.7. 走訪陣列](plpgsql-control-structures.md#PLPGSQL-FOREACH-ARRAY)
+[41.6.7. 走訪陣列](plpgsql-control-structures.md#plpgsql-foreach-array)
 
-[41.6.8. 捕捉錯誤](plpgsql-control-structures.md#PLPGSQL-ERROR-TRAPPING)
+[41.6.8. 捕捉錯誤](plpgsql-control-structures.md#plpgsql-error-trapping)
 
-[41.6.9. 取得執行位置資訊](plpgsql-control-structures.md#PLPGSQL-CALL-STACK)
+[41.6.9. 取得執行位置資訊](plpgsql-control-structures.md#plpgsql-call-stack)
 
 控制結構大概是 PL/pgSQL 之中最有用（也最重要）的部分。有了 PL/pgSQL 的控制結構，你就能以非常靈活而強大的方式操作 PostgreSQL 的資料。
 
 <a id="PLPGSQL-STATEMENTS-RETURNING"></a>
 
-### 41.6.1. 從函式回傳 [#](#PLPGSQL-STATEMENTS-RETURNING)
+### 41.6.1. 從函式回傳 [#](#plpgsql-statements-returning) <a href="#plpgsql-statements-returning" id="plpgsql-statements-returning"></a>
 
 有兩個指令可以讓你從函式回傳資料：`RETURN` 與 `RETURN
 NEXT`。
@@ -149,7 +149,7 @@ SELECT * FROM get_available_flightid(CURRENT_DATE);
 
 <a id="PLPGSQL-STATEMENTS-RETURNING-PROCEDURE"></a>
 
-### 41.6.2. 從程序回傳 [#](#PLPGSQL-STATEMENTS-RETURNING-PROCEDURE)
+### 41.6.2. 從程序回傳 [#](#plpgsql-statements-returning-procedure) <a href="#plpgsql-statements-returning-procedure" id="plpgsql-statements-returning-procedure"></a>
 
 程序沒有回傳值。因此程序可以在沒有 `RETURN` 陳述式的情況下結束。如果你希望用 `RETURN` 陳述式提早離開程式碼，就只要寫 `RETURN` 而不加運算式。
 
@@ -157,7 +157,7 @@ SELECT * FROM get_available_flightid(CURRENT_DATE);
 
 <a id="PLPGSQL-STATEMENTS-CALLING-PROCEDURE"></a>
 
-### 41.6.3. 呼叫程序 [#](#PLPGSQL-STATEMENTS-CALLING-PROCEDURE)
+### 41.6.3. 呼叫程序 [#](#plpgsql-statements-calling-procedure) <a href="#plpgsql-statements-calling-procedure" id="plpgsql-statements-calling-procedure"></a>
 
 PL/pgSQL 的函式、程序或 `DO` 區塊可以使用 `CALL` 呼叫程序。輸出參數的處理方式與 `CALL` 在純 SQL 中的運作方式不同。程序的每一個 `OUT` 或 `INOUT` 參數都必須對應到 `CALL` 陳述式中的一個變數，程序回傳之後，它所回傳的內容便會被指派回該變數。例如：
 
@@ -184,7 +184,7 @@ $$;
 
 <a id="PLPGSQL-CONDITIONALS"></a>
 
-### 41.6.4. 條件式 [#](#PLPGSQL-CONDITIONALS)
+### 41.6.4. 條件式 [#](#plpgsql-conditionals) <a href="#plpgsql-conditionals" id="plpgsql-conditionals"></a>
 
 `IF` 與 `CASE` 陳述式讓你可以依據特定條件執行不同的指令。PL/pgSQL 有三種形式的 `IF`：
 
@@ -377,7 +377,7 @@ END CASE;
 
 <a id="PLPGSQL-CONTROL-STRUCTURES-LOOPS"></a>
 
-### 41.6.5. 簡單迴圈 [#](#PLPGSQL-CONTROL-STRUCTURES-LOOPS)
+### 41.6.5. 簡單迴圈 [#](#plpgsql-control-structures-loops) <a href="#plpgsql-control-structures-loops" id="plpgsql-control-structures-loops"></a>
 
 <a id="id-1.8.8.8.7.2"></a>
 
@@ -538,7 +538,7 @@ END LOOP;
 
 <a id="PLPGSQL-RECORDS-ITERATING"></a>
 
-### 41.6.6. 走訪查詢結果 [#](#PLPGSQL-RECORDS-ITERATING)
+### 41.6.6. 走訪查詢結果 [#](#plpgsql-records-iterating) <a href="#plpgsql-records-iterating" id="plpgsql-records-iterating"></a>
 
 使用另一種類型的 `FOR` 迴圈，你可以走訪某個查詢的結果，並據以操作那些資料。語法是：
 
@@ -589,7 +589,7 @@ $$ LANGUAGE plpgsql;
 
 這類 `FOR` 陳述式所使用的 *`query`* 可以是任何會回傳資料列給呼叫端的 SQL 指令：最常見的情況是 `SELECT`，但你也可以使用帶有 `RETURNING` 子句的 `INSERT`、`UPDATE`、`DELETE` 或 `MERGE`。某些工具指令，例如 `EXPLAIN`，也同樣可行。
 
-PL/pgSQL 變數會被替換成查詢參數，而查詢計畫會被快取以便可能的重複使用，詳見 [第 41.11.1 節](plpgsql-implementation.md#PLPGSQL-VAR-SUBST) 與 [第 41.11.2 節](plpgsql-implementation.md#PLPGSQL-PLAN-CACHING)。
+PL/pgSQL 變數會被替換成查詢參數，而查詢計畫會被快取以便可能的重複使用，詳見 [第 41.11.1 節](plpgsql-implementation.md#plpgsql-var-subst) 與 [第 41.11.2 節](plpgsql-implementation.md#plpgsql-plan-caching)。
 
 `FOR-IN-EXECUTE` 陳述式是走訪資料列的另一種方式：
 
@@ -603,11 +603,11 @@ END LOOP [ label ];
 
 這與前面的形式類似，差別在於來源查詢是以字串運算式來指定，而該運算式會在每次進入 `FOR` 迴圈時被求值並重新規劃。這讓程式設計者可以選擇預先規劃之查詢的速度，或是動態查詢的彈性，就和一般的 `EXECUTE` 陳述式一樣。與 `EXECUTE` 相同，參數值可以透過 `USING` 插入到動態指令中。
 
-要指定其結果應被走訪的查詢，還有另一種方式，就是把它宣告為一個游標。這在 [第 41.7.4 節](plpgsql-cursors.md#PLPGSQL-CURSOR-FOR-LOOP) 中說明。
+要指定其結果應被走訪的查詢，還有另一種方式，就是把它宣告為一個游標。這在 [第 41.7.4 節](plpgsql-cursors.md#plpgsql-cursor-for-loop) 中說明。
 
 <a id="PLPGSQL-FOREACH-ARRAY"></a>
 
-### 41.6.7. 走訪陣列 [#](#PLPGSQL-FOREACH-ARRAY)
+### 41.6.7. 走訪陣列 [#](#plpgsql-foreach-array) <a href="#plpgsql-foreach-array" id="plpgsql-foreach-array"></a>
 
 `FOREACH` 迴圈與 `FOR` 迴圈非常相似，但是它走訪的不是 SQL 查詢所回傳的資料列，而是某個陣列值的元素。（一般而言，`FOREACH` 的用意是走訪複合值運算式的各個組成部分；未來可能會加入走訪陣列以外之複合值的變化形式。）用來走訪陣列的 `FOREACH` 陳述式是：
 
@@ -664,7 +664,7 @@ NOTICE:  row = {10,11,12}
 
 <a id="PLPGSQL-ERROR-TRAPPING"></a>
 
-### 41.6.8. 捕捉錯誤 [#](#PLPGSQL-ERROR-TRAPPING)
+### 41.6.8. 捕捉錯誤 [#](#plpgsql-error-trapping) <a href="#plpgsql-error-trapping" id="plpgsql-error-trapping"></a>
 
 <a id="id-1.8.8.8.10.2"></a>
 
@@ -780,7 +780,7 @@ GET STACKED DIAGNOSTICS variable { = | := } item [ , ... ];
 
 **表 41.2. 錯誤診斷資訊項目**
 
-<table border="1" class="table" summary="錯誤診斷資訊項目"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">RETURNED_SQLSTATE</code></td><td><code class="type">text</code></td><td>該例外的 SQLSTATE 錯誤碼</td></tr><tr><td><code class="literal">COLUMN_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之欄位的名稱</td></tr><tr><td><code class="literal">CONSTRAINT_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之限制條件的名稱</td></tr><tr><td><code class="literal">PG_DATATYPE_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之資料型別的名稱</td></tr><tr><td><code class="literal">MESSAGE_TEXT</code></td><td><code class="type">text</code></td><td>該例外主要訊息的文字內容</td></tr><tr><td><code class="literal">TABLE_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之資料表的名稱</td></tr><tr><td><code class="literal">SCHEMA_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之綱要的名稱</td></tr><tr><td><code class="literal">PG_EXCEPTION_DETAIL</code></td><td><code class="type">text</code></td><td>該例外詳細訊息的文字內容（若有的話）</td></tr><tr><td><code class="literal">PG_EXCEPTION_HINT</code></td><td><code class="type">text</code></td><td>該例外提示訊息的文字內容（若有的話）</td></tr><tr><td><code class="literal">PG_EXCEPTION_CONTEXT</code></td><td><code class="type">text</code></td><td>描述例外發生當時之呼叫堆疊的文字行（見 <a class="xref" href="plpgsql-control-structures.md#PLPGSQL-CALL-STACK">第 41.6.9 節</a>）</td></tr></tbody></table>
+<table border="1" class="table" summary="錯誤診斷資訊項目"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">RETURNED_SQLSTATE</code></td><td><code class="type">text</code></td><td>該例外的 SQLSTATE 錯誤碼</td></tr><tr><td><code class="literal">COLUMN_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之欄位的名稱</td></tr><tr><td><code class="literal">CONSTRAINT_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之限制條件的名稱</td></tr><tr><td><code class="literal">PG_DATATYPE_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之資料型別的名稱</td></tr><tr><td><code class="literal">MESSAGE_TEXT</code></td><td><code class="type">text</code></td><td>該例外主要訊息的文字內容</td></tr><tr><td><code class="literal">TABLE_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之資料表的名稱</td></tr><tr><td><code class="literal">SCHEMA_NAME</code></td><td><code class="type">text</code></td><td>與例外相關之綱要的名稱</td></tr><tr><td><code class="literal">PG_EXCEPTION_DETAIL</code></td><td><code class="type">text</code></td><td>該例外詳細訊息的文字內容（若有的話）</td></tr><tr><td><code class="literal">PG_EXCEPTION_HINT</code></td><td><code class="type">text</code></td><td>該例外提示訊息的文字內容（若有的話）</td></tr><tr><td><code class="literal">PG_EXCEPTION_CONTEXT</code></td><td><code class="type">text</code></td><td>描述例外發生當時之呼叫堆疊的文字行（見 <a class="xref" href="plpgsql-control-structures.md#plpgsql-call-stack">第 41.6.9 節</a>）</td></tr></tbody></table>
 
 <br>
 
@@ -806,9 +806,9 @@ END;
 
 <a id="PLPGSQL-CALL-STACK"></a>
 
-### 41.6.9. 取得執行位置資訊 [#](#PLPGSQL-CALL-STACK)
+### 41.6.9. 取得執行位置資訊 [#](#plpgsql-call-stack) <a href="#plpgsql-call-stack" id="plpgsql-call-stack"></a>
 
-先前在 [第 41.5.5 節](plpgsql-statements.md#PLPGSQL-STATEMENTS-DIAGNOSTICS) 中所述的 `GET DIAGNOSTICS` 指令，會取得目前執行狀態的相關資訊（而上面討論的 `GET STACKED
+先前在 [第 41.5.5 節](plpgsql-statements.md#plpgsql-statements-diagnostics) 中所述的 `GET DIAGNOSTICS` 指令，會取得目前執行狀態的相關資訊（而上面討論的 `GET STACKED
 DIAGNOSTICS` 指令則是回報先前某個錯誤發生當時之執行狀態的資訊）。它的 `PG_CONTEXT` 狀態項目對於辨識目前的執行位置很有用。`PG_CONTEXT` 會回傳一個文字字串，其中含有描述呼叫堆疊的文字行。第一行指的是目前的函式以及目前正在執行的 `GET DIAGNOSTICS` 指令。第二行以及後續各行指的則是呼叫堆疊中更上層的呼叫端函式。例如：
 
 ```

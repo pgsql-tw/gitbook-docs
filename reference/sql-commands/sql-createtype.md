@@ -118,7 +118,7 @@ CREATE TYPE name
 
 *`storage`* 參數可為變動長度資料型別選擇儲存策略。（固定長度型別只允許 `plain`。）`plain` 指定該型別的資料一律以內嵌（in-line）方式儲存，且不壓縮。`extended` 指定系統會先嘗試壓縮過長的資料值，若壓縮後仍然太長，則將該值移出主資料表的資料列。`external` 允許將值移出主資料表，但系統不會嘗試壓縮它。`main` 允許壓縮，但不鼓勵將值移出主資料表。（若沒有其他方法能讓資料列容納得下，採用此儲存策略的資料項目仍可能被移出主資料表，但相較於 `extended` 與 `external` 項目，它們會優先保留在主資料表中。）
 
-除了 `plain` 之外的所有 *`storage`* 值，都意味著該資料型別的函式能夠處理經過 *TOAST 處理*（toasted）的值，如[第 66.2 節](../../internals/storage/storage-toast.md)與[第 36.13.1 節](../../server-programming/extend/xtypes.md#XTYPES-TOAST)所述。所給定的特定其他值，只決定可 TOAST 資料型別之欄位的預設 TOAST 儲存策略；使用者可以使用 `ALTER TABLE SET STORAGE` 為個別欄位選擇其他策略。
+除了 `plain` 之外的所有 *`storage`* 值，都意味著該資料型別的函式能夠處理經過 *TOAST 處理*（toasted）的值，如[第 66.2 節](../../internals/storage/storage-toast.md)與[第 36.13.1 節](../../server-programming/extend/xtypes.md#xtypes-toast)所述。所給定的特定其他值，只決定可 TOAST 資料型別之欄位的預設 TOAST 儲存策略；使用者可以使用 `ALTER TABLE SET STORAGE` 為個別欄位選擇其他策略。
 
 *`like_type`* 參數提供另一種指定資料型別基本表示屬性的方法：從某個現有型別複製這些屬性。*`internallength`*、*`passedbyvalue`*、*`alignment`* 與 *`storage`* 的值會從所指名的型別複製而來。（可以藉由在 `LIKE` 子句之外同時指定其中某些值來覆寫它們，但這通常並不理想。）當新型別的低階實作以某種方式「搭便車」建立在現有型別之上時，以這種方式指定表示形式特別有用。
 

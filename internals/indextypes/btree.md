@@ -2,19 +2,19 @@
 
 ## 65.1. B-Tree 索引 [#](#btree) <a href="#btree" id="btree"></a>
 
-[65.1.1. 簡介](btree.md#BTREE-INTRO)
+[65.1.1. 簡介](btree.md#btree-intro)
 
-[65.1.2. B-Tree 運算子類別的行為](btree.md#BTREE-BEHAVIOR)
+[65.1.2. B-Tree 運算子類別的行為](btree.md#btree-behavior)
 
-[65.1.3. B-Tree 支援函式](btree.md#BTREE-SUPPORT-FUNCS)
+[65.1.3. B-Tree 支援函式](btree.md#btree-support-funcs)
 
-[65.1.4. 實作](btree.md#BTREE-IMPLEMENTATION)
+[65.1.4. 實作](btree.md#btree-implementation)
 
 <a id="id-1.10.17.2.2"></a>
 
 <a id="BTREE-INTRO"></a>
 
-### 65.1.1. 簡介 [#](#BTREE-INTRO)
+### 65.1.1. 簡介 [#](#btree-intro) <a href="#btree-intro" id="btree-intro"></a>
 
 PostgreSQL 包含標準
 btree（多路平衡樹）索引資料結構的
@@ -33,7 +33,7 @@ btree 存取方法（AM）相距甚遠的部分也會使用它們。
 
 <a id="BTREE-BEHAVIOR"></a>
 
-### 65.1.2. B-Tree 運算子類別的行為 [#](#BTREE-BEHAVIOR)
+### 65.1.2. B-Tree 運算子類別的行為 [#](#btree-behavior) <a href="#btree-behavior" id="btree-behavior"></a>
 
 如[表 36.3](../../server-programming/extend/xindex.md#XINDEX-BTREE-STRAT-TABLE) 所示，btree 運算子
 類別必須提供五個比較運算子：
@@ -141,7 +141,7 @@ btree 索引機制本身並未嚴格要求，但
 
 <a id="BTREE-SUPPORT-FUNCS"></a>
 
-### 65.1.3. B-Tree 支援函式 [#](#BTREE-SUPPORT-FUNCS)
+### 65.1.3. B-Tree 支援函式 [#](#btree-support-funcs) <a href="#btree-support-funcs" id="btree-support-funcs"></a>
 
 如[表 36.9](../../server-programming/extend/xindex.md#XINDEX-BTREE-SUPPORT-TABLE) 所示，btree 定義了
 一個必要的支援函式與五個選用的支援函式。這六個
@@ -470,7 +470,7 @@ API 定義在 `src/include/utils/skipsupport.h` 中。
 
 <a id="BTREE-IMPLEMENTATION"></a>
 
-### 65.1.4. 實作 [#](#BTREE-IMPLEMENTATION)
+### 65.1.4. 實作 [#](#btree-implementation) <a href="#btree-implementation" id="btree-implementation"></a>
 
 本節涵蓋 B-Tree 索引的實作細節，這些細節可能
 對進階使用者有用。關於 B-Tree 實作更詳細、

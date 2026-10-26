@@ -2,13 +2,13 @@
 
 ## 41.7. 游標 [#](#plpgsql-cursors) <a href="#plpgsql-cursors" id="plpgsql-cursors"></a>
 
-[41.7.1. 宣告游標變數](plpgsql-cursors.md#PLPGSQL-CURSOR-DECLARATIONS)
+[41.7.1. 宣告游標變數](plpgsql-cursors.md#plpgsql-cursor-declarations)
 
-[41.7.2. 開啟游標](plpgsql-cursors.md#PLPGSQL-CURSOR-OPENING)
+[41.7.2. 開啟游標](plpgsql-cursors.md#plpgsql-cursor-opening)
 
-[41.7.3. 使用游標](plpgsql-cursors.md#PLPGSQL-CURSOR-USING)
+[41.7.3. 使用游標](plpgsql-cursors.md#plpgsql-cursor-using)
 
-[41.7.4. 走訪游標的結果](plpgsql-cursors.md#PLPGSQL-CURSOR-FOR-LOOP)
+[41.7.4. 走訪游標的結果](plpgsql-cursors.md#plpgsql-cursor-for-loop)
 
 <a id="id-1.8.8.9.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="PLPGSQL-CURSOR-DECLARATIONS"></a>
 
-### 41.7.1. 宣告游標變數 [#](#PLPGSQL-CURSOR-DECLARATIONS)
+### 41.7.1. 宣告游標變數 [#](#plpgsql-cursor-declarations) <a href="#plpgsql-cursor-declarations" id="plpgsql-cursor-declarations"></a>
 
 在 PL/pgSQL 中，對游標的所有存取都是透過游標變數進行的，而這種變數的型別一律是特別的資料型別 `refcursor`。建立游標變數的方式之一，就是直接把它宣告為 `refcursor` 型別的變數。另一種方式是使用游標宣告語法，其一般形式為：
 
@@ -44,14 +44,14 @@ DECLARE
 
 <a id="PLPGSQL-CURSOR-OPENING"></a>
 
-### 41.7.2. 開啟游標 [#](#PLPGSQL-CURSOR-OPENING)
+### 41.7.2. 開啟游標 [#](#plpgsql-cursor-opening) <a href="#plpgsql-cursor-opening" id="plpgsql-cursor-opening"></a>
 
 在游標能用來取得資料列之前，必須先*開啟*它。（這相當於 SQL 指令 [`DECLARE
 CURSOR`](../../reference/sql-commands/sql-declare.md) 的動作。）PL/pgSQL 有三種形式的 `OPEN` 陳述式，其中兩種使用未繫結的游標變數，第三種則使用已繫結的游標變數。
 
 ### 注意
 
-已繫結的游標變數也可以不用明確開啟游標就直接使用，也就是透過[第 41.7.4 節](plpgsql-cursors.md#PLPGSQL-CURSOR-FOR-LOOP)所述的 `FOR` 陳述式。`FOR` 迴圈會開啟游標，並在迴圈結束時再次將其關閉。
+已繫結的游標變數也可以不用明確開啟游標就直接使用，也就是透過[第 41.7.4 節](plpgsql-cursors.md#plpgsql-cursor-for-loop)所述的 `FOR` 陳述式。`FOR` 迴圈會開啟游標，並在迴圈結束時再次將其關閉。
 
 <a id="id-1.8.8.9.5.4"></a>
 
@@ -85,7 +85,7 @@ OPEN unbound_cursorvar [ [ NO ] SCROLL ] FOR EXECUTE query_string
                                      [ USING expression [, ... ] ];
 ```
 
-這個游標變數會被開啟，並被賦予所指定的查詢來執行。該游標不能已經處於開啟狀態，而且它必須被宣告為未繫結的游標變數（也就是單純的 `refcursor` 變數）。查詢是以字串運算式的形式指定，方式與 `EXECUTE` 指令中相同。一如往常，這提供了彈性，使得查詢的執行計畫可以每次執行都不一樣（請參閱[第 41.11.2 節](plpgsql-implementation.md#PLPGSQL-PLAN-CACHING)），同時也意味著不會對指令字串進行變數替換。與 `EXECUTE` 一樣，參數值可以透過 `format()` 與 `USING` 插入到動態指令中。`SCROLL` 與 `NO SCROLL` 選項的意義與已繫結游標的情況相同。
+這個游標變數會被開啟，並被賦予所指定的查詢來執行。該游標不能已經處於開啟狀態，而且它必須被宣告為未繫結的游標變數（也就是單純的 `refcursor` 變數）。查詢是以字串運算式的形式指定，方式與 `EXECUTE` 指令中相同。一如往常，這提供了彈性，使得查詢的執行計畫可以每次執行都不一樣（請參閱[第 41.11.2 節](plpgsql-implementation.md#plpgsql-plan-caching)），同時也意味著不會對指令字串進行變數替換。與 `EXECUTE` 一樣，參數值可以透過 `format()` 與 `USING` 插入到動態指令中。`SCROLL` 與 `NO SCROLL` 選項的意義與已繫結游標的情況相同。
 
 一個例子：
 
@@ -135,7 +135,7 @@ BEGIN
 
 <a id="PLPGSQL-CURSOR-USING"></a>
 
-### 41.7.3. 使用游標 [#](#PLPGSQL-CURSOR-USING)
+### 41.7.3. 使用游標 [#](#plpgsql-cursor-using) <a href="#plpgsql-cursor-using" id="plpgsql-cursor-using"></a>
 
 游標一旦開啟之後，就可以用這裡所描述的陳述式來操作它。
 
@@ -311,7 +311,7 @@ COMMIT;
 
 <a id="PLPGSQL-CURSOR-FOR-LOOP"></a>
 
-### 41.7.4. 走訪游標的結果 [#](#PLPGSQL-CURSOR-FOR-LOOP)
+### 41.7.4. 走訪游標的結果 [#](#plpgsql-cursor-for-loop) <a href="#plpgsql-cursor-for-loop" id="plpgsql-cursor-for-loop"></a>
 
 `FOR` 陳述式有一種變化形式，可以走訪某個游標所回傳的資料列。其語法為：
 

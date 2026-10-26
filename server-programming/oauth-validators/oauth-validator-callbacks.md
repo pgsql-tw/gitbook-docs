@@ -1,17 +1,17 @@
 <a id="OAUTH-VALIDATOR-CALLBACKS"></a>
 ## 50.3. OAuth 驗證器回呼函式 [#](#oauth-validator-callbacks) <a href="#oauth-validator-callbacks" id="oauth-validator-callbacks"></a>
 
-[50.3.1. 啟動回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-STARTUP)
+[50.3.1. 啟動回呼](oauth-validator-callbacks.md#oauth-validator-callback-startup)
 
-[50.3.2. 驗證回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
+[50.3.2. 驗證回呼](oauth-validator-callbacks.md#oauth-validator-callback-validate)
 
-[50.3.3. 關閉回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
+[50.3.3. 關閉回呼](oauth-validator-callbacks.md#oauth-validator-callback-shutdown)
 
 OAuth 驗證器模組透過定義一組回呼函式來實作其功能。伺服器會依需要呼叫這些回呼函式，以處理來自使用者的驗證請求。
 
 <a id="OAUTH-VALIDATOR-CALLBACK-STARTUP"></a>
 
-### 50.3.1. 啟動回呼 [#](#OAUTH-VALIDATOR-CALLBACK-STARTUP)
+### 50.3.1. 啟動回呼 [#](#oauth-validator-callback-startup) <a href="#oauth-validator-callback-startup" id="oauth-validator-callback-startup"></a>
 
 `startup_cb` 回呼函式會在載入模組後立即執行。此回呼函式可用來設定本地狀態，並視需要執行額外的初始化。若驗證器模組有狀態需要保存，可使用 `state->private_data` 來儲存。
 
@@ -22,7 +22,7 @@ typedef void (*ValidatorStartupCB) (ValidatorModuleState *state);
 
 <a id="OAUTH-VALIDATOR-CALLBACK-VALIDATE"></a>
 
-### 50.3.2. 驗證回呼 [#](#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
+### 50.3.2. 驗證回呼 [#](#oauth-validator-callback-validate) <a href="#oauth-validator-callback-validate" id="oauth-validator-callback-validate"></a>
 
 `validate_cb` 回呼函式會在使用者嘗試以 OAuth 進行驗證時，於 OAuth 交換過程中執行。先前呼叫中設定的任何狀態，都可以在 `state->private_data` 中取得。
 
@@ -52,7 +52,7 @@ typedef struct ValidatorModuleResult
 
 <a id="OAUTH-VALIDATOR-CALLBACK-SHUTDOWN"></a>
 
-### 50.3.3. 關閉回呼 [#](#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
+### 50.3.3. 關閉回呼 [#](#oauth-validator-callback-shutdown) <a href="#oauth-validator-callback-shutdown" id="oauth-validator-callback-shutdown"></a>
 
 `shutdown_cb` 回呼函式會在伺服器後端完成該連線的權杖驗證後執行。若驗證器模組配置了任何狀態，此回呼函式應將其釋放，以避免資源洩漏。
 

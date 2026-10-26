@@ -2,9 +2,9 @@
 
 ## 61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO） [#](#geqo-pg-intro) <a href="#geqo-pg-intro" id="geqo-pg-intro"></a>
 
-[61.3.1. 以 GEQO 產生可能的計畫](geqo-pg-intro.md#GEQO-PG-INTRO-GEN-POSSIBLE-PLANS)
+[61.3.1. 以 GEQO 產生可能的計畫](geqo-pg-intro.md#geqo-pg-intro-gen-possible-plans)
 
-[61.3.2. PostgreSQL GEQO 未來的實作工作](geqo-pg-intro.md#GEQO-FUTURE)
+[61.3.2. PostgreSQL GEQO 未來的實作工作](geqo-pg-intro.md#geqo-future)
 
 GEQO 模組把查詢最佳化問題當作知名的旅行推銷員問題（TSP）來處理。
 可能的查詢計畫被編碼為整數字串。每個字串
@@ -48,7 +48,7 @@ PostgreSQL 查詢最佳化器能夠
 
 <a id="GEQO-PG-INTRO-GEN-POSSIBLE-PLANS"></a>
 
-### 61.3.1. 以 GEQO 產生可能的計畫 [#](#GEQO-PG-INTRO-GEN-POSSIBLE-PLANS)
+### 61.3.1. 以 GEQO 產生可能的計畫 [#](#geqo-pg-intro-gen-possible-plans) <a href="#geqo-pg-intro-gen-possible-plans" id="geqo-pg-intro-gen-possible-plans"></a>
 
 GEQO 規劃過程使用標準的規劃器
 程式碼來產生個別關聯的掃描計畫。接著再以遺傳方法
@@ -80,7 +80,7 @@ GEQO 參數保持固定，對於給定的查詢
 
 <a id="GEQO-FUTURE"></a>
 
-### 61.3.2. PostgreSQL GEQO 未來的實作工作 [#](#GEQO-FUTURE)
+### 61.3.2. PostgreSQL GEQO 未來的實作工作 [#](#geqo-future) <a href="#geqo-future" id="geqo-future"></a>
 
 遺傳演算法的參數設定仍有待改進。
 在檔案 `src/backend/optimizer/geqo/geqo_main.c` 的
