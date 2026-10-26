@@ -142,7 +142,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   可以使用伺服器變數 [enable_self_join_elimination](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-SELF-JOIN-ELIMINATION) 停用此最佳化。
 * 將某些 [`IN (VALUES
-  ...)`](../../the-sql-language/functions/functions-comparisons.md#FUNCTIONS-COMPARISONS-IN-SCALAR) 轉換為 `x = ANY ...`，以取得更好的最佳化器統計資訊 (Alena Rybakina, Andrei Lepikhov)
+  ...)`](../../the-sql-language/functions/functions-comparisons.md#functions-comparisons-in-scalar) 轉換為 `x = ANY ...`，以取得更好的最佳化器統計資訊 (Alena Rybakina, Andrei Lepikhov)
   [§](https://postgr.es/c/c0962a113)
 * 允許將 [`OR`](../../the-sql-language/functions/functions-logical.md) 子句轉換為陣列，以加快索引處理 (Alexander Korotkov, Andrey
   Lepikhov)
@@ -168,7 +168,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   若 `GROUP BY` 子句包含某個唯一值索引的所有欄位，以及同一資料表的其他欄位，那些其他欄位就是多餘的，可以從分組中捨去。
   對於非延遲的主鍵，原本就已如此。
 * 允許將 [`GROUPING
-  SETS`](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-GROUPING-SETS) 上的某些 [`HAVING`](../../reference/sql-commands/sql-select.md#SQL-HAVING) 子句下推為 [`WHERE`](../../reference/sql-commands/sql-select.md#SQL-WHERE) 子句
+  SETS`](../../the-sql-language/queries/queries-table-expressions.md#queries-grouping-sets) 上的某些 [`HAVING`](../../reference/sql-commands/sql-select.md#SQL-HAVING) 子句下推為 [`WHERE`](../../reference/sql-commands/sql-select.md#SQL-WHERE) 子句
   (Richard Guo)
   [§](https://postgr.es/c/67a54b9e8)
   [§](https://postgr.es/c/247dea89f)
@@ -548,7 +548,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   語法為 [`CREATE
   FOREIGN TABLE ... LIKE`](../../reference/sql-commands/sql-createforeigntable.md)。
-* 允許在[非確定性定序](../../server-administration/charset/collation.md#COLLATION-NONDETERMINISTIC)下使用 [`LIKE`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-LIKE) (Peter Eisentraut)
+* 允許在[非確定性定序](../../server-administration/charset/collation.md#COLLATION-NONDETERMINISTIC)下使用 [`LIKE`](../../the-sql-language/functions/functions-matching.md#functions-like) (Peter Eisentraut)
   [§](https://postgr.es/c/85b7efa1c)
 * 允許在非確定性定序下使用文字位置搜尋函式
   (Peter Eisentraut)
@@ -727,7 +727,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 * 將 Unicode 資料更新至 [Unicode](../../server-administration/charset/collation.md#COLLATION-MANAGING-STANDARD) 16.0.0 (Peter
   Eisentraut)
   [§](https://postgr.es/c/82a46cca9)
-* 新增愛沙尼亞語的全文檢索[詞幹處理](../../the-sql-language/textsearch/textsearch-dictionaries.md#TEXTSEARCH-SNOWBALL-DICTIONARY)
+* 新增愛沙尼亞語的全文檢索[詞幹處理](../../the-sql-language/textsearch/textsearch-dictionaries.md#textsearch-snowball-dictionary)
   (Tom Lane)
   [§](https://postgr.es/c/b464e51ab)
 * 改進 [`XML`](../../the-sql-language/datatype/datatype-xml.md)
@@ -750,7 +750,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   Marat Buharov)
   [§](https://postgr.es/c/a0f1fce80)
   [§](https://postgr.es/c/2d24fd942)
-* 為 [`EXTRACT()`](../../the-sql-language/functions/functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT) 新增 `WEEK` 選項
+* 為 [`EXTRACT()`](../../the-sql-language/functions/functions-datetime.md#functions-datetime-extract) 新增 `WEEK` 選項
   (Tom Lane)
   [§](https://postgr.es/c/6be39d77a)
 * 改進 `EXTRACT(QUARTER ...)` 對負值的輸出 (Tom Lane)
@@ -779,7 +779,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/246dedc5d)
 
   先前只接受 `:=`。
-* 允許 [`regexp_match[es]()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_like()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_replace()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_count()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_instr()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_substr()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_split_to_table()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)/[`regexp_split_to_array()`](../../the-sql-language/functions/functions-matching.md#FUNCTIONS-POSIX-REGEXP)
+* 允許 [`regexp_match[es]()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_like()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_replace()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_count()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_instr()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_substr()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_split_to_table()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)/[`regexp_split_to_array()`](../../the-sql-language/functions/functions-matching.md#functions-posix-regexp)
   使用具名引數 (Jian He)
   [§](https://postgr.es/c/580f8727c)
 

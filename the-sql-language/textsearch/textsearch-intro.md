@@ -2,11 +2,11 @@
 
 ## 12.1. 簡介 [#](#textsearch-intro) <a href="#textsearch-intro" id="textsearch-intro"></a>
 
-[12.1.1. 什麼是文件？](textsearch-intro.md#TEXTSEARCH-DOCUMENT)
+[12.1.1. 什麼是文件？](textsearch-intro.md#textsearch-document)
 
-[12.1.2. 基本文字比對](textsearch-intro.md#TEXTSEARCH-MATCHING)
+[12.1.2. 基本文字比對](textsearch-intro.md#textsearch-matching)
 
-[12.1.3. 設定](textsearch-intro.md#TEXTSEARCH-INTRO-CONFIGURATIONS)
+[12.1.3. 設定](textsearch-intro.md#textsearch-intro-configurations)
 
 全文檢索（或簡稱*文字搜尋*，text search）提供的功能，是找出符合某個*查詢*（query）的自然語言*文件*（document），並可選擇依與查詢的相關程度排序。最常見的搜尋類型，是找出所有包含指定*查詢詞*（query term）的文件，並依它們與查詢的*相似度*（similarity）順序回傳。`query` 與 `similarity` 的概念非常有彈性，取決於具體的應用。最簡單的搜尋會把 `query` 視為一組單字，並把 `similarity` 視為查詢單字在文件中出現的頻率。
 
@@ -30,11 +30,11 @@
 * 使用 Ispell 字典將單字的各種變化形式對應到標準形式。
 * 使用 Snowball 詞幹規則將單字的各種變化形式對應到標準形式。
 
-系統提供了 `tsvector` 資料型別來儲存前置處理後的文件，並提供 `tsquery` 型別來表示處理過的查詢（[第 8.11 節](../datatype/datatype-textsearch.md)）。這些資料型別有許多可用的函式與運算子（[第 9.13 節](../functions/functions-textsearch.md)），其中最重要的是比對運算子 `@@`，我們會在[第 12.1.2 節](textsearch-intro.md#TEXTSEARCH-MATCHING)介紹它。全文檢索可以使用索引來加速（[第 12.9 節](textsearch-indexes.md)）。
+系統提供了 `tsvector` 資料型別來儲存前置處理後的文件，並提供 `tsquery` 型別來表示處理過的查詢（[第 8.11 節](../datatype/datatype-textsearch.md)）。這些資料型別有許多可用的函式與運算子（[第 9.13 節](../functions/functions-textsearch.md)），其中最重要的是比對運算子 `@@`，我們會在[第 12.1.2 節](textsearch-intro.md#textsearch-matching)介紹它。全文檢索可以使用索引來加速（[第 12.9 節](textsearch-indexes.md)）。
 
 <a id="TEXTSEARCH-DOCUMENT"></a>
 
-### 12.1.1. 什麼是文件？ [#](#TEXTSEARCH-DOCUMENT)
+### 12.1.1. 什麼是文件？ [#](#textsearch-document) <a href="#textsearch-document" id="textsearch-document"></a>
 
 <a id="id-1.5.11.4.10.2"></a>
 
@@ -63,7 +63,7 @@ WHERE m.mid = d.did AND m.mid = 12;
 
 <a id="TEXTSEARCH-MATCHING"></a>
 
-### 12.1.2. 基本文字比對 [#](#TEXTSEARCH-MATCHING)
+### 12.1.2. 基本文字比對 [#](#textsearch-matching) <a href="#textsearch-matching" id="textsearch-matching"></a>
 
 PostgreSQL 中的全文檢索是以比對運算子 `@@` 為基礎，當 `tsvector`（文件）與 `tsquery`（查詢）相符時，它會回傳 `true`。哪一種資料型別寫在前面都沒有關係：
 
@@ -80,7 +80,7 @@ SELECT 'fat & cow'::tsquery @@ 'a fat cat sat on a mat and ate a fat rat'::tsvec
  f
 ```
 
-如上例所示，`tsquery` 並不只是原始文字，`tsvector` 也一樣。`tsquery` 包含搜尋詞，這些搜尋詞必須是已經正規化的詞素，並且可以使用 AND、OR、NOT 與 FOLLOWED BY 運算子組合多個搜尋詞。（語法細節請參閱[第 8.11.2 節](../datatype/datatype-textsearch.md#DATATYPE-TSQUERY)。）`to_tsquery`、`plainto_tsquery` 與 `phraseto_tsquery` 函式有助於將使用者撰寫的文字轉換為適當的 `tsquery`，主要是將文字中出現的單字正規化。同樣地，`to_tsvector` 用於剖析與正規化文件字串。因此實務上，文字搜尋比對看起來會比較像這樣：
+如上例所示，`tsquery` 並不只是原始文字，`tsvector` 也一樣。`tsquery` 包含搜尋詞，這些搜尋詞必須是已經正規化的詞素，並且可以使用 AND、OR、NOT 與 FOLLOWED BY 運算子組合多個搜尋詞。（語法細節請參閱[第 8.11.2 節](../datatype/datatype-textsearch.md#datatype-tsquery)。）`to_tsquery`、`plainto_tsquery` 與 `phraseto_tsquery` 函式有助於將使用者撰寫的文字轉換為適當的 `tsquery`，主要是將文字中出現的單字正規化。同樣地，`to_tsvector` 用於剖析與正規化文件字串。因此實務上，文字搜尋比對看起來會比較像這樣：
 
 ```
 
@@ -154,7 +154,7 @@ SELECT phraseto_tsquery('the cats ate the rats');
 
 <a id="TEXTSEARCH-INTRO-CONFIGURATIONS"></a>
 
-### 12.1.3. 設定 [#](#TEXTSEARCH-INTRO-CONFIGURATIONS)
+### 12.1.3. 設定 [#](#textsearch-intro-configurations) <a href="#textsearch-intro-configurations" id="textsearch-intro-configurations"></a>
 
 以上都是簡單的文字搜尋範例。如前所述，全文檢索功能還能做到更多事情：略過特定單字（停用詞）不建立索引、處理同義詞，以及使用更精密的剖析方式，例如不只依空白字元來剖析。這些功能是由*文字搜尋設定*（text search configuration）控制的。PostgreSQL 內建了許多語言的預先定義設定，你也可以輕鬆建立自己的設定。（psql 的 `\dF` 指令會顯示所有可用的設定。）
 

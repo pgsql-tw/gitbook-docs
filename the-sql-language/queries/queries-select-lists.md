@@ -2,11 +2,11 @@
 
 ## 7.3. 選取清單 [#](#queries-select-lists) <a href="#queries-select-lists" id="queries-select-lists"></a>
 
-[7.3.1. 選取清單項目](queries-select-lists.md#QUERIES-SELECT-LIST-ITEMS)
+[7.3.1. 選取清單項目](queries-select-lists.md#queries-select-list-items)
 
-[7.3.2. 欄位標籤](queries-select-lists.md#QUERIES-COLUMN-LABELS)
+[7.3.2. 欄位標籤](queries-select-lists.md#queries-column-labels)
 
-[7.3.3. `DISTINCT`](queries-select-lists.md#QUERIES-DISTINCT)
+[7.3.3. `DISTINCT`](queries-select-lists.md#queries-distinct)
 
 <a id="id-1.5.6.7.2"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="QUERIES-SELECT-LIST-ITEMS"></a>
 
-### 7.3.1. 選取清單項目 [#](#QUERIES-SELECT-LIST-ITEMS)
+### 7.3.1. 選取清單項目 [#](#queries-select-list-items) <a href="#queries-select-list-items" id="queries-select-list-items"></a>
 
 <a id="id-1.5.6.7.4.2"></a>
 
@@ -41,13 +41,13 @@ SELECT tbl1.a, tbl2.a, tbl1.b FROM ...
 SELECT tbl1.*, tbl2.a FROM ...
 ```
 
-關於 *`table_name`*`.*` 表示法的更多資訊，請參閱[第 8.16.5 節](../datatype/rowtypes.md#ROWTYPES-USAGE)。
+關於 *`table_name`*`.*` 表示法的更多資訊，請參閱[第 8.16.5 節](../datatype/rowtypes.md#rowtypes-usage)。
 
 如果在選取清單中使用了任意的值運算式，在概念上它會在回傳的資料表中加入一個新的虛擬欄位。值運算式會對每一筆結果資料列求值一次，其中的欄位參照會以該資料列的值代入。但選取清單中的運算式不一定要參照 `FROM` 子句之資料表運算式中的任何欄位；例如，它們也可以是常數算術運算式。
 
 <a id="QUERIES-COLUMN-LABELS"></a>
 
-### 7.3.2. 欄位標籤 [#](#QUERIES-COLUMN-LABELS)
+### 7.3.2. 欄位標籤 [#](#queries-column-labels) <a href="#queries-column-labels" id="queries-column-labels"></a>
 
 <a id="id-1.5.6.7.5.2"></a>
 
@@ -83,7 +83,7 @@ SELECT a "from", b + c AS sum FROM ...
 
 <a id="QUERIES-DISTINCT"></a>
 
-### 7.3.3. `DISTINCT` [#](#QUERIES-DISTINCT)
+### 7.3.3. `DISTINCT` [#](#queries-distinct) <a href="#queries-distinct" id="queries-distinct"></a>
 
 <a id="id-1.5.6.7.6.2"></a><a id="id-1.5.6.7.6.3"></a><a id="id-1.5.6.7.6.4"></a>
 

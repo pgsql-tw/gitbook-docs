@@ -4,7 +4,7 @@
 
 <a id="id-1.5.8.28.2"></a>
 
-*Window 函式*（window function）提供了對與目前查詢資料列相關的資料列集合進行計算的能力。關於這項功能的介紹，請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)；語法細節則請參閱[第 4.2.8 節](../sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)。
+*Window 函式*（window function）提供了對與目前查詢資料列相關的資料列集合進行計算的能力。關於這項功能的介紹，請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)；語法細節則請參閱[第 4.2.8 節](../sql-syntax/sql-expressions.md#syntax-window-functions)。
 
 內建的 window 函式列於[表 9.67](functions-window.md#FUNCTIONS-WINDOW-TABLE)。請注意，這些函式*必須*使用 window 函式語法呼叫，也就是必須有 `OVER` 子句。
 
@@ -106,7 +106,7 @@
 
 [表 9.67](functions-window.md#FUNCTIONS-WINDOW-TABLE) 所列的所有函式，都取決於相關聯之 window 定義中 `ORDER BY` 子句所指定的排序順序。只考慮 `ORDER BY` 欄位時彼此沒有區別的資料列，稱為*同儕*（peer）。四個排名函式（包括 `cume_dist`）的定義，使它們對同一個同儕群組中的所有資料列都給出相同的答案。
 
-請注意，`first_value`、`last_value` 與 `nth_value` 只考慮「視窗框架」（window frame）內的資料列，而預設的視窗框架包含從分割區開頭到目前資料列之最後一個同儕為止的資料列。這很可能讓 `last_value`（有時也包括 `nth_value`）給出沒有幫助的結果。你可以在 `OVER` 子句中加上合適的框架規格（`RANGE`、`ROWS` 或 `GROUPS`）來重新定義框架。關於框架規格的更多資訊，請參閱[第 4.2.8 節](../sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)。
+請注意，`first_value`、`last_value` 與 `nth_value` 只考慮「視窗框架」（window frame）內的資料列，而預設的視窗框架包含從分割區開頭到目前資料列之最後一個同儕為止的資料列。這很可能讓 `last_value`（有時也包括 `nth_value`）給出沒有幫助的結果。你可以在 `OVER` 子句中加上合適的框架規格（`RANGE`、`ROWS` 或 `GROUPS`）來重新定義框架。關於框架規格的更多資訊，請參閱[第 4.2.8 節](../sql-syntax/sql-expressions.md#syntax-window-functions)。
 
 當彙總函式用作 window 函式時，它會彙總目前資料列之視窗框架內的資料列。搭配 `ORDER BY` 與預設視窗框架定義使用的彙總函式，會產生「累計總和」類型的行為，而這不一定是你想要的。要對整個分割區進行彙總，請省略 `ORDER BY`，或使用 `ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`。使用其他框架規格可以得到其他效果。
 

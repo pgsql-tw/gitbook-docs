@@ -3,7 +3,7 @@
 **目錄**
 
 [4.1. 詞彙結構](sql-syntax-lexical.md)
-:   [4.1.1. 識別字與關鍵字](sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)
+:   [4.1.1. 識別字與關鍵字](sql-syntax-lexical.md#sql-syntax-identifiers)
 
     [4.1.2. 常數](sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS)
 
@@ -16,7 +16,7 @@
     [4.1.6. 運算子優先順序](sql-syntax-lexical.md#SQL-PRECEDENCE)
 
 [4.2. 值運算式](sql-expressions.md)
-:   [4.2.1. 欄位參照](sql-expressions.md#SQL-EXPRESSIONS-COLUMN-REFS)
+:   [4.2.1. 欄位參照](sql-expressions.md#sql-expressions-column-refs)
 
     [4.2.2. 位置參數](sql-expressions.md#SQL-EXPRESSIONS-PARAMETERS-POSITIONAL)
 
@@ -45,7 +45,7 @@
     [4.2.14. 運算式求值規則](sql-expressions.md#SYNTAX-EXPRESS-EVAL)
 
 [4.3. 呼叫函式](sql-syntax-calling-funcs.md)
-:   [4.3.1. 使用位置表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
+:   [4.3.1. 使用位置表示法](sql-syntax-calling-funcs.md#sql-syntax-calling-funcs-positional)
 
     [4.3.2. 使用具名表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-NAMED)
 

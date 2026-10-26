@@ -308,7 +308,7 @@ EXECUTE 'UPDATE tbl SET '
 
 因為萬一 `newvalue` 的內容剛好含有 `$$`，它就會出問題。你所挑選的任何其他錢號引號分隔符號，也會有同樣的疑慮。因此，若要安全地為事先未知的文字加引號，你*必須*視情況使用 `quote_literal`、`quote_nullable` 或 `quote_ident`。
 
-動態 SQL 陳述式也可以使用 `format` 函式安全地組建（參閱[第 9.4.1 節](../../the-sql-language/functions/functions-string.md#FUNCTIONS-STRING-FORMAT)）。例如：
+動態 SQL 陳述式也可以使用 `format` 函式安全地組建（參閱[第 9.4.1 節](../../the-sql-language/functions/functions-string.md#functions-string-format)）。例如：
 
 ```
 

@@ -2,13 +2,13 @@
 
 ## 8.7. 列舉型別 [#](#datatype-enum) <a href="#datatype-enum" id="datatype-enum"></a>
 
-[8.7.1. 列舉型別的宣告](datatype-enum.md#DATATYPE-ENUM-DECLARATION)
+[8.7.1. 列舉型別的宣告](datatype-enum.md#datatype-enum-declaration)
 
-[8.7.2. 排序](datatype-enum.md#DATATYPE-ENUM-ORDERING)
+[8.7.2. 排序](datatype-enum.md#datatype-enum-ordering)
 
-[8.7.3. 型別安全](datatype-enum.md#DATATYPE-ENUM-TYPE-SAFETY)
+[8.7.3. 型別安全](datatype-enum.md#datatype-enum-type-safety)
 
-[8.7.4. 實作細節](datatype-enum.md#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
+[8.7.4. 實作細節](datatype-enum.md#datatype-enum-implementation-details)
 
 <a id="id-1.5.7.15.2"></a><a id="id-1.5.7.15.3"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="DATATYPE-ENUM-DECLARATION"></a>
 
-### 8.7.1. 列舉型別的宣告 [#](#DATATYPE-ENUM-DECLARATION)
+### 8.7.1. 列舉型別的宣告 [#](#datatype-enum-declaration) <a href="#datatype-enum-declaration" id="datatype-enum-declaration"></a>
 
 列舉型別是以 [CREATE TYPE](../../reference/sql-commands/sql-createtype.md) 指令建立的，例如：
 
@@ -44,7 +44,7 @@ SELECT * FROM person WHERE current_mood = 'happy';
 
 <a id="DATATYPE-ENUM-ORDERING"></a>
 
-### 8.7.2. 排序 [#](#DATATYPE-ENUM-ORDERING)
+### 8.7.2. 排序 [#](#datatype-enum-ordering) <a href="#datatype-enum-ordering" id="datatype-enum-ordering"></a>
 
 列舉型別中各個值的順序，就是建立該型別時列出這些值的順序。所有標準的比較運算子與相關的彙總函式都支援列舉型別。例如：
 
@@ -77,7 +77,7 @@ WHERE current_mood = (SELECT MIN(current_mood) FROM person);
 
 <a id="DATATYPE-ENUM-TYPE-SAFETY"></a>
 
-### 8.7.3. 型別安全 [#](#DATATYPE-ENUM-TYPE-SAFETY)
+### 8.7.3. 型別安全 [#](#datatype-enum-type-safety) <a href="#datatype-enum-type-safety" id="datatype-enum-type-safety"></a>
 
 每一個列舉資料型別都是獨立的，不能與其他列舉型別比較。請看這個例子：
 
@@ -112,7 +112,7 @@ SELECT person.name, holidays.num_weeks FROM person, holidays
 
 <a id="DATATYPE-ENUM-IMPLEMENTATION-DETAILS"></a>
 
-### 8.7.4. 實作細節 [#](#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
+### 8.7.4. 實作細節 [#](#datatype-enum-implementation-details) <a href="#datatype-enum-implementation-details" id="datatype-enum-implementation-details"></a>
 
 列舉的標籤會區分大小寫，所以 `'happy'` 與 `'HAPPY'` 並不相同。標籤中的空白字元也有意義。
 

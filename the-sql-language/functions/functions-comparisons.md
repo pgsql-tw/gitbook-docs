@@ -2,17 +2,17 @@
 
 ## 9.25. 資料列與陣列比較 [#](#functions-comparisons) <a href="#functions-comparisons" id="functions-comparisons"></a>
 
-[9.25.1. `IN`](functions-comparisons.md#FUNCTIONS-COMPARISONS-IN-SCALAR)
+[9.25.1. `IN`](functions-comparisons.md#functions-comparisons-in-scalar)
 
-[9.25.2. `NOT IN`](functions-comparisons.md#FUNCTIONS-COMPARISONS-NOT-IN)
+[9.25.2. `NOT IN`](functions-comparisons.md#functions-comparisons-not-in)
 
-[9.25.3. `ANY`/`SOME`（陣列）](functions-comparisons.md#FUNCTIONS-COMPARISONS-ANY-SOME)
+[9.25.3. `ANY`/`SOME`（陣列）](functions-comparisons.md#functions-comparisons-any-some)
 
-[9.25.4. `ALL`（陣列）](functions-comparisons.md#FUNCTIONS-COMPARISONS-ALL)
+[9.25.4. `ALL`（陣列）](functions-comparisons.md#functions-comparisons-all)
 
-[9.25.5. 資料列建構子比較](functions-comparisons.md#ROW-WISE-COMPARISON)
+[9.25.5. 資料列建構子比較](functions-comparisons.md#row-wise-comparison)
 
-[9.25.6. 複合型別比較](functions-comparisons.md#COMPOSITE-TYPE-COMPARISON)
+[9.25.6. 複合型別比較](functions-comparisons.md#composite-type-comparison)
 
 <a id="id-1.5.8.31.2"></a><a id="id-1.5.8.31.3"></a><a id="id-1.5.8.31.4"></a><a id="id-1.5.8.31.5"></a><a id="id-1.5.8.31.6"></a><a id="id-1.5.8.31.7"></a><a id="id-1.5.8.31.8"></a><a id="id-1.5.8.31.9"></a><a id="id-1.5.8.31.10"></a><a id="id-1.5.8.31.11"></a><a id="id-1.5.8.31.12"></a>
 
@@ -20,7 +20,7 @@
 
 <a id="FUNCTIONS-COMPARISONS-IN-SCALAR"></a>
 
-### 9.25.1. `IN` [#](#FUNCTIONS-COMPARISONS-IN-SCALAR)
+### 9.25.1. `IN` [#](#functions-comparisons-in-scalar) <a href="#functions-comparisons-in-scalar" id="functions-comparisons-in-scalar"></a>
 
 ```
 
@@ -42,7 +42,7 @@ OR
 
 <a id="FUNCTIONS-COMPARISONS-NOT-IN"></a>
 
-### 9.25.2. `NOT IN` [#](#FUNCTIONS-COMPARISONS-NOT-IN)
+### 9.25.2. `NOT IN` [#](#functions-comparisons-not-in) <a href="#functions-comparisons-not-in" id="functions-comparisons-not-in"></a>
 
 ```
 
@@ -68,7 +68,7 @@ AND
 
 <a id="FUNCTIONS-COMPARISONS-ANY-SOME"></a>
 
-### 9.25.3. `ANY`/`SOME`（陣列） [#](#FUNCTIONS-COMPARISONS-ANY-SOME)
+### 9.25.3. `ANY`/`SOME`（陣列） [#](#functions-comparisons-any-some) <a href="#functions-comparisons-any-some" id="functions-comparisons-any-some"></a>
 
 ```
 
@@ -84,7 +84,7 @@ expression operator SOME (array expression)
 
 <a id="FUNCTIONS-COMPARISONS-ALL"></a>
 
-### 9.25.4. `ALL`（陣列） [#](#FUNCTIONS-COMPARISONS-ALL)
+### 9.25.4. `ALL`（陣列） [#](#functions-comparisons-all) <a href="#functions-comparisons-all" id="functions-comparisons-all"></a>
 
 ```
 
@@ -97,14 +97,14 @@ expression operator ALL (array expression)
 
 <a id="ROW-WISE-COMPARISON"></a>
 
-### 9.25.5. 資料列建構子比較 [#](#ROW-WISE-COMPARISON)
+### 9.25.5. 資料列建構子比較 [#](#row-wise-comparison) <a href="#row-wise-comparison" id="row-wise-comparison"></a>
 
 ```
 
 row_constructor operator row_constructor
 ```
 
-兩側都是資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)所述。兩個資料列建構子必須有相同數量的欄位。給定的 *`operator`* 會套用到每一對對應的欄位上。（由於欄位可能是不同的型別，這表示每一對欄位可能會選用不同的特定運算子。）所有選用的運算子都必須是某個 B-tree 運算子類別的成員，或是某個 B-tree 運算子類別之 `=` 成員的否定運算子；這表示只有當 *`operator`* 是 `=`、`<>`、`<`、`<=`、`>` 或 `>=`，或具有與其中之一相似的語意時，才能進行資料列建構子比較。
+兩側都是資料列建構子，如[第 4.2.13 節](../sql-syntax/sql-expressions.md#sql-syntax-row-constructors)所述。兩個資料列建構子必須有相同數量的欄位。給定的 *`operator`* 會套用到每一對對應的欄位上。（由於欄位可能是不同的型別，這表示每一對欄位可能會選用不同的特定運算子。）所有選用的運算子都必須是某個 B-tree 運算子類別的成員，或是某個 B-tree 運算子類別之 `=` 成員的否定運算子；這表示只有當 *`operator`* 是 `=`、`<>`、`<`、`<=`、`>` 或 `>=`，或具有與其中之一相似的語意時，才能進行資料列建構子比較。
 
 `=` 與 `<>` 的情況運作方式與其他情況稍有不同。如果兩筆資料列所有對應的成員都非 null 且相等，它們就被視為相等；如果有任何對應的成員非 null 且不相等，它們就不相等；否則資料列比較的結果是未知（null）。
 
@@ -126,16 +126,16 @@ row_constructor IS NOT DISTINCT FROM row_constructor
 
 <a id="COMPOSITE-TYPE-COMPARISON"></a>
 
-### 9.25.6. 複合型別比較 [#](#COMPOSITE-TYPE-COMPARISON)
+### 9.25.6. 複合型別比較 [#](#composite-type-comparison) <a href="#composite-type-comparison" id="composite-type-comparison"></a>
 
 ```
 
 record operator record
 ```
 
-SQL 規格要求，如果結果取決於比較兩個 NULL 值，或一個 NULL 與一個非 NULL 值，逐列比較就要回傳 NULL。PostgreSQL 只有在比較兩個資料列建構子的結果時（如[第 9.25.5 節](functions-comparisons.md#ROW-WISE-COMPARISON)），或將資料列建構子與子查詢的輸出比較時（如[第 9.24 節](functions-subquery.md)），才會這麼做。在比較兩個複合型別值的其他情境中，兩個 NULL 欄位值被視為相等，而 NULL 被視為大於非 NULL。為了讓複合型別有一致的排序與索引行為，這是必要的。
+SQL 規格要求，如果結果取決於比較兩個 NULL 值，或一個 NULL 與一個非 NULL 值，逐列比較就要回傳 NULL。PostgreSQL 只有在比較兩個資料列建構子的結果時（如[第 9.25.5 節](functions-comparisons.md#row-wise-comparison)），或將資料列建構子與子查詢的輸出比較時（如[第 9.24 節](functions-subquery.md)），才會這麼做。在比較兩個複合型別值的其他情境中，兩個 NULL 欄位值被視為相等，而 NULL 被視為大於非 NULL。為了讓複合型別有一致的排序與索引行為，這是必要的。
 
-兩側都會被評估，並逐列進行比較。當 *`operator`* 是 `=`、`<>`、`<`、`<=`、`>` 或 `>=`，或具有與其中之一相似的語意時，就允許進行複合型別比較。（具體來說，如果運算子是某個 B-tree 運算子類別的成員，或是某個 B-tree 運算子類別之 `=` 成員的否定運算子，它就可以是資料列比較運算子。）上述運算子的預設行為，與資料列建構子的 `IS [ NOT ] DISTINCT FROM` 相同（請參閱[第 9.25.5 節](functions-comparisons.md#ROW-WISE-COMPARISON)）。
+兩側都會被評估，並逐列進行比較。當 *`operator`* 是 `=`、`<>`、`<`、`<=`、`>` 或 `>=`，或具有與其中之一相似的語意時，就允許進行複合型別比較。（具體來說，如果運算子是某個 B-tree 運算子類別的成員，或是某個 B-tree 運算子類別之 `=` 成員的否定運算子，它就可以是資料列比較運算子。）上述運算子的預設行為，與資料列建構子的 `IS [ NOT ] DISTINCT FROM` 相同（請參閱[第 9.25.5 節](functions-comparisons.md#row-wise-comparison)）。
 
 為了支援比對包含沒有預設 B-tree 運算子類別之元素的資料列，為複合型別比較定義了下列運算子：`*=`、`*<>`、`*<`、`*<=`、`*>` 與 `*>=`。這些運算子比較兩筆資料列的內部二進位表示。即使以相等運算子比較兩筆資料列的結果為 true，它們的二進位表示也可能不同。在這些比較運算子下，資料列的排序是確定的，但除此之外沒有其他意義。這些運算子在內部用於具體化檢視表，對於其他特殊用途（例如複寫與 B-Tree 去重複，請參閱[第 65.1.4.3 節](../../internals/indextypes/btree.md#BTREE-DEDUPLICATION)）也可能有用。不過，它們並不打算一般性地用於撰寫查詢。
 

@@ -2,9 +2,9 @@
 
 ## 8.4. 二進位資料型別 [#](#datatype-binary) <a href="#datatype-binary" id="datatype-binary"></a>
 
-[8.4.1. `bytea` 十六進位格式](datatype-binary.md#DATATYPE-BINARY-BYTEA-HEX-FORMAT)
+[8.4.1. `bytea` 十六進位格式](datatype-binary.md#datatype-binary-bytea-hex-format)
 
-[8.4.2. `bytea` 跳脫格式](datatype-binary.md#DATATYPE-BINARY-BYTEA-ESCAPE-FORMAT)
+[8.4.2. `bytea` 跳脫格式](datatype-binary.md#datatype-binary-bytea-escape-format)
 
 <a id="id-1.5.7.12.2"></a><a id="id-1.5.7.12.3"></a>
 
@@ -26,7 +26,7 @@ SQL 標準定義了另一種不同的二進位字串型別，稱為 `BLOB` 或 `
 
 <a id="DATATYPE-BINARY-BYTEA-HEX-FORMAT"></a>
 
-### 8.4.1. `bytea` 十六進位格式 [#](#DATATYPE-BINARY-BYTEA-HEX-FORMAT)
+### 8.4.1. `bytea` 十六進位格式 [#](#datatype-binary-bytea-hex-format) <a href="#datatype-binary-bytea-hex-format" id="datatype-binary-bytea-hex-format"></a>
 
 「十六進位」格式會把二進位資料編碼成每個位元組 2 個十六進位數字，高位的半位元組（nibble）在前。整個字串前面會加上 `\x` 序列（用來與跳脫格式區分）。在某些情況下，開頭的反斜線可能需要以重複兩次的方式來跳脫（請參閱[第 4.1.2.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)）。在輸入時，十六進位數字可以是大寫或小寫，而且數字對之間允許空白字元（但數字對內部以及開頭的 `\x` 序列中不允許）。十六進位格式與各式各樣的外部應用程式與通訊協定相容，而且轉換速度通常比跳脫格式快，因此建議優先使用。
 
@@ -44,7 +44,7 @@ SELECT '\xDEADBEEF'::bytea;
 
 <a id="DATATYPE-BINARY-BYTEA-ESCAPE-FORMAT"></a>
 
-### 8.4.2. `bytea` 跳脫格式 [#](#DATATYPE-BINARY-BYTEA-ESCAPE-FORMAT)
+### 8.4.2. `bytea` 跳脫格式 [#](#datatype-binary-bytea-escape-format) <a href="#datatype-binary-bytea-escape-format" id="datatype-binary-bytea-escape-format"></a>
 
 「跳脫」格式是 PostgreSQL 對 `bytea` 型別的傳統格式。它採取的做法是把二進位字串表示成一連串的 ASCII 字元，同時把那些無法以 ASCII 字元表示的位元組轉換成特殊的跳脫序列。如果從應用程式的角度來看，把位元組表示成字元是合理的，那麼這種表示法可能會很方便。但實務上它通常令人困惑，因為它模糊了二進位字串與字元字串之間的區別，而且所選用的那套跳脫機制也有些笨拙。因此，大多數新的應用程式大概都應該避免使用這種格式。
 

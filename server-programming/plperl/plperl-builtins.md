@@ -330,7 +330,7 @@ SQL 陳述式字串中的識別字。只有在必要時
 
 `encode_array_literal(array)` <a id="id-1.8.10.11.3.2.7.1.2"></a> <br> `encode_array_literal(array, delimiter)`
 
-以陣列常值格式（請參閱[8.15.2 節](../../the-sql-language/datatype/arrays.md#ARRAYS-INPUT)），
+以陣列常值格式（請參閱[8.15.2 節](../../the-sql-language/datatype/arrays.md#arrays-input)），
 將所參照陣列的內容以字串形式傳回。
 若引數不是陣列的參照，則會原封不動地傳回該引數值。
 陣列常值中各元素之間所使用的分隔符號，若未指定或為 undef，
@@ -344,7 +344,7 @@ SQL 陳述式字串中的識別字。只有在必要時
 
 `encode_array_constructor(array)` <a id="id-1.8.10.11.3.2.9.1.2"></a>
 
-以陣列建構子格式（請參閱[4.2.12 節](../../the-sql-language/sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)），
+以陣列建構子格式（請參閱[4.2.12 節](../../the-sql-language/sql-syntax/sql-expressions.md#sql-syntax-array-constructors)），
 將所參照陣列的內容以字串形式傳回。
 各個值會使用 `quote_nullable` 加上引號。
 若引數不是陣列的參照，則會傳回該引數值，並以

@@ -182,7 +182,7 @@ PostgreSQL 提供三個 SQL
 * [`SHOW`](../../reference/sql-commands/sql-show.md) 命令允許檢視
   任何參數的目前值。對應的 SQL 函式為
   `current_setting(setting_name text)`
-  （參閱[9.28.1 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SET)）。
+  （參閱[9.28.1 節](../../the-sql-language/functions/functions-admin.md#functions-admin-set)）。
 * [`SET`](../../reference/sql-commands/sql-set.md) 命令允許修改
   可在工作階段層級本機設定之參數的目前值；
   這對其他工作階段沒有影響。
@@ -191,7 +191,7 @@ PostgreSQL 提供三個 SQL
   `SET` 權限的使用者設定。
   對應的 SQL 函式為
   `set_config(setting_name, new_value, is_local)`
-  （參閱[9.28.1 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SET)）。
+  （參閱[9.28.1 節](../../the-sql-language/functions/functions-admin.md#functions-admin-set)）。
 
 此外，系統檢視表 [`pg_settings`](../../internals/views/view-pg-settings.md) 也可以
 用來檢視與變更工作階段層級的值：

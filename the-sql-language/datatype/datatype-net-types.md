@@ -2,15 +2,15 @@
 
 ## 8.9. 網路位址型別 [#](#datatype-net-types) <a href="#datatype-net-types" id="datatype-net-types"></a>
 
-[8.9.1. `inet`](datatype-net-types.md#DATATYPE-INET)
+[8.9.1. `inet`](datatype-net-types.md#datatype-inet)
 
-[8.9.2. `cidr`](datatype-net-types.md#DATATYPE-CIDR)
+[8.9.2. `cidr`](datatype-net-types.md#datatype-cidr)
 
-[8.9.3. `inet` 與 `cidr` 的比較](datatype-net-types.md#DATATYPE-INET-VS-CIDR)
+[8.9.3. `inet` 與 `cidr` 的比較](datatype-net-types.md#datatype-inet-vs-cidr)
 
-[8.9.4. `macaddr`](datatype-net-types.md#DATATYPE-MACADDR)
+[8.9.4. `macaddr`](datatype-net-types.md#datatype-macaddr)
 
-[8.9.5. `macaddr8`](datatype-net-types.md#DATATYPE-MACADDR8)
+[8.9.5. `macaddr8`](datatype-net-types.md#datatype-macaddr8)
 
 <a id="id-1.5.7.17.2"></a>
 
@@ -28,7 +28,7 @@ PostgreSQL 提供了用來儲存 IPv4、IPv6 與 MAC 位址的資料型別，如
 
 <a id="DATATYPE-INET"></a>
 
-### 8.9.1. `inet` [#](#DATATYPE-INET)
+### 8.9.1. `inet` [#](#datatype-inet) <a href="#datatype-inet" id="datatype-inet"></a>
 
 <a id="id-1.5.7.17.6.2"></a>
 
@@ -38,7 +38,7 @@ PostgreSQL 提供了用來儲存 IPv4、IPv6 與 MAC 位址的資料型別，如
 
 <a id="DATATYPE-CIDR"></a>
 
-### 8.9.2. `cidr` [#](#DATATYPE-CIDR)
+### 8.9.2. `cidr` [#](#datatype-cidr) <a href="#datatype-cidr" id="datatype-cidr"></a>
 
 <a id="id-1.5.7.17.7.2"></a>
 
@@ -56,7 +56,7 @@ PostgreSQL 提供了用來儲存 IPv4、IPv6 與 MAC 位址的資料型別，如
 
 <a id="DATATYPE-INET-VS-CIDR"></a>
 
-### 8.9.3. `inet` 與 `cidr` 的比較 [#](#DATATYPE-INET-VS-CIDR)
+### 8.9.3. `inet` 與 `cidr` 的比較 [#](#datatype-inet-vs-cidr) <a href="#datatype-inet-vs-cidr" id="datatype-inet-vs-cidr"></a>
 
 `inet` 與 `cidr` 這兩種資料型別最主要的差別在於：`inet` 接受在網路遮罩右側含有非零位元的值，而 `cidr` 則不接受。例如 `192.168.0.1/24` 對 `inet` 而言是有效的，但對 `cidr` 而言則否。
 
@@ -66,7 +66,7 @@ PostgreSQL 提供了用來儲存 IPv4、IPv6 與 MAC 位址的資料型別，如
 
 <a id="DATATYPE-MACADDR"></a>
 
-### 8.9.4. `macaddr` [#](#DATATYPE-MACADDR)
+### 8.9.4. `macaddr` [#](#datatype-macaddr) <a href="#datatype-macaddr" id="datatype-macaddr"></a>
 
 <a id="id-1.5.7.17.9.2"></a><a id="id-1.5.7.17.9.3"></a>
 
@@ -82,7 +82,7 @@ IEEE Standard 802-2001 把所示的第二種格式（使用連字號）規定為
 
 <a id="DATATYPE-MACADDR8"></a>
 
-### 8.9.5. `macaddr8` [#](#DATATYPE-MACADDR8)
+### 8.9.5. `macaddr8` [#](#datatype-macaddr8) <a href="#datatype-macaddr8" id="datatype-macaddr8"></a>
 
 <a id="id-1.5.7.17.10.2"></a><a id="id-1.5.7.17.10.3"></a>
 

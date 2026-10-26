@@ -2,17 +2,17 @@
 
 ## 11.2. 索引類型 [#](#indexes-types) <a href="#indexes-types" id="indexes-types"></a>
 
-[11.2.1. B-Tree](indexes-types.md#INDEXES-TYPES-BTREE)
+[11.2.1. B-Tree](indexes-types.md#indexes-types-btree)
 
-[11.2.2. Hash](indexes-types.md#INDEXES-TYPES-HASH)
+[11.2.2. Hash](indexes-types.md#indexes-types-hash)
 
-[11.2.3. GiST](indexes-types.md#INDEXES-TYPE-GIST)
+[11.2.3. GiST](indexes-types.md#indexes-type-gist)
 
-[11.2.4. SP-GiST](indexes-types.md#INDEXES-TYPE-SPGIST)
+[11.2.4. SP-GiST](indexes-types.md#indexes-type-spgist)
 
-[11.2.5. GIN](indexes-types.md#INDEXES-TYPES-GIN)
+[11.2.5. GIN](indexes-types.md#indexes-types-gin)
 
-[11.2.6. BRIN](indexes-types.md#INDEXES-TYPES-BRIN)
+[11.2.6. BRIN](indexes-types.md#indexes-types-brin)
 
 PostgreSQL 提供了數種索引類型：B-tree、Hash、GiST、SP-GiST、GIN、BRIN，以及擴充功能 [bloom](../../appendixes/contrib/bloom.md)。每種索引類型都使用不同的演算法，各自最適合不同類型的可索引子句。預設情況下，[`CREATE INDEX`](../../reference/sql-commands/sql-createindex.md) 命令會建立 B-tree 索引，它適用於最常見的情況。其他索引類型則是藉由寫出關鍵字 `USING`，後面接著索引類型名稱來選用。例如，要建立 Hash 索引：
 
@@ -23,7 +23,7 @@ CREATE INDEX name ON table USING HASH (column);
 
 <a id="INDEXES-TYPES-BTREE"></a>
 
-### 11.2.1. B-Tree [#](#INDEXES-TYPES-BTREE)
+### 11.2.1. B-Tree [#](#indexes-types-btree) <a href="#indexes-types-btree" id="indexes-types-btree"></a>
 
 <a id="id-1.5.10.5.3.2"></a><a id="id-1.5.10.5.3.3"></a>
 
@@ -42,7 +42,7 @@ B-tree 索引也可以用來依排序後的順序取得資料。這不一定總�
 
 <a id="INDEXES-TYPES-HASH"></a>
 
-### 11.2.2. Hash [#](#INDEXES-TYPES-HASH)
+### 11.2.2. Hash [#](#indexes-types-hash) <a href="#indexes-types-hash" id="indexes-types-hash"></a>
 
 <a id="id-1.5.10.5.4.2"></a><a id="id-1.5.10.5.4.3"></a>
 
@@ -55,7 +55,7 @@ Hash 索引儲存的是由被索引欄位的值所推導出的 32 位元雜湊�
 
 <a id="INDEXES-TYPE-GIST"></a>
 
-### 11.2.3. GiST [#](#INDEXES-TYPE-GIST)
+### 11.2.3. GiST [#](#indexes-type-gist) <a href="#indexes-type-gist" id="indexes-type-gist"></a>
 
 <a id="id-1.5.10.5.5.2"></a><a id="id-1.5.10.5.5.3"></a>
 
@@ -79,7 +79,7 @@ SELECT * FROM places ORDER BY location <-> point '(101,456)' LIMIT 10;
 
 <a id="INDEXES-TYPE-SPGIST"></a>
 
-### 11.2.4. SP-GiST [#](#INDEXES-TYPE-SPGIST)
+### 11.2.4. SP-GiST [#](#indexes-type-spgist) <a href="#indexes-type-spgist" id="indexes-type-spgist"></a>
 
 <a id="id-1.5.10.5.6.2"></a><a id="id-1.5.10.5.6.3"></a>
 
@@ -96,7 +96,7 @@ SP-GiST 索引就像 GiST 索引一樣，提供了一套支援各種搜尋的基
 
 <a id="INDEXES-TYPES-GIN"></a>
 
-### 11.2.5. GIN [#](#INDEXES-TYPES-GIN)
+### 11.2.5. GIN [#](#indexes-types-gin) <a href="#indexes-types-gin" id="indexes-types-gin"></a>
 
 <a id="id-1.5.10.5.7.2"></a><a id="id-1.5.10.5.7.3"></a>
 
@@ -113,7 +113,7 @@ GIN 索引是「反向索引」（inverted index），適用於包含多個組�
 
 <a id="INDEXES-TYPES-BRIN"></a>
 
-### 11.2.6. BRIN [#](#INDEXES-TYPES-BRIN)
+### 11.2.6. BRIN [#](#indexes-types-brin) <a href="#indexes-types-brin" id="indexes-types-brin"></a>
 
 <a id="id-1.5.10.5.8.2"></a><a id="id-1.5.10.5.8.3"></a>
 

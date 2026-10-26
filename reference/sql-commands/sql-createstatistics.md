@@ -42,7 +42,7 @@ myschema.mystat ...`），統計資訊物件就會建立在指定的綱要中；
 :   要建立的統計資訊物件名稱（可選擇以綱要限定）。若省略名稱，PostgreSQL 會依據父資料表的名稱以及所定義的欄位名稱和（或）運算式，選擇一個合適的名稱。
 
 *`statistics_kind`*
-:   要在此統計資訊物件中計算的多變量統計資訊種類。目前支援的種類有：`ndistinct`，啟用 n-distinct 統計資訊；`dependencies`，啟用函數相依性統計資訊；以及 `mcv`，啟用最常見值（most-common values）清單。若省略此子句，所有支援的統計資訊種類都會包含在統計資訊物件中。若統計資訊定義中包含任何複雜運算式，而不只是單純的欄位參照，就會自動建立單變量運算式統計資訊。更多資訊請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/planner-stats.md#PLANNER-STATS-EXTENDED)與[第 69.2 節](../../internals/planner-stats-details/multivariate-statistics-examples.md)。
+:   要在此統計資訊物件中計算的多變量統計資訊種類。目前支援的種類有：`ndistinct`，啟用 n-distinct 統計資訊；`dependencies`，啟用函數相依性統計資訊；以及 `mcv`，啟用最常見值（most-common values）清單。若省略此子句，所有支援的統計資訊種類都會包含在統計資訊物件中。若統計資訊定義中包含任何複雜運算式，而不只是單純的欄位參照，就會自動建立單變量運算式統計資訊。更多資訊請參閱[第 14.2.2 節](../../the-sql-language/performance-tips/planner-stats.md#planner-stats-extended)與[第 69.2 節](../../internals/planner-stats-details/multivariate-statistics-examples.md)。
 
 *`column_name`*
 :   計算出的統計資訊所涵蓋之資料表欄位的名稱。只有在建立多變量統計資訊時才允許使用。必須指定至少兩個欄位名稱或運算式，且其順序並不重要。

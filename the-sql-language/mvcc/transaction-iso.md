@@ -2,11 +2,11 @@
 
 ## 13.2. 交易隔離 [#](#transaction-iso) <a href="#transaction-iso" id="transaction-iso"></a>
 
-[13.2.1. Read Committed 隔離等級](transaction-iso.md#XACT-READ-COMMITTED)
+[13.2.1. Read Committed 隔離等級](transaction-iso.md#xact-read-committed)
 
-[13.2.2. Repeatable Read 隔離等級](transaction-iso.md#XACT-REPEATABLE-READ)
+[13.2.2. Repeatable Read 隔離等級](transaction-iso.md#xact-repeatable-read)
 
-[13.2.3. Serializable 隔離等級](transaction-iso.md#XACT-SERIALIZABLE)
+[13.2.3. Serializable 隔離等級](transaction-iso.md#xact-serializable)
 
 <a id="id-1.5.12.5.2"></a>
 
@@ -95,11 +95,11 @@ SQL 標準與 PostgreSQL 所實作的交易隔離等級，說明於[表 13.1](tr
 
 ### 重要
 
-有些 PostgreSQL 資料型別與函式在交易行為上有特殊的規則。特別是，對序列（因此也包括以 `serial` 宣告之欄位的計數器）所做的變更，會立即對所有其他交易可見，而且即使做出變更的交易中止，也不會被回復。請參閱[第 9.17 節](../functions/functions-sequence.md)與[第 8.1.4 節](../datatype/datatype-numeric.md#DATATYPE-SERIAL)。
+有些 PostgreSQL 資料型別與函式在交易行為上有特殊的規則。特別是，對序列（因此也包括以 `serial` 宣告之欄位的計數器）所做的變更，會立即對所有其他交易可見，而且即使做出變更的交易中止，也不會被回復。請參閱[第 9.17 節](../functions/functions-sequence.md)與[第 8.1.4 節](../datatype/datatype-numeric.md#datatype-serial)。
 
 <a id="XACT-READ-COMMITTED"></a>
 
-### 13.2.1. Read Committed 隔離等級 [#](#XACT-READ-COMMITTED)
+### 13.2.1. Read Committed 隔離等級 [#](#xact-read-committed) <a href="#xact-read-committed" id="xact-read-committed"></a>
 
 <a id="id-1.5.12.5.11.2"></a><a id="id-1.5.12.5.11.3"></a>
 
@@ -143,7 +143,7 @@ Read Committed 模式所提供的部分交易隔離，對許多應用程式來�
 
 <a id="XACT-REPEATABLE-READ"></a>
 
-### 13.2.2. Repeatable Read 隔離等級 [#](#XACT-REPEATABLE-READ)
+### 13.2.2. Repeatable Read 隔離等級 [#](#xact-repeatable-read) <a href="#xact-repeatable-read" id="xact-repeatable-read"></a>
 
 <a id="id-1.5.12.5.12.2"></a><a id="id-1.5.12.5.12.3"></a>
 
@@ -176,7 +176,7 @@ Repeatable Read 隔離等級是以一種在學術資料庫文獻及其他一些�
 
 <a id="XACT-SERIALIZABLE"></a>
 
-### 13.2.3. Serializable 隔離等級 [#](#XACT-SERIALIZABLE)
+### 13.2.3. Serializable 隔離等級 [#](#xact-serializable) <a href="#xact-serializable" id="xact-serializable"></a>
 
 <a id="id-1.5.12.5.13.2"></a><a id="id-1.5.12.5.13.3"></a><a id="id-1.5.12.5.13.4"></a><a id="id-1.5.12.5.13.5"></a>
 

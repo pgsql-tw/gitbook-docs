@@ -2,13 +2,13 @@
 
 ## 14.2. 規劃器使用的統計資訊 [#](#planner-stats) <a href="#planner-stats" id="planner-stats"></a>
 
-[14.2.1. 單一欄位統計資訊](planner-stats.md#PLANNER-STATS-SINGLE-COLUMN)
+[14.2.1. 單一欄位統計資訊](planner-stats.md#planner-stats-single-column)
 
-[14.2.2. 擴充統計資訊](planner-stats.md#PLANNER-STATS-EXTENDED)
+[14.2.2. 擴充統計資訊](planner-stats.md#planner-stats-extended)
 
 <a id="id-1.5.13.5.2"></a><a id="PLANNER-STATS-SINGLE-COLUMN"></a>
 
-### 14.2.1. 單一欄位統計資訊 [#](#PLANNER-STATS-SINGLE-COLUMN)
+### 14.2.1. 單一欄位統計資訊 [#](#planner-stats-single-column) <a href="#planner-stats-single-column" id="planner-stats-single-column"></a>
 
 如同我們在上一節所看到的，查詢規劃器需要估計查詢會取得的資料列數量，才能對查詢計畫做出良好的選擇。本節將簡要介紹系統用來進行這些估計的統計資訊。
 
@@ -86,7 +86,7 @@ WHERE tablename = 'road';
 
 <a id="PLANNER-STATS-EXTENDED"></a>
 
-### 14.2.2. 擴充統計資訊 [#](#PLANNER-STATS-EXTENDED)
+### 14.2.2. 擴充統計資訊 [#](#planner-stats-extended) <a href="#planner-stats-extended" id="planner-stats-extended"></a>
 
 <a id="id-1.5.13.5.4.2"></a><a id="id-1.5.13.5.4.3"></a><a id="id-1.5.13.5.4.4"></a><a id="id-1.5.13.5.4.5"></a>
 

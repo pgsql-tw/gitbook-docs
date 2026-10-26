@@ -2,25 +2,25 @@
 
 ## 8.17. 範圍型別 [#](#rangetypes) <a href="#rangetypes" id="rangetypes"></a>
 
-[8.17.1. 內建的範圍與多重範圍型別](rangetypes.md#RANGETYPES-BUILTIN)
+[8.17.1. 內建的範圍與多重範圍型別](rangetypes.md#rangetypes-builtin)
 
-[8.17.2. 範例](rangetypes.md#RANGETYPES-EXAMPLES)
+[8.17.2. 範例](rangetypes.md#rangetypes-examples)
 
-[8.17.3. 含端點與不含端點的界限](rangetypes.md#RANGETYPES-INCLUSIVITY)
+[8.17.3. 含端點與不含端點的界限](rangetypes.md#rangetypes-inclusivity)
 
-[8.17.4. 無限（無界限）範圍](rangetypes.md#RANGETYPES-INFINITE)
+[8.17.4. 無限（無界限）範圍](rangetypes.md#rangetypes-infinite)
 
-[8.17.5. 範圍的輸入／輸出](rangetypes.md#RANGETYPES-IO)
+[8.17.5. 範圍的輸入／輸出](rangetypes.md#rangetypes-io)
 
-[8.17.6. 建構範圍與多重範圍](rangetypes.md#RANGETYPES-CONSTRUCT)
+[8.17.6. 建構範圍與多重範圍](rangetypes.md#rangetypes-construct)
 
-[8.17.7. 離散範圍型別](rangetypes.md#RANGETYPES-DISCRETE)
+[8.17.7. 離散範圍型別](rangetypes.md#rangetypes-discrete)
 
-[8.17.8. 定義新的範圍型別](rangetypes.md#RANGETYPES-DEFINING)
+[8.17.8. 定義新的範圍型別](rangetypes.md#rangetypes-defining)
 
-[8.17.9. 索引](rangetypes.md#RANGETYPES-INDEXING)
+[8.17.9. 索引](rangetypes.md#rangetypes-indexing)
 
-[8.17.10. 範圍上的限制條件](rangetypes.md#RANGETYPES-CONSTRAINT)
+[8.17.10. 範圍上的限制條件](rangetypes.md#rangetypes-constraint)
 
 <a id="id-1.5.7.25.2"></a><a id="id-1.5.7.25.3"></a>
 
@@ -32,7 +32,7 @@
 
 <a id="RANGETYPES-BUILTIN"></a>
 
-### 8.17.1. 內建的範圍與多重範圍型別 [#](#RANGETYPES-BUILTIN)
+### 8.17.1. 內建的範圍與多重範圍型別 [#](#rangetypes-builtin) <a href="#rangetypes-builtin" id="rangetypes-builtin"></a>
 
 PostgreSQL 內建了下列範圍型別：
 
@@ -53,7 +53,7 @@ PostgreSQL 內建了下列範圍型別：
 
 <a id="RANGETYPES-EXAMPLES"></a>
 
-### 8.17.2. 範例 [#](#RANGETYPES-EXAMPLES)
+### 8.17.2. 範例 [#](#rangetypes-examples) <a href="#rangetypes-examples" id="rangetypes-examples"></a>
 
 ```
 
@@ -81,17 +81,17 @@ SELECT isempty(numrange(1, 5));
 
 <a id="RANGETYPES-INCLUSIVITY"></a>
 
-### 8.17.3. 含端點與不含端點的界限 [#](#RANGETYPES-INCLUSIVITY)
+### 8.17.3. 含端點與不含端點的界限 [#](#rangetypes-inclusivity) <a href="#rangetypes-inclusivity" id="rangetypes-inclusivity"></a>
 
 每個非空範圍都有兩個界限，即下界與上界。這兩個值之間的所有點都包含在該範圍內。含端點的界限表示界限點本身也包含在範圍內，而不含端點的界限則表示界限點不包含在範圍內。
 
-在範圍的文字形式中，含端點的下界以「`[`」表示，不含端點的下界則以「`(`」表示。同樣地，含端點的上界以「`]`」表示，而不含端點的上界則以「`)`」表示。（更多細節請參閱[第 8.17.5 節](rangetypes.md#RANGETYPES-IO)。）
+在範圍的文字形式中，含端點的下界以「`[`」表示，不含端點的下界則以「`(`」表示。同樣地，含端點的上界以「`]`」表示，而不含端點的上界則以「`)`」表示。（更多細節請參閱[第 8.17.5 節](rangetypes.md#rangetypes-io)。）
 
 函式 `lower_inc` 與 `upper_inc` 分別用來測試範圍值的下界與上界是否含端點。
 
 <a id="RANGETYPES-INFINITE"></a>
 
-### 8.17.4. 無限（無界限）範圍 [#](#RANGETYPES-INFINITE)
+### 8.17.4. 無限（無界限）範圍 [#](#rangetypes-infinite) <a href="#rangetypes-infinite" id="rangetypes-infinite"></a>
 
 範圍的下界可以省略，表示所有小於上界的值都包含在該範圍內，例如 `(,3]`。同樣地，如果省略範圍的上界，則所有大於下界的值都包含在該範圍內。如果同時省略下界與上界，則元素型別的所有值都視為在該範圍內。將缺少的界限指定為含端點時，會自動轉換成不含端點，例如 `[,]` 會被轉換成 `(,)`。你可以把這些缺少的值想成正／負無限大，但它們其實是特殊的範圍型別值，並且被視為超出任何範圍元素型別的正／負無限大值。
 
@@ -101,7 +101,7 @@ SELECT isempty(numrange(1, 5));
 
 <a id="RANGETYPES-IO"></a>
 
-### 8.17.5. 範圍的輸入／輸出 [#](#RANGETYPES-IO)
+### 8.17.5. 範圍的輸入／輸出 [#](#rangetypes-io) <a href="#rangetypes-io" id="rangetypes-io"></a>
 
 範圍值的輸入必須符合下列其中一種模式：
 
@@ -124,7 +124,7 @@ empty
 
 ### 注意
 
-這些規則與在複合型別常數中撰寫欄位值的規則非常相似。更多說明請參閱[第 8.16.6 節](rowtypes.md#ROWTYPES-IO-SYNTAX)。
+這些規則與在複合型別常數中撰寫欄位值的規則非常相似。更多說明請參閱[第 8.16.6 節](rowtypes.md#rowtypes-io-syntax)。
 
 範例：
 
@@ -156,7 +156,7 @@ SELECT '{[3,7), [8,9)}'::int4multirange;
 
 <a id="RANGETYPES-CONSTRUCT"></a>
 
-### 8.17.6. 建構範圍與多重範圍 [#](#RANGETYPES-CONSTRUCT)
+### 8.17.6. 建構範圍與多重範圍 [#](#rangetypes-construct) <a href="#rangetypes-construct" id="rangetypes-construct"></a>
 
 每一種範圍型別都有一個與該範圍型別同名的建構子函式。使用建構子函式通常比撰寫範圍常數方便，因為這樣就不需要為界限值額外加上引號。建構子函式接受兩個或三個引數。兩個引數的形式會建構標準形式的範圍（下界含端點、上界不含端點），而三個引數的形式則會建構界限形式由第三個引數指定的範圍。第三個引數必須是「`()`」、「`(]`」、「`[)`」或「`[]`」其中一個字串。例如：
 
@@ -188,7 +188,7 @@ SELECT nummultirange(numrange(1.0, 14.0), numrange(20.0, 25.0));
 
 <a id="RANGETYPES-DISCRETE"></a>
 
-### 8.17.7. 離散範圍型別 [#](#RANGETYPES-DISCRETE)
+### 8.17.7. 離散範圍型別 [#](#rangetypes-discrete) <a href="#rangetypes-discrete" id="rangetypes-discrete"></a>
 
 離散範圍是指元素型別具有明確定義之「步階」的範圍，例如 `integer` 或 `date`。在這類型別中，當兩個元素之間不存在其他有效值時，就可以說這兩個元素是相鄰的。這與連續範圍形成對比：在連續範圍中，總是（或幾乎總是）能夠在兩個給定值之間找出其他元素值。例如，`numeric` 型別上的範圍是連續的，`timestamp` 上的範圍也是。（即使 `timestamp` 的精度有限，理論上可以視為離散的，但把它當成連續的比較好，因為通常我們並不關心它的步階大小。）
 
@@ -200,7 +200,7 @@ SELECT nummultirange(numrange(1.0, 14.0), numrange(20.0, 25.0));
 
 <a id="RANGETYPES-DEFINING"></a>
 
-### 8.17.8. 定義新的範圍型別 [#](#RANGETYPES-DEFINING)
+### 8.17.8. 定義新的範圍型別 [#](#rangetypes-defining) <a href="#rangetypes-defining" id="rangetypes-defining"></a>
 
 使用者可以定義自己的範圍型別。這麼做最常見的原因，是要在內建範圍型別未提供的子型別上使用範圍。例如，若要定義一個子型別為 `float8` 的新範圍型別：
 
@@ -244,7 +244,7 @@ SELECT '[11:10, 23:00]'::timerange;
 
 <a id="RANGETYPES-INDEXING"></a>
 
-### 8.17.9. 索引 [#](#RANGETYPES-INDEXING)
+### 8.17.9. 索引 [#](#rangetypes-indexing) <a href="#rangetypes-indexing" id="rangetypes-indexing"></a>
 
 <a id="id-1.5.7.25.15.2"></a>
 
@@ -261,7 +261,7 @@ CREATE INDEX reservation_idx ON reservation USING GIST (during);
 
 <a id="RANGETYPES-CONSTRAINT"></a>
 
-### 8.17.10. 範圍上的限制條件 [#](#RANGETYPES-CONSTRAINT)
+### 8.17.10. 範圍上的限制條件 [#](#rangetypes-constraint) <a href="#rangetypes-constraint" id="rangetypes-constraint"></a>
 
 <a id="id-1.5.7.25.16.2"></a>
 

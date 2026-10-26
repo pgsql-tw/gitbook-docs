@@ -10,7 +10,7 @@
 
 ### 警告
 
-如果不受信任的使用者可以存取一個尚未採用[安全綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)的資料庫，請在每個工作階段開始時，從 `search_path` 中移除可被公眾寫入的綱要。做法之一是將參數關鍵字 `options` 設為值 `-csearch_path=`。或者，也可以在連線後執行 `PQexec(conn, "SELECT
+如果不受信任的使用者可以存取一個尚未採用[安全綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#ddl-schemas-patterns)的資料庫，請在每個工作階段開始時，從 `search_path` 中移除可被公眾寫入的綱要。做法之一是將參數關鍵字 `options` 設為值 `-csearch_path=`。或者，也可以在連線後執行 `PQexec(conn, "SELECT
 pg_catalog.set_config('search_path', '', false)")`。這項考量並非 libpq 所特有；它適用於每一種可執行任意 SQL 命令的介面。
 
 ### 警告

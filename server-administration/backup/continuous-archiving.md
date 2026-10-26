@@ -268,7 +268,7 @@ WAL 管理相關的其他公用函式，列於
 
 當 `wal_level` 為 `minimal` 時，
 部分 SQL 指令會經過最佳化以避免 WAL 記錄，詳見
-[第 14.4.7 節](../../the-sql-language/performance-tips/populate.md#POPULATE-PITR) 所述。若這類陳述式在執行期間開啟了歸檔或串流複寫，
+[第 14.4.7 節](../../the-sql-language/performance-tips/populate.md#populate-pitr) 所述。若這類陳述式在執行期間開啟了歸檔或串流複寫，
 WAL 就不會包含足以供歸檔恢復使用的資訊。（當機恢復不受
 影響。）因此，`wal_level` 只能在
 伺服器啟動時變更。不過，`archive_command` 與 `archive_library` 可以透過

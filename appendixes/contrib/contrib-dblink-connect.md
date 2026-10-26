@@ -40,7 +40,7 @@ dblink_connect(text connname, text connstr) returns text
 
 ## 注意事項
 
-若不受信任的使用者可存取未採用[安全 schema 使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)的資料庫，請在每個工作階段開始時從 `search_path` 移除可供公眾寫入的 schema。例如，可在 *`connstr`* 加入 `options=-csearch_path=`。此考量不僅適用於 `dblink`，也適用於所有執行任意 SQL 指令的介面。
+若不受信任的使用者可存取未採用[安全 schema 使用模式](../../the-sql-language/ddl/ddl-schemas.md#ddl-schemas-patterns)的資料庫，請在每個工作階段開始時從 `search_path` 移除可供公眾寫入的 schema。例如，可在 *`connstr`* 加入 `options=-csearch_path=`。此考量不僅適用於 `dblink`，也適用於所有執行任意 SQL 指令的介面。
 
 外部資料包裝函式 `dblink_fdw` 有額外的布林選項 `use_scram_passthrough`，用以控制 `dblink` 是否使用 SCRAM 直通驗證連線至遠端資料庫。可為外部伺服器或使用者對應指定此選項；使用者對應設定會覆寫外部伺服器設定。使用 SCRAM 直通驗證時，`dblink` 會使用 SCRAM 雜湊秘密而非明文使用者密碼連線遠端伺服器，避免在 PostgreSQL 系統目錄中儲存明文使用者密碼。進一步的詳細資訊與限制，請參閱 postgres_fdw 對等的 [`use_scram_passthrough`](postgres-fdw.md#POSTGRES-FDW-OPTION-USE-SCRAM-PASSTHROUGH) 選項文件。
 

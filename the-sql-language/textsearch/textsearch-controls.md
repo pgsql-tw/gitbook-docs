@@ -2,19 +2,19 @@
 
 ## 12.3. 控制文字搜尋 [#](#textsearch-controls) <a href="#textsearch-controls" id="textsearch-controls"></a>
 
-[12.3.1. 剖析文件](textsearch-controls.md#TEXTSEARCH-PARSING-DOCUMENTS)
+[12.3.1. 剖析文件](textsearch-controls.md#textsearch-parsing-documents)
 
-[12.3.2. 剖析查詢](textsearch-controls.md#TEXTSEARCH-PARSING-QUERIES)
+[12.3.2. 剖析查詢](textsearch-controls.md#textsearch-parsing-queries)
 
-[12.3.3. 搜尋結果排名](textsearch-controls.md#TEXTSEARCH-RANKING)
+[12.3.3. 搜尋結果排名](textsearch-controls.md#textsearch-ranking)
 
-[12.3.4. 標示搜尋結果](textsearch-controls.md#TEXTSEARCH-HEADLINE)
+[12.3.4. 標示搜尋結果](textsearch-controls.md#textsearch-headline)
 
 要實作全文檢索，必須有一個函式能從文件建立 `tsvector`，並從使用者的查詢建立 `tsquery`。此外，我們需要以有用的順序回傳結果，因此需要一個函式來依文件與查詢的相關程度比較文件。能夠將結果美觀地呈現出來也很重要。PostgreSQL 對上述所有功能都提供了支援。
 
 <a id="TEXTSEARCH-PARSING-DOCUMENTS"></a>
 
-### 12.3.1. 剖析文件 [#](#TEXTSEARCH-PARSING-DOCUMENTS)
+### 12.3.1. 剖析文件 [#](#textsearch-parsing-documents) <a href="#textsearch-parsing-documents" id="textsearch-parsing-documents"></a>
 
 PostgreSQL 提供了 `to_tsvector` 函式，可將文件轉換為 `tsvector` 資料型別。
 
@@ -37,7 +37,7 @@ SELECT to_tsvector('english', 'a fat  cat sat on a mat - it ate a fat rats');
 
 在上面的範例中，我們可以看到產生的 `tsvector` 並不包含單字 `a`、`on` 或 `it`，單字 `rats` 變成了 `rat`，而標點符號 `-` 則被忽略。
 
-`to_tsvector` 函式在內部會呼叫一個剖析器，將文件文字切分為語彙單元，並為每個語彙單元指派一種類型。對每個語彙單元，會查詢一份字典清單（[第 12.6 節](textsearch-dictionaries.md)），而這份清單會依語彙單元類型而有所不同。第一個*辨識出*該語彙單元的字典，會產生一個或多個正規化的*詞素*來代表該語彙單元。例如，`rats` 之所以變成 `rat`，是因為其中一個字典辨識出單字 `rats` 是 `rat` 的複數形式。有些單字會被辨識為*停用詞*（[第 12.6.1 節](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)），因為它們出現得太頻繁，對搜尋沒有用處，所以會被忽略。在我們的範例中，這些單字是 `a`、`on` 與 `it`。如果清單中沒有任何字典辨識出該語彙單元，它也會被忽略。在這個範例中，標點符號 `-` 就是如此，因為實際上並沒有為它的語彙單元類型（`Space symbols`）指派任何字典，這表示空白類的語彙單元永遠不會被建立索引。剖析器、字典，以及要為哪些類型的語彙單元建立索引，都是由所選的文字搜尋設定（[第 12.7 節](textsearch-configuration.md)）決定的。同一個資料庫中可以有許多不同的設定，而且各種語言都有預先定義的設定可用。在我們的範例中，使用的是英文的預設設定 `english`。
+`to_tsvector` 函式在內部會呼叫一個剖析器，將文件文字切分為語彙單元，並為每個語彙單元指派一種類型。對每個語彙單元，會查詢一份字典清單（[第 12.6 節](textsearch-dictionaries.md)），而這份清單會依語彙單元類型而有所不同。第一個*辨識出*該語彙單元的字典，會產生一個或多個正規化的*詞素*來代表該語彙單元。例如，`rats` 之所以變成 `rat`，是因為其中一個字典辨識出單字 `rats` 是 `rat` 的複數形式。有些單字會被辨識為*停用詞*（[第 12.6.1 節](textsearch-dictionaries.md#textsearch-stopwords)），因為它們出現得太頻繁，對搜尋沒有用處，所以會被忽略。在我們的範例中，這些單字是 `a`、`on` 與 `it`。如果清單中沒有任何字典辨識出該語彙單元，它也會被忽略。在這個範例中，標點符號 `-` 就是如此，因為實際上並沒有為它的語彙單元類型（`Space symbols`）指派任何字典，這表示空白類的語彙單元永遠不會被建立索引。剖析器、字典，以及要為哪些類型的語彙單元建立索引，都是由所選的文字搜尋設定（[第 12.7 節](textsearch-configuration.md)）決定的。同一個資料庫中可以有許多不同的設定，而且各種語言都有預先定義的設定可用。在我們的範例中，使用的是英文的預設設定 `english`。
 
 `setweight` 函式可以用給定的*權重*（weight）標記 `tsvector` 的項目，權重是字母 `A`、`B`、`C` 或 `D` 之一。這通常用來標記來自文件不同部分的項目，例如標題與內文。之後，這項資訊可以用於搜尋結果的排名。
 
@@ -52,11 +52,11 @@ UPDATE tt SET ti =
     setweight(to_tsvector(coalesce(body,'')), 'D');
 ```
 
-這裡我們使用 `setweight` 標記完成的 `tsvector` 中每個詞素的來源，然後使用 `tsvector` 串接運算子 `||` 合併這些已標記的 `tsvector` 值。（[第 12.4.1 節](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)會詳細說明這些運算。）
+這裡我們使用 `setweight` 標記完成的 `tsvector` 中每個詞素的來源，然後使用 `tsvector` 串接運算子 `||` 合併這些已標記的 `tsvector` 值。（[第 12.4.1 節](textsearch-features.md#textsearch-manipulate-tsvector)會詳細說明這些運算。）
 
 <a id="TEXTSEARCH-PARSING-QUERIES"></a>
 
-### 12.3.2. 剖析查詢 [#](#TEXTSEARCH-PARSING-QUERIES)
+### 12.3.2. 剖析查詢 [#](#textsearch-parsing-queries) <a href="#textsearch-parsing-queries" id="textsearch-parsing-queries"></a>
 
 PostgreSQL 提供了 `to_tsquery`、`plainto_tsquery`、`phraseto_tsquery` 與 `websearch_to_tsquery` 函式，可將查詢轉換為 `tsquery` 資料型別。`to_tsquery` 比 `plainto_tsquery` 或 `phraseto_tsquery` 提供更多功能，但對輸入的要求也比較嚴格。`websearch_to_tsquery` 是 `to_tsquery` 的簡化版本，採用另一種類似網頁搜尋引擎所使用的語法。
 
@@ -67,7 +67,7 @@ PostgreSQL 提供了 `to_tsquery`、`plainto_tsquery`、`phraseto_tsquery` 與 `
 to_tsquery([ config regconfig, ] querytext text) returns tsquery
 ```
 
-`to_tsquery` 會從 *`querytext`* 建立 `tsquery` 值，其內容必須由單一語彙單元組成，並以 `tsquery` 運算子 `&`（AND）、`|`（OR）、`!`（NOT）與 `<->`（FOLLOWED BY）分隔，也可以用括號分組。換句話說，`to_tsquery` 的輸入必須已經遵循[第 8.11.2 節](../datatype/datatype-textsearch.md#DATATYPE-TSQUERY)所述的 `tsquery` 輸入一般規則。差別在於，基本的 `tsquery` 輸入會按字面接受語彙單元，而 `to_tsquery` 則會使用指定的或預設的設定將每個語彙單元正規化為詞素，並依該設定捨棄屬於停用詞的語彙單元。例如：
+`to_tsquery` 會從 *`querytext`* 建立 `tsquery` 值，其內容必須由單一語彙單元組成，並以 `tsquery` 運算子 `&`（AND）、`|`（OR）、`!`（NOT）與 `<->`（FOLLOWED BY）分隔，也可以用括號分組。換句話說，`to_tsquery` 的輸入必須已經遵循[第 8.11.2 節](../datatype/datatype-textsearch.md#datatype-tsquery)所述的 `tsquery` 輸入一般規則。差別在於，基本的 `tsquery` 輸入會按字面接受語彙單元，而 `to_tsquery` 則會使用指定的或預設的設定將每個語彙單元正規化為詞素，並依該設定捨棄屬於停用詞的語彙單元。例如：
 
 ```
 
@@ -223,7 +223,7 @@ SELECT websearch_to_tsquery('english', '""" )( dummy \\ query <->');
 
 <a id="TEXTSEARCH-RANKING"></a>
 
-### 12.3.3. 搜尋結果排名 [#](#TEXTSEARCH-RANKING)
+### 12.3.3. 搜尋結果排名 [#](#textsearch-ranking) <a href="#textsearch-ranking" id="textsearch-ranking"></a>
 
 排名嘗試衡量文件與特定查詢的相關程度，以便在相符項目很多時，先顯示最相關的項目。PostgreSQL 提供了兩個預先定義的排名函式，它們會考量詞彙、鄰近度與結構資訊；也就是說，它們會考量查詢詞在文件中出現的頻率、這些詞在文件中彼此的距離，以及它們所出現之文件部分的重要性。不過，相關性的概念很模糊，而且與應用高度相關。不同的應用可能需要額外的資訊來排名，例如文件的修改時間。內建的排名函式只是範例。你可以撰寫自己的排名函式，或將它們的結果與其他因素結合，以符合特定的需求。
 
@@ -317,7 +317,7 @@ LIMIT 10;
 
 <a id="TEXTSEARCH-HEADLINE"></a>
 
-### 12.3.4. 標示搜尋結果 [#](#TEXTSEARCH-HEADLINE)
+### 12.3.4. 標示搜尋結果 [#](#textsearch-headline) <a href="#textsearch-headline" id="textsearch-headline"></a>
 
 呈現搜尋結果時，理想的做法是顯示每份文件的一部分，以及它與查詢的關聯。搜尋引擎通常會顯示文件的片段，並標示出搜尋詞。PostgreSQL 提供了 `ts_headline` 函式來實作這項功能。
 

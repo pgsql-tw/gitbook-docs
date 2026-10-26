@@ -2,17 +2,17 @@
 
 ## 12.8. 測試與除錯文字搜尋 [#](#textsearch-debugging) <a href="#textsearch-debugging" id="textsearch-debugging"></a>
 
-[12.8.1. 設定測試](textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING)
+[12.8.1. 設定測試](textsearch-debugging.md#textsearch-configuration-testing)
 
-[12.8.2. 剖析器測試](textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING)
+[12.8.2. 剖析器測試](textsearch-debugging.md#textsearch-parser-testing)
 
-[12.8.3. 字典測試](textsearch-debugging.md#TEXTSEARCH-DICTIONARY-TESTING)
+[12.8.3. 字典測試](textsearch-debugging.md#textsearch-dictionary-testing)
 
 自訂文字搜尋設定的行為很容易變得令人困惑。本節所述的函式可用來測試文字搜尋物件。你可以測試完整的設定，也可以分別測試剖析器與字典。
 
 <a id="TEXTSEARCH-CONFIGURATION-TESTING"></a>
 
-### 12.8.1. 設定測試 [#](#TEXTSEARCH-CONFIGURATION-TESTING)
+### 12.8.1. 設定測試 [#](#textsearch-configuration-testing) <a href="#textsearch-configuration-testing" id="textsearch-configuration-testing"></a>
 
 `ts_debug` 函式可以讓你輕鬆測試文字搜尋設定。
 
@@ -105,7 +105,7 @@ SELECT * FROM ts_debug('public.english', 'The Brightest supernovaes');
 
 在這個範例中，剖析器將單字 `Brightest` 辨識為 `ASCII word`（別名 `asciiword`）。這個語彙單元類型的字典清單是 `english_ispell` 與 `english_stem`。這個單字被 `english_ispell` 辨識出來，並被簡化為名詞 `bright`。單字 `supernovaes` 對 `english_ispell` 字典而言是未知的，因此它被傳給下一個字典，而且幸運地被辨識出來（事實上，`english_stem` 是一個能辨識所有內容的 Snowball 字典；這就是它被放在字典清單最後的原因）。
 
-單字 `The` 被 `english_ispell` 字典辨識為停用詞（[第 12.6.1 節](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)），因此不會被建立索引。空白也會被捨棄，因為設定完全沒有為它們提供任何字典。
+單字 `The` 被 `english_ispell` 字典辨識為停用詞（[第 12.6.1 節](textsearch-dictionaries.md#textsearch-stopwords)），因此不會被建立索引。空白也會被捨棄，因為設定完全沒有為它們提供任何字典。
 
 你可以明確指定想要查看的欄位，以縮減輸出的寬度：
 
@@ -124,7 +124,7 @@ FROM ts_debug('public.english', 'The Brightest supernovaes');
 
 <a id="TEXTSEARCH-PARSER-TESTING"></a>
 
-### 12.8.2. 剖析器測試 [#](#TEXTSEARCH-PARSER-TESTING)
+### 12.8.2. 剖析器測試 [#](#textsearch-parser-testing) <a href="#textsearch-parser-testing" id="textsearch-parser-testing"></a>
 
 下列函式可以直接測試文字搜尋剖析器。
 
@@ -197,7 +197,7 @@ SELECT * FROM ts_token_type('default');
 
 <a id="TEXTSEARCH-DICTIONARY-TESTING"></a>
 
-### 12.8.3. 字典測試 [#](#TEXTSEARCH-DICTIONARY-TESTING)
+### 12.8.3. 字典測試 [#](#textsearch-dictionary-testing) <a href="#textsearch-dictionary-testing" id="textsearch-dictionary-testing"></a>
 
 `ts_lexize` 函式可以協助測試字典。
 

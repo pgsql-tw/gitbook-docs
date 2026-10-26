@@ -160,7 +160,7 @@ WHERE ip_address IN (VALUES('192.168.0.1'::inet), ('192.168.0.10'), ('192.168.1.
 
 對於簡單的 `IN` 測試，比起像上面那樣撰寫
 `VALUES` 查詢，最好改用
-[純量清單](../../the-sql-language/functions/functions-comparisons.md#FUNCTIONS-COMPARISONS-IN-SCALAR)
+[純量清單](../../the-sql-language/functions/functions-comparisons.md#functions-comparisons-in-scalar)
 形式的 `IN`。純量清單的方式需要輸入的內容較少，
 通常也更有效率。
 

@@ -11,14 +11,14 @@
 [9.3. 數學函式與運算子](functions-math.md)
 
 [9.4. 字串函式與運算子](functions-string.md)
-:   [9.4.1. `format`](functions-string.md#FUNCTIONS-STRING-FORMAT)
+:   [9.4.1. `format`](functions-string.md#functions-string-format)
 
 [9.5. 二進位字串函式與運算子](functions-binarystring.md)
 
 [9.6. 位元字串函式與運算子](functions-bitstring.md)
 
 [9.7. 模式比對](functions-matching.md)
-:   [9.7.1. `LIKE`](functions-matching.md#FUNCTIONS-LIKE)
+:   [9.7.1. `LIKE`](functions-matching.md#functions-like)
 
     [9.7.2. `SIMILAR TO` 正規表示式](functions-matching.md#FUNCTIONS-SIMILARTO-REGEXP)
 
@@ -27,7 +27,7 @@
 [9.8. 資料型別格式化函式](functions-formatting.md)
 
 [9.9. 日期／時間函式與運算子](functions-datetime.md)
-:   [9.9.1. `EXTRACT`、`date_part`](functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT)
+:   [9.9.1. `EXTRACT`、`date_part`](functions-datetime.md#functions-datetime-extract)
 
     [9.9.2. `date_trunc`](functions-datetime.md#FUNCTIONS-DATETIME-TRUNC)
 
@@ -50,7 +50,7 @@
 [9.14. UUID 函式](functions-uuid.md)
 
 [9.15. XML 函式](functions-xml.md)
-:   [9.15.1. 產生 XML 內容](functions-xml.md#FUNCTIONS-PRODUCING-XML)
+:   [9.15.1. 產生 XML 內容](functions-xml.md#functions-producing-xml)
 
     [9.15.2. XML 述詞](functions-xml.md#FUNCTIONS-XML-PREDICATES)
 
@@ -59,7 +59,7 @@
     [9.15.4. 將資料表對應到 XML](functions-xml.md#FUNCTIONS-XML-MAPPING)
 
 [9.16. JSON 函式與運算子](functions-json.md)
-:   [9.16.1. 處理與建立 JSON 資料](functions-json.md#FUNCTIONS-JSON-PROCESSING)
+:   [9.16.1. 處理與建立 JSON 資料](functions-json.md#functions-json-processing)
 
     [9.16.2. SQL/JSON 路徑語言](functions-json.md#FUNCTIONS-SQLJSON-PATH)
 
@@ -70,7 +70,7 @@
 [9.17. 序列操作函式](functions-sequence.md)
 
 [9.18. 條件運算式](functions-conditional.md)
-:   [9.18.1. `CASE`](functions-conditional.md#FUNCTIONS-CASE)
+:   [9.18.1. `CASE`](functions-conditional.md#functions-case)
 
     [9.18.2. `COALESCE`](functions-conditional.md#FUNCTIONS-COALESCE-NVL-IFNULL)
 
@@ -89,7 +89,7 @@
 [9.23. 合併支援函式](functions-merge-support.md)
 
 [9.24. 子查詢運算式](functions-subquery.md)
-:   [9.24.1. `EXISTS`](functions-subquery.md#FUNCTIONS-SUBQUERY-EXISTS)
+:   [9.24.1. `EXISTS`](functions-subquery.md#functions-subquery-exists)
 
     [9.24.2. `IN`](functions-subquery.md#FUNCTIONS-SUBQUERY-IN)
 
@@ -102,7 +102,7 @@
     [9.24.6. 單列比較](functions-subquery.md#FUNCTIONS-SUBQUERY-SINGLE-ROW-COMP)
 
 [9.25. 資料列與陣列比較](functions-comparisons.md)
-:   [9.25.1. `IN`](functions-comparisons.md#FUNCTIONS-COMPARISONS-IN-SCALAR)
+:   [9.25.1. `IN`](functions-comparisons.md#functions-comparisons-in-scalar)
 
     [9.25.2. `NOT IN`](functions-comparisons.md#FUNCTIONS-COMPARISONS-NOT-IN)
 
@@ -117,7 +117,7 @@
 [9.26. 集合回傳函式](functions-srf.md)
 
 [9.27. 系統資訊函式與運算子](functions-info.md)
-:   [9.27.1. 工作階段資訊函式](functions-info.md#FUNCTIONS-INFO-SESSION)
+:   [9.27.1. 工作階段資訊函式](functions-info.md#functions-info-session)
 
     [9.27.2. 存取權限查詢函式](functions-info.md#FUNCTIONS-INFO-ACCESS)
 
@@ -142,7 +142,7 @@
     [9.27.12. WAL 摘要資訊函式](functions-info.md#FUNCTIONS-INFO-WAL-SUMMARY)
 
 [9.28. 系統管理函式](functions-admin.md)
-:   [9.28.1. 組態設定函式](functions-admin.md#FUNCTIONS-ADMIN-SET)
+:   [9.28.1. 組態設定函式](functions-admin.md#functions-admin-set)
 
     [9.28.2. 伺服器訊號函式](functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)
 
@@ -165,14 +165,14 @@
 [9.29. 觸發程序函式](functions-trigger.md)
 
 [9.30. 事件觸發程序函式](functions-event-triggers.md)
-:   [9.30.1. 在命令結束時擷取變更](functions-event-triggers.md#PG-EVENT-TRIGGER-DDL-COMMAND-END-FUNCTIONS)
+:   [9.30.1. 在命令結束時擷取變更](functions-event-triggers.md#pg-event-trigger-ddl-command-end-functions)
 
     [9.30.2. 處理被 DDL 命令刪除的物件](functions-event-triggers.md#PG-EVENT-TRIGGER-SQL-DROP-FUNCTIONS)
 
     [9.30.3. 處理資料表改寫事件](functions-event-triggers.md#PG-EVENT-TRIGGER-TABLE-REWRITE-FUNCTIONS)
 
 [9.31. 統計資訊函式](functions-statistics.md)
-:   [9.31.1. 檢視 MCV 清單](functions-statistics.md#FUNCTIONS-STATISTICS-MCV)
+:   [9.31.1. 檢視 MCV 清單](functions-statistics.md#functions-statistics-mcv)
 
 <a id="id-1.5.8.2"></a><a id="id-1.5.8.3"></a>
 

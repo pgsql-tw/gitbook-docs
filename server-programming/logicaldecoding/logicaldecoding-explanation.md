@@ -173,7 +173,7 @@ DETAIL:  Synchronization could lead to data loss, because the remote slot needs 
 當使用串流複寫介面建立新的複寫插槽時
 （見[CREATE_REPLICATION_SLOT](../../internals/protocol/protocol-replication.md#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT)），
 系統會匯出一份快照
-（見[9.28.5 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)），該快照會精確顯示
+（見[9.28.5 節](../../the-sql-language/functions/functions-admin.md#functions-snapshot-synchronization)），該快照會精確顯示
 資料庫在此之後、所有變更都將被納入變更串流時的狀態。此快照可用來
 建立新的複本，方式是使用
 [`SET TRANSACTION

@@ -1,19 +1,19 @@
 <a id="DATATYPE-JSON"></a>
 ## 8.14. JSON 型別 [#](#datatype-json) <a href="#datatype-json" id="datatype-json"></a>
 
-[8.14.1. JSON 輸入與輸出語法](datatype-json.md#JSON-KEYS-ELEMENTS)
+[8.14.1. JSON 輸入與輸出語法](datatype-json.md#json-keys-elements)
 
-[8.14.2. 設計 JSON 文件](datatype-json.md#JSON-DOC-DESIGN)
+[8.14.2. 設計 JSON 文件](datatype-json.md#json-doc-design)
 
-[8.14.3. `jsonb` 的包含與存在性](datatype-json.md#JSON-CONTAINMENT)
+[8.14.3. `jsonb` 的包含與存在性](datatype-json.md#json-containment)
 
-[8.14.4. `jsonb` 索引](datatype-json.md#JSON-INDEXING)
+[8.14.4. `jsonb` 索引](datatype-json.md#json-indexing)
 
-[8.14.5. `jsonb` 下標](datatype-json.md#JSONB-SUBSCRIPTING)
+[8.14.5. `jsonb` 下標](datatype-json.md#jsonb-subscripting)
 
-[8.14.6. 轉換（Transforms）](datatype-json.md#DATATYPE-JSON-TRANSFORMS)
+[8.14.6. 轉換（Transforms）](datatype-json.md#datatype-json-transforms)
 
-[8.14.7. jsonpath 型別](datatype-json.md#DATATYPE-JSONPATH)
+[8.14.7. jsonpath 型別](datatype-json.md#datatype-jsonpath)
 
 <a id="id-1.5.7.22.2"></a><a id="id-1.5.7.22.3"></a>
 
@@ -27,7 +27,7 @@ PostgreSQL 提供了兩種儲存 JSON
 資料的型別：`json` 與 `jsonb`。為了對這些資料型別實作高效率的查詢
 機制，PostgreSQL
 還提供了 `jsonpath` 資料型別，描述於
-[8.14.7 節](datatype-json.md#DATATYPE-JSONPATH)。
+[8.14.7 節](datatype-json.md#datatype-jsonpath)。
 
 `json` 與 `jsonb`
 資料型別所接受的輸入值集合*幾乎*完全相同。兩者實際上的主要差異在於效率。
@@ -111,7 +111,7 @@ PostgreSQL `numeric` 資料型別範圍的數字，
 
 <a id="JSON-KEYS-ELEMENTS"></a>
 
-### 8.14.1. JSON 輸入與輸出語法 [#](#JSON-KEYS-ELEMENTS)
+### 8.14.1. JSON 輸入與輸出語法 [#](#json-keys-elements) <a href="#json-keys-elements" id="json-keys-elements"></a>
 
 JSON 資料型別的輸入／輸出語法如
 RFC 7159 所規範。
@@ -178,7 +178,7 @@ SELECT '{"reading": 1.230e-5}'::json, '{"reading": 1.230e-5}'::jsonb;
 
 <a id="JSON-DOC-DESIGN"></a>
 
-### 8.14.2. 設計 JSON 文件 [#](#JSON-DOC-DESIGN)
+### 8.14.2. 設計 JSON 文件 [#](#json-doc-design) <a href="#json-doc-design" id="json-doc-design"></a>
 
 以 JSON 表示資料，可以比傳統的關聯式資料模型
 更具彈性，這在需求變動頻繁的環境中相當有吸引力。
@@ -201,7 +201,7 @@ JSON 資料在儲存於資料表中時，
 
 <a id="JSON-CONTAINMENT"></a>
 
-### 8.14.3. `jsonb` 的包含與存在性 [#](#JSON-CONTAINMENT)
+### 8.14.3. `jsonb` 的包含與存在性 [#](#json-containment) <a href="#json-containment" id="json-containment"></a>
 
 <a id="id-1.5.7.22.17.2"></a><a id="id-1.5.7.22.17.3"></a>
 
@@ -325,7 +325,7 @@ JSON 運算子與函式，都記載
 
 <a id="JSON-INDEXING"></a>
 
-### 8.14.4. `jsonb` 索引 [#](#JSON-INDEXING)
+### 8.14.4. `jsonb` 索引 [#](#json-indexing) <a href="#json-indexing" id="json-indexing"></a>
 
 <a id="id-1.5.7.22.18.2"></a>
 
@@ -548,7 +548,7 @@ PostgreSQL 資料型別相同的比較規則進行比較。字串則
 
 <a id="JSONB-SUBSCRIPTING"></a>
 
-### 8.14.5. `jsonb` 下標 [#](#JSONB-SUBSCRIPTING)
+### 8.14.5. `jsonb` 下標 [#](#jsonb-subscripting) <a href="#jsonb-subscripting" id="jsonb-subscripting"></a>
 
 `jsonb` 資料型別支援陣列風格的下標運算式，
 用來擷取與修改元素。巢狀的值可以透過鏈接
@@ -645,7 +645,7 @@ UPDATE table_name SET jsonb_field[1]['a'] = '1';
 
 <a id="DATATYPE-JSON-TRANSFORMS"></a>
 
-### 8.14.6. 轉換（Transforms） [#](#DATATYPE-JSON-TRANSFORMS)
+### 8.14.6. 轉換（Transforms） [#](#datatype-json-transforms) <a href="#datatype-json-transforms" id="datatype-json-transforms"></a>
 
 系統提供了額外的擴充功能，可為不同的程序性語言
 實作 `jsonb` 型別的轉換。
@@ -665,7 +665,7 @@ Python 的字典（dictionary）、串列（list）與純量。
 
 <a id="DATATYPE-JSONPATH"></a>
 
-### 8.14.7. jsonpath 型別 [#](#DATATYPE-JSONPATH)
+### 8.14.7. jsonpath 型別 [#](#datatype-jsonpath) <a href="#datatype-jsonpath" id="datatype-jsonpath"></a>
 
 <a id="id-1.5.7.22.21.2"></a>
 
@@ -733,7 +733,7 @@ SQL/JSON 路徑運算式通常會以 SQL 字元字串字面量的形式
   或定義路徑求值的順序。
 
 關於在 SQL/JSON 查詢函式中使用 `jsonpath` 運算式的
-詳情，請參閱[9.16.2 節](../functions/functions-json.md#FUNCTIONS-SQLJSON-PATH)。
+詳情，請參閱[9.16.2 節](../functions/functions-json.md#functions-sqljson-path)。
 
 <a id="TYPE-JSONPATH-VARIABLES"></a>
 

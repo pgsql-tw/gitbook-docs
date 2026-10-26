@@ -50,7 +50,7 @@ LOG:  request for BRIN range summarization for index "brin_wi_idx" page 128 was 
 
 發生這種情況時，該範圍會維持未摘要的狀態，直到下一次對該資料表執行一般的 vacuum，或呼叫上述函式之一為止。
 
-反過來說，可以使用 `brin_desummarize_range(regclass, bigint)` 函式取消某個範圍的摘要；當現有的值已經改變，使得索引 tuple 不再能很好地代表它們時，這個函式就很有用。詳細資訊請參閱[第 9.28.8 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-INDEX)。
+反過來說，可以使用 `brin_desummarize_range(regclass, bigint)` 函式取消某個範圍的摘要；當現有的值已經改變，使得索引 tuple 不再能很好地代表它們時，這個函式就很有用。詳細資訊請參閱[第 9.28.8 節](../../the-sql-language/functions/functions-admin.md#functions-admin-index)。
 
 <a id="BRIN-BUILTIN-OPCLASSES"></a>
 

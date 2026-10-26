@@ -2,29 +2,29 @@
 
 ## 14.4. 填入資料庫 [#](#populate) <a href="#populate" id="populate"></a>
 
-[14.4.1. 停用自動提交](populate.md#DISABLE-AUTOCOMMIT)
+[14.4.1. 停用自動提交](populate.md#disable-autocommit)
 
-[14.4.2. 使用 `COPY`](populate.md#POPULATE-COPY-FROM)
+[14.4.2. 使用 `COPY`](populate.md#populate-copy-from)
 
-[14.4.3. 移除索引](populate.md#POPULATE-RM-INDEXES)
+[14.4.3. 移除索引](populate.md#populate-rm-indexes)
 
-[14.4.4. 移除外鍵限制條件](populate.md#POPULATE-RM-FKEYS)
+[14.4.4. 移除外鍵限制條件](populate.md#populate-rm-fkeys)
 
-[14.4.5. 增加 `maintenance_work_mem`](populate.md#POPULATE-WORK-MEM)
+[14.4.5. 增加 `maintenance_work_mem`](populate.md#populate-work-mem)
 
-[14.4.6. 增加 `max_wal_size`](populate.md#POPULATE-MAX-WAL-SIZE)
+[14.4.6. 增加 `max_wal_size`](populate.md#populate-max-wal-size)
 
-[14.4.7. 停用 WAL 封存與串流複寫](populate.md#POPULATE-PITR)
+[14.4.7. 停用 WAL 封存與串流複寫](populate.md#populate-pitr)
 
-[14.4.8. 事後執行 `ANALYZE`](populate.md#POPULATE-ANALYZE)
+[14.4.8. 事後執行 `ANALYZE`](populate.md#populate-analyze)
 
-[14.4.9. 關於 pg_dump 的一些說明](populate.md#POPULATE-PG-DUMP)
+[14.4.9. 關於 pg_dump 的一些說明](populate.md#populate-pg-dump)
 
 初次填入資料庫時，可能需要插入大量資料。本節提供一些建議，說明如何讓這個過程盡可能有效率。
 
 <a id="DISABLE-AUTOCOMMIT"></a>
 
-### 14.4.1. 停用自動提交 [#](#DISABLE-AUTOCOMMIT)
+### 14.4.1. 停用自動提交 [#](#disable-autocommit) <a href="#disable-autocommit" id="disable-autocommit"></a>
 
 <a id="id-1.5.13.7.3.2"></a>
 
@@ -32,7 +32,7 @@
 
 <a id="POPULATE-COPY-FROM"></a>
 
-### 14.4.2. 使用 `COPY` [#](#POPULATE-COPY-FROM)
+### 14.4.2. 使用 `COPY` [#](#populate-copy-from) <a href="#populate-copy-from" id="populate-copy-from"></a>
 
 請使用 [`COPY`](../../reference/sql-commands/sql-copy.md) 以單一命令載入所有資料列，而不要使用一連串的 `INSERT` 命令。`COPY` 命令針對載入大量資料列做了最佳化；它不如 `INSERT` 靈活，但在大量載入資料時，額外負擔明顯少得多。由於 `COPY` 是單一命令，如果你使用這種方法填入資料表，就不需要停用自動提交。
 
@@ -44,7 +44,7 @@
 
 <a id="POPULATE-RM-INDEXES"></a>
 
-### 14.4.3. 移除索引 [#](#POPULATE-RM-INDEXES)
+### 14.4.3. 移除索引 [#](#populate-rm-indexes) <a href="#populate-rm-indexes" id="populate-rm-indexes"></a>
 
 如果你要載入的是新建立的資料表，最快的方法是先建立資料表，使用 `COPY` 大量載入該資料表的資料，然後再為該資料表建立所需的索引。在既有資料上建立索引，比在載入每一筆資料列時逐步更新索引來得快。
 
@@ -52,7 +52,7 @@
 
 <a id="POPULATE-RM-FKEYS"></a>
 
-### 14.4.4. 移除外鍵限制條件 [#](#POPULATE-RM-FKEYS)
+### 14.4.4. 移除外鍵限制條件 [#](#populate-rm-fkeys) <a href="#populate-rm-fkeys" id="populate-rm-fkeys"></a>
 
 就像索引一樣，「整批」檢查外鍵限制條件，會比逐筆資料列檢查更有效率。因此，先刪除外鍵限制條件、載入資料，再重新建立限制條件，可能會很有用。同樣地，這需要在資料載入速度與限制條件不存在期間失去錯誤檢查之間取捨。
 
@@ -60,19 +60,19 @@
 
 <a id="POPULATE-WORK-MEM"></a>
 
-### 14.4.5. 增加 `maintenance_work_mem` [#](#POPULATE-WORK-MEM)
+### 14.4.5. 增加 `maintenance_work_mem` [#](#populate-work-mem) <a href="#populate-work-mem" id="populate-work-mem"></a>
 
 在載入大量資料時暫時增加組態變數 [maintenance_work_mem](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAINTENANCE-WORK-MEM)，可以提升效能。這有助於加快 `CREATE INDEX` 命令與 `ALTER TABLE ADD FOREIGN KEY` 命令。它對 `COPY` 本身並沒有太大幫助，因此這項建議只在你使用上述其中一種或兩種技巧時才有用。
 
 <a id="POPULATE-MAX-WAL-SIZE"></a>
 
-### 14.4.6. 增加 `max_wal_size` [#](#POPULATE-MAX-WAL-SIZE)
+### 14.4.6. 增加 `max_wal_size` [#](#populate-max-wal-size) <a href="#populate-max-wal-size" id="populate-max-wal-size"></a>
 
 暫時增加組態變數 [max_wal_size](../../server-administration/runtime-config/runtime-config-wal.md#GUC-MAX-WAL-SIZE)，也可以讓大量資料的載入更快。這是因為將大量資料載入 PostgreSQL，會使檢查點比正常的檢查點頻率（由組態變數 `checkpoint_timeout` 指定）更頻繁地發生。每當發生檢查點時，所有髒頁都必須排清到磁碟。在大量載入資料期間暫時增加 `max_wal_size`，就可以減少所需的檢查點數量。
 
 <a id="POPULATE-PITR"></a>
 
-### 14.4.7. 停用 WAL 封存與串流複寫 [#](#POPULATE-PITR)
+### 14.4.7. 停用 WAL 封存與串流複寫 [#](#populate-pitr) <a href="#populate-pitr" id="populate-pitr"></a>
 
 將大量資料載入到使用 WAL 封存或串流複寫的系統時，在載入完成之後建立新的基礎備份，可能會比處理大量的增量 WAL 資料更快。為了避免在載入期間記錄增量 WAL，請停用封存與串流複寫，方法是將 [wal_level](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-LEVEL) 設為 `minimal`、將 [archive_mode](../../server-administration/runtime-config/runtime-config-wal.md#GUC-ARCHIVE-MODE) 設為 `off`，並將 [max_wal_senders](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-WAL-SENDERS) 設為零。但請注意，變更這些設定需要重新啟動伺服器，而且會使先前建立的所有基礎備份都無法用於封存復原與備援伺服器，這可能導致資料遺失。
 
@@ -80,13 +80,13 @@
 
 <a id="POPULATE-ANALYZE"></a>
 
-### 14.4.8. 事後執行 `ANALYZE` [#](#POPULATE-ANALYZE)
+### 14.4.8. 事後執行 `ANALYZE` [#](#populate-analyze) <a href="#populate-analyze" id="populate-analyze"></a>
 
 每當你大幅改變了資料表中的資料分布時，強烈建議執行 [`ANALYZE`](../../reference/sql-commands/sql-analyze.md)。這包括將大量資料批次載入資料表的情況。執行 `ANALYZE`（或 `VACUUM ANALYZE`）可以確保規劃器擁有關於該資料表的最新統計資訊。如果沒有統計資訊或統計資訊已經過時，規劃器在規劃查詢時可能會做出不好的決策，導致任何統計資訊不準確或不存在的資料表效能不佳。請注意，如果啟用了 autovacuum 常駐程式，它可能會自動執行 `ANALYZE`；更多資訊請參閱[第 24.1.3 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-STATISTICS)與[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
 
 <a id="POPULATE-PG-DUMP"></a>
 
-### 14.4.9. 關於 pg_dump 的一些說明 [#](#POPULATE-PG-DUMP)
+### 14.4.9. 關於 pg_dump 的一些說明 [#](#populate-pg-dump) <a href="#populate-pg-dump" id="populate-pg-dump"></a>
 
 pg_dump 產生的傾印指令碼會自動套用上述準則中的幾項，但不是全部。要盡可能快速地還原 pg_dump 的傾印，你需要手動做一些額外的事情。（請注意，這些要點適用於*還原*傾印時，而不是*建立*傾印時。無論是使用 psql 載入文字格式的傾印，還是使用 pg_restore 從 pg_dump 封存檔載入，都適用相同的要點。）
 

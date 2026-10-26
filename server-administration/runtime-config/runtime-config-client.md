@@ -543,7 +543,7 @@
     內建的預設值為 `GMT`，但通常會在
     `postgresql.conf` 中被覆寫；initdb
     會在其中安裝與其系統環境相對應的設定。
-    詳情請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
+    詳情請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#datatype-timezones)。
 <a id="GUC-TIMEZONE-ABBREVIATIONS"></a>
 
 `timezone_abbreviations` (`string`) <a id="id-1.6.6.14.3.2.4.1.3"></a> <a id="id-1.6.6.14.3.2.4.1.4"></a> [#](#GUC-TIMEZONE-ABBREVIATIONS)

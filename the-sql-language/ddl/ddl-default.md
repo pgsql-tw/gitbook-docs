@@ -40,7 +40,7 @@ CREATE TABLE products (
 );
 ```
 
-`SERIAL` 簡寫在[第 8.1.4 節](../datatype/datatype-numeric.md#DATATYPE-SERIAL)中有進一步的說明。
+`SERIAL` 簡寫在[第 8.1.4 節](../datatype/datatype-numeric.md#datatype-serial)中有進一步的說明。
 
 ---
 

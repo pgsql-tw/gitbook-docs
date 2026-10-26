@@ -759,7 +759,7 @@ B-tree 運算子類別所定義的語意。若沒有
 是視窗函式（window function）的 `RANGE`
 *`offset`*
 `PRECEDING`／`FOLLOWING` 框架選項
-（請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)）。
+（請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-window-functions)）。
 對於這樣的查詢：
 
 ```

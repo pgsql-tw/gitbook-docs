@@ -2,11 +2,11 @@
 
 ## 5. 錯誤回報指引 [#](#bug-reporting) <a href="#bug-reporting" id="bug-reporting"></a>
 
-[5.1. 辨識錯誤](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
+[5.1. 辨識錯誤](bug-reporting.md#bug-reporting-identifying-bugs)
 
-[5.2. 回報哪些內容](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
+[5.2. 回報哪些內容](bug-reporting.md#bug-reporting-what-to-report)
 
-[5.3. 在哪裡回報錯誤](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
+[5.3. 在哪裡回報錯誤](bug-reporting.md#bug-reporting-where-to-report-bugs)
 
 當你在 PostgreSQL 中發現錯誤時，我們希望能得知。你的錯誤回報對於讓 PostgreSQL 更加可靠扮演重要的角色，因為即使再怎麼小心，也無法保證 PostgreSQL 的每個部分都能在每個平台、每種情況下正常運作。
 
@@ -16,7 +16,7 @@
 
 <a id="BUG-REPORTING-IDENTIFYING-BUGS"></a>
 
-### 5.1. 辨識錯誤 [#](#BUG-REPORTING-IDENTIFYING-BUGS)
+### 5.1. 辨識錯誤 [#](#bug-reporting-identifying-bugs) <a href="#bug-reporting-identifying-bugs" id="bug-reporting-identifying-bugs"></a>
 
 在回報錯誤之前，請反覆閱讀文件，確認你確實能做你正嘗試做的事。如果從文件中無法清楚判斷你是否能做某件事，也請一併回報；這是文件的錯誤。如果結果發現某個程式的行為與文件所述不同，那就是錯誤。這可能包括（但不限於）下列情況：
 
@@ -34,7 +34,7 @@
 
 <a id="BUG-REPORTING-WHAT-TO-REPORT"></a>
 
-### 5.2. 回報哪些內容 [#](#BUG-REPORTING-WHAT-TO-REPORT)
+### 5.2. 回報哪些內容 [#](#bug-reporting-what-to-report) <a href="#bug-reporting-what-to-report" id="bug-reporting-what-to-report"></a>
 
 關於錯誤回報，最重要的一點是陳述所有事實，而且只陳述事實。不要臆測你認為哪裡出了問題、「它似乎做了什麼」，或程式的哪個部分有缺陷。如果你不熟悉實作細節，你很可能會猜錯，對我們一點幫助也沒有。即使你很熟悉，有根據的解釋固然是事實很好的補充，但無法取代事實。如果我們要修正這個錯誤，我們仍然必須先親眼看到它發生。回報單純的事實相對直接（你大概可以直接從畫面上複製貼上），但重要的細節卻常常被遺漏，因為有人認為那無關緊要，或認為報告無論如何都能被理解。
 
@@ -75,7 +75,7 @@
 
 <a id="BUG-REPORTING-WHERE-TO-REPORT-BUGS"></a>
 
-### 5.3. 在哪裡回報錯誤 [#](#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
+### 5.3. 在哪裡回報錯誤 [#](#bug-reporting-where-to-report-bugs) <a href="#bug-reporting-where-to-report-bugs" id="bug-reporting-where-to-report-bugs"></a>
 
 一般而言，請將錯誤回報寄到錯誤回報郵件清單 `<pgsql-bugs@lists.postgresql.org>`。請為你的電子郵件訊息使用具描述性的主旨，或許可以使用錯誤訊息的一部分。
 

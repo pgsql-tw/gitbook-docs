@@ -2,17 +2,17 @@
 
 ## 5.12. 資料表分割 [#](#ddl-partitioning) <a href="#ddl-partitioning" id="ddl-partitioning"></a>
 
-[5.12.1. 概觀](ddl-partitioning.md#DDL-PARTITIONING-OVERVIEW)
+[5.12.1. 概觀](ddl-partitioning.md#ddl-partitioning-overview)
 
-[5.12.2. 宣告式分割](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE)
+[5.12.2. 宣告式分割](ddl-partitioning.md#ddl-partitioning-declarative)
 
-[5.12.3. 使用繼承進行分割](ddl-partitioning.md#DDL-PARTITIONING-USING-INHERITANCE)
+[5.12.3. 使用繼承進行分割](ddl-partitioning.md#ddl-partitioning-using-inheritance)
 
-[5.12.4. 分割區修剪](ddl-partitioning.md#DDL-PARTITION-PRUNING)
+[5.12.4. 分割區修剪](ddl-partitioning.md#ddl-partition-pruning)
 
-[5.12.5. 分割與限制條件排除](ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
+[5.12.5. 分割與限制條件排除](ddl-partitioning.md#ddl-partitioning-constraint-exclusion)
 
-[5.12.6. 宣告式分割的最佳實務](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
+[5.12.6. 宣告式分割的最佳實務](ddl-partitioning.md#ddl-partitioning-declarative-best-practices)
 
 <a id="id-1.5.4.14.2"></a><a id="id-1.5.4.14.3"></a><a id="id-1.5.4.14.4"></a>
 
@@ -20,7 +20,7 @@ PostgreSQL 支援基本的資料表分割。本節說明為什麼以及如何在
 
 <a id="DDL-PARTITIONING-OVERVIEW"></a>
 
-### 5.12.1. 概觀 [#](#DDL-PARTITIONING-OVERVIEW)
+### 5.12.1. 概觀 [#](#ddl-partitioning-overview) <a href="#ddl-partitioning-overview" id="ddl-partitioning-overview"></a>
 
 分割（partitioning）是指將邏輯上的一個大型資料表拆分成較小的實體片段。分割可以帶來幾項好處：
 
@@ -50,7 +50,7 @@ PostgreSQL 為下列幾種分割形式提供內建支援：
 
 <a id="DDL-PARTITIONING-DECLARATIVE"></a>
 
-### 5.12.2. 宣告式分割 [#](#DDL-PARTITIONING-DECLARATIVE)
+### 5.12.2. 宣告式分割 [#](#ddl-partitioning-declarative) <a href="#ddl-partitioning-declarative" id="ddl-partitioning-declarative"></a>
 
 PostgreSQL 允許你宣告一個資料表被劃分為多個分割區。被劃分的資料表稱為*分割資料表*（partitioned table）。這項宣告包含如上所述的*分割方法*（partitioning method），再加上一份用作*分割鍵*（partition key）的欄位或運算式清單。
 
@@ -250,7 +250,7 @@ ALTER INDEX measurement_city_id_logdate_key
 
 <a id="DDL-PARTITIONING-USING-INHERITANCE"></a>
 
-### 5.12.3. 使用繼承進行分割 [#](#DDL-PARTITIONING-USING-INHERITANCE)
+### 5.12.3. 使用繼承進行分割 [#](#ddl-partitioning-using-inheritance) <a href="#ddl-partitioning-using-inheritance" id="ddl-partitioning-using-inheritance"></a>
 
 雖然內建的宣告式分割適用於大多數常見的使用情境，但在某些情況下，更有彈性的做法可能會很有用。可以使用資料表繼承來實作分割，這可以支援一些宣告式分割不支援的功能，例如：
 
@@ -472,7 +472,7 @@ ALTER TABLE measurement_y2008m02 INHERIT measurement;
 使用繼承實作的分割，有下列注意事項：
 
 * 沒有自動的方法可以驗證所有的 `CHECK` 限制條件都是互斥的。撰寫程式碼來產生子資料表並建立和／或修改相關聯的物件，會比逐一手寫更安全。
-* 索引與外鍵限制條件只適用於單一資料表，而不適用於其繼承子資料表，因此有一些需要注意的[注意事項](ddl-inherit.md#DDL-INHERIT-CAVEATS)。
+* 索引與外鍵限制條件只適用於單一資料表，而不適用於其繼承子資料表，因此有一些需要注意的[注意事項](ddl-inherit.md#ddl-inherit-caveats)。
 * 這裡所展示的方案，假設資料列的鍵欄位值永遠不會改變，或者至少不會改變到需要將它移動到另一個分割區的程度。嘗試這麼做的 `UPDATE` 會因為 `CHECK` 限制條件而失敗。如果你需要處理這類情況，可以在子資料表上設置合適的更新觸發程序，但這會使結構的管理複雜得多。
 * 手動執行的 `VACUUM` 與 `ANALYZE` 命令會自動處理所有繼承子資料表。如果不希望這樣，可以使用 `ONLY` 關鍵字。像這樣的命令：
 
@@ -487,7 +487,7 @@ ALTER TABLE measurement_y2008m02 INHERIT measurement;
 
 <a id="DDL-PARTITION-PRUNING"></a>
 
-### 5.12.4. 分割區修剪 [#](#DDL-PARTITION-PRUNING)
+### 5.12.4. 分割區修剪 [#](#ddl-partition-pruning) <a href="#ddl-partition-pruning" id="ddl-partition-pruning"></a>
 
 <a id="id-1.5.4.14.9.2"></a>
 
@@ -548,7 +548,7 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 
 <a id="DDL-PARTITIONING-CONSTRAINT-EXCLUSION"></a>
 
-### 5.12.5. 分割與限制條件排除 [#](#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
+### 5.12.5. 分割與限制條件排除 [#](#ddl-partitioning-constraint-exclusion) <a href="#ddl-partitioning-constraint-exclusion" id="ddl-partitioning-constraint-exclusion"></a>
 
 <a id="id-1.5.4.14.10.2"></a>
 
@@ -569,7 +569,7 @@ EXPLAIN SELECT count(*) FROM measurement WHERE logdate >= DATE '2008-01-01';
 
 <a id="DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES"></a>
 
-### 5.12.6. 宣告式分割的最佳實務 [#](#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
+### 5.12.6. 宣告式分割的最佳實務 [#](#ddl-partitioning-declarative-best-practices) <a href="#ddl-partitioning-declarative-best-practices" id="ddl-partitioning-declarative-best-practices"></a>
 
 如何分割資料表的選擇應該謹慎進行，因為不良的設計可能對查詢規劃與執行的效能產生負面影響。
 

@@ -2,17 +2,17 @@
 
 ## 12.6. 字典 [#](#textsearch-dictionaries) <a href="#textsearch-dictionaries" id="textsearch-dictionaries"></a>
 
-[12.6.1. 停用詞](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)
+[12.6.1. 停用詞](textsearch-dictionaries.md#textsearch-stopwords)
 
-[12.6.2. Simple 字典](textsearch-dictionaries.md#TEXTSEARCH-SIMPLE-DICTIONARY)
+[12.6.2. Simple 字典](textsearch-dictionaries.md#textsearch-simple-dictionary)
 
-[12.6.3. 同義詞字典](textsearch-dictionaries.md#TEXTSEARCH-SYNONYM-DICTIONARY)
+[12.6.3. 同義詞字典](textsearch-dictionaries.md#textsearch-synonym-dictionary)
 
-[12.6.4. 同義詞庫字典](textsearch-dictionaries.md#TEXTSEARCH-THESAURUS)
+[12.6.4. 同義詞庫字典](textsearch-dictionaries.md#textsearch-thesaurus)
 
-[12.6.5. Ispell 字典](textsearch-dictionaries.md#TEXTSEARCH-ISPELL-DICTIONARY)
+[12.6.5. Ispell 字典](textsearch-dictionaries.md#textsearch-ispell-dictionary)
 
-[12.6.6. Snowball 字典](textsearch-dictionaries.md#TEXTSEARCH-SNOWBALL-DICTIONARY)
+[12.6.6. Snowball 字典](textsearch-dictionaries.md#textsearch-snowball-dictionary)
 
 字典用來剔除在搜尋中不應考慮的單字（*停用詞*），並將單字*正規化*，讓同一個單字的不同衍生形式能夠相符。成功正規化的單字稱為*詞素*（lexeme）。除了提升搜尋品質之外，正規化與移除停用詞也能縮小文件的 `tsvector` 表示法，進而提升效能。正規化並不一定具有語言學上的意義，通常取決於應用的語意。
 
@@ -50,7 +50,7 @@ ALTER TEXT SEARCH CONFIGURATION astro_en
 
 <a id="TEXTSEARCH-STOPWORDS"></a>
 
-### 12.6.1. 停用詞 [#](#TEXTSEARCH-STOPWORDS)
+### 12.6.1. 停用詞 [#](#textsearch-stopwords) <a href="#textsearch-stopwords" id="textsearch-stopwords"></a>
 
 停用詞是非常常見、幾乎出現在每一份文件中，而且沒有辨別價值的單字。因此，在全文檢索的情境下可以忽略它們。例如，每一篇英文文字都包含 `a` 與 `the` 這類單字，因此將它們儲存在索引中是沒有用的。不過，停用詞確實會影響 `tsvector` 中的位置，進而影響排名：
 
@@ -81,7 +81,7 @@ SELECT ts_rank_cd (to_tsvector('english', 'list stop words'), to_tsquery('list &
 
 <a id="TEXTSEARCH-SIMPLE-DICTIONARY"></a>
 
-### 12.6.2. Simple 字典 [#](#TEXTSEARCH-SIMPLE-DICTIONARY)
+### 12.6.2. Simple 字典 [#](#textsearch-simple-dictionary) <a href="#textsearch-simple-dictionary" id="textsearch-simple-dictionary"></a>
 
 `simple` 字典範本的運作方式，是將輸入的語彙單元轉為小寫，並與停用詞檔案比對。如果在檔案中找到，就回傳空陣列，使該語彙單元被捨棄。如果沒有找到，就回傳該單字的小寫形式作為正規化的詞素。另外，也可以將字典設定為把非停用詞回報為無法辨識，讓它們傳給清單中的下一個字典。
 
@@ -143,9 +143,9 @@ SELECT ts_lexize('public.simple_dict', 'The');
 
 <a id="TEXTSEARCH-SYNONYM-DICTIONARY"></a>
 
-### 12.6.3. 同義詞字典 [#](#TEXTSEARCH-SYNONYM-DICTIONARY)
+### 12.6.3. 同義詞字典 [#](#textsearch-synonym-dictionary) <a href="#textsearch-synonym-dictionary" id="textsearch-synonym-dictionary"></a>
 
-這個字典範本用來建立以同義詞取代單字的字典。它不支援片語（片語請使用同義詞庫範本（[第 12.6.4 節](textsearch-dictionaries.md#TEXTSEARCH-THESAURUS)））。同義詞字典可以用來克服語言學上的問題，例如防止英文詞幹字典將單字「Paris」簡化為「pari」。只要在同義詞字典中加入一行 `Paris paris`，並將它放在 `english_stem` 字典之前即可。例如：
+這個字典範本用來建立以同義詞取代單字的字典。它不支援片語（片語請使用同義詞庫範本（[第 12.6.4 節](textsearch-dictionaries.md#textsearch-thesaurus)））。同義詞字典可以用來克服語言學上的問題，例如防止英文詞幹字典將單字「Paris」簡化為「pari」。只要在同義詞字典中加入一行 `Paris paris`，並將它放在 `english_stem` 字典之前即可。例如：
 
 ```
 
@@ -173,7 +173,7 @@ SELECT * FROM ts_debug('english', 'Paris');
 
 `synonym` 範本還有一個選用參數 `CaseSensitive`，預設值為 `false`。當 `CaseSensitive` 為 `false` 時，同義詞檔案中的單字會轉為小寫，輸入的語彙單元也一樣。當它為 `true` 時，單字與語彙單元都不會轉為小寫，而是直接比較。
 
-可以在設定檔中同義詞的結尾加上星號（`*`），表示該同義詞是一個前綴。在 `to_tsvector()` 中使用該項目時會忽略星號，但在 `to_tsquery()` 中使用時，結果會是帶有前綴比對標記的查詢項目（請參閱[第 12.3.2 節](textsearch-controls.md#TEXTSEARCH-PARSING-QUERIES)）。例如，假設 `$SHAREDIR/tsearch_data/synonym_sample.syn` 中有下列項目：
+可以在設定檔中同義詞的結尾加上星號（`*`），表示該同義詞是一個前綴。在 `to_tsvector()` 中使用該項目時會忽略星號，但在 `to_tsquery()` 中使用時，結果會是帶有前綴比對標記的查詢項目（請參閱[第 12.3.2 節](textsearch-controls.md#textsearch-parsing-queries)）。例如，假設 `$SHAREDIR/tsearch_data/synonym_sample.syn` 中有下列項目：
 
 ```
 
@@ -224,7 +224,7 @@ mydb=# SELECT 'indexes are very useful'::tsvector @@ to_tsquery('tst', 'indices'
 
 <a id="TEXTSEARCH-THESAURUS"></a>
 
-### 12.6.4. 同義詞庫字典 [#](#TEXTSEARCH-THESAURUS)
+### 12.6.4. 同義詞庫字典 [#](#textsearch-thesaurus) <a href="#textsearch-thesaurus" id="textsearch-thesaurus"></a>
 
 同義詞庫字典（thesaurus dictionary，有時縮寫為 TZ）是一組單字的集合，包含單字與片語之間關係的資訊，例如上位詞（broader term，BT）、下位詞（narrower term，NT）、優先詞、非優先詞、相關詞等等。
 
@@ -357,7 +357,7 @@ SELECT plainto_tsquery('supernova star');
 
 <a id="TEXTSEARCH-ISPELL-DICTIONARY"></a>
 
-### 12.6.5. Ispell 字典 [#](#TEXTSEARCH-ISPELL-DICTIONARY)
+### 12.6.5. Ispell 字典 [#](#textsearch-ispell-dictionary) <a href="#textsearch-ispell-dictionary" id="textsearch-ispell-dictionary"></a>
 
 Ispell 字典範本支援*詞形字典*（morphological dictionary），可以將一個單字的多種不同語言形式正規化為相同的詞素。例如，英文的 Ispell 字典可以比對搜尋詞 `bank` 的所有詞形變化，例如 `banking`、`banked`、`banks`、`banks'` 與 `bank's`。
 
@@ -483,7 +483,7 @@ MySpell 不支援複合詞。Hunspell 對複合詞有完善的支援。目前 Po
 
 <a id="TEXTSEARCH-SNOWBALL-DICTIONARY"></a>
 
-### 12.6.6. Snowball 字典 [#](#TEXTSEARCH-SNOWBALL-DICTIONARY)
+### 12.6.6. Snowball 字典 [#](#textsearch-snowball-dictionary) <a href="#textsearch-snowball-dictionary" id="textsearch-snowball-dictionary"></a>
 
 Snowball 字典範本是以 Martin Porter 的專案為基礎，他是廣受歡迎的英文 Porter 詞幹演算法的發明者。Snowball 現在為許多語言提供詞幹演算法（更多資訊請參閱 [Snowball 網站](https://snowballstem.org/)）。每種演算法都知道如何在其語言中，將單字常見的變化形式簡化為基本或詞幹拼法。Snowball 字典需要 `language` 參數來識別要使用哪一個詞幹處理器，並可選擇指定 `stopword` 檔案名稱，提供要剔除的單字清單。（PostgreSQL 的標準停用詞清單也是由 Snowball 專案提供的。）例如，系統內建有一個等同於下列內容的定義
 

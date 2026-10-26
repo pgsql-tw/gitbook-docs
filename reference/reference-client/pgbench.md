@@ -470,7 +470,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-SET"></a>
 
 `\set varname expression` [#](#PGBENCH-METACOMMAND-SET)
-:   將變數 *`varname`* 設為由 *`expression`* 計算出的值。運算式可以包含 `NULL` 常數、布林常數 `TRUE` 與 `FALSE`、整數常數（例如 `5432`）、倍精度常數（例如 `3.14159`）、對變數的參照 `:`*`variablename`*、具有一般 SQL 優先順序與結合性的[運算子](pgbench.md#PGBENCH-BUILTIN-OPERATORS)、[函式呼叫](pgbench.md#PGBENCH-BUILTIN-FUNCTIONS)、SQL [`CASE` 通用條件運算式](../../the-sql-language/functions/functions-conditional.md#FUNCTIONS-CASE)以及括號。
+:   將變數 *`varname`* 設為由 *`expression`* 計算出的值。運算式可以包含 `NULL` 常數、布林常數 `TRUE` 與 `FALSE`、整數常數（例如 `5432`）、倍精度常數（例如 `3.14159`）、對變數的參照 `:`*`variablename`*、具有一般 SQL 優先順序與結合性的[運算子](pgbench.md#PGBENCH-BUILTIN-OPERATORS)、[函式呼叫](pgbench.md#PGBENCH-BUILTIN-FUNCTIONS)、SQL [`CASE` 通用條件運算式](../../the-sql-language/functions/functions-conditional.md#functions-case)以及括號。
 
     函式與大多數運算子在輸入為 `NULL` 時會傳回 `NULL`。
 
@@ -1410,7 +1410,7 @@ pgbench 的一個限制是，在嘗試測試大量用戶端工作階段時，它
 
 ### 安全性
 
-若不受信任的使用者可以存取一個尚未採用[安全的綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)的資料庫，請不要在該資料庫中執行 pgbench。pgbench 使用未限定的名稱，而且不會操作搜尋路徑。
+若不受信任的使用者可以存取一個尚未採用[安全的綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#ddl-schemas-patterns)的資料庫，請不要在該資料庫中執行 pgbench。pgbench 使用未限定的名稱，而且不會操作搜尋路徑。
 
 ---
 

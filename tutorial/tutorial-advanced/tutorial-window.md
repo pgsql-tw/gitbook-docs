@@ -145,7 +145,7 @@ SELECT sum(salary) OVER w, avg(salary) OVER w
   WINDOW w AS (PARTITION BY depname ORDER BY salary DESC);
 ```
 
-關於 window 函式的更多細節，請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)、[第 9.22 節](../../the-sql-language/functions/functions-window.md)、[第 7.2.5 節](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-WINDOW)以及 [SELECT](../../reference/sql-commands/sql-select.md) 參考頁面。
+關於 window 函式的更多細節，請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-window-functions)、[第 9.22 節](../../the-sql-language/functions/functions-window.md)、[第 7.2.5 節](../../the-sql-language/queries/queries-table-expressions.md#queries-window)以及 [SELECT](../../reference/sql-commands/sql-select.md) 參考頁面。
 
 <br>
 
@@ -154,7 +154,7 @@ SELECT sum(salary) OVER w, avg(salary) OVER w
 <a id="ftn.id-1.4.5.6.9.5"></a>
 
 [[5]](#id-1.4.5.6.9.5) 
-還有其他定義視窗框架的選項，但本教學不會介紹。詳情請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)。
+還有其他定義視窗框架的選項，但本教學不會介紹。詳情請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-window-functions)。
 
 ---
 

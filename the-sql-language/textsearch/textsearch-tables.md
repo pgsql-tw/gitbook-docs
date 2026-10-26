@@ -2,15 +2,15 @@
 
 ## 12.2. 資料表與索引 [#](#textsearch-tables) <a href="#textsearch-tables" id="textsearch-tables"></a>
 
-[12.2.1. 搜尋資料表](textsearch-tables.md#TEXTSEARCH-TABLES-SEARCH)
+[12.2.1. 搜尋資料表](textsearch-tables.md#textsearch-tables-search)
 
-[12.2.2. 建立索引](textsearch-tables.md#TEXTSEARCH-TABLES-INDEX)
+[12.2.2. 建立索引](textsearch-tables.md#textsearch-tables-index)
 
 前一節的範例是以簡單的常數字串說明全文比對。本節說明如何搜尋資料表中的資料，並可選擇使用索引。
 
 <a id="TEXTSEARCH-TABLES-SEARCH"></a>
 
-### 12.2.1. 搜尋資料表 [#](#TEXTSEARCH-TABLES-SEARCH)
+### 12.2.1. 搜尋資料表 [#](#textsearch-tables-search) <a href="#textsearch-tables-search" id="textsearch-tables-search"></a>
 
 不使用索引也可以進行全文檢索。以下是一個簡單的查詢，會印出 `body` 欄位中包含單字 `friend` 的每一筆資料列的 `title`：
 
@@ -51,7 +51,7 @@ LIMIT 10;
 
 <a id="TEXTSEARCH-TABLES-INDEX"></a>
 
-### 12.2.2. 建立索引 [#](#TEXTSEARCH-TABLES-INDEX)
+### 12.2.2. 建立索引 [#](#textsearch-tables-index) <a href="#textsearch-tables-index" id="textsearch-tables-index"></a>
 
 我們可以建立 GIN 索引（[第 12.9 節](textsearch-indexes.md)）來加速文字搜尋：
 

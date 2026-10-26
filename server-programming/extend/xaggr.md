@@ -143,7 +143,7 @@ SQL 中的聚合函式呼叫，允許使用 `DISTINCT`
 移動式框架起始點的視窗內，執行速度大幅提升。
 （關於將聚合函式作為視窗函式使用的資訊，
 請參閱[3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)
-與[4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)。）
+與[4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-window-functions)。）
 其基本概念是，除了一般的「正向」
 轉換函式之外，聚合還提供一個*反向
 轉換函式（inverse transition function）*，讓資料列
@@ -349,7 +349,7 @@ CREATE AGGREGATE array_agg (anynonarray)
 ### 注意
 
 可變引數聚合，與 `ORDER BY` 選項
-（請參閱[4.2.7 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)）搭配使用時，
+（請參閱[4.2.7 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-aggregates)）搭配使用時，
 很容易被誤用，因為剖析器無法判斷，在這種組合中，
 所給定的實際引數數量是否有誤。請記得，
 `ORDER BY` 右邊的所有內容，都是排序鍵，而不是

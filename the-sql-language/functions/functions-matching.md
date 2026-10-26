@@ -2,11 +2,11 @@
 
 ## 9.7. 模式比對 [#](#functions-matching) <a href="#functions-matching" id="functions-matching"></a>
 
-[9.7.1. `LIKE`](functions-matching.md#FUNCTIONS-LIKE)
+[9.7.1. `LIKE`](functions-matching.md#functions-like)
 
-[9.7.2. `SIMILAR TO` 正規表示式](functions-matching.md#FUNCTIONS-SIMILARTO-REGEXP)
+[9.7.2. `SIMILAR TO` 正規表示式](functions-matching.md#functions-similarto-regexp)
 
-[9.7.3. POSIX 正規表示式](functions-matching.md#FUNCTIONS-POSIX-REGEXP)
+[9.7.3. POSIX 正規表示式](functions-matching.md#functions-posix-regexp)
 
 <a id="id-1.5.8.13.2"></a>
 
@@ -28,7 +28,7 @@ PostgreSQL 提供了三種不同的模式比對方式：傳統的 SQL `LIKE` 運
 
 <a id="FUNCTIONS-LIKE"></a>
 
-### 9.7.1. `LIKE` [#](#FUNCTIONS-LIKE)
+### 9.7.1. `LIKE` [#](#functions-like) <a href="#functions-like" id="functions-like"></a>
 
 <a id="id-1.5.8.13.7.2"></a>
 
@@ -93,7 +93,7 @@ string NOT LIKE pattern [ESCAPE escape-character]
 
 <a id="FUNCTIONS-SIMILARTO-REGEXP"></a>
 
-### 9.7.2. `SIMILAR TO` 正規表示式 [#](#FUNCTIONS-SIMILARTO-REGEXP)
+### 9.7.2. `SIMILAR TO` 正規表示式 [#](#functions-similarto-regexp) <a href="#functions-similarto-regexp" id="functions-similarto-regexp"></a>
 
 <a id="id-1.5.8.13.8.2"></a><a id="id-1.5.8.13.8.3"></a><a id="id-1.5.8.13.8.4"></a>
 
@@ -176,7 +176,7 @@ substring('foobar' similar '#"o_b#"%' escape '#')    NULL
 
 <a id="FUNCTIONS-POSIX-REGEXP"></a>
 
-### 9.7.3. POSIX 正規表示式 [#](#FUNCTIONS-POSIX-REGEXP)
+### 9.7.3. POSIX 正規表示式 [#](#functions-posix-regexp) <a href="#functions-posix-regexp" id="functions-posix-regexp"></a>
 
 <a id="id-1.5.8.13.9.2"></a><a id="id-1.5.8.13.9.3"></a><a id="id-1.5.8.13.9.4"></a><a id="id-1.5.8.13.9.5"></a><a id="id-1.5.8.13.9.6"></a><a id="id-1.5.8.13.9.7"></a><a id="id-1.5.8.13.9.8"></a><a id="id-1.5.8.13.9.9"></a><a id="id-1.5.8.13.9.10"></a><a id="id-1.5.8.13.9.11"></a><a id="id-1.5.8.13.9.12"></a>
 

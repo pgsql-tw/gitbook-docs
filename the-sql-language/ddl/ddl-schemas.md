@@ -2,19 +2,19 @@
 
 ## 5.10. 綱要 [#](#ddl-schemas) <a href="#ddl-schemas" id="ddl-schemas"></a>
 
-[5.10.1. 建立綱要](ddl-schemas.md#DDL-SCHEMAS-CREATE)
+[5.10.1. 建立綱要](ddl-schemas.md#ddl-schemas-create)
 
-[5.10.2. public 綱要](ddl-schemas.md#DDL-SCHEMAS-PUBLIC)
+[5.10.2. public 綱要](ddl-schemas.md#ddl-schemas-public)
 
-[5.10.3. 綱要搜尋路徑](ddl-schemas.md#DDL-SCHEMAS-PATH)
+[5.10.3. 綱要搜尋路徑](ddl-schemas.md#ddl-schemas-path)
 
-[5.10.4. 綱要與權限](ddl-schemas.md#DDL-SCHEMAS-PRIV)
+[5.10.4. 綱要與權限](ddl-schemas.md#ddl-schemas-priv)
 
-[5.10.5. 系統目錄綱要](ddl-schemas.md#DDL-SCHEMAS-CATALOG)
+[5.10.5. 系統目錄綱要](ddl-schemas.md#ddl-schemas-catalog)
 
-[5.10.6. 使用模式](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)
+[5.10.6. 使用模式](ddl-schemas.md#ddl-schemas-patterns)
 
-[5.10.7. 可攜性](ddl-schemas.md#DDL-SCHEMAS-PORTABILITY)
+[5.10.7. 可攜性](ddl-schemas.md#ddl-schemas-portability)
 
 <a id="id-1.5.4.12.2"></a>
 
@@ -36,7 +36,7 @@
 
 <a id="DDL-SCHEMAS-CREATE"></a>
 
-### 5.10.1. 建立綱要 [#](#DDL-SCHEMAS-CREATE)
+### 5.10.1. 建立綱要 [#](#ddl-schemas-create) <a href="#ddl-schemas-create" id="ddl-schemas-create"></a>
 
 <a id="id-1.5.4.12.7.2"></a>
 
@@ -101,13 +101,13 @@ DROP SCHEMA myschema CASCADE;
 CREATE SCHEMA schema_name AUTHORIZATION user_name;
 ```
 
-你甚至可以省略綱要名稱，在這種情況下，綱要名稱會與使用者名稱相同。關於這樣做有什麼用處，請參閱[第 5.10.6 節](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)。
+你甚至可以省略綱要名稱，在這種情況下，綱要名稱會與使用者名稱相同。關於這樣做有什麼用處，請參閱[第 5.10.6 節](ddl-schemas.md#ddl-schemas-patterns)。
 
 以 `pg_` 開頭的綱要名稱保留給系統使用，使用者無法建立。
 
 <a id="DDL-SCHEMAS-PUBLIC"></a>
 
-### 5.10.2. public 綱要 [#](#DDL-SCHEMAS-PUBLIC)
+### 5.10.2. public 綱要 [#](#ddl-schemas-public) <a href="#ddl-schemas-public" id="ddl-schemas-public"></a>
 
 <a id="id-1.5.4.12.8.2"></a>
 
@@ -127,7 +127,7 @@ CREATE TABLE public.products ( ... );
 
 <a id="DDL-SCHEMAS-PATH"></a>
 
-### 5.10.3. 綱要搜尋路徑 [#](#DDL-SCHEMAS-PATH)
+### 5.10.3. 綱要搜尋路徑 [#](#ddl-schemas-path) <a href="#ddl-schemas-path" id="ddl-schemas-path"></a>
 
 <a id="id-1.5.4.12.9.2"></a><a id="id-1.5.4.12.9.3"></a><a id="id-1.5.4.12.9.4"></a>
 
@@ -206,24 +206,24 @@ SELECT 3 OPERATOR(pg_catalog.+) 4;
 
 <a id="DDL-SCHEMAS-PRIV"></a>
 
-### 5.10.4. 綱要與權限 [#](#DDL-SCHEMAS-PRIV)
+### 5.10.4. 綱要與權限 [#](#ddl-schemas-priv) <a href="#ddl-schemas-priv" id="ddl-schemas-priv"></a>
 
 <a id="id-1.5.4.12.10.2"></a>
 
 預設情況下，使用者無法存取不屬於自己之綱要中的任何物件。要允許這麼做，綱要的擁有者必須授予該綱要的 `USAGE` 權限。預設情況下，每個人都擁有 `public` 綱要上的這項權限。為了讓使用者能夠使用綱要中的物件，可能還需要依物件的情況授予其他權限。
 
-也可以允許使用者在其他人的綱要中建立物件。要允許這麼做，需要授予該綱要的 `CREATE` 權限。在從 PostgreSQL 14 或更早版本升級而來的資料庫中，每個人都擁有 `public` 綱要上的這項權限。有些[使用模式](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)需要撤銷這項權限：
+也可以允許使用者在其他人的綱要中建立物件。要允許這麼做，需要授予該綱要的 `CREATE` 權限。在從 PostgreSQL 14 或更早版本升級而來的資料庫中，每個人都擁有 `public` 綱要上的這項權限。有些[使用模式](ddl-schemas.md#ddl-schemas-patterns)需要撤銷這項權限：
 
 ```
 
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 ```
 
-（第一個「public」是綱要，第二個「public」表示「每個使用者」。在第一種意義下它是識別符號，在第二種意義下它是關鍵字，因此大小寫不同；請回想[第 4.1.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)中的準則。）
+（第一個「public」是綱要，第二個「public」表示「每個使用者」。在第一種意義下它是識別符號，在第二種意義下它是關鍵字，因此大小寫不同；請回想[第 4.1.1 節](../sql-syntax/sql-syntax-lexical.md#sql-syntax-identifiers)中的準則。）
 
 <a id="DDL-SCHEMAS-CATALOG"></a>
 
-### 5.10.5. 系統目錄綱要 [#](#DDL-SCHEMAS-CATALOG)
+### 5.10.5. 系統目錄綱要 [#](#ddl-schemas-catalog) <a href="#ddl-schemas-catalog" id="ddl-schemas-catalog"></a>
 
 <a id="id-1.5.4.12.11.2"></a>
 
@@ -233,7 +233,7 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 <a id="DDL-SCHEMAS-PATTERNS"></a>
 
-### 5.10.6. 使用模式 [#](#DDL-SCHEMAS-PATTERNS)
+### 5.10.6. 使用模式 [#](#ddl-schemas-patterns) <a href="#ddl-schemas-patterns" id="ddl-schemas-patterns"></a>
 
 綱要可以用許多方式來組織你的資料。*安全的綱要使用模式*（secure schema usage pattern）可以防止不受信任的使用者改變其他使用者之查詢的行為。當資料庫沒有採用安全的綱要使用模式時，想要安全地查詢該資料庫的使用者，就必須在每個工作階段開始時採取保護措施。具體來說，他們會在每個工作階段一開始，將 `search_path` 設為空字串，或以其他方式將非超級使用者可寫入的綱要從 `search_path` 中移除。預設設定可以輕鬆支援幾種使用模式：
 
@@ -247,7 +247,7 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 <a id="DDL-SCHEMAS-PORTABILITY"></a>
 
-### 5.10.7. 可攜性 [#](#DDL-SCHEMAS-PORTABILITY)
+### 5.10.7. 可攜性 [#](#ddl-schemas-portability) <a href="#ddl-schemas-portability" id="ddl-schemas-portability"></a>
 
 在 SQL 標準中，並不存在同一個綱要中的物件由不同使用者擁有的概念。此外，有些實作不允許你建立與其擁有者名稱不同的綱要。事實上，在只實作了標準所規定之基本綱要支援的資料庫系統中，綱要與使用者的概念幾乎是等價的。因此，許多使用者認為限定名稱實際上是由 `user_name.table_name` 組成的。如果你為每個使用者各建立一個專屬的綱要，PostgreSQL 實際上就會以這種方式運作。
 

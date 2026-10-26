@@ -47,7 +47,7 @@ PostgreSQL 核心發行版本包含[表 65.3](gin.md#GIN-BUILTIN-OPCLASSES-TABLE
 
 <br>
 
-在 `jsonb` 型別的兩個運算子類別中，`jsonb_ops` 是預設的。`jsonb_path_ops` 支援的運算子較少，但對這些運算子提供較佳的效能。詳細資訊請參閱[第 8.14.4 節](../../the-sql-language/datatype/datatype-json.md#JSON-INDEXING)。
+在 `jsonb` 型別的兩個運算子類別中，`jsonb_ops` 是預設的。`jsonb_path_ops` 支援的運算子較少，但對這些運算子提供較佳的效能。詳細資訊請參閱[第 8.14.4 節](../../the-sql-language/datatype/datatype-json.md#json-indexing)。
 
 <a id="GIN-EXTENSIBILITY"></a>
 

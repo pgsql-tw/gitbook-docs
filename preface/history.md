@@ -2,11 +2,11 @@
 
 ## 2. PostgreSQL 簡史 [#](#history) <a href="#history" id="history"></a>
 
-[2.1. 柏克萊 POSTGRES 專案](history.md#HISTORY-BERKELEY)
+[2.1. 柏克萊 POSTGRES 專案](history.md#history-berkeley)
 
-[2.2. Postgres95](history.md#HISTORY-POSTGRES95)
+[2.2. Postgres95](history.md#history-postgres95)
 
-[2.3. PostgreSQL](history.md#HISTORY-POSTGRESQL)
+[2.3. PostgreSQL](history.md#history-postgresql)
 
 <a id="id-1.3.5.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="HISTORY-BERKELEY"></a>
 
-### 2.1. 柏克萊 POSTGRES 專案 [#](#HISTORY-BERKELEY)
+### 2.1. 柏克萊 POSTGRES 專案 [#](#history-berkeley) <a href="#history-berkeley" id="history-berkeley"></a>
 
 <a id="id-1.3.5.5.2"></a>
 
@@ -30,7 +30,7 @@ POSTGRES 曾被用來實作許多不同的研究與正式環境應用，包括�
 
 <a id="HISTORY-POSTGRES95"></a>
 
-### 2.2. Postgres95 [#](#HISTORY-POSTGRES95)
+### 2.2. Postgres95 [#](#history-postgres95) <a href="#history-postgres95" id="history-postgres95"></a>
 
 <a id="id-1.3.5.6.2"></a>
 
@@ -48,7 +48,7 @@ Postgres95 的程式碼完全是 ANSI C，大小也縮減了 25%。許多內部�
 
 <a id="HISTORY-POSTGRESQL"></a>
 
-### 2.3. PostgreSQL [#](#HISTORY-POSTGRESQL)
+### 2.3. PostgreSQL [#](#history-postgresql) <a href="#history-postgresql" id="history-postgresql"></a>
 
 到了 1996 年，顯然「Postgres95」這個名稱經不起時間的考驗。我們選擇了新名稱 PostgreSQL，以反映最初的 POSTGRES 與較新、具備 SQL 能力的版本之間的關係。同時，我們將版本編號設定為從 6.0 開始，讓編號回到柏克萊 POSTGRES 專案最初開始的序列上。
 

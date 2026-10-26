@@ -34,7 +34,7 @@
         → <code class="returnvalue">trigger</code>
 </p>
 <p>
-        從相關聯的純文字文件欄位自動更新 <code class="type">tsvector</code> 欄位。要使用的文字搜尋組態，以名稱的形式作為觸發程序引數指定。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-UPDATE-TRIGGERS">第 12.4.3 節</a>。
+        從相關聯的純文字文件欄位自動更新 <code class="type">tsvector</code> 欄位。要使用的文字搜尋組態，以名稱的形式作為觸發程序引數指定。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#textsearch-update-triggers">第 12.4.3 節</a>。
        </p>
 <p>
 <code class="literal">CREATE TRIGGER ... tsvector_update_trigger(tsvcol, 'pg_catalog.swedish', title, body)</code>
@@ -44,7 +44,7 @@
         → <code class="returnvalue">trigger</code>
 </p>
 <p>
-        從相關聯的純文字文件欄位自動更新 <code class="type">tsvector</code> 欄位。要使用的文字搜尋組態，取自該資料表的一個 <code class="type">regconfig</code> 欄位。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-UPDATE-TRIGGERS">第 12.4.3 節</a>。
+        從相關聯的純文字文件欄位自動更新 <code class="type">tsvector</code> 欄位。要使用的文字搜尋組態，取自該資料表的一個 <code class="type">regconfig</code> 欄位。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#textsearch-update-triggers">第 12.4.3 節</a>。
        </p>
 <p>
 <code class="literal">CREATE TRIGGER ... tsvector_update_trigger_column(tsvcol, tsconfigcol, title, body)</code>

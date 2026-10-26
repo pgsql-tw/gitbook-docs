@@ -13,7 +13,7 @@
 [5.4. 產生欄位](ddl-generated-columns.md)
 
 [5.5. 限制條件](ddl-constraints.md)
-:   [5.5.1. 檢查限制條件](ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
+:   [5.5.1. 檢查限制條件](ddl-constraints.md#ddl-constraints-check-constraints)
 
     [5.5.2. 非空值限制條件](ddl-constraints.md#DDL-CONSTRAINTS-NOT-NULL)
 
@@ -28,7 +28,7 @@
 [5.6. 系統欄位](ddl-system-columns.md)
 
 [5.7. 修改資料表](ddl-alter.md)
-:   [5.7.1. 新增欄位](ddl-alter.md#DDL-ALTER-ADDING-A-COLUMN)
+:   [5.7.1. 新增欄位](ddl-alter.md#ddl-alter-adding-a-column)
 
     [5.7.2. 移除欄位](ddl-alter.md#DDL-ALTER-REMOVING-A-COLUMN)
 
@@ -49,7 +49,7 @@
 [5.9. 資料列安全政策](ddl-rowsecurity.md)
 
 [5.10. 綱要](ddl-schemas.md)
-:   [5.10.1. 建立綱要](ddl-schemas.md#DDL-SCHEMAS-CREATE)
+:   [5.10.1. 建立綱要](ddl-schemas.md#ddl-schemas-create)
 
     [5.10.2. public 綱要](ddl-schemas.md#DDL-SCHEMAS-PUBLIC)
 
@@ -64,10 +64,10 @@
     [5.10.7. 可攜性](ddl-schemas.md#DDL-SCHEMAS-PORTABILITY)
 
 [5.11. 繼承](ddl-inherit.md)
-:   [5.11.1. 注意事項](ddl-inherit.md#DDL-INHERIT-CAVEATS)
+:   [5.11.1. 注意事項](ddl-inherit.md#ddl-inherit-caveats)
 
 [5.12. 資料表分割](ddl-partitioning.md)
-:   [5.12.1. 概觀](ddl-partitioning.md#DDL-PARTITIONING-OVERVIEW)
+:   [5.12.1. 概觀](ddl-partitioning.md#ddl-partitioning-overview)
 
     [5.12.2. 宣告式分割](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE)
 

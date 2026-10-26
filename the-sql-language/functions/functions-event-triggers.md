@@ -2,11 +2,11 @@
 
 ## 9.30. 事件觸發程序函式 [#](#functions-event-triggers) <a href="#functions-event-triggers" id="functions-event-triggers"></a>
 
-[9.30.1. 在命令結束時擷取變更](functions-event-triggers.md#PG-EVENT-TRIGGER-DDL-COMMAND-END-FUNCTIONS)
+[9.30.1. 在命令結束時擷取變更](functions-event-triggers.md#pg-event-trigger-ddl-command-end-functions)
 
-[9.30.2. 處理被 DDL 命令刪除的物件](functions-event-triggers.md#PG-EVENT-TRIGGER-SQL-DROP-FUNCTIONS)
+[9.30.2. 處理被 DDL 命令刪除的物件](functions-event-triggers.md#pg-event-trigger-sql-drop-functions)
 
-[9.30.3. 處理資料表改寫事件](functions-event-triggers.md#PG-EVENT-TRIGGER-TABLE-REWRITE-FUNCTIONS)
+[9.30.3. 處理資料表改寫事件](functions-event-triggers.md#pg-event-trigger-table-rewrite-functions)
 
 PostgreSQL 提供了這些輔助函式，用來從事件觸發程序中取得資訊。
 
@@ -14,7 +14,7 @@ PostgreSQL 提供了這些輔助函式，用來從事件觸發程序中取得資
 
 <a id="PG-EVENT-TRIGGER-DDL-COMMAND-END-FUNCTIONS"></a>
 
-### 9.30.1. 在命令結束時擷取變更 [#](#PG-EVENT-TRIGGER-DDL-COMMAND-END-FUNCTIONS)
+### 9.30.1. 在命令結束時擷取變更 [#](#pg-event-trigger-ddl-command-end-functions) <a href="#pg-event-trigger-ddl-command-end-functions" id="pg-event-trigger-ddl-command-end-functions"></a>
 
 <a id="id-1.5.8.36.4.2"></a>
 
@@ -35,7 +35,7 @@ pg_event_trigger_ddl_commands () → setof record
 
 <a id="PG-EVENT-TRIGGER-SQL-DROP-FUNCTIONS"></a>
 
-### 9.30.2. 處理被 DDL 命令刪除的物件 [#](#PG-EVENT-TRIGGER-SQL-DROP-FUNCTIONS)
+### 9.30.2. 處理被 DDL 命令刪除的物件 [#](#pg-event-trigger-sql-drop-functions) <a href="#pg-event-trigger-sql-drop-functions" id="pg-event-trigger-sql-drop-functions"></a>
 
 <a id="id-1.5.8.36.5.2"></a>
 
@@ -89,7 +89,7 @@ CREATE EVENT TRIGGER test_event_trigger_for_drops
 
 <a id="PG-EVENT-TRIGGER-TABLE-REWRITE-FUNCTIONS"></a>
 
-### 9.30.3. 處理資料表改寫事件 [#](#PG-EVENT-TRIGGER-TABLE-REWRITE-FUNCTIONS)
+### 9.30.3. 處理資料表改寫事件 [#](#pg-event-trigger-table-rewrite-functions) <a href="#pg-event-trigger-table-rewrite-functions" id="pg-event-trigger-table-rewrite-functions"></a>
 
 [表 9.111](functions-event-triggers.md#FUNCTIONS-EVENT-TRIGGER-TABLE-REWRITE) 所列的函式，提供剛觸發 `table_rewrite` 事件之資料表的相關資訊。如果在任何其他情境中呼叫，就會引發錯誤。
 

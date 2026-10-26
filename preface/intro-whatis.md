@@ -7,7 +7,7 @@ PostgreSQL 是一套物件關聯式資料庫管理系統（ORDBMS），以加州
 PostgreSQL 是這份柏克萊原始程式碼的開放原始碼後裔。它支援 SQL 標準的大部分內容，並提供許多現代功能：
 
 * [複雜查詢](../the-sql-language/README.md)
-* [外鍵](../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-FK)
+* [外鍵](../the-sql-language/ddl/ddl-constraints.md#ddl-constraints-fk)
 * [觸發程序](../server-programming/triggers/README.md)
 * [可更新的檢視表](../reference/sql-commands/sql-createview.md#SQL-CREATEVIEW-UPDATABLE-VIEWS)
 * [交易完整性](../the-sql-language/mvcc/transaction-iso.md)

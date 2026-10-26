@@ -15,7 +15,7 @@ EXEC SQL ...;
 
 這些陳述式在語法上占據 C 陳述式的位置。視個別陳述式而定，它們可以出現在全域層級，也可以出現在函式內。
 
-嵌入式 SQL 陳述式遵循一般 SQL 程式碼的大小寫區分規則，而不是 C 的規則。此外，它們依照 SQL 標準允許巢狀的 C 風格註解。然而，程式的 C 部分仍遵循 C 標準，不接受巢狀註解。嵌入式 SQL 陳述式同樣使用 SQL 規則（而不是 C 規則）來剖析加上引號的字串與識別字。（分別請參閱[第 4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)與[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)。請注意，ECPG 假設 `standard_conforming_strings` 為 `on`。）當然，程式的 C 部分遵循 C 的引號規則。
+嵌入式 SQL 陳述式遵循一般 SQL 程式碼的大小寫區分規則，而不是 C 的規則。此外，它們依照 SQL 標準允許巢狀的 C 風格註解。然而，程式的 C 部分仍遵循 C 標準，不接受巢狀註解。嵌入式 SQL 陳述式同樣使用 SQL 規則（而不是 C 規則）來剖析加上引號的字串與識別字。（分別請參閱[第 4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)與[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#sql-syntax-identifiers)。請注意，ECPG 假設 `standard_conforming_strings` 為 `on`。）當然，程式的 C 部分遵循 C 的引號規則。
 
 以下各節將說明所有的嵌入式 SQL 陳述式。
 

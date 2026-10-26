@@ -202,7 +202,7 @@ $ ps -ef | grep postgres
 
 `SIGHUP` 訊號會重新載入伺服器組態檔。也可以將 `SIGHUP` 傳送給個別的伺服器程序，但這通常沒有意義。
 
-若要取消正在執行的查詢，請將 `SIGINT` 訊號傳送給執行該命令的程序。若要乾淨地終止某個後端程序，請將 `SIGTERM` 傳送給該程序。這兩個動作在 SQL 中可呼叫的對應方式，另請參閱[第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)中的 `pg_cancel_backend` 與 `pg_terminate_backend`。
+若要取消正在執行的查詢，請將 `SIGINT` 訊號傳送給執行該命令的程序。若要乾淨地終止某個後端程序，請將 `SIGTERM` 傳送給該程序。這兩個動作在 SQL 中可呼叫的對應方式，另請參閱[第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#functions-admin-signal)中的 `pg_cancel_backend` 與 `pg_terminate_backend`。
 
 `postgres` 伺服器使用 `SIGQUIT` 通知下層的伺服器程序終止，而不進行正常的清理。使用者*不應*使用此訊號。將 `SIGKILL` 傳送給伺服器程序也是不明智的——主 `postgres` 程序會將此解讀為當機，並在其標準的當機復原程序中，強制所有同層程序結束。
 

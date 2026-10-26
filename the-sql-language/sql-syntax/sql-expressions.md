@@ -2,33 +2,33 @@
 
 ## 4.2. 值運算式 [#](#sql-expressions) <a href="#sql-expressions" id="sql-expressions"></a>
 
-[4.2.1. 欄位參照](sql-expressions.md#SQL-EXPRESSIONS-COLUMN-REFS)
+[4.2.1. 欄位參照](sql-expressions.md#sql-expressions-column-refs)
 
-[4.2.2. 位置參數](sql-expressions.md#SQL-EXPRESSIONS-PARAMETERS-POSITIONAL)
+[4.2.2. 位置參數](sql-expressions.md#sql-expressions-parameters-positional)
 
-[4.2.3. 下標](sql-expressions.md#SQL-EXPRESSIONS-SUBSCRIPTS)
+[4.2.3. 下標](sql-expressions.md#sql-expressions-subscripts)
 
-[4.2.4. 欄位選取](sql-expressions.md#FIELD-SELECTION)
+[4.2.4. 欄位選取](sql-expressions.md#field-selection)
 
-[4.2.5. 運算子呼叫](sql-expressions.md#SQL-EXPRESSIONS-OPERATOR-CALLS)
+[4.2.5. 運算子呼叫](sql-expressions.md#sql-expressions-operator-calls)
 
-[4.2.6. 函式呼叫](sql-expressions.md#SQL-EXPRESSIONS-FUNCTION-CALLS)
+[4.2.6. 函式呼叫](sql-expressions.md#sql-expressions-function-calls)
 
-[4.2.7. 彙總運算式](sql-expressions.md#SYNTAX-AGGREGATES)
+[4.2.7. 彙總運算式](sql-expressions.md#syntax-aggregates)
 
-[4.2.8. Window 函式呼叫](sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)
+[4.2.8. Window 函式呼叫](sql-expressions.md#syntax-window-functions)
 
-[4.2.9. 型別轉換](sql-expressions.md#SQL-SYNTAX-TYPE-CASTS)
+[4.2.9. 型別轉換](sql-expressions.md#sql-syntax-type-casts)
 
-[4.2.10. 定序運算式](sql-expressions.md#SQL-SYNTAX-COLLATE-EXPRS)
+[4.2.10. 定序運算式](sql-expressions.md#sql-syntax-collate-exprs)
 
-[4.2.11. 純量子查詢](sql-expressions.md#SQL-SYNTAX-SCALAR-SUBQUERIES)
+[4.2.11. 純量子查詢](sql-expressions.md#sql-syntax-scalar-subqueries)
 
-[4.2.12. 陣列建構子](sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)
+[4.2.12. 陣列建構子](sql-expressions.md#sql-syntax-array-constructors)
 
-[4.2.13. 資料列建構子](sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)
+[4.2.13. 資料列建構子](sql-expressions.md#sql-syntax-row-constructors)
 
-[4.2.14. 運算式求值規則](sql-expressions.md#SYNTAX-EXPRESS-EVAL)
+[4.2.14. 運算式求值規則](sql-expressions.md#syntax-express-eval)
 
 <a id="id-1.5.3.6.2"></a><a id="id-1.5.3.6.3"></a><a id="id-1.5.3.6.4"></a>
 
@@ -54,11 +54,11 @@
 
 除了這份清單之外，還有許多結構可以歸類為運算式，但不遵循任何一般的語法規則。它們一般具有函式或運算子的語意，並在[第 9 章](../functions/README.md)的適當位置說明。例如 `IS NULL` 子句就是其中之一。
 
-我們已經在[第 4.1.2 節](sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS)討論過常數。以下各節討論其餘的選項。
+我們已經在[第 4.1.2 節](sql-syntax-lexical.md#sql-syntax-constants)討論過常數。以下各節討論其餘的選項。
 
 <a id="SQL-EXPRESSIONS-COLUMN-REFS"></a>
 
-### 4.2.1. 欄位參照 [#](#SQL-EXPRESSIONS-COLUMN-REFS)
+### 4.2.1. 欄位參照 [#](#sql-expressions-column-refs) <a href="#sql-expressions-column-refs" id="sql-expressions-column-refs"></a>
 
 <a id="id-1.5.3.6.9.2"></a>
 
@@ -73,7 +73,7 @@ correlation.columnname
 
 <a id="SQL-EXPRESSIONS-PARAMETERS-POSITIONAL"></a>
 
-### 4.2.2. 位置參數 [#](#SQL-EXPRESSIONS-PARAMETERS-POSITIONAL)
+### 4.2.2. 位置參數 [#](#sql-expressions-parameters-positional) <a href="#sql-expressions-parameters-positional" id="sql-expressions-parameters-positional"></a>
 
 <a id="id-1.5.3.6.10.2"></a><a id="id-1.5.3.6.10.3"></a>
 
@@ -97,7 +97,7 @@ CREATE FUNCTION dept(text) RETURNS dept
 
 <a id="SQL-EXPRESSIONS-SUBSCRIPTS"></a>
 
-### 4.2.3. 下標 [#](#SQL-EXPRESSIONS-SUBSCRIPTS)
+### 4.2.3. 下標 [#](#sql-expressions-subscripts) <a href="#sql-expressions-subscripts" id="sql-expressions-subscripts"></a>
 
 <a id="id-1.5.3.6.11.2"></a>
 
@@ -131,7 +131,7 @@ $1[10:42]
 
 <a id="FIELD-SELECTION"></a>
 
-### 4.2.4. 欄位選取 [#](#FIELD-SELECTION)
+### 4.2.4. 欄位選取 [#](#field-selection) <a href="#field-selection" id="field-selection"></a>
 
 <a id="id-1.5.3.6.12.2"></a>
 
@@ -168,11 +168,11 @@ $1.somecolumn
 (compositecol).*
 ```
 
-這種表示法的行為會依情境而有所不同；詳情請參閱[第 8.16.5 節](../datatype/rowtypes.md#ROWTYPES-USAGE)。
+這種表示法的行為會依情境而有所不同；詳情請參閱[第 8.16.5 節](../datatype/rowtypes.md#rowtypes-usage)。
 
 <a id="SQL-EXPRESSIONS-OPERATOR-CALLS"></a>
 
-### 4.2.5. 運算子呼叫 [#](#SQL-EXPRESSIONS-OPERATOR-CALLS)
+### 4.2.5. 運算子呼叫 [#](#sql-expressions-operator-calls) <a href="#sql-expressions-operator-calls" id="sql-expressions-operator-calls"></a>
 
 <a id="id-1.5.3.6.13.2"></a>
 
@@ -180,7 +180,7 @@ $1.somecolumn
 
 <table border="0" class="simplelist" summary="Simple list"><tr><td><em class="replaceable"><code>expression</code></em> <em class="replaceable"><code>operator</code></em> <em class="replaceable"><code>expression</code></em>（二元中置運算子）</td></tr><tr><td><em class="replaceable"><code>operator</code></em> <em class="replaceable"><code>expression</code></em>（一元前置運算子）</td></tr></table>
 
-其中 *`operator`* 語彙單元遵循[第 4.1.3 節](sql-syntax-lexical.md#SQL-SYNTAX-OPERATORS)的語法規則，或是關鍵字 `AND`、`OR` 與 `NOT` 之一，或是下列形式的限定運算子名稱：
+其中 *`operator`* 語彙單元遵循[第 4.1.3 節](sql-syntax-lexical.md#sql-syntax-operators)的語法規則，或是關鍵字 `AND`、`OR` 與 `NOT` 之一，或是下列形式的限定運算子名稱：
 
 ```
 
@@ -191,7 +191,7 @@ OPERATOR(schema.operatorname)
 
 <a id="SQL-EXPRESSIONS-FUNCTION-CALLS"></a>
 
-### 4.2.6. 函式呼叫 [#](#SQL-EXPRESSIONS-FUNCTION-CALLS)
+### 4.2.6. 函式呼叫 [#](#sql-expressions-function-calls) <a href="#sql-expressions-function-calls" id="sql-expressions-function-calls"></a>
 
 <a id="id-1.5.3.6.14.2"></a>
 
@@ -217,11 +217,11 @@ sqrt(2)
 
 ### 注意
 
-接受單一複合型別引數的函式，可以選擇使用欄位選取語法來呼叫；反過來說，欄位選取也可以寫成函式的形式。也就是說，`col(table)` 與 `table.col` 這兩種表示法可以互換。這種行為不是 SQL 標準，但 PostgreSQL 提供了它，因為它讓函式可以用來模擬「計算欄位」。更多資訊請參閱[第 8.16.5 節](../datatype/rowtypes.md#ROWTYPES-USAGE)。
+接受單一複合型別引數的函式，可以選擇使用欄位選取語法來呼叫；反過來說，欄位選取也可以寫成函式的形式。也就是說，`col(table)` 與 `table.col` 這兩種表示法可以互換。這種行為不是 SQL 標準，但 PostgreSQL 提供了它，因為它讓函式可以用來模擬「計算欄位」。更多資訊請參閱[第 8.16.5 節](../datatype/rowtypes.md#rowtypes-usage)。
 
 <a id="SYNTAX-AGGREGATES"></a>
 
-### 4.2.7. 彙總運算式 [#](#SYNTAX-AGGREGATES)
+### 4.2.7. 彙總運算式 [#](#syntax-aggregates) <a href="#syntax-aggregates" id="syntax-aggregates"></a>
 
 <a id="id-1.5.3.6.15.2"></a><a id="id-1.5.3.6.15.3"></a><a id="id-1.5.3.6.15.4"></a><a id="id-1.5.3.6.15.5"></a>
 
@@ -326,11 +326,11 @@ FROM generate_series(1,10) AS s(i);
 
 彙總運算式只能出現在 `SELECT` 指令的結果清單或 `HAVING` 子句中。在其他子句（例如 `WHERE`）中則禁止使用，因為在邏輯上，這些子句會在形成彙總結果之前求值。
 
-當彙總運算式出現在子查詢中時（請參閱[第 4.2.11 節](sql-expressions.md#SQL-SYNTAX-SCALAR-SUBQUERIES)與[第 9.24 節](../functions/functions-subquery.md)），彙總函式通常會在子查詢的資料列上求值。但如果彙總函式的引數（以及 *`filter_clause`*，如果有的話）只包含外層的變數，就會出現例外：此時彙總函式屬於最近的那個外層，並在該查詢的資料列上求值。這時整個彙總運算式對它所在的子查詢而言，就是一個外部參照，並且在該子查詢的任何一次求值中都表現得像常數。只能出現在結果清單或 `HAVING` 子句中的限制，是就彙總函式所屬的查詢層級而言。
+當彙總運算式出現在子查詢中時（請參閱[第 4.2.11 節](sql-expressions.md#sql-syntax-scalar-subqueries)與[第 9.24 節](../functions/functions-subquery.md)），彙總函式通常會在子查詢的資料列上求值。但如果彙總函式的引數（以及 *`filter_clause`*，如果有的話）只包含外層的變數，就會出現例外：此時彙總函式屬於最近的那個外層，並在該查詢的資料列上求值。這時整個彙總運算式對它所在的子查詢而言，就是一個外部參照，並且在該子查詢的任何一次求值中都表現得像常數。只能出現在結果清單或 `HAVING` 子句中的限制，是就彙總函式所屬的查詢層級而言。
 
 <a id="SYNTAX-WINDOW-FUNCTIONS"></a>
 
-### 4.2.8. Window 函式呼叫 [#](#SYNTAX-WINDOW-FUNCTIONS)
+### 4.2.8. Window 函式呼叫 [#](#syntax-window-functions) <a href="#syntax-window-functions" id="syntax-window-functions"></a>
 
 <a id="id-1.5.3.6.16.2"></a><a id="id-1.5.3.6.16.3"></a>
 
@@ -425,11 +425,11 @@ PRECEDING` 則是允許的，即使它永遠不會選取任何資料列。
 
 window 函式呼叫只能用在查詢的 `SELECT` 清單與 `ORDER BY` 子句中。
 
-關於 window 函式的更多資訊，請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)、[第 9.22 節](../functions/functions-window.md)與[第 7.2.5 節](../queries/queries-table-expressions.md#QUERIES-WINDOW)。
+關於 window 函式的更多資訊，請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)、[第 9.22 節](../functions/functions-window.md)與[第 7.2.5 節](../queries/queries-table-expressions.md#queries-window)。
 
 <a id="SQL-SYNTAX-TYPE-CASTS"></a>
 
-### 4.2.9. 型別轉換 [#](#SQL-SYNTAX-TYPE-CASTS)
+### 4.2.9. 型別轉換 [#](#sql-syntax-type-casts) <a href="#sql-syntax-type-casts" id="sql-syntax-type-casts"></a>
 
 <a id="id-1.5.3.6.17.2"></a><a id="id-1.5.3.6.17.3"></a><a id="id-1.5.3.6.17.4"></a>
 
@@ -462,7 +462,7 @@ typename ( expression )
 
 <a id="SQL-SYNTAX-COLLATE-EXPRS"></a>
 
-### 4.2.10. 定序運算式 [#](#SQL-SYNTAX-COLLATE-EXPRS)
+### 4.2.10. 定序運算式 [#](#sql-syntax-collate-exprs) <a href="#sql-syntax-collate-exprs" id="sql-syntax-collate-exprs"></a>
 
 <a id="id-1.5.3.6.18.2"></a>
 
@@ -509,7 +509,7 @@ SELECT * FROM tbl WHERE (a > 'foo') COLLATE "C";
 
 <a id="SQL-SYNTAX-SCALAR-SUBQUERIES"></a>
 
-### 4.2.11. 純量子查詢 [#](#SQL-SYNTAX-SCALAR-SUBQUERIES)
+### 4.2.11. 純量子查詢 [#](#sql-syntax-scalar-subqueries) <a href="#sql-syntax-scalar-subqueries" id="sql-syntax-scalar-subqueries"></a>
 
 <a id="id-1.5.3.6.19.2"></a>
 
@@ -525,7 +525,7 @@ SELECT name, (SELECT max(pop) FROM cities WHERE cities.state = states.name)
 
 <a id="SQL-SYNTAX-ARRAY-CONSTRUCTORS"></a>
 
-### 4.2.12. 陣列建構子 [#](#SQL-SYNTAX-ARRAY-CONSTRUCTORS)
+### 4.2.12. 陣列建構子 [#](#sql-syntax-array-constructors) <a href="#sql-syntax-array-constructors" id="sql-syntax-array-constructors"></a>
 
 <a id="id-1.5.3.6.20.2"></a><a id="id-1.5.3.6.20.3"></a>
 
@@ -551,7 +551,7 @@ SELECT ARRAY[1,2,22.7]::integer[];
 (1 row)
 ```
 
-這與個別將每個運算式轉換為陣列元素型別的效果相同。關於型別轉換的更多資訊，請參閱[第 4.2.9 節](sql-expressions.md#SQL-SYNTAX-TYPE-CASTS)。
+這與個別將每個運算式轉換為陣列元素型別的效果相同。關於型別轉換的更多資訊，請參閱[第 4.2.9 節](sql-expressions.md#sql-syntax-type-casts)。
 
 多維陣列值可以透過巢狀的陣列建構子來建立。在內層的建構子中，可以省略關鍵字 `ARRAY`。例如，下列兩種寫法會產生相同的結果：
 
@@ -621,7 +621,7 @@ SELECT ARRAY(SELECT ARRAY[i, i*2] FROM generate_series(1,5) AS a(i));
 
 <a id="SQL-SYNTAX-ROW-CONSTRUCTORS"></a>
 
-### 4.2.13. 資料列建構子 [#](#SQL-SYNTAX-ROW-CONSTRUCTORS)
+### 4.2.13. 資料列建構子 [#](#sql-syntax-row-constructors) <a href="#sql-syntax-row-constructors" id="sql-syntax-row-constructors"></a>
 
 <a id="id-1.5.3.6.21.2"></a><a id="id-1.5.3.6.21.3"></a><a id="id-1.5.3.6.21.4"></a>
 
@@ -634,7 +634,7 @@ SELECT ROW(1,2.5,'this is a test');
 
 當清單中有多個運算式時，關鍵字 `ROW` 是選用的。
 
-資料列建構子可以包含 *`rowvalue`*`.*` 語法，它會展開為該資料列值的元素清單，就如同在 `SELECT` 清單的最上層使用 `.*` 語法時一樣（請參閱[第 8.16.5 節](../datatype/rowtypes.md#ROWTYPES-USAGE)）。例如，如果資料表 `t` 有欄位 `f1` 與 `f2`，下列兩者是相同的：
+資料列建構子可以包含 *`rowvalue`*`.*` 語法，它會展開為該資料列值的元素清單，就如同在 `SELECT` 清單的最上層使用 `.*` 語法時一樣（請參閱[第 8.16.5 節](../datatype/rowtypes.md#rowtypes-usage)）。例如，如果資料表 `t` 有欄位 `f1` 與 `f2`，下列兩者是相同的：
 
 ```
 
@@ -686,7 +686,7 @@ SELECT getf1(CAST(ROW(11,'this is a test',2.5) AS myrowtype));
 
 <a id="SYNTAX-EXPRESS-EVAL"></a>
 
-### 4.2.14. 運算式求值規則 [#](#SYNTAX-EXPRESS-EVAL)
+### 4.2.14. 運算式求值規則 [#](#syntax-express-eval) <a href="#syntax-express-eval" id="syntax-express-eval"></a>
 
 <a id="id-1.5.3.6.22.2"></a>
 

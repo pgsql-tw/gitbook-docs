@@ -134,7 +134,7 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
     分割區的能力。這也控制規劃器產生查詢計畫的能力，
     使查詢執行器可以在查詢執行期間移除（忽略）分割區。
     預設值為 `on`。
-    詳情請參閱[5.12.4 節](../../the-sql-language/ddl/ddl-partitioning.md#DDL-PARTITION-PRUNING)。
+    詳情請參閱[5.12.4 節](../../the-sql-language/ddl/ddl-partitioning.md#ddl-partition-pruning)。
 <a id="GUC-ENABLE-PARTITIONWISE-JOIN"></a>
 
 `enable_partitionwise_join` (`boolean`) <a id="id-1.6.6.10.2.3.18.1.3"></a> [#](#GUC-ENABLE-PARTITIONWISE-JOIN)
@@ -587,7 +587,7 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 
 `recursive_worktable_factor` (`floating point`) <a id="id-1.6.6.10.5.2.8.1.3"></a> [#](#GUC-RECURSIVE-WORKTABLE-FACTOR)
 :   設定規劃器對於[遞迴
-    查詢](../../the-sql-language/queries/queries-with.md#QUERIES-WITH-RECURSIVE)工作資料表平均大小的
+    查詢](../../the-sql-language/queries/queries-with.md#queries-with-recursive)工作資料表平均大小的
     估計值，以查詢初始非遞迴項目估計大小的倍數表示。
     這有助於規劃器選擇將工作資料表與
     查詢其他資料表聯結的最合適方法。

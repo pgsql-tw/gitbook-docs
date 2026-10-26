@@ -381,7 +381,7 @@
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        以縮略的形式顯示 <em class="parameter"><code>query</code></em> 在 <em class="parameter"><code>document</code></em> 中的相符之處，其中文件必須是原始文字，而不是 <code class="type">tsvector</code>。文件中的單字在與查詢比對之前，會依照指定的或預設的組態進行正規化。這個函式的用法在<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-HEADLINE">第 12.3.4 節</a>中討論，該節也說明了可用的 <em class="parameter"><code>options</code></em>。
+        以縮略的形式顯示 <em class="parameter"><code>query</code></em> 在 <em class="parameter"><code>document</code></em> 中的相符之處，其中文件必須是原始文字，而不是 <code class="type">tsvector</code>。文件中的單字在與查詢比對之前，會依照指定的或預設的組態進行正規化。這個函式的用法在<a class="xref" href="../textsearch/textsearch-controls.md#textsearch-headline">第 12.3.4 節</a>中討論，該節也說明了可用的 <em class="parameter"><code>options</code></em>。
        </p>
 <p>
 <code class="literal">ts_headline('The fat cat ate the rat.', 'cat')</code>
@@ -403,7 +403,7 @@
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        以縮略的形式顯示 <em class="parameter"><code>query</code></em> 在 JSON <em class="parameter"><code>document</code></em> 之字串值中的相符之處。更多細節請參閱<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-HEADLINE">第 12.3.4 節</a>。
+        以縮略的形式顯示 <em class="parameter"><code>query</code></em> 在 JSON <em class="parameter"><code>document</code></em> 之字串值中的相符之處。更多細節請參閱<a class="xref" href="../textsearch/textsearch-controls.md#textsearch-headline">第 12.3.4 節</a>。
        </p>
 <p>
 <code class="literal">ts_headline('{"cat":"raining cats and dogs"}'::jsonb, 'cat')</code>
@@ -418,7 +418,7 @@
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        計算一個分數，顯示 <em class="parameter"><code>vector</code></em> 與 <em class="parameter"><code>query</code></em> 的相符程度。詳情請參閱<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-RANKING">第 12.3.3 節</a>。
+        計算一個分數，顯示 <em class="parameter"><code>vector</code></em> 與 <em class="parameter"><code>query</code></em> 的相符程度。詳情請參閱<a class="xref" href="../textsearch/textsearch-controls.md#textsearch-ranking">第 12.3.3 節</a>。
        </p>
 <p>
 <code class="literal">ts_rank(to_tsvector('raining cats and dogs'), 'cat')</code>
@@ -433,7 +433,7 @@
         → <code class="returnvalue">real</code>
 </p>
 <p>
-        使用涵蓋密度（cover density）演算法，計算一個分數，顯示 <em class="parameter"><code>vector</code></em> 與 <em class="parameter"><code>query</code></em> 的相符程度。詳情請參閱<a class="xref" href="../textsearch/textsearch-controls.md#TEXTSEARCH-RANKING">第 12.3.3 節</a>。
+        使用涵蓋密度（cover density）演算法，計算一個分數，顯示 <em class="parameter"><code>vector</code></em> 與 <em class="parameter"><code>query</code></em> 的相符程度。詳情請參閱<a class="xref" href="../textsearch/textsearch-controls.md#textsearch-ranking">第 12.3.3 節</a>。
        </p>
 <p>
 <code class="literal">ts_rank_cd(to_tsvector('raining cats and dogs'), 'cat')</code>
@@ -551,7 +551,7 @@
         <em class="parameter"><code>lexemes</code></em> <code class="type">text[]</code> )
        </p>
 <p>
-        依照指定的或預設的文字搜尋組態，從 <em class="parameter"><code>document</code></em> 中擷取並正規化語彙單元，並回傳每個語彙單元如何被處理的資訊。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING">第 12.8.1 節</a>。
+        依照指定的或預設的文字搜尋組態，從 <em class="parameter"><code>document</code></em> 中擷取並正規化語彙單元，並回傳每個語彙單元如何被處理的資訊。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#textsearch-configuration-testing">第 12.8.1 節</a>。
        </p>
 <p>
 <code class="literal">ts_debug('english', 'The Brightest supernovaes')</code>
@@ -562,7 +562,7 @@
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        如果字典認得輸入的語彙單元，就回傳替換詞素的陣列；如果字典認得該語彙單元但它是停用詞，就回傳空陣列；如果它不是已知的單字，則回傳 NULL。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-DICTIONARY-TESTING">第 12.8.3 節</a>。
+        如果字典認得輸入的語彙單元，就回傳替換詞素的陣列；如果字典認得該語彙單元但它是停用詞，就回傳空陣列；如果它不是已知的單字，則回傳 NULL。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#textsearch-dictionary-testing">第 12.8.3 節</a>。
        </p>
 <p>
 <code class="literal">ts_lexize('english_stem', 'stars')</code>
@@ -576,7 +576,7 @@
         <em class="parameter"><code>token</code></em> <code class="type">text</code> )
        </p>
 <p>
-        使用指定名稱的剖析器，從 <em class="parameter"><code>document</code></em> 中擷取語彙單元。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
+        使用指定名稱的剖析器，從 <em class="parameter"><code>document</code></em> 中擷取語彙單元。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#textsearch-parser-testing">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_parse('default', 'foo - bar')</code>
@@ -589,7 +589,7 @@
         <em class="parameter"><code>token</code></em> <code class="type">text</code> )
        </p>
 <p>
-        使用以 OID 指定的剖析器，從 <em class="parameter"><code>document</code></em> 中擷取語彙單元。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
+        使用以 OID 指定的剖析器，從 <em class="parameter"><code>document</code></em> 中擷取語彙單元。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#textsearch-parser-testing">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_parse(3722, 'foo - bar')</code>
@@ -603,7 +603,7 @@
         <em class="parameter"><code>description</code></em> <code class="type">text</code> )
        </p>
 <p>
-        回傳一個資料表，描述指定名稱的剖析器能夠辨識的每一種語彙單元類型。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
+        回傳一個資料表，描述指定名稱的剖析器能夠辨識的每一種語彙單元類型。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#textsearch-parser-testing">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_token_type('default')</code>
@@ -616,7 +616,7 @@
         <em class="parameter"><code>description</code></em> <code class="type">text</code> )
        </p>
 <p>
-        回傳一個資料表，描述以 OID 指定的剖析器能夠辨識的每一種語彙單元類型。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING">第 12.8.2 節</a>。
+        回傳一個資料表，描述以 OID 指定的剖析器能夠辨識的每一種語彙單元類型。詳情請參閱<a class="xref" href="../textsearch/textsearch-debugging.md#textsearch-parser-testing">第 12.8.2 節</a>。
        </p>
 <p>
 <code class="literal">ts_token_type(3722)</code>
@@ -631,7 +631,7 @@
         <em class="parameter"><code>nentry</code></em> <code class="type">integer</code> )
        </p>
 <p>
-        執行 <em class="parameter"><code>sqlquery</code></em>（它必須回傳單一 <code class="type">tsvector</code> 欄位），並回傳資料中所包含之每個相異詞素的統計資訊。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#TEXTSEARCH-STATISTICS">第 12.4.4 節</a>。
+        執行 <em class="parameter"><code>sqlquery</code></em>（它必須回傳單一 <code class="type">tsvector</code> 欄位），並回傳資料中所包含之每個相異詞素的統計資訊。詳情請參閱<a class="xref" href="../textsearch/textsearch-features.md#textsearch-statistics">第 12.4.4 節</a>。
        </p>
 <p>
 <code class="literal">ts_stat('SELECT vector FROM apod')</code>

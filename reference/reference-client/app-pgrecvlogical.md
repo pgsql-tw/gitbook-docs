@@ -20,7 +20,7 @@ pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 
 它會建立複寫模式的連線，因此受到與 [pg_receivewal](app-pgreceivewal.md) 相同的限制，另外還有邏輯複寫的限制（請參閱[第 47 章](../../server-programming/logicaldecoding/README.md)）。
 
-`pg_recvlogical` 沒有與邏輯解碼 SQL 介面之 peek 與 get 模式等效的功能。它會在收到資料時延遲地送出資料的重放確認，並在正常結束時送出。若要檢視插槽上待處理的資料而不消耗它，請使用 [`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION)。
+`pg_recvlogical` 沒有與邏輯解碼 SQL 介面之 peek 與 get 模式等效的功能。它會在收到資料時延遲地送出資料的重放確認，並在正常結束時送出。若要檢視插槽上待處理的資料而不消耗它，請使用 [`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#functions-replication)。
 
 在沒有發生嚴重錯誤的情況下，pg_recvlogical 會持續執行，直到被 SIGINT（**Control**+**C**）或 SIGTERM 訊號終止。
 

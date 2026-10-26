@@ -387,7 +387,7 @@ UPDATE work_item SET status = 'failed'
 依照標準的規定，括號括住之目標欄位名稱清單所對應的來源值，
 可以是任何能產生正確欄位數量的資料列值運算式。
 PostgreSQL 只允許來源值為
-[資料列建構子](../../the-sql-language/sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)
+[資料列建構子](../../the-sql-language/sql-syntax/sql-expressions.md#sql-syntax-row-constructors)
 或子 `SELECT`。在資料列建構子的情況下，
 可以將個別欄位更新後的值指定為 `DEFAULT`，
 但在子 `SELECT` 中則不行。

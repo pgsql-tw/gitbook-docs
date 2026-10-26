@@ -2,15 +2,15 @@
 
 ## 7.2. 資料表運算式 [#](#queries-table-expressions) <a href="#queries-table-expressions" id="queries-table-expressions"></a>
 
-[7.2.1. `FROM` 子句](queries-table-expressions.md#QUERIES-FROM)
+[7.2.1. `FROM` 子句](queries-table-expressions.md#queries-from)
 
-[7.2.2. `WHERE` 子句](queries-table-expressions.md#QUERIES-WHERE)
+[7.2.2. `WHERE` 子句](queries-table-expressions.md#queries-where)
 
-[7.2.3. `GROUP BY` 與 `HAVING` 子句](queries-table-expressions.md#QUERIES-GROUP)
+[7.2.3. `GROUP BY` 與 `HAVING` 子句](queries-table-expressions.md#queries-group)
 
-[7.2.4. `GROUPING SETS`、`CUBE` 與 `ROLLUP`](queries-table-expressions.md#QUERIES-GROUPING-SETS)
+[7.2.4. `GROUPING SETS`、`CUBE` 與 `ROLLUP`](queries-table-expressions.md#queries-grouping-sets)
 
-[7.2.5. Window 函式的處理](queries-table-expressions.md#QUERIES-WINDOW)
+[7.2.5. Window 函式的處理](queries-table-expressions.md#queries-window)
 
 <a id="id-1.5.6.6.2"></a>
 
@@ -20,7 +20,7 @@
 
 <a id="QUERIES-FROM"></a>
 
-### 7.2.1. `FROM` 子句 [#](#QUERIES-FROM)
+### 7.2.1. `FROM` 子句 [#](#queries-from) <a href="#queries-from" id="queries-from"></a>
 
 [`FROM`](../../reference/sql-commands/sql-select.md#SQL-FROM) 子句會從以逗號分隔的資料表參照清單中所給定的一個或多個其他資料表，衍生出一個資料表。
 
@@ -494,7 +494,7 @@ WHERE pname IS NULL;
 
 <a id="QUERIES-WHERE"></a>
 
-### 7.2.2. `WHERE` 子句 [#](#QUERIES-WHERE)
+### 7.2.2. `WHERE` 子句 [#](#queries-where) <a href="#queries-where" id="queries-where"></a>
 
 <a id="id-1.5.6.6.6.2"></a>
 
@@ -555,7 +555,7 @@ SELECT ... FROM fdt WHERE EXISTS (SELECT c1 FROM t2 WHERE c2 > fdt.c1)
 
 <a id="QUERIES-GROUP"></a>
 
-### 7.2.3. `GROUP BY` 與 `HAVING` 子句 [#](#QUERIES-GROUP)
+### 7.2.3. `GROUP BY` 與 `HAVING` 子句 [#](#queries-group) <a href="#queries-group" id="queries-group"></a>
 
 <a id="id-1.5.6.6.7.2"></a><a id="id-1.5.6.6.7.3"></a>
 
@@ -610,7 +610,7 @@ SELECT select_list
 
 ### 提示
 
-不使用彙總運算式的分組，實際上等於計算某個欄位中不同值的集合。這也可以使用 `DISTINCT` 子句來達成（請參閱[第 7.3.3 節](queries-select-lists.md#QUERIES-DISTINCT)）。
+不使用彙總運算式的分組，實際上等於計算某個欄位中不同值的集合。這也可以使用 `DISTINCT` 子句來達成（請參閱[第 7.3.3 節](queries-select-lists.md#queries-distinct)）。
 
 以下是另一個範例：它會計算每項產品的總銷售額（而不是所有產品的總銷售額）：
 
@@ -676,7 +676,7 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
 
 <a id="QUERIES-GROUPING-SETS"></a>
 
-### 7.2.4. `GROUPING SETS`、`CUBE` 與 `ROLLUP` [#](#QUERIES-GROUPING-SETS)
+### 7.2.4. `GROUPING SETS`、`CUBE` 與 `ROLLUP` [#](#queries-grouping-sets) <a href="#queries-grouping-sets" id="queries-grouping-sets"></a>
 
 <a id="id-1.5.6.6.8.2"></a><a id="id-1.5.6.6.8.3"></a><a id="id-1.5.6.6.8.4"></a>
 
@@ -869,15 +869,15 @@ GROUP BY GROUPING SETS (
 
 ### 注意
 
-在運算式中，`(a, b)` 這種結構通常會被辨識為[資料列建構子](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)。但在 `GROUP BY` 子句中，這一點並不適用於運算式的最上層，`(a, b)` 會如上所述被剖析為運算式清單。如果基於某些原因，你*需要*在分組運算式中使用資料列建構子，請使用 `ROW(a, b)`。
+在運算式中，`(a, b)` 這種結構通常會被辨識為[資料列建構子](../sql-syntax/sql-expressions.md#sql-syntax-row-constructors)。但在 `GROUP BY` 子句中，這一點並不適用於運算式的最上層，`(a, b)` 會如上所述被剖析為運算式清單。如果基於某些原因，你*需要*在分組運算式中使用資料列建構子，請使用 `ROW(a, b)`。
 
 <a id="QUERIES-WINDOW"></a>
 
-### 7.2.5. Window 函式的處理 [#](#QUERIES-WINDOW)
+### 7.2.5. Window 函式的處理 [#](#queries-window) <a href="#queries-window" id="queries-window"></a>
 
 <a id="id-1.5.6.6.9.2"></a>
 
-如果查詢包含任何 window 函式（請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)、[第 9.22 節](../functions/functions-window.md)與[第 4.2.8 節](../sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)），這些函式會在所有分組、彙總與 `HAVING` 過濾完成之後才求值。也就是說，如果查詢使用了任何彙總函式、`GROUP BY` 或 `HAVING`，那麼 window 函式所看到的資料列是群組資料列，而不是來自 `FROM`/`WHERE` 的原始資料表資料列。
+如果查詢包含任何 window 函式（請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)、[第 9.22 節](../functions/functions-window.md)與[第 4.2.8 節](../sql-syntax/sql-expressions.md#syntax-window-functions)），這些函式會在所有分組、彙總與 `HAVING` 過濾完成之後才求值。也就是說，如果查詢使用了任何彙總函式、`GROUP BY` 或 `HAVING`，那麼 window 函式所看到的資料列是群組資料列，而不是來自 `FROM`/`WHERE` 的原始資料表資料列。
 
 使用多個 window 函式時，所有在其視窗定義中具有等價 `PARTITION BY` 與 `ORDER BY` 子句的 window 函式，都保證會看到相同的輸入資料列順序，即使 `ORDER BY` 並未唯一決定該順序也一樣。不過，對於具有不同 `PARTITION BY` 或 `ORDER BY` 規格的函式，其求值則沒有任何保證。（在這種情況下，window 函式求值的各個階段之間通常需要一個排序步驟，而該排序並不保證會保留其 `ORDER BY` 視為等價之資料列的順序。）
 

@@ -2503,7 +2503,7 @@ value2 ...` 結構的查詢，
 
 `EXPLAIN ANALYZE` 會輸出每個索引掃描節點所執行的
 索引搜尋總次數。有關此運作方式的範例，
-請參閱[第 14.1.2 節](../../the-sql-language/performance-tips/using-explain.md#USING-EXPLAIN-ANALYZE)。
+請參閱[第 14.1.2 節](../../the-sql-language/performance-tips/using-explain.md#using-explain-analyze)。
 
 <a id="MONITORING-PG-STATIO-ALL-TABLES-VIEW"></a>
 

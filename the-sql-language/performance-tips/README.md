@@ -3,21 +3,21 @@
 **目錄**
 
 [14.1. 使用 `EXPLAIN`](using-explain.md)
-:   [14.1.1. `EXPLAIN` 基礎](using-explain.md#USING-EXPLAIN-BASICS)
+:   [14.1.1. `EXPLAIN` 基礎](using-explain.md#using-explain-basics)
 
     [14.1.2. `EXPLAIN ANALYZE`](using-explain.md#USING-EXPLAIN-ANALYZE)
 
     [14.1.3. 注意事項](using-explain.md#USING-EXPLAIN-CAVEATS)
 
 [14.2. 規劃器使用的統計資訊](planner-stats.md)
-:   [14.2.1. 單一欄位統計資訊](planner-stats.md#PLANNER-STATS-SINGLE-COLUMN)
+:   [14.2.1. 單一欄位統計資訊](planner-stats.md#planner-stats-single-column)
 
     [14.2.2. 擴充統計資訊](planner-stats.md#PLANNER-STATS-EXTENDED)
 
 [14.3. 以明確的 `JOIN` 子句控制規劃器](explicit-joins.md)
 
 [14.4. 填入資料庫](populate.md)
-:   [14.4.1. 停用自動提交](populate.md#DISABLE-AUTOCOMMIT)
+:   [14.4.1. 停用自動提交](populate.md#disable-autocommit)
 
     [14.4.2. 使用 `COPY`](populate.md#POPULATE-COPY-FROM)
 

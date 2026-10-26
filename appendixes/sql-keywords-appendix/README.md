@@ -5,7 +5,7 @@
 <a id="id-1.11.4.2"></a>
 
 [表 C.1](README.md#KEYWORDS-TABLE) 列出所有在 SQL 標準與 PostgreSQL
-18.6 中屬於關鍵字的語彙單元（token）。背景資訊請參閱[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)。
+18.6 中屬於關鍵字的語彙單元（token）。背景資訊請參閱[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#sql-syntax-identifiers)。
 （基於篇幅考量，表中只列出 SQL 標準最新的兩個版本，以及作為歷史比較的
 SQL-92。這些版本與其他中間版本標準之間的差異很小。）
 
@@ -32,7 +32,7 @@ CHECK`，即使 `CHECK` 是保留關鍵字）。
 此欄為空白，表示 PostgreSQL 將該單字視為一般識別字。
 
 此外，雖然大多數關鍵字都可以作為「裸」欄位標籤使用，不必在前面寫 `AS`
-（如[第 7.3.2 節](../../the-sql-language/queries/queries-select-lists.md#QUERIES-COLUMN-LABELS)所述），但有少數關鍵字需要在前面加上 `AS` 以避免歧義。
+（如[第 7.3.2 節](../../the-sql-language/queries/queries-select-lists.md#queries-column-labels)所述），但有少數關鍵字需要在前面加上 `AS` 以避免歧義。
 這些關鍵字在表中標示為「需要 `AS`」。
 
 一般而言，如果命令中把任何所列關鍵字當作識別字使用，而出現了莫名的剖析錯誤，

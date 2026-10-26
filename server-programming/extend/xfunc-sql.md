@@ -353,7 +353,7 @@ SELECT name, double_salary(emp) AS dream
 
 不過這種用法已被淘汰，因為它很容易造成混淆。
 （關於資料表資料列之複合值的這兩種表示法的詳情，
-請參閱[8.16.5 節](../../the-sql-language/datatype/rowtypes.md#ROWTYPES-USAGE)。）
+請參閱[8.16.5 節](../../the-sql-language/datatype/rowtypes.md#rowtypes-usage)。）
 
 有時候，即時建構一個複合引數值
 會很方便。這可以透過 `ROW` 建構式來完成。
@@ -482,7 +482,7 @@ SELECT name(new_emp());
  None
 ```
 
-如[8.16.5 節](../../the-sql-language/datatype/rowtypes.md#ROWTYPES-USAGE)所述，欄位表示法與
+如[8.16.5 節](../../the-sql-language/datatype/rowtypes.md#rowtypes-usage)所述，欄位表示法與
 函式表示法是等效的。
 
 使用傳回複合型別之函式的另一種方式，是將

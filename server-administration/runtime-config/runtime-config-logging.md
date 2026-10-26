@@ -893,7 +893,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
     `GMT`，但通常會在 `postgresql.conf`
     中被覆寫；initdb 會依系統環境
     安裝對應的設定。
-    詳情請參閱 [第 8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
+    詳情請參閱 [第 8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#datatype-timezones)。
     此參數只能在 `postgresql.conf`
     檔案中或伺服器命令列上設定。
 

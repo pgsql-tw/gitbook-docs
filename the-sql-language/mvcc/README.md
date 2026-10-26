@@ -5,14 +5,14 @@
 [13.1. 簡介](mvcc-intro.md)
 
 [13.2. 交易隔離](transaction-iso.md)
-:   [13.2.1. Read Committed 隔離等級](transaction-iso.md#XACT-READ-COMMITTED)
+:   [13.2.1. Read Committed 隔離等級](transaction-iso.md#xact-read-committed)
 
     [13.2.2. Repeatable Read 隔離等級](transaction-iso.md#XACT-REPEATABLE-READ)
 
     [13.2.3. Serializable 隔離等級](transaction-iso.md#XACT-SERIALIZABLE)
 
 [13.3. 明確鎖定](explicit-locking.md)
-:   [13.3.1. 資料表層級鎖定](explicit-locking.md#LOCKING-TABLES)
+:   [13.3.1. 資料表層級鎖定](explicit-locking.md#locking-tables)
 
     [13.3.2. 資料列層級鎖定](explicit-locking.md#LOCKING-ROWS)
 
@@ -23,7 +23,7 @@
     [13.3.5. 諮詢鎖定](explicit-locking.md#ADVISORY-LOCKS)
 
 [13.4. 應用程式層級的資料一致性檢查](applevel-consistency.md)
-:   [13.4.1. 以 Serializable 交易確保一致性](applevel-consistency.md#SERIALIZABLE-CONSISTENCY)
+:   [13.4.1. 以 Serializable 交易確保一致性](applevel-consistency.md#serializable-consistency)
 
     [13.4.2. 以明確的阻擋式鎖定確保一致性](applevel-consistency.md#NON-SERIALIZABLE-CONSISTENCY)
 

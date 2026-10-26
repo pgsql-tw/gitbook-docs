@@ -2,7 +2,7 @@
 
 ## 9.31. 統計資訊函式 [#](#functions-statistics) <a href="#functions-statistics" id="functions-statistics"></a>
 
-[9.31.1. 檢視 MCV 清單](functions-statistics.md#FUNCTIONS-STATISTICS-MCV)
+[9.31.1. 檢視 MCV 清單](functions-statistics.md#functions-statistics-mcv)
 
 <a id="id-1.5.8.37.2"></a>
 
@@ -10,7 +10,7 @@ PostgreSQL 提供了一個函式，用來檢視使用 `CREATE STATISTICS` 命令
 
 <a id="FUNCTIONS-STATISTICS-MCV"></a>
 
-### 9.31.1. 檢視 MCV 清單 [#](#FUNCTIONS-STATISTICS-MCV)
+### 9.31.1. 檢視 MCV 清單 [#](#functions-statistics-mcv) <a href="#functions-statistics-mcv" id="functions-statistics-mcv"></a>
 
 <a id="id-1.5.8.37.4.2"></a>
 

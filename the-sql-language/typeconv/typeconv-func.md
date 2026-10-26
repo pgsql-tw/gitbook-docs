@@ -10,7 +10,7 @@
 
 **函式型別解析**
 
-1. 從 `pg_proc` 系統目錄中選出要考慮的函式。如果使用的是未以 schema 限定的函式名稱，要考慮的函式是那些名稱與參數數量相符、且在目前搜尋路徑中可見的函式（請參閱[第 5.10.3 節](../ddl/ddl-schemas.md#DDL-SCHEMAS-PATH)）。如果給定的是限定名稱的函式，則只考慮指定 schema 中的函式。
+1. 從 `pg_proc` 系統目錄中選出要考慮的函式。如果使用的是未以 schema 限定的函式名稱，要考慮的函式是那些名稱與參數數量相符、且在目前搜尋路徑中可見的函式（請參閱[第 5.10.3 節](../ddl/ddl-schemas.md#ddl-schemas-path)）。如果給定的是限定名稱的函式，則只考慮指定 schema 中的函式。
 
    1. 如果搜尋路徑中找到多個參數型別完全相同的函式，只會考慮在路徑中最先出現的那一個。參數型別不同的函式，則不論在搜尋路徑中的位置為何，都會一視同仁地納入考慮。
    2. 如果函式宣告了 `VARIADIC` 陣列參數，而呼叫時沒有使用 `VARIADIC` 關鍵字，則會將該函式視為其陣列參數被替換成一個或多個其元素型別的參數，數量依呼叫所需而定。經過這樣的展開之後，該函式的有效參數型別可能與某個非 variadic 函式完全相同。在這種情況下，會使用在搜尋路徑中較早出現的函式；如果兩個函式位於同一個 schema，則優先使用非 variadic 的那一個。
@@ -182,7 +182,7 @@ SELECT substr(CAST (1234 AS text), 3);
 <a id="ftn.FUNC-QUALIFIED-SECURITY"></a>
 
 [[10]](#FUNC-QUALIFIED-SECURITY) 
-使用未以 schema 限定的名稱時不會產生這種風險，因為包含允許不受信任使用者建立物件之 schema 的搜尋路徑，並不是[安全的 schema 使用模式](../ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)。
+使用未以 schema 限定的名稱時不會產生這種風險，因為包含允許不受信任使用者建立物件之 schema 的搜尋路徑，並不是[安全的 schema 使用模式](../ddl/ddl-schemas.md#ddl-schemas-patterns)。
 
 <a id="ftn.id-1.5.9.8.4.4.1.2"></a>
 

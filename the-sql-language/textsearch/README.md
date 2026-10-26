@@ -3,19 +3,19 @@
 **目錄**
 
 [12.1. 簡介](textsearch-intro.md)
-:   [12.1.1. 什麼是文件？](textsearch-intro.md#TEXTSEARCH-DOCUMENT)
+:   [12.1.1. 什麼是文件？](textsearch-intro.md#textsearch-document)
 
     [12.1.2. 基本文字比對](textsearch-intro.md#TEXTSEARCH-MATCHING)
 
     [12.1.3. 設定](textsearch-intro.md#TEXTSEARCH-INTRO-CONFIGURATIONS)
 
 [12.2. 資料表與索引](textsearch-tables.md)
-:   [12.2.1. 搜尋資料表](textsearch-tables.md#TEXTSEARCH-TABLES-SEARCH)
+:   [12.2.1. 搜尋資料表](textsearch-tables.md#textsearch-tables-search)
 
     [12.2.2. 建立索引](textsearch-tables.md#TEXTSEARCH-TABLES-INDEX)
 
 [12.3. 控制文字搜尋](textsearch-controls.md)
-:   [12.3.1. 剖析文件](textsearch-controls.md#TEXTSEARCH-PARSING-DOCUMENTS)
+:   [12.3.1. 剖析文件](textsearch-controls.md#textsearch-parsing-documents)
 
     [12.3.2. 剖析查詢](textsearch-controls.md#TEXTSEARCH-PARSING-QUERIES)
 
@@ -24,7 +24,7 @@
     [12.3.4. 標示搜尋結果](textsearch-controls.md#TEXTSEARCH-HEADLINE)
 
 [12.4. 其他功能](textsearch-features.md)
-:   [12.4.1. 操作文件](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)
+:   [12.4.1. 操作文件](textsearch-features.md#textsearch-manipulate-tsvector)
 
     [12.4.2. 操作查詢](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSQUERY)
 
@@ -35,7 +35,7 @@
 [12.5. 剖析器](textsearch-parsers.md)
 
 [12.6. 字典](textsearch-dictionaries.md)
-:   [12.6.1. 停用詞](textsearch-dictionaries.md#TEXTSEARCH-STOPWORDS)
+:   [12.6.1. 停用詞](textsearch-dictionaries.md#textsearch-stopwords)
 
     [12.6.2. Simple 字典](textsearch-dictionaries.md#TEXTSEARCH-SIMPLE-DICTIONARY)
 
@@ -50,7 +50,7 @@
 [12.7. 設定範例](textsearch-configuration.md)
 
 [12.8. 測試與除錯文字搜尋](textsearch-debugging.md)
-:   [12.8.1. 設定測試](textsearch-debugging.md#TEXTSEARCH-CONFIGURATION-TESTING)
+:   [12.8.1. 設定測試](textsearch-debugging.md#textsearch-configuration-testing)
 
     [12.8.2. 剖析器測試](textsearch-debugging.md#TEXTSEARCH-PARSER-TESTING)
 

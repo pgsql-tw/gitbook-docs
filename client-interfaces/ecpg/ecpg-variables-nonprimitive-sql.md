@@ -99,7 +99,7 @@ while (1)
 
 在這種情況下無法正確運作，因為你不能把陣列型別的欄位直接對應到陣列主機變數。
 
-另一種變通方法是把陣列以其外部字串表示形式存放在 `char[]` 或 `VARCHAR[]` 型別的主機變數中。關於這種表示形式的更多細節，請參閱[第 8.15.2 節](../../the-sql-language/datatype/arrays.md#ARRAYS-INPUT)。請注意，這表示在主機程式中無法自然地把該陣列當作陣列來存取（除非再做剖析文字表示形式的進一步處理）。
+另一種變通方法是把陣列以其外部字串表示形式存放在 `char[]` 或 `VARCHAR[]` 型別的主機變數中。關於這種表示形式的更多細節，請參閱[第 8.15.2 節](../../the-sql-language/datatype/arrays.md#arrays-input)。請注意，這表示在主機程式中無法自然地把該陣列當作陣列來存取（除非再做剖析文字表示形式的進一步處理）。
 
 <a id="ECPG-VARIABLES-NONPRIMITIVE-SQL-COMPOSITE"></a>
 

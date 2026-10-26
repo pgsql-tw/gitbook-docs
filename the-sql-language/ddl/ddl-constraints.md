@@ -2,17 +2,17 @@
 
 ## 5.5. 限制條件 [#](#ddl-constraints) <a href="#ddl-constraints" id="ddl-constraints"></a>
 
-[5.5.1. 檢查限制條件](ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
+[5.5.1. 檢查限制條件](ddl-constraints.md#ddl-constraints-check-constraints)
 
-[5.5.2. 非空值限制條件](ddl-constraints.md#DDL-CONSTRAINTS-NOT-NULL)
+[5.5.2. 非空值限制條件](ddl-constraints.md#ddl-constraints-not-null)
 
-[5.5.3. 唯一限制條件](ddl-constraints.md#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+[5.5.3. 唯一限制條件](ddl-constraints.md#ddl-constraints-unique-constraints)
 
-[5.5.4. 主鍵](ddl-constraints.md#DDL-CONSTRAINTS-PRIMARY-KEYS)
+[5.5.4. 主鍵](ddl-constraints.md#ddl-constraints-primary-keys)
 
-[5.5.5. 外鍵](ddl-constraints.md#DDL-CONSTRAINTS-FK)
+[5.5.5. 外鍵](ddl-constraints.md#ddl-constraints-fk)
 
-[5.5.6. 排除限制條件](ddl-constraints.md#DDL-CONSTRAINTS-EXCLUSION)
+[5.5.6. 排除限制條件](ddl-constraints.md#ddl-constraints-exclusion)
 
 <a id="id-1.5.4.7.2"></a>
 
@@ -22,7 +22,7 @@
 
 <a id="DDL-CONSTRAINTS-CHECK-CONSTRAINTS"></a>
 
-### 5.5.1. 檢查限制條件 [#](#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)
+### 5.5.1. 檢查限制條件 [#](#ddl-constraints-check-constraints) <a href="#ddl-constraints-check-constraints" id="ddl-constraints-check-constraints"></a>
 
 <a id="id-1.5.4.7.5.2"></a><a id="id-1.5.4.7.5.3"></a>
 
@@ -132,7 +132,7 @@ PostgreSQL 假設 `CHECK` 限制條件的條件是不變的，也就是說，對
 
 <a id="DDL-CONSTRAINTS-NOT-NULL"></a>
 
-### 5.5.2. 非空值限制條件 [#](#DDL-CONSTRAINTS-NOT-NULL)
+### 5.5.2. 非空值限制條件 [#](#ddl-constraints-not-null) <a href="#ddl-constraints-not-null" id="ddl-constraints-not-null"></a>
 
 <a id="id-1.5.4.7.6.2"></a><a id="id-1.5.4.7.6.3"></a>
 
@@ -209,7 +209,7 @@ CREATE TABLE products (
 
 <a id="DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS"></a>
 
-### 5.5.3. 唯一限制條件 [#](#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+### 5.5.3. 唯一限制條件 [#](#ddl-constraints-unique-constraints) <a href="#ddl-constraints-unique-constraints" id="ddl-constraints-unique-constraints"></a>
 
 <a id="id-1.5.4.7.7.2"></a><a id="id-1.5.4.7.7.3"></a>
 
@@ -294,7 +294,7 @@ CREATE TABLE products (
 
 <a id="DDL-CONSTRAINTS-PRIMARY-KEYS"></a>
 
-### 5.5.4. 主鍵 [#](#DDL-CONSTRAINTS-PRIMARY-KEYS)
+### 5.5.4. 主鍵 [#](#ddl-constraints-primary-keys) <a href="#ddl-constraints-primary-keys" id="ddl-constraints-primary-keys"></a>
 
 <a id="id-1.5.4.7.8.2"></a><a id="id-1.5.4.7.8.3"></a>
 
@@ -338,7 +338,7 @@ CREATE TABLE example (
 
 <a id="DDL-CONSTRAINTS-FK"></a>
 
-### 5.5.5. 外鍵 [#](#DDL-CONSTRAINTS-FK)
+### 5.5.5. 外鍵 [#](#ddl-constraints-fk) <a href="#ddl-constraints-fk" id="ddl-constraints-fk"></a>
 
 <a id="id-1.5.4.7.9.2"></a><a id="id-1.5.4.7.9.3"></a><a id="id-1.5.4.7.9.4"></a>
 
@@ -518,7 +518,7 @@ CREATE TABLE posts (
 
 <a id="DDL-CONSTRAINTS-EXCLUSION"></a>
 
-### 5.5.6. 排除限制條件 [#](#DDL-CONSTRAINTS-EXCLUSION)
+### 5.5.6. 排除限制條件 [#](#ddl-constraints-exclusion) <a href="#ddl-constraints-exclusion" id="ddl-constraints-exclusion"></a>
 
 <a id="id-1.5.4.7.10.2"></a><a id="id-1.5.4.7.10.3"></a>
 

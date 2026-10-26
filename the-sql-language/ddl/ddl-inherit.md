@@ -2,7 +2,7 @@
 
 ## 5.11. 繼承 [#](#ddl-inherit) <a href="#ddl-inherit" id="ddl-inherit"></a>
 
-[5.11.1. 注意事項](ddl-inherit.md#DDL-INHERIT-CAVEATS)
+[5.11.1. 注意事項](ddl-inherit.md#ddl-inherit-caveats)
 
 <a id="id-1.5.4.13.2"></a><a id="id-1.5.4.13.3"></a>
 
@@ -149,7 +149,7 @@ VALUES ('Albany', NULL, NULL, 'NY');
 
 <a id="DDL-INHERIT-CAVEATS"></a>
 
-### 5.11.1. 注意事項 [#](#DDL-INHERIT-CAVEATS)
+### 5.11.1. 注意事項 [#](#ddl-inherit-caveats) <a href="#ddl-inherit-caveats" id="ddl-inherit-caveats"></a>
 
 請注意，並非所有 SQL 命令都能作用在繼承階層上。用於資料查詢、資料修改或綱要修改的命令（例如 `SELECT`、`UPDATE`、`DELETE`、`ALTER TABLE` 的大多數變化形式，但不包括 `INSERT` 或 `ALTER TABLE ... RENAME`），通常預設會包含子資料表，並支援以 `ONLY` 表示法將它們排除。大多數進行資料庫維護與調校的命令（例如 `REINDEX`）只作用在個別的實體資料表上，不支援在繼承階層上遞迴。不過，`VACUUM` 與 `ANALYZE` 命令預設都會包含子資料表，並支援以 `ONLY` 表示法將它們排除。每個命令各自的行為，都記載在其參考頁面中（[SQL 命令](../../reference/sql-commands/README.md)）。
 

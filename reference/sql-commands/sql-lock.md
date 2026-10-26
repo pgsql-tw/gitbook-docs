@@ -63,7 +63,7 @@ where lockmode is one of:
 
 `LOCK TABLE` 在交易區塊之外沒有任何用處：鎖定只會保持到該陳述式完成為止。因此，若在交易區塊之外使用 `LOCK`，PostgreSQL 會回報錯誤。請使用 [`BEGIN`](sql-begin.md) 與 [`COMMIT`](sql-commit.md)（或 [`ROLLBACK`](sql-rollback.md)）來定義交易區塊。
 
-`LOCK TABLE` 只處理資料表層級的鎖定，因此所有含有 `ROW` 字樣的模式名稱其實都是用詞不當。這些模式名稱一般應理解為表示使用者打算在已鎖定的資料表內取得資料列層級鎖定的意圖。此外，`ROW EXCLUSIVE` 模式是一種可共用的資料表鎖定。請記住，就 `LOCK TABLE` 而言，所有鎖定模式的語義都相同，差異僅在於哪些模式會與哪些模式互相衝突的規則。關於如何取得實際的資料列層級鎖定，請參閱[第 13.3.2 節](../../the-sql-language/mvcc/explicit-locking.md#LOCKING-ROWS)，以及 [SELECT](sql-select.md) 文件中的[鎖定子句](sql-select.md#SQL-FOR-UPDATE-SHARE)。
+`LOCK TABLE` 只處理資料表層級的鎖定，因此所有含有 `ROW` 字樣的模式名稱其實都是用詞不當。這些模式名稱一般應理解為表示使用者打算在已鎖定的資料表內取得資料列層級鎖定的意圖。此外，`ROW EXCLUSIVE` 模式是一種可共用的資料表鎖定。請記住，就 `LOCK TABLE` 而言，所有鎖定模式的語義都相同，差異僅在於哪些模式會與哪些模式互相衝突的規則。關於如何取得實際的資料列層級鎖定，請參閱[第 13.3.2 節](../../the-sql-language/mvcc/explicit-locking.md#locking-rows)，以及 [SELECT](sql-select.md) 文件中的[鎖定子句](sql-select.md#SQL-FOR-UPDATE-SHARE)。
 
 <a id="id-1.9.3.155.8"></a>
 

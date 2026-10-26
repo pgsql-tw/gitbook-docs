@@ -298,7 +298,7 @@ user_ids users.user_id%TYPE[];
 user_ids users.user_id%TYPE ARRAY[4];  -- equivalent to the above
 ```
 
-就像宣告陣列型別的資料表欄位一樣，你寫成多組中括號或是指定明確的陣列維度都沒有差別：PostgreSQL 會把某個元素型別的所有陣列視為同一種型別，不論其維度為何。（請參閱[第 8.15.1 節](../../the-sql-language/datatype/arrays.md#ARRAYS-DECLARATION)。）
+就像宣告陣列型別的資料表欄位一樣，你寫成多組中括號或是指定明確的陣列維度都沒有差別：PostgreSQL 會把某個元素型別的所有陣列視為同一種型別，不論其維度為何。（請參閱[第 8.15.1 節](../../the-sql-language/datatype/arrays.md#arrays-declaration)。）
 
 使用 `%TYPE` 讓你不必知道所參照結構的資料型別；更重要的是，如果所參照項目的資料型別未來有所變更（例如：你把 `user_id` 的型別從 `integer` 改成 `real`），你可能就不需要更動函式定義。
 

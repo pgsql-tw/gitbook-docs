@@ -2,17 +2,17 @@
 
 ## 4.1. 詞彙結構 [#](#sql-syntax-lexical) <a href="#sql-syntax-lexical" id="sql-syntax-lexical"></a>
 
-[4.1.1. 識別字與關鍵字](sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)
+[4.1.1. 識別字與關鍵字](sql-syntax-lexical.md#sql-syntax-identifiers)
 
-[4.1.2. 常數](sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS)
+[4.1.2. 常數](sql-syntax-lexical.md#sql-syntax-constants)
 
-[4.1.3. 運算子](sql-syntax-lexical.md#SQL-SYNTAX-OPERATORS)
+[4.1.3. 運算子](sql-syntax-lexical.md#sql-syntax-operators)
 
-[4.1.4. 特殊字元](sql-syntax-lexical.md#SQL-SYNTAX-SPECIAL-CHARS)
+[4.1.4. 特殊字元](sql-syntax-lexical.md#sql-syntax-special-chars)
 
-[4.1.5. 註解](sql-syntax-lexical.md#SQL-SYNTAX-COMMENTS)
+[4.1.5. 註解](sql-syntax-lexical.md#sql-syntax-comments)
 
-[4.1.6. 運算子優先順序](sql-syntax-lexical.md#SQL-PRECEDENCE)
+[4.1.6. 運算子優先順序](sql-syntax-lexical.md#sql-precedence)
 
 <a id="id-1.5.3.5.2"></a>
 
@@ -37,7 +37,7 @@ SQL 語法在哪些語彙單元用來識別指令、哪些是運算元或參數�
 
 <a id="SQL-SYNTAX-IDENTIFIERS"></a>
 
-### 4.1.1. 識別字與關鍵字 [#](#SQL-SYNTAX-IDENTIFIERS)
+### 4.1.1. 識別字與關鍵字 [#](#sql-syntax-identifiers) <a href="#sql-syntax-identifiers" id="sql-syntax-identifiers"></a>
 
 <a id="id-1.5.3.5.8.2"></a><a id="id-1.5.3.5.8.3"></a><a id="id-1.5.3.5.8.4"></a>
 
@@ -115,7 +115,7 @@ U&"d!0061t!+000061" UESCAPE '!'
 
 <a id="SQL-SYNTAX-CONSTANTS"></a>
 
-### 4.1.2. 常數 [#](#SQL-SYNTAX-CONSTANTS)
+### 4.1.2. 常數 [#](#sql-syntax-constants) <a href="#sql-syntax-constants" id="sql-syntax-constants"></a>
 
 <a id="id-1.5.3.5.9.2"></a>
 
@@ -380,15 +380,15 @@ CAST ( 'string' AS type )
 typename ( 'string' )
 ```
 
-但並不是所有型別名稱都能以這種方式使用；詳情請參閱[第 4.2.9 節](sql-expressions.md#SQL-SYNTAX-TYPE-CASTS)。
+但並不是所有型別名稱都能以這種方式使用；詳情請參閱[第 4.2.9 節](sql-expressions.md#sql-syntax-type-casts)。
 
-`::`、`CAST()` 與函式呼叫語法，也可以用來指定任意運算式在執行期間的型別轉換，如[第 4.2.9 節](sql-expressions.md#SQL-SYNTAX-TYPE-CASTS)所述。為了避免語法上的歧義，`type 'string'` 語法只能用來指定簡單字面常數的型別。`type 'string'` 語法的另一個限制是它不適用於陣列型別；請使用 `::` 或 `CAST()` 來指定陣列常數的型別。
+`::`、`CAST()` 與函式呼叫語法，也可以用來指定任意運算式在執行期間的型別轉換，如[第 4.2.9 節](sql-expressions.md#sql-syntax-type-casts)所述。為了避免語法上的歧義，`type 'string'` 語法只能用來指定簡單字面常數的型別。`type 'string'` 語法的另一個限制是它不適用於陣列型別；請使用 `::` 或 `CAST()` 來指定陣列常數的型別。
 
 `CAST()` 語法符合 SQL 標準。`type 'string'` 語法則是標準的一般化：SQL 只為少數幾種資料型別規定了這種語法，但 PostgreSQL 允許所有型別使用。使用 `::` 的語法是 PostgreSQL 的歷史用法，函式呼叫語法也是。
 
 <a id="SQL-SYNTAX-OPERATORS"></a>
 
-### 4.1.3. 運算子 [#](#SQL-SYNTAX-OPERATORS)
+### 4.1.3. 運算子 [#](#sql-syntax-operators) <a href="#sql-syntax-operators" id="sql-syntax-operators"></a>
 
 <a id="id-1.5.3.5.10.2"></a>
 
@@ -411,7 +411,7 @@ typename ( 'string' )
 
 <a id="SQL-SYNTAX-SPECIAL-CHARS"></a>
 
-### 4.1.4. 特殊字元 [#](#SQL-SYNTAX-SPECIAL-CHARS)
+### 4.1.4. 特殊字元 [#](#sql-syntax-special-chars) <a href="#sql-syntax-special-chars" id="sql-syntax-special-chars"></a>
 
 有些非英數字元具有特殊意義，與作為運算子的意義不同。用法的細節可以在說明各個語法元素的地方找到。本節只是用來提醒這些字元的存在，並概述它們的用途。
 
@@ -426,7 +426,7 @@ typename ( 'string' )
 
 <a id="SQL-SYNTAX-COMMENTS"></a>
 
-### 4.1.5. 註解 [#](#SQL-SYNTAX-COMMENTS)
+### 4.1.5. 註解 [#](#sql-syntax-comments) <a href="#sql-syntax-comments" id="sql-syntax-comments"></a>
 
 <a id="id-1.5.3.5.12.2"></a>
 
@@ -452,7 +452,7 @@ typename ( 'string' )
 
 <a id="SQL-PRECEDENCE"></a>
 
-### 4.1.6. 運算子優先順序 [#](#SQL-PRECEDENCE)
+### 4.1.6. 運算子優先順序 [#](#sql-precedence) <a href="#sql-precedence" id="sql-precedence"></a>
 
 <a id="id-1.5.3.5.13.2"></a>
 

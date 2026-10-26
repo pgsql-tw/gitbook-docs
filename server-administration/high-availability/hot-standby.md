@@ -532,9 +532,9 @@ hint bit 資訊。`CHECKPOINT` 指令在復原期間
   就完全不需要考慮這一點。
 * 可序列化（Serializable）交易隔離等級，目前尚無法在熱備援中使用。
   （詳情請參閱
-  [第 13.2.3 節](../../the-sql-language/mvcc/transaction-iso.md#XACT-SERIALIZABLE)
+  [第 13.2.3 節](../../the-sql-language/mvcc/transaction-iso.md#xact-serializable)
   及
-  [第 13.4.1 節](../../the-sql-language/mvcc/applevel-consistency.md#SERIALIZABLE-CONSISTENCY)。）
+  [第 13.4.1 節](../../the-sql-language/mvcc/applevel-consistency.md#serializable-consistency)。）
   在熱備援模式下，嘗試將交易設定為可序列化隔離等級，
   將會產生錯誤。
 

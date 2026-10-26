@@ -2,13 +2,13 @@
 
 ## 9.16. JSON 函式與運算子 [#](#functions-json) <a href="#functions-json" id="functions-json"></a>
 
-[9.16.1. 處理與建立 JSON 資料](functions-json.md#FUNCTIONS-JSON-PROCESSING)
+[9.16.1. 處理與建立 JSON 資料](functions-json.md#functions-json-processing)
 
-[9.16.2. SQL/JSON 路徑語言](functions-json.md#FUNCTIONS-SQLJSON-PATH)
+[9.16.2. SQL/JSON 路徑語言](functions-json.md#functions-sqljson-path)
 
-[9.16.3. SQL/JSON 查詢函式](functions-json.md#SQLJSON-QUERY-FUNCTIONS)
+[9.16.3. SQL/JSON 查詢函式](functions-json.md#sqljson-query-functions)
 
-[9.16.4. JSON_TABLE](functions-json.md#FUNCTIONS-SQLJSON-TABLE)
+[9.16.4. JSON_TABLE](functions-json.md#functions-sqljson-table)
 
 <a id="id-1.5.8.22.2"></a><a id="id-1.5.8.22.3"></a>
 
@@ -30,9 +30,9 @@ SQL/JSON 讓你能夠在交易支援之下，將 JSON 資料與一般的 SQL 資
 
 <a id="FUNCTIONS-JSON-PROCESSING"></a>
 
-### 9.16.1. 處理與建立 JSON 資料 [#](#FUNCTIONS-JSON-PROCESSING)
+### 9.16.1. 處理與建立 JSON 資料 [#](#functions-json-processing) <a href="#functions-json-processing" id="functions-json-processing"></a>
 
-[表 9.47](functions-json.md#FUNCTIONS-JSON-OP-TABLE) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../datatype/datatype-json.md)）。此外，[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子也可用於 `jsonb`，但不能用於 `json`。這些比較運算子遵循[第 8.14.4 節](../datatype/datatype-json.md#JSON-INDEXING)所述之 B-tree 操作的排序規則。另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `json_agg`（將記錄值彙總為 JSON）、彙總函式 `json_object_agg`（將成對的值彙總為 JSON 物件），以及它們對應的 `jsonb` 版本 `jsonb_agg` 與 `jsonb_object_agg`。
+[表 9.47](functions-json.md#FUNCTIONS-JSON-OP-TABLE) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../datatype/datatype-json.md)）。此外，[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子也可用於 `jsonb`，但不能用於 `json`。這些比較運算子遵循[第 8.14.4 節](../datatype/datatype-json.md#json-indexing)所述之 B-tree 操作的排序規則。另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `json_agg`（將記錄值彙總為 JSON）、彙總函式 `json_object_agg`（將成對的值彙總為 JSON 物件），以及它們對應的 `jsonb` 版本 `jsonb_agg` 與 `jsonb_object_agg`。
 
 <a id="FUNCTIONS-JSON-OP-TABLE"></a>
 
@@ -142,7 +142,7 @@ SQL/JSON 讓你能夠在交易支援之下，將 JSON 資料與一般的 SQL 資
 
 如果 JSON 輸入不具有符合請求的正確結構，例如不存在這樣的鍵或陣列元素，欄位／元素／路徑擷取運算子會回傳 NULL，而不會失敗。
 
-另外還有一些只適用於 `jsonb` 的運算子，如[表 9.48](functions-json.md#FUNCTIONS-JSONB-OP-TABLE) 所示。[第 8.14.4 節](../datatype/datatype-json.md#JSON-INDEXING)說明了如何使用這些運算子來有效率地搜尋已建立索引的 `jsonb` 資料。
+另外還有一些只適用於 `jsonb` 的運算子，如[表 9.48](functions-json.md#FUNCTIONS-JSONB-OP-TABLE) 所示。[第 8.14.4 節](../datatype/datatype-json.md#json-indexing)說明了如何使用這些運算子來有效率地搜尋已建立索引的 `jsonb` 資料。
 
 <a id="FUNCTIONS-JSONB-OP-TABLE"></a>
 
@@ -161,7 +161,7 @@ SQL/JSON 讓你能夠在交易支援之下，將 JSON 資料與一般的 SQL 資
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        第一個 JSON 值是否包含第二個 JSON 值？（關於包含的詳細說明，請參閱<a class="xref" href="../datatype/datatype-json.md#JSON-CONTAINMENT">第 8.14.3 節</a>。）
+        第一個 JSON 值是否包含第二個 JSON 值？（關於包含的詳細說明，請參閱<a class="xref" href="../datatype/datatype-json.md#json-containment">第 8.14.3 節</a>。）
        </p>
 <p>
 <code class="literal">'{"a":1, "b":2}'::jsonb @&gt; '{"b":2}'::jsonb</code>
@@ -1130,11 +1130,11 @@ ERROR:  value too long for type character(2)
 
 <a id="FUNCTIONS-SQLJSON-PATH"></a>
 
-### 9.16.2. SQL/JSON 路徑語言 [#](#FUNCTIONS-SQLJSON-PATH)
+### 9.16.2. SQL/JSON 路徑語言 [#](#functions-sqljson-path) <a href="#functions-sqljson-path" id="functions-sqljson-path"></a>
 
 <a id="id-1.5.8.22.9.2"></a>
 
-SQL/JSON 路徑運算式指定要從 JSON 值中取出的項目，類似於用來存取 XML 內容的 XPath 運算式。在 PostgreSQL 中，路徑運算式實作為 `jsonpath` 資料型別，並且可以使用[第 8.14.7 節](../datatype/datatype-json.md#DATATYPE-JSONPATH)所述的任何元素。
+SQL/JSON 路徑運算式指定要從 JSON 值中取出的項目，類似於用來存取 XML 內容的 XPath 運算式。在 PostgreSQL 中，路徑運算式實作為 `jsonpath` 資料型別，並且可以使用[第 8.14.7 節](../datatype/datatype-json.md#datatype-jsonpath)所述的任何元素。
 
 JSON 查詢函式與運算子會將所提供的路徑運算式傳遞給*路徑引擎*進行求值。如果運算式與所查詢的 JSON 資料相符，就會回傳對應的 JSON 項目或項目集合。如果沒有相符的結果，依函式的不同，結果會是 `NULL`、`false` 或錯誤。路徑運算式以 SQL/JSON 路徑語言撰寫，並且可以包含算術運算式與函式。
 
@@ -1975,9 +1975,9 @@ $[*] ? (@ like_regex "^[aeiou]" flag "i")
 
 選用的 `flag` 字串可以包含下列一個或多個字元：`i` 表示不區分大小寫的比對，`m` 允許 `^` 與 `$` 在換行處比對，`s` 允許 `.` 比對換行字元，而 `q` 則將整個模式加上引號（使行為簡化為單純的子字串比對）。
 
-SQL/JSON 標準的正規表示式定義借用自 `LIKE_REGEX` 運算子，而該運算子又使用 XQuery 標準。PostgreSQL 目前並不支援 `LIKE_REGEX` 運算子。因此，`like_regex` 篩選是使用[第 9.7.3 節](functions-matching.md#FUNCTIONS-POSIX-REGEXP)所述的 POSIX 正規表示式引擎實作的。這導致了與標準 SQL/JSON 行為之間的各種細微差異，這些差異整理於[第 9.7.3.8 節](functions-matching.md#POSIX-VS-XQUERY)。不過請注意，該處所述的旗標字母不相容問題並不適用於 SQL/JSON，因為它會將 XQuery 的旗標字母轉換為 POSIX 引擎所預期的形式。
+SQL/JSON 標準的正規表示式定義借用自 `LIKE_REGEX` 運算子，而該運算子又使用 XQuery 標準。PostgreSQL 目前並不支援 `LIKE_REGEX` 運算子。因此，`like_regex` 篩選是使用[第 9.7.3 節](functions-matching.md#functions-posix-regexp)所述的 POSIX 正規表示式引擎實作的。這導致了與標準 SQL/JSON 行為之間的各種細微差異，這些差異整理於[第 9.7.3.8 節](functions-matching.md#POSIX-VS-XQUERY)。不過請注意，該處所述的旗標字母不相容問題並不適用於 SQL/JSON，因為它會將 XQuery 的旗標字母轉換為 POSIX 引擎所預期的形式。
 
-請記住，`like_regex` 的模式引數是一個 JSON 路徑字串字面值，依照[第 8.14.7 節](../datatype/datatype-json.md#DATATYPE-JSONPATH)所述的規則撰寫。這特別意味著，你想在正規表示式中使用的任何反斜線都必須重複兩次。例如，要比對根文件中只包含數字的字串值：
+請記住，`like_regex` 的模式引數是一個 JSON 路徑字串字面值，依照[第 8.14.7 節](../datatype/datatype-json.md#datatype-jsonpath)所述的規則撰寫。這特別意味著，你想在正規表示式中使用的任何反斜線都必須重複兩次。例如，要比對根文件中只包含數字的字串值：
 
 ```
 
@@ -1986,9 +1986,9 @@ $.* ? (@ like_regex "^\\d+$")
 
 <a id="SQLJSON-QUERY-FUNCTIONS"></a>
 
-### 9.16.3. SQL/JSON 查詢函式 [#](#SQLJSON-QUERY-FUNCTIONS)
+### 9.16.3. SQL/JSON 查詢函式 [#](#sqljson-query-functions) <a href="#sqljson-query-functions" id="sqljson-query-functions"></a>
 
-[表 9.54](functions-json.md#FUNCTIONS-SQLJSON-QUERYING) 所述的 SQL/JSON 函式 `JSON_EXISTS()`、`JSON_QUERY()` 與 `JSON_VALUE()` 可用來查詢 JSON 文件。這些函式都會將 *`path_expression`*（SQL/JSON 路徑查詢）套用到 *`context_item`*（文件）上。關於 *`path_expression`* 可以包含哪些內容的詳細資訊，請參閱[第 9.16.2 節](functions-json.md#FUNCTIONS-SQLJSON-PATH)。*`path_expression`* 也可以參照變數，變數的值是透過每個函式都支援的 `PASSING` 子句，以其各自的名稱來指定。*`context_item`* 可以是 `jsonb` 值，或是可以成功轉換為 `jsonb` 的字元字串。
+[表 9.54](functions-json.md#FUNCTIONS-SQLJSON-QUERYING) 所述的 SQL/JSON 函式 `JSON_EXISTS()`、`JSON_QUERY()` 與 `JSON_VALUE()` 可用來查詢 JSON 文件。這些函式都會將 *`path_expression`*（SQL/JSON 路徑查詢）套用到 *`context_item`*（文件）上。關於 *`path_expression`* 可以包含哪些內容的詳細資訊，請參閱[第 9.16.2 節](functions-json.md#functions-sqljson-path)。*`path_expression`* 也可以參照變數，變數的值是透過每個函式都支援的 `PASSING` 子句，以其各自的名稱來指定。*`context_item`* 可以是 `jsonb` 值，或是可以成功轉換為 `jsonb` 的字元字串。
 
 <a id="FUNCTIONS-SQLJSON-QUERYING"></a>
 
@@ -2133,7 +2133,7 @@ DETAIL:  Missing "]" after array dimensions.
 
 <a id="FUNCTIONS-SQLJSON-TABLE"></a>
 
-### 9.16.4. JSON_TABLE [#](#FUNCTIONS-SQLJSON-TABLE)
+### 9.16.4. JSON_TABLE [#](#functions-sqljson-table) <a href="#functions-sqljson-table" id="functions-sqljson-table"></a>
 
 <a id="id-1.5.8.22.11.2"></a>
 

@@ -2,11 +2,11 @@
 
 ## 14.1. 使用 `EXPLAIN` [#](#using-explain) <a href="#using-explain" id="using-explain"></a>
 
-[14.1.1. `EXPLAIN` 基礎](using-explain.md#USING-EXPLAIN-BASICS)
+[14.1.1. `EXPLAIN` 基礎](using-explain.md#using-explain-basics)
 
-[14.1.2. `EXPLAIN ANALYZE`](using-explain.md#USING-EXPLAIN-ANALYZE)
+[14.1.2. `EXPLAIN ANALYZE`](using-explain.md#using-explain-analyze)
 
-[14.1.3. 注意事項](using-explain.md#USING-EXPLAIN-CAVEATS)
+[14.1.3. 注意事項](using-explain.md#using-explain-caveats)
 
 <a id="id-1.5.13.4.2"></a><a id="id-1.5.13.4.3"></a>
 
@@ -18,7 +18,7 @@ PostgreSQL 會為它收到的每個查詢擬定一個*查詢計畫*（query plan
 
 <a id="USING-EXPLAIN-BASICS"></a>
 
-### 14.1.1. `EXPLAIN` 基礎 [#](#USING-EXPLAIN-BASICS)
+### 14.1.1. `EXPLAIN` 基礎 [#](#using-explain-basics) <a href="#using-explain-basics" id="using-explain-basics"></a>
 
 查詢計畫的結構是一棵由*計畫節點*（plan node）組成的樹。樹最底層的節點是掃描節點：它們從資料表回傳原始的資料列。不同的資料表存取方法有不同類型的掃描節點：循序掃描、索引掃描與點陣圖索引掃描。此外也有非資料表的資料列來源，例如 `VALUES` 子句與 `FROM` 中的集合回傳函式，它們有自己的掃描節點類型。如果查詢需要對原始資料列進行聯結、彙總、排序或其他操作，那麼在掃描節點之上就會有額外的節點來執行這些操作。同樣地，執行這些操作的方式通常不只一種，因此這裡也可能出現不同的節點類型。`EXPLAIN` 的輸出中，計畫樹的每個節點各占一行，顯示基本的節點類型，以及規劃器為執行該計畫節點所做的成本估計。可能還會出現額外的幾行，從節點的摘要行縮排，用來顯示節點的其他屬性。最開頭的第一行（最上層節點的摘要行）是該計畫估計的總執行成本；規劃器試圖最小化的正是這個數字。
 
@@ -305,7 +305,7 @@ WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2;
                      Index Cond: (unique1 < 100)
 ```
 
-這顯示出規劃器認為，在這種情況下雜湊聯結的成本會比合併聯結高出將近 50%。當然，接下來的問題是它的判斷是否正確。我們可以使用 `EXPLAIN ANALYZE` 來調查這一點，如[下面](using-explain.md#USING-EXPLAIN-ANALYZE)所述。
+這顯示出規劃器認為，在這種情況下雜湊聯結的成本會比合併聯結高出將近 50%。當然，接下來的問題是它的判斷是否正確。我們可以使用 `EXPLAIN ANALYZE` 來調查這一點，如[下面](using-explain.md#using-explain-analyze)所述。
 
 使用啟用／停用旗標來停用計畫節點類型時，許多旗標只會抑制對應計畫節點的使用，而不會完全禁止規劃器使用該計畫節點類型。這是刻意的設計，讓規劃器仍然保有為給定查詢產生計畫的能力。當產生的計畫包含已停用的節點時，`EXPLAIN` 的輸出會指出這個事實。
 
@@ -386,7 +386,7 @@ FROM tenk1 t1 WHERE t1.ten = (SELECT (random() * 10)::integer);
 
 <a id="USING-EXPLAIN-ANALYZE"></a>
 
-### 14.1.2. `EXPLAIN ANALYZE` [#](#USING-EXPLAIN-ANALYZE)
+### 14.1.2. `EXPLAIN ANALYZE` [#](#using-explain-analyze) <a href="#using-explain-analyze" id="using-explain-analyze"></a>
 
 使用 `EXPLAIN` 的 `ANALYZE` 選項，可以檢查規劃器估計的準確度。使用這個選項時，`EXPLAIN` 會實際執行查詢，然後顯示每個計畫節點中累計的真實資料列數與真實執行時間，以及一般 `EXPLAIN` 所顯示的相同估計值。例如，我們可能會得到像這樣的結果：
 
@@ -653,7 +653,7 @@ EXPLAIN UPDATE gtest_parent SET f1 = CURRENT_DATE WHERE f2 = 101;
 
 <a id="USING-EXPLAIN-CAVEATS"></a>
 
-### 14.1.3. 注意事項 [#](#USING-EXPLAIN-CAVEATS)
+### 14.1.3. 注意事項 [#](#using-explain-caveats) <a href="#using-explain-caveats" id="using-explain-caveats"></a>
 
 `EXPLAIN ANALYZE` 量測到的執行時間，可能在兩個重要方面偏離同一個查詢的正常執行。第一，由於沒有任何輸出資料列傳送給用戶端，因此不包括網路傳輸成本。除非指定了 `SERIALIZE`，否則也不包括 I/O 轉換成本。第二，`EXPLAIN ANALYZE` 所增加的量測額外負擔可能相當可觀，特別是在 `gettimeofday()` 作業系統呼叫很慢的機器上。你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具，量測你系統上計時的額外負擔。
 

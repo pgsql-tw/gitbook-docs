@@ -7,7 +7,7 @@
 [1. 什麼是 PostgreSQL？](intro-whatis.md)
 
 [2. PostgreSQL 簡史](history.md)
-:   [2.1. 柏克萊 POSTGRES 專案](history.md#HISTORY-BERKELEY)
+:   [2.1. 柏克萊 POSTGRES 專案](history.md#history-berkeley)
 
     [2.2. Postgres95](history.md#HISTORY-POSTGRES95)
 
@@ -18,7 +18,7 @@
 [4. 更多資訊](resources.md)
 
 [5. 錯誤回報指引](bug-reporting.md)
-:   [5.1. 辨識錯誤](bug-reporting.md#BUG-REPORTING-IDENTIFYING-BUGS)
+:   [5.1. 辨識錯誤](bug-reporting.md#bug-reporting-identifying-bugs)
 
     [5.2. 回報哪些內容](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
 

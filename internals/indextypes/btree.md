@@ -199,7 +199,7 @@ btree 運算子家族可以選擇性地提供
 `RANGE` *`offset`*
 `PRECEDING` 與 `RANGE`
 *`offset`* `FOLLOWING`
-框架邊界類型的視窗子句（請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)）。基本上，所提供的額外
+框架邊界類型的視窗子句（請參閱[第 4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-window-functions)）。基本上，所提供的額外
 資訊，就是如何以與家族資料順序
 相容的方式，加上或減去一個
 *`offset`* 值。

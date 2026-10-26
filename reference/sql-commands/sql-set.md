@@ -147,7 +147,7 @@ SET [ SESSION | LOCAL ] TIME ZONE { value | 'value' | LOCAL | DEFAULT }
 ## 注意事項
 
 函式 `set_config` 提供相同的功能；請參閱
-[9.28.1 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SET)。
+[9.28.1 節](../../the-sql-language/functions/functions-admin.md#functions-admin-set)。
 此外，也可以透過 UPDATE
 [`pg_settings`](../../internals/views/view-pg-settings.md)
 系統檢視表，達到與 `SET` 相同的效果。

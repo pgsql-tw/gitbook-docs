@@ -29,7 +29,7 @@ spi 模組提供數個使用 [Server Programming Interface](../../server-program
 
 ### 注意事項
 
-`refint` 需要[安全的 schema 使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)，
+`refint` 需要[安全的 schema 使用模式](../../the-sql-language/ddl/ddl-schemas.md#ddl-schemas-patterns)，
 以及等號運算子名稱為 `=` 的資料型別。
 
 `check_primary_key()` 檢查參照資料表。若要使用，請在參照另一個資料表的
@@ -42,7 +42,7 @@ spi 模組提供數個使用 [Server Programming Interface](../../server-program
 
 傳給 `check_primary_key()` 的*被參照*資料表名稱與欄位名稱引數，會原樣複製
 至內部產生的 SQL 陳述式，因此使用者必須視需要在 `CREATE TRIGGER` 命令中
-以雙引號引住它們。SQL 識別字的引號詳情請參閱[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)。
+以雙引號引住它們。SQL 識別字的引號詳情請參閱[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#sql-syntax-identifiers)。
 相反地，*參照*資料表的欄位名稱引數不應以雙引號引住。下列為正確使用
 `check_primary_key()` 的模擬範例：
 
@@ -71,7 +71,7 @@ check_primary_key (
 
 傳給 `check_foreign_key()` 的*參照*資料表名稱與欄位名稱引數，會原樣複製至
 內部產生的 SQL 陳述式，因此使用者必須視需要在 `CREATE TRIGGER` 命令中以
-雙引號引住它們。SQL 識別字的引號詳情請參閱[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)。
+雙引號引住它們。SQL 識別字的引號詳情請參閱[第 4.1.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#sql-syntax-identifiers)。
 相反地，*被參照*資料表的欄位名稱引數不應以雙引號引住。下列為正確使用
 `check_foreign_key()` 的模擬範例：
 

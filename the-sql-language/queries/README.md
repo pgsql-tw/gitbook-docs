@@ -5,7 +5,7 @@
 [7.1. 概觀](queries-overview.md)
 
 [7.2. 資料表運算式](queries-table-expressions.md)
-:   [7.2.1. `FROM` 子句](queries-table-expressions.md#QUERIES-FROM)
+:   [7.2.1. `FROM` 子句](queries-table-expressions.md#queries-from)
 
     [7.2.2. `WHERE` 子句](queries-table-expressions.md#QUERIES-WHERE)
 
@@ -16,7 +16,7 @@
     [7.2.5. Window 函式的處理](queries-table-expressions.md#QUERIES-WINDOW)
 
 [7.3. 選取清單](queries-select-lists.md)
-:   [7.3.1. 選取清單項目](queries-select-lists.md#QUERIES-SELECT-LIST-ITEMS)
+:   [7.3.1. 選取清單項目](queries-select-lists.md#queries-select-list-items)
 
     [7.3.2. 欄位標籤](queries-select-lists.md#QUERIES-COLUMN-LABELS)
 
@@ -31,7 +31,7 @@
 [7.7. `VALUES` 清單](queries-values.md)
 
 [7.8. `WITH` 查詢（通用資料表運算式）](queries-with.md)
-:   [7.8.1. `WITH` 中的 `SELECT`](queries-with.md#QUERIES-WITH-SELECT)
+:   [7.8.1. `WITH` 中的 `SELECT`](queries-with.md#queries-with-select)
 
     [7.8.2. 遞迴查詢](queries-with.md#QUERIES-WITH-RECURSIVE)
 

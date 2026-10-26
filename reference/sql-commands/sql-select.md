@@ -540,7 +540,7 @@ GROUP BY [ ALL | DISTINCT ] grouping_element [, ...]
 子句會在處理之前先移除重複的集合；它*不會*把
 `UNION ALL` 轉換成 `UNION DISTINCT`。
 關於分組集合處理方式的更多細節，請參閱
-[7.2.4 節](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-GROUPING-SETS)。
+[7.2.4 節](../../the-sql-language/queries/queries-table-expressions.md#queries-grouping-sets)。
 
 若有使用彙總函式，會針對組成每個群組的所有資料列進行計算，
 為每個群組產生一個獨立的值。（若存在彙總函式，但沒有
@@ -548,7 +548,7 @@ GROUP BY [ ALL | DISTINCT ] grouping_element [, ...]
 由所有被選取的資料列組成。）
 可以為彙總函式呼叫加上 `FILTER` 子句，
 進一步篩選餵入每個彙總函式的資料列集合；詳見
-[4.2.7 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)。
+[4.2.7 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-aggregates)。
 當存在 `FILTER` 子句時，只有符合該子句的資料列，
 才會被納入該彙總函式的輸入中。
 
@@ -563,7 +563,7 @@ GROUP BY [ ALL | DISTINCT ] grouping_element [, ...]
 `HAVING` 子句或 `SELECT` 清單中的任何
 「純量」運算式求值。這代表，舉例來說，無法使用
 `CASE` 運算式來跳過某個彙總函式的求值；詳見
-[4.2.14 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-EXPRESS-EVAL)。
+[4.2.14 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-express-eval)。
 
 目前，`FOR NO KEY UPDATE`、`FOR UPDATE`、
 `FOR SHARE` 與 `FOR KEY SHARE` 皆無法與
@@ -764,8 +764,8 @@ CURRENT ROW` 相同；它會將框架設為從該分割的開頭，
 
 視窗函式的詳細說明，請參閱
 [3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)、
-[4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#SYNTAX-WINDOW-FUNCTIONS)，以及
-[7.2.5 節](../../the-sql-language/queries/queries-table-expressions.md#QUERIES-WINDOW)。
+[4.2.8 節](../../the-sql-language/sql-syntax/sql-expressions.md#syntax-window-functions)，以及
+[7.2.5 節](../../the-sql-language/queries/queries-table-expressions.md#queries-window)。
 
 <a id="SQL-SELECT-LIST"></a>
 
@@ -1062,7 +1062,7 @@ SELECT name FROM distributors ORDER BY code;
 排序。如有需要，可以在 *`expression`* 中
 加入 `COLLATE` 子句來覆寫，舉例來說
 `ORDER BY mycolumn COLLATE "en_US"`。
-更多資訊請參閱[4.2.10 節](../../the-sql-language/sql-syntax/sql-expressions.md#SQL-SYNTAX-COLLATE-EXPRS)以及
+更多資訊請參閱[4.2.10 節](../../the-sql-language/sql-syntax/sql-expressions.md#sql-syntax-collate-exprs)以及
 [23.2 節](../../server-administration/charset/collation.md)。
 
 <a id="SQL-LIMIT"></a>
@@ -1166,7 +1166,7 @@ KEY SHARE
 子句中所參照的資料表 *`alias`*，
 或未被隱藏的 *`table_name`*。
 關於各個資料列層級鎖定模式的更多資訊，請參閱
-[13.3.2 節](../../the-sql-language/mvcc/explicit-locking.md#LOCKING-ROWS)。
+[13.3.2 節](../../the-sql-language/mvcc/explicit-locking.md#locking-rows)。
 
 若要避免此操作等待其他交易提交，可使用
 `NOWAIT` 或 `SKIP LOCKED` 選項。

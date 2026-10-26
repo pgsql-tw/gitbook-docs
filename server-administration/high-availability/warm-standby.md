@@ -396,7 +396,7 @@ WAL 接收程序的程序狀態中，可以使用
 
 插槽可以透過串流複寫
 協定（請參閱[第 54.4 節](../../internals/protocol/protocol-replication.md)）或 SQL
-函式（請參閱[第 9.28.6 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-REPLICATION)）來建立與移除。
+函式（請參閱[第 9.28.6 節](../../the-sql-language/functions/functions-admin.md#functions-replication)）來建立與移除。
 
 <a id="STREAMING-REPLICATION-SLOTS-CONFIG"></a>
 

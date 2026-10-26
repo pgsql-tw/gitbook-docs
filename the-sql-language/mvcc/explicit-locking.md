@@ -2,15 +2,15 @@
 
 ## 13.3. 明確鎖定 [#](#explicit-locking) <a href="#explicit-locking" id="explicit-locking"></a>
 
-[13.3.1. 資料表層級鎖定](explicit-locking.md#LOCKING-TABLES)
+[13.3.1. 資料表層級鎖定](explicit-locking.md#locking-tables)
 
-[13.3.2. 資料列層級鎖定](explicit-locking.md#LOCKING-ROWS)
+[13.3.2. 資料列層級鎖定](explicit-locking.md#locking-rows)
 
-[13.3.3. 頁面層級鎖定](explicit-locking.md#LOCKING-PAGES)
+[13.3.3. 頁面層級鎖定](explicit-locking.md#locking-pages)
 
-[13.3.4. 死結](explicit-locking.md#LOCKING-DEADLOCKS)
+[13.3.4. 死結](explicit-locking.md#locking-deadlocks)
 
-[13.3.5. 諮詢鎖定](explicit-locking.md#ADVISORY-LOCKS)
+[13.3.5. 諮詢鎖定](explicit-locking.md#advisory-locks)
 
 <a id="id-1.5.12.6.2"></a>
 
@@ -20,7 +20,7 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
 
 <a id="LOCKING-TABLES"></a>
 
-### 13.3.1. 資料表層級鎖定 [#](#LOCKING-TABLES)
+### 13.3.1. 資料表層級鎖定 [#](#locking-tables) <a href="#locking-tables" id="locking-tables"></a>
 
 <a id="id-1.5.12.6.5.2"></a>
 
@@ -84,7 +84,7 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
 
 <a id="LOCKING-ROWS"></a>
 
-### 13.3.2. 資料列層級鎖定 [#](#LOCKING-ROWS)
+### 13.3.2. 資料列層級鎖定 [#](#locking-rows) <a href="#locking-rows" id="locking-rows"></a>
 
 除了資料表層級的鎖定之外，還有資料列層級的鎖定；下面列出這些鎖定，以及 PostgreSQL 自動使用它們的情境。完整的資料列層級鎖定衝突表請參閱[表 13.3](explicit-locking.md#ROW-LOCK-COMPATIBILITY)。請注意，一個交易可以在同一筆資料列上持有互相衝突的鎖定，即使是在不同的子交易中也可以；但除此之外，兩個交易永遠不能在同一筆資料列上持有互相衝突的鎖定。資料列層級的鎖定不會影響資料查詢；它們只會阻擋對同一筆資料列的*寫入者與鎖定者*。資料列層級的鎖定就像資料表層級的鎖定一樣，會在交易結束時或回復交易儲存點時被釋放。
 
@@ -116,13 +116,13 @@ PostgreSQL 不會在記憶體中記住任何關於已修改資料列的資訊，
 
 <a id="LOCKING-PAGES"></a>
 
-### 13.3.3. 頁面層級鎖定 [#](#LOCKING-PAGES)
+### 13.3.3. 頁面層級鎖定 [#](#locking-pages) <a href="#locking-pages" id="locking-pages"></a>
 
 除了資料表與資料列鎖定之外，還會使用頁面層級的共享／排他鎖定，來控制對共享緩衝池中資料表頁面的讀寫存取。這些鎖定會在擷取或更新資料列之後立即釋放。應用程式開發人員通常不需要關心頁面層級的鎖定，這裡提到它們只是為了完整起見。
 
 <a id="LOCKING-DEADLOCKS"></a>
 
-### 13.3.4. 死結 [#](#LOCKING-DEADLOCKS)
+### 13.3.4. 死結 [#](#locking-deadlocks) <a href="#locking-deadlocks" id="locking-deadlocks"></a>
 
 <a id="id-1.5.12.6.8.2"></a>
 
@@ -158,7 +158,7 @@ UPDATE accounts SET balance = balance - 100.00 WHERE acctnum = 22222;
 
 <a id="ADVISORY-LOCKS"></a>
 
-### 13.3.5. 諮詢鎖定 [#](#ADVISORY-LOCKS)
+### 13.3.5. 諮詢鎖定 [#](#advisory-locks) <a href="#advisory-locks" id="advisory-locks"></a>
 
 <a id="id-1.5.12.6.9.2"></a><a id="id-1.5.12.6.9.3"></a>
 
@@ -184,7 +184,7 @@ SELECT pg_advisory_lock(q.id) FROM
 
 在上面的查詢中，第二種形式很危險，因為無法保證 `LIMIT` 會在鎖定函式執行之前套用。這可能導致取得一些應用程式沒有預期到的鎖定，因此也就無法釋放它們（直到結束工作階段為止）。從應用程式的角度來看，這樣的鎖定會是懸置的，儘管仍然可以在 `pg_locks` 中看到。
 
-用來操作諮詢鎖定的函式，說明於[第 9.28.10 節](../functions/functions-admin.md#FUNCTIONS-ADVISORY-LOCKS)。
+用來操作諮詢鎖定的函式，說明於[第 9.28.10 節](../functions/functions-admin.md#functions-advisory-locks)。
 
 ---
 

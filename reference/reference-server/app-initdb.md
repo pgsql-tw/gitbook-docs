@@ -222,7 +222,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-ENVIRONMENT-TZ"></a>
 
 `TZ` [#](#APP-INITDB-ENVIRONMENT-TZ)
-:   指定所建立之資料庫叢集的預設時區。此值應該是完整的時區名稱（請參閱[第 8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)）。
+:   指定所建立之資料庫叢集的預設時區。此值應該是完整的時區名稱（請參閱[第 8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#datatype-timezones)）。
 
 <a id="id-1.9.5.3.8"></a>
 

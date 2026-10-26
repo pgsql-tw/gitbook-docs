@@ -104,7 +104,7 @@
 <code class="structfield">mode</code> <code class="type">text</code>
 </p>
 <p>
-       此程序所持有或想要取得之鎖定模式的名稱（請參閱<a class="xref" href="../../the-sql-language/mvcc/explicit-locking.md#LOCKING-TABLES">第 13.3.1 節</a>與<a class="xref" href="../../the-sql-language/mvcc/transaction-iso.md#XACT-SERIALIZABLE">第 13.2.3 節</a>）
+       此程序所持有或想要取得之鎖定模式的名稱（請參閱<a class="xref" href="../../the-sql-language/mvcc/explicit-locking.md#locking-tables">第 13.3.1 節</a>與<a class="xref" href="../../the-sql-language/mvcc/transaction-iso.md#xact-serializable">第 13.2.3 節</a>）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">granted</code> <code class="type">bool</code>
 </p>

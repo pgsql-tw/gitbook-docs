@@ -1,17 +1,17 @@
 <a id="ARRAYS"></a>
 ## 8.15. 陣列 [#](#arrays) <a href="#arrays" id="arrays"></a>
 
-[8.15.1. 陣列型別的宣告](arrays.md#ARRAYS-DECLARATION)
+[8.15.1. 陣列型別的宣告](arrays.md#arrays-declaration)
 
-[8.15.2. 陣列值輸入](arrays.md#ARRAYS-INPUT)
+[8.15.2. 陣列值輸入](arrays.md#arrays-input)
 
-[8.15.3. 存取陣列](arrays.md#ARRAYS-ACCESSING)
+[8.15.3. 存取陣列](arrays.md#arrays-accessing)
 
-[8.15.4. 修改陣列](arrays.md#ARRAYS-MODIFYING)
+[8.15.4. 修改陣列](arrays.md#arrays-modifying)
 
-[8.15.5. 在陣列中搜尋](arrays.md#ARRAYS-SEARCHING)
+[8.15.5. 在陣列中搜尋](arrays.md#arrays-searching)
 
-[8.15.6. 陣列輸出入語法](arrays.md#ARRAYS-IO)
+[8.15.6. 陣列輸出入語法](arrays.md#arrays-io)
 
 <a id="id-1.5.7.23.2"></a>
 
@@ -22,7 +22,7 @@ PostgreSQL 允許將資料表的欄位，
 
 <a id="ARRAYS-DECLARATION"></a>
 
-### 8.15.1. 陣列型別的宣告 [#](#ARRAYS-DECLARATION)
+### 8.15.1. 陣列型別的宣告 [#](#arrays-declaration) <a href="#arrays-declaration" id="arrays-declaration"></a>
 
 <a id="id-1.5.7.23.4.2"></a>
 
@@ -90,7 +90,7 @@ CREATE TABLE tictactoe (
 
 <a id="ARRAYS-INPUT"></a>
 
-### 8.15.2. 陣列值輸入 [#](#ARRAYS-INPUT)
+### 8.15.2. 陣列值輸入 [#](#arrays-input) <a href="#arrays-input" id="arrays-input"></a>
 
 <a id="id-1.5.7.23.5.2"></a>
 
@@ -193,12 +193,12 @@ INSERT INTO sal_emp
 請注意，陣列元素是一般的 SQL 常數或
 運算式；舉例來說，字串常值使用單引號，
 而不像陣列常值那樣使用雙引號。
-[4.2.12 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)中，
+[4.2.12 節](../sql-syntax/sql-expressions.md#sql-syntax-array-constructors)中，
 對 `ARRAY` 建構子語法有更詳細的討論。
 
 <a id="ARRAYS-ACCESSING"></a>
 
-### 8.15.3. 存取陣列 [#](#ARRAYS-ACCESSING)
+### 8.15.3. 存取陣列 [#](#arrays-accessing) <a href="#arrays-accessing" id="arrays-accessing"></a>
 
 <a id="id-1.5.7.23.6.2"></a>
 
@@ -375,7 +375,7 @@ SELECT cardinality(schedule) FROM sal_emp WHERE name = 'Carol';
 
 <a id="ARRAYS-MODIFYING"></a>
 
-### 8.15.4. 修改陣列 [#](#ARRAYS-MODIFYING)
+### 8.15.4. 修改陣列 [#](#arrays-modifying) <a href="#arrays-modifying" id="arrays-modifying"></a>
 
 <a id="id-1.5.7.23.7.2"></a>
 
@@ -592,7 +592,7 @@ SELECT array_append(ARRAY[1, 2], NULL);    -- this might have been meant
 
 <a id="ARRAYS-SEARCHING"></a>
 
-### 8.15.5. 在陣列中搜尋 [#](#ARRAYS-SEARCHING)
+### 8.15.5. 在陣列中搜尋 [#](#arrays-searching) <a href="#arrays-searching" id="arrays-searching"></a>
 
 <a id="id-1.5.7.23.8.2"></a>
 
@@ -687,7 +687,7 @@ SELECT array_positions(ARRAY[1, 4, 3, 1, 3, 4, 2, 1], 1);
 
 <a id="ARRAYS-IO"></a>
 
-### 8.15.6. 陣列輸出入語法 [#](#ARRAYS-IO)
+### 8.15.6. 陣列輸出入語法 [#](#arrays-io) <a href="#arrays-io" id="arrays-io"></a>
 
 <a id="id-1.5.7.23.9.2"></a>
 
@@ -781,7 +781,7 @@ PostgreSQL 版本保持向後相容，
 
 在 SQL 指令中撰寫陣列值時，
 `ARRAY` 建構子語法（請參閱
-[4.2.12 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ARRAY-CONSTRUCTORS)），
+[4.2.12 節](../sql-syntax/sql-expressions.md#sql-syntax-array-constructors)），
 通常比陣列常值語法更容易使用。在 `ARRAY` 中，
 個別的元素值，是以不作為陣列成員時
 相同的方式撰寫的。

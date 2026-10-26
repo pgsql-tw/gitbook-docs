@@ -2,31 +2,31 @@
 
 ## 9.28. 系統管理函式 [#](#functions-admin) <a href="#functions-admin" id="functions-admin"></a>
 
-[9.28.1. 組態設定函式](functions-admin.md#FUNCTIONS-ADMIN-SET)
+[9.28.1. 組態設定函式](functions-admin.md#functions-admin-set)
 
-[9.28.2. 伺服器訊號函式](functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)
+[9.28.2. 伺服器訊號函式](functions-admin.md#functions-admin-signal)
 
-[9.28.3. 備份控制函式](functions-admin.md#FUNCTIONS-ADMIN-BACKUP)
+[9.28.3. 備份控制函式](functions-admin.md#functions-admin-backup)
 
-[9.28.4. 復原控制函式](functions-admin.md#FUNCTIONS-RECOVERY-CONTROL)
+[9.28.4. 復原控制函式](functions-admin.md#functions-recovery-control)
 
-[9.28.5. 快照同步函式](functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)
+[9.28.5. 快照同步函式](functions-admin.md#functions-snapshot-synchronization)
 
-[9.28.6. 複寫管理函式](functions-admin.md#FUNCTIONS-REPLICATION)
+[9.28.6. 複寫管理函式](functions-admin.md#functions-replication)
 
-[9.28.7. 資料庫物件管理函式](functions-admin.md#FUNCTIONS-ADMIN-DBOBJECT)
+[9.28.7. 資料庫物件管理函式](functions-admin.md#functions-admin-dbobject)
 
-[9.28.8. 索引維護函式](functions-admin.md#FUNCTIONS-ADMIN-INDEX)
+[9.28.8. 索引維護函式](functions-admin.md#functions-admin-index)
 
-[9.28.9. 通用檔案存取函式](functions-admin.md#FUNCTIONS-ADMIN-GENFILE)
+[9.28.9. 通用檔案存取函式](functions-admin.md#functions-admin-genfile)
 
-[9.28.10. 諮詢鎖函式](functions-admin.md#FUNCTIONS-ADVISORY-LOCKS)
+[9.28.10. 諮詢鎖函式](functions-admin.md#functions-advisory-locks)
 
 本節所說明的函式用於控制與監控 PostgreSQL 的安裝。
 
 <a id="FUNCTIONS-ADMIN-SET"></a>
 
-### 9.28.1. 組態設定函式 [#](#FUNCTIONS-ADMIN-SET)
+### 9.28.1. 組態設定函式 [#](#functions-admin-set) <a href="#functions-admin-set" id="functions-admin-set"></a>
 
 <a id="id-1.5.8.34.3.2"></a><a id="id-1.5.8.34.3.3"></a><a id="id-1.5.8.34.3.4"></a>
 
@@ -78,7 +78,7 @@
 
 <a id="FUNCTIONS-ADMIN-SIGNAL"></a>
 
-### 9.28.2. 伺服器訊號函式 [#](#FUNCTIONS-ADMIN-SIGNAL)
+### 9.28.2. 伺服器訊號函式 [#](#functions-admin-signal) <a href="#functions-admin-signal" id="functions-admin-signal"></a>
 
 <a id="id-1.5.8.34.4.2"></a>
 
@@ -173,7 +173,7 @@ LOG:  Grand total: 1651920 bytes in 201 blocks; 622360 free (88 chunks); 1029560
 
 <a id="FUNCTIONS-ADMIN-BACKUP"></a>
 
-### 9.28.3. 備份控制函式 [#](#FUNCTIONS-ADMIN-BACKUP)
+### 9.28.3. 備份控制函式 [#](#functions-admin-backup) <a href="#functions-admin-backup" id="functions-admin-backup"></a>
 
 <a id="id-1.5.8.34.5.2"></a>
 
@@ -337,7 +337,7 @@ postgres=# SELECT '0/0'::pg_lsn + pd.segment_number * ps.setting::int + :offset 
 
 <a id="FUNCTIONS-RECOVERY-CONTROL"></a>
 
-### 9.28.4. 復原控制函式 [#](#FUNCTIONS-RECOVERY-CONTROL)
+### 9.28.4. 復原控制函式 [#](#functions-recovery-control) <a href="#functions-recovery-control" id="functions-recovery-control"></a>
 
 [表 9.98](functions-admin.md#FUNCTIONS-RECOVERY-INFO-TABLE) 所列的函式提供備用伺服器目前狀態的相關資訊。這些函式在復原期間與正常執行時都可以執行。
 
@@ -459,7 +459,7 @@ postgres=# SELECT '0/0'::pg_lsn + pd.segment_number * ps.setting::int + :offset 
 
 <a id="FUNCTIONS-SNAPSHOT-SYNCHRONIZATION"></a>
 
-### 9.28.5. 快照同步函式 [#](#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)
+### 9.28.5. 快照同步函式 [#](#functions-snapshot-synchronization) <a href="#functions-snapshot-synchronization" id="functions-snapshot-synchronization"></a>
 
 PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了哪些資料對正在使用該快照的交易是可見的。當兩個以上的工作階段需要看到資料庫中完全相同的內容時，就需要同步快照。如果兩個工作階段只是各自獨立地開始交易，那麼總是有可能在兩個 `START TRANSACTION` 指令執行之間，有第三個交易提交，使得其中一個工作階段看得到該交易的效果，而另一個則看不到。
 
@@ -499,13 +499,13 @@ PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了�
 
 <a id="FUNCTIONS-REPLICATION"></a>
 
-### 9.28.6. 複寫管理函式 [#](#FUNCTIONS-REPLICATION)
+### 9.28.6. 複寫管理函式 [#](#functions-replication) <a href="#functions-replication" id="functions-replication"></a>
 
 [表 9.101](functions-admin.md#FUNCTIONS-REPLICATION-TABLE) 所列的函式用於控制複寫功能並與之互動。關於底層功能的資訊，請參閱[第 26.2.5 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION)、[第 26.2.6 節](../../server-administration/high-availability/warm-standby.md#STREAMING-REPLICATION-SLOTS)與[第 48 章](../../server-programming/replication-origins/README.md)。複寫來源相關函式預設只允許超級使用者使用，但可以使用 `GRANT` 指令允許其他使用者使用。複寫槽相關函式則只限超級使用者與具有 `REPLICATION` 權限的使用者使用。
 
 這些函式中有許多在複寫協定中都有對應的指令；請參閱[第 54.4 節](../../internals/protocol/protocol-replication.md)。
 
-[第 9.28.3 節](functions-admin.md#FUNCTIONS-ADMIN-BACKUP)、[第 9.28.4 節](functions-admin.md#FUNCTIONS-RECOVERY-CONTROL)與[第 9.28.5 節](functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)所說明的函式也與複寫相關。
+[第 9.28.3 節](functions-admin.md#functions-admin-backup)、[第 9.28.4 節](functions-admin.md#functions-recovery-control)與[第 9.28.5 節](functions-admin.md#functions-snapshot-synchronization)所說明的函式也與複寫相關。
 
 <a id="FUNCTIONS-REPLICATION-TABLE"></a>
 
@@ -715,7 +715,7 @@ PostgreSQL 允許資料庫工作階段同步它們的快照。*快照*決定了�
 
 <a id="FUNCTIONS-ADMIN-DBOBJECT"></a>
 
-### 9.28.7. 資料庫物件管理函式 [#](#FUNCTIONS-ADMIN-DBOBJECT)
+### 9.28.7. 資料庫物件管理函式 [#](#functions-admin-dbobject) <a href="#functions-admin-dbobject" id="functions-admin-dbobject"></a>
 
 [表 9.102](functions-admin.md#FUNCTIONS-ADMIN-DBSIZE) 所列的函式會計算資料庫物件的磁碟空間使用量，或協助呈現或理解使用量的結果。`bigint` 結果以位元組為單位。如果傳給這些函式的 OID 並不代表既有的物件，就會回傳 `NULL`。
 
@@ -1083,7 +1083,7 @@ SELECT pg_size_pretty(sum(pg_relation_size(relid))) AS total_size
 
 <a id="FUNCTIONS-ADMIN-INDEX"></a>
 
-### 9.28.8. 索引維護函式 [#](#FUNCTIONS-ADMIN-INDEX)
+### 9.28.8. 索引維護函式 [#](#functions-admin-index) <a href="#functions-admin-index" id="functions-admin-index"></a>
 
 [表 9.107](functions-admin.md#FUNCTIONS-ADMIN-INDEX-TABLE) 列出可用於索引維護工作的函式。（請注意，這些維護工作通常由 autovacuum 自動完成；只有在特殊情況下才需要使用這些函式。）這些函式不能在復原期間執行。這些函式只限超級使用者與該索引的擁有者使用。
 
@@ -1130,7 +1130,7 @@ SELECT pg_size_pretty(sum(pg_relation_size(relid))) AS total_size
 
 <a id="FUNCTIONS-ADMIN-GENFILE"></a>
 
-### 9.28.9. 通用檔案存取函式 [#](#FUNCTIONS-ADMIN-GENFILE)
+### 9.28.9. 通用檔案存取函式 [#](#functions-admin-genfile) <a href="#functions-admin-genfile" id="functions-admin-genfile"></a>
 
 [表 9.108](functions-admin.md#FUNCTIONS-ADMIN-GENFILE-TABLE) 所列的函式提供對伺服器所在主機上檔案的原生存取。除非使用者是超級使用者或被授予 `pg_read_server_files` 角色，否則只能存取資料庫叢集目錄與 `log_directory` 之內的檔案。對於叢集目錄中的檔案，請使用相對路徑；對於日誌檔案，請使用與 `log_directory` 組態設定相符的路徑。
 
@@ -1311,9 +1311,9 @@ SELECT convert_from(pg_read_binary_file('file_in_utf8.txt'), 'UTF8');
 
 <a id="FUNCTIONS-ADVISORY-LOCKS"></a>
 
-### 9.28.10. 諮詢鎖函式 [#](#FUNCTIONS-ADVISORY-LOCKS)
+### 9.28.10. 諮詢鎖函式 [#](#functions-advisory-locks) <a href="#functions-advisory-locks" id="functions-advisory-locks"></a>
 
-[表 9.109](functions-admin.md#FUNCTIONS-ADVISORY-LOCKS-TABLE) 所列的函式用於管理諮詢鎖。關於這些函式的正確用法，詳情請參閱[第 13.3.5 節](../mvcc/explicit-locking.md#ADVISORY-LOCKS)。
+[表 9.109](functions-admin.md#FUNCTIONS-ADVISORY-LOCKS-TABLE) 所列的函式用於管理諮詢鎖。關於這些函式的正確用法，詳情請參閱[第 13.3.5 節](../mvcc/explicit-locking.md#advisory-locks)。
 
 這些函式全都是用來鎖定由應用程式定義的資源，資源可以用單一個 64 位元的鍵值，或兩個 32 位元的鍵值來識別（請注意，這兩種鍵空間不會重疊）。如果另一個工作階段已經在相同的資源識別符號上持有衝突的鎖，這些函式會視函式的性質，等待資源變為可用，或是回傳 `false` 結果。鎖可以是共享鎖或排他鎖：共享鎖不會與同一資源上的其他共享鎖衝突，只會與排他鎖衝突。鎖可以在工作階段層級取得（會一直持有，直到被釋放或工作階段結束），或在交易層級取得（會一直持有，直到目前的交易結束；無法手動釋放）。多次的工作階段層級鎖請求會堆疊，因此如果同一個資源識別符號被鎖定了三次，就必須發出三次解鎖請求，才能在工作階段結束前釋放該資源。
 

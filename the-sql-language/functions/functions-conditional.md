@@ -2,13 +2,13 @@
 
 ## 9.18. 條件運算式 [#](#functions-conditional) <a href="#functions-conditional" id="functions-conditional"></a>
 
-[9.18.1. `CASE`](functions-conditional.md#FUNCTIONS-CASE)
+[9.18.1. `CASE`](functions-conditional.md#functions-case)
 
-[9.18.2. `COALESCE`](functions-conditional.md#FUNCTIONS-COALESCE-NVL-IFNULL)
+[9.18.2. `COALESCE`](functions-conditional.md#functions-coalesce-nvl-ifnull)
 
-[9.18.3. `NULLIF`](functions-conditional.md#FUNCTIONS-NULLIF)
+[9.18.3. `NULLIF`](functions-conditional.md#functions-nullif)
 
-[9.18.4. `GREATEST` 與 `LEAST`](functions-conditional.md#FUNCTIONS-GREATEST-LEAST)
+[9.18.4. `GREATEST` 與 `LEAST`](functions-conditional.md#functions-greatest-least)
 
 <a id="id-1.5.8.24.2"></a><a id="id-1.5.8.24.3"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="FUNCTIONS-CASE"></a>
 
-### 9.18.1. `CASE` [#](#FUNCTIONS-CASE)
+### 9.18.1. `CASE` [#](#functions-case) <a href="#functions-case" id="functions-case"></a>
 
 SQL 的 `CASE` 運算式是一種通用的條件運算式，類似於其他程式語言中的 if/else 陳述式：
 
@@ -107,11 +107,11 @@ SELECT ... WHERE CASE WHEN x <> 0 THEN y/x > 1.5 ELSE false END;
 
 ### 注意
 
-如[第 4.2.14 節](../sql-syntax/sql-expressions.md#SYNTAX-EXPRESS-EVAL)所述，在許多情況下，運算式的子運算式會在不同的時間被評估，因此「`CASE` 只評估必要的子運算式」這項原則並非牢不可破。例如，常數子運算式 `1/0` 通常會在規劃時就導致除以零的錯誤，即使它位於執行時永遠不會進入的 `CASE` 分支中也一樣。
+如[第 4.2.14 節](../sql-syntax/sql-expressions.md#syntax-express-eval)所述，在許多情況下，運算式的子運算式會在不同的時間被評估，因此「`CASE` 只評估必要的子運算式」這項原則並非牢不可破。例如，常數子運算式 `1/0` 通常會在規劃時就導致除以零的錯誤，即使它位於執行時永遠不會進入的 `CASE` 分支中也一樣。
 
 <a id="FUNCTIONS-COALESCE-NVL-IFNULL"></a>
 
-### 9.18.2. `COALESCE` [#](#FUNCTIONS-COALESCE-NVL-IFNULL)
+### 9.18.2. `COALESCE` [#](#functions-coalesce-nvl-ifnull) <a href="#functions-coalesce-nvl-ifnull" id="functions-coalesce-nvl-ifnull"></a>
 
 <a id="id-1.5.8.24.8.2"></a><a id="id-1.5.8.24.8.3"></a><a id="id-1.5.8.24.8.4"></a>
 
@@ -135,7 +135,7 @@ SELECT COALESCE(description, short_description, '(none)') ...
 
 <a id="FUNCTIONS-NULLIF"></a>
 
-### 9.18.3. `NULLIF` [#](#FUNCTIONS-NULLIF)
+### 9.18.3. `NULLIF` [#](#functions-nullif) <a href="#functions-nullif" id="functions-nullif"></a>
 
 <a id="id-1.5.8.24.9.2"></a>
 
@@ -159,7 +159,7 @@ SELECT NULLIF(value, '(none)') ...
 
 <a id="FUNCTIONS-GREATEST-LEAST"></a>
 
-### 9.18.4. `GREATEST` 與 `LEAST` [#](#FUNCTIONS-GREATEST-LEAST)
+### 9.18.4. `GREATEST` 與 `LEAST` [#](#functions-greatest-least) <a href="#functions-greatest-least" id="functions-greatest-least"></a>
 
 <a id="id-1.5.8.24.10.2"></a><a id="id-1.5.8.24.10.3"></a>
 

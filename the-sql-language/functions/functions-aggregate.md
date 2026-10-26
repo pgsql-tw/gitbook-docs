@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.27.2"></a>
 
-*彙總函式*（aggregate function）會從一組輸入值計算出單一結果。內建的通用彙總函式列於[表 9.62](functions-aggregate.md#FUNCTIONS-AGGREGATE-TABLE)，統計用的彙總函式則列於[表 9.63](functions-aggregate.md#FUNCTIONS-AGGREGATE-STATISTICS-TABLE)。內建的組內有序集合彙總函式列於[表 9.64](functions-aggregate.md#FUNCTIONS-ORDEREDSET-TABLE)，而內建的組內假設集合彙總函式則列於[表 9.65](functions-aggregate.md#FUNCTIONS-HYPOTHETICAL-TABLE)。與彙總函式密切相關的分組操作，列於[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE)。彙總函式在語法上的特殊考量，說明於[第 4.2.7 節](../sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)。其他入門資訊請參閱[第 2.7 節](../../tutorial/tutorial-sql/tutorial-agg.md)。
+*彙總函式*（aggregate function）會從一組輸入值計算出單一結果。內建的通用彙總函式列於[表 9.62](functions-aggregate.md#FUNCTIONS-AGGREGATE-TABLE)，統計用的彙總函式則列於[表 9.63](functions-aggregate.md#FUNCTIONS-AGGREGATE-STATISTICS-TABLE)。內建的組內有序集合彙總函式列於[表 9.64](functions-aggregate.md#FUNCTIONS-ORDEREDSET-TABLE)，而內建的組內假設集合彙總函式則列於[表 9.65](functions-aggregate.md#FUNCTIONS-HYPOTHETICAL-TABLE)。與彙總函式密切相關的分組操作，列於[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE)。彙總函式在語法上的特殊考量，說明於[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)。其他入門資訊請參閱[第 2.7 節](../../tutorial/tutorial-sql/tutorial-agg.md)。
 
 支援*部分模式*（Partial Mode）的彙總函式，可以參與各種最佳化，例如平行彙總。
 
-雖然下列所有彙總函式都接受選用的 `ORDER BY` 子句（如[第 4.2.7 節](../sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)所述），但只有輸出會受到排序影響的彙總函式，才在表中加上了這個子句。
+雖然下列所有彙總函式都接受選用的 `ORDER BY` 子句（如[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)所述），但只有輸出會受到排序影響的彙總函式，才在表中加上了這個子句。
 
 <a id="FUNCTIONS-AGGREGATE-TABLE"></a>
 
@@ -382,7 +382,7 @@
 
 應該注意的是，除了 `count` 之外，這些函式在沒有選取任何資料列時都會回傳 null 值。特別是，沒有資料列時 `sum` 會回傳 null，而不是一般人可能預期的零；而在沒有輸入資料列時，`array_agg` 會回傳 null 而不是空陣列。必要時，可以使用 `coalesce` 函式以零或空陣列取代 null。
 
-彙總函式 `array_agg`、`json_agg`、`jsonb_agg`、`json_agg_strict`、`jsonb_agg_strict`、`json_object_agg`、`jsonb_object_agg`、`json_object_agg_strict`、`jsonb_object_agg_strict`、`json_object_agg_unique`、`jsonb_object_agg_unique`、`json_object_agg_unique_strict`、`jsonb_object_agg_unique_strict`、`string_agg` 與 `xmlagg`，以及類似的使用者定義彙總函式，會依輸入值的順序產生意義上不同的結果值。這個順序預設是未指定的，但可以在彙總呼叫中寫出 `ORDER BY` 子句來控制，如[第 4.2.7 節](../sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)所示。另外，從排序過的子查詢提供輸入值通常也可行。例如：
+彙總函式 `array_agg`、`json_agg`、`jsonb_agg`、`json_agg_strict`、`jsonb_agg_strict`、`json_object_agg`、`jsonb_object_agg`、`json_object_agg_strict`、`jsonb_object_agg_strict`、`json_object_agg_unique`、`jsonb_object_agg_unique`、`json_object_agg_unique_strict`、`jsonb_object_agg_unique_strict`、`string_agg` 與 `xmlagg`，以及類似的使用者定義彙總函式，會依輸入值的順序產生意義上不同的結果值。這個順序預設是未指定的，但可以在彙總呼叫中寫出 `ORDER BY` 子句來控制，如[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)所示。另外，從排序過的子查詢提供輸入值通常也可行。例如：
 
 ```
 
@@ -666,7 +666,7 @@ SELECT count(*) FROM sometable;
 
 <br>
 
-[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE) 所列的分組操作，會與分組集合（請參閱[第 7.2.4 節](../queries/queries-table-expressions.md#QUERIES-GROUPING-SETS)）搭配使用，以區分結果資料列。`GROUPING` 函式的引數實際上不會被評估，但它們必須與相關聯查詢層級之 `GROUP BY` 子句中所給定的運算式完全相符。例如：
+[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE) 所列的分組操作，會與分組集合（請參閱[第 7.2.4 節](../queries/queries-table-expressions.md#queries-grouping-sets)）搭配使用，以區分結果資料列。`GROUPING` 函式的引數實際上不會被評估，但它們必須與相關聯查詢層級之 `GROUP BY` 子句中所給定的運算式完全相符。例如：
 
 ```
 

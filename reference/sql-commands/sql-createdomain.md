@@ -85,7 +85,7 @@ INSERT INTO tab (domcol) VALUES ((SELECT domcol FROM tab WHERE false));
 
 這類問題非常難以避免，因為 SQL 普遍假定 null 值是每一種資料型別的有效值。因此，最佳做法是將網域的限制條件設計為允許 null 值，然後視需要對網域型別的欄位套用欄位的 `NOT NULL` 限制條件，而不是直接套用到網域型別上。
 
-PostgreSQL 假定 `CHECK` 限制條件的條件是不可變的（immutable），也就是說，對於相同的輸入值，它們一律會產生相同的結果。正是這個假定，使得只在值第一次被轉換為網域型別時檢查 `CHECK` 限制條件、而不在其他時候檢查，成為合理的做法。（這在本質上與資料表 `CHECK` 限制條件的處理方式相同，如[第 5.5.1 節](../../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)所述。）
+PostgreSQL 假定 `CHECK` 限制條件的條件是不可變的（immutable），也就是說，對於相同的輸入值，它們一律會產生相同的結果。正是這個假定，使得只在值第一次被轉換為網域型別時檢查 `CHECK` 限制條件、而不在其他時候檢查，成為合理的做法。（這在本質上與資料表 `CHECK` 限制條件的處理方式相同，如[第 5.5.1 節](../../the-sql-language/ddl/ddl-constraints.md#ddl-constraints-check-constraints)所述。）
 
 打破這項假定的一種常見方式，是在 `CHECK` 運算式中參照使用者定義的函式，然後變更該函式的行為。PostgreSQL 並不禁止這麼做，但它不會察覺是否有已儲存的網域型別值現在違反了該 `CHECK` 限制條件。這會導致之後的資料庫傾印與還原失敗。處理這類變更的建議做法是：先移除限制條件（使用 `ALTER
 DOMAIN`），調整函式定義，再重新加入限制條件，藉此針對已儲存的資料重新檢查它。

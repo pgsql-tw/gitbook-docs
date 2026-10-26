@@ -82,9 +82,9 @@ CREATE TYPE name
 
 範圍型別的 *`subtype`* 可以是任何具有相關聯 b-tree 運算子類別的型別（用以決定範圍型別中值的排序）。通常會使用子型別預設的 b-tree 運算子類別來決定排序；若要使用非預設的運算子類別，請以 *`subtype_opclass`* 指定其名稱。若子型別可定序，且你希望在範圍的排序中使用非預設的定序，請以 *`collation`* 選項指定所需的定序。
 
-選用的 *`canonical`* 函式必須接受一個屬於所定義範圍型別的引數，並回傳同一型別的值。在適用的情況下，此函式用於將範圍值轉換為正規形式。更多資訊請參閱[第 8.17.8 節](../../the-sql-language/datatype/rangetypes.md#RANGETYPES-DEFINING)。建立 *`canonical`* 函式有點棘手，因為它必須在範圍型別能夠宣告之前就先定義。為此，你必須先建立一個殼型別，這是一種除了名稱與擁有者之外沒有任何屬性的預留位置型別。做法是發出命令 `CREATE TYPE name`，不帶其他參數。接著就可以使用該殼型別作為引數與結果來宣告函式，最後再使用相同的名稱宣告範圍型別。這會自動以有效的範圍型別取代殼型別的項目。
+選用的 *`canonical`* 函式必須接受一個屬於所定義範圍型別的引數，並回傳同一型別的值。在適用的情況下，此函式用於將範圍值轉換為正規形式。更多資訊請參閱[第 8.17.8 節](../../the-sql-language/datatype/rangetypes.md#rangetypes-defining)。建立 *`canonical`* 函式有點棘手，因為它必須在範圍型別能夠宣告之前就先定義。為此，你必須先建立一個殼型別，這是一種除了名稱與擁有者之外沒有任何屬性的預留位置型別。做法是發出命令 `CREATE TYPE name`，不帶其他參數。接著就可以使用該殼型別作為引數與結果來宣告函式，最後再使用相同的名稱宣告範圍型別。這會自動以有效的範圍型別取代殼型別的項目。
 
-選用的 *`subtype_diff`* 函式必須接受兩個 *`subtype`* 型別的值作為引數，並回傳一個 `double precision` 值，表示這兩個給定值之間的差。雖然此函式是選用的，但提供它可以大幅提升範圍型別欄位上 GiST 索引的效率。更多資訊請參閱[第 8.17.8 節](../../the-sql-language/datatype/rangetypes.md#RANGETYPES-DEFINING)。
+選用的 *`subtype_diff`* 函式必須接受兩個 *`subtype`* 型別的值作為引數，並回傳一個 `double precision` 值，表示這兩個給定值之間的差。雖然此函式是選用的，但提供它可以大幅提升範圍型別欄位上 GiST 索引的效率。更多資訊請參閱[第 8.17.8 節](../../the-sql-language/datatype/rangetypes.md#rangetypes-defining)。
 
 選用的 *`multirange_type_name`* 參數指定對應之多重範圍型別的名稱。若未指定，此名稱會依下列方式自動選定。若範圍型別名稱包含子字串 `range`，則多重範圍型別名稱的形成方式，是將範圍型別名稱中的子字串 `range` 替換為 `multirange`。否則，多重範圍型別名稱的形成方式，是在範圍型別名稱後附加後綴 `_multirange`。
 

@@ -2,13 +2,13 @@
 
 ## 7.8. `WITH` 查詢（通用資料表運算式） [#](#queries-with) <a href="#queries-with" id="queries-with"></a>
 
-[7.8.1. `WITH` 中的 `SELECT`](queries-with.md#QUERIES-WITH-SELECT)
+[7.8.1. `WITH` 中的 `SELECT`](queries-with.md#queries-with-select)
 
-[7.8.2. 遞迴查詢](queries-with.md#QUERIES-WITH-RECURSIVE)
+[7.8.2. 遞迴查詢](queries-with.md#queries-with-recursive)
 
-[7.8.3. 通用資料表運算式的具體化](queries-with.md#QUERIES-WITH-CTE-MATERIALIZATION)
+[7.8.3. 通用資料表運算式的具體化](queries-with.md#queries-with-cte-materialization)
 
-[7.8.4. `WITH` 中的資料修改陳述式](queries-with.md#QUERIES-WITH-MODIFYING)
+[7.8.4. `WITH` 中的資料修改陳述式](queries-with.md#queries-with-modifying)
 
 <a id="id-1.5.6.12.2"></a><a id="id-1.5.6.12.3"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="QUERIES-WITH-SELECT"></a>
 
-### 7.8.1. `WITH` 中的 `SELECT` [#](#QUERIES-WITH-SELECT)
+### 7.8.1. `WITH` 中的 `SELECT` [#](#queries-with-select) <a href="#queries-with-select" id="queries-with-select"></a>
 
 在 `WITH` 中使用 `SELECT` 的基本價值，在於將複雜的查詢拆解為較簡單的部分。例如：
 
@@ -44,7 +44,7 @@ GROUP BY region, product;
 
 <a id="QUERIES-WITH-RECURSIVE"></a>
 
-### 7.8.2. 遞迴查詢 [#](#QUERIES-WITH-RECURSIVE)
+### 7.8.2. 遞迴查詢 [#](#queries-with-recursive) <a href="#queries-with-recursive" id="queries-with-recursive"></a>
 
 <a id="id-1.5.6.12.6.2.1"></a>
 選用的 `RECURSIVE` 修飾詞，讓 `WITH` 從單純的語法便利，變成一項能完成標準 SQL 中原本無法做到之事的功能。使用 `RECURSIVE` 時，`WITH` 查詢可以參照自己的輸出。一個非常簡單的範例，是下面這個計算 1 到 100 整數總和的查詢：
@@ -296,7 +296,7 @@ SELECT n FROM t LIMIT 100;
 
 <a id="QUERIES-WITH-CTE-MATERIALIZATION"></a>
 
-### 7.8.3. 通用資料表運算式的具體化 [#](#QUERIES-WITH-CTE-MATERIALIZATION)
+### 7.8.3. 通用資料表運算式的具體化 [#](#queries-with-cte-materialization) <a href="#queries-with-cte-materialization" id="queries-with-cte-materialization"></a>
 
 `WITH` 查詢的一個實用特性是，即使上層查詢或同層的 `WITH` 查詢多次參照它，在上層查詢的每次執行中，它通常也只會求值一次。因此，需要在多處使用的高成本計算，可以放在 `WITH` 查詢中，以避免重複的工作。另一個可能的應用，是防止具有副作用的函式被不必要地多次求值。不過，這件事的另一面是，最佳化器無法將上層查詢的限制條件下推到被多次參照的 `WITH` 查詢中，因為那可能會影響 `WITH` 查詢輸出的所有用途，而它原本應該只影響其中一個。被多次參照的 `WITH` 查詢會照原本的寫法求值，而不會抑制上層查詢之後可能會捨棄的資料列。（但如上所述，如果對該查詢的參照只需要有限數量的資料列，求值可能會提早停止。）
 
@@ -359,7 +359,7 @@ SELECT * FROM w AS w1 JOIN w AS w2 ON w1.f = w2.f;
 
 <a id="QUERIES-WITH-MODIFYING"></a>
 
-### 7.8.4. `WITH` 中的資料修改陳述式 [#](#QUERIES-WITH-MODIFYING)
+### 7.8.4. `WITH` 中的資料修改陳述式 [#](#queries-with-modifying) <a href="#queries-with-modifying" id="queries-with-modifying"></a>
 
 你可以在 `WITH` 中使用資料修改陳述式（`INSERT`、`UPDATE`、`DELETE` 或 `MERGE`）。這讓你可以在同一個查詢中執行多種不同的操作。例如：
 

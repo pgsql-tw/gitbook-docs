@@ -2,13 +2,13 @@
 
 ## 8.1. 數值型別 [#](#datatype-numeric) <a href="#datatype-numeric" id="datatype-numeric"></a>
 
-[8.1.1. 整數型別](datatype-numeric.md#DATATYPE-INT)
+[8.1.1. 整數型別](datatype-numeric.md#datatype-int)
 
-[8.1.2. 任意精度數值](datatype-numeric.md#DATATYPE-NUMERIC-DECIMAL)
+[8.1.2. 任意精度數值](datatype-numeric.md#datatype-numeric-decimal)
 
-[8.1.3. 浮點數型別](datatype-numeric.md#DATATYPE-FLOAT)
+[8.1.3. 浮點數型別](datatype-numeric.md#datatype-float)
 
-[8.1.4. Serial 型別](datatype-numeric.md#DATATYPE-SERIAL)
+[8.1.4. Serial 型別](datatype-numeric.md#datatype-serial)
 
 <a id="id-1.5.7.9.2"></a>
 
@@ -22,11 +22,11 @@
 
 <br>
 
-數值型別的常數語法說明於[第 4.1.2 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS)。數值型別具備一整套對應的算術運算子與函式。更多資訊請參閱[第 9 章](../functions/README.md)。以下各節會詳細說明這些型別。
+數值型別的常數語法說明於[第 4.1.2 節](../sql-syntax/sql-syntax-lexical.md#sql-syntax-constants)。數值型別具備一整套對應的算術運算子與函式。更多資訊請參閱[第 9 章](../functions/README.md)。以下各節會詳細說明這些型別。
 
 <a id="DATATYPE-INT"></a>
 
-### 8.1.1. 整數型別 [#](#DATATYPE-INT)
+### 8.1.1. 整數型別 [#](#datatype-int) <a href="#datatype-int" id="datatype-int"></a>
 
 <a id="id-1.5.7.9.6.2"></a><a id="id-1.5.7.9.6.3"></a><a id="id-1.5.7.9.6.4"></a><a id="id-1.5.7.9.6.5"></a><a id="id-1.5.7.9.6.6"></a><a id="id-1.5.7.9.6.7"></a>
 
@@ -38,7 +38,7 @@ SQL 只規定了 `integer`（或 `int`）、`smallint` 與 `bigint` 這幾種整
 
 <a id="DATATYPE-NUMERIC-DECIMAL"></a>
 
-### 8.1.2. 任意精度數值 [#](#DATATYPE-NUMERIC-DECIMAL)
+### 8.1.2. 任意精度數值 [#](#datatype-numeric-decimal) <a href="#datatype-numeric-decimal" id="datatype-numeric-decimal"></a>
 
 <a id="id-1.5.7.9.7.2"></a><a id="id-1.5.7.9.7.3"></a><a id="id-1.5.7.9.7.4"></a>
 
@@ -148,7 +148,7 @@ FROM generate_series(-3.5, 3.5, 1) as x;
 
 <a id="DATATYPE-FLOAT"></a>
 
-### 8.1.3. 浮點數型別 [#](#DATATYPE-FLOAT)
+### 8.1.3. 浮點數型別 [#](#datatype-float) <a href="#datatype-float" id="datatype-float"></a>
 
 <a id="id-1.5.7.9.8.2"></a><a id="id-1.5.7.9.8.3"></a><a id="id-1.5.7.9.8.4"></a><a id="id-1.5.7.9.8.5"></a><a id="id-1.5.7.9.8.6"></a>
 
@@ -195,7 +195,7 @@ PostgreSQL 也支援 SQL 標準的 `float` 與 `float(p)` 表示法來指定不�
 
 <a id="DATATYPE-SERIAL"></a>
 
-### 8.1.4. Serial 型別 [#](#DATATYPE-SERIAL)
+### 8.1.4. Serial 型別 [#](#datatype-serial) <a href="#datatype-serial" id="datatype-serial"></a>
 
 <a id="id-1.5.7.9.9.2"></a><a id="id-1.5.7.9.9.3"></a><a id="id-1.5.7.9.9.4"></a><a id="id-1.5.7.9.9.5"></a><a id="id-1.5.7.9.9.6"></a><a id="id-1.5.7.9.9.7"></a><a id="id-1.5.7.9.9.8"></a><a id="id-1.5.7.9.9.9"></a>
 

@@ -1,19 +1,19 @@
 <a id="DATATYPE-GEOMETRIC"></a>
 ## 8.8. 幾何型別 [#](#datatype-geometric) <a href="#datatype-geometric" id="datatype-geometric"></a>
 
-[8.8.1. 點](datatype-geometric.md#DATATYPE-GEOMETRIC-POINTS)
+[8.8.1. 點](datatype-geometric.md#datatype-geometric-points)
 
-[8.8.2. 直線](datatype-geometric.md#DATATYPE-LINE)
+[8.8.2. 直線](datatype-geometric.md#datatype-line)
 
-[8.8.3. 線段](datatype-geometric.md#DATATYPE-LSEG)
+[8.8.3. 線段](datatype-geometric.md#datatype-lseg)
 
-[8.8.4. 方框](datatype-geometric.md#DATATYPE-GEOMETRIC-BOXES)
+[8.8.4. 方框](datatype-geometric.md#datatype-geometric-boxes)
 
-[8.8.5. 路徑](datatype-geometric.md#DATATYPE-GEOMETRIC-PATHS)
+[8.8.5. 路徑](datatype-geometric.md#datatype-geometric-paths)
 
-[8.8.6. 多邊形](datatype-geometric.md#DATATYPE-POLYGON)
+[8.8.6. 多邊形](datatype-geometric.md#datatype-polygon)
 
-[8.8.7. 圓形](datatype-geometric.md#DATATYPE-CIRCLE)
+[8.8.7. 圓形](datatype-geometric.md#datatype-circle)
 
 幾何資料型別用來表示二維空間
 物件。[表 8.20](datatype-geometric.md#DATATYPE-GEO-TABLE) 顯示了 PostgreSQL 中可用的幾何
@@ -35,7 +35,7 @@
 
 <a id="DATATYPE-GEOMETRIC-POINTS"></a>
 
-### 8.8.1. 點 [#](#DATATYPE-GEOMETRIC-POINTS)
+### 8.8.1. 點 [#](#datatype-geometric-points) <a href="#datatype-geometric-points" id="datatype-geometric-points"></a>
 
 <a id="id-1.5.7.16.6.2"></a>
 
@@ -54,7 +54,7 @@
 
 <a id="DATATYPE-LINE"></a>
 
-### 8.8.2. 直線 [#](#DATATYPE-LINE)
+### 8.8.2. 直線 [#](#datatype-line) <a href="#datatype-line" id="datatype-line"></a>
 
 <a id="id-1.5.7.16.7.2"></a>
 
@@ -85,7 +85,7 @@
 
 <a id="DATATYPE-LSEG"></a>
 
-### 8.8.3. 線段 [#](#DATATYPE-LSEG)
+### 8.8.3. 線段 [#](#datatype-lseg) <a href="#datatype-lseg" id="datatype-lseg"></a>
 
 <a id="id-1.5.7.16.8.2"></a><a id="id-1.5.7.16.8.3"></a>
 
@@ -110,7 +110,7 @@
 
 <a id="DATATYPE-GEOMETRIC-BOXES"></a>
 
-### 8.8.4. 方框 [#](#DATATYPE-GEOMETRIC-BOXES)
+### 8.8.4. 方框 [#](#datatype-geometric-boxes) <a href="#datatype-geometric-boxes" id="datatype-geometric-boxes"></a>
 
 <a id="id-1.5.7.16.9.2"></a><a id="id-1.5.7.16.9.3"></a>
 
@@ -139,7 +139,7 @@
 
 <a id="DATATYPE-GEOMETRIC-PATHS"></a>
 
-### 8.8.5. 路徑 [#](#DATATYPE-GEOMETRIC-PATHS)
+### 8.8.5. 路徑 [#](#datatype-geometric-paths) <a href="#datatype-geometric-paths" id="datatype-geometric-paths"></a>
 
 <a id="id-1.5.7.16.10.2"></a>
 
@@ -169,7 +169,7 @@
 
 <a id="DATATYPE-POLYGON"></a>
 
-### 8.8.6. 多邊形 [#](#DATATYPE-POLYGON)
+### 8.8.6. 多邊形 [#](#datatype-polygon) <a href="#datatype-polygon" id="datatype-polygon"></a>
 
 <a id="id-1.5.7.16.11.2"></a>
 
@@ -198,7 +198,7 @@
 
 <a id="DATATYPE-CIRCLE"></a>
 
-### 8.8.7. 圓形 [#](#DATATYPE-CIRCLE)
+### 8.8.7. 圓形 [#](#datatype-circle) <a href="#datatype-circle" id="datatype-circle"></a>
 
 <a id="id-1.5.7.16.12.2"></a>
 

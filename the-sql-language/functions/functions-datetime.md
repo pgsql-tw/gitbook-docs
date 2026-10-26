@@ -2,17 +2,17 @@
 
 ## 9.9. 日期／時間函式與運算子 [#](#functions-datetime) <a href="#functions-datetime" id="functions-datetime"></a>
 
-[9.9.1. `EXTRACT`、`date_part`](functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT)
+[9.9.1. `EXTRACT`、`date_part`](functions-datetime.md#functions-datetime-extract)
 
-[9.9.2. `date_trunc`](functions-datetime.md#FUNCTIONS-DATETIME-TRUNC)
+[9.9.2. `date_trunc`](functions-datetime.md#functions-datetime-trunc)
 
-[9.9.3. `date_bin`](functions-datetime.md#FUNCTIONS-DATETIME-BIN)
+[9.9.3. `date_bin`](functions-datetime.md#functions-datetime-bin)
 
-[9.9.4. `AT TIME ZONE` 與 `AT LOCAL`](functions-datetime.md#FUNCTIONS-DATETIME-ZONECONVERT)
+[9.9.4. `AT TIME ZONE` 與 `AT LOCAL`](functions-datetime.md#functions-datetime-zoneconvert)
 
-[9.9.5. 目前日期／時間](functions-datetime.md#FUNCTIONS-DATETIME-CURRENT)
+[9.9.5. 目前日期／時間](functions-datetime.md#functions-datetime-current)
 
-[9.9.6. 延遲執行](functions-datetime.md#FUNCTIONS-DATETIME-DELAY)
+[9.9.6. 延遲執行](functions-datetime.md#functions-datetime-delay)
 
 [表 9.33](functions-datetime.md#FUNCTIONS-DATETIME-TABLE) 列出了可用於處理日期／時間值的函式，細節則在後續各小節中說明。[表 9.32](functions-datetime.md#OPERATORS-DATETIME-TABLE) 說明了基本算術運算子（`+`、`*` 等）的行為。關於格式化函式，請參閱[第 9.8 節](functions-formatting.md)。你應該熟悉[第 8.5 節](../datatype/datatype-datetime.md)中關於日期／時間資料型別的背景資訊。
 
@@ -251,7 +251,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         目前的日期與時間（在陳述式執行期間會改變）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（在陳述式執行期間會改變）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">clock_timestamp()</code>
@@ -262,7 +262,7 @@
          → <code class="returnvalue">date</code>
 </p>
 <p>
-         目前的日期；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_date</code>
@@ -273,7 +273,7 @@
          → <code class="returnvalue">time with time zone</code>
 </p>
 <p>
-         一天中的目前時間；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         一天中的目前時間；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_time</code>
@@ -283,7 +283,7 @@
          → <code class="returnvalue">time with time zone</code>
 </p>
 <p>
-         一天中的目前時間，精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         一天中的目前時間，精度有限；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_time(2)</code>
@@ -294,7 +294,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_timestamp</code>
@@ -304,7 +304,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         目前的日期與時間（目前交易的開始時間），精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前交易的開始時間），精度有限；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">current_timestamp(0)</code>
@@ -327,7 +327,7 @@
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         將輸入分箱到與指定原點對齊的指定時間間隔中；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-BIN">第 9.9.3 節</a>
+         將輸入分箱到與指定原點對齊的指定時間間隔中；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-bin">第 9.9.3 節</a>
 </p>
 <p>
 <code class="literal">date_bin('15 minutes', timestamp '2001-02-16 20:38:40', timestamp '2001-02-16 20:05:00')</code>
@@ -338,7 +338,7 @@
          → <code class="returnvalue">double precision</code>
 </p>
 <p>
-         取得時間戳記的子欄位（等同於 <code class="function">extract</code>）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
+         取得時間戳記的子欄位（等同於 <code class="function">extract</code>）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-extract">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">date_part('hour', timestamp '2001-02-16 20:38:40')</code>
@@ -348,7 +348,7 @@
          → <code class="returnvalue">double precision</code>
 </p>
 <p>
-         取得時間間隔的子欄位（等同於 <code class="function">extract</code>）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
+         取得時間間隔的子欄位（等同於 <code class="function">extract</code>）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-extract">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">date_part('month', interval '2 years 3 months')</code>
@@ -372,7 +372,7 @@
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">第 9.9.2 節</a>
+         截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-trunc">第 9.9.2 節</a>
 </p>
 <p>
 <code class="literal">date_trunc('hour', timestamp '2001-02-16 20:38:40')</code>
@@ -382,7 +382,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         在指定的時區中截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">第 9.9.2 節</a>
+         在指定的時區中截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-trunc">第 9.9.2 節</a>
 </p>
 <p>
 <code class="literal">date_trunc('day', timestamptz '2001-02-16 20:38:40+00', 'Australia/Sydney')</code>
@@ -392,7 +392,7 @@
          → <code class="returnvalue">interval</code>
 </p>
 <p>
-         截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TRUNC">第 9.9.2 節</a>
+         截斷到指定的精度；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-trunc">第 9.9.2 節</a>
 </p>
 <p>
 <code class="literal">date_trunc('hour', interval '2 days 3 hours 40 minutes')</code>
@@ -403,7 +403,7 @@
          → <code class="returnvalue">numeric</code>
 </p>
 <p>
-         取得時間戳記的子欄位；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
+         取得時間戳記的子欄位；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-extract">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">extract(hour from timestamp '2001-02-16 20:38:40')</code>
@@ -413,7 +413,7 @@
          → <code class="returnvalue">numeric</code>
 </p>
 <p>
-         取得時間間隔的子欄位；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT">第 9.9.1 節</a>
+         取得時間間隔的子欄位；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-extract">第 9.9.1 節</a>
 </p>
 <p>
 <code class="literal">extract(month from interval '2 years 3 months')</code>
@@ -488,7 +488,7 @@
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         一天中的目前時間；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         一天中的目前時間；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtime</code>
@@ -498,7 +498,7 @@
          → <code class="returnvalue">time</code>
 </p>
 <p>
-         一天中的目前時間，精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         一天中的目前時間，精度有限；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtime(0)</code>
@@ -509,7 +509,7 @@
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtimestamp</code>
@@ -519,7 +519,7 @@
          → <code class="returnvalue">timestamp</code>
 </p>
 <p>
-         目前的日期與時間（目前交易的開始時間），精度有限；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前交易的開始時間），精度有限；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">localtimestamp(2)</code>
@@ -610,7 +610,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">now()</code>
@@ -621,7 +621,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         目前的日期與時間（目前陳述式的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前陳述式的開始時間）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">statement_timestamp()</code>
@@ -632,7 +632,7 @@
          → <code class="returnvalue">text</code>
 </p>
 <p>
-         目前的日期與時間（類似 <code class="function">clock_timestamp</code>，但以 <code class="type">text</code> 字串表示）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（類似 <code class="function">clock_timestamp</code>，但以 <code class="type">text</code> 字串表示）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">timeofday()</code>
@@ -643,7 +643,7 @@
          → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-CURRENT">第 9.9.5 節</a>
+         目前的日期與時間（目前交易的開始時間）；請參閱<a class="xref" href="functions-datetime.md#functions-datetime-current">第 9.9.5 節</a>
 </p>
 <p>
 <code class="literal">transaction_timestamp()</code>
@@ -723,7 +723,7 @@ Result: 4 mons
 
 <a id="FUNCTIONS-DATETIME-EXTRACT"></a>
 
-### 9.9.1. `EXTRACT`、`date_part` [#](#FUNCTIONS-DATETIME-EXTRACT)
+### 9.9.1. `EXTRACT`、`date_part` [#](#functions-datetime-extract) <a href="#functions-datetime-extract" id="functions-datetime-extract"></a>
 
 <a id="id-1.5.8.15.13.2"></a><a id="id-1.5.8.15.13.3"></a>
 
@@ -1003,7 +1003,7 @@ Result: 4
 
 <a id="FUNCTIONS-DATETIME-TRUNC"></a>
 
-### 9.9.2. `date_trunc` [#](#FUNCTIONS-DATETIME-TRUNC)
+### 9.9.2. `date_trunc` [#](#functions-datetime-trunc) <a href="#functions-datetime-trunc" id="functions-datetime-trunc"></a>
 
 <a id="id-1.5.8.15.14.2"></a>
 
@@ -1020,7 +1020,7 @@ date_trunc(field, source [, time_zone ])
 
 <table border="0" class="simplelist" summary="Simple list"><tr><td><code class="literal">microseconds</code></td></tr><tr><td><code class="literal">milliseconds</code></td></tr><tr><td><code class="literal">second</code></td></tr><tr><td><code class="literal">minute</code></td></tr><tr><td><code class="literal">hour</code></td></tr><tr><td><code class="literal">day</code></td></tr><tr><td><code class="literal">week</code></td></tr><tr><td><code class="literal">month</code></td></tr><tr><td><code class="literal">quarter</code></td></tr><tr><td><code class="literal">year</code></td></tr><tr><td><code class="literal">decade</code></td></tr><tr><td><code class="literal">century</code></td></tr><tr><td><code class="literal">millennium</code></td></tr></table>
 
-當輸入值是 `timestamp with time zone` 型別時，截斷是相對於特定時區進行的；例如，截斷到 `day` 會產生該時區中午夜的值。預設情況下，截斷是相對於目前的 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定進行的，但可以提供選用的 *`time_zone`* 引數來指定不同的時區。時區名稱可以用[第 8.5.3 節](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)所述的任何方式指定。
+當輸入值是 `timestamp with time zone` 型別時，截斷是相對於特定時區進行的；例如，截斷到 `day` 會產生該時區中午夜的值。預設情況下，截斷是相對於目前的 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 設定進行的，但可以提供選用的 *`time_zone`* 引數來指定不同的時區。時區名稱可以用[第 8.5.3 節](../datatype/datatype-datetime.md#datatype-timezones)所述的任何方式指定。
 
 處理 `timestamp without time zone` 或 `interval` 輸入時，無法指定時區。這些輸入一律按其表面值處理。
 
@@ -1042,7 +1042,7 @@ Result: 3 days 02:00:00
 
 <a id="FUNCTIONS-DATETIME-BIN"></a>
 
-### 9.9.3. `date_bin` [#](#FUNCTIONS-DATETIME-BIN)
+### 9.9.3. `date_bin` [#](#functions-datetime-bin) <a href="#functions-datetime-bin" id="functions-datetime-bin"></a>
 
 <a id="id-1.5.8.15.15.2"></a>
 
@@ -1071,7 +1071,7 @@ Result: 2020-02-11 15:32:30
 
 <a id="FUNCTIONS-DATETIME-ZONECONVERT"></a>
 
-### 9.9.4. `AT TIME ZONE` 與 `AT LOCAL` [#](#FUNCTIONS-DATETIME-ZONECONVERT)
+### 9.9.4. `AT TIME ZONE` 與 `AT LOCAL` [#](#functions-datetime-zoneconvert) <a href="#functions-datetime-zoneconvert" id="functions-datetime-zoneconvert"></a>
 
 <a id="id-1.5.8.15.16.2"></a><a id="id-1.5.8.15.16.3"></a><a id="id-1.5.8.15.16.4"></a>
 
@@ -1156,7 +1156,7 @@ Result: 2020-02-11 15:32:30
 
 <br>
 
-在這些運算式中，所需的時區 *`zone`* 可以指定為文字值（例如 `'America/Los_Angeles'`），也可以指定為時間間隔（例如 `INTERVAL '-08:00'`）。在文字的情況下，時區名稱可以用[第 8.5.3 節](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)所述的任何方式指定。時間間隔的情況只對與 UTC 有固定位移的時區有用，因此在實務上不太常見。
+在這些運算式中，所需的時區 *`zone`* 可以指定為文字值（例如 `'America/Los_Angeles'`），也可以指定為時間間隔（例如 `INTERVAL '-08:00'`）。在文字的情況下，時區名稱可以用[第 8.5.3 節](../datatype/datatype-datetime.md#datatype-timezones)所述的任何方式指定。時間間隔的情況只對與 UTC 有固定位移的時區有用，因此在實務上不太常見。
 
 語法 `AT LOCAL` 可以用作 `AT TIME ZONE local` 的簡寫，其中 *`local`* 是工作階段的 `TimeZone` 值。
 
@@ -1178,7 +1178,7 @@ SELECT TIME WITH TIME ZONE '20:38:40-05' AT LOCAL;
 Result: 17:38:40
 ```
 
-第一個範例為缺少時區的值加上時區，並使用目前的 `TimeZone` 設定顯示該值。第二個範例將帶時區的時間戳記值轉換到指定的時區，並回傳不帶時區的值。這樣就可以儲存與顯示和目前 `TimeZone` 設定不同的值。第三個範例將東京時間轉換為芝加哥時間。第四個範例將帶時區的時間戳記值轉換到目前 `TimeZone` 設定所指定的時區，並回傳不帶時區的值。第五個範例示範了 POSIX 風格時區規格中的正負號，與 ISO-8601 日期時間字面值中的正負號意義相反，如[第 8.5.3 節](../datatype/datatype-datetime.md#DATATYPE-TIMEZONES)與[附錄 B](../../appendixes/datetime-appendix/README.md) 所述。
+第一個範例為缺少時區的值加上時區，並使用目前的 `TimeZone` 設定顯示該值。第二個範例將帶時區的時間戳記值轉換到指定的時區，並回傳不帶時區的值。這樣就可以儲存與顯示和目前 `TimeZone` 設定不同的值。第三個範例將東京時間轉換為芝加哥時間。第四個範例將帶時區的時間戳記值轉換到目前 `TimeZone` 設定所指定的時區，並回傳不帶時區的值。第五個範例示範了 POSIX 風格時區規格中的正負號，與 ISO-8601 日期時間字面值中的正負號意義相反，如[第 8.5.3 節](../datatype/datatype-datetime.md#datatype-timezones)與[附錄 B](../../appendixes/datetime-appendix/README.md) 所述。
 
 第六個範例是一個警世故事。由於輸入值沒有相關聯的日期，轉換會使用工作階段的目前日期進行。因此，這個靜態範例可能會依照查看時是一年中的哪個時候而顯示錯誤的結果，因為 `'America/Los_Angeles'` 實施日光節約時間。
 
@@ -1192,7 +1192,7 @@ Result: 17:38:40
 
 <a id="FUNCTIONS-DATETIME-CURRENT"></a>
 
-### 9.9.5. 目前日期／時間 [#](#FUNCTIONS-DATETIME-CURRENT)
+### 9.9.5. 目前日期／時間 [#](#functions-datetime-current) <a href="#functions-datetime-current" id="functions-datetime-current"></a>
 
 <a id="id-1.5.8.15.17.2"></a><a id="id-1.5.8.15.17.3"></a>
 
@@ -1265,7 +1265,7 @@ SELECT TIMESTAMP 'now';  -- but see tip below
 
 <a id="FUNCTIONS-DATETIME-DELAY"></a>
 
-### 9.9.6. 延遲執行 [#](#FUNCTIONS-DATETIME-DELAY)
+### 9.9.6. 延遲執行 [#](#functions-datetime-delay) <a href="#functions-datetime-delay" id="functions-datetime-delay"></a>
 
 <a id="id-1.5.8.15.18.2"></a><a id="id-1.5.8.15.18.3"></a><a id="id-1.5.8.15.18.4"></a><a id="id-1.5.8.15.18.5"></a><a id="id-1.5.8.15.18.6"></a>
 

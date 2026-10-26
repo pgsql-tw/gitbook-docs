@@ -2,35 +2,35 @@
 
 ## 9.27. 系統資訊函式與運算子 [#](#functions-info) <a href="#functions-info" id="functions-info"></a>
 
-[9.27.1. 工作階段資訊函式](functions-info.md#FUNCTIONS-INFO-SESSION)
+[9.27.1. 工作階段資訊函式](functions-info.md#functions-info-session)
 
-[9.27.2. 存取權限查詢函式](functions-info.md#FUNCTIONS-INFO-ACCESS)
+[9.27.2. 存取權限查詢函式](functions-info.md#functions-info-access)
 
-[9.27.3. 綱要可見性查詢函式](functions-info.md#FUNCTIONS-INFO-SCHEMA)
+[9.27.3. 綱要可見性查詢函式](functions-info.md#functions-info-schema)
 
-[9.27.4. 系統目錄資訊函式](functions-info.md#FUNCTIONS-INFO-CATALOG)
+[9.27.4. 系統目錄資訊函式](functions-info.md#functions-info-catalog)
 
-[9.27.5. 物件資訊與定址函式](functions-info.md#FUNCTIONS-INFO-OBJECT)
+[9.27.5. 物件資訊與定址函式](functions-info.md#functions-info-object)
 
-[9.27.6. 註解資訊函式](functions-info.md#FUNCTIONS-INFO-COMMENT)
+[9.27.6. 註解資訊函式](functions-info.md#functions-info-comment)
 
-[9.27.7. 資料有效性檢查函式](functions-info.md#FUNCTIONS-INFO-VALIDITY)
+[9.27.7. 資料有效性檢查函式](functions-info.md#functions-info-validity)
 
-[9.27.8. 交易 ID 與快照資訊函式](functions-info.md#FUNCTIONS-INFO-SNAPSHOT)
+[9.27.8. 交易 ID 與快照資訊函式](functions-info.md#functions-info-snapshot)
 
-[9.27.9. 已提交交易資訊函式](functions-info.md#FUNCTIONS-INFO-COMMIT-TIMESTAMP)
+[9.27.9. 已提交交易資訊函式](functions-info.md#functions-info-commit-timestamp)
 
-[9.27.10. 控制資料函式](functions-info.md#FUNCTIONS-INFO-CONTROLDATA)
+[9.27.10. 控制資料函式](functions-info.md#functions-info-controldata)
 
-[9.27.11. 版本資訊函式](functions-info.md#FUNCTIONS-INFO-VERSION)
+[9.27.11. 版本資訊函式](functions-info.md#functions-info-version)
 
-[9.27.12. WAL 摘要資訊函式](functions-info.md#FUNCTIONS-INFO-WAL-SUMMARY)
+[9.27.12. WAL 摘要資訊函式](functions-info.md#functions-info-wal-summary)
 
 本節所描述的函式用於取得 PostgreSQL 安裝環境的各種資訊。
 
 <a id="FUNCTIONS-INFO-SESSION"></a>
 
-### 9.27.1. 工作階段資訊函式 [#](#FUNCTIONS-INFO-SESSION)
+### 9.27.1. 工作階段資訊函式 [#](#functions-info-session) <a href="#functions-info-session" id="functions-info-session"></a>
 
 [表 9.71](functions-info.md#FUNCTIONS-INFO-SESSION-TABLE) 列出了幾個擷取工作階段與系統資訊的函式。
 
@@ -235,7 +235,7 @@
         回傳一個陣列，內容為阻擋指定程序 ID 之伺服器程序取得安全快照的那些工作階段的程序 ID；如果沒有這樣的伺服器程序，或者它並未被阻擋，則回傳空陣列。
        </p>
 <p>
-        執行 <code class="literal">SERIALIZABLE</code> 交易的工作階段，會阻擋 <code class="literal">SERIALIZABLE READ ONLY DEFERRABLE</code> 交易取得快照，直到後者判定可以安全地避免取得任何述詞鎖為止。關於可序列化與可延後交易的更多資訊，請參閱<a class="xref" href="../mvcc/transaction-iso.md#XACT-SERIALIZABLE">第 13.2.3 節</a>。
+        執行 <code class="literal">SERIALIZABLE</code> 交易的工作階段，會阻擋 <code class="literal">SERIALIZABLE READ ONLY DEFERRABLE</code> 交易取得快照，直到後者判定可以安全地避免取得任何述詞鎖為止。關於可序列化與可延後交易的更多資訊，請參閱<a class="xref" href="../mvcc/transaction-iso.md#xact-serializable">第 13.2.3 節</a>。
        </p>
 <p>
         頻繁呼叫這個函式可能會對資料庫效能造成一些影響，因為它需要短暫地存取述詞鎖管理器的共享狀態。
@@ -279,7 +279,7 @@
 
 <a id="FUNCTIONS-INFO-ACCESS"></a>
 
-### 9.27.2. 存取權限查詢函式 [#](#FUNCTIONS-INFO-ACCESS)
+### 9.27.2. 存取權限查詢函式 [#](#functions-info-access) <a href="#functions-info-access" id="functions-info-access"></a>
 
 <a id="id-1.5.8.33.4.2"></a>
 
@@ -552,7 +552,7 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
 
 <a id="FUNCTIONS-INFO-SCHEMA"></a>
 
-### 9.27.3. 綱要可見性查詢函式 [#](#FUNCTIONS-INFO-SCHEMA)
+### 9.27.3. 綱要可見性查詢函式 [#](#functions-info-schema) <a href="#functions-info-schema" id="functions-info-schema"></a>
 
 [表 9.75](functions-info.md#FUNCTIONS-INFO-SCHEMA-TABLE) 列出了用來判斷某個物件在目前的綱要搜尋路徑中是否*可見*的函式。舉例來說，如果一個資料表所屬的綱要位於搜尋路徑中，並且搜尋路徑中較前面的位置沒有同名的資料表，就稱該資料表是可見的。這等同於說，該資料表可以只用名稱來引用，而不需明確的綱要限定。因此，要列出所有可見資料表的名稱：
 
@@ -678,7 +678,7 @@ SELECT pg_type_is_visible('myschema.widget'::regtype);
 
 <a id="FUNCTIONS-INFO-CATALOG"></a>
 
-### 9.27.4. 系統目錄資訊函式 [#](#FUNCTIONS-INFO-CATALOG)
+### 9.27.4. 系統目錄資訊函式 [#](#functions-info-catalog) <a href="#functions-info-catalog" id="functions-info-catalog"></a>
 
 [表 9.76](functions-info.md#FUNCTIONS-INFO-CATALOG-TABLE) 列出了從系統目錄擷取資訊的函式。
 
@@ -1088,7 +1088,7 @@ SELECT currval(pg_get_serial_sequence('sometable', 'id'));
 
 <a id="FUNCTIONS-INFO-OBJECT"></a>
 
-### 9.27.5. 物件資訊與定址函式 [#](#FUNCTIONS-INFO-OBJECT)
+### 9.27.5. 物件資訊與定址函式 [#](#functions-info-object) <a href="#functions-info-object" id="functions-info-object"></a>
 
 [表 9.81](functions-info.md#FUNCTIONS-INFO-OBJECT-TABLE) 列出了與資料庫物件識別及定址相關的函式。
 
@@ -1175,7 +1175,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-COMMENT"></a>
 
-### 9.27.6. 註解資訊函式 [#](#FUNCTIONS-INFO-COMMENT)
+### 9.27.6. 註解資訊函式 [#](#functions-info-comment) <a href="#functions-info-comment" id="functions-info-comment"></a>
 
 <a id="id-1.5.8.33.8.2"></a>
 
@@ -1223,7 +1223,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-VALIDITY"></a>
 
-### 9.27.7. 資料有效性檢查函式 [#](#FUNCTIONS-INFO-VALIDITY)
+### 9.27.7. 資料有效性檢查函式 [#](#functions-info-validity) <a href="#functions-info-validity" id="functions-info-validity"></a>
 
 [表 9.83](functions-info.md#FUNCTIONS-INFO-VALIDITY-TABLE) 所列的函式有助於檢查擬輸入資料的有效性。
 
@@ -1296,7 +1296,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-SNAPSHOT"></a>
 
-### 9.27.8. 交易 ID 與快照資訊函式 [#](#FUNCTIONS-INFO-SNAPSHOT)
+### 9.27.8. 交易 ID 與快照資訊函式 [#](#functions-info-snapshot) <a href="#functions-info-snapshot" id="functions-info-snapshot"></a>
 
 [表 9.84](functions-info.md#FUNCTIONS-PG-SNAPSHOT) 所列的函式以可匯出的形式提供伺服器的交易資訊。這些函式的主要用途是判斷在兩個快照之間有哪些交易已經提交。
 
@@ -1388,7 +1388,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
         <em class="parameter"><code>mode</code></em> <code class="type">text</code> )
        </p>
 <p>
-        回傳指定 multixact ID 之每個成員的交易 ID 與鎖模式。鎖模式 <code class="literal">forupd</code>、<code class="literal">fornokeyupd</code>、<code class="literal">sh</code> 與 <code class="literal">keysh</code> 分別對應於資料列層級鎖 <code class="literal">FOR UPDATE</code>、<code class="literal">FOR NO KEY UPDATE</code>、<code class="literal">FOR SHARE</code> 與 <code class="literal">FOR KEY SHARE</code>，如<a class="xref" href="../mvcc/explicit-locking.md#LOCKING-ROWS">第 13.3.2 節</a>所述。另外還有兩種 multixact 專用的模式：<code class="literal">nokeyupd</code>，用於未修改鍵欄位的更新；以及 <code class="literal">upd</code>，用於會修改鍵欄位的更新或刪除。
+        回傳指定 multixact ID 之每個成員的交易 ID 與鎖模式。鎖模式 <code class="literal">forupd</code>、<code class="literal">fornokeyupd</code>、<code class="literal">sh</code> 與 <code class="literal">keysh</code> 分別對應於資料列層級鎖 <code class="literal">FOR UPDATE</code>、<code class="literal">FOR NO KEY UPDATE</code>、<code class="literal">FOR SHARE</code> 與 <code class="literal">FOR KEY SHARE</code>，如<a class="xref" href="../mvcc/explicit-locking.md#locking-rows">第 13.3.2 節</a>所述。另外還有兩種 multixact 專用的模式：<code class="literal">nokeyupd</code>，用於未修改鍵欄位的更新；以及 <code class="literal">upd</code>，用於會修改鍵欄位的更新或刪除。
        </p></td></tr></tbody></table>
 
 <br>
@@ -1482,7 +1482,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-COMMIT-TIMESTAMP"></a>
 
-### 9.27.9. 已提交交易資訊函式 [#](#FUNCTIONS-INFO-COMMIT-TIMESTAMP)
+### 9.27.9. 已提交交易資訊函式 [#](#functions-info-commit-timestamp) <a href="#functions-info-commit-timestamp" id="functions-info-commit-timestamp"></a>
 
 [表 9.87](functions-info.md#FUNCTIONS-COMMIT-TIMESTAMP) 所列的函式提供過去的交易是在何時提交的資訊。只有在啟用了 [track_commit_timestamp](../../server-administration/runtime-config/runtime-config-replication.md#GUC-TRACK-COMMIT-TIMESTAMP) 組態選項時，它們才會提供有用的資料，而且只適用於啟用該選項之後才提交的交易。提交時間戳記資訊會在 vacuum 期間例行性地移除。
 
@@ -1527,7 +1527,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-CONTROLDATA"></a>
 
-### 9.27.10. 控制資料函式 [#](#FUNCTIONS-INFO-CONTROLDATA)
+### 9.27.10. 控制資料函式 [#](#functions-info-controldata) <a href="#functions-info-controldata" id="functions-info-controldata"></a>
 
 [表 9.88](functions-info.md#FUNCTIONS-CONTROLDATA) 所列的函式會輸出在 `initdb` 期間初始化的資訊，例如系統目錄版本。它們也會顯示關於預寫式日誌（write-ahead logging）與檢查點處理的資訊。這些資訊是整個叢集共通的，並非專屬於任何一個資料庫。這些函式所提供的資訊，大多與 [pg_controldata](../../reference/reference-server/app-pgcontroldata.md) 應用程式相同，且來源也相同。
 
@@ -1598,7 +1598,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-VERSION"></a>
 
-### 9.27.11. 版本資訊函式 [#](#FUNCTIONS-INFO-VERSION)
+### 9.27.11. 版本資訊函式 [#](#functions-info-version) <a href="#functions-info-version" id="functions-info-version"></a>
 
 [表 9.93](functions-info.md#FUNCTIONS-VERSION) 所列的函式會輸出版本資訊。
 
@@ -1637,7 +1637,7 @@ acl      | {postgres=arwdDxtm/postgres,foo=r/postgres}
 
 <a id="FUNCTIONS-INFO-WAL-SUMMARY"></a>
 
-### 9.27.12. WAL 摘要資訊函式 [#](#FUNCTIONS-INFO-WAL-SUMMARY)
+### 9.27.12. WAL 摘要資訊函式 [#](#functions-info-wal-summary) <a href="#functions-info-wal-summary" id="functions-info-wal-summary"></a>
 
 [表 9.94](functions-info.md#FUNCTIONS-WAL-SUMMARY) 所列的函式會輸出 WAL 摘要的狀態資訊。請參閱 [summarize_wal](../../server-administration/runtime-config/runtime-config-wal.md#GUC-SUMMARIZE-WAL)。
 

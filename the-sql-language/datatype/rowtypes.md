@@ -2,17 +2,17 @@
 
 ## 8.16. 複合型別 [#](#rowtypes) <a href="#rowtypes" id="rowtypes"></a>
 
-[8.16.1. 複合型別的宣告](rowtypes.md#ROWTYPES-DECLARING)
+[8.16.1. 複合型別的宣告](rowtypes.md#rowtypes-declaring)
 
-[8.16.2. 建構複合值](rowtypes.md#ROWTYPES-CONSTRUCTING)
+[8.16.2. 建構複合值](rowtypes.md#rowtypes-constructing)
 
-[8.16.3. 存取複合型別](rowtypes.md#ROWTYPES-ACCESSING)
+[8.16.3. 存取複合型別](rowtypes.md#rowtypes-accessing)
 
-[8.16.4. 修改複合型別](rowtypes.md#ROWTYPES-MODIFYING)
+[8.16.4. 修改複合型別](rowtypes.md#rowtypes-modifying)
 
-[8.16.5. 在查詢中使用複合型別](rowtypes.md#ROWTYPES-USAGE)
+[8.16.5. 在查詢中使用複合型別](rowtypes.md#rowtypes-usage)
 
-[8.16.6. 複合型別的輸入與輸出語法](rowtypes.md#ROWTYPES-IO-SYNTAX)
+[8.16.6. 複合型別的輸入與輸出語法](rowtypes.md#rowtypes-io-syntax)
 
 <a id="id-1.5.7.24.2"></a><a id="id-1.5.7.24.3"></a>
 
@@ -20,7 +20,7 @@
 
 <a id="ROWTYPES-DECLARING"></a>
 
-### 8.16.1. 複合型別的宣告 [#](#ROWTYPES-DECLARING)
+### 8.16.1. 複合型別的宣告 [#](#rowtypes-declaring) <a href="#rowtypes-declaring" id="rowtypes-declaring"></a>
 
 以下是兩個定義複合型別的簡單例子：
 
@@ -77,11 +77,11 @@ CREATE TABLE inventory_item (
 
 <a id="ROWTYPES-CONSTRUCTING"></a>
 
-### 8.16.2. 建構複合值 [#](#ROWTYPES-CONSTRUCTING)
+### 8.16.2. 建構複合值 [#](#rowtypes-constructing) <a href="#rowtypes-constructing" id="rowtypes-constructing"></a>
 
 <a id="id-1.5.7.24.6.2"></a>
 
-若要將複合值寫成字面常數，請將各欄位的值用小括號括起來，並以逗號分隔。你可以在任何欄位值前後加上雙引號，而且如果該值含有逗號或小括號，就必須這麼做。（更多細節請見[下文](rowtypes.md#ROWTYPES-IO-SYNTAX)。）因此，複合常數的一般格式如下：
+若要將複合值寫成字面常數，請將各欄位的值用小括號括起來，並以逗號分隔。你可以在任何欄位值前後加上雙引號，而且如果該值含有逗號或小括號，就必須這麼做。（更多細節請見[下文](rowtypes.md#rowtypes-io-syntax)。）因此，複合常數的一般格式如下：
 
 ```
 
@@ -129,11 +129,11 @@ ROW('', 42, NULL)
 ('', 42, NULL)
 ```
 
-`ROW` 運算式語法在[第 4.2.13 節](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)中有更詳細的討論。
+`ROW` 運算式語法在[第 4.2.13 節](../sql-syntax/sql-expressions.md#sql-syntax-row-constructors)中有更詳細的討論。
 
 <a id="ROWTYPES-ACCESSING"></a>
 
-### 8.16.3. 存取複合型別 [#](#ROWTYPES-ACCESSING)
+### 8.16.3. 存取複合型別 [#](#rowtypes-accessing) <a href="#rowtypes-accessing" id="rowtypes-accessing"></a>
 
 若要存取複合欄位中的某個欄位，就寫上一個點再加上欄位名稱，很像是從資料表名稱中選取欄位。事實上，它實在太像從資料表名稱選取欄位了，以致於你常常必須使用小括號以免讓剖析器混淆。例如，你可能會像這樣試著從我們的 `on_hand` 範例資料表中選取一些子欄位：
 
@@ -167,11 +167,11 @@ SELECT (my_func(...)).field FROM ...
 
 少了額外的小括號，這會產生語法錯誤。
 
-特殊的欄位名稱 `*` 代表「所有欄位」，[第 8.16.5 節](rowtypes.md#ROWTYPES-USAGE)有進一步的說明。
+特殊的欄位名稱 `*` 代表「所有欄位」，[第 8.16.5 節](rowtypes.md#rowtypes-usage)有進一步的說明。
 
 <a id="ROWTYPES-MODIFYING"></a>
 
-### 8.16.4. 修改複合型別 [#](#ROWTYPES-MODIFYING)
+### 8.16.4. 修改複合型別 [#](#rowtypes-modifying) <a href="#rowtypes-modifying" id="rowtypes-modifying"></a>
 
 以下是一些新增與更新複合欄位之正確語法的例子。首先是新增或更新整個欄位：
 
@@ -204,11 +204,11 @@ INSERT INTO mytab (complex_col.r, complex_col.i) VALUES(1.1, 2.2);
 
 <a id="ROWTYPES-USAGE"></a>
 
-### 8.16.5. 在查詢中使用複合型別 [#](#ROWTYPES-USAGE)
+### 8.16.5. 在查詢中使用複合型別 [#](#rowtypes-usage) <a href="#rowtypes-usage" id="rowtypes-usage"></a>
 
 在查詢中使用複合型別時，有各種特殊的語法規則與行為。這些規則提供了好用的捷徑，但如果你不了解背後的邏輯，可能會覺得困惑。
 
-在 PostgreSQL 中，查詢裡對資料表名稱（或別名）的參照，實際上就是對該資料表目前這筆資料列之複合值的參照。例如，如果我們有一個如[前面](rowtypes.md#ROWTYPES-DECLARING)所示的 `inventory_item` 資料表，我們可以寫成：
+在 PostgreSQL 中，查詢裡對資料表名稱（或別名）的參照，實際上就是對該資料表目前這筆資料列之複合值的參照。例如，如果我們有一個如[前面](rowtypes.md#rowtypes-declaring)所示的 `inventory_item` 資料表，我們可以寫成：
 
 ```
 
@@ -227,7 +227,7 @@ SELECT c FROM inventory_item c;
 
 不過請注意，簡單名稱會先與欄位名稱比對，之後才與資料表名稱比對，所以這個例子之所以行得通，只是因為查詢所用的資料表中沒有名為 `c` 的欄位。
 
-一般的限定欄位名稱語法 *`table_name`*`.`*`column_name`* 可以理解為對該資料表目前這筆資料列的複合值套用[欄位選取](../sql-syntax/sql-expressions.md#FIELD-SELECTION)。（基於效率的考量，實際上並不是這樣實作的。）
+一般的限定欄位名稱語法 *`table_name`*`.`*`column_name`* 可以理解為對該資料表目前這筆資料列的複合值套用[欄位選取](../sql-syntax/sql-expressions.md#field-selection)。（基於效率的考量，實際上並不是這樣實作的。）
 
 當我們寫下
 
@@ -253,7 +253,7 @@ SELECT c.* FROM inventory_item c;
 SELECT c.name, c.supplier_id, c.price FROM inventory_item c;
 ```
 
-PostgreSQL 會把這種展開行為套用到任何複合值運算式上，不過如同[前面](rowtypes.md#ROWTYPES-ACCESSING)所示，只要 `.*` 所套用的對象不是單純的資料表名稱，你就必須在該值前後加上小括號。例如，如果 `myfunc()` 是一個回傳複合型別、且該型別有 `a`、`b` 與 `c` 三個欄位的函式，那麼這兩個查詢會有相同的結果：
+PostgreSQL 會把這種展開行為套用到任何複合值運算式上，不過如同[前面](rowtypes.md#rowtypes-accessing)所示，只要 `.*` 所套用的對象不是單純的資料表名稱，你就必須在該值前後加上小括號。例如，如果 `myfunc()` 是一個回傳複合型別、且該型別有 `a`、`b` 與 `c` 三個欄位的函式，那麼這兩個查詢會有相同的結果：
 
 ```
 
@@ -272,7 +272,7 @@ SELECT m.* FROM some_table, LATERAL myfunc(x) AS m;
 
 把函式放進 `LATERAL` 的 `FROM` 項目中，可以避免它在每筆資料列被呼叫超過一次。`m.*` 仍然會被展開成 `m.a, m.b, m.c`，但現在這些變數只是對該 `FROM` 項目輸出的參照而已。（這裡的 `LATERAL` 關鍵字是選用的，但我們把它寫出來，以釐清該函式是從 `some_table` 取得 `x` 的。）
 
-當 *`composite_value`*`.*` 語法出現在 [`SELECT` 輸出清單](../queries/queries-select-lists.md)、`INSERT`／`UPDATE`／`DELETE`／`MERGE` 的 [`RETURNING` 清單](../dml/dml-returning.md)、[`VALUES` 子句](../queries/queries-values.md)或[資料列建構子](../sql-syntax/sql-expressions.md#SQL-SYNTAX-ROW-CONSTRUCTORS)的最上層時，就會造成這種欄位展開。在其他所有情境中（包括巢狀出現在上述結構之內時），在複合值後面加上 `.*` 並不會改變該值，因為它的意思是「所有欄位」，因此產生出來的還是同一個複合值。例如，如果 `somefunc()` 接受一個複合值引數，下列這些查詢是相同的：
+當 *`composite_value`*`.*` 語法出現在 [`SELECT` 輸出清單](../queries/queries-select-lists.md)、`INSERT`／`UPDATE`／`DELETE`／`MERGE` 的 [`RETURNING` 清單](../dml/dml-returning.md)、[`VALUES` 子句](../queries/queries-values.md)或[資料列建構子](../sql-syntax/sql-expressions.md#sql-syntax-row-constructors)的最上層時，就會造成這種欄位展開。在其他所有情境中（包括巢狀出現在上述結構之內時），在複合值後面加上 `.*` 並不會改變該值，因為它的意思是「所有欄位」，因此產生出來的還是同一個複合值。例如，如果 `somefunc()` 接受一個複合值引數，下列這些查詢是相同的：
 
 ```
 
@@ -291,7 +291,7 @@ SELECT * FROM inventory_item c ORDER BY c.*;
 SELECT * FROM inventory_item c ORDER BY ROW(c.*);
 ```
 
-所有這些 `ORDER BY` 子句指定的都是資料列的複合值，因此會依照[第 9.25.6 節](../functions/functions-comparisons.md#COMPOSITE-TYPE-COMPARISON)所述的規則來排序資料列。不過，如果 `inventory_item` 含有一個名為 `c` 的欄位，第一種情況就會與其他幾種不同，因為它會變成只依該欄位排序。就前面所列出的欄位名稱而言，下列這些查詢也與上面那些等價：
+所有這些 `ORDER BY` 子句指定的都是資料列的複合值，因此會依照[第 9.25.6 節](../functions/functions-comparisons.md#composite-type-comparison)所述的規則來排序資料列。不過，如果 `inventory_item` 含有一個名為 `c` 的欄位，第一種情況就會與其他幾種不同，因為它會變成只依該欄位排序。就前面所列出的欄位名稱而言，下列這些查詢也與上面那些等價：
 
 ```
 
@@ -329,7 +329,7 @@ SELECT c.somefunc FROM inventory_item c;
 
 <a id="ROWTYPES-IO-SYNTAX"></a>
 
-### 8.16.6. 複合型別的輸入與輸出語法 [#](#ROWTYPES-IO-SYNTAX)
+### 8.16.6. 複合型別的輸入與輸出語法 [#](#rowtypes-io-syntax) <a href="#rowtypes-io-syntax" id="rowtypes-io-syntax"></a>
 
 複合值的外部文字表示法，是由一些項目所組成，這些項目會依照各個欄位型別的 I/O 轉換規則來解讀，再加上用來標示複合結構的修飾符號。這些修飾符號包括圍繞在整個值前後的小括號（`(` 與 `)`），以及相鄰項目之間的逗號（`,`）。小括號之外的空白字元會被忽略，但小括號之內的空白字元會被視為欄位值的一部分，而且依照該欄位資料型別的輸入轉換規則，它可能有意義也可能沒有意義。例如在：
 

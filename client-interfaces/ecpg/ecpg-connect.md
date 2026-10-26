@@ -71,7 +71,7 @@ EXEC SQL CONNECT TO :target USER :user USING :passwd;
 
 請注意，SQL 標準並未規範連線目標的格式。因此，若你想要開發可攜的應用程式，可能會想以類似上面最後一個範例的方式，把連線目標字串封裝在某個地方。
 
-若不受信任的使用者可以存取尚未採用[安全的綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)的資料庫，請在每個工作階段開始時，從 `search_path` 中移除可供公開寫入的綱要。例如，在 `options` 中加入 `options=-c search_path=`，或在連線後發出 `EXEC SQL SELECT pg_catalog.set_config('search_path', '',
+若不受信任的使用者可以存取尚未採用[安全的綱要使用模式](../../the-sql-language/ddl/ddl-schemas.md#ddl-schemas-patterns)的資料庫，請在每個工作階段開始時，從 `search_path` 中移除可供公開寫入的綱要。例如，在 `options` 中加入 `options=-c search_path=`，或在連線後發出 `EXEC SQL SELECT pg_catalog.set_config('search_path', '',
 false);`。這項考量並非 ECPG 所特有；它適用於所有可執行任意 SQL 命令的介面。
 
 <a id="ECPG-SET-CONNECTION"></a>

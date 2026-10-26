@@ -2,21 +2,21 @@
 
 ## 12.4. 其他功能 [#](#textsearch-features) <a href="#textsearch-features" id="textsearch-features"></a>
 
-[12.4.1. 操作文件](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)
+[12.4.1. 操作文件](textsearch-features.md#textsearch-manipulate-tsvector)
 
-[12.4.2. 操作查詢](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSQUERY)
+[12.4.2. 操作查詢](textsearch-features.md#textsearch-manipulate-tsquery)
 
-[12.4.3. 自動更新用的觸發程序](textsearch-features.md#TEXTSEARCH-UPDATE-TRIGGERS)
+[12.4.3. 自動更新用的觸發程序](textsearch-features.md#textsearch-update-triggers)
 
-[12.4.4. 收集文件統計資訊](textsearch-features.md#TEXTSEARCH-STATISTICS)
+[12.4.4. 收集文件統計資訊](textsearch-features.md#textsearch-statistics)
 
 本節說明在文字搜尋中很有用的其他函式與運算子。
 
 <a id="TEXTSEARCH-MANIPULATE-TSVECTOR"></a>
 
-### 12.4.1. 操作文件 [#](#TEXTSEARCH-MANIPULATE-TSVECTOR)
+### 12.4.1. 操作文件 [#](#textsearch-manipulate-tsvector) <a href="#textsearch-manipulate-tsvector" id="textsearch-manipulate-tsvector"></a>
 
-[第 12.3.1 節](textsearch-controls.md#TEXTSEARCH-PARSING-DOCUMENTS)說明了如何將原始的文字文件轉換為 `tsvector` 值。PostgreSQL 也提供了一些函式與運算子，可用來操作已經是 `tsvector` 形式的文件。
+[第 12.3.1 節](textsearch-controls.md#textsearch-parsing-documents)說明了如何將原始的文字文件轉換為 `tsvector` 值。PostgreSQL 也提供了一些函式與運算子，可用來操作已經是 `tsvector` 形式的文件。
 
 <a id="id-1.5.11.7.3.3.1.1.1"></a> `tsvector || tsvector`
 :   `tsvector` 串接運算子會回傳一個向量，合併作為參數的兩個向量的詞素與位置資訊。串接時會保留位置與權重標籤。右側向量中出現的位置，會加上左側向量中最大的位置作為位移，因此結果幾乎等同於將兩份原始文件字串串接後再執行 `to_tsvector` 的結果。（這種等價並不完全精確，因為從左側參數結尾移除的停用詞不會影響結果；但如果使用文字串接，這些停用詞就會影響右側參數中詞素的位置。）
@@ -38,9 +38,9 @@
 
 <a id="TEXTSEARCH-MANIPULATE-TSQUERY"></a>
 
-### 12.4.2. 操作查詢 [#](#TEXTSEARCH-MANIPULATE-TSQUERY)
+### 12.4.2. 操作查詢 [#](#textsearch-manipulate-tsquery) <a href="#textsearch-manipulate-tsquery" id="textsearch-manipulate-tsquery"></a>
 
-[第 12.3.2 節](textsearch-controls.md#TEXTSEARCH-PARSING-QUERIES)說明了如何將原始的文字查詢轉換為 `tsquery` 值。PostgreSQL 也提供了一些函式與運算子，可用來操作已經是 `tsquery` 形式的查詢。
+[第 12.3.2 節](textsearch-controls.md#textsearch-parsing-queries)說明了如何將原始的文字查詢轉換為 `tsquery` 值。PostgreSQL 也提供了一些函式與運算子，可用來操作已經是 `tsquery` 形式的查詢。
 
 `tsquery && tsquery`
 :   回傳兩個給定查詢的 AND 組合。
@@ -112,7 +112,7 @@
 
 <a id="id-1.5.11.7.4.4.2"></a>
 
-`ts_rewrite` 系列函式會在給定的 `tsquery` 中搜尋目標子查詢出現的位置，並將每次出現的位置替換為替代子查詢。本質上，這項運算就是 `tsquery` 專用的子字串替換。目標與替代的組合可以視為一條*查詢改寫規則*（query rewrite rule）。這類改寫規則的集合可以成為強大的搜尋輔助工具。例如，你可以使用同義詞擴大搜尋範圍（例如 `new york`、`big apple`、`nyc`、`gotham`），或縮小搜尋範圍，將使用者引導到某個熱門主題。這項功能與同義詞庫字典（[第 12.6.4 節](textsearch-dictionaries.md#TEXTSEARCH-THESAURUS)）在功能上有些重疊。不過，你可以隨時修改一組改寫規則而不需要重建索引，而更新同義詞庫則需要重建索引才會生效。
+`ts_rewrite` 系列函式會在給定的 `tsquery` 中搜尋目標子查詢出現的位置，並將每次出現的位置替換為替代子查詢。本質上，這項運算就是 `tsquery` 專用的子字串替換。目標與替代的組合可以視為一條*查詢改寫規則*（query rewrite rule）。這類改寫規則的集合可以成為強大的搜尋輔助工具。例如，你可以使用同義詞擴大搜尋範圍（例如 `new york`、`big apple`、`nyc`、`gotham`），或縮小搜尋範圍，將使用者引導到某個熱門主題。這項功能與同義詞庫字典（[第 12.6.4 節](textsearch-dictionaries.md#textsearch-thesaurus)）在功能上有些重疊。不過，你可以隨時修改一組改寫規則而不需要重建索引，而更新同義詞庫則需要重建索引才會生效。
 
 `ts_rewrite (query tsquery, target tsquery, substitute tsquery) returns tsquery`
 :   這種形式的 `ts_rewrite` 只會套用單一條改寫規則：只要 *`query`* 中出現 *`target`*，就將它替換為 *`substitute`*。例如：
@@ -181,13 +181,13 @@ SELECT ts_rewrite('a & b'::tsquery,
 
 <a id="TEXTSEARCH-UPDATE-TRIGGERS"></a>
 
-### 12.4.3. 自動更新用的觸發程序 [#](#TEXTSEARCH-UPDATE-TRIGGERS)
+### 12.4.3. 自動更新用的觸發程序 [#](#textsearch-update-triggers) <a href="#textsearch-update-triggers" id="textsearch-update-triggers"></a>
 
 <a id="id-1.5.11.7.5.2"></a>
 
 ### 注意
 
-本節所述的方法，已經被[第 12.2.2 節](textsearch-tables.md#TEXTSEARCH-TABLES-INDEX)所述的儲存式產生欄位取代。
+本節所述的方法，已經被[第 12.2.2 節](textsearch-tables.md#textsearch-tables-index)所述的儲存式產生欄位取代。
 
 使用獨立欄位來儲存文件的 `tsvector` 表示法時，必須建立一個觸發程序，在文件內容欄位變更時更新 `tsvector` 欄位。系統為此提供了兩個內建的觸發程序函式，你也可以自行撰寫。
 
@@ -249,7 +249,7 @@ CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE
 
 <a id="TEXTSEARCH-STATISTICS"></a>
 
-### 12.4.4. 收集文件統計資訊 [#](#TEXTSEARCH-STATISTICS)
+### 12.4.4. 收集文件統計資訊 [#](#textsearch-statistics) <a href="#textsearch-statistics" id="textsearch-statistics"></a>
 
 <a id="id-1.5.11.7.6.2"></a>
 

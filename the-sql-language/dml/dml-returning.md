@@ -8,7 +8,7 @@
 
 `RETURNING` 子句允許的內容，與 `SELECT` 命令的輸出清單相同（請參閱[第 7.3 節](../queries/queries-select-lists.md)）。它可以包含命令之目標資料表的欄位名稱，或使用這些欄位的值運算式。一種常見的簡寫是 `RETURNING *`，它會依序選取目標資料表的所有欄位。
 
-在 `INSERT` 中，`RETURNING` 預設可用的資料是剛插入的那筆資料列。這在一般的插入中不太有用，因為它只是重複用戶端所提供的資料。但在依賴計算出來的預設值時，它會非常方便。例如，當使用 [`serial`](../datatype/datatype-numeric.md#DATATYPE-SERIAL) 欄位來提供唯一識別碼時，`RETURNING` 可以回傳指派給新資料列的 ID：
+在 `INSERT` 中，`RETURNING` 預設可用的資料是剛插入的那筆資料列。這在一般的插入中不太有用，因為它只是重複用戶端所提供的資料。但在依賴計算出來的預設值時，它會非常方便。例如，當使用 [`serial`](../datatype/datatype-numeric.md#datatype-serial) 欄位來提供唯一識別碼時，`RETURNING` 可以回傳指派給新資料列的 ID：
 
 ```
 

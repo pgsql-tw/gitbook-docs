@@ -133,14 +133,14 @@ GRANT pg_signal_backend TO admin_user;
 :   `pg_signal_autovacuum_worker` 允許發送信號給
     autovacuum 工作程序，以取消目前資料表的 vacuum 操作，
     或終止其工作階段。請參閱
-    [9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)。
+    [9.28.2 節](../../the-sql-language/functions/functions-admin.md#functions-admin-signal)。
 <a id="PREDEFINED-ROLE-PG-SIGNAL-BACKEND"></a>
 
 `pg_signal_backend` [#](#PREDEFINED-ROLE-PG-SIGNAL-BACKEND)
 :   `pg_signal_backend` 允許發送信號給另一個後端程序，
     以取消查詢或終止其工作階段。請注意，此角色不允許
     對超級使用者所擁有的後端程序發送信號。請參閱
-    [9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)。
+    [9.28.2 節](../../the-sql-language/functions/functions-admin.md#functions-admin-signal)。
 <a id="PREDEFINED-ROLE-PG-USE-RESERVED-CONNECTIONS"></a>
 
 `pg_use_reserved_connections` [#](#PREDEFINED-ROLE-PG-USE-RESERVED-CONNECTIONS)

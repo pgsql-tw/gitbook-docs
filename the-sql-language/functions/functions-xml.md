@@ -2,13 +2,13 @@
 
 ## 9.15. XML 函式 [#](#functions-xml) <a href="#functions-xml" id="functions-xml"></a>
 
-[9.15.1. 產生 XML 內容](functions-xml.md#FUNCTIONS-PRODUCING-XML)
+[9.15.1. 產生 XML 內容](functions-xml.md#functions-producing-xml)
 
-[9.15.2. XML 述詞](functions-xml.md#FUNCTIONS-XML-PREDICATES)
+[9.15.2. XML 述詞](functions-xml.md#functions-xml-predicates)
 
-[9.15.3. 處理 XML](functions-xml.md#FUNCTIONS-XML-PROCESSING)
+[9.15.3. 處理 XML](functions-xml.md#functions-xml-processing)
 
-[9.15.4. 將資料表對應到 XML](functions-xml.md#FUNCTIONS-XML-MAPPING)
+[9.15.4. 將資料表對應到 XML](functions-xml.md#functions-xml-mapping)
 
 <a id="id-1.5.8.21.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="FUNCTIONS-PRODUCING-XML"></a>
 
-### 9.15.1. 產生 XML 內容 [#](#FUNCTIONS-PRODUCING-XML)
+### 9.15.1. 產生 XML 內容 [#](#functions-producing-xml) <a href="#functions-producing-xml" id="functions-producing-xml"></a>
 
 有一組函式與類函式運算式，可用於從 SQL 資料產生 XML 內容。因此，它們特別適合用來將查詢結果格式化為 XML 文件，以便在用戶端應用程式中處理。
 
@@ -300,7 +300,7 @@ SELECT xmlagg(x) FROM test;
  <foo>abc</foo><bar/>
 ```
 
-要決定串接的順序，可以如[第 4.2.7 節](../sql-syntax/sql-expressions.md#SYNTAX-AGGREGATES)所述，在彙總呼叫中加上 `ORDER BY` 子句。例如：
+要決定串接的順序，可以如[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)所述，在彙總呼叫中加上 `ORDER BY` 子句。例如：
 
 ```
 
@@ -322,7 +322,7 @@ SELECT xmlagg(x) FROM (SELECT * FROM test ORDER BY y DESC) AS tab;
 
 <a id="FUNCTIONS-XML-PREDICATES"></a>
 
-### 9.15.2. XML 述詞 [#](#FUNCTIONS-XML-PREDICATES)
+### 9.15.2. XML 述詞 [#](#functions-xml-predicates) <a href="#functions-xml-predicates" id="functions-xml-predicates"></a>
 
 本節所說明的運算式會檢查 `xml` 值的特性。
 
@@ -437,7 +437,7 @@ SELECT xml_is_well_formed_document('<pg:foo xmlns:pg="http://postgresql.org/stuf
 
 <a id="FUNCTIONS-XML-PROCESSING"></a>
 
-### 9.15.3. 處理 XML [#](#FUNCTIONS-XML-PROCESSING)
+### 9.15.3. 處理 XML [#](#functions-xml-processing) <a href="#functions-xml-processing" id="functions-xml-processing"></a>
 
 為了處理 `xml` 資料型別的值，PostgreSQL 提供了評估 XPath 1.0 運算式的函式 `xpath` 與 `xpath_exists`，以及 `XMLTABLE` 資料表函式。
 
@@ -654,7 +654,7 @@ SELECT xmltable.*
 
 <a id="FUNCTIONS-XML-MAPPING"></a>
 
-### 9.15.4. 將資料表對應到 XML [#](#FUNCTIONS-XML-MAPPING)
+### 9.15.4. 將資料表對應到 XML [#](#functions-xml-mapping) <a href="#functions-xml-mapping" id="functions-xml-mapping"></a>
 
 <a id="id-1.5.8.21.8.2"></a>
 

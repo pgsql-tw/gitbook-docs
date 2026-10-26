@@ -114,7 +114,7 @@ COMMUTATOR = OPERATOR(myschema.===) ,
 
 成對的否定子運算子，可以使用與交換子配對相同的方法來定義。
 
-無法在 `CREATE OPERATOR` 中指定運算子的語彙優先順序，因為剖析器的優先順序行為是寫死的。優先順序的詳細資訊請參閱[第 4.1.6 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-PRECEDENCE)。
+無法在 `CREATE OPERATOR` 中指定運算子的語彙優先順序，因為剖析器的優先順序行為是寫死的。優先順序的詳細資訊請參閱[第 4.1.6 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#sql-precedence)。
 
 已過時的選項 `SORT1`、`SORT2`、`LTCMP` 與 `GTCMP` 以前用來指定與可合併連接之運算子相關聯的排序運算子名稱。現在已不再需要這樣做，因為相關聯運算子的資訊改為透過查看 B-tree 運算子家族來取得。若給定了這些選項中的某一個，它會被忽略，只是會隱含地將 `MERGES` 設為 true。
 

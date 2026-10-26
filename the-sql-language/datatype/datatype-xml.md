@@ -2,11 +2,11 @@
 
 ## 8.13. XML 型別 [#](#datatype-xml) <a href="#datatype-xml" id="datatype-xml"></a>
 
-[8.13.1. 建立 XML 值](datatype-xml.md#DATATYPE-XML-CREATING)
+[8.13.1. 建立 XML 值](datatype-xml.md#datatype-xml-creating)
 
-[8.13.2. 編碼處理](datatype-xml.md#DATATYPE-XML-ENCODING-HANDLING)
+[8.13.2. 編碼處理](datatype-xml.md#datatype-xml-encoding-handling)
 
-[8.13.3. 存取 XML 值](datatype-xml.md#DATATYPE-XML-ACCESSING-XML-VALUES)
+[8.13.3. 存取 XML 值](datatype-xml.md#datatype-xml-accessing-xml-values)
 
 <a id="id-1.5.7.21.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="DATATYPE-XML-CREATING"></a>
 
-### 8.13.1. 建立 XML 值 [#](#DATATYPE-XML-CREATING)
+### 8.13.1. 建立 XML 值 [#](#datatype-xml-creating) <a href="#datatype-xml-creating" id="datatype-xml-creating"></a>
 
 若要從字元資料產生 `xml` 型別的值，請使用 `xmlparse` 函式：<a id="id-1.5.7.21.6.2.3"></a>
 
@@ -76,7 +76,7 @@ SET xmloption TO { DOCUMENT | CONTENT };
 
 <a id="DATATYPE-XML-ENCODING-HANDLING"></a>
 
-### 8.13.2. 編碼處理 [#](#DATATYPE-XML-ENCODING-HANDLING)
+### 8.13.2. 編碼處理 [#](#datatype-xml-encoding-handling) <a href="#datatype-xml-encoding-handling" id="datatype-xml-encoding-handling"></a>
 
 在處理用戶端、伺服器，以及在兩者之間傳遞的 XML 資料中的多種字元編碼時，必須格外小心。當使用文字模式把查詢傳給伺服器、把查詢結果傳給用戶端時（這是一般的模式），PostgreSQL 會把在用戶端與伺服器之間雙向傳遞的所有字元資料，轉換成各自那一端的字元編碼；請參閱[第 23.3 節](../../server-administration/charset/multibyte.md)。這也包括 XML 值的字串表示法，例如上面那些例子。這通常表示，當字元資料在用戶端與伺服器之間往返而被轉換成其他編碼時，XML 資料中所含的編碼宣告可能會變得不正確，因為內嵌的編碼宣告並不會被更動。為了因應這種行為，提供給 `xml` 型別作為輸入之字元字串中所含的編碼宣告會被*忽略*，並假設內容採用目前的伺服器編碼。因此，為了正確處理，XML 資料的字元字串必須由用戶端以目前的用戶端編碼送出。用戶端有責任在把文件送往伺服器之前先將其轉換成目前的用戶端編碼，或是適當地調整用戶端編碼。在輸出時，`xml` 型別的值不會帶有編碼宣告，用戶端應該假設所有資料都採用目前的用戶端編碼。
 
@@ -90,7 +90,7 @@ SET xmloption TO { DOCUMENT | CONTENT };
 
 <a id="DATATYPE-XML-ACCESSING-XML-VALUES"></a>
 
-### 8.13.3. 存取 XML 值 [#](#DATATYPE-XML-ACCESSING-XML-VALUES)
+### 8.13.3. 存取 XML 值 [#](#datatype-xml-accessing-xml-values) <a href="#datatype-xml-accessing-xml-values" id="datatype-xml-accessing-xml-values"></a>
 
 `xml` 資料型別很特別的一點是，它並未提供任何比較運算子。這是因為對 XML 資料而言，並沒有定義明確且普遍適用的比較演算法。這麼做的一個後果是，你無法藉由把 `xml` 欄位與搜尋值做比較來取得資料列。因此，XML 值通常應該搭配一個獨立的鍵欄位，例如 ID。比較 XML 值的另一種替代做法，是先把它們轉換成字元字串，但請注意，字元字串比較與有用的 XML 比較方法幾乎毫無關係。
 

@@ -22,7 +22,7 @@ CREATE TABLE my_first_table (
 );
 ```
 
-這會建立一個名為 `my_first_table` 的資料表，它有兩個欄位。第一個欄位名為 `first_column`，資料型別為 `text`；第二個欄位名稱為 `second_column`，型別為 `integer`。資料表與欄位的名稱遵循[第 4.1.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-IDENTIFIERS)所說明的識別符號語法。型別名稱通常也是識別符號，但有一些例外。請注意，欄位清單是以逗號分隔，並且以括號括起來。
+這會建立一個名為 `my_first_table` 的資料表，它有兩個欄位。第一個欄位名為 `first_column`，資料型別為 `text`；第二個欄位名稱為 `second_column`，型別為 `integer`。資料表與欄位的名稱遵循[第 4.1.1 節](../sql-syntax/sql-syntax-lexical.md#sql-syntax-identifiers)所說明的識別符號語法。型別名稱通常也是識別符號，但有一些例外。請注意，欄位清單是以逗號分隔，並且以括號括起來。
 
 當然，前面這個例子是刻意編造的。通常你會為資料表與欄位取一個能表達它們所儲存資料種類的名稱。所以讓我們來看一個比較實際的例子：
 

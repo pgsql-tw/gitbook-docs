@@ -4,13 +4,13 @@
 
 <a id="id-1.5.9.7.2"></a>
 
-運算子運算式所參照的特定運算子，是依下列程序決定的。請注意，這個程序會間接受到所涉及運算子優先順序的影響，因為優先順序決定了哪些子運算式會被視為哪些運算子的輸入。詳細資訊請參閱[第 4.1.6 節](../sql-syntax/sql-syntax-lexical.md#SQL-PRECEDENCE)。
+運算子運算式所參照的特定運算子，是依下列程序決定的。請注意，這個程序會間接受到所涉及運算子優先順序的影響，因為優先順序決定了哪些子運算式會被視為哪些運算子的輸入。詳細資訊請參閱[第 4.1.6 節](../sql-syntax/sql-syntax-lexical.md#sql-precedence)。
 
 <a id="id-1.5.9.7.4"></a>
 
 **運算子型別解析**
 
-<a id="OP-RESOL-SELECT"></a>1. 從 `pg_operator` 系統目錄中選出要考慮的運算子。如果使用的是未以 schema 限定的運算子名稱（一般情況），要考慮的運算子是那些名稱與參數數量相符、且在目前搜尋路徑中可見的運算子（請參閱[第 5.10.3 節](../ddl/ddl-schemas.md#DDL-SCHEMAS-PATH)）。如果給定的是限定名稱的運算子，則只考慮指定 schema 中的運算子。
+<a id="OP-RESOL-SELECT"></a>1. 從 `pg_operator` 系統目錄中選出要考慮的運算子。如果使用的是未以 schema 限定的運算子名稱（一般情況），要考慮的運算子是那些名稱與參數數量相符、且在目前搜尋路徑中可見的運算子（請參閱[第 5.10.3 節](../ddl/ddl-schemas.md#ddl-schemas-path)）。如果給定的是限定名稱的運算子，則只考慮指定 schema 中的運算子。
 
    1. 如果搜尋路徑中找到多個參數型別完全相同的運算子，只會考慮在路徑中最先出現的那一個。參數型別不同的運算子，則不論在搜尋路徑中的位置為何，都會一視同仁地納入考慮。
 <a id="OP-RESOL-EXACT-MATCH"></a>2. 檢查是否有運算子完全接受這些輸入參數型別。如果存在（在所考慮的運算子集合中，完全相符的只可能有一個），就使用它。在透過限定名稱呼叫
@@ -185,7 +185,7 @@ SELECT * FROM mytable WHERE val = text 'foo';
 <a id="ftn.OP-QUALIFIED-SECURITY"></a>
 
 [[9]](#OP-QUALIFIED-SECURITY) 
-使用未以 schema 限定的名稱時不會產生這種風險，因為包含允許不受信任使用者建立物件之 schema 的搜尋路徑，並不是[安全的 schema 使用模式](../ddl/ddl-schemas.md#DDL-SCHEMAS-PATTERNS)。
+使用未以 schema 限定的名稱時不會產生這種風險，因為包含允許不受信任使用者建立物件之 schema 的搜尋路徑，並不是[安全的 schema 使用模式](../ddl/ddl-schemas.md#ddl-schemas-patterns)。
 
 ---
 

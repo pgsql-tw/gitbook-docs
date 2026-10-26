@@ -1,15 +1,15 @@
 <a id="DATATYPE-DATETIME"></a>
 ## 8.5. 日期／時間型別 [#](#datatype-datetime) <a href="#datatype-datetime" id="datatype-datetime"></a>
 
-[8.5.1. 日期／時間輸入](datatype-datetime.md#DATATYPE-DATETIME-INPUT)
+[8.5.1. 日期／時間輸入](datatype-datetime.md#datatype-datetime-input)
 
-[8.5.2. 日期／時間輸出](datatype-datetime.md#DATATYPE-DATETIME-OUTPUT)
+[8.5.2. 日期／時間輸出](datatype-datetime.md#datatype-datetime-output)
 
-[8.5.3. 時區](datatype-datetime.md#DATATYPE-TIMEZONES)
+[8.5.3. 時區](datatype-datetime.md#datatype-timezones)
 
-[8.5.4. 時間區間輸入](datatype-datetime.md#DATATYPE-INTERVAL-INPUT)
+[8.5.4. 時間區間輸入](datatype-datetime.md#datatype-interval-input)
 
-[8.5.5. 時間區間輸出](datatype-datetime.md#DATATYPE-INTERVAL-OUTPUT)
+[8.5.5. 時間區間輸出](datatype-datetime.md#datatype-interval-output)
 
 <a id="id-1.5.7.13.2"></a><a id="id-1.5.7.13.3"></a><a id="id-1.5.7.13.4"></a><a id="id-1.5.7.13.5"></a><a id="id-1.5.7.13.6"></a><a id="id-1.5.7.13.7"></a><a id="id-1.5.7.13.8"></a><a id="id-1.5.7.13.9"></a><a id="id-1.5.7.13.10"></a><a id="id-1.5.7.13.11"></a>
 
@@ -81,7 +81,7 @@ zone` 與 `timestamp with time zone` 的組合，
 
 <a id="DATATYPE-DATETIME-INPUT"></a>
 
-### 8.5.1. 日期／時間輸入 [#](#DATATYPE-DATETIME-INPUT)
+### 8.5.1. 日期／時間輸入 [#](#datatype-datetime-input) <a href="#datatype-datetime-input" id="datatype-datetime-input"></a>
 
 日期與時間輸入，幾乎能接受任何合理的格式，包括
 ISO 8601、SQL 相容格式、
@@ -184,7 +184,7 @@ zone`。單獨寫 `time`，等同於
 
 <br>
 
-關於如何指定時區的更多資訊，請參閱[8.5.3 節](datatype-datetime.md#DATATYPE-TIMEZONES)。
+關於如何指定時區的更多資訊，請參閱[8.5.3 節](datatype-datetime.md#datatype-timezones)。
 
 <a id="DATATYPE-DATETIME-INPUT-TIME-STAMPS"></a>
 
@@ -277,7 +277,7 @@ zone` 值時，永遠會從 UTC 轉換為
 時區的當地時間顯示。若要以另一個時區來檢視時刻，
 可以變更
 `timezone`，或使用 `AT TIME ZONE` 結構
-（請參閱[9.9.4 節](../functions/functions-datetime.md#FUNCTIONS-DATETIME-ZONECONVERT)）。
+（請參閱[9.9.4 節](../functions/functions-datetime.md#functions-datetime-zoneconvert)）。
 
 在 `timestamp without time zone` 與
 `timestamp with time zone` 之間轉換時，
@@ -316,7 +316,7 @@ zone` 值時，永遠會從 UTC 轉換為
 同樣可用來取得對應資料型別的目前時刻值：
 `CURRENT_DATE`、`CURRENT_TIME`、
 `CURRENT_TIMESTAMP`、`LOCALTIME`、
-`LOCALTIMESTAMP`。（請參閱[9.9.5 節](../functions/functions-datetime.md#FUNCTIONS-DATETIME-CURRENT)。）請注意，這些是
+`LOCALTIMESTAMP`。（請參閱[9.9.5 節](../functions/functions-datetime.md#functions-datetime-current)。）請注意，這些是
 SQL 函式，在資料輸入字串中，*不會*被識別。
 
 ### 小心
@@ -335,7 +335,7 @@ SQL 函式，在資料輸入字串中，*不會*被識別。
 
 <a id="DATATYPE-DATETIME-OUTPUT"></a>
 
-### 8.5.2. 日期／時間輸出 [#](#DATATYPE-DATETIME-OUTPUT)
+### 8.5.2. 日期／時間輸出 [#](#datatype-datetime-output) <a href="#datatype-datetime-output" id="datatype-datetime-output"></a>
 
 <a id="id-1.5.7.13.19.2"></a><a id="id-1.5.7.13.19.3"></a>
 
@@ -376,7 +376,7 @@ ISO 8601 規定使用大寫字母 `T`，
 月之前，否則月會出現在
 日之前。
 （關於此設定如何同時影響輸入值的解讀方式，
-請參閱[8.5.1 節](datatype-datetime.md#DATATYPE-DATETIME-INPUT)。）
+請參閱[8.5.1 節](datatype-datetime.md#datatype-datetime-input)。）
 [表 8.15](datatype-datetime.md#DATATYPE-DATETIME-OUTPUT2-TABLE) 展示了一些範例。
 
 <a id="DATATYPE-DATETIME-OUTPUT2-TABLE"></a>
@@ -424,7 +424,7 @@ ISO 8601 規定使用大寫字母 `T`，
 
 <a id="DATATYPE-TIMEZONES"></a>
 
-### 8.5.3. 時區 [#](#DATATYPE-TIMEZONES)
+### 8.5.3. 時區 [#](#datatype-timezones) <a href="#datatype-timezones" id="datatype-timezones"></a>
 
 <a id="id-1.5.7.13.20.2"></a>
 
@@ -567,7 +567,7 @@ POSIX 風格時區規格中的正負號，
 
 <a id="DATATYPE-INTERVAL-INPUT"></a>
 
-### 8.5.4. 時間區間輸入 [#](#DATATYPE-INTERVAL-INPUT)
+### 8.5.4. 時間區間輸入 [#](#datatype-interval-input) <a href="#datatype-interval-input" id="datatype-interval-input"></a>
 
 <a id="id-1.5.7.13.21.2"></a>
 
@@ -718,7 +718,7 @@ weeks'` 或 `'01:02:03.45'`。不過，
 
 <a id="DATATYPE-INTERVAL-OUTPUT"></a>
 
-### 8.5.5. 時間區間輸出 [#](#DATATYPE-INTERVAL-OUTPUT)
+### 8.5.5. 時間區間輸出 [#](#datatype-interval-output) <a href="#datatype-interval-output" id="datatype-interval-output"></a>
 
 <a id="id-1.5.7.13.22.2"></a>
 

@@ -7,7 +7,7 @@
 [11.1. 簡介](indexes-intro.md)
 
 [11.2. 索引類型](indexes-types.md)
-:   [11.2.1. B-Tree](indexes-types.md#INDEXES-TYPES-BTREE)
+:   [11.2.1. B-Tree](indexes-types.md#indexes-types-btree)
 
     [11.2.2. Hash](indexes-types.md#INDEXES-TYPES-HASH)
 

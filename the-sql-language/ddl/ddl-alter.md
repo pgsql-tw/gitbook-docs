@@ -2,21 +2,21 @@
 
 ## 5.7. 修改資料表 [#](#ddl-alter) <a href="#ddl-alter" id="ddl-alter"></a>
 
-[5.7.1. 新增欄位](ddl-alter.md#DDL-ALTER-ADDING-A-COLUMN)
+[5.7.1. 新增欄位](ddl-alter.md#ddl-alter-adding-a-column)
 
-[5.7.2. 移除欄位](ddl-alter.md#DDL-ALTER-REMOVING-A-COLUMN)
+[5.7.2. 移除欄位](ddl-alter.md#ddl-alter-removing-a-column)
 
-[5.7.3. 新增限制條件](ddl-alter.md#DDL-ALTER-ADDING-A-CONSTRAINT)
+[5.7.3. 新增限制條件](ddl-alter.md#ddl-alter-adding-a-constraint)
 
-[5.7.4. 移除限制條件](ddl-alter.md#DDL-ALTER-REMOVING-A-CONSTRAINT)
+[5.7.4. 移除限制條件](ddl-alter.md#ddl-alter-removing-a-constraint)
 
-[5.7.5. 變更欄位的預設值](ddl-alter.md#DDL-ALTER-COLUMN-DEFAULT)
+[5.7.5. 變更欄位的預設值](ddl-alter.md#ddl-alter-column-default)
 
-[5.7.6. 變更欄位的資料型別](ddl-alter.md#DDL-ALTER-COLUMN-TYPE)
+[5.7.6. 變更欄位的資料型別](ddl-alter.md#ddl-alter-column-type)
 
-[5.7.7. 重新命名欄位](ddl-alter.md#DDL-ALTER-RENAMING-COLUMN)
+[5.7.7. 重新命名欄位](ddl-alter.md#ddl-alter-renaming-column)
 
-[5.7.8. 重新命名資料表](ddl-alter.md#DDL-ALTER-RENAMING-TABLE)
+[5.7.8. 重新命名資料表](ddl-alter.md#ddl-alter-renaming-table)
 
 <a id="id-1.5.4.9.2"></a>
 
@@ -37,7 +37,7 @@
 
 <a id="DDL-ALTER-ADDING-A-COLUMN"></a>
 
-### 5.7.1. 新增欄位 [#](#DDL-ALTER-ADDING-A-COLUMN)
+### 5.7.1. 新增欄位 [#](#ddl-alter-adding-a-column) <a href="#ddl-alter-adding-a-column" id="ddl-alter-adding-a-column"></a>
 
 <a id="id-1.5.4.9.5.2"></a>
 
@@ -67,7 +67,7 @@ ALTER TABLE products ADD COLUMN description text CHECK (description <> '');
 
 <a id="DDL-ALTER-REMOVING-A-COLUMN"></a>
 
-### 5.7.2. 移除欄位 [#](#DDL-ALTER-REMOVING-A-COLUMN)
+### 5.7.2. 移除欄位 [#](#ddl-alter-removing-a-column) <a href="#ddl-alter-removing-a-column" id="ddl-alter-removing-a-column"></a>
 
 <a id="id-1.5.4.9.6.2"></a>
 
@@ -89,7 +89,7 @@ ALTER TABLE products DROP COLUMN description CASCADE;
 
 <a id="DDL-ALTER-ADDING-A-CONSTRAINT"></a>
 
-### 5.7.3. 新增限制條件 [#](#DDL-ALTER-ADDING-A-CONSTRAINT)
+### 5.7.3. 新增限制條件 [#](#ddl-alter-adding-a-constraint) <a href="#ddl-alter-adding-a-constraint" id="ddl-alter-adding-a-constraint"></a>
 
 <a id="id-1.5.4.9.7.2"></a>
 
@@ -115,7 +115,7 @@ ALTER TABLE products ALTER COLUMN product_no SET NOT NULL;
 
 <a id="DDL-ALTER-REMOVING-A-CONSTRAINT"></a>
 
-### 5.7.4. 移除限制條件 [#](#DDL-ALTER-REMOVING-A-CONSTRAINT)
+### 5.7.4. 移除限制條件 [#](#ddl-alter-removing-a-constraint) <a href="#ddl-alter-removing-a-constraint" id="ddl-alter-removing-a-constraint"></a>
 
 <a id="id-1.5.4.9.8.2"></a>
 
@@ -139,7 +139,7 @@ ALTER TABLE products ALTER COLUMN product_no DROP NOT NULL;
 
 <a id="DDL-ALTER-COLUMN-DEFAULT"></a>
 
-### 5.7.5. 變更欄位的預設值 [#](#DDL-ALTER-COLUMN-DEFAULT)
+### 5.7.5. 變更欄位的預設值 [#](#ddl-alter-column-default) <a href="#ddl-alter-column-default" id="ddl-alter-column-default"></a>
 
 <a id="id-1.5.4.9.9.2"></a>
 
@@ -163,7 +163,7 @@ ALTER TABLE products ALTER COLUMN price DROP DEFAULT;
 
 <a id="DDL-ALTER-COLUMN-TYPE"></a>
 
-### 5.7.6. 變更欄位的資料型別 [#](#DDL-ALTER-COLUMN-TYPE)
+### 5.7.6. 變更欄位的資料型別 [#](#ddl-alter-column-type) <a href="#ddl-alter-column-type" id="ddl-alter-column-type"></a>
 
 <a id="id-1.5.4.9.10.2"></a>
 
@@ -180,7 +180,7 @@ PostgreSQL 會嘗試把該欄位的預設值（如果有的話）以及所有牽
 
 <a id="DDL-ALTER-RENAMING-COLUMN"></a>
 
-### 5.7.7. 重新命名欄位 [#](#DDL-ALTER-RENAMING-COLUMN)
+### 5.7.7. 重新命名欄位 [#](#ddl-alter-renaming-column) <a href="#ddl-alter-renaming-column" id="ddl-alter-renaming-column"></a>
 
 <a id="id-1.5.4.9.11.2"></a>
 
@@ -193,7 +193,7 @@ ALTER TABLE products RENAME COLUMN product_no TO product_number;
 
 <a id="DDL-ALTER-RENAMING-TABLE"></a>
 
-### 5.7.8. 重新命名資料表 [#](#DDL-ALTER-RENAMING-TABLE)
+### 5.7.8. 重新命名資料表 [#](#ddl-alter-renaming-table) <a href="#ddl-alter-renaming-table" id="ddl-alter-renaming-table"></a>
 
 <a id="id-1.5.4.9.12.2"></a>
 

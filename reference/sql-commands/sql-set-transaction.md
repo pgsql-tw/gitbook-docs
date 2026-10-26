@@ -86,7 +86,7 @@ UNCOMMITTED` 會被視為 `READ COMMITTED` 處理。
 `SET TRANSACTION SNAPSHOT` 命令可讓新交易以與現有交易
 相同的*快照*來執行。既存的交易必須已透過
 `pg_export_snapshot` 函式匯出其快照
-（見 [9.28.5 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION)）。
+（見 [9.28.5 節](../../the-sql-language/functions/functions-admin.md#functions-snapshot-synchronization)）。
 該函式會回傳一個快照識別碼，必須將其提供給 `SET TRANSACTION
 SNAPSHOT`，以指定要匯入哪一個快照。此命令中該識別碼必須寫成字串常值，
 例如 `'00000003-0000001B-1'`。

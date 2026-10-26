@@ -2,11 +2,11 @@
 
 ## 4.3. 呼叫函式 [#](#sql-syntax-calling-funcs) <a href="#sql-syntax-calling-funcs" id="sql-syntax-calling-funcs"></a>
 
-[4.3.1. 使用位置表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
+[4.3.1. 使用位置表示法](sql-syntax-calling-funcs.md#sql-syntax-calling-funcs-positional)
 
-[4.3.2. 使用具名表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-NAMED)
+[4.3.2. 使用具名表示法](sql-syntax-calling-funcs.md#sql-syntax-calling-funcs-named)
 
-[4.3.3. 使用混合表示法](sql-syntax-calling-funcs.md#SQL-SYNTAX-CALLING-FUNCS-MIXED)
+[4.3.3. 使用混合表示法](sql-syntax-calling-funcs.md#sql-syntax-calling-funcs-mixed)
 
 <a id="id-1.5.3.7.2"></a>
 
@@ -36,7 +36,7 @@ LANGUAGE SQL IMMUTABLE STRICT;
 
 <a id="SQL-SYNTAX-CALLING-FUNCS-POSITIONAL"></a>
 
-### 4.3.1. 使用位置表示法 [#](#SQL-SYNTAX-CALLING-FUNCS-POSITIONAL)
+### 4.3.1. 使用位置表示法 [#](#sql-syntax-calling-funcs-positional) <a href="#sql-syntax-calling-funcs-positional" id="sql-syntax-calling-funcs-positional"></a>
 
 <a id="id-1.5.3.7.7.2"></a>
 
@@ -66,7 +66,7 @@ SELECT concat_lower_or_upper('Hello', 'World');
 
 <a id="SQL-SYNTAX-CALLING-FUNCS-NAMED"></a>
 
-### 4.3.2. 使用具名表示法 [#](#SQL-SYNTAX-CALLING-FUNCS-NAMED)
+### 4.3.2. 使用具名表示法 [#](#sql-syntax-calling-funcs-named) <a href="#sql-syntax-calling-funcs-named" id="sql-syntax-calling-funcs-named"></a>
 
 <a id="id-1.5.3.7.8.2"></a>
 
@@ -111,7 +111,7 @@ SELECT concat_lower_or_upper(a := 'Hello', uppercase := true, b := 'World');
 
 <a id="SQL-SYNTAX-CALLING-FUNCS-MIXED"></a>
 
-### 4.3.3. 使用混合表示法 [#](#SQL-SYNTAX-CALLING-FUNCS-MIXED)
+### 4.3.3. 使用混合表示法 [#](#sql-syntax-calling-funcs-mixed) <a href="#sql-syntax-calling-funcs-mixed" id="sql-syntax-calling-funcs-mixed"></a>
 
 <a id="id-1.5.3.7.9.2"></a>
 

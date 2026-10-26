@@ -2,9 +2,9 @@
 
 ## 8.11. 全文檢索型別 [#](#datatype-textsearch) <a href="#datatype-textsearch" id="datatype-textsearch"></a>
 
-[8.11.1. `tsvector`](datatype-textsearch.md#DATATYPE-TSVECTOR)
+[8.11.1. `tsvector`](datatype-textsearch.md#datatype-tsvector)
 
-[8.11.2. `tsquery`](datatype-textsearch.md#DATATYPE-TSQUERY)
+[8.11.2. `tsquery`](datatype-textsearch.md#datatype-tsquery)
 
 <a id="id-1.5.7.19.2"></a><a id="id-1.5.7.19.3"></a>
 
@@ -12,7 +12,7 @@ PostgreSQL 提供兩種資料型別，用來支援全文檢索；所謂全文檢
 
 <a id="DATATYPE-TSVECTOR"></a>
 
-### 8.11.1. `tsvector` [#](#DATATYPE-TSVECTOR)
+### 8.11.1. `tsvector` [#](#datatype-tsvector) <a href="#datatype-tsvector" id="datatype-tsvector"></a>
 
 <a id="id-1.5.7.19.5.2"></a>
 
@@ -94,7 +94,7 @@ SELECT to_tsvector('english', 'The Fat Rats');
 
 <a id="DATATYPE-TSQUERY"></a>
 
-### 8.11.2. `tsquery` [#](#DATATYPE-TSQUERY)
+### 8.11.2. `tsquery` [#](#datatype-tsquery) <a href="#datatype-tsquery" id="datatype-tsquery"></a>
 
 <a id="id-1.5.7.19.6.2"></a>
 
