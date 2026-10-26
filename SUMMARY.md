@@ -1180,3 +1180,4 @@
     * [O.4. pg\_resetxlog 已改名為 pg\_resetwal #](appendixes/appendix-obsolete/app-pgresetxlog.md)
     * [O.5. pg\_receivexlog 已改名為 pg\_receivewal #](appendixes/appendix-obsolete/app-pgreceivexlog.md)
 * [參考書目](bibliography.md)
+* [後記](pg18-translation-retrospective.md)
