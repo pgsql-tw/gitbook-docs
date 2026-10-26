@@ -1,6 +1,6 @@
 <a id="ROLE-ATTRIBUTES"></a>
 
-## 21.2. 角色屬性 [#](#ROLE-ATTRIBUTES)
+## 21.2. 角色屬性 [#](#role-attributes) <a href="#role-attributes" id="role-attributes"></a>
 
 資料庫角色可以具有多項屬性，這些屬性定義了該角色的權限，
 並與用戶端驗證系統互動。

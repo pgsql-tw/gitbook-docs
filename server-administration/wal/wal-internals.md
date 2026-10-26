@@ -1,6 +1,6 @@
 <a id="WAL-INTERNALS"></a>
 
-## 28.6. WAL 內部運作 [#](#WAL-INTERNALS)
+## 28.6. WAL 內部運作 [#](#wal-internals) <a href="#wal-internals" id="wal-internals"></a>
 
 <a id="id-1.6.15.8.2"></a>
 

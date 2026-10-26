@@ -1,6 +1,6 @@
 <a id="ROLE-MEMBERSHIP"></a>
 
-## 21.3. 角色成員資格 [#](#ROLE-MEMBERSHIP)
+## 21.3. 角色成員資格 [#](#role-membership) <a href="#role-membership" id="role-membership"></a>
 
 <a id="id-1.6.8.7.2"></a>
 

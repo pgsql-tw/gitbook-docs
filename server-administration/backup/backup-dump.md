@@ -1,6 +1,6 @@
 <a id="BACKUP-DUMP"></a>
 
-## 25.1. SQL 傾印 [#](#BACKUP-DUMP)
+## 25.1. SQL 傾印 [#](#backup-dump) <a href="#backup-dump" id="backup-dump"></a>
 
 [25.1.1. 還原傾印內容](backup-dump.md#BACKUP-DUMP-RESTORE)
 

@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-ROW-FILTER"></a>
 
-## 29.4. 資料列篩選器 [#](#LOGICAL-REPLICATION-ROW-FILTER)
+## 29.4. 資料列篩選器 [#](#logical-replication-row-filter) <a href="#logical-replication-row-filter" id="logical-replication-row-filter"></a>
 
 [29.4.1. 資料列篩選規則](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RULES)
 

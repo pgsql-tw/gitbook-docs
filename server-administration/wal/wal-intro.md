@@ -1,6 +1,6 @@
 <a id="WAL-INTRO"></a>
 
-## 28.3. 預寫式日誌（Write-Ahead Logging, WAL） [#](#WAL-INTRO)
+## 28.3. 預寫式日誌（Write-Ahead Logging, WAL） [#](#wal-intro) <a href="#wal-intro" id="wal-intro"></a>
 
 <a id="id-1.6.15.5.2"></a><a id="id-1.6.15.5.3"></a>
 

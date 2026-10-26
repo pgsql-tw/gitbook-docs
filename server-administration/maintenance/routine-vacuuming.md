@@ -1,6 +1,6 @@
 <a id="ROUTINE-VACUUMING"></a>
 
-## 24.1. 例行性資料庫清理 [#](#ROUTINE-VACUUMING)
+## 24.1. 例行性資料庫清理 [#](#routine-vacuuming) <a href="#routine-vacuuming" id="routine-vacuuming"></a>
 
 [24.1.1. 清理基本概念](routine-vacuuming.md#VACUUM-BASICS)
 

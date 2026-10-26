@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-PUBLICATION"></a>
 
-## 29.1. 發佈 [#](#LOGICAL-REPLICATION-PUBLICATION)
+## 29.1. 發佈 [#](#logical-replication-publication) <a href="#logical-replication-publication" id="logical-replication-publication"></a>
 
 [29.1.1. 複寫識別](logical-replication-publication.md#LOGICAL-REPLICATION-PUBLICATION-REPLICA-IDENTITY)
 

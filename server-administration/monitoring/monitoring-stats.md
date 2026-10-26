@@ -1,6 +1,6 @@
 <a id="MONITORING-STATS"></a>
 
-## 27.2. 累計統計系統 [#](#MONITORING-STATS)
+## 27.2. 累計統計系統 [#](#monitoring-stats) <a href="#monitoring-stats" id="monitoring-stats"></a>
 
 [27.2.1. 統計收集設定](monitoring-stats.md#MONITORING-STATS-SETUP)
 

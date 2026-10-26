@@ -1,6 +1,6 @@
 <a id="LOCALE"></a>
 
-## 23.1. 區域設定支援 [#](#LOCALE)
+## 23.1. 區域設定支援 [#](#locale) <a href="#locale" id="locale"></a>
 
 [23.1.1. 概觀](locale.md#LOCALE-OVERVIEW)
 

@@ -1,6 +1,6 @@
 <a id="LOGFILE-MAINTENANCE"></a>
 
-## 24.3. 日誌檔案維護 [#](#LOGFILE-MAINTENANCE)
+## 24.3. 日誌檔案維護 [#](#logfile-maintenance) <a href="#logfile-maintenance" id="logfile-maintenance"></a>
 
 <a id="id-1.6.11.12.2"></a>
 

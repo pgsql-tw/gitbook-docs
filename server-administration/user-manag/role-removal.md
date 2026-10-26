@@ -1,6 +1,6 @@
 <a id="ROLE-REMOVAL"></a>
 
-## 21.4. 移除角色 [#](#ROLE-REMOVAL)
+## 21.4. 移除角色 [#](#role-removal) <a href="#role-removal" id="role-removal"></a>
 
 由於角色可以擁有資料庫物件，也可以持有存取其他物件的權限，
 因此移除角色，通常不只是單純執行一次

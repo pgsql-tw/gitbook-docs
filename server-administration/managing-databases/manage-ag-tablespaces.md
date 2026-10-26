@@ -1,6 +1,6 @@
 <a id="MANAGE-AG-TABLESPACES"></a>
 
-## 22.6. 資料表空間 [#](#MANAGE-AG-TABLESPACES)
+## 22.6. 資料表空間 [#](#manage-ag-tablespaces) <a href="#manage-ag-tablespaces" id="manage-ag-tablespaces"></a>
 
 <a id="id-1.6.9.9.2"></a>
 

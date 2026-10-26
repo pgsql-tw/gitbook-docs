@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-RESTRICTIONS"></a>
 
-## 29.8. 限制 [#](#LOGICAL-REPLICATION-RESTRICTIONS)
+## 29.8. 限制 [#](#logical-replication-restrictions) <a href="#logical-replication-restrictions" id="logical-replication-restrictions"></a>
 
 邏輯複寫目前有以下限制或尚未提供的功能。這些項目未來版本可能會加以改善。
 

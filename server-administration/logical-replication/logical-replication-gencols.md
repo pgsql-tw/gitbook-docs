@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-GENCOLS"></a>
 
-## 29.6. 產生欄位的複寫 [#](#LOGICAL-REPLICATION-GENCOLS)
+## 29.6. 產生欄位的複寫 [#](#logical-replication-gencols) <a href="#logical-replication-gencols" id="logical-replication-gencols"></a>
 
 一般而言，訂閱者端資料表的定義會與
 發佈者資料表相同，因此如果發佈者資料表有 [`GENERATED column`](../../the-sql-language/ddl/ddl-generated-columns.md)（產生欄位），則訂閱者資料表

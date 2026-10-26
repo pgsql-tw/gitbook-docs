@@ -1,6 +1,6 @@
 <a id="DISKUSAGE"></a>
 
-## 27.6. 監控磁碟用量 [#](#DISKUSAGE)
+## 27.6. 監控磁碟用量 [#](#diskusage) <a href="#diskusage" id="diskusage"></a>
 
 [27.6.1. 判斷磁碟用量](diskusage.md#DISK-USAGE)
 

@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-SUBSCRIPTION"></a>
 
-## 29.2. 訂閱（Subscription） [#](#LOGICAL-REPLICATION-SUBSCRIPTION)
+## 29.2. 訂閱（Subscription） [#](#logical-replication-subscription) <a href="#logical-replication-subscription" id="logical-replication-subscription"></a>
 
 [29.2.1. 複寫插槽管理](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-SLOT)
 

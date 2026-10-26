@@ -1,6 +1,6 @@
 <a id="MONITORING-LOCKS"></a>
 
-## 27.3. 檢視鎖定 [#](#MONITORING-LOCKS)
+## 27.3. 檢視鎖定 [#](#monitoring-locks) <a href="#monitoring-locks" id="monitoring-locks"></a>
 
 <a id="id-1.6.14.8.2"></a>
 

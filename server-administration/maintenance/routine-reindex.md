@@ -1,6 +1,6 @@
 <a id="ROUTINE-REINDEX"></a>
 
-## 24.2. 例行重新建立索引 [#](#ROUTINE-REINDEX)
+## 24.2. 例行重新建立索引 [#](#routine-reindex) <a href="#routine-reindex" id="routine-reindex"></a>
 
 <a id="id-1.6.11.11.2"></a>
 

@@ -1,6 +1,6 @@
 <a id="WAL-ASYNC-COMMIT"></a>
 
-## 28.4. 非同步確認 [#](#WAL-ASYNC-COMMIT)
+## 28.4. 非同步確認 [#](#wal-async-commit) <a href="#wal-async-commit" id="wal-async-commit"></a>
 
 <a id="id-1.6.15.6.2"></a><a id="id-1.6.15.6.3"></a>
 

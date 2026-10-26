@@ -1,6 +1,6 @@
 <a id="DIFFERENT-REPLICATION-SOLUTIONS"></a>
 
-## 26.1. 各種解決方案比較 [#](#DIFFERENT-REPLICATION-SOLUTIONS)
+## 26.1. 各種解決方案比較 [#](#different-replication-solutions) <a href="#different-replication-solutions" id="different-replication-solutions"></a>
 
 共享磁碟容錯移轉（Shared Disk Failover）
 :   共享磁碟容錯移轉透過只保留一份資料庫複本，避免了同步的額外

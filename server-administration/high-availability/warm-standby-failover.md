@@ -1,6 +1,6 @@
 <a id="WARM-STANDBY-FAILOVER"></a>
 
-## 26.3. 失效切換 [#](#WARM-STANDBY-FAILOVER)
+## 26.3. 失效切換 [#](#warm-standby-failover) <a href="#warm-standby-failover" id="warm-standby-failover"></a>
 
 若主要伺服器失效，待命伺服器應開始進行失效切換程序。
 

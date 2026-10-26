@@ -1,6 +1,6 @@
 <a id="BACKUP-FILE"></a>
 
-## 25.2. 檔案系統層級備份 [#](#BACKUP-FILE)
+## 25.2. 檔案系統層級備份 [#](#backup-file) <a href="#backup-file" id="backup-file"></a>
 
 另一種備份策略是直接複製 PostgreSQL
 用來在資料庫中儲存資料的檔案；[Section 18.2](../runtime/creating-cluster.md)

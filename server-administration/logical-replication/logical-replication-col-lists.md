@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-COL-LISTS"></a>
 
-## 29.5. 欄位清單 [#](#LOGICAL-REPLICATION-COL-LISTS)
+## 29.5. 欄位清單 [#](#logical-replication-col-lists) <a href="#logical-replication-col-lists" id="logical-replication-col-lists"></a>
 
 [29.5.1. 範例](logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-EXAMPLES)
 

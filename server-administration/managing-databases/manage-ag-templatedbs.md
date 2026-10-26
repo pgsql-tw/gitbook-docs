@@ -1,6 +1,6 @@
 <a id="MANAGE-AG-TEMPLATEDBS"></a>
 
-## 22.3. 範本資料庫 [#](#MANAGE-AG-TEMPLATEDBS)
+## 22.3. 範本資料庫 [#](#manage-ag-templatedbs) <a href="#manage-ag-templatedbs" id="manage-ag-templatedbs"></a>
 
 `CREATE DATABASE` 實際上是透過複製既有資料庫來運作的。
 依預設，它會複製名為

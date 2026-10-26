@@ -1,6 +1,6 @@
 <a id="CLIENT-AUTHENTICATION-PROBLEMS"></a>
 
-## 20.16. 驗證問題 [#](#CLIENT-AUTHENTICATION-PROBLEMS)
+## 20.16. 驗證問題 [#](#client-authentication-problems) <a href="#client-authentication-problems" id="client-authentication-problems"></a>
 
 驗證失敗及相關問題，通常會透過以下這類錯誤訊息顯現出來：
 

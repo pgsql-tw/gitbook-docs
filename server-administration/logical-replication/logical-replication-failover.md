@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-FAILOVER"></a>
 
-## 29.3. 邏輯複寫失效切換 [#](#LOGICAL-REPLICATION-FAILOVER)
+## 29.3. 邏輯複寫失效切換 [#](#logical-replication-failover) <a href="#logical-replication-failover" id="logical-replication-failover"></a>
 為了讓訂閱端節點即使在發布端節點失效時，仍能持續從發布端複寫資料，
 發布端節點必須對應有一個實體待命伺服器。透過在建立訂閱時指定
 `failover = true`，可以將主要伺服器上、對應各訂閱的邏輯插槽

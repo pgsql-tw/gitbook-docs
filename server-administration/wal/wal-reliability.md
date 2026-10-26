@@ -1,6 +1,6 @@
 <a id="WAL-RELIABILITY"></a>
 
-## 28.1. 可靠性 [#](#WAL-RELIABILITY)
+## 28.1. 可靠性 [#](#wal-reliability) <a href="#wal-reliability" id="wal-reliability"></a>
 
 可靠性是任何正式資料庫系統的重要特性，
 而 PostgreSQL 會盡一切可能確保運作的可靠性。

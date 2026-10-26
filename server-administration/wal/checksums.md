@@ -1,6 +1,6 @@
 <a id="CHECKSUMS"></a>
 
-## 28.2. 資料校驗和 [#](#CHECKSUMS)
+## 28.2. 資料校驗和 [#](#checksums) <a href="#checksums" id="checksums"></a>
 
 [28.2.1. 離線啟用校驗和](checksums.md#CHECKSUMS-OFFLINE-ENABLE-DISABLE)
 

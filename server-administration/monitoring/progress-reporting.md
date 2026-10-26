@@ -1,6 +1,6 @@
 <a id="PROGRESS-REPORTING"></a>
 
-## 27.4. 進度回報 [#](#PROGRESS-REPORTING)
+## 27.4. 進度回報 [#](#progress-reporting) <a href="#progress-reporting" id="progress-reporting"></a>
 
 [27.4.1. ANALYZE 進度回報](progress-reporting.md#ANALYZE-PROGRESS-REPORTING)
 

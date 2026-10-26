@@ -1,6 +1,6 @@
 <a id="AUTH-OAUTH"></a>
 
-## 20.15. OAuth 授權／認證 [#](#AUTH-OAUTH)
+## 20.15. OAuth 授權／認證 [#](#auth-oauth) <a href="#auth-oauth" id="auth-oauth"></a>
 
 <a id="id-1.6.7.22.2"></a>
 

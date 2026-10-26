@@ -1,6 +1,6 @@
 <a id="WAL-CONFIGURATION"></a>
 
-## 28.5. WAL 組態設定 [#](#WAL-CONFIGURATION)
+## 28.5. WAL 組態設定 [#](#wal-configuration) <a href="#wal-configuration" id="wal-configuration"></a>
 
 有數個與 WAL 相關的組態參數，會影響資料庫效能。
 本節將說明這些參數的用途。關於設定伺服器組態參數的

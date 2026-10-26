@@ -1,6 +1,6 @@
 <a id="DYNAMIC-TRACE"></a>
 
-## 27.5. 動態追蹤 [#](#DYNAMIC-TRACE)
+## 27.5. 動態追蹤 [#](#dynamic-trace) <a href="#dynamic-trace" id="dynamic-trace"></a>
 
 [27.5.1. 為動態追蹤編譯](dynamic-trace.md#COMPILING-FOR-TRACE)
 

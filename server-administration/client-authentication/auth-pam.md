@@ -1,6 +1,6 @@
 <a id="AUTH-PAM"></a>
 
-## 20.13. PAM 驗證 [#](#AUTH-PAM)
+## 20.13. PAM 驗證 [#](#auth-pam) <a href="#auth-pam" id="auth-pam"></a>
 
 <a id="id-1.6.7.20.2"></a>
 

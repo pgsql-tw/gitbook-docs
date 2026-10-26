@@ -1,6 +1,6 @@
 <a id="MANAGE-AG-DROPDB"></a>
 
-## 22.5. 刪除資料庫 [#](#MANAGE-AG-DROPDB)
+## 22.5. 刪除資料庫 [#](#manage-ag-dropdb) <a href="#manage-ag-dropdb" id="manage-ag-dropdb"></a>
 
 使用 [DROP DATABASE](../../reference/sql-commands/sql-dropdatabase.md) 命令刪除資料庫：<a id="id-1.6.9.8.2.2"></a>
 

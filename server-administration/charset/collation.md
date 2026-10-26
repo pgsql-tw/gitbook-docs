@@ -1,6 +1,6 @@
 <a id="COLLATION"></a>
 
-## 23.2. 定序支援 [#](#COLLATION)
+## 23.2. 定序支援 [#](#collation) <a href="#collation" id="collation"></a>
 
 [23.2.1. 概念](collation.md#COLLATION-CONCEPTS)
 

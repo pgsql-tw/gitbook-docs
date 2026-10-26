@@ -1,6 +1,6 @@
 <a id="MANAGE-AG-CREATEDB"></a>
 
-## 22.2. 建立資料庫 [#](#MANAGE-AG-CREATEDB)
+## 22.2. 建立資料庫 [#](#manage-ag-createdb) <a href="#manage-ag-createdb" id="manage-ag-createdb"></a>
 
 <a id="id-1.6.9.5.2"></a>
 

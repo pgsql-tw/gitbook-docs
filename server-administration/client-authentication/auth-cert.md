@@ -1,6 +1,6 @@
 <a id="AUTH-CERT"></a>
 
-## 20.12. 憑證驗證 [#](#AUTH-CERT)
+## 20.12. 憑證驗證 [#](#auth-cert) <a href="#auth-cert" id="auth-cert"></a>
 
 <a id="id-1.6.7.19.2"></a>
 

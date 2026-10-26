@@ -1,6 +1,6 @@
 <a id="CONTINUOUS-ARCHIVING"></a>
 
-## 25.3. 連續歸檔與時間點恢復（PITR） [#](#CONTINUOUS-ARCHIVING)
+## 25.3. 連續歸檔與時間點恢復（PITR） [#](#continuous-archiving) <a href="#continuous-archiving" id="continuous-archiving"></a>
 
 [25.3.1. 設定 WAL 歸檔](continuous-archiving.md#BACKUP-ARCHIVING-WAL)
 

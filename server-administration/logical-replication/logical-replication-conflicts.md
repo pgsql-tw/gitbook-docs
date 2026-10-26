@@ -1,6 +1,6 @@
 <a id="LOGICAL-REPLICATION-CONFLICTS"></a>
 
-## 29.7. 衝突 [#](#LOGICAL-REPLICATION-CONFLICTS)
+## 29.7. 衝突 [#](#logical-replication-conflicts) <a href="#logical-replication-conflicts" id="logical-replication-conflicts"></a>
 
 邏輯複寫的行為與一般 DML 操作類似：即使資料在訂閱端本機已被變更，
 資料仍然會被更新。若接收到的資料違反任何限制條件，複寫就會停止。

@@ -1,6 +1,6 @@
 <a id="MULTIBYTE"></a>
 
-## 23.3. 字元集支援 [#](#MULTIBYTE)
+## 23.3. 字元集支援 [#](#multibyte) <a href="#multibyte" id="multibyte"></a>
 
 [23.3.1. 支援的字元集](multibyte.md#MULTIBYTE-CHARSET-SUPPORTED)
 

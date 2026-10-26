@@ -1,6 +1,6 @@
 <a id="MANAGE-AG-CONFIG"></a>
 
-## 22.4. 資料庫設定 [#](#MANAGE-AG-CONFIG)
+## 22.4. 資料庫設定 [#](#manage-ag-config) <a href="#manage-ag-config" id="manage-ag-config"></a>
 
 如[第 19 章](../runtime-config/README.md)所述，PostgreSQL 伺服器提供許多執行時期設定變數。其中許多設定都可以指定個別資料庫的預設值。
 

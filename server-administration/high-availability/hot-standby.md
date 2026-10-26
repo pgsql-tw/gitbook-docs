@@ -1,6 +1,6 @@
 <a id="HOT-STANDBY"></a>
 
-## 26.4. 熱備援 [#](#HOT-STANDBY)
+## 26.4. 熱備援 [#](#hot-standby) <a href="#hot-standby" id="hot-standby"></a>
 
 [26.4.1. 使用者總覽](hot-standby.md#HOT-STANDBY-USERS)
 

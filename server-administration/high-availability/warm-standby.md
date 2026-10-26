@@ -1,6 +1,6 @@
 <a id="WARM-STANDBY"></a>
 
-## 26.2. 日誌傳送待命伺服器 [#](#WARM-STANDBY)
+## 26.2. 日誌傳送待命伺服器 [#](#warm-standby) <a href="#warm-standby" id="warm-standby"></a>
 
 [26.2.1. 規劃](warm-standby.md#STANDBY-PLANNING)
 
