@@ -2,9 +2,9 @@
 
 ## F.2. `auth_delay` — 驗證失敗時暫停 [#](#auth-delay) <a href="#auth-delay" id="auth-delay"></a>
 
-[F.2.1. 設定參數](auth-delay.md#AUTH-DELAY-CONFIGURATION-PARAMETERS)
+[F.2.1. 設定參數](auth-delay.md#auth-delay-configuration-parameters)
 
-[F.2.2. 作者](auth-delay.md#AUTH-DELAY-AUTHOR)
+[F.2.2. 作者](auth-delay.md#auth-delay-author)
 
 <a id="id-1.11.7.12.2"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="AUTH-DELAY-CONFIGURATION-PARAMETERS"></a>
 
-### F.2.1. 設定參數 [#](#AUTH-DELAY-CONFIGURATION-PARAMETERS)
+### F.2.1. 設定參數 [#](#auth-delay-configuration-parameters) <a href="#auth-delay-configuration-parameters" id="auth-delay-configuration-parameters"></a>
 
 `auth_delay.milliseconds` (`integer`) <a id="id-1.11.7.12.5.2.1.1.3"></a>
 :   回報驗證失敗前等待的毫秒數。預設值為 0。
@@ -31,7 +31,7 @@ auth_delay.milliseconds = '500'
 
 <a id="AUTH-DELAY-AUTHOR"></a>
 
-### F.2.2. 作者 [#](#AUTH-DELAY-AUTHOR)
+### F.2.2. 作者 [#](#auth-delay-author) <a href="#auth-delay-author" id="auth-delay-author"></a>
 
 KaiGai Kohei `<kaigai@ak.jp.nec.com>`
 

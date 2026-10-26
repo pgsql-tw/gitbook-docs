@@ -1,9 +1,9 @@
 <a id="RELEASE-18-1"></a>
 ## E.5. 18.1 版 [#](#release-18-1) <a href="#release-18-1" id="release-18-1"></a>
 
-[E.5.1. 遷移至 18.1 版](release-18-1.md#RELEASE-18-1-MIGRATION)
+[E.5.1. 遷移至 18.1 版](release-18-1.md#release-18-1-migration)
 
-[E.5.2. 變更內容](release-18-1.md#RELEASE-18-1-CHANGES)
+[E.5.2. 變更內容](release-18-1.md#release-18-1-changes)
 
 **發佈日期：**2025-11-13
 
@@ -13,13 +13,13 @@
 
 <a id="RELEASE-18-1-MIGRATION"></a>
 
-### E.5.1. 遷移至 18.1 版 [#](#RELEASE-18-1-MIGRATION)
+### E.5.1. 遷移至 18.1 版 [#](#release-18-1-migration) <a href="#release-18-1-migration" id="release-18-1-migration"></a>
 
 執行 18.X 版者不需要進行傾印／還原。
 
 <a id="RELEASE-18-1-CHANGES"></a>
 
-### E.5.2. 變更內容 [#](#RELEASE-18-1-CHANGES)
+### E.5.2. 變更內容 [#](#release-18-1-changes) <a href="#release-18-1-changes" id="release-18-1-changes"></a>
 
 * 在 `CREATE STATISTICS` 中檢查綱要上的
   `CREATE` 權限 (Jelte Fennema-Nio)

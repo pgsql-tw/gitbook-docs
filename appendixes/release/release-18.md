@@ -2,19 +2,19 @@
 
 ## E.6. 18 版 [#](#release-18) <a href="#release-18" id="release-18"></a>
 
-[E.6.1. 概覽](release-18.md#RELEASE-18-HIGHLIGHTS)
+[E.6.1. 概覽](release-18.md#release-18-highlights)
 
-[E.6.2. 遷移至 18 版](release-18.md#RELEASE-18-MIGRATION)
+[E.6.2. 遷移至 18 版](release-18.md#release-18-migration)
 
-[E.6.3. 變更內容](release-18.md#RELEASE-18-CHANGES)
+[E.6.3. 變更內容](release-18.md#release-18-changes)
 
-[E.6.4. 致謝](release-18.md#RELEASE-18-ACKNOWLEDGEMENTS)
+[E.6.4. 致謝](release-18.md#release-18-acknowledgements)
 
 **發佈日期：**2025-09-25
 
 <a id="RELEASE-18-HIGHLIGHTS"></a>
 
-### E.6.1. 概覽 [#](#RELEASE-18-HIGHLIGHTS)
+### E.6.1. 概覽 [#](#release-18-highlights) <a href="#release-18-highlights" id="release-18-highlights"></a>
 
 PostgreSQL 18 包含許多新功能與改進，包括：
 
@@ -43,7 +43,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
 <a id="RELEASE-18-MIGRATION"></a>
 
-### E.6.2. 遷移至 18 版 [#](#RELEASE-18-MIGRATION)
+### E.6.2. 遷移至 18 版 [#](#release-18-migration) <a href="#release-18-migration" id="release-18-migration"></a>
 
 想從任何先前版本遷移資料的使用者，必須使用 [pg_dumpall](../../reference/reference-client/app-pg-dumpall.md) 進行傾印／還原，或使用
 [pg_upgrade](../../reference/reference-server/pgupgrade.md)，或使用邏輯複寫。關於遷移至新主要版本的一般資訊，請參閱[第 18.6 節](../../server-administration/runtime/upgrading.md)。
@@ -124,7 +124,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   使用 [pg_upgrade](../../reference/reference-server/pgupgrade.md) 升級這類叢集時，建議在升級後重建所有與全文檢索及 pg_trgm 相關的索引。
 
 <a id="RELEASE-18-CHANGES"></a>
-### E.6.3. 變更內容 [#](#RELEASE-18-CHANGES)
+### E.6.3. 變更內容 [#](#release-18-changes) <a href="#release-18-changes" id="release-18-changes"></a>
 
 以下詳細說明 PostgreSQL 18 與前一個主要版本之間的變更。
 
@@ -1039,7 +1039,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   函式 [`pg_numa_available()`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)
   會回報 NUMA 感知的狀態，系統檢視表 [`pg_shmem_allocations_numa`](../../internals/views/view-pg-shmem-allocations-numa.md)
-  與 [`pg_buffercache_numa`](../contrib/pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
+  與 [`pg_buffercache_numa`](../contrib/pgbuffercache.md#pgbuffercache-pg-buffercache-numa)
   則會回報共享記憶體在各 NUMA 節點間的分布。
 * 為 [`pg_index`](../../internals/catalogs/catalog-pg-index.md) 新增 [TOAST](../../internals/storage/storage-toast.md) 資料表，
   以支援非常大的運算式索引 (Nathan Bossart)
@@ -1108,7 +1108,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [`EXPLAIN`](../../reference/sql-commands/sql-explain.md)
   輸出中加入除錯細節 (Robert Haas)
   [§](https://postgr.es/c/8d5ceb113)
-* 為 [`postgres_fdw_get_connections()`](../contrib/postgres-fdw.md#POSTGRES-FDW-FUNCTIONS) 新增輸出欄位
+* 為 [`postgres_fdw_get_connections()`](../contrib/postgres-fdw.md#postgres-fdw-functions) 新增輸出欄位
   (Hayato Kuroda, Sagar Dilip Shedge)
   [§](https://postgr.es/c/c297a47c5)
   [§](https://postgr.es/c/857df3cef)
@@ -1153,16 +1153,16 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 * 允許先將值排序，以加快 [btree_gist](../contrib/btree-gist.md)
   索引的建立 (Bernd Helmle, Andrey Borodin)
   [§](https://postgr.es/c/e4309f73f)
-* 新增 [amcheck](../contrib/amcheck.md) 檢查函式 [`gin_index_check()`](../contrib/amcheck.md#AMCHECK-FUNCTIONS)，
+* 新增 [amcheck](../contrib/amcheck.md) 檢查函式 [`gin_index_check()`](../contrib/amcheck.md#amcheck-functions)，
   用於驗證 `GIN` 索引 (Grigory Kryachko, Heikki
   Linnakangas, Andrey Borodin)
   [§](https://postgr.es/c/14ffaece0)
-* 新增函式 [`pg_buffercache_evict_relation()`](../contrib/pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
-  與 [`pg_buffercache_evict_all()`](../contrib/pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)，
+* 新增函式 [`pg_buffercache_evict_relation()`](../contrib/pgbuffercache.md#pgbuffercache-pg-buffercache-evict-relation)
+  與 [`pg_buffercache_evict_all()`](../contrib/pgbuffercache.md#pgbuffercache-pg-buffercache-evict-all)，
   用於逐出未被釘住（unpinned）的共享緩衝區 (Nazir Bilal Yavuz)
   [§](https://postgr.es/c/dcf7e1697)
 
-  既有函式 [`pg_buffercache_evict()`](../contrib/pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
+  既有函式 [`pg_buffercache_evict()`](../contrib/pgbuffercache.md#pgbuffercache-pg-buffercache-evict)
   現在會傳回緩衝區的刷寫狀態。
 * 允許擴充功能安裝自訂的 [EXPLAIN](../../reference/sql-commands/sql-explain.md)
   選項 (Robert Haas, Sami Imseih)
@@ -1187,7 +1187,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/dc6851596)
 
   這可以減少常數不同的 `SET` 陳述式所造成的膨脹。
-* 新增 [`pg_stat_statements`](../contrib/pgstatstatements.md#PGSTATSTATEMENTS-PG-STAT-STATEMENTS)
+* 新增 [`pg_stat_statements`](../contrib/pgstatstatements.md#pgstatstatements-pg-stat-statements)
   欄位，用於回報平行活動 (Guillaume Lelarge)
   [§](https://postgr.es/c/cf54a2c00)
 
@@ -1207,10 +1207,10 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   與 [`sha512crypt`](../contrib/pgcrypto.md#PGCRYPTO-CRYPT-ALGORITHMS)
   (Bernd Helmle)
   [§](https://postgr.es/c/749a9e20c)
-* 在 pgcrypto 的加密與解密中新增 [CFB](../contrib/pgcrypto.md#PGCRYPTO-RAW-ENC-FUNCS) 模式
+* 在 pgcrypto 的加密與解密中新增 [CFB](../contrib/pgcrypto.md#pgcrypto-raw-enc-funcs) 模式
   (Umar Hayat)
   [§](https://postgr.es/c/9ad1b3d01)
-* 新增函式 [`fips_mode()`](../contrib/pgcrypto.md#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)，
+* 新增函式 [`fips_mode()`](../contrib/pgcrypto.md#pgcrypto-openssl-support-funcs)，
   用於回報伺服器的 FIPS 模式 (Daniel
   Gustafsson)
   [§](https://postgr.es/c/924d89a35)
@@ -1222,7 +1222,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
 <a id="RELEASE-18-ACKNOWLEDGEMENTS"></a>
 
-### E.6.4. 致謝 [#](#RELEASE-18-ACKNOWLEDGEMENTS)
+### E.6.4. 致謝 [#](#release-18-acknowledgements) <a href="#release-18-acknowledgements" id="release-18-acknowledgements"></a>
 
 下列人士（依字母順序排列）以修補程式作者、提交者、審閱者、測試者或問題回報者的身分，對此版本做出貢獻。
 

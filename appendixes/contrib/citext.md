@@ -2,15 +2,15 @@
 
 ## F.9. citext — 不區分大小寫的字元字串型別 [#](#citext) <a href="#citext" id="citext"></a>
 
-[F.9.1. 原理](citext.md#CITEXT-RATIONALE)
+[F.9.1. 原理](citext.md#citext-rationale)
 
-[F.9.2. 使用方式](citext.md#CITEXT-HOW-TO-USE-IT)
+[F.9.2. 使用方式](citext.md#citext-how-to-use-it)
 
-[F.9.3. 字串比較行為](citext.md#CITEXT-STRING-COMPARISON-BEHAVIOR)
+[F.9.3. 字串比較行為](citext.md#citext-string-comparison-behavior)
 
-[F.9.4. 限制](citext.md#CITEXT-LIMITATIONS)
+[F.9.4. 限制](citext.md#citext-limitations)
 
-[F.9.5. 作者](citext.md#CITEXT-AUTHOR)
+[F.9.5. 作者](citext.md#citext-author)
 
 <a id="id-1.11.7.19.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="CITEXT-RATIONALE"></a>
 
-### F.9.1. 原理 [#](#CITEXT-RATIONALE)
+### F.9.1. 原理 [#](#citext-rationale) <a href="#citext-rationale" id="citext-rationale"></a>
 
 PostgreSQL 中進行不區分大小寫比對的標準方式，是在比較值時使用 `lower` 函式，例如：
 
@@ -43,7 +43,7 @@ SELECT * FROM tab WHERE lower(col) = LOWER(?);
 
 <a id="CITEXT-HOW-TO-USE-IT"></a>
 
-### F.9.2. 使用方式 [#](#CITEXT-HOW-TO-USE-IT)
+### F.9.2. 使用方式 [#](#citext-how-to-use-it) <a href="#citext-how-to-use-it" id="citext-how-to-use-it"></a>
 
 以下是簡單的使用範例：
 
@@ -67,7 +67,7 @@ SELECT * FROM users WHERE nick = 'Larry';
 
 <a id="CITEXT-STRING-COMPARISON-BEHAVIOR"></a>
 
-### F.9.3. 字串比較行為 [#](#CITEXT-STRING-COMPARISON-BEHAVIOR)
+### F.9.3. 字串比較行為 [#](#citext-string-comparison-behavior) <a href="#citext-string-comparison-behavior" id="citext-string-comparison-behavior"></a>
 
 `citext` 會先將每個字串轉為小寫（如同呼叫 `lower`），再以一般方式比較結果。因此，若 `lower` 對兩個字串產生相同結果，它們就會被視為相等。
 
@@ -89,7 +89,7 @@ SELECT * FROM users WHERE nick = 'Larry';
 
 <a id="CITEXT-LIMITATIONS"></a>
 
-### F.9.4. 限制 [#](#CITEXT-LIMITATIONS)
+### F.9.4. 限制 [#](#citext-limitations) <a href="#citext-limitations" id="citext-limitations"></a>
 
 * `citext` 的大小寫摺疊行為取決於資料庫的 `LC_CTYPE` 設定。因此，比較值的方式會在建立資料庫時決定。依 Unicode 標準定義，它不是真正不區分大小寫。實際上，若你滿意目前定序，應也會滿意 `citext` 的比較；但若資料庫中儲存不同語言的資料，當定序屬於另一種語言時，某一語言的使用者可能發現查詢結果不如預期。
 * 自 PostgreSQL 9.1 起，可將 `COLLATE` 規格附加至 `citext` 欄位或資料值。目前，`citext` 運算子比較已進行大小寫摺疊的字串時會遵守非預設 `COLLATE` 規格，但初始的小寫摺疊一律依資料庫的 `LC_CTYPE` 設定執行（也就是如同指定 `COLLATE "default"`）。未來版本可能變更為讓兩個步驟都遵循輸入的 `COLLATE` 規格。
@@ -100,7 +100,7 @@ SELECT * FROM users WHERE nick = 'Larry';
 
 <a id="CITEXT-AUTHOR"></a>
 
-### F.9.5. 作者 [#](#CITEXT-AUTHOR)
+### F.9.5. 作者 [#](#citext-author) <a href="#citext-author" id="citext-author"></a>
 
 David E. Wheeler `<david@kineticode.com>`
 

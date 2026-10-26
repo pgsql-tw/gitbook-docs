@@ -2,15 +2,15 @@
 
 ## F.16. fuzzystrmatch — 判定字串相似性與距離 [#](#fuzzystrmatch) <a href="#fuzzystrmatch" id="fuzzystrmatch"></a>
 
-[F.16.1. Soundex](fuzzystrmatch.md#FUZZYSTRMATCH-SOUNDEX)
+[F.16.1. Soundex](fuzzystrmatch.md#fuzzystrmatch-soundex)
 
-[F.16.2. Daitch-Mokotoff Soundex](fuzzystrmatch.md#FUZZYSTRMATCH-DAITCH-MOKOTOFF)
+[F.16.2. Daitch-Mokotoff Soundex](fuzzystrmatch.md#fuzzystrmatch-daitch-mokotoff)
 
-[F.16.3. Levenshtein](fuzzystrmatch.md#FUZZYSTRMATCH-LEVENSHTEIN)
+[F.16.3. Levenshtein](fuzzystrmatch.md#fuzzystrmatch-levenshtein)
 
-[F.16.4. Metaphone](fuzzystrmatch.md#FUZZYSTRMATCH-METAPHONE)
+[F.16.4. Metaphone](fuzzystrmatch.md#fuzzystrmatch-metaphone)
 
-[F.16.5. Double Metaphone](fuzzystrmatch.md#FUZZYSTRMATCH-DOUBLE-METAPHONE)
+[F.16.5. Double Metaphone](fuzzystrmatch.md#fuzzystrmatch-double-metaphone)
 
 <a id="id-1.11.7.26.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="FUZZYSTRMATCH-SOUNDEX"></a>
 
-### F.16.1. Soundex [#](#FUZZYSTRMATCH-SOUNDEX)
+### F.16.1. Soundex [#](#fuzzystrmatch-soundex) <a href="#fuzzystrmatch-soundex" id="fuzzystrmatch-soundex"></a>
 
 Soundex 系統會將發音相似的名稱轉換為相同的代碼，以進行比對。美國人口普查最初於 1880、1900 與 1910 年使用此系統。請注意，Soundex 對非英語名稱不太有用。
 
@@ -64,7 +64,7 @@ SELECT * FROM s WHERE difference(s.nm, 'john') > 2;
 
 <a id="FUZZYSTRMATCH-DAITCH-MOKOTOFF"></a>
 
-### F.16.2. Daitch-Mokotoff Soundex [#](#FUZZYSTRMATCH-DAITCH-MOKOTOFF)
+### F.16.2. Daitch-Mokotoff Soundex [#](#fuzzystrmatch-daitch-mokotoff) <a href="#fuzzystrmatch-daitch-mokotoff" id="fuzzystrmatch-daitch-mokotoff"></a>
 
 如同原始的 Soundex 系統，Daitch-Mokotoff Soundex 會將發音相似的名稱轉換為相同代碼來進行比對。不過，Daitch-Mokotoff Soundex 對非英語名稱的適用性遠高於原始系統。相對於原始系統的主要改良包括：
 
@@ -168,7 +168,7 @@ SELECT * FROM s WHERE soundex_tsvector(nm) @@ soundex_tsquery('Jameson John');
 
 <a id="FUZZYSTRMATCH-LEVENSHTEIN"></a>
 
-### F.16.3. Levenshtein [#](#FUZZYSTRMATCH-LEVENSHTEIN)
+### F.16.3. Levenshtein [#](#fuzzystrmatch-levenshtein) <a href="#fuzzystrmatch-levenshtein" id="fuzzystrmatch-levenshtein"></a>
 
 此函式計算兩個字串之間的 Levenshtein 距離：
 
@@ -217,7 +217,7 @@ test=# SELECT levenshtein_less_equal('extensive', 'exhaustive', 4);
 
 <a id="FUZZYSTRMATCH-METAPHONE"></a>
 
-### F.16.4. Metaphone [#](#FUZZYSTRMATCH-METAPHONE)
+### F.16.4. Metaphone [#](#fuzzystrmatch-metaphone) <a href="#fuzzystrmatch-metaphone" id="fuzzystrmatch-metaphone"></a>
 
 Metaphone 與 Soundex 相同，都是基於為輸入字串建立代表性代碼的概念。兩個字串若有相同代碼，便視為相似。
 
@@ -245,7 +245,7 @@ test=# SELECT metaphone('GUMBO', 4);
 
 <a id="FUZZYSTRMATCH-DOUBLE-METAPHONE"></a>
 
-### F.16.5. Double Metaphone [#](#FUZZYSTRMATCH-DOUBLE-METAPHONE)
+### F.16.5. Double Metaphone [#](#fuzzystrmatch-double-metaphone) <a href="#fuzzystrmatch-double-metaphone" id="fuzzystrmatch-double-metaphone"></a>
 
 Double Metaphone 系統會為指定輸入字串計算兩個「聽起來相像」的字串：一個「主要」和一個「替代」。在多數情況下兩者相同，但特別是非英語名稱，兩者可能會因發音而略有不同。這些函式會計算主要與替代代碼：
 

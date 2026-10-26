@@ -2,15 +2,15 @@
 
 ## F.19. intarray — 操作整數陣列 [#](#intarray) <a href="#intarray" id="intarray"></a>
 
-[F.19.1. `intarray` 函式與運算子](intarray.md#INTARRAY-FUNCS-OPS)
+[F.19.1. `intarray` 函式與運算子](intarray.md#intarray-funcs-ops)
 
-[F.19.2. 索引支援](intarray.md#INTARRAY-INDEX)
+[F.19.2. 索引支援](intarray.md#intarray-index)
 
-[F.19.3. 範例](intarray.md#INTARRAY-EXAMPLE)
+[F.19.3. 範例](intarray.md#intarray-example)
 
-[F.19.4. 效能測試](intarray.md#INTARRAY-BENCHMARK)
+[F.19.4. 效能測試](intarray.md#intarray-benchmark)
 
-[F.19.5. 作者](intarray.md#INTARRAY-AUTHORS)
+[F.19.5. 作者](intarray.md#intarray-authors)
 
 <a id="id-1.11.7.29.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="INTARRAY-FUNCS-OPS"></a>
 
-### F.19.1. `intarray` 函式與運算子 [#](#INTARRAY-FUNCS-OPS)
+### F.19.1. `intarray` 函式與運算子 [#](#intarray-funcs-ops) <a href="#intarray-funcs-ops" id="intarray-funcs-ops"></a>
 
 `intarray` 模組提供的函式列於[表 F.8](intarray.md#INTARRAY-FUNC-TABLE)，運算子列於[表 F.9](intarray.md#INTARRAY-OP-TABLE)。
 
@@ -251,7 +251,7 @@
 
 <a id="INTARRAY-INDEX"></a>
 
-### F.19.2. 索引支援 [#](#INTARRAY-INDEX)
+### F.19.2. 索引支援 [#](#intarray-index) <a href="#intarray-index" id="intarray-index"></a>
 
 `intarray` 為 `&&`、`@>` 與 `@@` 運算子及一般陣列相等比較提供索引支援。
 
@@ -267,7 +267,7 @@ GiST 與 GIN 索引之間的選擇，取決於其他章節所討論的兩者相�
 
 <a id="INTARRAY-EXAMPLE"></a>
 
-### F.19.3. 範例 [#](#INTARRAY-EXAMPLE)
+### F.19.3. 範例 [#](#intarray-example) <a href="#intarray-example" id="intarray-example"></a>
 
 ```
 
@@ -289,7 +289,7 @@ SELECT message.mid FROM message WHERE message.sections @@ '1&2'::query_int;
 
 <a id="INTARRAY-BENCHMARK"></a>
 
-### F.19.4. 效能測試 [#](#INTARRAY-BENCHMARK)
+### F.19.4. 效能測試 [#](#intarray-benchmark) <a href="#intarray-benchmark" id="intarray-benchmark"></a>
 
 原始碼目錄 `contrib/intarray/bench` 包含效能測試套件，可針對已安裝的 PostgreSQL 伺服器執行。（它也需要安裝 `DBD::Pg`。）執行方式如下：
 
@@ -306,7 +306,7 @@ psql -c "CREATE EXTENSION intarray" TEST
 
 <a id="INTARRAY-AUTHORS"></a>
 
-### F.19.5. 作者 [#](#INTARRAY-AUTHORS)
+### F.19.5. 作者 [#](#intarray-authors) <a href="#intarray-authors" id="intarray-authors"></a>
 
 所有工作由 Teodor Sigaev（`<teodor@sigaev.ru>`）與 Oleg Bartunov（`<oleg@sai.msu.su>`）完成。詳細資訊請參閱 <http://www.sai.msu.su/~megera/postgres/gist/>。Andrey Oktyabrski 對新增函式與操作做出了重要貢獻。
 

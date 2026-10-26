@@ -2,17 +2,17 @@
 
 ## F.22. ltree — 階層式樹狀資料型別 [#](#ltree) <a href="#ltree" id="ltree"></a>
 
-[F.22.1. 定義](ltree.md#LTREE-DEFINITIONS)
+[F.22.1. 定義](ltree.md#ltree-definitions)
 
-[F.22.2. 運算子與函式](ltree.md#LTREE-OPS-FUNCS)
+[F.22.2. 運算子與函式](ltree.md#ltree-ops-funcs)
 
-[F.22.3. 索引](ltree.md#LTREE-INDEXES)
+[F.22.3. 索引](ltree.md#ltree-indexes)
 
-[F.22.4. 範例](ltree.md#LTREE-EXAMPLE)
+[F.22.4. 範例](ltree.md#ltree-example)
 
-[F.22.5. 轉換](ltree.md#LTREE-TRANSFORMS)
+[F.22.5. 轉換](ltree.md#ltree-transforms)
 
-[F.22.6. 作者](ltree.md#LTREE-AUTHORS)
+[F.22.6. 作者](ltree.md#ltree-authors)
 
 <a id="id-1.11.7.32.2"></a>
 
@@ -22,7 +22,7 @@
 
 <a id="LTREE-DEFINITIONS"></a>
 
-### F.22.1. 定義 [#](#LTREE-DEFINITIONS)
+### F.22.1. 定義 [#](#ltree-definitions) <a href="#ltree-definitions" id="ltree-definitions"></a>
 
 *標籤*是由英數字元、底線與連字號組成的序列。有效的英數字元範圍取決於資料庫地區設定。例如，在 C 地區設定中，允許字元 `A-Za-z0-9_-`。標籤長度不可超過 1000 個字元。
 
@@ -101,7 +101,7 @@
 
 <a id="LTREE-OPS-FUNCS"></a>
 
-### F.22.2. 運算子與函式 [#](#LTREE-OPS-FUNCS)
+### F.22.2. 運算子與函式 [#](#ltree-ops-funcs) <a href="#ltree-ops-funcs" id="ltree-ops-funcs"></a>
 
 型別 `ltree` 具有一般比較運算子 `=`、`<>`、`<`、`>`、`<=`、`>=`。比較會依樹狀走訪順序排序，節點子項目則依標籤文字排序。此外，還提供[表 F.12](ltree.md#LTREE-OP-TABLE) 所示的專用運算子。
 
@@ -371,7 +371,7 @@
 
 <a id="LTREE-INDEXES"></a>
 
-### F.22.3. 索引 [#](#LTREE-INDEXES)
+### F.22.3. 索引 [#](#ltree-indexes) <a href="#ltree-indexes" id="ltree-indexes"></a>
 
 `ltree` 支援數種索引，可加速下列對應運算子的操作：
 
@@ -425,7 +425,7 @@
 
 <a id="LTREE-EXAMPLE"></a>
 
-### F.22.4. 範例 [#](#LTREE-EXAMPLE)
+### F.22.4. 範例 [#](#ltree-example) <a href="#ltree-example" id="ltree-example"></a>
 
 此範例使用下列資料（也可在原始碼發行套件的 `contrib/ltree/ltreetest.sql` 檔案中取得）：
 
@@ -558,13 +558,13 @@ ltreetest=> SELECT ins_label(path,2,'Space') FROM test WHERE path <@ 'Top.Scienc
 
 <a id="LTREE-TRANSFORMS"></a>
 
-### F.22.5. 轉換 [#](#LTREE-TRANSFORMS)
+### F.22.5. 轉換 [#](#ltree-transforms) <a href="#ltree-transforms" id="ltree-transforms"></a>
 
 `ltree_plpython3u` 擴充套件為 PL/Python 實作 `ltree` 型別的轉換。若已安裝此擴充套件，並在建立函式時指定此轉換，`ltree` 值就會對應為 Python 串列。（不過，目前尚不支援反向轉換。）
 
 <a id="LTREE-AUTHORS"></a>
 
-### F.22.6. 作者 [#](#LTREE-AUTHORS)
+### F.22.6. 作者 [#](#ltree-authors) <a href="#ltree-authors" id="ltree-authors"></a>
 
 所有工作均由 Teodor Sigaev（`<teodor@stack.net>`）與 Oleg Bartunov（`<oleg@sai.msu.su>`）完成。更多資訊請參閱 <http://www.sai.msu.su/~megera/postgres/gist/>。作者感謝 Eugeny Rodichev 提供有益的討論，並歡迎提供意見與錯誤回報。
 

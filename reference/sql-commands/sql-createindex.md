@@ -178,7 +178,7 @@ BRIN 索引接受這些參數：
 <a id="INDEX-RELOPTION-PAGES-PER-RANGE"></a>
 
 `pages_per_range` (`integer`) <a id="id-1.9.3.69.6.3.13.1.1.3"></a> [#](#INDEX-RELOPTION-PAGES-PER-RANGE)
-:   定義構成 BRIN 索引每個項目之一個區塊範圍的資料表區塊數量（詳情請參閱[第 65.5.1 節](../../internals/indextypes/brin.md#BRIN-INTRO)）。預設為 `128`。
+:   定義構成 BRIN 索引每個項目之一個區塊範圍的資料表區塊數量（詳情請參閱[第 65.5.1 節](../../internals/indextypes/brin.md#brin-intro)）。預設為 `128`。
 <a id="INDEX-RELOPTION-AUTOSUMMARIZE"></a>
 
 `autosummarize` (`boolean`) <a id="id-1.9.3.69.6.3.13.2.1.3"></a> [#](#INDEX-RELOPTION-AUTOSUMMARIZE)

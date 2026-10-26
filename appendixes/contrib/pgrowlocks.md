@@ -2,11 +2,11 @@
 
 ## F.31. pgrowlocks — 顯示資料表的資料列鎖定資訊 [#](#pgrowlocks) <a href="#pgrowlocks" id="pgrowlocks"></a>
 
-[F.31.1. 概觀](pgrowlocks.md#PGROWLOCKS-OVERVIEW)
+[F.31.1. 概觀](pgrowlocks.md#pgrowlocks-overview)
 
-[F.31.2. 輸出範例](pgrowlocks.md#PGROWLOCKS-SAMPLE-OUTPUT)
+[F.31.2. 輸出範例](pgrowlocks.md#pgrowlocks-sample-output)
 
-[F.31.3. 作者](pgrowlocks.md#PGROWLOCKS-AUTHOR)
+[F.31.3. 作者](pgrowlocks.md#pgrowlocks-author)
 
 <a id="id-1.11.7.41.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="PGROWLOCKS-OVERVIEW"></a>
 
-### F.31.1. 概觀 [#](#PGROWLOCKS-OVERVIEW)
+### F.31.1. 概觀 [#](#pgrowlocks-overview) <a href="#pgrowlocks-overview" id="pgrowlocks-overview"></a>
 
 <a id="id-1.11.7.41.5.2"></a>
 
@@ -55,7 +55,7 @@ SELECT * FROM accounts AS a, pgrowlocks('accounts') AS p
 
 <a id="PGROWLOCKS-SAMPLE-OUTPUT"></a>
 
-### F.31.2. 輸出範例 [#](#PGROWLOCKS-SAMPLE-OUTPUT)
+### F.31.2. 輸出範例 [#](#pgrowlocks-sample-output) <a href="#pgrowlocks-sample-output" id="pgrowlocks-sample-output"></a>
 
 ```
 
@@ -71,7 +71,7 @@ SELECT * FROM accounts AS a, pgrowlocks('accounts') AS p
 
 <a id="PGROWLOCKS-AUTHOR"></a>
 
-### F.31.3. 作者 [#](#PGROWLOCKS-AUTHOR)
+### F.31.3. 作者 [#](#pgrowlocks-author) <a href="#pgrowlocks-author" id="pgrowlocks-author"></a>
 
 Tatsuo Ishii
 

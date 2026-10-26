@@ -2,19 +2,19 @@
 
 ## F.35. pg_trgm — 支援以三元組比對文字相似度 [#](#pgtrgm) <a href="#pgtrgm" id="pgtrgm"></a>
 
-[F.35.1. 三元組（或三字圖）概念](pgtrgm.md#PGTRGM-CONCEPTS)
+[F.35.1. 三元組（或三字圖）概念](pgtrgm.md#pgtrgm-concepts)
 
-[F.35.2. 函式與運算子](pgtrgm.md#PGTRGM-FUNCS-OPS)
+[F.35.2. 函式與運算子](pgtrgm.md#pgtrgm-funcs-ops)
 
-[F.35.3. GUC 參數](pgtrgm.md#PGTRGM-GUC)
+[F.35.3. GUC 參數](pgtrgm.md#pgtrgm-guc)
 
-[F.35.4. 索引支援](pgtrgm.md#PGTRGM-INDEX)
+[F.35.4. 索引支援](pgtrgm.md#pgtrgm-index)
 
-[F.35.5. 文字檢索整合](pgtrgm.md#PGTRGM-TEXT-SEARCH)
+[F.35.5. 文字檢索整合](pgtrgm.md#pgtrgm-text-search)
 
-[F.35.6. 參考資料](pgtrgm.md#PGTRGM-REFERENCES)
+[F.35.6. 參考資料](pgtrgm.md#pgtrgm-references)
 
-[F.35.7. 作者](pgtrgm.md#PGTRGM-AUTHORS)
+[F.35.7. 作者](pgtrgm.md#pgtrgm-authors)
 
 <a id="id-1.11.7.45.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="PGTRGM-CONCEPTS"></a>
 
-### F.35.1. 三元組（或三字圖）概念 [#](#PGTRGM-CONCEPTS)
+### F.35.1. 三元組（或三字圖）概念 [#](#pgtrgm-concepts) <a href="#pgtrgm-concepts" id="pgtrgm-concepts"></a>
 
 三元組是從字串中取出的一組三個連續字元。我們可以計算兩個字串共有的三元組數量，藉此衡量它們的相似度。事實證明，這個簡單的想法在衡量許多自然語言中單字的相似度時非常有效。
 
@@ -47,7 +47,7 @@
 
 <a id="PGTRGM-FUNCS-OPS"></a>
 
-### F.35.2. 函式與運算子 [#](#PGTRGM-FUNCS-OPS)
+### F.35.2. 函式與運算子 [#](#pgtrgm-funcs-ops) <a href="#pgtrgm-funcs-ops" id="pgtrgm-funcs-ops"></a>
 
 `pg_trgm` 模組提供的函式列於[表 F.26](pgtrgm.md#PGTRGM-FUNC-TABLE)，運算子則列於[表 F.27](pgtrgm.md#PGTRGM-OP-TABLE)。
 
@@ -219,7 +219,7 @@
 
 <a id="PGTRGM-GUC"></a>
 
-### F.35.3. GUC 參數 [#](#PGTRGM-GUC)
+### F.35.3. GUC 參數 [#](#pgtrgm-guc) <a href="#pgtrgm-guc" id="pgtrgm-guc"></a>
 
 <a id="GUC-PGTRGM-SIMILARITY-THRESHOLD"></a>
 
@@ -236,7 +236,7 @@
 
 <a id="PGTRGM-INDEX"></a>
 
-### F.35.4. 索引支援 [#](#PGTRGM-INDEX)
+### F.35.4. 索引支援 [#](#pgtrgm-index) <a href="#pgtrgm-index" id="pgtrgm-index"></a>
 
 `pg_trgm` 模組提供 GiST 與 GIN 索引運算子類別，讓你可以在文字欄位上建立索引，以進行非常快速的相似度搜尋。這些索引類型支援上述的相似度運算子，此外也支援以三元組為基礎、用於 `LIKE`、`ILIKE`、`~`、`~*` 與 `=` 查詢的索引搜尋。在預設建置的 `pg_trgm` 中，相似度比較不區分大小寫。不支援不等式運算子。請注意，對於等值運算子，這些索引的效率可能不如一般的 B-tree 索引。
 
@@ -353,7 +353,7 @@ SELECT * FROM test_trgm WHERE t ~ '(foo|bar)';
 
 <a id="PGTRGM-TEXT-SEARCH"></a>
 
-### F.35.5. 文字檢索整合 [#](#PGTRGM-TEXT-SEARCH)
+### F.35.5. 文字檢索整合 [#](#pgtrgm-text-search) <a href="#pgtrgm-text-search" id="pgtrgm-text-search"></a>
 
 三元組比對與全文索引搭配使用時，是非常有用的工具。特別是，它可以幫助辨識拼錯的輸入單字，這些單字無法由全文檢索機制直接比對到。
 
@@ -382,7 +382,7 @@ CREATE INDEX words_idx ON words USING GIN (word gin_trgm_ops);
 
 <a id="PGTRGM-REFERENCES"></a>
 
-### F.35.6. 參考資料 [#](#PGTRGM-REFERENCES)
+### F.35.6. 參考資料 [#](#pgtrgm-references) <a href="#pgtrgm-references" id="pgtrgm-references"></a>
 
 GiST 開發網站
 <http://www.sai.msu.su/~megera/postgres/gist/>
@@ -392,7 +392,7 @@ Tsearch2 開發網站
 
 <a id="PGTRGM-AUTHORS"></a>
 
-### F.35.7. 作者 [#](#PGTRGM-AUTHORS)
+### F.35.7. 作者 [#](#pgtrgm-authors) <a href="#pgtrgm-authors" id="pgtrgm-authors"></a>
 
 Oleg Bartunov `<oleg@sai.msu.su>`，莫斯科，Moscow University，俄羅斯
 

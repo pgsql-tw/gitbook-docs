@@ -2,21 +2,21 @@
 
 ## F.17. hstore — hstore 鍵／值資料型別 [#](#hstore) <a href="#hstore" id="hstore"></a>
 
-[F.17.1. `hstore` 外部表示法](hstore.md#HSTORE-EXTERNAL-REP)
+[F.17.1. `hstore` 外部表示法](hstore.md#hstore-external-rep)
 
-[F.17.2. `hstore` 運算子與函式](hstore.md#HSTORE-OPS-FUNCS)
+[F.17.2. `hstore` 運算子與函式](hstore.md#hstore-ops-funcs)
 
-[F.17.3. 索引](hstore.md#HSTORE-INDEXES)
+[F.17.3. 索引](hstore.md#hstore-indexes)
 
-[F.17.4. 範例](hstore.md#HSTORE-EXAMPLES)
+[F.17.4. 範例](hstore.md#hstore-examples)
 
-[F.17.5. 統計資訊](hstore.md#HSTORE-STATISTICS)
+[F.17.5. 統計資訊](hstore.md#hstore-statistics)
 
-[F.17.6. 相容性](hstore.md#HSTORE-COMPATIBILITY)
+[F.17.6. 相容性](hstore.md#hstore-compatibility)
 
-[F.17.7. 轉換](hstore.md#HSTORE-TRANSFORMS)
+[F.17.7. 轉換](hstore.md#hstore-transforms)
 
-[F.17.8. 作者](hstore.md#HSTORE-AUTHORS)
+[F.17.8. 作者](hstore.md#hstore-authors)
 
 <a id="id-1.11.7.27.2"></a>
 
@@ -26,7 +26,7 @@
 
 <a id="HSTORE-EXTERNAL-REP"></a>
 
-### F.17.1. `hstore` 外部表示法 [#](#HSTORE-EXTERNAL-REP)
+### F.17.1. `hstore` 外部表示法 [#](#hstore-external-rep) <a href="#hstore-external-rep" id="hstore-external-rep"></a>
 
 `hstore` 用於輸入與輸出的文字表示法，包含零個或多個以逗號分隔的 *`key`* `=>` *`value`* 配對。範例：
 
@@ -66,7 +66,7 @@ key => NULL
 
 <a id="HSTORE-OPS-FUNCS"></a>
 
-### F.17.2. `hstore` 運算子與函式 [#](#HSTORE-OPS-FUNCS)
+### F.17.2. `hstore` 運算子與函式 [#](#hstore-ops-funcs) <a href="#hstore-ops-funcs" id="hstore-ops-funcs"></a>
 
 `hstore` 模組提供的運算子列於[表 F.6](hstore.md#HSTORE-OP-TABLE)，函式列於[表 F.7](hstore.md#HSTORE-FUNC-TABLE)。
 
@@ -527,7 +527,7 @@ SELECT h FROM mytable;
 
 <a id="HSTORE-INDEXES"></a>
 
-### F.17.3. 索引 [#](#HSTORE-INDEXES)
+### F.17.3. 索引 [#](#hstore-indexes) <a href="#hstore-indexes" id="hstore-indexes"></a>
 
 `hstore` 對 `@>`、`?`、`?&` 與 `?|` 運算子支援 GiST 與 GIN 索引。例如：
 
@@ -558,7 +558,7 @@ CREATE INDEX hidx ON testhstore USING HASH (h);
 
 <a id="HSTORE-EXAMPLES"></a>
 
-### F.17.4. 範例 [#](#HSTORE-EXAMPLES)
+### F.17.4. 範例 [#](#hstore-examples) <a href="#hstore-examples" id="hstore-examples"></a>
 
 新增一個鍵，或以新值更新現有鍵：
 
@@ -632,7 +632,7 @@ SELECT (r).* FROM (SELECT t #= '"col3"=>"baz"' AS r FROM test t) s;
 
 <a id="HSTORE-STATISTICS"></a>
 
-### F.17.5. 統計資訊 [#](#HSTORE-STATISTICS)
+### F.17.5. 統計資訊 [#](#hstore-statistics) <a href="#hstore-statistics" id="hstore-statistics"></a>
 
 `hstore` 型別天生具有彈性，因此可能含有許多不同的鍵。檢查鍵是否有效是應用程式的責任。以下範例示範數種檢查鍵與取得統計資訊的技術。
 
@@ -674,7 +674,7 @@ SELECT key, count(*) FROM
 
 <a id="HSTORE-COMPATIBILITY"></a>
 
-### F.17.6. 相容性 [#](#HSTORE-COMPATIBILITY)
+### F.17.6. 相容性 [#](#hstore-compatibility) <a href="#hstore-compatibility" id="hstore-compatibility"></a>
 
 自 PostgreSQL 9.0 起，`hstore` 使用與舊版不同的內部表示法。這不會造成傾印／還原升級的阻礙，因為文字表示法（用於傾印）未變更。
 
@@ -696,13 +696,13 @@ ALTER TABLE tablename ALTER hstorecol TYPE hstore USING hstorecol || '';
 
 <a id="HSTORE-TRANSFORMS"></a>
 
-### F.17.7. 轉換 [#](#HSTORE-TRANSFORMS)
+### F.17.7. 轉換 [#](#hstore-transforms) <a href="#hstore-transforms" id="hstore-transforms"></a>
 
 另有可用擴充功能，為 PL/Perl 與 PL/Python 語言實作 `hstore` 型別的轉換。PL/Perl 的擴充功能分別名為 `hstore_plperl` 與 `hstore_plperlu`，對應受信任與不受信任的 PL/Perl。若安裝這些轉換並在建立函式時指定它們，`hstore` 值會對應到 Perl 雜湊。PL/Python 的擴充功能名為 `hstore_plpython3u`；若使用它，`hstore` 值會對應到 Python 字典。
 
 <a id="HSTORE-AUTHORS"></a>
 
-### F.17.8. 作者 [#](#HSTORE-AUTHORS)
+### F.17.8. 作者 [#](#hstore-authors) <a href="#hstore-authors" id="hstore-authors"></a>
 
 Oleg Bartunov `<oleg@sai.msu.su>`, Moscow, Moscow University, Russia
 

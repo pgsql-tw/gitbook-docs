@@ -2,9 +2,9 @@
 
 ## F.34. `pg_surgery` — 對關聯資料執行低階修復 [#](#pgsurgery) <a href="#pgsurgery" id="pgsurgery"></a>
 
-[F.34.1. 函式](pgsurgery.md#PGSURGERY-FUNCS)
+[F.34.1. 函式](pgsurgery.md#pgsurgery-funcs)
 
-[F.34.2. 作者](pgsurgery.md#PGSURGERY-AUTHORS)
+[F.34.2. 作者](pgsurgery.md#pgsurgery-authors)
 
 <a id="id-1.11.7.44.2"></a>
 
@@ -12,7 +12,7 @@
 
 <a id="PGSURGERY-FUNCS"></a>
 
-### F.34.1. 函式 [#](#PGSURGERY-FUNCS)
+### F.34.1. 函式 [#](#pgsurgery-funcs) <a href="#pgsurgery-funcs" id="pgsurgery-funcs"></a>
 
 `heap_force_kill(regclass, tid[]) returns void`
 :   `heap_force_kill` 不檢查 tuple，便將「已使用」的行指標標記為「死亡」。此函式的用途是強制移除其他方式無法存取的 tuple。例如：
@@ -63,7 +63,7 @@
 
 <a id="PGSURGERY-AUTHORS"></a>
 
-### F.34.2. 作者 [#](#PGSURGERY-AUTHORS)
+### F.34.2. 作者 [#](#pgsurgery-authors) <a href="#pgsurgery-authors" id="pgsurgery-authors"></a>
 
 Ashutosh Sharma `<ashu.coek88@gmail.com>`
 

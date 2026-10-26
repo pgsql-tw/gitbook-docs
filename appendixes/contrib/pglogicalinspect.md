@@ -2,9 +2,9 @@
 
 ## F.28. pg_logicalinspect — 邏輯解碼元件檢查 [#](#pglogicalinspect) <a href="#pglogicalinspect" id="pglogicalinspect"></a>
 
-[F.28.1. 函式](pglogicalinspect.md#PGLOGICALINSPECT-FUNCS)
+[F.28.1. 函式](pglogicalinspect.md#pglogicalinspect-funcs)
 
-[F.28.2. 作者](pglogicalinspect.md#PGLOGICALINSPECT-AUTHOR)
+[F.28.2. 作者](pglogicalinspect.md#pglogicalinspect-author)
 
 <a id="id-1.11.7.38.2"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="PGLOGICALINSPECT-FUNCS"></a>
 
-### F.28.1. 函式 [#](#PGLOGICALINSPECT-FUNCS)
+### F.28.1. 函式 [#](#pglogicalinspect-funcs) <a href="#pglogicalinspect-funcs" id="pglogicalinspect-funcs"></a>
 
 <a id="PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-META"></a>
 
@@ -105,7 +105,7 @@
 
 <a id="PGLOGICALINSPECT-AUTHOR"></a>
 
-### F.28.2. 作者 [#](#PGLOGICALINSPECT-AUTHOR)
+### F.28.2. 作者 [#](#pglogicalinspect-author) <a href="#pglogicalinspect-author" id="pglogicalinspect-author"></a>
 
 Bertrand Drouvot `<bertranddrouvot.pg@gmail.com>`
 

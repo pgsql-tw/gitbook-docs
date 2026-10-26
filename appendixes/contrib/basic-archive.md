@@ -2,11 +2,11 @@
 
 ## F.5. `basic_archive` — WAL 封存模組範例 [#](#basic-archive) <a href="#basic-archive" id="basic-archive"></a>
 
-[F.5.1. 設定參數](basic-archive.md#BASIC-ARCHIVE-CONFIGURATION-PARAMETERS)
+[F.5.1. 設定參數](basic-archive.md#basic-archive-configuration-parameters)
 
-[F.5.2. 注意事項](basic-archive.md#BASIC-ARCHIVE-NOTES)
+[F.5.2. 注意事項](basic-archive.md#basic-archive-notes)
 
-[F.5.3. 作者](basic-archive.md#BASIC-ARCHIVE-AUTHOR)
+[F.5.3. 作者](basic-archive.md#basic-archive-author)
 
 <a id="id-1.11.7.15.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="BASIC-ARCHIVE-CONFIGURATION-PARAMETERS"></a>
 
-### F.5.1. 設定參數 [#](#BASIC-ARCHIVE-CONFIGURATION-PARAMETERS)
+### F.5.1. 設定參數 [#](#basic-archive-configuration-parameters) <a href="#basic-archive-configuration-parameters" id="basic-archive-configuration-parameters"></a>
 
 `basic_archive.archive_directory` (`string`) <a id="id-1.11.7.15.5.2.1.1.3"></a>
 :   伺服器應複製 WAL 區段檔案的目錄。此目錄必須已存在。預設值是空字串，實際上會停止 WAL 封存；但若啟用 [archive_mode](../../server-administration/runtime-config/runtime-config-wal.md#GUC-ARCHIVE-MODE)，伺服器會累積 WAL 區段檔案，預期很快就會提供設定值。
@@ -33,13 +33,13 @@ basic_archive.archive_directory = '/path/to/archive/directory'
 
 <a id="BASIC-ARCHIVE-NOTES"></a>
 
-### F.5.2. 注意事項 [#](#BASIC-ARCHIVE-NOTES)
+### F.5.2. 注意事項 [#](#basic-archive-notes) <a href="#basic-archive-notes" id="basic-archive-notes"></a>
 
 伺服器當機可能會在封存目錄中留下以 `archtemp` 為前綴的暫存檔。建議在當機後重新啟動伺服器之前刪除這類檔案。伺服器運作期間，只要這些檔案與任何仍在進行的封存無關，便可安全移除；但使用者進行此操作時應格外小心。
 
 <a id="BASIC-ARCHIVE-AUTHOR"></a>
 
-### F.5.3. 作者 [#](#BASIC-ARCHIVE-AUTHOR)
+### F.5.3. 作者 [#](#basic-archive-author) <a href="#basic-archive-author" id="basic-archive-author"></a>
 
 Nathan Bossart
 

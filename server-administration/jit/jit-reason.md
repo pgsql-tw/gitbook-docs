@@ -33,7 +33,7 @@ tuple 解構。未來可能還會加速其他幾種操作。
 子句、目標清單、聚合與投影。透過針對每種情況產生
 專屬程式碼，可以加速這個過程。
 
-tuple 解構是將磁碟上的 tuple（見[第 66.6.1 節](../../internals/storage/storage-page-layout.md#STORAGE-TUPLE-LAYOUT)）轉換為其記憶體內表示形式的過程。
+tuple 解構是將磁碟上的 tuple（見[第 66.6.1 節](../../internals/storage/storage-page-layout.md#storage-tuple-layout)）轉換為其記憶體內表示形式的過程。
 可以透過建立一個專屬於資料表結構
 與要擷取欄位數量的函式，來加速這個過程。
 

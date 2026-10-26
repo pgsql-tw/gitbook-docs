@@ -2,15 +2,15 @@
 
 ## 65.6. 雜湊索引 [#](#hash-index) <a href="#hash-index" id="hash-index"></a>
 
-[65.6.1. 概述](hash-index.md#HASH-INTRO)
+[65.6.1. 概述](hash-index.md#hash-intro)
 
-[65.6.2. 實作](hash-index.md#HASH-IMPLEMENTATION)
+[65.6.2. 實作](hash-index.md#hash-implementation)
 
 <a id="id-1.10.17.7.2"></a>
 
 <a id="HASH-INTRO"></a>
 
-### 65.6.1. 概述 [#](#HASH-INTRO)
+### 65.6.1. 概述 [#](#hash-intro) <a href="#hash-intro" id="hash-intro"></a>
 
 PostgreSQL 包含持久化於磁碟的雜湊索引實作，而且可以完全從當機中復原。任何資料型別都可以用雜湊索引建立索引，包括沒有明確定義線性順序的資料型別。雜湊索引只儲存被索引資料的雜湊值，因此對被索引資料欄位的大小沒有限制。
 
@@ -36,7 +36,7 @@ PostgreSQL 包含持久化於磁碟的雜湊索引實作，而且可以完全從
 
 <a id="HASH-IMPLEMENTATION"></a>
 
-### 65.6.2. 實作 [#](#HASH-IMPLEMENTATION)
+### 65.6.2. 實作 [#](#hash-implementation) <a href="#hash-implementation" id="hash-implementation"></a>
 
 雜湊索引中有四種頁面：元頁面（meta page，第 0 頁），包含靜態配置的控制資訊；主要桶頁面；溢位頁面；以及點陣圖頁面，用來追蹤已被釋放且可以重複使用的溢位頁面。為了定址的目的，點陣圖頁面被視為溢位頁面的一個子集。
 

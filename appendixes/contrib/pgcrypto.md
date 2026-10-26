@@ -2,23 +2,23 @@
 
 ## F.26. pgcrypto — 密碼學函式 [#](#pgcrypto) <a href="#pgcrypto" id="pgcrypto"></a>
 
-[F.26.1. 一般雜湊函式](pgcrypto.md#PGCRYPTO-GENERAL-HASHING-FUNCS)
+[F.26.1. 一般雜湊函式](pgcrypto.md#pgcrypto-general-hashing-funcs)
 
-[F.26.2. 密碼雜湊函式](pgcrypto.md#PGCRYPTO-PASSWORD-HASHING-FUNCS)
+[F.26.2. 密碼雜湊函式](pgcrypto.md#pgcrypto-password-hashing-funcs)
 
-[F.26.3. PGP 加密函式](pgcrypto.md#PGCRYPTO-PGP-ENC-FUNCS)
+[F.26.3. PGP 加密函式](pgcrypto.md#pgcrypto-pgp-enc-funcs)
 
-[F.26.4. 原始加密函式](pgcrypto.md#PGCRYPTO-RAW-ENC-FUNCS)
+[F.26.4. 原始加密函式](pgcrypto.md#pgcrypto-raw-enc-funcs)
 
-[F.26.5. 隨機資料函式](pgcrypto.md#PGCRYPTO-RANDOM-DATA-FUNCS)
+[F.26.5. 隨機資料函式](pgcrypto.md#pgcrypto-random-data-funcs)
 
-[F.26.6. OpenSSL 支援函式](pgcrypto.md#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)
+[F.26.6. OpenSSL 支援函式](pgcrypto.md#pgcrypto-openssl-support-funcs)
 
-[F.26.7. 設定參數](pgcrypto.md#PGCRYPTO-CONFIGURATION-PARAMETERS)
+[F.26.7. 設定參數](pgcrypto.md#pgcrypto-configuration-parameters)
 
-[F.26.8. 注意事項](pgcrypto.md#PGCRYPTO-NOTES)
+[F.26.8. 注意事項](pgcrypto.md#pgcrypto-notes)
 
-[F.26.9. 作者](pgcrypto.md#PGCRYPTO-AUTHOR)
+[F.26.9. 作者](pgcrypto.md#pgcrypto-author)
 
 <a id="id-1.11.7.36.2"></a><a id="id-1.11.7.36.3"></a>
 
@@ -30,7 +30,7 @@
 
 <a id="PGCRYPTO-GENERAL-HASHING-FUNCS"></a>
 
-### F.26.1. 一般雜湊函式 [#](#PGCRYPTO-GENERAL-HASHING-FUNCS)
+### F.26.1. 一般雜湊函式 [#](#pgcrypto-general-hashing-funcs) <a href="#pgcrypto-general-hashing-funcs" id="pgcrypto-general-hashing-funcs"></a>
 
 <a id="PGCRYPTO-GENERAL-HASHING-FUNCS-DIGEST"></a>
 
@@ -75,7 +75,7 @@ hmac(data bytea, key bytea, type text) returns bytea
 
 <a id="PGCRYPTO-PASSWORD-HASHING-FUNCS"></a>
 
-### F.26.2. 密碼雜湊函式 [#](#PGCRYPTO-PASSWORD-HASHING-FUNCS)
+### F.26.2. 密碼雜湊函式 [#](#pgcrypto-password-hashing-funcs) <a href="#pgcrypto-password-hashing-funcs" id="pgcrypto-password-hashing-funcs"></a>
 
 函式 `crypt()` 與 `gen_salt()` 是專為雜湊密碼而設計的。`crypt()` 負責進行雜湊，`gen_salt()` 則為其準備演算法參數。
 
@@ -186,7 +186,7 @@ gen_salt(type text [, iter_count integer ]) returns text
 
 <a id="PGCRYPTO-PGP-ENC-FUNCS"></a>
 
-### F.26.3. PGP 加密函式 [#](#PGCRYPTO-PGP-ENC-FUNCS)
+### F.26.3. PGP 加密函式 [#](#pgcrypto-pgp-enc-funcs) <a href="#pgcrypto-pgp-enc-funcs" id="pgcrypto-pgp-enc-funcs"></a>
 
 這裡的函式實作了 OpenPGP（[RFC 4880](https://datatracker.ietf.org/doc/html/rfc4880)）標準中的加密部分。對稱金鑰加密與公開金鑰加密都有支援。
 
@@ -539,7 +539,7 @@ gpg -a --export-secret-keys KEYID > secret.key
 
 <a id="PGCRYPTO-RAW-ENC-FUNCS"></a>
 
-### F.26.4. 原始加密函式 [#](#PGCRYPTO-RAW-ENC-FUNCS)
+### F.26.4. 原始加密函式 [#](#pgcrypto-raw-enc-funcs) <a href="#pgcrypto-raw-enc-funcs" id="pgcrypto-raw-enc-funcs"></a>
 
 這些函式只會對資料執行加密演算法，不具備 PGP 加密的任何進階功能。因此它們有幾個主要問題：
 
@@ -596,7 +596,7 @@ encrypt(data, 'fooz', 'bf-cbc/pad:pkcs')
 
 <a id="PGCRYPTO-RANDOM-DATA-FUNCS"></a>
 
-### F.26.5. 隨機資料函式 [#](#PGCRYPTO-RANDOM-DATA-FUNCS)
+### F.26.5. 隨機資料函式 [#](#pgcrypto-random-data-funcs) <a href="#pgcrypto-random-data-funcs" id="pgcrypto-random-data-funcs"></a>
 
 <a id="id-1.11.7.36.11.2"></a>
 
@@ -618,7 +618,7 @@ gen_random_uuid() returns uuid
 
 <a id="PGCRYPTO-OPENSSL-SUPPORT-FUNCS"></a>
 
-### F.26.6. OpenSSL 支援函式 [#](#PGCRYPTO-OPENSSL-SUPPORT-FUNCS)
+### F.26.6. OpenSSL 支援函式 [#](#pgcrypto-openssl-support-funcs) <a href="#pgcrypto-openssl-support-funcs" id="pgcrypto-openssl-support-funcs"></a>
 
 <a id="id-1.11.7.36.12.2"></a>
 
@@ -631,7 +631,7 @@ fips_mode() returns boolean
 
 <a id="PGCRYPTO-CONFIGURATION-PARAMETERS"></a>
 
-### F.26.7. 設定參數 [#](#PGCRYPTO-CONFIGURATION-PARAMETERS)
+### F.26.7. 設定參數 [#](#pgcrypto-configuration-parameters) <a href="#pgcrypto-configuration-parameters" id="pgcrypto-configuration-parameters"></a>
 
 有一個設定參數可控制 `pgcrypto` 的行為。
 
@@ -646,7 +646,7 @@ fips_mode() returns boolean
 
 <a id="PGCRYPTO-NOTES"></a>
 
-### F.26.8. 注意事項 [#](#PGCRYPTO-NOTES)
+### F.26.8. 注意事項 [#](#pgcrypto-notes) <a href="#pgcrypto-notes" id="pgcrypto-notes"></a>
 
 <a id="PGCRYPTO-NOTES-CONFIG"></a>
 
@@ -681,7 +681,7 @@ fips_mode() returns boolean
 
 <a id="PGCRYPTO-AUTHOR"></a>
 
-### F.26.9. 作者 [#](#PGCRYPTO-AUTHOR)
+### F.26.9. 作者 [#](#pgcrypto-author) <a href="#pgcrypto-author" id="pgcrypto-author"></a>
 
 Marko Kreen `<markokr@gmail.com>`
 

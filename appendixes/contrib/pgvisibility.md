@@ -2,9 +2,9 @@
 
 ## F.36. pg_visibility — 可見性對應表資訊與工具 [#](#pgvisibility) <a href="#pgvisibility" id="pgvisibility"></a>
 
-[F.36.1. 函式](pgvisibility.md#PGVISIBILITY-FUNCS)
+[F.36.1. 函式](pgvisibility.md#pgvisibility-funcs)
 
-[F.36.2. 作者](pgvisibility.md#PGVISIBILITY-AUTHOR)
+[F.36.2. 作者](pgvisibility.md#pgvisibility-author)
 
 <a id="id-1.11.7.46.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="PGVISIBILITY-FUNCS"></a>
 
-### F.36.1. 函式 [#](#PGVISIBILITY-FUNCS)
+### F.36.1. 函式 [#](#pgvisibility-funcs) <a href="#pgvisibility-funcs" id="pgvisibility-funcs"></a>
 
 `pg_visibility_map(relation regclass, blkno bigint, all_visible OUT boolean, all_frozen OUT boolean) returns record`
 :   傳回可見性對應表中，指定關聯之指定區塊的全部可見與全部凍結位元。
@@ -52,7 +52,7 @@
 
 <a id="PGVISIBILITY-AUTHOR"></a>
 
-### F.36.2. 作者 [#](#PGVISIBILITY-AUTHOR)
+### F.36.2. 作者 [#](#pgvisibility-author) <a href="#pgvisibility-author" id="pgvisibility-author"></a>
 
 Robert Haas `<rhaas@postgresql.org>`
 

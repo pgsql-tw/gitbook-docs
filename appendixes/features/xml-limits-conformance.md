@@ -2,9 +2,9 @@
 
 ## D.3. XML 限制與 SQL/XML 符合性 [#](#xml-limits-conformance) <a href="#xml-limits-conformance" id="xml-limits-conformance"></a>
 
-[D.3.1. 查詢僅限於 XPath 1.0](xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-XPATH1)
+[D.3.1. 查詢僅限於 XPath 1.0](xml-limits-conformance.md#functions-xml-limits-xpath1)
 
-[D.3.2. 實作上的附帶限制](xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-POSTGRESQL)
+[D.3.2. 實作上的附帶限制](xml-limits-conformance.md#functions-xml-limits-postgresql)
 
 <a id="id-1.11.5.13.2"></a>
 
@@ -26,7 +26,7 @@ PostgreSQL 對 XML 資料型別及相關函式的實作大致遵循較早的 200
 
 <a id="FUNCTIONS-XML-LIMITS-XPATH1"></a>
 
-### D.3.1. 查詢僅限於 XPath 1.0 [#](#FUNCTIONS-XML-LIMITS-XPATH1)
+### D.3.1. 查詢僅限於 XPath 1.0 [#](#functions-xml-limits-xpath1) <a href="#functions-xml-limits-xpath1" id="functions-xml-limits-xpath1"></a>
 
 PostgreSQL 特有的函式
 `xpath()` 與 `xpath_exists()`
@@ -113,7 +113,7 @@ XML 資料型別的 XPath 1.0 字串形式會是 SQL 資料型別的有效文字
 
 <a id="FUNCTIONS-XML-LIMITS-POSTGRESQL"></a>
 
-### D.3.2. 實作上的附帶限制 [#](#FUNCTIONS-XML-LIMITS-POSTGRESQL)
+### D.3.2. 實作上的附帶限制 [#](#functions-xml-limits-postgresql) <a href="#functions-xml-limits-postgresql" id="functions-xml-limits-postgresql"></a>
 
 本節說明的限制並非 libxml2 函式庫本身所固有，而是適用於 PostgreSQL 目前的實作。
 

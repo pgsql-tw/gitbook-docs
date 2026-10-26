@@ -2,11 +2,11 @@
 
 ## F.3. auto_explain — 記錄慢速查詢的執行計畫 [#](#auto-explain) <a href="#auto-explain" id="auto-explain"></a>
 
-[F.3.1. 設定參數](auto-explain.md#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)
+[F.3.1. 設定參數](auto-explain.md#auto-explain-configuration-parameters)
 
-[F.3.2. 範例](auto-explain.md#AUTO-EXPLAIN-EXAMPLE)
+[F.3.2. 範例](auto-explain.md#auto-explain-example)
 
-[F.3.3. 作者](auto-explain.md#AUTO-EXPLAIN-AUTHOR)
+[F.3.3. 作者](auto-explain.md#auto-explain-author)
 
 <a id="id-1.11.7.13.2"></a>
 
@@ -23,7 +23,7 @@ LOAD 'auto_explain';
 
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS"></a>
 
-### F.3.1. 設定參數 [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS)
+### F.3.1. 設定參數 [#](#auto-explain-configuration-parameters) <a href="#auto-explain-configuration-parameters" id="auto-explain-configuration-parameters"></a>
 
 有數個設定參數可控制 `auto_explain` 的行為。請注意，預設行為是不執行任何動作；若要取得任何結果，至少必須設定 `auto_explain.log_min_duration`。
 
@@ -121,7 +121,7 @@ auto_explain.log_min_duration = '3s'
 
 <a id="AUTO-EXPLAIN-EXAMPLE"></a>
 
-### F.3.2. 範例 [#](#AUTO-EXPLAIN-EXAMPLE)
+### F.3.2. 範例 [#](#auto-explain-example) <a href="#auto-explain-example" id="auto-explain-example"></a>
 
 ```
 
@@ -153,7 +153,7 @@ LOG:  duration: 3.651 ms  plan:
 
 <a id="AUTO-EXPLAIN-AUTHOR"></a>
 
-### F.3.3. 作者 [#](#AUTO-EXPLAIN-AUTHOR)
+### F.3.3. 作者 [#](#auto-explain-author) <a href="#auto-explain-author" id="auto-explain-author"></a>
 
 Takahiro Itagaki `<itagaki.takahiro@oss.ntt.co.jp>`
 

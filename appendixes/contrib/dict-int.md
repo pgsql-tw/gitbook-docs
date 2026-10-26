@@ -2,9 +2,9 @@
 
 ## F.12. `dict_int` — 整數全文檢索字典範例 [#](#dict-int) <a href="#dict-int" id="dict-int"></a>
 
-[F.12.1. 設定](dict-int.md#DICT-INT-CONFIG)
+[F.12.1. 設定](dict-int.md#dict-int-config)
 
-[F.12.2. 使用方式](dict-int.md#DICT-INT-USAGE)
+[F.12.2. 使用方式](dict-int.md#dict-int-usage)
 
 <a id="id-1.11.7.22.2"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="DICT-INT-CONFIG"></a>
 
-### F.12.1. 設定 [#](#DICT-INT-CONFIG)
+### F.12.1. 設定 [#](#dict-int-config) <a href="#dict-int-config" id="dict-int-config"></a>
 
 此字典接受三個選項：
 
@@ -24,7 +24,7 @@
 
 <a id="DICT-INT-USAGE"></a>
 
-### F.12.2. 使用方式 [#](#DICT-INT-USAGE)
+### F.12.2. 使用方式 [#](#dict-int-usage) <a href="#dict-int-usage" id="dict-int-usage"></a>
 
 安裝 `dict_int` 擴充功能會以預設參數建立全文檢索範本 `intdict_template` 與基於該範本的字典 `intdict`。你可以變更這些參數，例如：
 

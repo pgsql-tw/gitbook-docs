@@ -2,13 +2,13 @@
 
 ## F.1. amcheck — 驗證資料表與索引一致性的工具 [#](#amcheck) <a href="#amcheck" id="amcheck"></a>
 
-[F.1.1. 函式](amcheck.md#AMCHECK-FUNCTIONS)
+[F.1.1. 函式](amcheck.md#amcheck-functions)
 
-[F.1.2. 選用的 *`heapallindexed`* 驗證](amcheck.md#AMCHECK-OPTIONAL-HEAPALLINDEXED-VERIFICATION)
+[F.1.2. 選用的 *`heapallindexed`* 驗證](amcheck.md#amcheck-optional-heapallindexed-verification)
 
-[F.1.3. 有效使用 `amcheck`](amcheck.md#AMCHECK-USING-AMCHECK-EFFECTIVELY)
+[F.1.3. 有效使用 `amcheck`](amcheck.md#amcheck-using-amcheck-effectively)
 
-[F.1.4. 修復毀損](amcheck.md#AMCHECK-REPAIRING-CORRUPTION)
+[F.1.4. 修復毀損](amcheck.md#amcheck-repairing-corruption)
 
 <a id="id-1.11.7.11.2"></a>
 
@@ -24,7 +24,7 @@ B-tree 檢查函式會驗證特定關聯表示法結構中的各種*不變量*�
 
 <a id="AMCHECK-FUNCTIONS"></a>
 
-### F.1.1. 函式 [#](#AMCHECK-FUNCTIONS)
+### F.1.1. 函式 [#](#amcheck-functions) <a href="#amcheck-functions" id="amcheck-functions"></a>
 
 `bt_index_check(index regclass, heapallindexed boolean, checkunique boolean) returns void` <a id="id-1.11.7.11.8.2.1.1.2"></a>
 :   `bt_index_check` 測試其目標 B-tree 索引是否遵守各種不變量。使用範例如下：
@@ -133,7 +133,7 @@ SET client_min_messages = DEBUG1;
 
 <a id="AMCHECK-OPTIONAL-HEAPALLINDEXED-VERIFICATION"></a>
 
-### F.1.2. 選用的 *`heapallindexed`* 驗證 [#](#AMCHECK-OPTIONAL-HEAPALLINDEXED-VERIFICATION)
+### F.1.2. 選用的 *`heapallindexed`* 驗證 [#](#amcheck-optional-heapallindexed-verification) <a href="#amcheck-optional-heapallindexed-verification" id="amcheck-optional-heapallindexed-verification"></a>
 
 當 B-tree 驗證函式的 *`heapallindexed`* 引數為 `true` 時，會對與目標索引關聯相關的資料表執行額外驗證階段。這相當於「虛擬」的 `CREATE INDEX CONCURRENTLY` 作業，會使用暫存的記憶體內摘要結構檢查所有假設的新索引 tuple 是否存在（此結構會在基本的第一驗證階段按需要建立）。摘要結構會對目標索引中找到的每個 tuple 建立「指紋」。*`heapallindexed`* 驗證背後的高層原理是：等同於既有目標索引的新索引，其項目必定可以在既有結構中找到。
 
@@ -143,7 +143,7 @@ SET client_min_messages = DEBUG1;
 
 <a id="AMCHECK-USING-AMCHECK-EFFECTIVELY"></a>
 
-### F.1.3. 有效使用 `amcheck` [#](#AMCHECK-USING-AMCHECK-EFFECTIVELY)
+### F.1.3. 有效使用 `amcheck` [#](#amcheck-using-amcheck-effectively) <a href="#amcheck-using-amcheck-effectively" id="amcheck-using-amcheck-effectively"></a>
 
 `amcheck` 可有效偵測[資料校驗和](../../server-administration/wal/checksums.md)無法捕捉的各種故障模式，包括：
 
@@ -179,7 +179,7 @@ SET client_min_messages = DEBUG1;
 
 <a id="AMCHECK-REPAIRING-CORRUPTION"></a>
 
-### F.1.4. 修復毀損 [#](#AMCHECK-REPAIRING-CORRUPTION)
+### F.1.4. 修復毀損 [#](#amcheck-repairing-corruption) <a href="#amcheck-repairing-corruption" id="amcheck-repairing-corruption"></a>
 
 `amcheck` 所引發、與毀損相關的錯誤絕不應是誤判。`amcheck` 在定義上不應發生的情況下引發錯誤，因此經常需要仔細分析 `amcheck` 錯誤。
 

@@ -448,7 +448,7 @@
     預設值為 4 百萬位元組（`4MB`）。可以透過變更
     索引儲存參數，針對個別 GIN 索引覆寫
     此設定。
-    詳情請參閱[65.4.4.1 節](../../internals/indextypes/gin.md#GIN-FAST-UPDATE)與[65.4.5 節](../../internals/indextypes/gin.md#GIN-TIPS)。
+    詳情請參閱[65.4.4.1 節](../../internals/indextypes/gin.md#GIN-FAST-UPDATE)與[65.4.5 節](../../internals/indextypes/gin.md#gin-tips)。
 <a id="GUC-CREATEROLE-SELF-GRANT"></a>
 
 `createrole_self_grant` (`string`) <a id="id-1.6.6.14.2.2.25.1.3"></a> [#](#GUC-CREATEROLE-SELF-GRANT)
@@ -931,7 +931,7 @@ PostgreSQL 程序語言程式庫
 
 `gin_fuzzy_search_limit` (`integer`) <a id="id-1.6.6.14.5.2.3.1.3"></a> [#](#GUC-GIN-FUZZY-SEARCH-LIMIT)
 :   GIN 索引掃描所傳回結果集大小的軟性上限。詳情請參閱
-    [65.4.5 節](../../internals/indextypes/gin.md#GIN-TIPS)。
+    [65.4.5 節](../../internals/indextypes/gin.md#gin-tips)。
 
 ---
 

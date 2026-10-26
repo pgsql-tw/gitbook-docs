@@ -2,7 +2,7 @@
 
 ## 66.6. 資料庫頁面配置 [#](#storage-page-layout) <a href="#storage-page-layout" id="storage-page-layout"></a>
 
-[66.6.1. 資料表資料列配置](storage-page-layout.md#STORAGE-TUPLE-LAYOUT)
+[66.6.1. 資料表資料列配置](storage-page-layout.md#storage-tuple-layout)
 
 本節概述 PostgreSQL 資料表與索引中所使用的頁面格式。[<a id="id-1.10.18.8.2.2"></a>[19]](#ftn.id-1.10.18.8.2.2)序列與 TOAST 資料表的格式與一般資料表完全相同。
 
@@ -52,7 +52,7 @@
 
 <a id="STORAGE-TUPLE-LAYOUT"></a>
 
-### 66.6.1. 資料表資料列配置 [#](#STORAGE-TUPLE-LAYOUT)
+### 66.6.1. 資料表資料列配置 [#](#storage-tuple-layout) <a href="#storage-tuple-layout" id="storage-tuple-layout"></a>
 
 所有資料表資料列的結構都相同。有一個固定大小的標頭（在大多數機器上佔 23 個位元組），接著是選用的 null 點陣圖、選用的物件 ID 欄位，以及使用者資料。標頭詳見[表 66.4](storage-page-layout.md#HEAPTUPLEHEADERDATA-TABLE)。實際的使用者資料（資料列的欄位）從 `t_hoff` 所指示的位移開始，這個位移必須永遠是該平台 MAXALIGN 距離的倍數。只有在 `t_infomask` 中設定了 *HEAP_HASNULL* 位元時，才會有 null 點陣圖。若存在，它會緊接在固定標頭之後開始，並佔用足夠的位元組，讓每個資料欄位各有一個位元（也就是位元數等於 `t_infomask2` 中的屬性數量）。在這個位元清單中，1 位元表示非 null，0 位元表示 null。當點陣圖不存在時，所有欄位都會被視為非 null。只有在 `t_infomask` 中設定了 *HEAP_HASOID_OLD* 位元時，才會有物件 ID。若存在，它會出現在緊接 `t_hoff` 邊界之前的位置。為了讓 `t_hoff` 成為 MAXALIGN 的倍數所需的任何填補，都會出現在 null 點陣圖與物件 ID 之間。（這也進而確保物件 ID 有適當的對齊。）
 

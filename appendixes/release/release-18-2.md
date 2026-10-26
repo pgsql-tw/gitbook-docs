@@ -1,9 +1,9 @@
 <a id="RELEASE-18-2"></a>
 ## E.4. 18.2 版 [#](#release-18-2) <a href="#release-18-2" id="release-18-2"></a>
 
-[E.4.1. 遷移至 18.2 版](release-18-2.md#RELEASE-18-2-MIGRATION)
+[E.4.1. 遷移至 18.2 版](release-18-2.md#release-18-2-migration)
 
-[E.4.2. 變更內容](release-18-2.md#RELEASE-18-2-CHANGES)
+[E.4.2. 變更內容](release-18-2.md#release-18-2-changes)
 
 **發佈日期：**2026-02-12
 
@@ -13,7 +13,7 @@
 
 <a id="RELEASE-18-2-MIGRATION"></a>
 
-### E.4.1. 遷移至 18.2 版 [#](#RELEASE-18-2-MIGRATION)
+### E.4.1. 遷移至 18.2 版 [#](#release-18-2-migration) <a href="#release-18-2-migration" id="release-18-2-migration"></a>
 
 執行 18.X 版者不需要進行傾印／還原。
 
@@ -22,7 +22,7 @@
 
 <a id="RELEASE-18-2-CHANGES"></a>
 
-### E.4.2. 變更內容 [#](#RELEASE-18-2-CHANGES)
+### E.4.2. 變更內容 [#](#release-18-2-changes) <a href="#release-18-2-changes" id="release-18-2-changes"></a>
 
 * 防範 `oidvector`／`int2vector` 出現非預期的
   維度 (Tom Lane)

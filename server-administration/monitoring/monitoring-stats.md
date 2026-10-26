@@ -2284,7 +2284,7 @@ writer` 的資料列中，`reads` 將
 <p>
        更新後版本被放置於一個<span class="emphasis"><em>新</em></span>堆積分頁上，
        而留下具有指向不同堆積分頁之
-       <a class="link" href="../../internals/storage/storage-page-layout.md#STORAGE-TUPLE-LAYOUT"><code class="structfield">t_ctid</code>
+       <a class="link" href="../../internals/storage/storage-page-layout.md#storage-tuple-layout"><code class="structfield">t_ctid</code>
         欄位</a>之原始版本的資料列更新數量。這些
        一律屬於非 <acronym class="acronym">HOT</acronym> 更新。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">

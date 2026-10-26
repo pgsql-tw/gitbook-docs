@@ -2,9 +2,9 @@
 
 ## F.4. `basebackup_to_shell` — 「shell」`pg_basebackup` 模組範例 [#](#basebackup-to-shell) <a href="#basebackup-to-shell" id="basebackup-to-shell"></a>
 
-[F.4.1. 設定參數](basebackup-to-shell.md#BASEBACKUP-TO-SHELL-CONFIGURATION-PARAMETERS)
+[F.4.1. 設定參數](basebackup-to-shell.md#basebackup-to-shell-configuration-parameters)
 
-[F.4.2. 作者](basebackup-to-shell.md#BASEBACKUP-TO-SHELL-AUTHOR)
+[F.4.2. 作者](basebackup-to-shell.md#basebackup-to-shell-author)
 
 <a id="id-1.11.7.14.2"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="BASEBACKUP-TO-SHELL-CONFIGURATION-PARAMETERS"></a>
 
-### F.4.1. 設定參數 [#](#BASEBACKUP-TO-SHELL-CONFIGURATION-PARAMETERS)
+### F.4.1. 設定參數 [#](#basebackup-to-shell-configuration-parameters) <a href="#basebackup-to-shell-configuration-parameters" id="basebackup-to-shell-configuration-parameters"></a>
 
 `basebackup_to_shell.command` (`string`) <a id="id-1.11.7.14.5.2.1.1.3"></a>
 :   伺服器應針對備份程序產生的每個封存檔執行的命令。若命令字串中出現 `%f`，會以封存檔名稱（例如 `base.tar`）取代。若命令字串中出現 `%d`，會以使用者提供的目標詳細資料取代。命令字串使用 `%d` 時必須提供目標詳細資料，否則禁止提供。基於安全性原因，目標詳細資料只能包含英數字元。若命令字串中出現 `%%`，會以單一 `%` 取代。若命令字串中的 `%` 後接其他任何字元，或位於字串末尾，便會發生錯誤。
@@ -24,7 +24,7 @@
 
 <a id="BASEBACKUP-TO-SHELL-AUTHOR"></a>
 
-### F.4.2. 作者 [#](#BASEBACKUP-TO-SHELL-AUTHOR)
+### F.4.2. 作者 [#](#basebackup-to-shell-author) <a href="#basebackup-to-shell-author" id="basebackup-to-shell-author"></a>
 
 Robert Haas `<rhaas@postgresql.org>`
 

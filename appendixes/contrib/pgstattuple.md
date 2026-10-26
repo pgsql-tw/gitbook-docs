@@ -2,9 +2,9 @@
 
 ## F.33. pgstattuple — 取得元組層級的統計資訊 [#](#pgstattuple) <a href="#pgstattuple" id="pgstattuple"></a>
 
-[F.33.1. 函式](pgstattuple.md#PGSTATTUPLE-FUNCS)
+[F.33.1. 函式](pgstattuple.md#pgstattuple-funcs)
 
-[F.33.2. 作者](pgstattuple.md#PGSTATTUPLE-AUTHORS)
+[F.33.2. 作者](pgstattuple.md#pgstattuple-authors)
 
 <a id="id-1.11.7.43.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="PGSTATTUPLE-FUNCS"></a>
 
-### F.33.1. 函式 [#](#PGSTATTUPLE-FUNCS)
+### F.33.1. 函式 [#](#pgstattuple-funcs) <a href="#pgstattuple-funcs" id="pgstattuple-funcs"></a>
 
 <a id="id-1.11.7.43.5.2.1.1.1"></a> `pgstattuple(regclass) returns record`
 :   `pgstattuple` 會傳回關聯的實體長度、「死亡」資料列的百分比，以及其他資訊。這可以協助使用者判斷是否需要清理（vacuum）。引數是目標關聯的名稱（可選擇以綱要限定）或 OID。
@@ -183,7 +183,7 @@
 
 <a id="PGSTATTUPLE-AUTHORS"></a>
 
-### F.33.2. 作者 [#](#PGSTATTUPLE-AUTHORS)
+### F.33.2. 作者 [#](#pgstattuple-authors) <a href="#pgstattuple-authors" id="pgstattuple-authors"></a>
 
 Tatsuo Ishii、Satoshi Nagayasu 與 Abhijit Menon-Sen
 

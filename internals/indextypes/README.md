@@ -36,7 +36,7 @@
     [65.3.5. 範例](spgist.md#SPGIST-EXAMPLES)
 
 [65.4. GIN 索引](gin.md)
-:   [65.4.1. 簡介](gin.md#GIN-INTRO)
+:   [65.4.1. 簡介](gin.md#gin-intro)
 
     [65.4.2. 內建運算子類別](gin.md#GIN-BUILTIN-OPCLASSES)
 
@@ -51,14 +51,14 @@
     [65.4.7. 範例](gin.md#GIN-EXAMPLES)
 
 [65.5. BRIN 索引](brin.md)
-:   [65.5.1. 簡介](brin.md#BRIN-INTRO)
+:   [65.5.1. 簡介](brin.md#brin-intro)
 
     [65.5.2. 內建運算子類別](brin.md#BRIN-BUILTIN-OPCLASSES)
 
     [65.5.3. 擴充性](brin.md#BRIN-EXTENSIBILITY)
 
 [65.6. 雜湊索引](hash-index.md)
-:   [65.6.1. 概述](hash-index.md#HASH-INTRO)
+:   [65.6.1. 概述](hash-index.md#hash-intro)
 
     [65.6.2. 實作](hash-index.md#HASH-IMPLEMENTATION)
 

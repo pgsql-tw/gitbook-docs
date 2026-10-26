@@ -1,9 +1,9 @@
 <a id="RELEASE-18-6"></a>
 ## E.1. 18.6 版 [#](#release-18-6) <a href="#release-18-6" id="release-18-6"></a>
 
-[E.1.1. 遷移至 18.6 版](release-18-6.md#RELEASE-18-6-MIGRATION)
+[E.1.1. 遷移至 18.6 版](release-18-6.md#release-18-6-migration)
 
-[E.1.2. 變更內容](release-18-6.md#RELEASE-18-6-CHANGES)
+[E.1.2. 變更內容](release-18-6.md#release-18-6-changes)
 
 **發佈日期：**2026-08-13
 
@@ -16,7 +16,7 @@
 
 <a id="RELEASE-18-6-MIGRATION"></a>
 
-### E.1.1. 遷移至 18.6 版 [#](#RELEASE-18-6-MIGRATION)
+### E.1.1. 遷移至 18.6 版 [#](#release-18-6-migration) <a href="#release-18-6-migration" id="release-18-6-migration"></a>
 
 執行 18.X 版者不需要進行傾印／還原。
 
@@ -35,7 +35,7 @@
 
 <a id="RELEASE-18-6-CHANGES"></a>
 
-### E.1.2. 變更內容 [#](#RELEASE-18-6-CHANGES)
+### E.1.2. 變更內容 [#](#release-18-6-changes) <a href="#release-18-6-changes" id="release-18-6-changes"></a>
 
 * 將邏輯解碼輸出外掛程式限制在新伺服器參數
   `output_plugin_libraries` 所指定的集合內

@@ -7,7 +7,7 @@
 [68.1. 系統目錄宣告規則](system-catalog-declarations.md)
 
 [68.2. 系統目錄初始資料](system-catalog-initial-data.md)
-:   [68.2.1. 資料檔格式](system-catalog-initial-data.md#SYSTEM-CATALOG-INITIAL-DATA-FORMAT)
+:   [68.2.1. 資料檔格式](system-catalog-initial-data.md#system-catalog-initial-data-format)
 
     [68.2.2. OID 指派](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
 

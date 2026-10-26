@@ -2,9 +2,9 @@
 
 ## F.37. pg_walinspect — 低階 WAL 檢視 [#](#pgwalinspect) <a href="#pgwalinspect" id="pgwalinspect"></a>
 
-[F.37.1. 一般函式](pgwalinspect.md#PGWALINSPECT-FUNCS)
+[F.37.1. 一般函式](pgwalinspect.md#pgwalinspect-funcs)
 
-[F.37.2. 作者](pgwalinspect.md#PGWALINSPECT-AUTHOR)
+[F.37.2. 作者](pgwalinspect.md#pgwalinspect-author)
 
 <a id="id-1.11.7.47.2"></a>
 
@@ -36,7 +36,7 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
 
 <a id="PGWALINSPECT-FUNCS"></a>
 
-### F.37.1. 一般函式 [#](#PGWALINSPECT-FUNCS)
+### F.37.1. 一般函式 [#](#pgwalinspect-funcs) <a href="#pgwalinspect-funcs" id="pgwalinspect-funcs"></a>
 
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-RECORD-INFO"></a>
 
@@ -189,7 +189,7 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
 
 <a id="PGWALINSPECT-AUTHOR"></a>
 
-### F.37.2. 作者 [#](#PGWALINSPECT-AUTHOR)
+### F.37.2. 作者 [#](#pgwalinspect-author) <a href="#pgwalinspect-author" id="pgwalinspect-author"></a>
 
 Bharath Rupireddy `<bharath.rupireddyforpostgres@gmail.com>`
 

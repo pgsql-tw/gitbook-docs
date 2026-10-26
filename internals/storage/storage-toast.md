@@ -2,9 +2,9 @@
 
 ## 66.2. TOAST [#](#storage-toast) <a href="#storage-toast" id="storage-toast"></a>
 
-[66.2.1. 資料列外的磁碟 TOAST 儲存](storage-toast.md#STORAGE-TOAST-ONDISK)
+[66.2.1. 資料列外的磁碟 TOAST 儲存](storage-toast.md#storage-toast-ondisk)
 
-[66.2.2. 資料列外的記憶體 TOAST 儲存](storage-toast.md#STORAGE-TOAST-INMEMORY)
+[66.2.2. 資料列外的記憶體 TOAST 儲存](storage-toast.md#storage-toast-inmemory)
 
 <a id="id-1.10.18.4.2"></a><a id="id-1.10.18.4.3"></a>
 
@@ -19,11 +19,11 @@ TOAST 佔用了 varlena 長度字組中的兩個位元（在 big-endian 機器�
 對於內嵌（in-line）或資料列外的壓縮資料，所使用的壓縮技術可以針對每個欄位，透過在 `CREATE
 TABLE` 或 `ALTER TABLE` 中設定 `COMPRESSION` 欄位選項來選擇。未明確設定的欄位，預設會在插入資料時參考 [default_toast_compression](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TOAST-COMPRESSION) 參數。
 
-如前所述，TOAST 指標 datum 有多種類型。最古老也最常見的類型，是指向儲存在 *TOAST 資料表*中之資料列外資料的指標，該 TOAST 資料表與包含 TOAST 指標 datum 本身的資料表是分開的，但彼此相關聯。這些*磁碟上（on-disk）*的指標 datum，是在要儲存到磁碟的 tuple 太大而無法原樣儲存時，由 TOAST 管理程式碼（位於 `access/common/toast_internals.c`）所建立。更多細節請見[第 66.2.1 節](storage-toast.md#STORAGE-TOAST-ONDISK)。另外，TOAST 指標 datum 也可以包含一個指向記憶體中其他位置之資料列外資料的指標。這類 datum 必然是短暫存在的，也永遠不會出現在磁碟上，但對於避免大型資料值的複製與重複處理非常有用。更多細節請見[第 66.2.2 節](storage-toast.md#STORAGE-TOAST-INMEMORY)。
+如前所述，TOAST 指標 datum 有多種類型。最古老也最常見的類型，是指向儲存在 *TOAST 資料表*中之資料列外資料的指標，該 TOAST 資料表與包含 TOAST 指標 datum 本身的資料表是分開的，但彼此相關聯。這些*磁碟上（on-disk）*的指標 datum，是在要儲存到磁碟的 tuple 太大而無法原樣儲存時，由 TOAST 管理程式碼（位於 `access/common/toast_internals.c`）所建立。更多細節請見[第 66.2.1 節](storage-toast.md#storage-toast-ondisk)。另外，TOAST 指標 datum 也可以包含一個指向記憶體中其他位置之資料列外資料的指標。這類 datum 必然是短暫存在的，也永遠不會出現在磁碟上，但對於避免大型資料值的複製與重複處理非常有用。更多細節請見[第 66.2.2 節](storage-toast.md#storage-toast-inmemory)。
 
 <a id="STORAGE-TOAST-ONDISK"></a>
 
-### 66.2.1. 資料列外的磁碟 TOAST 儲存 [#](#STORAGE-TOAST-ONDISK)
+### 66.2.1. 資料列外的磁碟 TOAST 儲存 [#](#storage-toast-ondisk) <a href="#storage-toast-ondisk" id="storage-toast-ondisk"></a>
 
 若資料表中有任何欄位是可 TOAST 化的，該資料表就會有一個相關聯的 TOAST 資料表，其 OID 儲存在該資料表的 `pg_class`.`reltoastrelid` 項目中。磁碟上已 TOAST 化的值會保存在 TOAST 資料表中，詳細說明如下。
 
@@ -46,7 +46,7 @@ TOAST 管理程式碼可識別四種在磁碟上儲存可 TOAST 化欄位的策�
 
 <a id="STORAGE-TOAST-INMEMORY"></a>
 
-### 66.2.2. 資料列外的記憶體 TOAST 儲存 [#](#STORAGE-TOAST-INMEMORY)
+### 66.2.2. 資料列外的記憶體 TOAST 儲存 [#](#storage-toast-inmemory) <a href="#storage-toast-inmemory" id="storage-toast-inmemory"></a>
 
 TOAST 指標可以指向不在磁碟上、而是在目前伺服器程序記憶體中其他位置的資料。這類指標顯然不能長期存在，但它們仍然很有用。目前有兩種子情況：指向*間接（indirect）*資料的指標，以及指向*展開（expanded）*資料的指標。
 

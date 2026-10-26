@@ -2,24 +2,24 @@
 
 ## 65.4. GIN 索引 [#](#gin) <a href="#gin" id="gin"></a>
 
-[65.4.1. 簡介](gin.md#GIN-INTRO)
+[65.4.1. 簡介](gin.md#gin-intro)
 
-[65.4.2. 內建運算子類別](gin.md#GIN-BUILTIN-OPCLASSES)
+[65.4.2. 內建運算子類別](gin.md#gin-builtin-opclasses)
 
-[65.4.3. 擴充性](gin.md#GIN-EXTENSIBILITY)
+[65.4.3. 擴充性](gin.md#gin-extensibility)
 
-[65.4.4. 實作](gin.md#GIN-IMPLEMENTATION)
+[65.4.4. 實作](gin.md#gin-implementation)
 
-[65.4.5. GIN 使用提示與技巧](gin.md#GIN-TIPS)
+[65.4.5. GIN 使用提示與技巧](gin.md#gin-tips)
 
-[65.4.6. 限制](gin.md#GIN-LIMIT)
+[65.4.6. 限制](gin.md#gin-limit)
 
-[65.4.7. 範例](gin.md#GIN-EXAMPLES)
+[65.4.7. 範例](gin.md#gin-examples)
 
 <a id="id-1.10.17.5.2"></a>
 <a id="GIN-INTRO"></a>
 
-### 65.4.1. 簡介 [#](#GIN-INTRO)
+### 65.4.1. 簡介 [#](#gin-intro) <a href="#gin-intro" id="gin-intro"></a>
 
 GIN 是 Generalized Inverted Index（通用倒排索引）的縮寫。GIN 的設計目的是處理下列情況：要被索引的項目是複合值，而索引要處理的查詢需要搜尋出現在複合項目中的元素值。例如，項目可以是文件，而查詢可以是搜尋包含特定字詞的文件。
 
@@ -35,7 +35,7 @@ PostgreSQL 中的 GIN 實作主要由 Teodor Sigaev 與 Oleg Bartunov 維護。�
 
 <a id="GIN-BUILTIN-OPCLASSES"></a>
 
-### 65.4.2. 內建運算子類別 [#](#GIN-BUILTIN-OPCLASSES)
+### 65.4.2. 內建運算子類別 [#](#gin-builtin-opclasses) <a href="#gin-builtin-opclasses" id="gin-builtin-opclasses"></a>
 
 PostgreSQL 核心發行版本包含[表 65.3](gin.md#GIN-BUILTIN-OPCLASSES-TABLE) 所列的 GIN 運算子類別。（[附錄 F](../../appendixes/contrib/README.md) 中所述的部分選用模組提供了額外的 GIN 運算子類別。）
 
@@ -51,7 +51,7 @@ PostgreSQL 核心發行版本包含[表 65.3](gin.md#GIN-BUILTIN-OPCLASSES-TABLE
 
 <a id="GIN-EXTENSIBILITY"></a>
 
-### 65.4.3. 擴充性 [#](#GIN-EXTENSIBILITY)
+### 65.4.3. 擴充性 [#](#gin-extensibility) <a href="#gin-extensibility" id="gin-extensibility"></a>
 
 GIN 介面具有高度的抽象性，只要求存取方法的實作者實作所存取資料型別的語意。GIN 層本身會負責並行處理、日誌記錄以及樹狀結構的搜尋。
 
@@ -118,7 +118,7 @@ GIN 的運算子類別可以選擇性地提供下列方法：
 
 <a id="GIN-IMPLEMENTATION"></a>
 
-### 65.4.4. 實作 [#](#GIN-IMPLEMENTATION)
+### 65.4.4. 實作 [#](#gin-implementation) <a href="#gin-implementation" id="gin-implementation"></a>
 
 在內部，GIN 索引包含一個建構在鍵上的 B-tree 索引，其中每個鍵是一個或多個被索引項目的元素（例如陣列的成員），而葉節點頁面中的每個 tuple 所包含的，要麼是指向由堆積指標組成之 B-tree（「posting tree」）的指標，要麼是在清單小到足以與鍵值一起放進單一索引 tuple 時，由堆積指標組成的簡單清單（「posting list」）。[圖 65.1](gin.md#GIN-INTERNALS-FIGURE) 說明了 GIN 索引的這些組成部分。
 
@@ -152,7 +152,7 @@ GIN 可以支援「部分比對」查詢，這類查詢不會為一個或多個�
 
 <a id="GIN-TIPS"></a>
 
-### 65.4.5. GIN 使用提示與技巧 [#](#GIN-TIPS)
+### 65.4.5. GIN 使用提示與技巧 [#](#gin-tips) <a href="#gin-tips" id="gin-tips"></a>
 
 建立與插入的比較
 
@@ -182,13 +182,13 @@ GIN 索引的建置時間對 `maintenance_work_mem` 設定非常敏感；在建�
 
 <a id="GIN-LIMIT"></a>
 
-### 65.4.6. 限制 [#](#GIN-LIMIT)
+### 65.4.6. 限制 [#](#gin-limit) <a href="#gin-limit" id="gin-limit"></a>
 
 GIN 假設可索引運算子是嚴格的（strict）。這表示對於 null 項目值，完全不會呼叫 `extractValue`（而是自動建立一個預留位置的索引項目），對於 null 查詢值也不會呼叫 `extractQuery`（而是假設該查詢無法被滿足）。不過請注意，包含在非 null 複合項目或查詢值中的 null 鍵值是受支援的。
 
 <a id="GIN-EXAMPLES"></a>
 
-### 65.4.7. 範例 [#](#GIN-EXAMPLES)
+### 65.4.7. 範例 [#](#gin-examples) <a href="#gin-examples" id="gin-examples"></a>
 
 PostgreSQL 核心發行版本包含先前[表 65.3](gin.md#GIN-BUILTIN-OPCLASSES-TABLE) 所列的 GIN 運算子類別。下列 `contrib` 模組也包含 GIN 運算子類別：
 

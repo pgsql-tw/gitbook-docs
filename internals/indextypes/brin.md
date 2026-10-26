@@ -2,16 +2,16 @@
 
 ## 65.5. BRIN 索引 [#](#brin) <a href="#brin" id="brin"></a>
 
-[65.5.1. 簡介](brin.md#BRIN-INTRO)
+[65.5.1. 簡介](brin.md#brin-intro)
 
-[65.5.2. 內建運算子類別](brin.md#BRIN-BUILTIN-OPCLASSES)
+[65.5.2. 內建運算子類別](brin.md#brin-builtin-opclasses)
 
-[65.5.3. 擴充性](brin.md#BRIN-EXTENSIBILITY)
+[65.5.3. 擴充性](brin.md#brin-extensibility)
 
 <a id="id-1.10.17.6.2"></a>
 <a id="BRIN-INTRO"></a>
 
-### 65.5.1. 簡介 [#](#BRIN-INTRO)
+### 65.5.1. 簡介 [#](#brin-intro) <a href="#brin-intro" id="brin-intro"></a>
 
 BRIN 是 Block Range Index（區塊範圍索引）的縮寫。BRIN 的設計目的是處理非常大的資料表，其中某些欄位與其在資料表中的實體位置具有某種自然的相關性。
 
@@ -54,7 +54,7 @@ LOG:  request for BRIN range summarization for index "brin_wi_idx" page 128 was 
 
 <a id="BRIN-BUILTIN-OPCLASSES"></a>
 
-### 65.5.2. 內建運算子類別 [#](#BRIN-BUILTIN-OPCLASSES)
+### 65.5.2. 內建運算子類別 [#](#brin-builtin-opclasses) <a href="#brin-builtin-opclasses" id="brin-builtin-opclasses"></a>
 
 PostgreSQL 核心發行版本包含[表 65.4](brin.md#BRIN-BUILTIN-OPCLASSES-TABLE) 所列的 BRIN 運算子類別。
 
@@ -92,7 +92,7 @@ minmax-multi 運算子類別接受下列參數：
 
 <a id="BRIN-EXTENSIBILITY"></a>
 
-### 65.5.3. 擴充性 [#](#BRIN-EXTENSIBILITY)
+### 65.5.3. 擴充性 [#](#brin-extensibility) <a href="#brin-extensibility" id="brin-extensibility"></a>
 
 BRIN 介面具有高度的抽象性，只要求存取方法的實作者實作所存取資料型別的語意。BRIN 層本身會負責並行處理、日誌記錄以及索引結構的搜尋。
 

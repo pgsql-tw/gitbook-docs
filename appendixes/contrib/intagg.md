@@ -2,9 +2,9 @@
 
 ## F.18. intagg — 整數聚合器與列舉器 [#](#intagg) <a href="#intagg" id="intagg"></a>
 
-[F.18.1. 函式](intagg.md#INTAGG-FUNCTIONS)
+[F.18.1. 函式](intagg.md#intagg-functions)
 
-[F.18.2. 使用範例](intagg.md#INTAGG-SAMPLES)
+[F.18.2. 使用範例](intagg.md#intagg-samples)
 
 <a id="id-1.11.7.28.2"></a>
 
@@ -12,7 +12,7 @@
 
 <a id="INTAGG-FUNCTIONS"></a>
 
-### F.18.1. 函式 [#](#INTAGG-FUNCTIONS)
+### F.18.1. 函式 [#](#intagg-functions) <a href="#intagg-functions" id="intagg-functions"></a>
 
 <a id="id-1.11.7.28.4.2"></a><a id="id-1.11.7.28.4.3"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="INTAGG-SAMPLES"></a>
 
-### F.18.2. 使用範例 [#](#INTAGG-SAMPLES)
+### F.18.2. 使用範例 [#](#intagg-samples) <a href="#intagg-samples" id="intagg-samples"></a>
 
 許多資料庫系統具有多對多資料表的概念。這類資料表通常位於兩個已建立索引的資料表之間，例如：
 

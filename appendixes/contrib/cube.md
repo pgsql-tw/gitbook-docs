@@ -2,17 +2,17 @@
 
 ## F.10. cube — 多維 cube 資料型別 [#](#cube) <a href="#cube" id="cube"></a>
 
-[F.10.1. 語法](cube.md#CUBE-SYNTAX)
+[F.10.1. 語法](cube.md#cube-syntax)
 
-[F.10.2. 精確度](cube.md#CUBE-PRECISION)
+[F.10.2. 精確度](cube.md#cube-precision)
 
-[F.10.3. 用法](cube.md#CUBE-USAGE)
+[F.10.3. 用法](cube.md#cube-usage)
 
-[F.10.4. 預設值](cube.md#CUBE-DEFAULTS)
+[F.10.4. 預設值](cube.md#cube-defaults)
 
-[F.10.5. 注意事項](cube.md#CUBE-NOTES)
+[F.10.5. 注意事項](cube.md#cube-notes)
 
-[F.10.6. 致謝](cube.md#CUBE-CREDITS)
+[F.10.6. 致謝](cube.md#cube-credits)
 
 <a id="id-1.11.7.20.2"></a>
 
@@ -23,7 +23,7 @@
 
 <a id="CUBE-SYNTAX"></a>
 
-### F.10.1. 語法 [#](#CUBE-SYNTAX)
+### F.10.1. 語法 [#](#cube-syntax) <a href="#cube-syntax" id="cube-syntax"></a>
 
 [表 F.1](cube.md#CUBE-REPR-TABLE) 顯示 `cube` 型別有效的外部表示法。*`x`*、
 *`y`* 等表示浮點數。
@@ -51,13 +51,13 @@
 
 <a id="CUBE-PRECISION"></a>
 
-### F.10.2. 精確度 [#](#CUBE-PRECISION)
+### F.10.2. 精確度 [#](#cube-precision) <a href="#cube-precision" id="cube-precision"></a>
 
 值在內部以 64 位元浮點數儲存。因此，具有超過約 16 位有效數字的數值會被截斷。
 
 <a id="CUBE-USAGE"></a>
 
-### F.10.3. 用法 [#](#CUBE-USAGE)
+### F.10.3. 用法 [#](#cube-usage) <a href="#cube-usage" id="cube-usage"></a>
 
 [表 F.2](cube.md#CUBE-OPERATORS-TABLE) 顯示為 `cube` 型別提供的專用運算子。
 
@@ -345,7 +345,7 @@ SELECT c FROM test ORDER BY c ~> 3 DESC LIMIT 5;
 
 <a id="CUBE-DEFAULTS"></a>
 
-### F.10.4. 預設值 [#](#CUBE-DEFAULTS)
+### F.10.4. 預設值 [#](#cube-defaults) <a href="#cube-defaults" id="cube-defaults"></a>
 
 下列聯集：
 
@@ -392,7 +392,7 @@ t
 
 <a id="CUBE-NOTES"></a>
 
-### F.10.5. 注意事項 [#](#CUBE-NOTES)
+### F.10.5. 注意事項 [#](#cube-notes) <a href="#cube-notes" id="cube-notes"></a>
 
 用法範例請參閱回歸測試 `sql/cube.sql`。
 
@@ -401,7 +401,7 @@ t
 
 <a id="CUBE-CREDITS"></a>
 
-### F.10.6. 致謝 [#](#CUBE-CREDITS)
+### F.10.6. 致謝 [#](#cube-credits) <a href="#cube-credits" id="cube-credits"></a>
 
 原作者：Gene Selkov, Jr. `<selkovjr@mcs.anl.gov>`，Argonne National Laboratory
 數學與電腦科學部門。

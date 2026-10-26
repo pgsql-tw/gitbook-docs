@@ -2,23 +2,23 @@
 
 ## F.25. pg_buffercache — 檢查 PostgreSQL 緩衝區快取狀態 [#](#pgbuffercache) <a href="#pgbuffercache" id="pgbuffercache"></a>
 
-[F.25.1. `pg_buffercache` 檢視表](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE)
+[F.25.1. `pg_buffercache` 檢視表](pgbuffercache.md#pgbuffercache-pg-buffercache)
 
-[F.25.2. `pg_buffercache_numa` 檢視表](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
+[F.25.2. `pg_buffercache_numa` 檢視表](pgbuffercache.md#pgbuffercache-pg-buffercache-numa)
 
-[F.25.3. `pg_buffercache_summary()` 函式](pgbuffercache.md#PGBUFFERCACHE-SUMMARY)
+[F.25.3. `pg_buffercache_summary()` 函式](pgbuffercache.md#pgbuffercache-summary)
 
-[F.25.4. `pg_buffercache_usage_counts()` 函式](pgbuffercache.md#PGBUFFERCACHE-USAGE-COUNTS)
+[F.25.4. `pg_buffercache_usage_counts()` 函式](pgbuffercache.md#pgbuffercache-usage-counts)
 
-[F.25.5. `pg_buffercache_evict()` 函式](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
+[F.25.5. `pg_buffercache_evict()` 函式](pgbuffercache.md#pgbuffercache-pg-buffercache-evict)
 
-[F.25.6. `pg_buffercache_evict_relation()` 函式](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
+[F.25.6. `pg_buffercache_evict_relation()` 函式](pgbuffercache.md#pgbuffercache-pg-buffercache-evict-relation)
 
-[F.25.7. `pg_buffercache_evict_all()` 函式](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)
+[F.25.7. `pg_buffercache_evict_all()` 函式](pgbuffercache.md#pgbuffercache-pg-buffercache-evict-all)
 
-[F.25.8. 輸出範例](pgbuffercache.md#PGBUFFERCACHE-SAMPLE-OUTPUT)
+[F.25.8. 輸出範例](pgbuffercache.md#pgbuffercache-sample-output)
 
-[F.25.9. 作者](pgbuffercache.md#PGBUFFERCACHE-AUTHORS)
+[F.25.9. 作者](pgbuffercache.md#pgbuffercache-authors)
 
 <a id="id-1.11.7.35.2"></a>
 
@@ -46,7 +46,7 @@
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE"></a>
 
-### F.25.1. `pg_buffercache` 檢視表 [#](#PGBUFFERCACHE-PG-BUFFERCACHE)
+### F.25.1. `pg_buffercache` 檢視表 [#](#pgbuffercache-pg-buffercache) <a href="#pgbuffercache-pg-buffercache" id="pgbuffercache-pg-buffercache"></a>
 
 此檢視表所提供欄位的定義如[表 F.14](pgbuffercache.md#PGBUFFERCACHE-COLUMNS)所示。
 
@@ -120,7 +120,7 @@
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-NUMA"></a>
 
-### F.25.2. `pg_buffercache_numa` 檢視表 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-NUMA)
+### F.25.2. `pg_buffercache_numa` 檢視表 [#](#pgbuffercache-pg-buffercache-numa) <a href="#pgbuffercache-pg-buffercache-numa" id="pgbuffercache-pg-buffercache-numa"></a>
 
 此檢視表所提供欄位的定義如[表 F.15](pgbuffercache.md#PGBUFFERCACHE-NUMA-COLUMNS)所示。
 
@@ -160,7 +160,7 @@
 
 <a id="PGBUFFERCACHE-SUMMARY"></a>
 
-### F.25.3. `pg_buffercache_summary()` 函式 [#](#PGBUFFERCACHE-SUMMARY)
+### F.25.3. `pg_buffercache_summary()` 函式 [#](#pgbuffercache-summary) <a href="#pgbuffercache-summary" id="pgbuffercache-summary"></a>
 
 此函式所提供欄位的定義如[表 F.16](pgbuffercache.md#PGBUFFERCACHE-SUMMARY-COLUMNS)所示。
 
@@ -208,7 +208,7 @@
 
 <a id="PGBUFFERCACHE-USAGE-COUNTS"></a>
 
-### F.25.4. `pg_buffercache_usage_counts()` 函式 [#](#PGBUFFERCACHE-USAGE-COUNTS)
+### F.25.4. `pg_buffercache_usage_counts()` 函式 [#](#pgbuffercache-usage-counts) <a href="#pgbuffercache-usage-counts" id="pgbuffercache-usage-counts"></a>
 
 此函式所提供欄位的定義如[表 F.17](pgbuffercache.md#PGBUFFERCACHE_USAGE_COUNTS-COLUMNS)所示。
 
@@ -251,25 +251,25 @@
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-EVICT"></a>
 
-### F.25.5. `pg_buffercache_evict()` 函式 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT)
+### F.25.5. `pg_buffercache_evict()` 函式 [#](#pgbuffercache-pg-buffercache-evict) <a href="#pgbuffercache-pg-buffercache-evict" id="pgbuffercache-pg-buffercache-evict"></a>
 
 `pg_buffercache_evict()` 函式接受一個緩衝區識別碼，即 `bufferid` 欄位中所顯示者（屬於 `pg_buffercache` 檢視表）。它傳回該緩衝區是否已被逐出以及是否已被刷寫的資訊。成功時 buffer_evicted 欄位為 true；若緩衝區無效、因被釘住而無法逐出，或在嘗試將其寫出後又再度變髒，則為 false。若緩衝區已被刷寫，buffer_flushed 欄位為 true。這不一定表示該緩衝區是由我們刷寫的，也可能是由其他人刷寫的。結果在傳回的當下就已過時，因為並行活動可能隨時使該緩衝區再次變為有效。此函式僅供開發人員測試使用。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION"></a>
 
-### F.25.6. `pg_buffercache_evict_relation()` 函式 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-RELATION)
+### F.25.6. `pg_buffercache_evict_relation()` 函式 [#](#pgbuffercache-pg-buffercache-evict-relation) <a href="#pgbuffercache-pg-buffercache-evict-relation" id="pgbuffercache-pg-buffercache-evict-relation"></a>
 
 `pg_buffercache_evict_relation()` 函式與 `pg_buffercache_evict()` 函式非常相似。差別在於 `pg_buffercache_evict_relation()` 接受的是關聯識別碼，而不是緩衝區識別碼。它會嘗試逐出該關聯所有分支的所有緩衝區。它傳回已逐出的緩衝區數量、已刷寫的緩衝區數量，以及無法逐出的緩衝區數量。已刷寫的緩衝區不一定是由我們刷寫的，也可能是由其他人刷寫的。結果在傳回的當下就已過時，因為並行活動可能使緩衝區立即被再次讀入。此函式僅供開發人員測試使用。
 
 <a id="PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL"></a>
 
-### F.25.7. `pg_buffercache_evict_all()` 函式 [#](#PGBUFFERCACHE-PG-BUFFERCACHE-EVICT-ALL)
+### F.25.7. `pg_buffercache_evict_all()` 函式 [#](#pgbuffercache-pg-buffercache-evict-all) <a href="#pgbuffercache-pg-buffercache-evict-all" id="pgbuffercache-pg-buffercache-evict-all"></a>
 
 `pg_buffercache_evict_all()` 函式與 `pg_buffercache_evict()` 函式非常相似。差別在於 `pg_buffercache_evict_all()` 函式不接受參數，而是嘗試逐出緩衝池中的所有緩衝區。它傳回已逐出的緩衝區數量、已刷寫的緩衝區數量，以及無法逐出的緩衝區數量。已刷寫的緩衝區不一定是由我們刷寫的，也可能是由其他人刷寫的。結果在傳回的當下就已過時，因為並行活動可能使緩衝區立即被再次讀入。此函式僅供開發人員測試使用。
 
 <a id="PGBUFFERCACHE-SAMPLE-OUTPUT"></a>
 
-### F.25.8. 輸出範例 [#](#PGBUFFERCACHE-SAMPLE-OUTPUT)
+### F.25.8. 輸出範例 [#](#pgbuffercache-sample-output) <a href="#pgbuffercache-sample-output" id="pgbuffercache-sample-output"></a>
 
 ```
 
@@ -319,7 +319,7 @@ regression=# SELECT * FROM pg_buffercache_usage_counts();
 
 <a id="PGBUFFERCACHE-AUTHORS"></a>
 
-### F.25.9. 作者 [#](#PGBUFFERCACHE-AUTHORS)
+### F.25.9. 作者 [#](#pgbuffercache-authors) <a href="#pgbuffercache-authors" id="pgbuffercache-authors"></a>
 
 Mark Kirkwood `<markir@paradise.net.nz>`
 

@@ -2,15 +2,15 @@
 
 ## F.6. bloom — Bloom 篩選器索引存取方法 [#](#bloom) <a href="#bloom" id="bloom"></a>
 
-[F.6.1. 參數](bloom.md#BLOOM-PARAMETERS)
+[F.6.1. 參數](bloom.md#bloom-parameters)
 
-[F.6.2. 範例](bloom.md#BLOOM-EXAMPLES)
+[F.6.2. 範例](bloom.md#bloom-examples)
 
-[F.6.3. 運算子類別介面](bloom.md#BLOOM-OPERATOR-CLASS-INTERFACE)
+[F.6.3. 運算子類別介面](bloom.md#bloom-operator-class-interface)
 
-[F.6.4. 限制](bloom.md#BLOOM-LIMITATIONS)
+[F.6.4. 限制](bloom.md#bloom-limitations)
 
-[F.6.5. 作者](bloom.md#BLOOM-AUTHORS)
+[F.6.5. 作者](bloom.md#bloom-authors)
 
 <a id="id-1.11.7.16.2"></a>
 
@@ -24,7 +24,7 @@ Bloom 篩選器是用於測試元素是否為集合成員的空間效率資料�
 
 <a id="BLOOM-PARAMETERS"></a>
 
-### F.6.1. 參數 [#](#BLOOM-PARAMETERS)
+### F.6.1. 參數 [#](#bloom-parameters) <a href="#bloom-parameters" id="bloom-parameters"></a>
 
 `bloom` 索引在其 `WITH` 子句中接受下列參數：
 
@@ -36,7 +36,7 @@ Bloom 篩選器是用於測試元素是否為集合成員的空間效率資料�
 
 <a id="BLOOM-EXAMPLES"></a>
 
-### F.6.2. 範例 [#](#BLOOM-EXAMPLES)
+### F.6.2. 範例 [#](#bloom-examples) <a href="#bloom-examples" id="bloom-examples"></a>
 
 以下是建立 bloom 索引的範例：
 
@@ -173,7 +173,7 @@ CREATE INDEX
 
 <a id="BLOOM-OPERATOR-CLASS-INTERFACE"></a>
 
-### F.6.3. 運算子類別介面 [#](#BLOOM-OPERATOR-CLASS-INTERFACE)
+### F.6.3. 運算子類別介面 [#](#bloom-operator-class-interface) <a href="#bloom-operator-class-interface" id="bloom-operator-class-interface"></a>
 
 bloom 索引的運算子類別只需要已建立索引資料型別的雜湊函式，以及用於搜尋的等值運算子。此範例顯示 `text` 資料型別的運算子類別定義：
 
@@ -187,7 +187,7 @@ DEFAULT FOR TYPE text USING bloom AS
 
 <a id="BLOOM-LIMITATIONS"></a>
 
-### F.6.4. 限制 [#](#BLOOM-LIMITATIONS)
+### F.6.4. 限制 [#](#bloom-limitations) <a href="#bloom-limitations" id="bloom-limitations"></a>
 
 * 模組只包括 `int4` 與 `text` 的運算子類別。
 * 搜尋只支援 `=` 運算子，但未來可能新增使用聯集與交集運算的陣列支援。
@@ -196,7 +196,7 @@ DEFAULT FOR TYPE text USING bloom AS
 
 <a id="BLOOM-AUTHORS"></a>
 
-### F.6.5. 作者 [#](#BLOOM-AUTHORS)
+### F.6.5. 作者 [#](#bloom-authors) <a href="#bloom-authors" id="bloom-authors"></a>
 
 Teodor Sigaev `<teodor@postgrespro.ru>`,
 俄羅斯莫斯科 Postgres Professional

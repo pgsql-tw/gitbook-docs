@@ -319,7 +319,7 @@ GIN 索引有七個支援函式，其中四個是可選的，
 BRIN 索引有五個基本支援函式，其中一個是可選的，
 如[表 36.14](xindex.md#XINDEX-BRIN-SUPPORT-TABLE)所示。某些基本函式變體
 需要提供額外的支援函式。
-（更多資訊請參閱[第 65.5.3 節](../../internals/indextypes/brin.md#BRIN-EXTENSIBILITY)。）
+（更多資訊請參閱[第 65.5.3 節](../../internals/indextypes/brin.md#brin-extensibility)。）
 
 <a id="XINDEX-BRIN-SUPPORT-TABLE"></a>
 

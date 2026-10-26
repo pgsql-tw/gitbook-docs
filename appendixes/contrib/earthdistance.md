@@ -2,9 +2,9 @@
 
 ## F.14. earthdistance — 計算大圓距離 [#](#earthdistance) <a href="#earthdistance" id="earthdistance"></a>
 
-[F.14.1. 以 Cube 為基礎的地球距離](earthdistance.md#EARTHDISTANCE-CUBE-BASED)
+[F.14.1. 以 Cube 為基礎的地球距離](earthdistance.md#earthdistance-cube-based)
 
-[F.14.2. 以 Point 為基礎的地球距離](earthdistance.md#EARTHDISTANCE-POINT-BASED)
+[F.14.2. 以 Point 為基礎的地球距離](earthdistance.md#earthdistance-point-based)
 
 <a id="id-1.11.7.24.2"></a>
 
@@ -27,7 +27,7 @@
 
 <a id="EARTHDISTANCE-CUBE-BASED"></a>
 
-### F.14.1. 以 Cube 為基礎的地球距離 [#](#EARTHDISTANCE-CUBE-BASED)
+### F.14.1. 以 Cube 為基礎的地球距離 [#](#earthdistance-cube-based) <a href="#earthdistance-cube-based" id="earthdistance-cube-based"></a>
 
 資料會以 point cube（兩個角點相同）儲存，使用三個座標表示與地球中心的 x、y、z
 距離。模組提供建置於 `cube` 型別上的 [*[domain](../glossary/README.md#GLOSSARY-DOMAIN)*](../glossary/README.md#GLOSSARY-DOMAIN)
@@ -119,7 +119,7 @@
 
 <a id="EARTHDISTANCE-POINT-BASED"></a>
 
-### F.14.2. 以 Point 為基礎的地球距離 [#](#EARTHDISTANCE-POINT-BASED)
+### F.14.2. 以 Point 為基礎的地球距離 [#](#earthdistance-point-based) <a href="#earthdistance-point-based" id="earthdistance-point-based"></a>
 
 模組的第二部分將地球位置表示為 `point` 型別的值，其中第一個分量表示度數的
 經度，第二個分量表示度數的緯度。點採用 (經度, 緯度)，而非相反順序，因為

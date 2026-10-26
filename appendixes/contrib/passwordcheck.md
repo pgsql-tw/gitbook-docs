@@ -2,7 +2,7 @@
 
 ## F.24. passwordcheck — 驗證密碼強度 [#](#passwordcheck) <a href="#passwordcheck" id="passwordcheck"></a>
 
-[F.24.1. 設定參數](passwordcheck.md#PASSWORDCHECK-CONFIGURATION-PARAMETERS)
+[F.24.1. 設定參數](passwordcheck.md#passwordcheck-configuration-parameters)
 
 <a id="id-1.11.7.34.2"></a>
 
@@ -29,7 +29,7 @@
 
 <a id="PASSWORDCHECK-CONFIGURATION-PARAMETERS"></a>
 
-### F.24.1. 設定參數 [#](#PASSWORDCHECK-CONFIGURATION-PARAMETERS)
+### F.24.1. 設定參數 [#](#passwordcheck-configuration-parameters) <a href="#passwordcheck-configuration-parameters" id="passwordcheck-configuration-parameters"></a>
 
 `passwordcheck.min_password_length` (`integer`) <a id="id-1.11.7.34.7.2.1.1.3"></a>
 :   可接受的最小密碼長度，以位元組為單位。預設值為 8。只有

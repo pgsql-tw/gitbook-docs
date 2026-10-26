@@ -2,9 +2,9 @@
 
 ## F.13. `dict_xsyn` — 同義詞全文檢索字典範例 [#](#dict-xsyn) <a href="#dict-xsyn" id="dict-xsyn"></a>
 
-[F.13.1. 設定](dict-xsyn.md#DICT-XSYN-CONFIG)
+[F.13.1. 設定](dict-xsyn.md#dict-xsyn-config)
 
-[F.13.2. 使用方式](dict-xsyn.md#DICT-XSYN-USAGE)
+[F.13.2. 使用方式](dict-xsyn.md#dict-xsyn-usage)
 
 <a id="id-1.11.7.23.2"></a>
 
@@ -12,7 +12,7 @@
 
 <a id="DICT-XSYN-CONFIG"></a>
 
-### F.13.1. 設定 [#](#DICT-XSYN-CONFIG)
+### F.13.1. 設定 [#](#dict-xsyn-config) <a href="#dict-xsyn-config" id="dict-xsyn-config"></a>
 
 `dict_xsyn` 字典接受下列選項：
 
@@ -36,7 +36,7 @@
 
 <a id="DICT-XSYN-USAGE"></a>
 
-### F.13.2. 使用方式 [#](#DICT-XSYN-USAGE)
+### F.13.2. 使用方式 [#](#dict-xsyn-usage) <a href="#dict-xsyn-usage" id="dict-xsyn-usage"></a>
 
 安裝 `dict_xsyn` 擴充功能會以預設參數建立全文檢索範本 `xsyn_template` 與基於該範本的字典 `xsyn`。你可以變更這些參數，例如：
 

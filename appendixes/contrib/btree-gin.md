@@ -2,9 +2,9 @@
 
 ## F.7. btree_gin — 具有 B-tree 行為的 GIN 運算子類別 [#](#btree-gin) <a href="#btree-gin" id="btree-gin"></a>
 
-[F.7.1. 使用範例](btree-gin.md#BTREE-GIN-EXAMPLE-USAGE)
+[F.7.1. 使用範例](btree-gin.md#btree-gin-example-usage)
 
-[F.7.2. 作者](btree-gin.md#BTREE-GIN-AUTHORS)
+[F.7.2. 作者](btree-gin.md#btree-gin-authors)
 
 <a id="id-1.11.7.17.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="BTREE-GIN-EXAMPLE-USAGE"></a>
 
-### F.7.1. 使用範例 [#](#BTREE-GIN-EXAMPLE-USAGE)
+### F.7.1. 使用範例 [#](#btree-gin-example-usage) <a href="#btree-gin-example-usage" id="btree-gin-example-usage"></a>
 
 ```
 
@@ -29,7 +29,7 @@ SELECT * FROM test WHERE a < 10;
 
 <a id="BTREE-GIN-AUTHORS"></a>
 
-### F.7.2. 作者 [#](#BTREE-GIN-AUTHORS)
+### F.7.2. 作者 [#](#btree-gin-authors) <a href="#btree-gin-authors" id="btree-gin-authors"></a>
 
 Teodor Sigaev（`<teodor@stack.net>`）及 Oleg Bartunov（`<oleg@sai.msu.su>`）。其他資訊請參閱 <http://www.sai.msu.su/~megera/oddmuse/index.cgi/Gin>。
 

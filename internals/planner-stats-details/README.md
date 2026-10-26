@@ -5,7 +5,7 @@
 [69.1. 資料列估計範例](row-estimation-examples.md)
 
 [69.2. 多變量統計資訊範例](multivariate-statistics-examples.md)
-:   [69.2.1. Functional Dependencies](multivariate-statistics-examples.md#FUNCTIONAL-DEPENDENCIES)
+:   [69.2.1. Functional Dependencies](multivariate-statistics-examples.md#functional-dependencies)
 
     [69.2.2. Multivariate N-Distinct Counts](multivariate-statistics-examples.md#MULTIVARIATE-NDISTINCT-COUNTS)
 

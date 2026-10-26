@@ -2,17 +2,17 @@
 
 ## F.32. pg_stat_statements — 追蹤 SQL 規劃與執行的統計資訊 [#](#pgstatstatements) <a href="#pgstatstatements" id="pgstatstatements"></a>
 
-[F.32.1. `pg_stat_statements` 檢視表](pgstatstatements.md#PGSTATSTATEMENTS-PG-STAT-STATEMENTS)
+[F.32.1. `pg_stat_statements` 檢視表](pgstatstatements.md#pgstatstatements-pg-stat-statements)
 
-[F.32.2. `pg_stat_statements_info` 檢視表](pgstatstatements.md#PGSTATSTATEMENTS-PG-STAT-STATEMENTS-INFO)
+[F.32.2. `pg_stat_statements_info` 檢視表](pgstatstatements.md#pgstatstatements-pg-stat-statements-info)
 
-[F.32.3. 函式](pgstatstatements.md#PGSTATSTATEMENTS-FUNCS)
+[F.32.3. 函式](pgstatstatements.md#pgstatstatements-funcs)
 
-[F.32.4. 設定參數](pgstatstatements.md#PGSTATSTATEMENTS-CONFIG-PARAMS)
+[F.32.4. 設定參數](pgstatstatements.md#pgstatstatements-config-params)
 
-[F.32.5. 輸出範例](pgstatstatements.md#PGSTATSTATEMENTS-SAMPLE-OUTPUT)
+[F.32.5. 輸出範例](pgstatstatements.md#pgstatstatements-sample-output)
 
-[F.32.6. 作者](pgstatstatements.md#PGSTATSTATEMENTS-AUTHORS)
+[F.32.6. 作者](pgstatstatements.md#pgstatstatements-authors)
 
 <a id="id-1.11.7.42.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="PGSTATSTATEMENTS-PG-STAT-STATEMENTS"></a>
 
-### F.32.1. `pg_stat_statements` 檢視表 [#](#PGSTATSTATEMENTS-PG-STAT-STATEMENTS)
+### F.32.1. `pg_stat_statements` 檢視表 [#](#pgstatstatements-pg-stat-statements) <a href="#pgstatstatements-pg-stat-statements" id="pgstatstatements-pg-stat-statements"></a>
 
 此模組所收集的統計資訊，透過名為 `pg_stat_statements` 的檢視表提供。對於資料庫 ID、使用者 ID、查詢 ID 以及是否為頂層陳述式的每一種不同組合，此檢視表各包含一筆資料列（最多到此模組所能追蹤的不同陳述式數量上限）。此檢視表的欄位列於[表 F.22](pgstatstatements.md#PGSTATSTATEMENTS-COLUMNS)。
 
@@ -313,7 +313,7 @@
 
 當某個常數的值為了將該查詢與其他查詢比對而被忽略時，該常數在 `pg_stat_statements` 的顯示中會以參數符號（例如 `$1`）取代。查詢文字的其餘部分，則取自第一個具有與該 `pg_stat_statements` 項目相關聯之特定 `queryid` 雜湊值的查詢。
 
-可套用正規化的查詢，在 `pg_stat_statements` 中仍可能以帶有常數值的形式出現，尤其是在項目釋放的頻率很高時。為了降低發生這種情況的可能性，請考慮增加 `pg_stat_statements.max`。下文[第 F.32.2 節](pgstatstatements.md#PGSTATSTATEMENTS-PG-STAT-STATEMENTS-INFO)所討論的 `pg_stat_statements_info` 檢視表，提供有關項目釋放的統計資訊。
+可套用正規化的查詢，在 `pg_stat_statements` 中仍可能以帶有常數值的形式出現，尤其是在項目釋放的頻率很高時。為了降低發生這種情況的可能性，請考慮增加 `pg_stat_statements.max`。下文[第 F.32.2 節](pgstatstatements.md#pgstatstatements-pg-stat-statements-info)所討論的 `pg_stat_statements_info` 檢視表，提供有關項目釋放的統計資訊。
 
 在某些情況下，文字明顯不同的查詢可能會被合併為單一 `pg_stat_statements` 項目；如上所述，對於語意相同的查詢，這是預期中的行為。此外，若查詢之間唯一的差異是常數清單中的元素個數，該清單會被壓縮為單一元素，但會附上一個被註解掉的清單標示來顯示：
 
@@ -347,7 +347,7 @@ calls | 2
 
 <a id="PGSTATSTATEMENTS-PG-STAT-STATEMENTS-INFO"></a>
 
-### F.32.2. `pg_stat_statements_info` 檢視表 [#](#PGSTATSTATEMENTS-PG-STAT-STATEMENTS-INFO)
+### F.32.2. `pg_stat_statements_info` 檢視表 [#](#pgstatstatements-pg-stat-statements-info) <a href="#pgstatstatements-pg-stat-statements-info" id="pgstatstatements-pg-stat-statements-info"></a>
 
 <a id="id-1.11.7.42.7.2"></a>
 
@@ -378,7 +378,7 @@ calls | 2
 
 <a id="PGSTATSTATEMENTS-FUNCS"></a>
 
-### F.32.3. 函式 [#](#PGSTATSTATEMENTS-FUNCS)
+### F.32.3. 函式 [#](#pgstatstatements-funcs) <a href="#pgstatstatements-funcs" id="pgstatstatements-funcs"></a>
 
 `pg_stat_statements_reset(userid Oid, dbid Oid, queryid bigint, minmax_only boolean) returns timestamp with time zone` <a id="id-1.11.7.42.8.2.1.1.2"></a>
 :   `pg_stat_statements_reset` 會捨棄 `pg_stat_statements` 至今所收集、與指定之 `userid`、`dbid` 及 `queryid` 相對應的統計資訊。若有任何參數未指定，這些參數都會使用預設值 `0`（無效），並重設符合其他參數的統計資訊。若未指定任何參數，或所有指定的參數皆為 `0`（無效），則會捨棄所有統計資訊。若 `pg_stat_statements` 檢視表中的所有統計資訊都被捨棄，也會一併重設 `pg_stat_statements_info` 檢視表中的統計資訊。當 `minmax_only` 為 `true` 時，只會重設規劃與執行時間的最小值與最大值（亦即 `min_plan_time`、`max_plan_time`、`min_exec_time` 與 `max_exec_time` 欄位）。`minmax_only` 參數的預設值為 `false`。最後一次執行最小／最大值重設的時間，顯示在 `pg_stat_statements` 檢視表的 `minmax_stats_since` 欄位中。此函式會傳回重設的時間。若確實執行了相對應的重設，此時間會儲存到 `pg_stat_statements_info` 檢視表的 `stats_reset` 欄位，或 `pg_stat_statements` 檢視表的 `minmax_stats_since` 欄位。預設情況下，只有超級使用者可以執行此函式。可以使用 `GRANT` 將存取權授與其他人。
@@ -388,7 +388,7 @@ calls | 2
 
 <a id="PGSTATSTATEMENTS-CONFIG-PARAMS"></a>
 
-### F.32.4. 設定參數 [#](#PGSTATSTATEMENTS-CONFIG-PARAMS)
+### F.32.4. 設定參數 [#](#pgstatstatements-config-params) <a href="#pgstatstatements-config-params" id="pgstatstatements-config-params"></a>
 
 `pg_stat_statements.max` (`integer`) <a id="id-1.11.7.42.9.2.1.1.3"></a>
 :   `pg_stat_statements.max` 是此模組所追蹤之陳述式的最大數量（亦即 `pg_stat_statements` 檢視表中資料列的最大數量）。若觀察到的不同陳述式超過此數量，有關執行次數最少之陳述式的資訊就會被捨棄。此類資訊被捨棄的次數，可以在 `pg_stat_statements_info` 檢視表中查看。預設值為 5000。此參數只能在伺服器啟動時設定。
@@ -421,7 +421,7 @@ pg_stat_statements.track = all
 
 <a id="PGSTATSTATEMENTS-SAMPLE-OUTPUT"></a>
 
-### F.32.5. 輸出範例 [#](#PGSTATSTATEMENTS-SAMPLE-OUTPUT)
+### F.32.5. 輸出範例 [#](#pgstatstatements-sample-output) <a href="#pgstatstatements-sample-output" id="pgstatstatements-sample-output"></a>
 
 ```
 
@@ -526,7 +526,7 @@ hit_percent     |
 
 <a id="PGSTATSTATEMENTS-AUTHORS"></a>
 
-### F.32.6. 作者 [#](#PGSTATSTATEMENTS-AUTHORS)
+### F.32.6. 作者 [#](#pgstatstatements-authors) <a href="#pgstatstatements-authors" id="pgstatstatements-authors"></a>
 
 Takahiro Itagaki `<itagaki.takahiro@oss.ntt.co.jp>`。查詢正規化由 Peter Geoghegan `<peter@2ndquadrant.com>` 加入。
 

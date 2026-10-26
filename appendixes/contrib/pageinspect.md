@@ -2,19 +2,19 @@
 
 ## F.23. pageinspect — 資料庫頁面的低階檢查 [#](#pageinspect) <a href="#pageinspect" id="pageinspect"></a>
 
-[F.23.1. 一般函式](pageinspect.md#PAGEINSPECT-GENERAL-FUNCS)
+[F.23.1. 一般函式](pageinspect.md#pageinspect-general-funcs)
 
-[F.23.2. 堆積函式](pageinspect.md#PAGEINSPECT-HEAP-FUNCS)
+[F.23.2. 堆積函式](pageinspect.md#pageinspect-heap-funcs)
 
-[F.23.3. B-tree 函式](pageinspect.md#PAGEINSPECT-B-TREE-FUNCS)
+[F.23.3. B-tree 函式](pageinspect.md#pageinspect-b-tree-funcs)
 
-[F.23.4. BRIN 函式](pageinspect.md#PAGEINSPECT-BRIN-FUNCS)
+[F.23.4. BRIN 函式](pageinspect.md#pageinspect-brin-funcs)
 
-[F.23.5. GIN 函式](pageinspect.md#PAGEINSPECT-GIN-FUNCS)
+[F.23.5. GIN 函式](pageinspect.md#pageinspect-gin-funcs)
 
-[F.23.6. GiST 函式](pageinspect.md#PAGEINSPECT-GIST-FUNCS)
+[F.23.6. GiST 函式](pageinspect.md#pageinspect-gist-funcs)
 
-[F.23.7. 雜湊函式](pageinspect.md#PAGEINSPECT-HASH-FUNCS)
+[F.23.7. 雜湊函式](pageinspect.md#pageinspect-hash-funcs)
 
 <a id="id-1.11.7.33.2"></a>
 
@@ -22,7 +22,7 @@
 
 <a id="PAGEINSPECT-GENERAL-FUNCS"></a>
 
-### F.23.1. 一般函式 [#](#PAGEINSPECT-GENERAL-FUNCS)
+### F.23.1. 一般函式 [#](#pageinspect-general-funcs) <a href="#pageinspect-general-funcs" id="pageinspect-general-funcs"></a>
 
 `get_raw_page(relname text, fork text, blkno bigint) returns bytea` <a id="id-1.11.7.33.4.2.1.1.2"></a>
 :   `get_raw_page` 讀取指定名稱之關聯的指定區塊，並以 `bytea` 值傳回其副本。這樣便能取得該區塊在單一時間點上一致的副本。*`fork`* 應為：`'main'` 表示主資料分支（fork），`'fsm'` 表示[可用空間對應表](../../internals/storage/storage-fsm.md)，`'vm'` 表示[可見性對應表](../../internals/storage/storage-vm.md)，或 `'init'` 表示初始化分支。
@@ -78,7 +78,7 @@
 
 <a id="PAGEINSPECT-HEAP-FUNCS"></a>
 
-### F.23.2. 堆積函式 [#](#PAGEINSPECT-HEAP-FUNCS)
+### F.23.2. 堆積函式 [#](#pageinspect-heap-funcs) <a href="#pageinspect-heap-funcs" id="pageinspect-heap-funcs"></a>
 
 `heap_page_items(page bytea) returns setof record` <a id="id-1.11.7.33.5.2.1.1.2"></a>
 :   `heap_page_items` 顯示堆積頁面上的所有行指標（line pointer）。對於使用中的行指標，也會顯示元組（tuple）標頭以及元組的原始資料。所有元組都會顯示，不論在複製原始頁面的當下，這些元組對 MVCC 快照是否可見。
@@ -135,7 +135,7 @@
 
 <a id="PAGEINSPECT-B-TREE-FUNCS"></a>
 
-### F.23.3. B-tree 函式 [#](#PAGEINSPECT-B-TREE-FUNCS)
+### F.23.3. B-tree 函式 [#](#pageinspect-b-tree-funcs) <a href="#pageinspect-b-tree-funcs" id="pageinspect-b-tree-funcs"></a>
 
 `bt_metap(relname text) returns record` <a id="id-1.11.7.33.6.2.1.1.2"></a>
 :   `bt_metap` 傳回 B-tree 索引中繼頁面（metapage）的相關資訊。例如：
@@ -271,7 +271,7 @@
 
 <a id="PAGEINSPECT-BRIN-FUNCS"></a>
 
-### F.23.4. BRIN 函式 [#](#PAGEINSPECT-BRIN-FUNCS)
+### F.23.4. BRIN 函式 [#](#pageinspect-brin-funcs) <a href="#pageinspect-brin-funcs" id="pageinspect-brin-funcs"></a>
 
 `brin_page_type(page bytea) returns text` <a id="id-1.11.7.33.7.2.1.1.2"></a>
 :   `brin_page_type` 傳回給定 BRIN 索引頁面的頁面類型；若該頁面不是有效的 BRIN 頁面，則擲出錯誤。例如：
@@ -332,7 +332,7 @@
 
 <a id="PAGEINSPECT-GIN-FUNCS"></a>
 
-### F.23.5. GIN 函式 [#](#PAGEINSPECT-GIN-FUNCS)
+### F.23.5. GIN 函式 [#](#pageinspect-gin-funcs) <a href="#pageinspect-gin-funcs" id="pageinspect-gin-funcs"></a>
 
 `gin_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.8.2.1.1.2"></a>
 :   `gin_metapage_info` 傳回 GIN 索引中繼頁面的相關資訊。例如：
@@ -386,7 +386,7 @@
 
 <a id="PAGEINSPECT-GIST-FUNCS"></a>
 
-### F.23.6. GiST 函式 [#](#PAGEINSPECT-GIST-FUNCS)
+### F.23.6. GiST 函式 [#](#pageinspect-gist-funcs) <a href="#pageinspect-gist-funcs" id="pageinspect-gist-funcs"></a>
 
 `gist_page_opaque_info(page bytea) returns record` <a id="id-1.11.7.33.9.2.1.1.2"></a>
 :   `gist_page_opaque_info` 傳回 GiST 索引頁面不透明區域中的資訊，像是 NSN、右鏈結（rightlink）與頁面類型。例如：
@@ -439,7 +439,7 @@
 
 <a id="PAGEINSPECT-HASH-FUNCS"></a>
 
-### F.23.7. 雜湊函式 [#](#PAGEINSPECT-HASH-FUNCS)
+### F.23.7. 雜湊函式 [#](#pageinspect-hash-funcs) <a href="#pageinspect-hash-funcs" id="pageinspect-hash-funcs"></a>
 
 `hash_page_type(page bytea) returns text` <a id="id-1.11.7.33.10.2.1.1.2"></a>
 :   `hash_page_type` 傳回給定 HASH 索引頁面的頁面類型。例如：

@@ -2,27 +2,27 @@
 
 ## F.38. postgres_fdw — 存取儲存在外部 PostgreSQL 伺服器中的資料 [#](#postgres-fdw) <a href="#postgres-fdw" id="postgres-fdw"></a>
 
-[F.38.1. postgres_fdw 的 FDW 選項](postgres-fdw.md#POSTGRES-FDW-OPTIONS)
+[F.38.1. postgres_fdw 的 FDW 選項](postgres-fdw.md#postgres-fdw-options)
 
-[F.38.2. 函式](postgres-fdw.md#POSTGRES-FDW-FUNCTIONS)
+[F.38.2. 函式](postgres-fdw.md#postgres-fdw-functions)
 
-[F.38.3. 連線管理](postgres-fdw.md#POSTGRES-FDW-CONNECTION-MANAGEMENT)
+[F.38.3. 連線管理](postgres-fdw.md#postgres-fdw-connection-management)
 
-[F.38.4. 交易管理](postgres-fdw.md#POSTGRES-FDW-TRANSACTION-MANAGEMENT)
+[F.38.4. 交易管理](postgres-fdw.md#postgres-fdw-transaction-management)
 
-[F.38.5. 遠端查詢最佳化](postgres-fdw.md#POSTGRES-FDW-REMOTE-QUERY-OPTIMIZATION)
+[F.38.5. 遠端查詢最佳化](postgres-fdw.md#postgres-fdw-remote-query-optimization)
 
-[F.38.6. 遠端查詢執行環境](postgres-fdw.md#POSTGRES-FDW-REMOTE-QUERY-EXECUTION-ENVIRONMENT)
+[F.38.6. 遠端查詢執行環境](postgres-fdw.md#postgres-fdw-remote-query-execution-environment)
 
-[F.38.7. 跨版本相容性](postgres-fdw.md#POSTGRES-FDW-CROSS-VERSION-COMPATIBILITY)
+[F.38.7. 跨版本相容性](postgres-fdw.md#postgres-fdw-cross-version-compatibility)
 
-[F.38.8. 等待事件](postgres-fdw.md#POSTGRES-FDW-WAIT-EVENTS)
+[F.38.8. 等待事件](postgres-fdw.md#postgres-fdw-wait-events)
 
-[F.38.9. 設定參數](postgres-fdw.md#POSTGRES-FDW-CONFIGURATION-PARAMETERS)
+[F.38.9. 設定參數](postgres-fdw.md#postgres-fdw-configuration-parameters)
 
-[F.38.10. 範例](postgres-fdw.md#POSTGRES-FDW-EXAMPLES)
+[F.38.10. 範例](postgres-fdw.md#postgres-fdw-examples)
 
-[F.38.11. 作者](postgres-fdw.md#POSTGRES-FDW-AUTHOR)
+[F.38.11. 作者](postgres-fdw.md#postgres-fdw-author)
 
 <a id="id-1.11.7.48.2"></a>
 
@@ -69,7 +69,7 @@ UPDATE` 子句的 `INSERT` 陳述式。不過，只要省略唯一值索引推�
 
 <a id="POSTGRES-FDW-OPTIONS"></a>
 
-### F.38.1. postgres_fdw 的 FDW 選項 [#](#POSTGRES-FDW-OPTIONS)
+### F.38.1. postgres_fdw 的 FDW 選項 [#](#postgres-fdw-options) <a href="#postgres-fdw-options" id="postgres-fdw-options"></a>
 
 <a id="POSTGRES-FDW-OPTIONS-CONNECTION"></a>
 
@@ -351,7 +351,7 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
 
 <a id="POSTGRES-FDW-FUNCTIONS"></a>
 
-### F.38.2. 函式 [#](#POSTGRES-FDW-FUNCTIONS)
+### F.38.2. 函式 [#](#postgres-fdw-functions) <a href="#postgres-fdw-functions" id="postgres-fdw-functions"></a>
 
 `postgres_fdw_get_connections( IN check_conn boolean DEFAULT false, OUT server_name text, OUT user_name text, OUT valid boolean, OUT used_in_xact boolean, OUT closed boolean, OUT remote_backend_pid int4) returns setof record`
 :   此函式傳回 postgres_fdw 從本機工作階段與外部伺服器建立的所有開啟中連線的資訊。若沒有開啟中的連線，則不傳回任何紀錄。
@@ -437,7 +437,7 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
 
 <a id="POSTGRES-FDW-CONNECTION-MANAGEMENT"></a>
 
-### F.38.3. 連線管理 [#](#POSTGRES-FDW-CONNECTION-MANAGEMENT)
+### F.38.3. 連線管理 [#](#postgres-fdw-connection-management) <a href="#postgres-fdw-connection-management" id="postgres-fdw-connection-management"></a>
 
 `postgres_fdw` 會在第一個使用與某外部伺服器相關聯之外部資料表的查詢期間，建立與該外部伺服器的連線。預設情況下，此連線會被保留，並在同一工作階段的後續查詢中重複使用。
 此行為可以使用外部伺服器的
@@ -454,7 +454,7 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
 
 <a id="POSTGRES-FDW-TRANSACTION-MANAGEMENT"></a>
 
-### F.38.4. 交易管理 [#](#POSTGRES-FDW-TRANSACTION-MANAGEMENT)
+### F.38.4. 交易管理 [#](#postgres-fdw-transaction-management) <a href="#postgres-fdw-transaction-management" id="postgres-fdw-transaction-management"></a>
 
 在參照外部伺服器上任何遠端資料表的查詢期間，若遠端伺服器上尚未開啟與目前本機交易對應的交易，
 `postgres_fdw` 就會在遠端伺服器上開啟一個交易。遠端交易會在本機交易提交或中止時提交或中止。儲存點也以類似方式管理，也就是建立對應的遠端儲存點。
@@ -470,7 +470,7 @@ PostgreSQL 版本可能會修改這些規則。
 
 <a id="POSTGRES-FDW-REMOTE-QUERY-OPTIMIZATION"></a>
 
-### F.38.5. 遠端查詢最佳化 [#](#POSTGRES-FDW-REMOTE-QUERY-OPTIMIZATION)
+### F.38.5. 遠端查詢最佳化 [#](#postgres-fdw-remote-query-optimization) <a href="#postgres-fdw-remote-query-optimization" id="postgres-fdw-remote-query-optimization"></a>
 
 `postgres_fdw` 會嘗試最佳化遠端查詢，以減少從外部伺服器傳輸的資料量。做法是將查詢的 `WHERE` 子句送往遠端伺服器執行，並且不擷取目前查詢不需要的資料表欄位。為了降低查詢被錯誤執行的風險，
 `WHERE` 子句只有在其中使用的每個資料型別、運算子與函式都是內建的，或屬於外部伺服器 `extensions`
@@ -492,7 +492,7 @@ PostgreSQL 版本可能會修改這些規則。
 
 <a id="POSTGRES-FDW-REMOTE-QUERY-EXECUTION-ENVIRONMENT"></a>
 
-### F.38.6. 遠端查詢執行環境 [#](#POSTGRES-FDW-REMOTE-QUERY-EXECUTION-ENVIRONMENT)
+### F.38.6. 遠端查詢執行環境 [#](#postgres-fdw-remote-query-execution-environment) <a href="#postgres-fdw-remote-query-execution-environment" id="postgres-fdw-remote-query-execution-environment"></a>
 
 在 `postgres_fdw` 開啟的遠端工作階段中，
 [search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 參數只設為
@@ -513,7 +513,7 @@ PostgreSQL 版本可能會修改這些規則。
 
 <a id="POSTGRES-FDW-CROSS-VERSION-COMPATIBILITY"></a>
 
-### F.38.7. 跨版本相容性 [#](#POSTGRES-FDW-CROSS-VERSION-COMPATIBILITY)
+### F.38.7. 跨版本相容性 [#](#postgres-fdw-cross-version-compatibility) <a href="#postgres-fdw-cross-version-compatibility" id="postgres-fdw-cross-version-compatibility"></a>
 
 `postgres_fdw` 可以搭配最早至 PostgreSQL 8.3 的遠端伺服器使用。唯讀功能則最早可支援到 8.1。
 
@@ -527,7 +527,7 @@ PostgreSQL 9.5 或更新版本，因為較早的版本不支援此功能。
 
 <a id="POSTGRES-FDW-WAIT-EVENTS"></a>
 
-### F.38.8. 等待事件 [#](#POSTGRES-FDW-WAIT-EVENTS)
+### F.38.8. 等待事件 [#](#postgres-fdw-wait-events) <a href="#postgres-fdw-wait-events" id="postgres-fdw-wait-events"></a>
 
 `postgres_fdw` 可以在等待事件類型 `Extension` 下回報下列等待事件：
 
@@ -542,7 +542,7 @@ PostgreSQL 9.5 或更新版本，因為較早的版本不支援此功能。
 
 <a id="POSTGRES-FDW-CONFIGURATION-PARAMETERS"></a>
 
-### F.38.9. 設定參數 [#](#POSTGRES-FDW-CONFIGURATION-PARAMETERS)
+### F.38.9. 設定參數 [#](#postgres-fdw-configuration-parameters) <a href="#postgres-fdw-configuration-parameters" id="postgres-fdw-configuration-parameters"></a>
 
 <a id="GUC-PGFDW-APPLICATION-NAME"></a>
 
@@ -578,7 +578,7 @@ PostgreSQL 9.5 或更新版本，因為較早的版本不支援此功能。
 
 <a id="POSTGRES-FDW-EXAMPLES"></a>
 
-### F.38.10. 範例 [#](#POSTGRES-FDW-EXAMPLES)
+### F.38.10. 範例 [#](#postgres-fdw-examples) <a href="#postgres-fdw-examples" id="postgres-fdw-examples"></a>
 
 以下是使用
 `postgres_fdw` 建立外部資料表的範例。首先安裝擴充功能：
@@ -629,7 +629,7 @@ CREATE FOREIGN TABLE foreign_table (
 
 <a id="POSTGRES-FDW-AUTHOR"></a>
 
-### F.38.11. 作者 [#](#POSTGRES-FDW-AUTHOR)
+### F.38.11. 作者 [#](#postgres-fdw-author) <a href="#postgres-fdw-author" id="postgres-fdw-author"></a>
 
 Shigeru Hanada `<shigeru.hanada@gmail.com>`
 

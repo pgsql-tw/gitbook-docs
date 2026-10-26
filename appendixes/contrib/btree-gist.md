@@ -2,9 +2,9 @@
 
 ## F.8. btree_gist — 具有 B-tree 行為的 GiST 運算子類別 [#](#btree-gist) <a href="#btree-gist" id="btree-gist"></a>
 
-[F.8.1. 使用範例](btree-gist.md#BTREE-GIST-EXAMPLE-USAGE)
+[F.8.1. 使用範例](btree-gist.md#btree-gist-example-usage)
 
-[F.8.2. 作者](btree-gist.md#BTREE-GIST-AUTHORS)
+[F.8.2. 作者](btree-gist.md#btree-gist-authors)
 
 <a id="id-1.11.7.18.2"></a>
 
@@ -22,7 +22,7 @@
 
 <a id="BTREE-GIST-EXAMPLE-USAGE"></a>
 
-### F.8.1. 使用範例 [#](#BTREE-GIST-EXAMPLE-USAGE)
+### F.8.1. 使用範例 [#](#btree-gist-example-usage) <a href="#btree-gist-example-usage" id="btree-gist-example-usage"></a>
 
 使用 `btree_gist` 取代 `btree` 的簡單範例：
 
@@ -60,7 +60,7 @@ INSERT 0 1
 
 <a id="BTREE-GIST-AUTHORS"></a>
 
-### F.8.2. 作者 [#](#BTREE-GIST-AUTHORS)
+### F.8.2. 作者 [#](#btree-gist-authors) <a href="#btree-gist-authors" id="btree-gist-authors"></a>
 
 Teodor Sigaev (`<teodor@stack.net>`),
 Oleg Bartunov (`<oleg@sai.msu.su>`),

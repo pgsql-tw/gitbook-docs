@@ -2,11 +2,11 @@
 
 ## F.30. pg_prewarm — 將關聯資料預先載入緩衝區快取 [#](#pgprewarm) <a href="#pgprewarm" id="pgprewarm"></a>
 
-[F.30.1. 函式](pgprewarm.md#PGPREWARM-FUNCS)
+[F.30.1. 函式](pgprewarm.md#pgprewarm-funcs)
 
-[F.30.2. 設定參數](pgprewarm.md#PGPREWARM-CONFIG-PARAMS)
+[F.30.2. 設定參數](pgprewarm.md#pgprewarm-config-params)
 
-[F.30.3. 作者](pgprewarm.md#PGPREWARM-AUTHOR)
+[F.30.3. 作者](pgprewarm.md#pgprewarm-author)
 
 <a id="id-1.11.7.40.2"></a>
 
@@ -15,7 +15,7 @@
 
 <a id="PGPREWARM-FUNCS"></a>
 
-### F.30.1. 函式 [#](#PGPREWARM-FUNCS)
+### F.30.1. 函式 [#](#pgprewarm-funcs) <a href="#pgprewarm-funcs" id="pgprewarm-funcs"></a>
 
 ```
 
@@ -52,7 +52,7 @@ autoprewarm_dump_now() RETURNS int8
 
 <a id="PGPREWARM-CONFIG-PARAMS"></a>
 
-### F.30.2. 設定參數 [#](#PGPREWARM-CONFIG-PARAMS)
+### F.30.2. 設定參數 [#](#pgprewarm-config-params) <a href="#pgprewarm-config-params" id="pgprewarm-config-params"></a>
 
 `pg_prewarm.autoprewarm` (`boolean`) <a id="id-1.11.7.40.5.2.1.1.3"></a>
 :   控制伺服器是否應該執行 autoprewarm 工作程序。預設為開啟。此參數只能在伺服器啟動時設定。
@@ -75,7 +75,7 @@ pg_prewarm.autoprewarm_interval = 300s
 
 <a id="PGPREWARM-AUTHOR"></a>
 
-### F.30.3. 作者 [#](#PGPREWARM-AUTHOR)
+### F.30.3. 作者 [#](#pgprewarm-author) <a href="#pgprewarm-author" id="pgprewarm-author"></a>
 
 Robert Haas `<rhaas@postgresql.org>`
 

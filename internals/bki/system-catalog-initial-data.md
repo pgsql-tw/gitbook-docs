@@ -2,22 +2,22 @@
 
 ## 68.2. 系統目錄初始資料 [#](#system-catalog-initial-data) <a href="#system-catalog-initial-data" id="system-catalog-initial-data"></a>
 
-[68.2.1. 資料檔格式](system-catalog-initial-data.md#SYSTEM-CATALOG-INITIAL-DATA-FORMAT)
+[68.2.1. 資料檔格式](system-catalog-initial-data.md#system-catalog-initial-data-format)
 
-[68.2.2. OID 指派](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
+[68.2.2. OID 指派](system-catalog-initial-data.md#system-catalog-oid-assignment)
 
-[68.2.3. OID 參照查找](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)
+[68.2.3. OID 參照查找](system-catalog-initial-data.md#system-catalog-oid-references)
 
-[68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
+[68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#system-catalog-auto-array-types)
 
-[68.2.5. 編輯資料檔的訣竅](system-catalog-initial-data.md#SYSTEM-CATALOG-RECIPES)
+[68.2.5. 編輯資料檔的訣竅](system-catalog-initial-data.md#system-catalog-recipes)
 
 每個具有手動建立之初始資料的目錄（有些目錄沒有），
 都有一個對應的 `.dat` 檔案，以可編輯的格式存放其初始資料。
 
 <a id="SYSTEM-CATALOG-INITIAL-DATA-FORMAT"></a>
 
-### 68.2.1. 資料檔格式 [#](#SYSTEM-CATALOG-INITIAL-DATA-FORMAT)
+### 68.2.1. 資料檔格式 [#](#system-catalog-initial-data-format) <a href="#system-catalog-initial-data-format" id="system-catalog-initial-data-format"></a>
 
 每個 `.dat` 檔案都包含 Perl 資料結構字面值，
 這些字面值只會直接以 Perl 的 eval 求值，產生記憶體中的資料結構；
@@ -53,9 +53,9 @@
   `oid_symbol`、
   `array_type_oid` 與 `descr`。
   （`oid` 與 `oid_symbol`
-  的用法說明於下方的[第 68.2.2 節](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)，
+  的用法說明於下方的[第 68.2.2 節](system-catalog-initial-data.md#system-catalog-oid-assignment)，
   而 `array_type_oid` 則說明於
-  [第 68.2.4 節](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)。
+  [第 68.2.4 節](system-catalog-initial-data.md#system-catalog-auto-array-types)。
   `descr` 為物件提供描述字串，
   該字串會視情況插入 `pg_description`
   或 `pg_shdescription` 中。）
@@ -78,7 +78,7 @@
   而不是實際的數值 OID。
   （在上面的範例中，`dattablespace`
   就含有這樣的參照。）
-  這會在下方的[第 68.2.3 節](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)中說明。
+  這會在下方的[第 68.2.3 節](system-catalog-initial-data.md#system-catalog-oid-references)中說明。
 * 由於雜湊是無序的資料結構，欄位順序與行的配置在語意上並不重要。
   不過，為了維持一致的外觀，我們訂定了幾條規則，
   由格式化腳本 `reformat_dat_file.pl` 套用：
@@ -104,7 +104,7 @@
 
 <a id="SYSTEM-CATALOG-OID-ASSIGNMENT"></a>
 
-### 68.2.2. OID 指派 [#](#SYSTEM-CATALOG-OID-ASSIGNMENT)
+### 68.2.2. OID 指派 [#](#system-catalog-oid-assignment) <a href="#system-catalog-oid-assignment" id="system-catalog-oid-assignment"></a>
 
 初始資料中出現的目錄資料列，可以藉由寫入 `oid
 => nnnn` 中繼資料欄位，給予手動指派的 OID。
@@ -180,7 +180,7 @@ initdb 一旦準備好建立非固定物件，就會將 OID 計數器推進到
 
 <a id="SYSTEM-CATALOG-OID-REFERENCES"></a>
 
-### 68.2.3. OID 參照查找 [#](#SYSTEM-CATALOG-OID-REFERENCES)
+### 68.2.3. OID 參照查找 [#](#system-catalog-oid-references) <a href="#system-catalog-oid-references" id="system-catalog-oid-references"></a>
 
 原則上，從一筆初始目錄資料列到另一筆的交叉參照，
 只要在參照欄位中寫入被參照資料列的預先指派 OID 即可。
@@ -253,7 +253,7 @@ initdb 一旦準備好建立非固定物件，就會將 OID 計數器推進到
 
 <a id="SYSTEM-CATALOG-AUTO-ARRAY-TYPES"></a>
 
-### 68.2.4. 自動建立陣列型別 [#](#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
+### 68.2.4. 自動建立陣列型別 [#](#system-catalog-auto-array-types) <a href="#system-catalog-auto-array-types" id="system-catalog-auto-array-types"></a>
 
 大多數純量資料型別都應該有對應的陣列型別（也就是一個標準的 varlena
 陣列型別，其元素型別為該純量型別，並且由該純量型別之 `pg_type`
@@ -276,7 +276,7 @@ initdb 一旦準備好建立非固定物件，就會將 OID 計數器推進到
 
 <a id="SYSTEM-CATALOG-RECIPES"></a>
 
-### 68.2.5. 編輯資料檔的訣竅 [#](#SYSTEM-CATALOG-RECIPES)
+### 68.2.5. 編輯資料檔的訣竅 [#](#system-catalog-recipes) <a href="#system-catalog-recipes" id="system-catalog-recipes"></a>
 
 以下是一些建議，說明在更新目錄資料檔時，執行常見工作最簡單的方式。
 

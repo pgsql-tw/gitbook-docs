@@ -2,11 +2,11 @@
 
 ## F.27. pg_freespacemap — 檢視可用空間對應表 [#](#pgfreespacemap) <a href="#pgfreespacemap" id="pgfreespacemap"></a>
 
-[F.27.1. 函式](pgfreespacemap.md#PGFREESPACEMAP-FUNCS)
+[F.27.1. 函式](pgfreespacemap.md#pgfreespacemap-funcs)
 
-[F.27.2. 輸出範例](pgfreespacemap.md#PGFREESPACEMAP-SAMPLE-OUTPUT)
+[F.27.2. 輸出範例](pgfreespacemap.md#pgfreespacemap-sample-output)
 
-[F.27.3. 作者](pgfreespacemap.md#PGFREESPACEMAP-AUTHOR)
+[F.27.3. 作者](pgfreespacemap.md#pgfreespacemap-author)
 
 <a id="id-1.11.7.37.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="PGFREESPACEMAP-FUNCS"></a>
 
-### F.27.1. 函式 [#](#PGFREESPACEMAP-FUNCS)
+### F.27.1. 函式 [#](#pgfreespacemap-funcs) <a href="#pgfreespacemap-funcs" id="pgfreespacemap-funcs"></a>
 
 `pg_freespace(rel regclass IN, blkno bigint IN) returns int2` <a id="id-1.11.7.37.5.2.1.1.2"></a>
 :   依據 FSM，傳回關聯中由 `blkno` 指定之頁面上的可用空間量。
@@ -32,7 +32,7 @@
 
 <a id="PGFREESPACEMAP-SAMPLE-OUTPUT"></a>
 
-### F.27.2. 輸出範例 [#](#PGFREESPACEMAP-SAMPLE-OUTPUT)
+### F.27.2. 輸出範例 [#](#pgfreespacemap-sample-output) <a href="#pgfreespacemap-sample-output" id="pgfreespacemap-sample-output"></a>
 
 ```
 
@@ -70,7 +70,7 @@ postgres=# SELECT * FROM pg_freespace('foo', 7);
 
 <a id="PGFREESPACEMAP-AUTHOR"></a>
 
-### F.27.3. 作者 [#](#PGFREESPACEMAP-AUTHOR)
+### F.27.3. 作者 [#](#pgfreespacemap-author) <a href="#pgfreespacemap-author" id="pgfreespacemap-author"></a>
 
 原始版本由 Mark Kirkwood `<markir@paradise.net.nz>` 撰寫。
 於 8.4 版由 Heikki Linnakangas `<heikki@enterprisedb.com>` 改寫，以配合新的 FSM 實作。

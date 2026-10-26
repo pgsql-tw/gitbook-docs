@@ -1123,7 +1123,7 @@ SELECT pg_size_pretty(sum(pg_relation_size(relid))) AS total_size
         → <code class="returnvalue">bigint</code>
 </p>
 <p>
-        將指定 GIN 索引之<span class="quote">「<span class="quote">pending</span>」</span>清單中的項目批次移入主要的 GIN 資料結構，藉此清理該清單。回傳從 pending 清單中移除的頁面數。如果引數是在停用 <code class="literal">fastupdate</code> 選項的情況下建立的 GIN 索引，就不會進行任何清理，結果為零，因為該索引沒有 pending 清單。關於 pending 清單與 <code class="literal">fastupdate</code> 選項的詳細資訊，請參閱<a class="xref" href="../../internals/indextypes/gin.md#GIN-FAST-UPDATE">第 65.4.4.1 節</a>與<a class="xref" href="../../internals/indextypes/gin.md#GIN-TIPS">第 65.4.5 節</a>。
+        將指定 GIN 索引之<span class="quote">「<span class="quote">pending</span>」</span>清單中的項目批次移入主要的 GIN 資料結構，藉此清理該清單。回傳從 pending 清單中移除的頁面數。如果引數是在停用 <code class="literal">fastupdate</code> 選項的情況下建立的 GIN 索引，就不會進行任何清理，結果為零，因為該索引沒有 pending 清單。關於 pending 清單與 <code class="literal">fastupdate</code> 選項的詳細資訊，請參閱<a class="xref" href="../../internals/indextypes/gin.md#GIN-FAST-UPDATE">第 65.4.4.1 節</a>與<a class="xref" href="../../internals/indextypes/gin.md#gin-tips">第 65.4.5 節</a>。
        </p></td></tr></tbody></table>
 
 <br>

@@ -2,11 +2,11 @@
 
 ## F.29. pg_overexplain — 允許 EXPLAIN 傾印更多細節 [#](#pgoverexplain) <a href="#pgoverexplain" id="pgoverexplain"></a>
 
-[F.29.1. EXPLAIN (DEBUG)](pgoverexplain.md#PGOVEREXPLAIN-DEBUG)
+[F.29.1. EXPLAIN (DEBUG)](pgoverexplain.md#pgoverexplain-debug)
 
-[F.29.2. EXPLAIN (RANGE_TABLE)](pgoverexplain.md#PGOVEREXPLAIN-RANGE-TABLE)
+[F.29.2. EXPLAIN (RANGE_TABLE)](pgoverexplain.md#pgoverexplain-range-table)
 
-[F.29.3. 作者](pgoverexplain.md#PGOVEREXPLAIN-AUTHOR)
+[F.29.3. 作者](pgoverexplain.md#pgoverexplain-author)
 
 <a id="id-1.11.7.39.2"></a>
 
@@ -28,7 +28,7 @@ LOAD 'pg_overexplain';
 
 <a id="PGOVEREXPLAIN-DEBUG"></a>
 
-### F.29.1. EXPLAIN (DEBUG) [#](#PGOVEREXPLAIN-DEBUG)
+### F.29.1. EXPLAIN (DEBUG) [#](#pgoverexplain-debug) <a href="#pgoverexplain-debug" id="pgoverexplain-debug"></a>
 
 `DEBUG` 選項會顯示計畫樹中的各種資訊，這些資訊通常不會顯示，因為一般認為多數人不會感興趣。對每個個別的計畫節點，它會顯示下列欄位。這些欄位的其他說明，請參閱
 `nodes/plannodes.h` 中的 `Plan`。
@@ -62,7 +62,7 @@ LOAD 'pg_overexplain';
 
 <a id="PGOVEREXPLAIN-RANGE-TABLE"></a>
 
-### F.29.2. EXPLAIN (RANGE_TABLE) [#](#PGOVEREXPLAIN-RANGE-TABLE)
+### F.29.2. EXPLAIN (RANGE_TABLE) [#](#pgoverexplain-range-table) <a href="#pgoverexplain-range-table" id="pgoverexplain-range-table"></a>
 
 `RANGE_TABLE` 選項會顯示計畫樹中特別與查詢的範圍表（range table）相關的資訊。範圍表項目大致對應出現在查詢之
 `FROM` 子句中的項目，但有許多例外。例如，經證明不需要的子查詢可能會從範圍表中完全刪除，而繼承展開則會為查詢中未直接指名的子資料表加入範圍表項目。
@@ -85,7 +85,7 @@ RTI`、`Append RTIs`。
 
 <a id="PGOVEREXPLAIN-AUTHOR"></a>
 
-### F.29.3. 作者 [#](#PGOVEREXPLAIN-AUTHOR)
+### F.29.3. 作者 [#](#pgoverexplain-author) <a href="#pgoverexplain-author" id="pgoverexplain-author"></a>
 
 Robert Haas `<rhaas@postgresql.org>`
 

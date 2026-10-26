@@ -1,9 +1,9 @@
 <a id="RELEASE-18-4"></a>
 ## E.2. 18.4 版 [#](#release-18-4) <a href="#release-18-4" id="release-18-4"></a>
 
-[E.2.1. 遷移至 18.4 版](release-18-4.md#RELEASE-18-4-MIGRATION)
+[E.2.1. 遷移至 18.4 版](release-18-4.md#release-18-4-migration)
 
-[E.2.2. 變更內容](release-18-4.md#RELEASE-18-4-CHANGES)
+[E.2.2. 變更內容](release-18-4.md#release-18-4-changes)
 
 **發佈日期：**2026-05-14
 
@@ -13,7 +13,7 @@
 
 <a id="RELEASE-18-4-MIGRATION"></a>
 
-### E.2.1. 遷移至 18.4 版 [#](#RELEASE-18-4-MIGRATION)
+### E.2.1. 遷移至 18.4 版 [#](#release-18-4-migration) <a href="#release-18-4-migration" id="release-18-4-migration"></a>
 
 執行 18.X 版者不需要進行傾印／還原。
 
@@ -22,7 +22,7 @@
 
 <a id="RELEASE-18-4-CHANGES"></a>
 
-### E.2.2. 變更內容 [#](#RELEASE-18-4-CHANGES)
+### E.2.2. 變更內容 [#](#release-18-4-changes) <a href="#release-18-4-changes" id="release-18-4-changes"></a>
 
 * 防止處理啟動封包時發生無限制的遞迴
   (Michael Paquier)

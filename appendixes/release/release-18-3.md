@@ -1,9 +1,9 @@
 <a id="RELEASE-18-3"></a>
 ## E.3. 18.3 版 [#](#release-18-3) <a href="#release-18-3" id="release-18-3"></a>
 
-[E.3.1. 遷移至 18.3 版](release-18-3.md#RELEASE-18-3-MIGRATION)
+[E.3.1. 遷移至 18.3 版](release-18-3.md#release-18-3-migration)
 
-[E.3.2. 變更內容](release-18-3.md#RELEASE-18-3-CHANGES)
+[E.3.2. 變更內容](release-18-3.md#release-18-3-changes)
 
 **發佈日期：**2026-02-26
 
@@ -13,7 +13,7 @@
 
 <a id="RELEASE-18-3-MIGRATION"></a>
 
-### E.3.1. 遷移至 18.3 版 [#](#RELEASE-18-3-MIGRATION)
+### E.3.1. 遷移至 18.3 版 [#](#release-18-3-migration) <a href="#release-18-3-migration" id="release-18-3-migration"></a>
 
 執行 18.X 版者不需要進行傾印／還原。
 
@@ -22,7 +22,7 @@
 
 <a id="RELEASE-18-3-CHANGES"></a>
 
-### E.3.2. 變更內容 [#](#RELEASE-18-3-CHANGES)
+### E.3.2. 變更內容 [#](#release-18-3-changes) <a href="#release-18-3-changes" id="release-18-3-changes"></a>
 
 * 修正重播由較舊次要版本產生的 WAL 中的 multixid 截斷記錄後
   發生的失敗 (Heikki Linnakangas)

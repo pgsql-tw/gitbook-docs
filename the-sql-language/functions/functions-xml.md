@@ -377,9 +377,9 @@ SELECT xmlexists('//town[text() = ''Toronto'']' PASSING BY VALUE '<towns><town>T
 (1 row)
 ```
 
-PostgreSQL 接受 `BY REF` 與 `BY VALUE` 子句，但會忽略它們，如[第 D.3.2 節](../../appendixes/features/xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-POSTGRESQL)所述。
+PostgreSQL 接受 `BY REF` 與 `BY VALUE` 子句，但會忽略它們，如[第 D.3.2 節](../../appendixes/features/xml-limits-conformance.md#functions-xml-limits-postgresql)所述。
 
-在 SQL 標準中，`xmlexists` 函式評估的是 XML Query 語言的運算式，但 PostgreSQL 只允許 XPath 1.0 運算式，如[第 D.3.1 節](../../appendixes/features/xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-XPATH1)所述。
+在 SQL 標準中，`xmlexists` 函式評估的是 XML Query 語言的運算式，但 PostgreSQL 只允許 XPath 1.0 運算式，如[第 D.3.1 節](../../appendixes/features/xml-limits-conformance.md#functions-xml-limits-xpath1)所述。
 
 <a id="XML-IS-WELL-FORMED"></a>
 
@@ -533,9 +533,9 @@ XMLTABLE (
 
 必要的 *`row_expression`* 引數是一個 XPath 1.0 運算式（以 `text` 提供），評估時會將 XML 值 *`document_expression`* 作為其情境項目傳入，以取得一組 XML 節點。`xmltable` 會將這些節點轉換為輸出資料列。如果 *`document_expression`* 為 null，或者 *`row_expression`* 產生空的節點集合或節點集合以外的任何值，就不會產生任何資料列。
 
-*`document_expression`* 為 *`row_expression`* 提供情境項目。它必須是格式正確的 XML 文件；不接受片段／森林。`BY REF` 與 `BY VALUE` 子句會被接受但忽略，如[第 D.3.2 節](../../appendixes/features/xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-POSTGRESQL)所述。
+*`document_expression`* 為 *`row_expression`* 提供情境項目。它必須是格式正確的 XML 文件；不接受片段／森林。`BY REF` 與 `BY VALUE` 子句會被接受但忽略，如[第 D.3.2 節](../../appendixes/features/xml-limits-conformance.md#functions-xml-limits-postgresql)所述。
 
-在 SQL 標準中，`xmltable` 函式評估的是 XML Query 語言的運算式，但 PostgreSQL 只允許 XPath 1.0 運算式，如[第 D.3.1 節](../../appendixes/features/xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-XPATH1)所述。
+在 SQL 標準中，`xmltable` 函式評估的是 XML Query 語言的運算式，但 PostgreSQL 只允許 XPath 1.0 運算式，如[第 D.3.1 節](../../appendixes/features/xml-limits-conformance.md#functions-xml-limits-xpath1)所述。
 
 必要的 `COLUMNS` 子句指定將在輸出資料表中產生的欄位。格式請見上面的語法摘要。每個欄位都需要一個名稱，也需要一個資料型別（除非指定了 `FOR ORDINALITY`，在這種情況下隱含為 `integer` 型別）。路徑、預設值與可否為 null 的子句則是選用的。
 

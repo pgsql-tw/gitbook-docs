@@ -2,19 +2,19 @@
 
 ## F.20. isn — 國際標準號碼的資料型別（ISBN、EAN、UPC 等） [#](#isn) <a href="#isn" id="isn"></a>
 
-[F.20.1. 資料型別](isn.md#ISN-DATA-TYPES)
+[F.20.1. 資料型別](isn.md#isn-data-types)
 
-[F.20.2. 型別轉換](isn.md#ISN-CASTS)
+[F.20.2. 型別轉換](isn.md#isn-casts)
 
-[F.20.3. 函式與運算子](isn.md#ISN-FUNCS-OPS)
+[F.20.3. 函式與運算子](isn.md#isn-funcs-ops)
 
-[F.20.4. 組態參數](isn.md#ISN-CONFIGURATION-PARAMETERS)
+[F.20.4. 組態參數](isn.md#isn-configuration-parameters)
 
-[F.20.5. 範例](isn.md#ISN-EXAMPLES)
+[F.20.5. 範例](isn.md#isn-examples)
 
-[F.20.6. 參考資料](isn.md#ISN-BIBLIOGRAPHY)
+[F.20.6. 參考資料](isn.md#isn-bibliography)
 
-[F.20.7. 作者](isn.md#ISN-AUTHOR)
+[F.20.7. 作者](isn.md#isn-author)
 
 <a id="id-1.11.7.30.2"></a>
 
@@ -24,7 +24,7 @@
 
 <a id="ISN-DATA-TYPES"></a>
 
-### F.20.1. 資料型別 [#](#ISN-DATA-TYPES)
+### F.20.1. 資料型別 [#](#isn-data-types) <a href="#isn-data-types" id="isn-data-types"></a>
 
 [表 F.10](isn.md#ISN-DATATYPES) 顯示 `isn` 模組提供的資料型別。
 
@@ -68,7 +68,7 @@
 
 <a id="ISN-CASTS"></a>
 
-### F.20.2. 型別轉換 [#](#ISN-CASTS)
+### F.20.2. 型別轉換 [#](#isn-casts) <a href="#isn-casts" id="isn-casts"></a>
 
 `isn` 模組提供下列成對的型別轉換：
 
@@ -87,7 +87,7 @@
 
 <a id="ISN-FUNCS-OPS"></a>
 
-### F.20.3. 函式與運算子 [#](#ISN-FUNCS-OPS)
+### F.20.3. 函式與運算子 [#](#isn-funcs-ops) <a href="#isn-funcs-ops" id="isn-funcs-ops"></a>
 
 `isn` 模組提供標準比較運算子，以及所有這些資料型別的 B-tree 與雜湊索引支援。此外，還有數個專用函式，列於[表 F.11](isn.md#ISN-FUNCTIONS)。在此表中，`isn` 表示模組的任何一種資料型別。
 
@@ -133,7 +133,7 @@
 
 <a id="ISN-CONFIGURATION-PARAMETERS"></a>
 
-### F.20.4. 組態參數 [#](#ISN-CONFIGURATION-PARAMETERS)
+### F.20.4. 組態參數 [#](#isn-configuration-parameters) <a href="#isn-configuration-parameters" id="isn-configuration-parameters"></a>
 
 <a id="ISN-CONFIGURATION-PARAMETERS-WEAK"></a>
 
@@ -150,7 +150,7 @@
 
 <a id="ISN-EXAMPLES"></a>
 
-### F.20.5. 範例 [#](#ISN-EXAMPLES)
+### F.20.5. 範例 [#](#isn-examples) <a href="#isn-examples" id="isn-examples"></a>
 
 ```
 
@@ -195,7 +195,7 @@ SELECT isbn13(id) FROM test;
 
 <a id="ISN-BIBLIOGRAPHY"></a>
 
-### F.20.6. 參考資料 [#](#ISN-BIBLIOGRAPHY)
+### F.20.6. 參考資料 [#](#isn-bibliography) <a href="#isn-bibliography" id="isn-bibliography"></a>
 
 實作此模組的資訊蒐集自數個網站，包括：
 
@@ -216,7 +216,7 @@ SELECT isbn13(id) FROM test;
 
 <a id="ISN-AUTHOR"></a>
 
-### F.20.7. 作者 [#](#ISN-AUTHOR)
+### F.20.7. 作者 [#](#isn-author) <a href="#isn-author" id="isn-author"></a>
 
 Germán Méndez Bravo (Kronuz), 2004–2006
 

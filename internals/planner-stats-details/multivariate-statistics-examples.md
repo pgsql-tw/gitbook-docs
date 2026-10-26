@@ -2,17 +2,17 @@
 
 ## 69.2. 多變量統計資訊範例 [#](#multivariate-statistics-examples) <a href="#multivariate-statistics-examples" id="multivariate-statistics-examples"></a>
 
-[69.2.1. 函數相依性](multivariate-statistics-examples.md#FUNCTIONAL-DEPENDENCIES)
+[69.2.1. 函數相依性](multivariate-statistics-examples.md#functional-dependencies)
 
-[69.2.2. 多變量相異值計數](multivariate-statistics-examples.md#MULTIVARIATE-NDISTINCT-COUNTS)
+[69.2.2. 多變量相異值計數](multivariate-statistics-examples.md#multivariate-ndistinct-counts)
 
-[69.2.3. MCV 清單](multivariate-statistics-examples.md#MCV-LISTS)
+[69.2.3. MCV 清單](multivariate-statistics-examples.md#mcv-lists)
 
 <a id="id-1.10.21.5.2"></a>
 
 <a id="FUNCTIONAL-DEPENDENCIES"></a>
 
-### 69.2.1. 函數相依性 [#](#FUNCTIONAL-DEPENDENCIES)
+### 69.2.1. 函數相依性 [#](#functional-dependencies) <a href="#functional-dependencies" id="functional-dependencies"></a>
 
 多變量相關性可以用一個非常簡單的資料集來示範
 ——一個有兩個欄位、且兩個欄位包含相同值的資料表：
@@ -95,7 +95,7 @@ EXPLAIN (ANALYZE, TIMING OFF, BUFFERS OFF) SELECT * FROM t WHERE a = 1 AND b = 1
 
 <a id="MULTIVARIATE-NDISTINCT-COUNTS"></a>
 
-### 69.2.2. 多變量相異值計數 [#](#MULTIVARIATE-NDISTINCT-COUNTS)
+### 69.2.2. 多變量相異值計數 [#](#multivariate-ndistinct-counts) <a href="#multivariate-ndistinct-counts" id="multivariate-ndistinct-counts"></a>
 
 估計多個欄位所構成之集合的基數時，也會發生類似的問題，
 例如 `GROUP BY` 子句會產生的群組數量。當 `GROUP BY`
@@ -145,9 +145,9 @@ EXPLAIN (ANALYZE, TIMING OFF, BUFFERS OFF) SELECT COUNT(*) FROM t GROUP BY a, b;
 
 <a id="MCV-LISTS"></a>
 
-### 69.2.3. MCV 清單 [#](#MCV-LISTS)
+### 69.2.3. MCV 清單 [#](#mcv-lists) <a href="#mcv-lists" id="mcv-lists"></a>
 
-如[第 69.2.1 節](multivariate-statistics-examples.md#FUNCTIONAL-DEPENDENCIES)所述，函數
+如[第 69.2.1 節](multivariate-statistics-examples.md#functional-dependencies)所述，函數
 相依性是一種成本非常低廉且有效率的統計資訊，但其
 主要限制在於其全域性質（只在欄位層級追蹤相依性，
 而不是在個別欄位值之間追蹤）。
@@ -159,7 +159,7 @@ EXPLAIN (ANALYZE, TIMING OFF, BUFFERS OFF) SELECT COUNT(*) FROM t GROUP BY a, b;
 自然也比較昂貴，無論是在 `ANALYZE` 中建立統計資訊、
 儲存空間，還是規劃時間方面皆是如此。
 
-讓我們再看一次[第 69.2.1 節](multivariate-statistics-examples.md#FUNCTIONAL-DEPENDENCIES)中的查詢，
+讓我們再看一次[第 69.2.1 節](multivariate-statistics-examples.md#functional-dependencies)中的查詢，
 但這次是在同一組欄位上建立 MCV 清單
 （請務必移除函數相依性，
 以確保規劃器使用新建立的統計資訊）。

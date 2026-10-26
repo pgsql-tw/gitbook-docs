@@ -2,13 +2,13 @@
 
 ## F.21. lo — 管理大型物件 [#](#lo) <a href="#lo" id="lo"></a>
 
-[F.21.1. 原理](lo.md#LO-RATIONALE)
+[F.21.1. 原理](lo.md#lo-rationale)
 
-[F.21.2. 使用方式](lo.md#LO-HOW-TO-USE)
+[F.21.2. 使用方式](lo.md#lo-how-to-use)
 
-[F.21.3. 限制](lo.md#LO-LIMITATIONS)
+[F.21.3. 限制](lo.md#lo-limitations)
 
-[F.21.4. 作者](lo.md#LO-AUTHOR)
+[F.21.4. 作者](lo.md#lo-author)
 
 <a id="id-1.11.7.31.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="LO-RATIONALE"></a>
 
-### F.21.1. 原理 [#](#LO-RATIONALE)
+### F.21.1. 原理 [#](#lo-rationale) <a href="#lo-rationale" id="lo-rationale"></a>
 
 JDBC 驅動程式的一項問題（也會影響 ODBC 驅動程式）是，規範假定 BLOB（Binary Large OBject，大型二進位物件）的參照儲存在資料表中，且若該項目變更，關聯的 BLOB 會從資料庫刪除。
 
@@ -32,7 +32,7 @@ JDBC 驅動程式的一項問題（也會影響 ODBC 驅動程式）是，規範
 
 <a id="LO-HOW-TO-USE"></a>
 
-### F.21.2. 使用方式 [#](#LO-HOW-TO-USE)
+### F.21.2. 使用方式 [#](#lo-how-to-use) <a href="#lo-how-to-use" id="lo-how-to-use"></a>
 
 以下是簡單的使用範例：
 
@@ -48,7 +48,7 @@ CREATE TRIGGER t_raster BEFORE UPDATE OR DELETE ON image
 
 <a id="LO-LIMITATIONS"></a>
 
-### F.21.3. 限制 [#](#LO-LIMITATIONS)
+### F.21.3. 限制 [#](#lo-limitations) <a href="#lo-limitations" id="lo-limitations"></a>
 
 * 捨棄資料表時，由於不會執行觸發程序，其中包含的物件仍會成為孤立物件。可在 `DROP TABLE` 前執行 `DELETE FROM table` 避免此情況。
 
@@ -59,7 +59,7 @@ CREATE TRIGGER t_raster BEFORE UPDATE OR DELETE ON image
 
 <a id="LO-AUTHOR"></a>
 
-### F.21.4. 作者 [#](#LO-AUTHOR)
+### F.21.4. 作者 [#](#lo-author) <a href="#lo-author" id="lo-author"></a>
 
 Peter Mount `<peter@retep.org.uk>`
 
