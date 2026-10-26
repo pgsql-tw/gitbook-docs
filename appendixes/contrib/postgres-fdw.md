@@ -1,6 +1,6 @@
 <a id="POSTGRES-FDW"></a>
 
-## F.38. postgres_fdw — 存取儲存在外部 PostgreSQL 伺服器中的資料 [#](#POSTGRES-FDW)
+## F.38. postgres_fdw — 存取儲存在外部 PostgreSQL 伺服器中的資料 [#](#postgres-fdw) <a href="#postgres-fdw" id="postgres-fdw"></a>
 
 [F.38.1. postgres_fdw 的 FDW 選項](postgres-fdw.md#POSTGRES-FDW-OPTIONS)
 

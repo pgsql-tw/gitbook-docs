@@ -1,6 +1,6 @@
 <a id="EXTERNAL-INTERFACES"></a>
 
-## H.1. 用戶端介面 [#](#EXTERNAL-INTERFACES)
+## H.1. 用戶端介面 [#](#external-interfaces) <a href="#external-interfaces" id="external-interfaces"></a>
 
 <a id="id-1.11.9.3.2"></a>
 

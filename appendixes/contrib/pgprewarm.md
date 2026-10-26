@@ -1,6 +1,6 @@
 <a id="PGPREWARM"></a>
 
-## F.30. pg_prewarm — 將關聯資料預先載入緩衝區快取 [#](#PGPREWARM)
+## F.30. pg_prewarm — 將關聯資料預先載入緩衝區快取 [#](#pgprewarm) <a href="#pgprewarm" id="pgprewarm"></a>
 
 [F.30.1. 函式](pgprewarm.md#PGPREWARM-FUNCS)
 

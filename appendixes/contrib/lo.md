@@ -1,6 +1,6 @@
 <a id="LO"></a>
 
-## F.21. lo — 管理大型物件 [#](#LO)
+## F.21. lo — 管理大型物件 [#](#lo) <a href="#lo" id="lo"></a>
 
 [F.21.1. 原理](lo.md#LO-RATIONALE)
 

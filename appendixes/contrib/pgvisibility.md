@@ -1,6 +1,6 @@
 <a id="PGVISIBILITY"></a>
 
-## F.36. pg_visibility — 可見性對應表資訊與工具 [#](#PGVISIBILITY)
+## F.36. pg_visibility — 可見性對應表資訊與工具 [#](#pgvisibility) <a href="#pgvisibility" id="pgvisibility"></a>
 
 [F.36.1. 函式](pgvisibility.md#PGVISIBILITY-FUNCS)
 

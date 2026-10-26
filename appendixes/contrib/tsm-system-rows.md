@@ -1,6 +1,6 @@
 <a id="TSM-SYSTEM-ROWS"></a>
 
-## F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 [#](#TSM-SYSTEM-ROWS)
+## F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 [#](#tsm-system-rows) <a href="#tsm-system-rows" id="tsm-system-rows"></a>
 
 [F.46.1. 範例](tsm-system-rows.md#TSM-SYSTEM-ROWS-EXAMPLES)
 

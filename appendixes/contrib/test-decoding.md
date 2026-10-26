@@ -1,6 +1,6 @@
 <a id="TEST-DECODING"></a>
 
-## F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 [#](#TEST-DECODING)
+## F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組 [#](#test-decoding) <a href="#test-decoding" id="test-decoding"></a>
 
 <a id="id-1.11.7.55.2"></a>
 

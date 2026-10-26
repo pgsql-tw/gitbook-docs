@@ -66,18 +66,19 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
 五個必要的使用者定義方法如下：
 
 `config`
-:   傳回索引實作的靜態資訊，包括前綴與節點標籤資料型別的資料型別 OID。
 
-    此函式的 SQL 宣告必須如下所示：
+傳回索引實作的靜態資訊，包括前綴與節點標籤資料型別的資料型別 OID。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE FUNCTION my_config(internal, internal) RETURNS void ...
-    ```
+```
 
-    第一個引數是指向 `spgConfigIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgConfigOut` C 結構的指標，函式必須在其中填入結果資料。
+第一個引數是指向 `spgConfigIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgConfigOut` C 結構的指標，函式必須在其中填入結果資料。
 
-    ```
+```
 
     typedef struct spgConfigIn
     {
@@ -92,29 +93,30 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
         bool        canReturnData;  /* Opclass can reconstruct original data */
         bool        longValuesOK;   /* Opclass can cope with values > 1 page */
     } spgConfigOut;
-    ```
+```
 
-    傳入 `attType` 是為了支援多型的索引運算子類別；對於一般固定資料型別的運算子類別，它的值永遠相同，因此可以忽略。
+傳入 `attType` 是為了支援多型的索引運算子類別；對於一般固定資料型別的運算子類別，它的值永遠相同，因此可以忽略。
 
-    對於不使用前綴的運算子類別，可以將 `prefixType` 設為 `VOIDOID`。同樣地，對於不使用節點標籤的運算子類別，可以將 `labelType` 設為 `VOIDOID`。如果運算子類別能夠重建原本提供的索引值，應該將 `canReturnData` 設為 true。只有在 `attType` 為可變長度，且運算子類別能夠透過反覆取後綴來分段處理長值時（也就是每往下一層就移除一段前綴、只保留較短的後綴，與下方 picksplit 去除前綴的做法一致），才應該將 `longValuesOK` 設為 true（請參閱[第 65.3.4.1 節](spgist.md#SPGIST-LIMITS)）。
+對於不使用前綴的運算子類別，可以將 `prefixType` 設為 `VOIDOID`。同樣地，對於不使用節點標籤的運算子類別，可以將 `labelType` 設為 `VOIDOID`。如果運算子類別能夠重建原本提供的索引值，應該將 `canReturnData` 設為 true。只有在 `attType` 為可變長度，且運算子類別能夠透過反覆取後綴來分段處理長值時（也就是每往下一層就移除一段前綴、只保留較短的後綴，與下方 picksplit 去除前綴的做法一致），才應該將 `longValuesOK` 設為 true（請參閱[第 65.3.4.1 節](spgist.md#SPGIST-LIMITS)）。
 
-    `leafType` 應該與運算子類別的 `opckeytype` 系統目錄項目所定義的索引儲存型別相符。（請注意，`opckeytype` 可以是零，表示儲存型別與運算子類別的輸入型別相同，這是最常見的情況。）基於向後相容性的理由，`config` 方法可以將 `leafType` 設為其他值，而該值會被使用；但這種做法已被棄用，因為如此一來索引內容在系統目錄中會被錯誤識別。此外，也允許讓 `leafType` 保持未初始化（零）；這會被解讀為使用從 `opckeytype` 推導出的索引儲存型別。
+`leafType` 應該與運算子類別的 `opckeytype` 系統目錄項目所定義的索引儲存型別相符。（請注意，`opckeytype` 可以是零，表示儲存型別與運算子類別的輸入型別相同，這是最常見的情況。）基於向後相容性的理由，`config` 方法可以將 `leafType` 設為其他值，而該值會被使用；但這種做法已被棄用，因為如此一來索引內容在系統目錄中會被錯誤識別。此外，也允許讓 `leafType` 保持未初始化（零）；這會被解讀為使用從 `opckeytype` 推導出的索引儲存型別。
 
-    當 `attType` 與 `leafType` 不同時，必須提供選擇性的 `compress` 方法。`compress` 方法負責將要被索引的 datum 從 `attType` 轉換為 `leafType`。
+當 `attType` 與 `leafType` 不同時，必須提供選擇性的 `compress` 方法。`compress` 方法負責將要被索引的 datum 從 `attType` 轉換為 `leafType`。
 
 `choose`
-:   選擇將新值插入內部 tuple 的方式。
 
-    此函式的 SQL 宣告必須如下所示：
+選擇將新值插入內部 tuple 的方式。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE FUNCTION my_choose(internal, internal) RETURNS void ...
-    ```
+```
 
-    第一個引數是指向 `spgChooseIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgChooseOut` C 結構的指標，函式必須在其中填入結果資料。
+第一個引數是指向 `spgChooseIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgChooseOut` C 結構的指標，函式必須在其中填入結果資料。
 
-    ```
+```
 
     typedef struct spgChooseIn
     {
@@ -169,31 +171,32 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
             }           splitTuple;
         }           result;
     } spgChooseOut;
-    ```
+```
 
-    `datum` 是要插入索引的原始 datum，型別為 `spgConfigIn`.`attType`。`leafDatum` 是型別為 `spgConfigOut`.`leafType` 的值，當有提供 `compress` 方法時，它最初是將 `compress` 方法套用於 `datum` 的結果，否則就是與 `datum` 相同的值。如果 `choose` 或 `picksplit` 方法改變了 `leafDatum`，它可能會在樹的較低層級改變。當插入搜尋到達葉頁面時，`leafDatum` 的目前值就是要儲存在新建立之葉 tuple 中的值。`level` 是目前內部 tuple 的層級，根層級從零開始。如果目前內部 tuple 被標記為包含多個等價節點，`allTheSame` 為 true（請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)）。如果目前內部 tuple 包含前綴，`hasPrefix` 為 true；此時 `prefixDatum` 就是前綴的值。`nNodes` 是內部 tuple 所包含的子節點數量，`nodeLabels` 則是它們的標籤值陣列，若沒有標籤則為 NULL。
+`datum` 是要插入索引的原始 datum，型別為 `spgConfigIn`.`attType`。`leafDatum` 是型別為 `spgConfigOut`.`leafType` 的值，當有提供 `compress` 方法時，它最初是將 `compress` 方法套用於 `datum` 的結果，否則就是與 `datum` 相同的值。如果 `choose` 或 `picksplit` 方法改變了 `leafDatum`，它可能會在樹的較低層級改變。當插入搜尋到達葉頁面時，`leafDatum` 的目前值就是要儲存在新建立之葉 tuple 中的值。`level` 是目前內部 tuple 的層級，根層級從零開始。如果目前內部 tuple 被標記為包含多個等價節點，`allTheSame` 為 true（請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)）。如果目前內部 tuple 包含前綴，`hasPrefix` 為 true；此時 `prefixDatum` 就是前綴的值。`nNodes` 是內部 tuple 所包含的子節點數量，`nodeLabels` 則是它們的標籤值陣列，若沒有標籤則為 NULL。
 
-    `choose` 函式可以判定新值與現有的某個子節點相符，或必須新增一個子節點，或新值與 tuple 前綴不一致，因而必須分裂內部 tuple，以建立限制較寬鬆的前綴。
+`choose` 函式可以判定新值與現有的某個子節點相符，或必須新增一個子節點，或新值與 tuple 前綴不一致，因而必須分裂內部 tuple，以建立限制較寬鬆的前綴。
 
-    如果新值與現有的某個子節點相符，請將 `resultType` 設為 `spgMatchNode`。將 `nodeN` 設為該節點在節點陣列中的索引（從零起算）。將 `levelAdd` 設為經由該節點往下走訪所造成的 `level` 增量；如果運算子類別不使用層級，則保持為零。如果運算子類別不會在層級之間修改 datum，請將 `restDatum` 設為等於 `leafDatum`，否則將它設為修改後的值，作為下一層級的 `leafDatum`。
+如果新值與現有的某個子節點相符，請將 `resultType` 設為 `spgMatchNode`。將 `nodeN` 設為該節點在節點陣列中的索引（從零起算）。將 `levelAdd` 設為經由該節點往下走訪所造成的 `level` 增量；如果運算子類別不使用層級，則保持為零。如果運算子類別不會在層級之間修改 datum，請將 `restDatum` 設為等於 `leafDatum`，否則將它設為修改後的值，作為下一層級的 `leafDatum`。
 
-    如果必須新增子節點，請將 `resultType` 設為 `spgAddNode`。將 `nodeLabel` 設為新節點要使用的標籤，並將 `nodeN` 設為在節點陣列中插入該節點的索引（從零起算）。新增節點之後，會以修改後的內部 tuple 再次呼叫 `choose` 函式；該次呼叫應該產生 `spgMatchNode` 結果。
+如果必須新增子節點，請將 `resultType` 設為 `spgAddNode`。將 `nodeLabel` 設為新節點要使用的標籤，並將 `nodeN` 設為在節點陣列中插入該節點的索引（從零起算）。新增節點之後，會以修改後的內部 tuple 再次呼叫 `choose` 函式；該次呼叫應該產生 `spgMatchNode` 結果。
 
-    如果新值與 tuple 前綴不一致，請將 `resultType` 設為 `spgSplitTuple`。此動作會將所有現有節點移到一個新的較低層級內部 tuple 中，並以一個只有單一下行連結、指向該新的較低層級內部 tuple 的 tuple 取代現有的內部 tuple。設定 `prefixHasPrefix` 以表示新的上層 tuple 是否應該有前綴，若是，則將 `prefixPrefixDatum` 設為前綴值。這個新的前綴值必須比原本的前綴寬鬆到足以接受要被索引的新值。將 `prefixNNodes` 設為新 tuple 所需的節點數量，並將 `prefixNodeLabels` 設為一個以 palloc 配置、存放這些節點標籤的陣列，若不需要節點標籤則設為 NULL。請注意，新上層 tuple 的總大小不得超過它所取代之 tuple 的總大小；這限制了新前綴與新標籤的長度。將 `childNodeN` 設為將以下行連結指向新的較低層級內部 tuple 之節點的索引（從零起算）。設定 `postfixHasPrefix` 以表示新的較低層級內部 tuple 是否應該有前綴，若是，則將 `postfixPrefixDatum` 設為前綴值。這兩個前綴與下行連結節點的標籤（若有的話）的組合，必須與原本的前綴具有相同的意義，因為既沒有機會變更被移到新的較低層級 tuple 中的節點標籤，也無法變更任何子索引項目。節點分裂之後，會以取代後的內部 tuple 再次呼叫 `choose` 函式。如果 `spgSplitTuple` 動作沒有建立合適的節點，該次呼叫可能會傳回 `spgAddNode` 結果。最終 `choose` 必須傳回 `spgMatchNode`，讓插入作業得以往下走訪到下一層級。
+如果新值與 tuple 前綴不一致，請將 `resultType` 設為 `spgSplitTuple`。此動作會將所有現有節點移到一個新的較低層級內部 tuple 中，並以一個只有單一下行連結、指向該新的較低層級內部 tuple 的 tuple 取代現有的內部 tuple。設定 `prefixHasPrefix` 以表示新的上層 tuple 是否應該有前綴，若是，則將 `prefixPrefixDatum` 設為前綴值。這個新的前綴值必須比原本的前綴寬鬆到足以接受要被索引的新值。將 `prefixNNodes` 設為新 tuple 所需的節點數量，並將 `prefixNodeLabels` 設為一個以 palloc 配置、存放這些節點標籤的陣列，若不需要節點標籤則設為 NULL。請注意，新上層 tuple 的總大小不得超過它所取代之 tuple 的總大小；這限制了新前綴與新標籤的長度。將 `childNodeN` 設為將以下行連結指向新的較低層級內部 tuple 之節點的索引（從零起算）。設定 `postfixHasPrefix` 以表示新的較低層級內部 tuple 是否應該有前綴，若是，則將 `postfixPrefixDatum` 設為前綴值。這兩個前綴與下行連結節點的標籤（若有的話）的組合，必須與原本的前綴具有相同的意義，因為既沒有機會變更被移到新的較低層級 tuple 中的節點標籤，也無法變更任何子索引項目。節點分裂之後，會以取代後的內部 tuple 再次呼叫 `choose` 函式。如果 `spgSplitTuple` 動作沒有建立合適的節點，該次呼叫可能會傳回 `spgAddNode` 結果。最終 `choose` 必須傳回 `spgMatchNode`，讓插入作業得以往下走訪到下一層級。
 
 `picksplit`
-:   決定如何在一組葉 tuple 之上建立新的內部 tuple。
 
-    此函式的 SQL 宣告必須如下所示：
+決定如何在一組葉 tuple 之上建立新的內部 tuple。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE FUNCTION my_picksplit(internal, internal) RETURNS void ...
-    ```
+```
 
-    第一個引數是指向 `spgPickSplitIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgPickSplitOut` C 結構的指標，函式必須在其中填入結果資料。
+第一個引數是指向 `spgPickSplitIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgPickSplitOut` C 結構的指標，函式必須在其中填入結果資料。
 
-    ```
+```
 
     typedef struct spgPickSplitIn
     {
@@ -213,29 +216,30 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
         int        *mapTuplesToNodes;   /* node index for each leaf tuple */
         Datum      *leafTupleDatums;    /* datum to store in each new leaf tuple */
     } spgPickSplitOut;
-    ```
+```
 
-    `nTuples` 是所提供的葉 tuple 數量。`datums` 是它們的 datum 值陣列，型別為 `spgConfigOut`.`leafType`。`level` 是所有葉 tuple 共同的目前層級，它將成為新內部 tuple 的層級。
+`nTuples` 是所提供的葉 tuple 數量。`datums` 是它們的 datum 值陣列，型別為 `spgConfigOut`.`leafType`。`level` 是所有葉 tuple 共同的目前層級，它將成為新內部 tuple 的層級。
 
-    設定 `hasPrefix` 以表示新的內部 tuple 是否應該有前綴，若是，則將 `prefixDatum` 設為前綴值。設定 `nNodes` 以表示新內部 tuple 將包含的節點數量，並將 `nodeLabels` 設為它們的標籤值陣列，若不需要節點標籤則設為 NULL。將 `mapTuplesToNodes` 設為一個陣列，提供每個葉 tuple 應指派到之節點的索引（從零起算）。將 `leafTupleDatums` 設為要儲存在新葉 tuple 中的值陣列（如果運算子類別不會在層級之間修改 datum，這些值會與輸入的 `datums` 相同）。請注意，`picksplit` 函式負責以 palloc 配置 `nodeLabels`、`mapTuplesToNodes` 與 `leafTupleDatums` 陣列。
+設定 `hasPrefix` 以表示新的內部 tuple 是否應該有前綴，若是，則將 `prefixDatum` 設為前綴值。設定 `nNodes` 以表示新內部 tuple 將包含的節點數量，並將 `nodeLabels` 設為它們的標籤值陣列，若不需要節點標籤則設為 NULL。將 `mapTuplesToNodes` 設為一個陣列，提供每個葉 tuple 應指派到之節點的索引（從零起算）。將 `leafTupleDatums` 設為要儲存在新葉 tuple 中的值陣列（如果運算子類別不會在層級之間修改 datum，這些值會與輸入的 `datums` 相同）。請注意，`picksplit` 函式負責以 palloc 配置 `nodeLabels`、`mapTuplesToNodes` 與 `leafTupleDatums` 陣列。
 
-    如果提供了超過一個葉 tuple，則預期 `picksplit` 函式會將它們分類到超過一個節點中；否則就無法將葉 tuple 分散到多個頁面，而這正是此操作的最終目的。因此，如果 `picksplit` 函式最後將所有葉 tuple 都放在同一個節點中，SP-GiST 核心程式碼會推翻該決定，並產生一個內部 tuple，其中的葉 tuple 會被隨機指派到數個標籤相同的節點。這樣的 tuple 會被標記為 `allTheSame`，以表示發生了這種情況。`choose` 與 `inner_consistent` 函式必須適當地處理這類內部 tuple。詳細資訊請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)。
+如果提供了超過一個葉 tuple，則預期 `picksplit` 函式會將它們分類到超過一個節點中；否則就無法將葉 tuple 分散到多個頁面，而這正是此操作的最終目的。因此，如果 `picksplit` 函式最後將所有葉 tuple 都放在同一個節點中，SP-GiST 核心程式碼會推翻該決定，並產生一個內部 tuple，其中的葉 tuple 會被隨機指派到數個標籤相同的節點。這樣的 tuple 會被標記為 `allTheSame`，以表示發生了這種情況。`choose` 與 `inner_consistent` 函式必須適當地處理這類內部 tuple。詳細資訊請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)。
 
-    只有在 `config` 函式將 `longValuesOK` 設為 true，且提供了大於一個頁面的輸入值時，`picksplit` 才可以套用於單一葉 tuple。在這種情況下，此操作的目的是去除一個前綴，產生一個新的、較短的葉 datum 值。此呼叫會反覆進行，直到產生出短到足以放進一個頁面的葉 datum 為止。詳細資訊請參閱[第 65.3.4.1 節](spgist.md#SPGIST-LIMITS)。
+只有在 `config` 函式將 `longValuesOK` 設為 true，且提供了大於一個頁面的輸入值時，`picksplit` 才可以套用於單一葉 tuple。在這種情況下，此操作的目的是去除一個前綴，產生一個新的、較短的葉 datum 值。此呼叫會反覆進行，直到產生出短到足以放進一個頁面的葉 datum 為止。詳細資訊請參閱[第 65.3.4.1 節](spgist.md#SPGIST-LIMITS)。
 
 `inner_consistent`
-:   傳回在樹搜尋期間要跟隨的節點（分支）集合。
 
-    此函式的 SQL 宣告必須如下所示：
+傳回在樹搜尋期間要跟隨的節點（分支）集合。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE FUNCTION my_inner_consistent(internal, internal) RETURNS void ...
-    ```
+```
 
-    第一個引數是指向 `spgInnerConsistentIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgInnerConsistentOut` C 結構的指標，函式必須在其中填入結果資料。
+第一個引數是指向 `spgInnerConsistentIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgInnerConsistentOut` C 結構的指標，函式必須在其中填入結果資料。
 
-    ```
+```
 
     typedef struct spgInnerConsistentIn
     {
@@ -268,25 +272,26 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
         void      **traversalValues;        /* opclass-specific traverse values */
         double    **distances;              /* associated distances */
     } spgInnerConsistentOut;
-    ```
+```
 
-    長度為 `nkeys` 的 `scankeys` 陣列描述索引搜尋條件。這些條件以 AND 結合——只有滿足所有條件的索引項目才是我們感興趣的。（請注意，`nkeys` = 0 表示所有索引項目都滿足查詢。）consistent 函式通常只關心每個陣列項目的 `sk_strategy` 與 `sk_argument` 欄位，它們分別提供可索引運算子與比較值。特別是，不需要檢查 `sk_flags` 來確認比較值是否為 NULL，因為 SP-GiST 核心程式碼會濾除這類條件。長度為 `norderbys` 的 `orderbys` 陣列以相同的方式描述排序運算子（若有的話）。`reconstructedValue` 是為父 tuple 重建的值；在根層級，或 `inner_consistent` 函式未在父層級提供值時，它為 `(Datum) 0`。`traversalValue` 是一個指標，指向前一次對父索引 tuple 呼叫 `inner_consistent` 時向下傳遞的任何遍歷資料，在根層級則為 NULL。`traversalMemoryContext` 是用來儲存輸出遍歷值的記憶體上下文（見下文）。`level` 是目前內部 tuple 的層級，根層級從零開始。如果此查詢需要重建資料，`returnData` 為 `true`；只有在 `config` 函式宣告了 `canReturnData` 時才會如此。如果目前內部 tuple 被標記為「all-the-same」，`allTheSame` 為 true；在這種情況下，所有節點都具有相同的標籤（若有的話），因此要麼全部與查詢相符，要麼全部不相符（請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)）。如果目前內部 tuple 包含前綴，`hasPrefix` 為 true；此時 `prefixDatum` 就是前綴的值。`nNodes` 是內部 tuple 所包含的子節點數量，`nodeLabels` 則是它們的標籤值陣列，若節點沒有標籤則為 NULL。
+長度為 `nkeys` 的 `scankeys` 陣列描述索引搜尋條件。這些條件以 AND 結合——只有滿足所有條件的索引項目才是我們感興趣的。（請注意，`nkeys` = 0 表示所有索引項目都滿足查詢。）consistent 函式通常只關心每個陣列項目的 `sk_strategy` 與 `sk_argument` 欄位，它們分別提供可索引運算子與比較值。特別是，不需要檢查 `sk_flags` 來確認比較值是否為 NULL，因為 SP-GiST 核心程式碼會濾除這類條件。長度為 `norderbys` 的 `orderbys` 陣列以相同的方式描述排序運算子（若有的話）。`reconstructedValue` 是為父 tuple 重建的值；在根層級，或 `inner_consistent` 函式未在父層級提供值時，它為 `(Datum) 0`。`traversalValue` 是一個指標，指向前一次對父索引 tuple 呼叫 `inner_consistent` 時向下傳遞的任何遍歷資料，在根層級則為 NULL。`traversalMemoryContext` 是用來儲存輸出遍歷值的記憶體上下文（見下文）。`level` 是目前內部 tuple 的層級，根層級從零開始。如果此查詢需要重建資料，`returnData` 為 `true`；只有在 `config` 函式宣告了 `canReturnData` 時才會如此。如果目前內部 tuple 被標記為「all-the-same」，`allTheSame` 為 true；在這種情況下，所有節點都具有相同的標籤（若有的話），因此要麼全部與查詢相符，要麼全部不相符（請參閱[第 65.3.4.3 節](spgist.md#SPGIST-ALL-THE-SAME)）。如果目前內部 tuple 包含前綴，`hasPrefix` 為 true；此時 `prefixDatum` 就是前綴的值。`nNodes` 是內部 tuple 所包含的子節點數量，`nodeLabels` 則是它們的標籤值陣列，若節點沒有標籤則為 NULL。
 
-    `nNodes` 必須設為搜尋需要造訪的子節點數量，而 `nodeNumbers` 必須設為它們的索引陣列。如果運算子類別會追蹤層級，請將 `levelAdds` 設為往下走訪到每個要造訪之節點時所需的層級增量陣列。（這些增量通常對所有節點都相同，但不一定如此，因此使用陣列。）如果需要重建值，請將 `reconstructedValues` 設為為每個要造訪之子節點所重建的值陣列；否則將 `reconstructedValues` 保持為 NULL。重建的值假設為 `spgConfigOut`.`leafType` 型別。（不過，由於核心系統除了可能複製它們之外，不會對它們做任何處理，因此只要它們具有與 `leafType` 相同的 `typlen` 與 `typbyval` 屬性就足夠了。）如果執行的是有序搜尋，請依照 `orderbys` 陣列將 `distances` 設為距離值陣列（距離最小的節點會最先處理）；否則將它保持為 NULL。如果想要將額外的頻外資訊（「遍歷值」）向下傳遞到樹搜尋的較低層級，請將 `traversalValues` 設為適當遍歷值的陣列，每個要造訪的子節點各一個；否則將 `traversalValues` 保持為 NULL。請注意，`inner_consistent` 函式負責在目前的記憶體上下文 中以 palloc 配置 `nodeNumbers`、`levelAdds`、`distances`、`reconstructedValues` 與 `traversalValues` 陣列。不過，`traversalValues` 陣列所指向的任何輸出遍歷值，都應該配置在 `traversalMemoryContext` 中。每個遍歷值都必須是單一的 palloc 配置區塊。
+`nNodes` 必須設為搜尋需要造訪的子節點數量，而 `nodeNumbers` 必須設為它們的索引陣列。如果運算子類別會追蹤層級，請將 `levelAdds` 設為往下走訪到每個要造訪之節點時所需的層級增量陣列。（這些增量通常對所有節點都相同，但不一定如此，因此使用陣列。）如果需要重建值，請將 `reconstructedValues` 設為為每個要造訪之子節點所重建的值陣列；否則將 `reconstructedValues` 保持為 NULL。重建的值假設為 `spgConfigOut`.`leafType` 型別。（不過，由於核心系統除了可能複製它們之外，不會對它們做任何處理，因此只要它們具有與 `leafType` 相同的 `typlen` 與 `typbyval` 屬性就足夠了。）如果執行的是有序搜尋，請依照 `orderbys` 陣列將 `distances` 設為距離值陣列（距離最小的節點會最先處理）；否則將它保持為 NULL。如果想要將額外的頻外資訊（「遍歷值」）向下傳遞到樹搜尋的較低層級，請將 `traversalValues` 設為適當遍歷值的陣列，每個要造訪的子節點各一個；否則將 `traversalValues` 保持為 NULL。請注意，`inner_consistent` 函式負責在目前的記憶體上下文 中以 palloc 配置 `nodeNumbers`、`levelAdds`、`distances`、`reconstructedValues` 與 `traversalValues` 陣列。不過，`traversalValues` 陣列所指向的任何輸出遍歷值，都應該配置在 `traversalMemoryContext` 中。每個遍歷值都必須是單一的 palloc 配置區塊。
 
 `leaf_consistent`
-:   如果葉 tuple 滿足查詢，則傳回 true。
 
-    此函式的 SQL 宣告必須如下所示：
+如果葉 tuple 滿足查詢，則傳回 true。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE FUNCTION my_leaf_consistent(internal, internal) RETURNS bool ...
-    ```
+```
 
-    第一個引數是指向 `spgLeafConsistentIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgLeafConsistentOut` C 結構的指標，函式必須在其中填入結果資料。
+第一個引數是指向 `spgLeafConsistentIn` C 結構的指標，其中包含函式的輸入資料。第二個引數是指向 `spgLeafConsistentOut` C 結構的指標，函式必須在其中填入結果資料。
 
-    ```
+```
 
     typedef struct spgLeafConsistentIn
     {
@@ -311,35 +316,37 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
         bool        recheckDistances; /* set true if distances must be rechecked */
         double     *distances;        /* associated distances */
     } spgLeafConsistentOut;
-    ```
+```
 
-    長度為 `nkeys` 的 `scankeys` 陣列描述索引搜尋條件。這些條件以 AND 結合——只有滿足所有條件的索引項目才滿足查詢。（請注意，`nkeys` = 0 表示所有索引項目都滿足查詢。）consistent 函式通常只關心每個陣列項目的 `sk_strategy` 與 `sk_argument` 欄位，它們分別提供可索引運算子與比較值。特別是，不需要檢查 `sk_flags` 來確認比較值是否為 NULL，因為 SP-GiST 核心程式碼會濾除這類條件。長度為 `norderbys` 的 `orderbys` 陣列以相同的方式描述排序運算子。`reconstructedValue` 是為父 tuple 重建的值；在根層級，或 `inner_consistent` 函式未在父層級提供值時，它為 `(Datum) 0`。`traversalValue` 是一個指標，指向前一次對父索引 tuple 呼叫 `inner_consistent` 時向下傳遞的任何遍歷資料，在根層級則為 NULL。`level` 是目前葉 tuple 的層級，根層級從零開始。如果此查詢需要重建資料，`returnData` 為 `true`；只有在 `config` 函式宣告了 `canReturnData` 時才會如此。`leafDatum` 是儲存在目前葉 tuple 中、型別為 `spgConfigOut`.`leafType` 的鍵值。
+長度為 `nkeys` 的 `scankeys` 陣列描述索引搜尋條件。這些條件以 AND 結合——只有滿足所有條件的索引項目才滿足查詢。（請注意，`nkeys` = 0 表示所有索引項目都滿足查詢。）consistent 函式通常只關心每個陣列項目的 `sk_strategy` 與 `sk_argument` 欄位，它們分別提供可索引運算子與比較值。特別是，不需要檢查 `sk_flags` 來確認比較值是否為 NULL，因為 SP-GiST 核心程式碼會濾除這類條件。長度為 `norderbys` 的 `orderbys` 陣列以相同的方式描述排序運算子。`reconstructedValue` 是為父 tuple 重建的值；在根層級，或 `inner_consistent` 函式未在父層級提供值時，它為 `(Datum) 0`。`traversalValue` 是一個指標，指向前一次對父索引 tuple 呼叫 `inner_consistent` 時向下傳遞的任何遍歷資料，在根層級則為 NULL。`level` 是目前葉 tuple 的層級，根層級從零開始。如果此查詢需要重建資料，`returnData` 為 `true`；只有在 `config` 函式宣告了 `canReturnData` 時才會如此。`leafDatum` 是儲存在目前葉 tuple 中、型別為 `spgConfigOut`.`leafType` 的鍵值。
 
-    如果葉 tuple 與查詢相符，函式必須傳回 `true`，否則傳回 `false`。在 `true` 的情況下，如果 `returnData` 為 `true`，則必須將 `leafValue` 設為原本為此葉 tuple 提供以供索引的值（型別為 `spgConfigIn`.`attType`）。此外，如果是否相符並不確定，因而必須對實際的堆積 tuple 重新套用運算子以驗證是否相符，則可以將 `recheck` 設為 `true`。如果執行的是有序搜尋，請依照 `orderbys` 陣列將 `distances` 設為距離值陣列；否則將它保持為 NULL。如果傳回的距離中至少有一個不精確，請將 `recheckDistances` 設為 true。在這種情況下，執行器會在從堆積擷取 tuple 之後計算精確的距離，並在需要時重新排序這些 tuple。
+如果葉 tuple 與查詢相符，函式必須傳回 `true`，否則傳回 `false`。在 `true` 的情況下，如果 `returnData` 為 `true`，則必須將 `leafValue` 設為原本為此葉 tuple 提供以供索引的值（型別為 `spgConfigIn`.`attType`）。此外，如果是否相符並不確定，因而必須對實際的堆積 tuple 重新套用運算子以驗證是否相符，則可以將 `recheck` 設為 `true`。如果執行的是有序搜尋，請依照 `orderbys` 陣列將 `distances` 設為距離值陣列；否則將它保持為 NULL。如果傳回的距離中至少有一個不精確，請將 `recheckDistances` 設為 true。在這種情況下，執行器會在從堆積擷取 tuple 之後計算精確的距離，並在需要時重新排序這些 tuple。
 
 選擇性的使用者定義方法如下：
 
 `Datum compress(Datum in)`
-:   將資料項目轉換為適合實體儲存在索引葉 tuple 中的格式。它接受型別為 `spgConfigIn`.`attType` 的值，並傳回型別為 `spgConfigOut`.`leafType` 的值。輸出值不得包含行外（out-of-line）TOAST 指標。
 
-    注意：`compress` 方法只會套用於要儲存的值。consistent 方法收到的查詢 `scankeys` 保持不變，不會使用 `compress` 進行轉換。
+將資料項目轉換為適合實體儲存在索引葉 tuple 中的格式。它接受型別為 `spgConfigIn`.`attType` 的值，並傳回型別為 `spgConfigOut`.`leafType` 的值。輸出值不得包含行外（out-of-line）TOAST 指標。
+
+注意：`compress` 方法只會套用於要儲存的值。consistent 方法收到的查詢 `scankeys` 保持不變，不會使用 `compress` 進行轉換。
 
 `options`
-:   定義一組使用者可見的參數，用以控制運算子類別的行為。
 
-    此函式的 SQL 宣告必須如下所示：
+定義一組使用者可見的參數，用以控制運算子類別的行為。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_options(internal)
     RETURNS void
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    此函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別專屬的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集存取這些選項。
+此函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別專屬的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集存取這些選項。
 
-    由於鍵在 SP-GiST 中的表示方式具有彈性，它可能取決於使用者指定的參數。
+由於鍵在 SP-GiST 中的表示方式具有彈性，它可能取決於使用者指定的參數。
 
 所有 SP-GiST 支援方法通常都在短期存在的記憶體上下文 中呼叫；也就是說，每處理完一個 tuple，`CurrentMemoryContext` 就會被重設。因此，不太需要擔心是否以 pfree 釋放了所有以 palloc 配置的記憶體。（`config` 方法是例外：它應該盡量避免記憶體洩漏。但 `config` 方法通常只需要將常數指派給傳入的參數結構，不必做其他事。）
 

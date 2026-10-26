@@ -1,6 +1,6 @@
 <a id="PGSURGERY"></a>
 
-## F.34. `pg_surgery` — 對關聯資料執行低階修復 [#](#PGSURGERY)
+## F.34. `pg_surgery` — 對關聯資料執行低階修復 [#](#pgsurgery) <a href="#pgsurgery" id="pgsurgery"></a>
 
 [F.34.1. 函式](pgsurgery.md#PGSURGERY-FUNCS)
 

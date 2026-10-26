@@ -1,6 +1,6 @@
 <a id="SEPGSQL"></a>
 
-## F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 [#](#SEPGSQL)
+## F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 [#](#sepgsql) <a href="#sepgsql" id="sepgsql"></a>
 
 [F.40.1. 概觀](sepgsql.md#SEPGSQL-OVERVIEW)
 

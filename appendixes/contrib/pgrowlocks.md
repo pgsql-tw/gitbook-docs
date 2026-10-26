@@ -1,6 +1,6 @@
 <a id="PGROWLOCKS"></a>
 
-## F.31. pgrowlocks — 顯示資料表的資料列鎖定資訊 [#](#PGROWLOCKS)
+## F.31. pgrowlocks — 顯示資料表的資料列鎖定資訊 [#](#pgrowlocks) <a href="#pgrowlocks" id="pgrowlocks"></a>
 
 [F.31.1. 概觀](pgrowlocks.md#PGROWLOCKS-OVERVIEW)
 

@@ -1,6 +1,6 @@
 <a id="DOCGUIDE-BUILD-MESON"></a>
 
-## J.4. 使用 Meson 建置文件 [#](#DOCGUIDE-BUILD-MESON)
+## J.4. 使用 Meson 建置文件 [#](#docguide-build-meson) <a href="#docguide-build-meson" id="docguide-build-meson"></a>
 
 使用 Meson 建置文件時，請先切換至 `build` 目錄再執行以下命令，或在命令中加上 `-C build`。
 

@@ -1,6 +1,6 @@
 <a id="PGSTATTUPLE"></a>
 
-## F.33. pgstattuple — 取得元組層級的統計資訊 [#](#PGSTATTUPLE)
+## F.33. pgstattuple — 取得元組層級的統計資訊 [#](#pgstattuple) <a href="#pgstattuple" id="pgstattuple"></a>
 
 [F.33.1. 函式](pgstattuple.md#PGSTATTUPLE-FUNCS)
 

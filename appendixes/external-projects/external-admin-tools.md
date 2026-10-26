@@ -1,6 +1,6 @@
 <a id="EXTERNAL-ADMIN-TOOLS"></a>
 
-## H.2. 管理工具 [#](#EXTERNAL-ADMIN-TOOLS)
+## H.2. 管理工具 [#](#external-admin-tools) <a href="#external-admin-tools" id="external-admin-tools"></a>
 
 <a id="id-1.11.9.4.2"></a>
 

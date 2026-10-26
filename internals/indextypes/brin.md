@@ -77,15 +77,18 @@ PostgreSQL 核心發行版本包含[表 65.4](brin.md#BRIN-BUILTIN-OPCLASSES-TAB
 bloom 運算子類別接受下列參數：
 
 `n_distinct_per_range`
-:   定義區塊範圍中相異非 null 值的估計數量，BRIN bloom 索引用它來決定 Bloom 過濾器的大小。它的行為類似 [ALTER TABLE](../../reference/sql-commands/sql-altertable.md) 的 `n_distinct` 選項。設為正值時，假設每個區塊範圍包含此數量的相異非 null 值。設為負值時（必須大於或等於 -1），假設相異非 null 值的數量會隨區塊範圍中可能的最大 tuple 數量線性成長（每個區塊約 290 個資料列）。預設值為 `-0.1`，相異非 null 值的最小數量為 `16`。
+
+定義區塊範圍中相異非 null 值的估計數量，BRIN bloom 索引用它來決定 Bloom 過濾器的大小。它的行為類似 [ALTER TABLE](../../reference/sql-commands/sql-altertable.md) 的 `n_distinct` 選項。設為正值時，假設每個區塊範圍包含此數量的相異非 null 值。設為負值時（必須大於或等於 -1），假設相異非 null 值的數量會隨區塊範圍中可能的最大 tuple 數量線性成長（每個區塊約 290 個資料列）。預設值為 `-0.1`，相異非 null 值的最小數量為 `16`。
 
 `false_positive_rate`
-:   定義 BRIN bloom 索引決定 Bloom 過濾器大小時所使用的期望偽陽性率。值必須介於 0.0001 與 0.25 之間。預設值為 0.01，即 1% 的偽陽性率。
+
+定義 BRIN bloom 索引決定 Bloom 過濾器大小時所使用的期望偽陽性率。值必須介於 0.0001 與 0.25 之間。預設值為 0.01，即 1% 的偽陽性率。
 
 minmax-multi 運算子類別接受下列參數：
 
 `values_per_range`
-:   定義 BRIN minmax 索引為了摘要一個區塊範圍所儲存的值的最大數量。每個值可能代表一個點，或一個區間的邊界。值必須介於 8 與 256 之間，預設值為 32。
+
+定義 BRIN minmax 索引為了摘要一個區塊範圍所儲存的值的最大數量。每個值可能代表一個點，或一個區間的邊界。值必須介於 8 與 256 之間，預設值為 32。
 
 <a id="BRIN-EXTENSIBILITY"></a>
 
@@ -98,9 +101,10 @@ BRIN 介面具有高度的抽象性，只要求存取方法的實作者實作所
 BRIN 的運算子類別必須提供四個方法：
 
 `BrinOpcInfo *opcInfo(Oid type_oid)`
-:   傳回被索引欄位之摘要資料的內部資訊。傳回值必須指向一個以 palloc 配置的 `BrinOpcInfo`，其定義如下：
 
-    ```
+傳回被索引欄位之摘要資料的內部資訊。傳回值必須指向一個以 palloc 配置的 `BrinOpcInfo`，其定義如下：
+
+```
 
     typedef struct BrinOpcInfo
     {
@@ -113,30 +117,35 @@ BRIN 的運算子類別必須提供四個方法：
         /* Type cache entries of the stored columns */
         TypeCacheEntry *oi_typcache[FLEXIBLE_ARRAY_MEMBER];
     } BrinOpcInfo;
-    ```
+```
 
-    `BrinOpcInfo`.`oi_opaque` 可供運算子類別的常式在索引掃描期間於支援函式之間傳遞資訊。
+`BrinOpcInfo`.`oi_opaque` 可供運算子類別的常式在索引掃描期間於支援函式之間傳遞資訊。
 
 `bool consistent(BrinDesc *bdesc, BrinValues *column, ScanKey *keys, int nkeys)`
-:   傳回所有 ScanKey 項目是否都與某個範圍的給定索引值一致。要使用的屬性編號會作為掃描鍵的一部分傳入。同一屬性的多個掃描鍵可以一次傳入；項目數量由 `nkeys` 參數決定。
+
+傳回所有 ScanKey 項目是否都與某個範圍的給定索引值一致。要使用的屬性編號會作為掃描鍵的一部分傳入。同一屬性的多個掃描鍵可以一次傳入；項目數量由 `nkeys` 參數決定。
 
 `bool consistent(BrinDesc *bdesc, BrinValues *column, ScanKey key)`
-:   傳回 ScanKey 是否與某個範圍的給定索引值一致。要使用的屬性編號會作為掃描鍵的一部分傳入。這是 consistent 函式較舊、具向後相容性的變體。
+
+傳回 ScanKey 是否與某個範圍的給定索引值一致。要使用的屬性編號會作為掃描鍵的一部分傳入。這是 consistent 函式較舊、具向後相容性的變體。
 
 `bool addValue(BrinDesc *bdesc, BrinValues *column, Datum newval, bool isnull)`
-:   給定一個索引 tuple 與一個被索引的值，修改該 tuple 的指定屬性，使其額外代表這個新值。如果對該 tuple 做了任何修改，則傳回 `true`。
+
+給定一個索引 tuple 與一個被索引的值，修改該 tuple 的指定屬性，使其額外代表這個新值。如果對該 tuple 做了任何修改，則傳回 `true`。
 
 `bool unionTuples(BrinDesc *bdesc, BrinValues *a, BrinValues *b)`
-:   合併兩個索引 tuple。給定兩個索引 tuple，修改其中第一個 tuple 的指定屬性，使其同時代表這兩個 tuple。第二個 tuple 不會被修改。
+
+合併兩個索引 tuple。給定兩個索引 tuple，修改其中第一個 tuple 的指定屬性，使其同時代表這兩個 tuple。第二個 tuple 不會被修改。
 
 BRIN 的運算子類別可以選擇性地指定下列方法：
 
 `void options(local_relopts *relopts)`
-:   定義一組使用者可見的參數，用以控制運算子類別的行為。
 
-    `options` 函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別專屬的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集存取這些選項。
+定義一組使用者可見的參數，用以控制運算子類別的行為。
 
-    由於被索引值的鍵擷取方式，以及鍵在 BRIN 中的表示方式都具有彈性，它們可能取決於使用者指定的參數。
+`options` 函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別專屬的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集存取這些選項。
+
+由於被索引值的鍵擷取方式，以及鍵在 BRIN 中的表示方式都具有彈性，它們可能取決於使用者指定的參數。
 
 核心發行版本支援四種運算子類別：minmax、minmax-multi、inclusion 與 bloom。使用它們的運算子類別定義會視情況隨附於核心內建的資料型別。使用者可以用等效的定義，為其他資料型別定義額外的運算子類別，而不必撰寫任何原始碼；只要宣告適當的系統目錄項目即可。請注意，關於運算子策略語意的假設已內嵌在支援函式的原始碼中。
 

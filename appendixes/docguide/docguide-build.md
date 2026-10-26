@@ -1,6 +1,6 @@
 <a id="DOCGUIDE-BUILD"></a>
 
-## J.3. 使用 Make 建置文件 [#](#DOCGUIDE-BUILD)
+## J.3. 使用 Make 建置文件 [#](#docguide-build) <a href="#docguide-build" id="docguide-build"></a>
 
 [J.3.1. HTML](docguide-build.md#DOCGUIDE-BUILD-HTML)
 

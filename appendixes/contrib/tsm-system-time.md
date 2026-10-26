@@ -1,6 +1,6 @@
 <a id="TSM-SYSTEM-TIME"></a>
 
-## F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 [#](#TSM-SYSTEM-TIME)
+## F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 [#](#tsm-system-time) <a href="#tsm-system-time" id="tsm-system-time"></a>
 
 [F.47.1. 範例](tsm-system-time.md#TSM-SYSTEM-TIME-EXAMPLES)
 

@@ -1,6 +1,6 @@
 <a id="SSLINFO"></a>
 
-## F.42. sslinfo — 取得用戶端 SSL 資訊 [#](#SSLINFO)
+## F.42. sslinfo — 取得用戶端 SSL 資訊 [#](#sslinfo) <a href="#sslinfo" id="sslinfo"></a>
 
 [F.42.1. 提供的函式](sslinfo.md#SSLINFO-FUNCTIONS)
 

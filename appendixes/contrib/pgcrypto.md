@@ -1,6 +1,6 @@
 <a id="PGCRYPTO"></a>
 
-## F.26. pgcrypto — 密碼學函式 [#](#PGCRYPTO)
+## F.26. pgcrypto — 密碼學函式 [#](#pgcrypto) <a href="#pgcrypto" id="pgcrypto"></a>
 
 [F.26.1. 一般雜湊函式](pgcrypto.md#PGCRYPTO-GENERAL-HASHING-FUNCS)
 

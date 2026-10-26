@@ -1,6 +1,6 @@
 <a id="LTREE"></a>
 
-## F.22. ltree — 階層式樹狀資料型別 [#](#LTREE)
+## F.22. ltree — 階層式樹狀資料型別 [#](#ltree) <a href="#ltree" id="ltree"></a>
 
 [F.22.1. 定義](ltree.md#LTREE-DEFINITIONS)
 

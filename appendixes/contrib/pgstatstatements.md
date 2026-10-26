@@ -1,6 +1,6 @@
 <a id="PGSTATSTATEMENTS"></a>
 
-## F.32. pg_stat_statements — 追蹤 SQL 規劃與執行的統計資訊 [#](#PGSTATSTATEMENTS)
+## F.32. pg_stat_statements — 追蹤 SQL 規劃與執行的統計資訊 [#](#pgstatstatements) <a href="#pgstatstatements" id="pgstatstatements"></a>
 
 [F.32.1. `pg_stat_statements` 檢視表](pgstatstatements.md#PGSTATSTATEMENTS-PG-STAT-STATEMENTS)
 

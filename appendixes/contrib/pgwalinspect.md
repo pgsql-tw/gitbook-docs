@@ -1,6 +1,6 @@
 <a id="PGWALINSPECT"></a>
 
-## F.37. pg_walinspect — 低階 WAL 檢視 [#](#PGWALINSPECT)
+## F.37. pg_walinspect — 低階 WAL 檢視 [#](#pgwalinspect) <a href="#pgwalinspect" id="pgwalinspect"></a>
 
 [F.37.1. 一般函式](pgwalinspect.md#PGWALINSPECT-FUNCS)
 

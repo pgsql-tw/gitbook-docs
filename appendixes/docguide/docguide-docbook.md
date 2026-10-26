@@ -1,6 +1,6 @@
 <a id="DOCGUIDE-DOCBOOK"></a>
 
-## J.1. DocBook [#](#DOCGUIDE-DOCBOOK)
+## J.1. DocBook [#](#docguide-docbook) <a href="#docguide-docbook" id="docguide-docbook"></a>
 
 文件原始碼以 *DocBook* 撰寫，這是一種以 XML 定義的標記語言。以下會同時使用 DocBook 和 XML 這兩個詞，但嚴格來說，兩者不能互換。
 

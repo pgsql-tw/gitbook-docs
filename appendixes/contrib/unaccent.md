@@ -1,6 +1,6 @@
 <a id="UNACCENT"></a>
 
-## F.48. unaccent — 移除變音符號的文字搜尋字典 [#](#UNACCENT)
+## F.48. unaccent — 移除變音符號的文字搜尋字典 [#](#unaccent) <a href="#unaccent" id="unaccent"></a>
 
 [F.48.1. 設定](unaccent.md#UNACCENT-CONFIGURATION)
 

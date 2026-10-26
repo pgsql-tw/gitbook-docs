@@ -1,6 +1,6 @@
 <a id="DOCGUIDE-TOOLSETS"></a>
 
-## J.2. 工具組 [#](#DOCGUIDE-TOOLSETS)
+## J.2. 工具組 [#](#docguide-toolsets) <a href="#docguide-toolsets" id="docguide-toolsets"></a>
 
 [J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FEDORA-ET-AL)
 

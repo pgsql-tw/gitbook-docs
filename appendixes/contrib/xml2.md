@@ -1,6 +1,6 @@
 <a id="XML2"></a>
 
-## F.50. xml2 — XPath 查詢與 XSLT 功能 [#](#XML2)
+## F.50. xml2 — XPath 查詢與 XSLT 功能 [#](#xml2) <a href="#xml2" id="xml2"></a>
 
 [F.50.1. 淘汰通知](xml2.md#XML2-DEPRECATION)
 

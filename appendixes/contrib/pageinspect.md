@@ -1,6 +1,6 @@
 <a id="PAGEINSPECT"></a>
 
-## F.23. pageinspect — 資料庫頁面的低階檢查 [#](#PAGEINSPECT)
+## F.23. pageinspect — 資料庫頁面的低階檢查 [#](#pageinspect) <a href="#pageinspect" id="pageinspect"></a>
 
 [F.23.1. 一般函式](pageinspect.md#PAGEINSPECT-GENERAL-FUNCS)
 

@@ -1,6 +1,6 @@
 <a id="EXTERNAL-EXTENSIONS"></a>
 
-## H.4. 擴充套件 [#](#EXTERNAL-EXTENSIONS)
+## H.4. 擴充套件 [#](#external-extensions) <a href="#external-extensions" id="external-extensions"></a>
 
 <a id="id-1.11.9.6.2"></a>
 

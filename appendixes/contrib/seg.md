@@ -1,6 +1,6 @@
 <a id="SEG"></a>
 
-## F.39. seg — 線段或浮點數區間的資料型別 [#](#SEG)
+## F.39. seg — 線段或浮點數區間的資料型別 [#](#seg) <a href="#seg" id="seg"></a>
 
 [F.39.1. 設計理由](seg.md#SEG-RATIONALE)
 

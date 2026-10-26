@@ -1,6 +1,6 @@
 <a id="UUID-OSSP"></a>
 
-## F.49. uuid-ossp — UUID 產生器 [#](#UUID-OSSP)
+## F.49. uuid-ossp — UUID 產生器 [#](#uuid-ossp) <a href="#uuid-ossp" id="uuid-ossp"></a>
 
 [F.49.1. `uuid-ossp` 函式](uuid-ossp.md#UUID-OSSP-FUNCTIONS-SECT)
 

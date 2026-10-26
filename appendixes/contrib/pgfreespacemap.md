@@ -1,6 +1,6 @@
 <a id="PGFREESPACEMAP"></a>
 
-## F.27. pg_freespacemap — 檢視可用空間對應表 [#](#PGFREESPACEMAP)
+## F.27. pg_freespacemap — 檢視可用空間對應表 [#](#pgfreespacemap) <a href="#pgfreespacemap" id="pgfreespacemap"></a>
 
 [F.27.1. 函式](pgfreespacemap.md#PGFREESPACEMAP-FUNCS)
 

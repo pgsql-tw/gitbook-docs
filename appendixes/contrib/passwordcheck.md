@@ -1,6 +1,6 @@
 <a id="PASSWORDCHECK"></a>
 
-## F.24. passwordcheck — 驗證密碼強度 [#](#PASSWORDCHECK)
+## F.24. passwordcheck — 驗證密碼強度 [#](#passwordcheck) <a href="#passwordcheck" id="passwordcheck"></a>
 
 [F.24.1. 設定參數](passwordcheck.md#PASSWORDCHECK-CONFIGURATION-PARAMETERS)
 

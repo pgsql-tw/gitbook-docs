@@ -1,6 +1,6 @@
 <a id="PGTRGM"></a>
 
-## F.35. pg_trgm — 支援以三元組比對文字相似度 [#](#PGTRGM)
+## F.35. pg_trgm — 支援以三元組比對文字相似度 [#](#pgtrgm) <a href="#pgtrgm" id="pgtrgm"></a>
 
 [F.35.1. 三元組（或三字圖）概念](pgtrgm.md#PGTRGM-CONCEPTS)
 

@@ -30,59 +30,84 @@ LOAD 'auto_explain';
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-MIN-DURATION"></a>
 
 `auto_explain.log_min_duration` (`integer`) <a id="id-1.11.7.13.5.3.1.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-MIN-DURATION)
-:   `auto_explain.log_min_duration` 是觸發記錄陳述式計畫所需的最短陳述式執行時間（以毫秒為單位）。設為 `0` 會記錄所有計畫。`-1`（預設）會停用計畫記錄。例如，設為 `250ms` 時，執行 250 毫秒以上的所有陳述式都會被記錄。只有超級使用者能變更此設定。
+
+`auto_explain.log_min_duration` 是觸發記錄陳述式計畫所需的最短陳述式執行時間（以毫秒為單位）。設為 `0` 會記錄所有計畫。`-1`（預設）會停用計畫記錄。例如，設為 `250ms` 時，執行 250 毫秒以上的所有陳述式都會被記錄。只有超級使用者能變更此設定。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-PARAMETER-MAX-LENGTH"></a>
 
 `auto_explain.log_parameter_max_length` (`integer`) <a id="id-1.11.7.13.5.3.2.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-PARAMETER-MAX-LENGTH)
-:   `auto_explain.log_parameter_max_length` 控制查詢參數值的記錄。`-1`（預設）會完整記錄參數值；`0` 停用參數值記錄；大於零的值會將每個參數值截斷至該位元組數。只有超級使用者能變更此設定。
+
+`auto_explain.log_parameter_max_length` 控制查詢參數值的記錄。`-1`（預設）會完整記錄參數值；`0` 停用參數值記錄；大於零的值會將每個參數值截斷至該位元組數。只有超級使用者能變更此設定。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-ANALYZE"></a>
 
 `auto_explain.log_analyze` (`boolean`) <a id="id-1.11.7.13.5.3.3.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-ANALYZE)
-:   `auto_explain.log_analyze` 使記錄執行計畫時輸出 `EXPLAIN ANALYZE`，而非僅輸出 `EXPLAIN`。此參數預設為關閉，且只有超級使用者能變更。
 
-    ### 注意
+`auto_explain.log_analyze` 使記錄執行計畫時輸出 `EXPLAIN ANALYZE`，而非僅輸出 `EXPLAIN`。此參數預設為關閉，且只有超級使用者能變更。
 
-    啟用此參數時，所有已執行陳述式都會執行每個計畫節點的計時，不論是否長到實際被記錄。這可能對效能造成極大負面影響。關閉 `auto_explain.log_timing` 可減輕效能成本，但會取得較少資訊。
+### 注意
+
+啟用此參數時，所有已執行陳述式都會執行每個計畫節點的計時，不論是否長到實際被記錄。這可能對效能造成極大負面影響。關閉 `auto_explain.log_timing` 可減輕效能成本，但會取得較少資訊。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-BUFFERS"></a>
 
 `auto_explain.log_buffers` (`boolean`) <a id="id-1.11.7.13.5.3.4.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-BUFFERS)
-:   `auto_explain.log_buffers` 控制記錄執行計畫時是否輸出緩衝區使用統計資訊；它等同於 `EXPLAIN` 的 `BUFFERS` 選項。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
+
+`auto_explain.log_buffers` 控制記錄執行計畫時是否輸出緩衝區使用統計資訊；它等同於 `EXPLAIN` 的 `BUFFERS` 選項。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-WAL"></a>
 
 `auto_explain.log_wal` (`boolean`) <a id="id-1.11.7.13.5.3.5.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-WAL)
-:   `auto_explain.log_wal` 控制記錄執行計畫時是否輸出 WAL 使用統計資訊；它等同於 `EXPLAIN` 的 `WAL` 選項。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
+
+`auto_explain.log_wal` 控制記錄執行計畫時是否輸出 WAL 使用統計資訊；它等同於 `EXPLAIN` 的 `WAL` 選項。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TIMING"></a>
 
 `auto_explain.log_timing` (`boolean`) <a id="id-1.11.7.13.5.3.6.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TIMING)
-:   `auto_explain.log_timing` 控制記錄執行計畫時是否輸出每個節點的計時資訊；它等同於 `EXPLAIN` 的 `TIMING` 選項。在某些系統上，重複讀取系統時鐘的額外負擔可能顯著降低查詢速度，因此若只需要實際資料列計數而不需要精確時間，關閉此參數可能有用。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為開啟，且只有超級使用者能變更。
+
+`auto_explain.log_timing` 控制記錄執行計畫時是否輸出每個節點的計時資訊；它等同於 `EXPLAIN` 的 `TIMING` 選項。在某些系統上，重複讀取系統時鐘的額外負擔可能顯著降低查詢速度，因此若只需要實際資料列計數而不需要精確時間，關閉此參數可能有用。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為開啟，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TRIGGERS"></a>
 
 `auto_explain.log_triggers` (`boolean`) <a id="id-1.11.7.13.5.3.7.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-TRIGGERS)
-:   `auto_explain.log_triggers` 使記錄執行計畫時包含觸發程序執行統計資訊。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
+
+`auto_explain.log_triggers` 使記錄執行計畫時包含觸發程序執行統計資訊。除非啟用 `auto_explain.log_analyze`，此參數不會生效。預設為關閉，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-VERBOSE"></a>
 
 `auto_explain.log_verbose` (`boolean`) <a id="id-1.11.7.13.5.3.8.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-VERBOSE)
-:   `auto_explain.log_verbose` 控制記錄執行計畫時是否輸出詳細資訊；它等同於 `EXPLAIN` 的 `VERBOSE` 選項。預設為關閉，且只有超級使用者能變更。
+
+`auto_explain.log_verbose` 控制記錄執行計畫時是否輸出詳細資訊；它等同於 `EXPLAIN` 的 `VERBOSE` 選項。預設為關閉，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-SETTINGS"></a>
 
 `auto_explain.log_settings` (`boolean`) <a id="id-1.11.7.13.5.3.9.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-SETTINGS)
-:   `auto_explain.log_settings` 控制記錄執行計畫時是否輸出已修改設定選項的資訊。輸出只包括影響查詢規劃且值不同於內建預設值的選項。此參數預設為關閉，且只有超級使用者能變更。
+
+`auto_explain.log_settings` 控制記錄執行計畫時是否輸出已修改設定選項的資訊。輸出只包括影響查詢規劃且值不同於內建預設值的選項。此參數預設為關閉，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-FORMAT"></a>
 
 `auto_explain.log_format` (`enum`) <a id="id-1.11.7.13.5.3.10.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-FORMAT)
-:   `auto_explain.log_format` 選取要使用的 `EXPLAIN` 輸出格式。允許的值為 `text`、`xml`、`json` 與 `yaml`，預設為 text。只有超級使用者能變更此設定。
+
+`auto_explain.log_format` 選取要使用的 `EXPLAIN` 輸出格式。允許的值為 `text`、`xml`、`json` 與 `yaml`，預設為 text。只有超級使用者能變更此設定。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-LEVEL"></a>
 
 `auto_explain.log_level` (`enum`) <a id="id-1.11.7.13.5.3.11.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-LEVEL)
-:   `auto_explain.log_level` 選取 auto_explain 記錄查詢計畫時使用的日誌層級。有效值為 `DEBUG5`、`DEBUG4`、`DEBUG3`、`DEBUG2`、`DEBUG1`、`INFO`、`NOTICE`、`WARNING` 及 `LOG`，預設為 `LOG`。只有超級使用者能變更此設定。
+
+`auto_explain.log_level` 選取 auto_explain 記錄查詢計畫時使用的日誌層級。有效值為 `DEBUG5`、`DEBUG4`、`DEBUG3`、`DEBUG2`、`DEBUG1`、`INFO`、`NOTICE`、`WARNING` 及 `LOG`，預設為 `LOG`。只有超級使用者能變更此設定。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-NESTED-STATEMENTS"></a>
 
 `auto_explain.log_nested_statements` (`boolean`) <a id="id-1.11.7.13.5.3.12.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-LOG-NESTED-STATEMENTS)
-:   `auto_explain.log_nested_statements` 使巢狀陳述式（在函式內執行的陳述式）也納入記錄考量。關閉時只記錄最上層查詢計畫。此參數預設為關閉，且只有超級使用者能變更。
+
+`auto_explain.log_nested_statements` 使巢狀陳述式（在函式內執行的陳述式）也納入記錄考量。關閉時只記錄最上層查詢計畫。此參數預設為關閉，且只有超級使用者能變更。
+
 <a id="AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-SAMPLE-RATE"></a>
 
 `auto_explain.sample_rate` (`real`) <a id="id-1.11.7.13.5.3.13.1.3"></a> [#](#AUTO-EXPLAIN-CONFIGURATION-PARAMETERS-SAMPLE-RATE)
-:   `auto_explain.sample_rate` 使 auto_explain 只對每個工作階段中的部分陳述式執行 explain。預設為 1，表示 explain 所有查詢。對巢狀陳述式而言，要麼全部 explain，要麼完全不執行。只有超級使用者能變更此設定。
+
+`auto_explain.sample_rate` 使 auto_explain 只對每個工作階段中的部分陳述式執行 explain。預設為 1，表示 explain 所有查詢。對巢狀陳述式而言，要麼全部 explain，要麼完全不執行。只有超級使用者能變更此設定。
 
 一般使用時，這些參數會設定在 `postgresql.conf` 中，但超級使用者可在自己的工作階段中即時變更。典型用法如下：
 

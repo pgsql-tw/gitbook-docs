@@ -1,6 +1,6 @@
 <a id="TABLEFUNC"></a>
 
-## F.43. tablefunc — 傳回資料表的函式（`crosstab` 等） [#](#TABLEFUNC)
+## F.43. tablefunc — 傳回資料表的函式（`crosstab` 等） [#](#tablefunc) <a href="#tablefunc" id="tablefunc"></a>
 
 [F.43.1. 提供的函式](tablefunc.md#TABLEFUNC-FUNCTIONS-SECT)
 

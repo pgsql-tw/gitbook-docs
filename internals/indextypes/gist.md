@@ -60,21 +60,22 @@ CREATE INDEX ON my_table USING GIST (my_inet_column inet_ops);
 GiST 的索引運算子類別必須提供五個方法，另有七個是選用的。索引的正確性由 `same`、`consistent` 與 `union` 方法的正確實作來確保，而索引的效率（大小與速度）則取決於 `penalty` 與 `picksplit` 方法。兩個選用方法是 `compress` 與 `decompress`，它們允許索引的內部樹狀資料使用與其所索引資料不同的型別。葉節點代表的是被索引資料型別的值，而其他樹節點則可以是任何 C 結構（但你在此仍必須遵循 PostgreSQL 的資料型別規則，關於可變長度資料請參閱 `varlena` 的說明）。（原文此處寫作「葉節點必須是被索引的資料型別」，說法過於絕對：如後文 compress 與 fetch 方法所述，葉項目實際儲存的可以是經 compress 轉換後的型別，需要時再由 fetch 還原為原始的被索引型別。）如果樹的內部資料型別存在於 SQL 層級，可以使用 `CREATE OPERATOR CLASS` 命令的 `STORAGE` 選項。選用的第八個方法是 `distance`，如果運算子類別想要支援有序掃描（最近鄰搜尋），就需要這個方法。選用的第九個方法 `fetch`，在運算子類別想要支援僅索引掃描時需要，除非省略了 `compress` 方法。選用的第十個方法 `options`，在運算子類別具有使用者指定的參數時需要。選用的第十一個方法 `sortsupport` 用來加速建立 GiST 索引。選用的第十二個方法 `stratnum`（原文此處寫作 stratnum，但本節下方的詳細說明與 FUNCTION 12 的註冊範例使用的名稱都是 translate_cmptype；PostgreSQL 18 的第十二個支援方法應為 translate_cmptype）用來將比較類型（來自 `src/include/access/cmptype.h`）轉換為運算子類別所使用的策略編號。這讓核心程式碼可以為時態限制條件索引查找運算子。
 
 `consistent`
-:   給定索引項目 `p` 與查詢值 `q`，此函式判斷該索引項目是否與查詢「一致」；也就是說，對於該索引項目所代表的任何資料列，謂詞「*`indexed_column`* *`indexable_operator`* `q`」是否可能為真？對於葉索引項目，這等同於測試可索引條件；而對於內部樹節點，這會判斷是否需要掃描該樹節點所代表的索引子樹。當結果為 `true` 時，也必須傳回一個 `recheck` 旗標。它表示該謂詞是確定為真，還是只是可能為真。如果 `recheck` = `false`，表示索引已精確地測試過謂詞條件；而如果 `recheck` = `true`，則該資料列只是候選的符合項目。在這種情況下，系統會自動對實際的資料列值計算 *`indexable_operator`*，以確認它是否真的符合。這項慣例讓 GiST 能夠同時支援無損與有損的索引結構。
 
-    此函式的 SQL 宣告必須如下所示：
+給定索引項目 `p` 與查詢值 `q`，此函式判斷該索引項目是否與查詢「一致」；也就是說，對於該索引項目所代表的任何資料列，謂詞「*`indexed_column`* *`indexable_operator`* `q`」是否可能為真？對於葉索引項目，這等同於測試可索引條件；而對於內部樹節點，這會判斷是否需要掃描該樹節點所代表的索引子樹。當結果為 `true` 時，也必須傳回一個 `recheck` 旗標。它表示該謂詞是確定為真，還是只是可能為真。如果 `recheck` = `false`，表示索引已精確地測試過謂詞條件；而如果 `recheck` = `true`，則該資料列只是候選的符合項目。在這種情況下，系統會自動對實際的資料列值計算 *`indexable_operator`*，以確認它是否真的符合。這項慣例讓 GiST 能夠同時支援無損與有損的索引結構。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_consistent(internal, data_type, smallint, oid, internal)
     RETURNS bool
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_consistent);
 
@@ -102,28 +103,29 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         PG_RETURN_BOOL(retval);
     }
-    ```
+```
 
-    其中，`key` 是索引中的一個元素，而 `query` 是在索引中查找的值。`StrategyNumber` 參數表示正在套用運算子類別中的哪一個運算子——它對應 `CREATE OPERATOR CLASS` 命令中的其中一個運算子編號。
+其中，`key` 是索引中的一個元素，而 `query` 是在索引中查找的值。`StrategyNumber` 參數表示正在套用運算子類別中的哪一個運算子——它對應 `CREATE OPERATOR CLASS` 命令中的其中一個運算子編號。
 
-    視你在類別中納入了哪些運算子而定，`query` 的資料型別可能會隨運算子而不同，因為它會是運算子右側的任何型別，而這可能與出現在左側的被索引資料型別不同。（上述程式碼骨架假設只可能有一種型別；如果不是這樣，擷取 `query` 引數值的方式就必須取決於運算子。）建議 `consistent` 函式的 SQL 宣告對 `query` 引數使用運算子類別的被索引資料型別，即使實際的型別可能依運算子而為其他型別。
+視你在類別中納入了哪些運算子而定，`query` 的資料型別可能會隨運算子而不同，因為它會是運算子右側的任何型別，而這可能與出現在左側的被索引資料型別不同。（上述程式碼骨架假設只可能有一種型別；如果不是這樣，擷取 `query` 引數值的方式就必須取決於運算子。）建議 `consistent` 函式的 SQL 宣告對 `query` 引數使用運算子類別的被索引資料型別，即使實際的型別可能依運算子而為其他型別。
 
 `union`
-:   此方法整合樹中的資訊。給定一組項目，此函式會產生一個新的索引項目，代表所有給定的項目。
 
-    此函式的 SQL 宣告必須如下所示：
+此方法整合樹中的資訊。給定一組項目，此函式會產生一個新的索引項目，代表所有給定的項目。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_union(internal, internal)
     RETURNS storage_type
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_union);
 
@@ -158,30 +160,31 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         PG_RETURN_DATA_TYPE_P(out);
     }
-    ```
+```
 
-    如你所見，在這個骨架中，我們處理的是 `union(X, Y, Z) = union(union(X, Y), Z)` 成立的資料型別。要支援此等式不成立的資料型別也很容易，只要在這個 GiST 支援方法中實作適當的聯集演算法即可。
+如你所見，在這個骨架中，我們處理的是 `union(X, Y, Z) = union(union(X, Y), Z)` 成立的資料型別。要支援此等式不成立的資料型別也很容易，只要在這個 GiST 支援方法中實作適當的聯集演算法即可。
 
-    `union` 函式的結果必須是索引儲存型別的值，不論該型別為何（它可能與被索引欄位的型別不同，也可能相同）。`union` 函式應該傳回指向以 `palloc()` 新配置之記憶體的指標。即使型別沒有改變，也不能直接原樣傳回輸入值。
+`union` 函式的結果必須是索引儲存型別的值，不論該型別為何（它可能與被索引欄位的型別不同，也可能相同）。`union` 函式應該傳回指向以 `palloc()` 新配置之記憶體的指標。即使型別沒有改變，也不能直接原樣傳回輸入值。
 
-    如上所示，`union` 函式的第一個 `internal` 引數實際上是一個 `GistEntryVector` 指標。第二個引數是指向一個整數變數的指標，可以忽略。（過去曾要求 `union` 函式將其結果值的大小儲存到該變數中，但現在已不再需要。）
+如上所示，`union` 函式的第一個 `internal` 引數實際上是一個 `GistEntryVector` 指標。第二個引數是指向一個整數變數的指標，可以忽略。（過去曾要求 `union` 函式將其結果值的大小儲存到該變數中，但現在已不再需要。）
 
 `compress`
-:   將資料項目轉換為適合實際儲存在索引頁面中的格式。如果省略了 `compress` 方法，資料項目會不經修改地儲存在索引中。
 
-    此函式的 SQL 宣告必須如下所示：
+將資料項目轉換為適合實際儲存在索引頁面中的格式。如果省略了 `compress` 方法，資料項目會不經修改地儲存在索引中。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_compress(internal)
     RETURNS internal
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_compress);
 
@@ -210,26 +213,27 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         PG_RETURN_POINTER(retval);
     }
-    ```
+```
 
-    當然，你必須將 *`compressed_data_type`* 調整為你為了壓縮葉節點而要轉換成的特定型別。
+當然，你必須將 *`compressed_data_type`* 調整為你為了壓縮葉節點而要轉換成的特定型別。
 
 `decompress`
-:   將資料項目的儲存表示法，轉換為運算子類別中其他 GiST 方法可以操作的格式。如果省略了 `decompress` 方法，則假設其他 GiST 方法可以直接處理所儲存的資料格式。（`decompress` 不一定是 `compress` 方法的反向操作；特別是，如果 `compress` 是有損的，`decompress` 就不可能精確地重建原始資料。`decompress` 也不一定等同於 `fetch`，因為其他 GiST 方法可能不需要完整重建資料。）
 
-    此函式的 SQL 宣告必須如下所示：
+將資料項目的儲存表示法，轉換為運算子類別中其他 GiST 方法可以操作的格式。如果省略了 `decompress` 方法，則假設其他 GiST 方法可以直接處理所儲存的資料格式。（`decompress` 不一定是 `compress` 方法的反向操作；特別是，如果 `compress` 是有損的，`decompress` 就不可能精確地重建原始資料。`decompress` 也不一定等同於 `fetch`，因為其他 GiST 方法可能不需要完整重建資料。）
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_decompress(internal)
     RETURNS internal
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_decompress);
 
@@ -238,26 +242,27 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
     {
         PG_RETURN_POINTER(PG_GETARG_POINTER(0));
     }
-    ```
+```
 
-    上述骨架適用於不需要解壓縮的情況。（不過，當然，完全省略此方法會更簡單，在這種情況下也建議這麼做。）
+上述骨架適用於不需要解壓縮的情況。（不過，當然，完全省略此方法會更簡單，在這種情況下也建議這麼做。）
 
 `penalty`
-:   傳回一個值，表示將新項目插入樹中特定分支的「成本」。項目會沿著樹中 `penalty` 最小的路徑往下插入。`penalty` 所傳回的值應該是非負數。如果傳回負值，會被視為零。
 
-    此函式的 SQL 宣告必須如下所示：
+傳回一個值，表示將新項目插入樹中特定分支的「成本」。項目會沿著樹中 `penalty` 最小的路徑往下插入。`penalty` 所傳回的值應該是非負數。如果傳回負值，會被視為零。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_penalty(internal, internal, internal)
     RETURNS internal
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;  -- in some cases penalty functions need not be strict
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_penalty);
 
@@ -273,28 +278,29 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
         *penalty = my_penalty_implementation(orig, new);
         PG_RETURN_POINTER(penalty);
     }
-    ```
+```
 
-    由於歷史因素，`penalty` 函式並不只是傳回一個 `float` 結果；而是必須將該值儲存在第三個引數所指示的位置。傳回值本身會被忽略，不過慣例上會傳回該引數的位址。
+由於歷史因素，`penalty` 函式並不只是傳回一個 `float` 結果；而是必須將該值儲存在第三個引數所指示的位置。傳回值本身會被忽略，不過慣例上會傳回該引數的位址。
 
-    `penalty` 函式對索引的良好效能至關重要。在插入時，它會被用來決定在選擇要將新項目加入樹中何處時，應該依循哪一個分支。在查詢時，索引越平衡，查找就越快。
+`penalty` 函式對索引的良好效能至關重要。在插入時，它會被用來決定在選擇要將新項目加入樹中何處時，應該依循哪一個分支。在查詢時，索引越平衡，查找就越快。
 
 `picksplit`
-:   當需要分裂索引頁面時，此函式會決定頁面上的哪些項目留在舊頁面，哪些項目移到新頁面。
 
-    此函式的 SQL 宣告必須如下所示：
+當需要分裂索引頁面時，此函式會決定頁面上的哪些項目留在舊頁面，哪些項目移到新頁面。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_picksplit(internal, internal)
     RETURNS internal
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_picksplit);
 
@@ -369,30 +375,31 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
         v->spl_rdatum = DataTypeGetDatum(unionR);
         PG_RETURN_POINTER(v);
     }
-    ```
+```
 
-    譯註：上方骨架中的 curl 與 curr 沒有宣告，也沒有賦值（原文如此）。實際實作時須自行宣告並計算這兩個變數，用來表示目前項目放到左側或右側分組時的對應值（例如加入後的聯集或懲罰值），讓 my_choice_is_left 能據以判斷該項目應放到哪一側。本譯文保留原始程式碼，僅在此說明。
+譯註：上方骨架中的 curl 與 curr 沒有宣告，也沒有賦值（原文如此）。實際實作時須自行宣告並計算這兩個變數，用來表示目前項目放到左側或右側分組時的對應值（例如加入後的聯集或懲罰值），讓 my_choice_is_left 能據以判斷該項目應放到哪一側。本譯文保留原始程式碼，僅在此說明。
 
-    請注意，`picksplit` 函式的結果是藉由修改傳入的 `v` 結構來傳遞的。傳回值本身會被忽略，不過慣例上會傳回 `v` 的位址。
+請注意，`picksplit` 函式的結果是藉由修改傳入的 `v` 結構來傳遞的。傳回值本身會被忽略，不過慣例上會傳回 `v` 的位址。
 
-    與 `penalty` 一樣，`picksplit` 函式對索引的良好效能至關重要。設計合適的 `penalty` 與 `picksplit` 實作，正是實作高效能 GiST 索引的挑戰所在。
+與 `penalty` 一樣，`picksplit` 函式對索引的良好效能至關重要。設計合適的 `penalty` 與 `picksplit` 實作，正是實作高效能 GiST 索引的挑戰所在。
 
 `same`
-:   如果兩個索引項目相同就傳回 true，否則傳回 false。（「索引項目」是索引儲存型別的值，不一定是原始被索引欄位的型別。）
 
-    此函式的 SQL 宣告必須如下所示：
+如果兩個索引項目相同就傳回 true，否則傳回 false。（「索引項目」是索引儲存型別的值，不一定是原始被索引欄位的型別。）
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_same(storage_type, storage_type, internal)
     RETURNS internal
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_same);
 
@@ -406,26 +413,27 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
         *result = my_eq(v1, v2);
         PG_RETURN_POINTER(result);
     }
-    ```
+```
 
-    由於歷史因素，`same` 函式並不只是傳回一個布林結果；而是必須將該旗標儲存在第三個引數所指示的位置。傳回值本身會被忽略，不過慣例上會傳回該引數的位址。
+由於歷史因素，`same` 函式並不只是傳回一個布林結果；而是必須將該旗標儲存在第三個引數所指示的位置。傳回值本身會被忽略，不過慣例上會傳回該引數的位址。
 
 `distance`
-:   給定索引項目 `p` 與查詢值 `q`，此函式判斷該索引項目與查詢值之間的「距離」。如果運算子類別包含任何排序運算子，就必須提供此函式。使用排序運算子的查詢，會以優先傳回「距離」值最小之索引項目的方式來實作，因此其結果必須與該運算子的語意一致。對於葉索引項目，結果只代表到該索引項目的距離；對於內部樹節點，結果必須是任何子項目可能具有的最小距離。
 
-    此函式的 SQL 宣告必須如下所示：
+給定索引項目 `p` 與查詢值 `q`，此函式判斷該索引項目與查詢值之間的「距離」。如果運算子類別包含任何排序運算子，就必須提供此函式。使用排序運算子的查詢，會以優先傳回「距離」值最小之索引項目的方式來實作，因此其結果必須與該運算子的語意一致。對於葉索引項目，結果只代表到該索引項目的距離；對於內部樹節點，結果必須是任何子項目可能具有的最小距離。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_distance(internal, data_type, smallint, oid, internal)
     RETURNS float8
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而 C 模組中對應的程式碼可以依循以下骨架：
+而 C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_distance);
 
@@ -446,32 +454,33 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         PG_RETURN_FLOAT8(retval);
     }
-    ```
+```
 
-    `distance` 函式的引數與 `consistent` 函式的引數完全相同。
+`distance` 函式的引數與 `consistent` 函式的引數完全相同。
 
-    在判斷距離時允許某種程度的近似，只要結果永遠不大於該項目的實際距離即可。因此，例如在幾何應用中，到外接矩形（bounding box）的距離通常就已足夠。對於內部樹節點，傳回的距離不得大於到任何子節點的距離。如果傳回的距離不精確，函式必須將 `*recheck` 設為 true。（對內部樹節點而言不需要這麼做；對它們來說，計算一律被假設為不精確。）在這種情況下，執行器會在從堆積中擷取元組之後計算精確的距離，並在必要時重新排序這些元組。
+在判斷距離時允許某種程度的近似，只要結果永遠不大於該項目的實際距離即可。因此，例如在幾何應用中，到外接矩形（bounding box）的距離通常就已足夠。對於內部樹節點，傳回的距離不得大於到任何子節點的距離。如果傳回的距離不精確，函式必須將 `*recheck` 設為 true。（對內部樹節點而言不需要這麼做；對它們來說，計算一律被假設為不精確。）在這種情況下，執行器會在從堆積中擷取元組之後計算精確的距離，並在必要時重新排序這些元組。
 
-    如果距離函式對任何葉節點傳回 `*recheck = true`，原始排序運算子的傳回型別就必須是 `float8` 或 `float4`，而且距離函式的結果值必須能與原始排序運算子的結果值相比較，因為執行器會同時使用距離函式的結果與重新計算的排序運算子結果來排序。否則，距離函式的結果值可以是任何有限的 `float8` 值，只要結果值的相對順序與排序運算子所傳回的順序相符即可。（無限大與負無限大在內部用來處理空值等情況，因此不建議 `distance` 函式傳回這些值。）
+如果距離函式對任何葉節點傳回 `*recheck = true`，原始排序運算子的傳回型別就必須是 `float8` 或 `float4`，而且距離函式的結果值必須能與原始排序運算子的結果值相比較，因為執行器會同時使用距離函式的結果與重新計算的排序運算子結果來排序。否則，距離函式的結果值可以是任何有限的 `float8` 值，只要結果值的相對順序與排序運算子所傳回的順序相符即可。（無限大與負無限大在內部用來處理空值等情況，因此不建議 `distance` 函式傳回這些值。）
 
 `fetch`
-:   為了僅索引掃描，將資料項目的壓縮索引表示法轉換為原始資料型別。傳回的資料必須是原始被索引值的精確、無損副本。
 
-    此函式的 SQL 宣告必須如下所示：
+為了僅索引掃描，將資料項目的壓縮索引表示法轉換為原始資料型別。傳回的資料必須是原始被索引值的精確、無損副本。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_fetch(internal)
     RETURNS internal
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    引數是指向 `GISTENTRY` 結構的指標。進入函式時，其 `key` 欄位包含一個壓縮形式的非 NULL 葉資料（datum）。傳回值是另一個 `GISTENTRY` 結構，其 `key` 欄位包含相同資料的原始未壓縮形式。如果運算子類別的 compress 函式對葉項目不做任何處理，`fetch` 方法可以原樣傳回引數。或者，如果運算子類別沒有 compress 函式，也可以省略 `fetch` 方法，因為它必然不會做任何事。
+引數是指向 `GISTENTRY` 結構的指標。進入函式時，其 `key` 欄位包含一個壓縮形式的非 NULL 葉資料（datum）。傳回值是另一個 `GISTENTRY` 結構，其 `key` 欄位包含相同資料的原始未壓縮形式。如果運算子類別的 compress 函式對葉項目不做任何處理，`fetch` 方法可以原樣傳回引數。或者，如果運算子類別沒有 compress 函式，也可以省略 `fetch` 方法，因為它必然不會做任何事。
 
-    C 模組中對應的程式碼可以依循以下骨架：
+C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_fetch);
 
@@ -496,30 +505,31 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         PG_RETURN_POINTER(retval);
     }
-    ```
+```
 
-    譯註：上方骨架中的 converted_datum 沒有宣告，也沒有賦值（原文如此）。實際實作時須先把 fetched_data 轉換成原始資料型別的 Datum，存入一個已宣告的變數（例如 converted_datum），再傳給 gistentryinit。本譯文保留原始程式碼，僅在此說明。
+譯註：上方骨架中的 converted_datum 沒有宣告，也沒有賦值（原文如此）。實際實作時須先把 fetched_data 轉換成原始資料型別的 Datum，存入一個已宣告的變數（例如 converted_datum），再傳給 gistentryinit。本譯文保留原始程式碼，僅在此說明。
 
-    如果 compress 方法對葉項目是有損的，該運算子類別就無法支援僅索引掃描，而且不得定義 `fetch` 函式。
+如果 compress 方法對葉項目是有損的，該運算子類別就無法支援僅索引掃描，而且不得定義 `fetch` 函式。
 
 `options`
-:   允許定義使用者可見的參數，用來控制運算子類別的行為。
 
-    此函式的 SQL 宣告必須如下所示：
+允許定義使用者可見的參數，用來控制運算子類別的行為。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_options(internal)
     RETURNS void
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    此函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別特定的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集來存取這些選項。
+此函式會收到一個指向 `local_relopts` 結構的指標，該結構需要填入一組運算子類別特定的選項。其他支援函式可以使用 `PG_HAS_OPCLASS_OPTIONS()` 與 `PG_GET_OPCLASS_OPTIONS()` 巨集來存取這些選項。
 
-    以下是 my_options() 的範例實作，以及其他支援函式如何使用參數：
+以下是 my_options() 的範例實作，以及其他支援函式如何使用參數：
 
-    ```
+```
 
     typedef enum MyEnumType
     {
@@ -631,30 +641,31 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         /* the rest implementation of support function */
     }
-    ```
+```
 
-    由於 GiST 中鍵值的表示法很有彈性，它可能取決於使用者指定的參數。例如，可以指定鍵值簽章的長度。範例請參閱 `gtsvector_options()`。
+由於 GiST 中鍵值的表示法很有彈性，它可能取決於使用者指定的參數。例如，可以指定鍵值簽章的長度。範例請參閱 `gtsvector_options()`。
 
 `sortsupport`
-:   傳回一個比較子函式，以保留局部性的方式排序資料。`CREATE INDEX` 與 `REINDEX` 命令會使用它。所建立索引的品質，取決於比較子函式所決定的排序順序能多好地保留輸入的局部性。
 
-    `sortsupport` 方法是選用的。如果沒有提供，`CREATE INDEX` 會使用 `penalty` 與 `picksplit` 函式將每個元組插入樹中來建立索引，這樣會慢得多。
+傳回一個比較子函式，以保留局部性的方式排序資料。`CREATE INDEX` 與 `REINDEX` 命令會使用它。所建立索引的品質，取決於比較子函式所決定的排序順序能多好地保留輸入的局部性。
 
-    此函式的 SQL 宣告必須如下所示：
+`sortsupport` 方法是選用的。如果沒有提供，`CREATE INDEX` 會使用 `penalty` 與 `picksplit` 函式將每個元組插入樹中來建立索引，這樣會慢得多。
 
-    ```
+此函式的 SQL 宣告必須如下所示：
+
+```
 
     CREATE OR REPLACE FUNCTION my_sortsupport(internal)
     RETURNS void
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    引數是指向 `SortSupport` 結構的指標。此函式至少必須填入其 comparator 欄位。比較子接受三個引數：兩個要比較的 Datum，以及一個指向 `SortSupport` 結構的指標。這兩個 Datum 是以其儲存在索引中之格式表示的兩個被索引值；也就是 `compress` 方法所傳回的格式。完整的 API 定義在 `src/include/utils/sortsupport.h` 中。
+引數是指向 `SortSupport` 結構的指標。此函式至少必須填入其 comparator 欄位。比較子接受三個引數：兩個要比較的 Datum，以及一個指向 `SortSupport` 結構的指標。這兩個 Datum 是以其儲存在索引中之格式表示的兩個被索引值；也就是 `compress` 方法所傳回的格式。完整的 API 定義在 `src/include/utils/sortsupport.h` 中。
 
-    C 模組中對應的程式碼可以依循以下骨架：
+C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_sortsupport);
 
@@ -677,37 +688,38 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
       ssup->comparator = my_fastcmp;
       PG_RETURN_VOID();
     }
-    ```
+```
 
 `translate_cmptype`
-:   給定一個來自 `src/include/access/cmptype.h` 的 `CompareType` 值，傳回此運算子類別用於對應功能的策略編號。如果運算子類別沒有對應的策略，此函式應該傳回 `InvalidStrategy`。
 
-    這用於時態索引限制條件（亦即 `PRIMARY
+給定一個來自 `src/include/access/cmptype.h` 的 `CompareType` 值，傳回此運算子類別用於對應功能的策略編號。如果運算子類別沒有對應的策略，此函式應該傳回 `InvalidStrategy`。
+
+這用於時態索引限制條件（亦即 `PRIMARY
     KEY` 與 `UNIQUE`）。如果運算子類別提供了此函式，且它對 `COMPARE_EQ` 傳回結果，就可以將它用在索引限制條件中非 `WITHOUT OVERLAPS` 的部分。
 
-    此支援函式對應於索引存取方法的回呼函式 `amtranslatecmptype`（請參閱[第 63.2 節](../indexam/index-functions.md)）。GiST 索引的 `amtranslatecmptype` 回呼函式只是向下呼叫對應運算子家族的 `translate_cmptype` 支援函式，因為 GiST 索引存取方法本身沒有固定的策略編號。
+此支援函式對應於索引存取方法的回呼函式 `amtranslatecmptype`（請參閱[第 63.2 節](../indexam/index-functions.md)）。GiST 索引的 `amtranslatecmptype` 回呼函式只是向下呼叫對應運算子家族的 `translate_cmptype` 支援函式，因為 GiST 索引存取方法本身沒有固定的策略編號。
 
-    此函式的 SQL 宣告必須如下所示：
+此函式的 SQL 宣告必須如下所示：
 
-    ```
+```
 
     CREATE OR REPLACE FUNCTION my_translate_cmptype(integer)
     RETURNS smallint
     AS 'MODULE_PATHNAME'
     LANGUAGE C STRICT;
-    ```
+```
 
-    而運算子家族的註冊必須如下所示：
+而運算子家族的註冊必須如下所示：
 
-    ```
+```
 
     ALTER OPERATOR FAMILY my_opfamily USING gist ADD
         FUNCTION 12 ("any", "any") my_translate_cmptype(int);
-    ```
+```
 
-    C 模組中對應的程式碼可以依循以下骨架：
+C 模組中對應的程式碼可以依循以下骨架：
 
-    ```
+```
 
     PG_FUNCTION_INFO_V1(my_translate_cmptype);
 
@@ -725,9 +737,9 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 
         PG_RETURN_UINT16(ret);
     }
-    ```
+```
 
-    PostgreSQL 提供了一個轉換函式：`gist_translate_cmptype_common` 用於使用 `RT*StrategyNumber` 常數的運算子類別。`btree_gist` 擴充功能定義了第二個轉換函式 `gist_translate_cmptype_btree`，用於使用 `BT*StrategyNumber` 常數的運算子類別。
+PostgreSQL 提供了一個轉換函式：`gist_translate_cmptype_common` 用於使用 `RT*StrategyNumber` 常數的運算子類別。`btree_gist` 擴充功能定義了第二個轉換函式 `gist_translate_cmptype_btree`，用於使用 `BT*StrategyNumber` 常數的運算子類別。
 
 所有 GiST 支援方法通常都是在短生命週期的記憶體上下文 中被呼叫的；也就是說，每處理完一個元組，`CurrentMemoryContext` 就會被重設。因此，不太需要費心對你 palloc 的所有東西進行 pfree。不過，在某些情況下，讓支援方法跨多次呼叫快取資料是有用的。為此，請在 `fcinfo->flinfo->fn_mcxt` 中配置生命週期較長的資料，並在 `fcinfo->flinfo->fn_extra` 中保留指向它的指標。這類資料會在整個索引操作（例如單一 GiST 索引掃描、索引建立或索引元組插入）的生命週期內存續。替換 `fn_extra` 值時，請小心 pfree 先前的值，否則洩漏會在操作期間不斷累積。
 
@@ -756,25 +768,32 @@ GiST 的索引運算子類別必須提供五個方法，另有七個是選用的
 PostgreSQL 原始碼發行版本包含數個使用 GiST 實作之索引方法的範例。核心系統目前提供文字搜尋支援（為 `tsvector` 與 `tsquery` 建立索引），以及為部分內建幾何資料型別提供相當於 R-Tree 的功能（請參閱 `src/backend/access/gist/gistproc.c`）。下列 `contrib` 模組也包含 GiST 運算子類別：
 
 `btree_gist`
-:   為數種資料型別提供相當於 B-tree 的功能
+
+為數種資料型別提供相當於 B-tree 的功能
 
 `cube`
-:   為多維立方體建立索引
+
+為多維立方體建立索引
 
 `hstore`
-:   用來儲存（鍵, 值）配對的模組
+
+用來儲存（鍵, 值）配對的模組
 
 `intarray`
-:   用於 int4 值一維陣列的 RD-Tree
+
+用於 int4 值一維陣列的 RD-Tree
 
 `ltree`
-:   為樹狀結構建立索引
+
+為樹狀結構建立索引
 
 `pg_trgm`
-:   使用三連詞（trigram）比對的文字相似度
+
+使用三連詞（trigram）比對的文字相似度
 
 `seg`
-:   為「浮點數範圍」建立索引
+
+為「浮點數範圍」建立索引
 
 ---
 

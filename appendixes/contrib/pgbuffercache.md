@@ -1,6 +1,6 @@
 <a id="PGBUFFERCACHE"></a>
 
-## F.25. pg_buffercache — 檢查 PostgreSQL 緩衝區快取狀態 [#](#PGBUFFERCACHE)
+## F.25. pg_buffercache — 檢查 PostgreSQL 緩衝區快取狀態 [#](#pgbuffercache) <a href="#pgbuffercache" id="pgbuffercache"></a>
 
 [F.25.1. `pg_buffercache` 檢視表](pgbuffercache.md#PGBUFFERCACHE-PG-BUFFERCACHE)
 

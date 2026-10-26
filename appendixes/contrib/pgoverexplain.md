@@ -1,6 +1,6 @@
 <a id="PGOVEREXPLAIN"></a>
 
-## F.29. pg_overexplain — 允許 EXPLAIN 傾印更多細節 [#](#PGOVEREXPLAIN)
+## F.29. pg_overexplain — 允許 EXPLAIN 傾印更多細節 [#](#pgoverexplain) <a href="#pgoverexplain" id="pgoverexplain"></a>
 
 [F.29.1. EXPLAIN (DEBUG)](pgoverexplain.md#PGOVEREXPLAIN-DEBUG)
 

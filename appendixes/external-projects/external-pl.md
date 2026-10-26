@@ -1,6 +1,6 @@
 <a id="EXTERNAL-PL"></a>
 
-## H.3. 程序語言 [#](#EXTERNAL-PL)
+## H.3. 程序語言 [#](#external-pl) <a href="#external-pl" id="external-pl"></a>
 
 <a id="id-1.11.9.5.2"></a>
 

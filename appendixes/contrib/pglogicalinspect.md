@@ -1,6 +1,6 @@
 <a id="PGLOGICALINSPECT"></a>
 
-## F.28. pg_logicalinspect — 邏輯解碼元件檢查 [#](#PGLOGICALINSPECT)
+## F.28. pg_logicalinspect — 邏輯解碼元件檢查 [#](#pglogicalinspect) <a href="#pglogicalinspect" id="pglogicalinspect"></a>
 
 [F.28.1. 函式](pglogicalinspect.md#PGLOGICALINSPECT-FUNCS)
 
