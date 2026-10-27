@@ -256,7 +256,7 @@ make check-world PG_TEST_EXTRA='kerberos ldap ssl load_balance libpq_encryption'
 `sepgsql`
 :   執行 `contrib/sepgsql` 底下的測試套組。
     這需要以特定方式設定好的 SELinux 環境；請參閱
-    [F.40.3 節](../../appendixes/contrib/sepgsql.md#SEPGSQL-REGRESSION)。
+    [F.40.3 節](../../appendixes/contrib/sepgsql.md#sepgsql-regression)。
 
 `ssl`
 :   執行 `src/test/ssl` 底下的測試套組。

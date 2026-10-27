@@ -2,7 +2,7 @@
 
 ## J.5. 文件撰寫 [#](#docguide-authoring) <a href="#docguide-authoring" id="docguide-authoring"></a>
 
-[J.5.1. Emacs](docguide-authoring.md#DOCGUIDE-AUTHORING-EMACS)
+[J.5.1. Emacs](docguide-authoring.md#docguide-authoring-emacs)
 
 使用具備 XML 編輯模式的編輯器最便於修改文件原始碼；若編輯器也瞭解 XML schema 語言，
 能特別辨識 DocBook 語法，則更為方便。
@@ -12,7 +12,7 @@
 
 <a id="DOCGUIDE-AUTHORING-EMACS"></a>
 
-### J.5.1. Emacs [#](#DOCGUIDE-AUTHORING-EMACS)
+### J.5.1. Emacs [#](#docguide-authoring-emacs) <a href="#docguide-authoring-emacs" id="docguide-authoring-emacs"></a>
 
 nXML Mode 隨 Emacs 一同提供，是使用 Emacs 編輯 XML 文件最常見的模式。
 它可讓你使用 Emacs 插入標籤並檢查標記的一致性，且原生支援 DocBook。詳細資訊請參閱 [nXML 手冊](https://www.gnu.org/software/emacs/manual/html_mono/nxml-mode.html)。

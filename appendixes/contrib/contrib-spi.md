@@ -2,13 +2,13 @@
 
 ## F.41. spi — Server Programming Interface 功能與範例 [#](#contrib-spi) <a href="#contrib-spi" id="contrib-spi"></a>
 
-[F.41.1. refint — 實作參考完整性的函式](contrib-spi.md#CONTRIB-SPI-REFINT)
+[F.41.1. refint — 實作參考完整性的函式](contrib-spi.md#contrib-spi-refint)
 
-[F.41.2. autoinc — 自動遞增欄位的函式](contrib-spi.md#CONTRIB-SPI-AUTOINC)
+[F.41.2. autoinc — 自動遞增欄位的函式](contrib-spi.md#contrib-spi-autoinc)
 
-[F.41.3. insert_username — 追蹤誰變更資料表的函式](contrib-spi.md#CONTRIB-SPI-INSERT-USERNAME)
+[F.41.3. insert_username — 追蹤誰變更資料表的函式](contrib-spi.md#contrib-spi-insert-username)
 
-[F.41.4. moddatetime — 追蹤最後修改時間的函式](contrib-spi.md#CONTRIB-SPI-MODDATETIME)
+[F.41.4. moddatetime — 追蹤最後修改時間的函式](contrib-spi.md#contrib-spi-moddatetime)
 
 <a id="id-1.11.7.51.2"></a>
 
@@ -21,7 +21,7 @@ spi 模組提供數個使用 [Server Programming Interface](../../server-program
 
 <a id="CONTRIB-SPI-REFINT"></a>
 
-### F.41.1. refint — 實作參考完整性的函式 [#](#CONTRIB-SPI-REFINT)
+### F.41.1. refint — 實作參考完整性的函式 [#](#contrib-spi-refint) <a href="#contrib-spi-refint" id="contrib-spi-refint"></a>
 
 `check_primary_key()` 和 `check_foreign_key()` 用於檢查外部索引鍵限制條件。
 （此功能早已由內建的外部索引鍵機制取代，但此模組仍可作為範例使用。此模組
@@ -98,7 +98,7 @@ check_foreign_key (
 
 <a id="CONTRIB-SPI-AUTOINC"></a>
 
-### F.41.2. autoinc — 自動遞增欄位的函式 [#](#CONTRIB-SPI-AUTOINC)
+### F.41.2. autoinc — 自動遞增欄位的函式 [#](#contrib-spi-autoinc) <a href="#contrib-spi-autoinc" id="contrib-spi-autoinc"></a>
 
 `autoinc()` 是將序列的下一個值儲存至整數欄位的觸發程序。此功能與內建的
 「serial 欄位」功能有一些重疊，但並不相同。此觸發程序僅在欄位的初始值為
@@ -114,7 +114,7 @@ check_foreign_key (
 
 <a id="CONTRIB-SPI-INSERT-USERNAME"></a>
 
-### F.41.3. insert_username — 追蹤誰變更資料表的函式 [#](#CONTRIB-SPI-INSERT-USERNAME)
+### F.41.3. insert_username — 追蹤誰變更資料表的函式 [#](#contrib-spi-insert-username) <a href="#contrib-spi-insert-username" id="contrib-spi-insert-username"></a>
 
 `insert_username()` 是將目前使用者名稱儲存至 text 欄位的觸發程序。這可用於
 追蹤誰最後修改資料表中的特定資料列。
@@ -126,7 +126,7 @@ check_foreign_key (
 
 <a id="CONTRIB-SPI-MODDATETIME"></a>
 
-### F.41.4. moddatetime — 追蹤最後修改時間的函式 [#](#CONTRIB-SPI-MODDATETIME)
+### F.41.4. moddatetime — 追蹤最後修改時間的函式 [#](#contrib-spi-moddatetime) <a href="#contrib-spi-moddatetime" id="contrib-spi-moddatetime"></a>
 
 `moddatetime()` 是將目前時間儲存至 `timestamp` 欄位的觸發程序。這可用於
 追蹤資料表中某一資料列的最後修改時間。

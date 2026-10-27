@@ -2,11 +2,11 @@
 
 ## F.49. uuid-ossp — UUID 產生器 [#](#uuid-ossp) <a href="#uuid-ossp" id="uuid-ossp"></a>
 
-[F.49.1. `uuid-ossp` 函式](uuid-ossp.md#UUID-OSSP-FUNCTIONS-SECT)
+[F.49.1. `uuid-ossp` 函式](uuid-ossp.md#uuid-ossp-functions-sect)
 
-[F.49.2. 建置 `uuid-ossp`](uuid-ossp.md#UUID-OSSP-BUILDING)
+[F.49.2. 建置 `uuid-ossp`](uuid-ossp.md#uuid-ossp-building)
 
-[F.49.3. 作者](uuid-ossp.md#UUID-OSSP-AUTHOR)
+[F.49.3. 作者](uuid-ossp.md#uuid-ossp-author)
 
 <a id="id-1.11.7.59.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="UUID-OSSP-FUNCTIONS-SECT"></a>
 
-### F.49.1. `uuid-ossp` 函式 [#](#UUID-OSSP-FUNCTIONS-SECT)
+### F.49.1. `uuid-ossp` 函式 [#](#uuid-ossp-functions-sect) <a href="#uuid-ossp-functions-sect" id="uuid-ossp-functions-sect"></a>
 
 [表 F.35](uuid-ossp.md#UUID-OSSP-FUNCTIONS) 列出可用於產生 UUID 的函式。相關標準 ITU-T Rec. X.667、ISO/IEC 9834-8:2005 與 [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122) 規定了四種產生 UUID 的演算法，分別以版本號碼 1、3、4、5 識別。（沒有第 2 版演算法。）這些演算法各自可能適用於不同類型的應用程式。
 
@@ -118,13 +118,13 @@ SELECT uuid_generate_v3(uuid_ns_url(), 'http://www.postgresql.org');
 
 <a id="UUID-OSSP-BUILDING"></a>
 
-### F.49.2. 建置 `uuid-ossp` [#](#UUID-OSSP-BUILDING)
+### F.49.2. 建置 `uuid-ossp` [#](#uuid-ossp-building) <a href="#uuid-ossp-building" id="uuid-ossp-building"></a>
 
 過去此模組依賴 OSSP UUID 函式庫，這也是此模組名稱的由來。雖然 OSSP UUID 函式庫仍可在 <http://www.ossp.org/pkg/lib/uuid/> 找到，但它的維護狀況不佳，而且越來越難以移植到較新的平台。現在 `uuid-ossp` 在某些平台上可以不依賴 OSSP 函式庫建置。在 FreeBSD 與其他一些 BSD 衍生平台上，核心的 `libc` 函式庫已包含合適的 UUID 建立函式。在 Linux、macOS 與其他一些平台上，合適的函式由 `libuuid` 函式庫提供，該函式庫最初來自 `e2fsprogs` 專案（不過在現代的 Linux 上，它被視為 `util-linux-ng` 的一部分）。呼叫 `configure` 時，指定 `--with-uuid=bsd` 以使用 BSD 函式，或指定 `--with-uuid=e2fs` 以使用 `e2fsprogs` 的 `libuuid`，或指定 `--with-uuid=ossp` 以使用 OSSP UUID 函式庫。一部特定機器上可能有超過一個這類函式庫可用，因此 `configure` 不會自動選擇其中一個。
 
 <a id="UUID-OSSP-AUTHOR"></a>
 
-### F.49.3. 作者 [#](#UUID-OSSP-AUTHOR)
+### F.49.3. 作者 [#](#uuid-ossp-author) <a href="#uuid-ossp-author" id="uuid-ossp-author"></a>
 
 Peter Eisentraut `<peter_e@gmx.net>`
 

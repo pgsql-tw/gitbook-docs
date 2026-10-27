@@ -2,9 +2,9 @@
 
 ## F.43. tablefunc — 傳回資料表的函式（`crosstab` 等） [#](#tablefunc) <a href="#tablefunc" id="tablefunc"></a>
 
-[F.43.1. 提供的函式](tablefunc.md#TABLEFUNC-FUNCTIONS-SECT)
+[F.43.1. 提供的函式](tablefunc.md#tablefunc-functions-sect)
 
-[F.43.2. 作者](tablefunc.md#TABLEFUNC-AUTHOR)
+[F.43.2. 作者](tablefunc.md#tablefunc-author)
 
 <a id="id-1.11.7.53.2"></a>
 
@@ -14,7 +14,7 @@
 
 <a id="TABLEFUNC-FUNCTIONS-SECT"></a>
 
-### F.43.1. 提供的函式 [#](#TABLEFUNC-FUNCTIONS-SECT)
+### F.43.1. 提供的函式 [#](#tablefunc-functions-sect) <a href="#tablefunc-functions-sect" id="tablefunc-functions-sect"></a>
 
 [表 F.33](tablefunc.md#TABLEFUNC-FUNCTIONS) 摘要列出 `tablefunc` 模組提供的函式。
 
@@ -559,7 +559,7 @@ SELECT * FROM connectby('connectby_tree', 'keyid', 'parent_keyid', 'pos', 'row2'
 
 <a id="TABLEFUNC-AUTHOR"></a>
 
-### F.43.2. 作者 [#](#TABLEFUNC-AUTHOR)
+### F.43.2. 作者 [#](#tablefunc-author) <a href="#tablefunc-author" id="tablefunc-author"></a>
 
 Joe Conway
 

@@ -2,7 +2,7 @@
 
 ## F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法 [#](#tsm-system-rows) <a href="#tsm-system-rows" id="tsm-system-rows"></a>
 
-[F.46.1. 範例](tsm-system-rows.md#TSM-SYSTEM-ROWS-EXAMPLES)
+[F.46.1. 範例](tsm-system-rows.md#tsm-system-rows-examples)
 
 <a id="id-1.11.7.56.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="TSM-SYSTEM-ROWS-EXAMPLES"></a>
 
-### F.46.1. 範例 [#](#TSM-SYSTEM-ROWS-EXAMPLES)
+### F.46.1. 範例 [#](#tsm-system-rows-examples) <a href="#tsm-system-rows-examples" id="tsm-system-rows-examples"></a>
 
 以下是使用 `SYSTEM_ROWS` 選取資料表樣本的範例。首先安裝擴充功能：
 

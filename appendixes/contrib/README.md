@@ -378,7 +378,7 @@
     [F.38.11. 作者](postgres-fdw.md#POSTGRES-FDW-AUTHOR)
 
 [F.39. seg — 線段或浮點數區間的資料型別](seg.md)
-:   [F.39.1. 原理](seg.md#SEG-RATIONALE)
+:   [F.39.1. 原理](seg.md#seg-rationale)
 
     [F.39.2. 語法](seg.md#SEG-SYNTAX)
 
@@ -391,7 +391,7 @@
     [F.39.6. 鳴謝](seg.md#SEG-CREDITS)
 
 [F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組](sepgsql.md)
-:   [F.40.1. 概觀](sepgsql.md#SEPGSQL-OVERVIEW)
+:   [F.40.1. 概觀](sepgsql.md#sepgsql-overview)
 
     [F.40.2. 安裝](sepgsql.md#SEPGSQL-INSTALLATION)
 
@@ -410,7 +410,7 @@
     [F.40.9. 作者](sepgsql.md#SEPGSQL-AUTHOR)
 
 [F.41. spi — 伺服器程式設計介面功能與範例](contrib-spi.md)
-:   [F.41.1. refint — 實作參照完整性的函式](contrib-spi.md#CONTRIB-SPI-REFINT)
+:   [F.41.1. refint — 實作參照完整性的函式](contrib-spi.md#contrib-spi-refint)
 
     [F.41.2. autoinc — 用於欄位自動遞增的函式](contrib-spi.md#CONTRIB-SPI-AUTOINC)
 
@@ -419,12 +419,12 @@
     [F.41.4. moddatetime — 追蹤最後修改時間的函式](contrib-spi.md#CONTRIB-SPI-MODDATETIME)
 
 [F.42. sslinfo — 取得用戶端 SSL 資訊](sslinfo.md)
-:   [F.42.1. 提供的函式](sslinfo.md#SSLINFO-FUNCTIONS)
+:   [F.42.1. 提供的函式](sslinfo.md#sslinfo-functions)
 
     [F.42.2. 作者](sslinfo.md#SSLINFO-AUTHOR)
 
 [F.43. tablefunc — 傳回資料表的函式（`crosstab` 等）](tablefunc.md)
-:   [F.43.1. 提供的函式](tablefunc.md#TABLEFUNC-FUNCTIONS-SECT)
+:   [F.43.1. 提供的函式](tablefunc.md#tablefunc-functions-sect)
 
     [F.43.2. 作者](tablefunc.md#TABLEFUNC-AUTHOR)
 
@@ -433,27 +433,27 @@
 [F.45. test_decoding — 以 SQL 為基礎的 WAL 邏輯解碼測試／範例模組](test-decoding.md)
 
 [F.46. tsm_system_rows — `TABLESAMPLE` 的 `SYSTEM_ROWS` 取樣方法](tsm-system-rows.md)
-:   [F.46.1. 範例](tsm-system-rows.md#TSM-SYSTEM-ROWS-EXAMPLES)
+:   [F.46.1. 範例](tsm-system-rows.md#tsm-system-rows-examples)
 
 [F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法](tsm-system-time.md)
-:   [F.47.1. 範例](tsm-system-time.md#TSM-SYSTEM-TIME-EXAMPLES)
+:   [F.47.1. 範例](tsm-system-time.md#tsm-system-time-examples)
 
 [F.48. unaccent — 移除變音符號的文字檢索字典](unaccent.md)
-:   [F.48.1. 設定](unaccent.md#UNACCENT-CONFIGURATION)
+:   [F.48.1. 設定](unaccent.md#unaccent-configuration)
 
     [F.48.2. 用法](unaccent.md#UNACCENT-USAGE)
 
     [F.48.3. 函式](unaccent.md#UNACCENT-FUNCTIONS)
 
 [F.49. uuid-ossp — UUID 產生器](uuid-ossp.md)
-:   [F.49.1. `uuid-ossp` 函式](uuid-ossp.md#UUID-OSSP-FUNCTIONS-SECT)
+:   [F.49.1. `uuid-ossp` 函式](uuid-ossp.md#uuid-ossp-functions-sect)
 
     [F.49.2. 建置 `uuid-ossp`](uuid-ossp.md#UUID-OSSP-BUILDING)
 
     [F.49.3. 作者](uuid-ossp.md#UUID-OSSP-AUTHOR)
 
 [F.50. xml2 — XPath 查詢與 XSLT 功能](xml2.md)
-:   [F.50.1. 淘汰通知](xml2.md#XML2-DEPRECATION)
+:   [F.50.1. 淘汰通知](xml2.md#xml2-deprecation)
 
     [F.50.2. 函式說明](xml2.md#XML2-FUNCTIONS)
 

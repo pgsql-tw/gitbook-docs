@@ -2,7 +2,7 @@
 
 ## F.47. tsm_system_time — `TABLESAMPLE` 的 `SYSTEM_TIME` 取樣方法 [#](#tsm-system-time) <a href="#tsm-system-time" id="tsm-system-time"></a>
 
-[F.47.1. 範例](tsm-system-time.md#TSM-SYSTEM-TIME-EXAMPLES)
+[F.47.1. 範例](tsm-system-time.md#tsm-system-time-examples)
 
 <a id="id-1.11.7.57.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="TSM-SYSTEM-TIME-EXAMPLES"></a>
 
-### F.47.1. 範例 [#](#TSM-SYSTEM-TIME-EXAMPLES)
+### F.47.1. 範例 [#](#tsm-system-time-examples) <a href="#tsm-system-time-examples" id="tsm-system-time-examples"></a>
 
 以下是使用 `SYSTEM_TIME` 選取資料表樣本的範例。首先安裝擴充功能：
 

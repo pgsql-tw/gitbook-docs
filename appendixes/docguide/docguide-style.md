@@ -2,11 +2,11 @@
 
 ## J.6. 風格指南 [#](#docguide-style) <a href="#docguide-style" id="docguide-style"></a>
 
-[J.6.1. 參考頁面](docguide-style.md#DOCGUIDE-STYLE-REF-PAGES)
+[J.6.1. 參考頁面](docguide-style.md#docguide-style-ref-pages)
 
 <a id="DOCGUIDE-STYLE-REF-PAGES"></a>
 
-### J.6.1. 參考頁面 [#](#DOCGUIDE-STYLE-REF-PAGES)
+### J.6.1. 參考頁面 [#](#docguide-style-ref-pages) <a href="#docguide-style-ref-pages" id="docguide-style-ref-pages"></a>
 
 參考頁面應該遵循標準的版面配置。這可以讓
 使用者更快找到所需的資訊，也能

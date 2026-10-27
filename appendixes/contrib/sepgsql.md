@@ -2,23 +2,23 @@
 
 ## F.40. sepgsql — 以 SELinux 標籤為基礎的強制存取控制（MAC）安全模組 [#](#sepgsql) <a href="#sepgsql" id="sepgsql"></a>
 
-[F.40.1. 概觀](sepgsql.md#SEPGSQL-OVERVIEW)
+[F.40.1. 概觀](sepgsql.md#sepgsql-overview)
 
-[F.40.2. 安裝](sepgsql.md#SEPGSQL-INSTALLATION)
+[F.40.2. 安裝](sepgsql.md#sepgsql-installation)
 
-[F.40.3. 迴歸測試](sepgsql.md#SEPGSQL-REGRESSION)
+[F.40.3. 迴歸測試](sepgsql.md#sepgsql-regression)
 
-[F.40.4. GUC 參數](sepgsql.md#SEPGSQL-PARAMETERS)
+[F.40.4. GUC 參數](sepgsql.md#sepgsql-parameters)
 
-[F.40.5. 功能](sepgsql.md#SEPGSQL-FEATURES)
+[F.40.5. 功能](sepgsql.md#sepgsql-features)
 
-[F.40.6. sepgsql 函式](sepgsql.md#SEPGSQL-FUNCTIONS)
+[F.40.6. sepgsql 函式](sepgsql.md#sepgsql-functions)
 
-[F.40.7. 限制](sepgsql.md#SEPGSQL-LIMITATIONS)
+[F.40.7. 限制](sepgsql.md#sepgsql-limitations)
 
-[F.40.8. 外部資源](sepgsql.md#SEPGSQL-RESOURCES)
+[F.40.8. 外部資源](sepgsql.md#sepgsql-resources)
 
-[F.40.9. 作者](sepgsql.md#SEPGSQL-AUTHOR)
+[F.40.9. 作者](sepgsql.md#sepgsql-author)
 
 <a id="id-1.11.7.50.2"></a>
 
@@ -27,11 +27,11 @@
 ### 警告
 
 目前的實作有重大限制，並未對所有動作強制執行強制存取控制。請參閱
-[第 F.40.7 節](sepgsql.md#SEPGSQL-LIMITATIONS)。
+[第 F.40.7 節](sepgsql.md#sepgsql-limitations)。
 
 <a id="SEPGSQL-OVERVIEW"></a>
 
-### F.40.1. 概觀 [#](#SEPGSQL-OVERVIEW)
+### F.40.1. 概觀 [#](#sepgsql-overview) <a href="#sepgsql-overview" id="sepgsql-overview"></a>
 
 此模組與 SELinux 整合，在 PostgreSQL 通常提供的安全檢查之外，再額外提供一層安全檢查。從
 SELinux 的角度來看，此模組讓
@@ -45,7 +45,7 @@ SELinux 的存取控制決策是使用安全標籤做出的，安全標籤以字
 
 <a id="SEPGSQL-INSTALLATION"></a>
 
-### F.40.2. 安裝 [#](#SEPGSQL-INSTALLATION)
+### F.40.2. 安裝 [#](#sepgsql-installation) <a href="#sepgsql-installation" id="sepgsql-installation"></a>
 
 `sepgsql` 只能在已啟用 SELinux 的 Linux
 2.6.28 或更新版本上使用，在其他任何平台上都無法使用。你還需要
@@ -114,7 +114,7 @@ libselinux 與 selinux-policy 版本而定，你可能會看到下列部分或�
 
 <a id="SEPGSQL-REGRESSION"></a>
 
-### F.40.3. 迴歸測試 [#](#SEPGSQL-REGRESSION)
+### F.40.3. 迴歸測試 [#](#sepgsql-regression) <a href="#sepgsql-regression" id="sepgsql-regression"></a>
 
 若 `PG_TEST_EXTRA` 包含 `sepgsql`，就會執行
 `sepgsql` 測試套件（請參閱
@@ -128,7 +128,7 @@ PostgreSQL 的開發期間。另外，也有一種執行測試的方式，可用
 手動測試必須在已完成組態設定的 PostgreSQL 建置樹之 `contrib/sepgsql` 目錄中執行。雖然需要建置樹，但這些測試是設計為針對已安裝的伺服器執行，也就是說，它們相當於 `make installcheck`，而不是
 `make check`。
 
-首先，依照[第 F.40.2 節](sepgsql.md#SEPGSQL-INSTALLATION)的說明，在運作中的資料庫裡設定 `sepgsql`。
+首先，依照[第 F.40.2 節](sepgsql.md#sepgsql-installation)的說明，在運作中的資料庫裡設定 `sepgsql`。
 請注意，目前的作業系統使用者必須能夠不經密碼驗證，以超級使用者身分連線到資料庫。
 
 其次，建置並安裝迴歸測試用的政策套件。
@@ -175,7 +175,7 @@ $ id -Z
 unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
-若有必要調整你的工作網域，詳細資訊請參閱[第 F.40.8 節](sepgsql.md#SEPGSQL-RESOURCES)。
+若有必要調整你的工作網域，詳細資訊請參閱[第 F.40.8 節](sepgsql.md#sepgsql-resources)。
 
 最後，執行迴歸測試指令稿：
 
@@ -204,7 +204,7 @@ $ sudo semodule -r sepgsql-regtest
 
 <a id="SEPGSQL-PARAMETERS"></a>
 
-### F.40.4. GUC 參數 [#](#SEPGSQL-PARAMETERS)
+### F.40.4. GUC 參數 [#](#sepgsql-parameters) <a href="#sepgsql-parameters" id="sepgsql-parameters"></a>
 
 <a id="GUC-SEPGSQL-PERMISSIVE"></a>
 
@@ -229,7 +229,7 @@ $ sudo semodule -r sepgsql-regtest
 
 <a id="SEPGSQL-FEATURES"></a>
 
-### F.40.5. 功能 [#](#SEPGSQL-FEATURES)
+### F.40.5. 功能 [#](#sepgsql-features) <a href="#sepgsql-features" id="sepgsql-features"></a>
 
 <a id="SEPGSQL-FEATURES-CONTROLLED-OBJ-CLASSES"></a>
 
@@ -416,7 +416,7 @@ ERROR:  SELinux: security policy violation
 
 <a id="SEPGSQL-FUNCTIONS"></a>
 
-### F.40.6. sepgsql 函式 [#](#SEPGSQL-FUNCTIONS)
+### F.40.6. sepgsql 函式 [#](#sepgsql-functions) <a href="#sepgsql-functions" id="sepgsql-functions"></a>
 
 [表 F.32](sepgsql.md#SEPGSQL-FUNCTIONS-TABLE) 列出可用的函式。
 
@@ -466,7 +466,7 @@ ERROR:  SELinux: security policy violation
 
 <a id="SEPGSQL-LIMITATIONS"></a>
 
-### F.40.7. 限制 [#](#SEPGSQL-LIMITATIONS)
+### F.40.7. 限制 [#](#sepgsql-limitations) <a href="#sepgsql-limitations" id="sepgsql-limitations"></a>
 
 資料定義語言（DDL）權限
 :   由於實作上的限制，有些 DDL 操作不會檢查權限。
@@ -484,7 +484,7 @@ ERROR:  SELinux: security policy violation
 
 <a id="SEPGSQL-RESOURCES"></a>
 
-### F.40.8. 外部資源 [#](#SEPGSQL-RESOURCES)
+### F.40.8. 外部資源 [#](#sepgsql-resources) <a href="#sepgsql-resources" id="sepgsql-resources"></a>
 
 [SE-PostgreSQL 簡介](https://wiki.postgresql.org/wiki/SEPostgreSQL_Introduction)
 :   此 wiki 頁面提供簡要概觀，以及安全設計、架構、管理與即將推出的功能。
@@ -499,7 +499,7 @@ ERROR:  SELinux: security policy violation
 
 <a id="SEPGSQL-AUTHOR"></a>
 
-### F.40.9. 作者 [#](#SEPGSQL-AUTHOR)
+### F.40.9. 作者 [#](#sepgsql-author) <a href="#sepgsql-author" id="sepgsql-author"></a>
 
 KaiGai Kohei `<kaigai@ak.jp.nec.com>`
 

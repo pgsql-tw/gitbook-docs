@@ -2,17 +2,17 @@
 
 ## F.39. seg — 線段或浮點數區間的資料型別 [#](#seg) <a href="#seg" id="seg"></a>
 
-[F.39.1. 設計理由](seg.md#SEG-RATIONALE)
+[F.39.1. 設計理由](seg.md#seg-rationale)
 
-[F.39.2. 語法](seg.md#SEG-SYNTAX)
+[F.39.2. 語法](seg.md#seg-syntax)
 
-[F.39.3. 精確度](seg.md#SEG-PRECISION)
+[F.39.3. 精確度](seg.md#seg-precision)
 
-[F.39.4. 用法](seg.md#SEG-USAGE)
+[F.39.4. 用法](seg.md#seg-usage)
 
-[F.39.5. 注意事項](seg.md#SEG-NOTES)
+[F.39.5. 注意事項](seg.md#seg-notes)
 
-[F.39.6. 致謝](seg.md#SEG-CREDITS)
+[F.39.6. 致謝](seg.md#seg-credits)
 
 <a id="id-1.11.7.49.2"></a>
 
@@ -23,7 +23,7 @@
 
 <a id="SEG-RATIONALE"></a>
 
-### F.39.1. 設計理由 [#](#SEG-RATIONALE)
+### F.39.1. 設計理由 [#](#seg-rationale) <a href="#seg-rationale" id="seg-rationale"></a>
 
 量測值的幾何性質通常比數值連續體中的一個點更複雜。量測值通常是該連續體中邊界有些模糊的一段。量測結果之所以呈現為區間，一方面是因為不確定性與隨機性，另一方面也因為被量測的值本身可能就是一個表示某種條件的區間，例如某種蛋白質維持穩定的溫度範圍。
 
@@ -59,7 +59,7 @@ test=> select '6.25 .. 6.50'::seg as "pH";
 
 <a id="SEG-SYNTAX"></a>
 
-### F.39.2. 語法 [#](#SEG-SYNTAX)
+### F.39.2. 語法 [#](#seg-syntax) <a href="#seg-syntax" id="seg-syntax"></a>
 
 區間的外部表示法由一個或兩個浮點數組成，兩數之間以範圍運算子（`..`
 或 `...`）連接。另外，也可以指定為中心點加減一個偏差值。
@@ -117,7 +117,7 @@ test=> select '6.25 .. 6.50'::seg as "pH";
 
 <a id="SEG-PRECISION"></a>
 
-### F.39.3. 精確度 [#](#SEG-PRECISION)
+### F.39.3. 精確度 [#](#seg-precision) <a href="#seg-precision" id="seg-precision"></a>
 
 `seg` 值在內部儲存為一對 32 位元浮點數。這表示有效位數超過 7 位的數字會被截斷。
 
@@ -125,7 +125,7 @@ test=> select '6.25 .. 6.50'::seg as "pH";
 
 <a id="SEG-USAGE"></a>
 
-### F.39.4. 用法 [#](#SEG-USAGE)
+### F.39.4. 用法 [#](#seg-usage) <a href="#seg-usage" id="seg-usage"></a>
 
 `seg` 模組包含一個用於
 `seg` 值的 GiST 索引運算子類別。
@@ -202,7 +202,7 @@ ORDER BY，這會很有用。
 
 <a id="SEG-NOTES"></a>
 
-### F.39.5. 注意事項 [#](#SEG-NOTES)
+### F.39.5. 注意事項 [#](#seg-notes) <a href="#seg-notes" id="seg-notes"></a>
 
 使用範例請參閱迴歸測試 `sql/seg.sql`。
 
@@ -221,7 +221,7 @@ R-tree 索引的效能在很大程度上取決於輸入值最初的順序。依 
 
 <a id="SEG-CREDITS"></a>
 
-### F.39.6. 致謝 [#](#SEG-CREDITS)
+### F.39.6. 致謝 [#](#seg-credits) <a href="#seg-credits" id="seg-credits"></a>
 
 原作者：Gene Selkov, Jr. `<selkovjr@mcs.anl.gov>`，
 Argonne National Laboratory 數學與電腦科學部門（Mathematics and Computer Science Division）。

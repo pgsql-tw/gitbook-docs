@@ -2,15 +2,15 @@
 
 ## F.50. xml2 — XPath 查詢與 XSLT 功能 [#](#xml2) <a href="#xml2" id="xml2"></a>
 
-[F.50.1. 淘汰通知](xml2.md#XML2-DEPRECATION)
+[F.50.1. 淘汰通知](xml2.md#xml2-deprecation)
 
-[F.50.2. 函式說明](xml2.md#XML2-FUNCTIONS)
+[F.50.2. 函式說明](xml2.md#xml2-functions)
 
-[F.50.3. `xpath_table`](xml2.md#XML2-XPATH-TABLE)
+[F.50.3. `xpath_table`](xml2.md#xml2-xpath-table)
 
-[F.50.4. XSLT 函式](xml2.md#XML2-XSLT)
+[F.50.4. XSLT 函式](xml2.md#xml2-xslt)
 
-[F.50.5. 作者](xml2.md#XML2-AUTHOR)
+[F.50.5. 作者](xml2.md#xml2-author)
 
 <a id="id-1.11.7.60.2"></a>
 
@@ -18,13 +18,13 @@
 
 <a id="XML2-DEPRECATION"></a>
 
-### F.50.1. 淘汰通知 [#](#XML2-DEPRECATION)
+### F.50.1. 淘汰通知 [#](#xml2-deprecation) <a href="#xml2-deprecation" id="xml2-deprecation"></a>
 
 自 PostgreSQL 8.3 起，核心伺服器已具備以 SQL/XML 標準為基礎的 XML 相關功能。這些功能涵蓋 XML 語法檢查與 XPath 查詢（也就是此模組所做的事），而且還有更多功能，但其 API 完全不相容。我們計畫在未來的 PostgreSQL 版本中移除此模組，改用較新的標準 API，因此建議你嘗試轉換你的應用程式。若你發現此模組的某些功能在較新的 API 中沒有以適當的形式提供，請將你的問題說明寄至 `<pgsql-hackers@lists.postgresql.org>`，以便解決這項不足。
 
 <a id="XML2-FUNCTIONS"></a>
 
-### F.50.2. 函式說明 [#](#XML2-FUNCTIONS)
+### F.50.2. 函式說明 [#](#xml2-functions) <a href="#xml2-functions" id="xml2-functions"></a>
 
 [表 F.37](xml2.md#XML2-FUNCTIONS-TABLE) 列出此模組提供的函式。這些函式提供簡單直接的 XML 剖析與 XPath 查詢。
 
@@ -105,7 +105,7 @@
 
 <a id="XML2-XPATH-TABLE"></a>
 
-### F.50.3. `xpath_table` [#](#XML2-XPATH-TABLE)
+### F.50.3. `xpath_table` [#](#xml2-xpath-table) <a href="#xml2-xpath-table" id="xml2-xpath-table"></a>
 
 <a id="id-1.11.7.60.6.2"></a>
 
@@ -243,7 +243,7 @@ ORDER BY doc_num, line_num;
 
 <a id="XML2-XSLT"></a>
 
-### F.50.4. XSLT 函式 [#](#XML2-XSLT)
+### F.50.4. XSLT 函式 [#](#xml2-xslt) <a href="#xml2-xslt" id="xml2-xslt"></a>
 
 若已安裝 libxslt，即可使用下列函式：
 
@@ -264,7 +264,7 @@ xslt_process(text document, text stylesheet, text paramlist) returns text
 
 <a id="XML2-AUTHOR"></a>
 
-### F.50.5. 作者 [#](#XML2-AUTHOR)
+### F.50.5. 作者 [#](#xml2-author) <a href="#xml2-author" id="xml2-author"></a>
 
 John Gray `<jgray@azuli.co.uk>`
 

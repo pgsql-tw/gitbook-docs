@@ -2,11 +2,11 @@
 
 ## F.48. unaccent — 移除變音符號的文字搜尋字典 [#](#unaccent) <a href="#unaccent" id="unaccent"></a>
 
-[F.48.1. 設定](unaccent.md#UNACCENT-CONFIGURATION)
+[F.48.1. 設定](unaccent.md#unaccent-configuration)
 
-[F.48.2. 用法](unaccent.md#UNACCENT-USAGE)
+[F.48.2. 用法](unaccent.md#unaccent-usage)
 
-[F.48.3. 函式](unaccent.md#UNACCENT-FUNCTIONS)
+[F.48.3. 函式](unaccent.md#unaccent-functions)
 
 <a id="id-1.11.7.58.2"></a>
 
@@ -18,7 +18,7 @@
 
 <a id="UNACCENT-CONFIGURATION"></a>
 
-### F.48.1. 設定 [#](#UNACCENT-CONFIGURATION)
+### F.48.1. 設定 [#](#unaccent-configuration) <a href="#unaccent-configuration" id="unaccent-configuration"></a>
 
 `unaccent` 字典接受下列選項：
 
@@ -58,7 +58,7 @@
 
 <a id="UNACCENT-USAGE"></a>
 
-### F.48.2. 用法 [#](#UNACCENT-USAGE)
+### F.48.2. 用法 [#](#unaccent-usage) <a href="#unaccent-usage" id="unaccent-usage"></a>
 
 安裝 `unaccent` 擴充功能時，會建立文字搜尋範本 `unaccent`，以及以它為基礎的字典 `unaccent`。`unaccent` 字典的預設參數設定為 `RULES='unaccent'`，因此可立即搭配標準的 `unaccent.rules` 檔案使用。若有需要，你可以修改此參數，例如
 
@@ -109,7 +109,7 @@ mydb=# select ts_headline('fr','Hôtel de la Mer',to_tsquery('fr','Hotels'));
 
 <a id="UNACCENT-FUNCTIONS"></a>
 
-### F.48.3. 函式 [#](#UNACCENT-FUNCTIONS)
+### F.48.3. 函式 [#](#unaccent-functions) <a href="#unaccent-functions" id="unaccent-functions"></a>
 
 `unaccent()` 函式會從給定的字串中移除重音符號（變音符號）。基本上，它是 `unaccent` 型字典的包裝函式，但可以在一般的文字搜尋情境之外使用。
 

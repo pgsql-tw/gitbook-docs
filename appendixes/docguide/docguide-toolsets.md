@@ -2,15 +2,15 @@
 
 ## J.2. 工具組 [#](#docguide-toolsets) <a href="#docguide-toolsets" id="docguide-toolsets"></a>
 
-[J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FEDORA-ET-AL)
+[J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#docguide-toolsets-inst-fedora-et-al)
 
-[J.2.2. 在 FreeBSD 上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FREEBSD)
+[J.2.2. 在 FreeBSD 上安裝](docguide-toolsets.md#docguide-toolsets-inst-freebsd)
 
-[J.2.3. Debian 套件](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-DEBIAN)
+[J.2.3. Debian 套件](docguide-toolsets.md#docguide-toolsets-inst-debian)
 
-[J.2.4. macOS](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-MACOS)
+[J.2.4. macOS](docguide-toolsets.md#docguide-toolsets-inst-macos)
 
-[J.2.5. 由 `configure` 偵測](docguide-toolsets.md#DOCGUIDE-TOOLSETS-CONFIGURE)
+[J.2.5. 由 `configure` 偵測](docguide-toolsets.md#docguide-toolsets-configure)
 
 下列工具用於處理文件。其中有些
 可能是選用的，如各項所註明。
@@ -60,7 +60,7 @@
 
 <a id="DOCGUIDE-TOOLSETS-INST-FEDORA-ET-AL"></a>
 
-### J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝 [#](#DOCGUIDE-TOOLSETS-INST-FEDORA-ET-AL)
+### J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝 [#](#docguide-toolsets-inst-fedora-et-al) <a href="#docguide-toolsets-inst-fedora-et-al" id="docguide-toolsets-inst-fedora-et-al"></a>
 
 若要安裝所需的套件，請使用：
 
@@ -71,7 +71,7 @@ yum install docbook-dtds docbook-style-xsl libxslt fop
 
 <a id="DOCGUIDE-TOOLSETS-INST-FREEBSD"></a>
 
-### J.2.2. 在 FreeBSD 上安裝 [#](#DOCGUIDE-TOOLSETS-INST-FREEBSD)
+### J.2.2. 在 FreeBSD 上安裝 [#](#docguide-toolsets-inst-freebsd) <a href="#docguide-toolsets-inst-freebsd" id="docguide-toolsets-inst-freebsd"></a>
 
 若要使用 `pkg` 安裝所需的套件，請使用：
 
@@ -86,7 +86,7 @@ pkg install docbook-xml docbook-xsl libxslt fop
 
 <a id="DOCGUIDE-TOOLSETS-INST-DEBIAN"></a>
 
-### J.2.3. Debian 套件 [#](#DOCGUIDE-TOOLSETS-INST-DEBIAN)
+### J.2.3. Debian 套件 [#](#docguide-toolsets-inst-debian) <a href="#docguide-toolsets-inst-debian" id="docguide-toolsets-inst-debian"></a>
 
 Debian GNU/Linux 提供了一整套
 文件工具的套件。
@@ -99,7 +99,7 @@ apt-get install docbook-xml docbook-xsl libxml2-utils xsltproc fop
 
 <a id="DOCGUIDE-TOOLSETS-INST-MACOS"></a>
 
-### J.2.4. macOS [#](#DOCGUIDE-TOOLSETS-INST-MACOS)
+### J.2.4. macOS [#](#docguide-toolsets-inst-macos) <a href="#docguide-toolsets-inst-macos" id="docguide-toolsets-inst-macos"></a>
 
 若你使用 MacPorts，以下命令即可完成設定：
 
@@ -147,7 +147,7 @@ postgres.sgml:21: warning: failed to load external entity "http://www.oasis-open
 
 <a id="DOCGUIDE-TOOLSETS-CONFIGURE"></a>
 
-### J.2.5. 由 `configure` 偵測 [#](#DOCGUIDE-TOOLSETS-CONFIGURE)
+### J.2.5. 由 `configure` 偵測 [#](#docguide-toolsets-configure) <a href="#docguide-toolsets-configure" id="docguide-toolsets-configure"></a>
 
 在建置文件之前，你需要執行
 `configure` 指令碼，就像建置

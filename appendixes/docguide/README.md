@@ -7,7 +7,7 @@
 [J.1. DocBook](docguide-docbook.md)
 
 [J.2. 工具組](docguide-toolsets.md)
-:   [J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FEDORA-ET-AL)
+:   [J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#docguide-toolsets-inst-fedora-et-al)
 
     [J.2.2. 在 FreeBSD 上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FREEBSD)
 
@@ -18,7 +18,7 @@
     [J.2.5. 由 `configure` 偵測](docguide-toolsets.md#DOCGUIDE-TOOLSETS-CONFIGURE)
 
 [J.3. 使用 Make 建置文件](docguide-build.md)
-:   [J.3.1. HTML](docguide-build.md#DOCGUIDE-BUILD-HTML)
+:   [J.3.1. HTML](docguide-build.md#docguide-build-html)
 
     [J.3.2. 線上手冊頁（Manpages）](docguide-build.md#DOCGUIDE-BUILD-MANPAGES)
 
@@ -29,10 +29,10 @@
 [J.4. 使用 Meson 建置文件](docguide-build-meson.md)
 
 [J.5. 文件撰寫](docguide-authoring.md)
-:   [J.5.1. Emacs](docguide-authoring.md#DOCGUIDE-AUTHORING-EMACS)
+:   [J.5.1. Emacs](docguide-authoring.md#docguide-authoring-emacs)
 
 [J.6. 風格指南](docguide-style.md)
-:   [J.6.1. 參考頁面](docguide-style.md#DOCGUIDE-STYLE-REF-PAGES)
+:   [J.6.1. 參考頁面](docguide-style.md#docguide-style-ref-pages)
 
 PostgreSQL 有四種主要的文件
 格式：

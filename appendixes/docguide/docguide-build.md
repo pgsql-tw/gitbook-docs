@@ -2,13 +2,13 @@
 
 ## J.3. 使用 Make 建置文件 [#](#docguide-build) <a href="#docguide-build" id="docguide-build"></a>
 
-[J.3.1. HTML](docguide-build.md#DOCGUIDE-BUILD-HTML)
+[J.3.1. HTML](docguide-build.md#docguide-build-html)
 
-[J.3.2. 線上手冊頁（Manpages）](docguide-build.md#DOCGUIDE-BUILD-MANPAGES)
+[J.3.2. 線上手冊頁（Manpages）](docguide-build.md#docguide-build-manpages)
 
-[J.3.3. PDF](docguide-build.md#DOCGUIDE-BUILD-PDF)
+[J.3.3. PDF](docguide-build.md#docguide-build-pdf)
 
-[J.3.4. 語法檢查](docguide-build.md#DOCGUIDE-BUILD-SYNTAX-CHECK)
+[J.3.4. 語法檢查](docguide-build.md#docguide-build-syntax-check)
 
 一切設定就緒後，切換到
 `doc/src/sgml` 目錄，並執行
@@ -17,7 +17,7 @@
 
 <a id="DOCGUIDE-BUILD-HTML"></a>
 
-### J.3.1. HTML [#](#DOCGUIDE-BUILD-HTML)
+### J.3.1. HTML [#](#docguide-build-html) <a href="#docguide-build-html" id="docguide-build-html"></a>
 
 若要建置 HTML 版本的文件：
 
@@ -43,7 +43,7 @@ doc/src/sgml$ make STYLE=website html
 
 <a id="DOCGUIDE-BUILD-MANPAGES"></a>
 
-### J.3.2. 線上手冊頁（Manpages） [#](#DOCGUIDE-BUILD-MANPAGES)
+### J.3.2. 線上手冊頁（Manpages） [#](#docguide-build-manpages) <a href="#docguide-build-manpages" id="docguide-build-manpages"></a>
 
 我們使用 DocBook XSL 樣式表，將
 DocBook
@@ -57,7 +57,7 @@ doc/src/sgml$ make man
 
 <a id="DOCGUIDE-BUILD-PDF"></a>
 
-### J.3.3. PDF [#](#DOCGUIDE-BUILD-PDF)
+### J.3.3. PDF [#](#docguide-build-pdf) <a href="#docguide-build-pdf" id="docguide-build-pdf"></a>
 
 若要使用 FOP 產生 PDF 版本的文件，
 可以依偏好的紙張格式，使用下列
@@ -114,7 +114,7 @@ LOGLEVEL=-Dorg.apache.commons.logging.simplelog.defaultlog=WARN
 
 <a id="DOCGUIDE-BUILD-SYNTAX-CHECK"></a>
 
-### J.3.4. 語法檢查 [#](#DOCGUIDE-BUILD-SYNTAX-CHECK)
+### J.3.4. 語法檢查 [#](#docguide-build-syntax-check) <a href="#docguide-build-syntax-check" id="docguide-build-syntax-check"></a>
 
 建置文件可能需要很長的時間。不過，有一種
 方法可以只檢查文件檔案的語法是否正確，

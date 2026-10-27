@@ -2,9 +2,9 @@
 
 ## F.42. sslinfo — 取得用戶端 SSL 資訊 [#](#sslinfo) <a href="#sslinfo" id="sslinfo"></a>
 
-[F.42.1. 提供的函式](sslinfo.md#SSLINFO-FUNCTIONS)
+[F.42.1. 提供的函式](sslinfo.md#sslinfo-functions)
 
-[F.42.2. 作者](sslinfo.md#SSLINFO-AUTHOR)
+[F.42.2. 作者](sslinfo.md#sslinfo-author)
 
 <a id="id-1.11.7.52.2"></a>
 
@@ -16,7 +16,7 @@
 
 <a id="SSLINFO-FUNCTIONS"></a>
 
-### F.42.1. 提供的函式 [#](#SSLINFO-FUNCTIONS)
+### F.42.1. 提供的函式 [#](#sslinfo-functions) <a href="#sslinfo-functions" id="sslinfo-functions"></a>
 
 `ssl_is_used() returns boolean` <a id="id-1.11.7.52.6.2.1.1.2"></a>
 :   若目前與伺服器的連線使用 SSL 則傳回 true，否則傳回 false。
@@ -87,7 +87,7 @@
 
 <a id="SSLINFO-AUTHOR"></a>
 
-### F.42.2. 作者 [#](#SSLINFO-AUTHOR)
+### F.42.2. 作者 [#](#sslinfo-author) <a href="#sslinfo-author" id="sslinfo-author"></a>
 
 Victor Wagner `<vitus@cryptocom.ru>`, Cryptocom LTD
 
