@@ -4,28 +4,28 @@
 
 **目錄**
 
-[38.1. 事件觸發程序行為概觀](event-trigger-definition.md)
-:   [38.1.1. login](event-trigger-definition.md#event-trigger-login)
+- [38.1. 事件觸發程序行為概觀](event-trigger-definition.md)
+  - [38.1.1. login](event-trigger-definition.md#event-trigger-login)
 
-    [38.1.2. ddl_command_start](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_START)
+  - [38.1.2. ddl_command_start](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_START)
 
-    [38.1.3. ddl_command_end](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_END)
+  - [38.1.3. ddl_command_end](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_END)
 
-    [38.1.4. sql_drop](event-trigger-definition.md#EVENT-TRIGGER-SQL_DROP)
+  - [38.1.4. sql_drop](event-trigger-definition.md#EVENT-TRIGGER-SQL_DROP)
 
-    [38.1.5. table_rewrite](event-trigger-definition.md#EVENT-TRIGGER-TABLE_REWRITE)
+  - [38.1.5. table_rewrite](event-trigger-definition.md#EVENT-TRIGGER-TABLE_REWRITE)
 
-    [38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
+  - [38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
 
-    [38.1.7. 建立事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-CREATING)
+  - [38.1.7. 建立事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-CREATING)
 
-[38.2. 以 C 撰寫事件觸發程序函式](event-trigger-interface.md)
+- [38.2. 以 C 撰寫事件觸發程序函式](event-trigger-interface.md)
 
-[38.3. 完整的事件觸發程序範例](event-trigger-example.md)
+- [38.3. 完整的事件觸發程序範例](event-trigger-example.md)
 
-[38.4. 資料表重寫事件觸發程序範例](event-trigger-table-rewrite-example.md)
+- [38.4. 資料表重寫事件觸發程序範例](event-trigger-table-rewrite-example.md)
 
-[38.5. 資料庫登入事件觸發程序範例](event-trigger-database-login-example.md)
+- [38.5. 資料庫登入事件觸發程序範例](event-trigger-database-login-example.md)
 
 <a id="id-1.8.5.2"></a>
 

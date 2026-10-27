@@ -4,26 +4,26 @@
 
 **目錄**
 
-[68.1. 系統目錄宣告規則](system-catalog-declarations.md)
+- [68.1. 系統目錄宣告規則](system-catalog-declarations.md)
 
-[68.2. 系統目錄初始資料](system-catalog-initial-data.md)
-:   [68.2.1. 資料檔格式](system-catalog-initial-data.md#system-catalog-initial-data-format)
+- [68.2. 系統目錄初始資料](system-catalog-initial-data.md)
+  - [68.2.1. 資料檔格式](system-catalog-initial-data.md#system-catalog-initial-data-format)
 
-    [68.2.2. OID 指派](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
+  - [68.2.2. OID 指派](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
 
-    [68.2.3. OID 參照查找](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)
+  - [68.2.3. OID 參照查找](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)
 
-    [68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
+  - [68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
 
-    [68.2.5. 編輯資料檔的作法](system-catalog-initial-data.md#SYSTEM-CATALOG-RECIPES)
+  - [68.2.5. 編輯資料檔的作法](system-catalog-initial-data.md#SYSTEM-CATALOG-RECIPES)
 
-[68.3. BKI 檔案格式](bki-format.md)
+- [68.3. BKI 檔案格式](bki-format.md)
 
-[68.4. BKI 命令](bki-commands.md)
+- [68.4. BKI 命令](bki-commands.md)
 
-[68.5. 初始建置 BKI 檔案的結構](bki-structure.md)
+- [68.5. 初始建置 BKI 檔案的結構](bki-structure.md)
 
-[68.6. BKI 範例](bki-example.md)
+- [68.6. BKI 範例](bki-example.md)
 
 PostgreSQL 使用許多不同的系統目錄來追蹤資料庫物件（例如資料表與函式）的存在與屬性。實體上，系統目錄與一般使用者資料表並無差異，但後端的 C 程式碼知道每個系統目錄的結構與屬性，並且可以在低階層直接操作它。因此，舉例來說，不建議嘗試在執行中即時變更系統目錄的結構；這樣做會破壞 C 程式碼中對系統目錄資料列配置方式所內建的假設。不過，系統目錄的結構可能會在主要版本之間改變。
 

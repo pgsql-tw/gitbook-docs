@@ -4,21 +4,21 @@
 
 **目錄**
 
-[50.1. 安全地設計驗證器模組](oauth-validator-design.md)
-:   [50.1.1. 驗證器的職責](oauth-validator-design.md#oauth-validator-design-responsibilities)
+- [50.1. 安全地設計驗證器模組](oauth-validator-design.md)
+  - [50.1.1. 驗證器的職責](oauth-validator-design.md#oauth-validator-design-responsibilities)
 
-    [50.1.2. 一般撰碼準則](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
+  - [50.1.2. 一般撰碼準則](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-GUIDELINES)
 
-    [50.1.3. 授權使用者（使用者對應委派）](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
+  - [50.1.3. 授權使用者（使用者對應委派）](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)
 
-[50.2. 初始化函式](oauth-validator-init.md)
+- [50.2. 初始化函式](oauth-validator-init.md)
 
-[50.3. OAuth 驗證器回呼函式](oauth-validator-callbacks.md)
-:   [50.3.1. 啟動回呼](oauth-validator-callbacks.md#oauth-validator-callback-startup)
+- [50.3. OAuth 驗證器回呼函式](oauth-validator-callbacks.md)
+  - [50.3.1. 啟動回呼](oauth-validator-callbacks.md#oauth-validator-callback-startup)
 
-    [50.3.2. 驗證回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
+  - [50.3.2. 驗證回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-VALIDATE)
 
-    [50.3.3. 關閉回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
+  - [50.3.3. 關閉回呼](oauth-validator-callbacks.md#OAUTH-VALIDATOR-CALLBACK-SHUTDOWN)
 
 <a id="id-1.8.17.2"></a>
 

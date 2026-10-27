@@ -4,39 +4,39 @@
 
 **目錄**
 
-[26.1. 不同解決方案的比較](different-replication-solutions.md)
+- [26.1. 不同解決方案的比較](different-replication-solutions.md)
 
-[26.2. 日誌傳送待命伺服器](warm-standby.md)
-:   [26.2.1. 規劃](warm-standby.md#standby-planning)
+- [26.2. 日誌傳送待命伺服器](warm-standby.md)
+  - [26.2.1. 規劃](warm-standby.md#standby-planning)
 
-    [26.2.2. 待命伺服器運作](warm-standby.md#STANDBY-SERVER-OPERATION)
+  - [26.2.2. 待命伺服器運作](warm-standby.md#STANDBY-SERVER-OPERATION)
 
-    [26.2.3. 為待命伺服器準備主要伺服器](warm-standby.md#PREPARING-PRIMARY-FOR-STANDBY)
+  - [26.2.3. 為待命伺服器準備主要伺服器](warm-standby.md#PREPARING-PRIMARY-FOR-STANDBY)
 
-    [26.2.4. 設定待命伺服器](warm-standby.md#STANDBY-SERVER-SETUP)
+  - [26.2.4. 設定待命伺服器](warm-standby.md#STANDBY-SERVER-SETUP)
 
-    [26.2.5. 串流複寫](warm-standby.md#STREAMING-REPLICATION)
+  - [26.2.5. 串流複寫](warm-standby.md#STREAMING-REPLICATION)
 
-    [26.2.6. 複寫槽](warm-standby.md#STREAMING-REPLICATION-SLOTS)
+  - [26.2.6. 複寫槽](warm-standby.md#STREAMING-REPLICATION-SLOTS)
 
-    [26.2.7. 串接複寫](warm-standby.md#CASCADING-REPLICATION)
+  - [26.2.7. 串接複寫](warm-standby.md#CASCADING-REPLICATION)
 
-    [26.2.8. 同步複寫](warm-standby.md#SYNCHRONOUS-REPLICATION)
+  - [26.2.8. 同步複寫](warm-standby.md#SYNCHRONOUS-REPLICATION)
 
-    [26.2.9. 待命伺服器中的連續封存](warm-standby.md#CONTINUOUS-ARCHIVING-IN-STANDBY)
+  - [26.2.9. 待命伺服器中的連續封存](warm-standby.md#CONTINUOUS-ARCHIVING-IN-STANDBY)
 
-[26.3. 容錯移轉](warm-standby-failover.md)
+- [26.3. 容錯移轉](warm-standby-failover.md)
 
-[26.4. 熱待命](hot-standby.md)
-:   [26.4.1. 使用者總覽](hot-standby.md#hot-standby-users)
+- [26.4. 熱待命](hot-standby.md)
+  - [26.4.1. 使用者總覽](hot-standby.md#hot-standby-users)
 
-    [26.4.2. 處理查詢衝突](hot-standby.md#HOT-STANDBY-CONFLICT)
+  - [26.4.2. 處理查詢衝突](hot-standby.md#HOT-STANDBY-CONFLICT)
 
-    [26.4.3. 管理者總覽](hot-standby.md#HOT-STANDBY-ADMIN)
+  - [26.4.3. 管理者總覽](hot-standby.md#HOT-STANDBY-ADMIN)
 
-    [26.4.4. 熱待命參數參考](hot-standby.md#HOT-STANDBY-PARAMETERS)
+  - [26.4.4. 熱待命參數參考](hot-standby.md#HOT-STANDBY-PARAMETERS)
 
-    [26.4.5. 注意事項](hot-standby.md#HOT-STANDBY-CAVEATS)
+  - [26.4.5. 注意事項](hot-standby.md#HOT-STANDBY-CAVEATS)
 
 <a id="id-1.6.13.2"></a><a id="id-1.6.13.3"></a><a id="id-1.6.13.4"></a><a id="id-1.6.13.5"></a><a id="id-1.6.13.6"></a><a id="id-1.6.13.7"></a>
 

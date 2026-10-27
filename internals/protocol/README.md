@@ -4,61 +4,61 @@
 
 **目錄**
 
-[54.1. 概觀](protocol-overview.md)
-:   [54.1.1. 訊息傳遞概觀](protocol-overview.md#protocol-message-concepts)
+- [54.1. 概觀](protocol-overview.md)
+  - [54.1.1. 訊息傳遞概觀](protocol-overview.md#protocol-message-concepts)
 
-    [54.1.2. 延伸查詢概觀](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
+  - [54.1.2. 延伸查詢概觀](protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)
 
-    [54.1.3. 格式與格式代碼](protocol-overview.md#PROTOCOL-FORMAT-CODES)
+  - [54.1.3. 格式與格式代碼](protocol-overview.md#PROTOCOL-FORMAT-CODES)
 
-    [54.1.4. 協定版本](protocol-overview.md#PROTOCOL-VERSIONS)
+  - [54.1.4. 協定版本](protocol-overview.md#PROTOCOL-VERSIONS)
 
-[54.2. 訊息流程](protocol-flow.md)
-:   [54.2.1. 啟動](protocol-flow.md#protocol-flow-start-up)
+- [54.2. 訊息流程](protocol-flow.md)
+  - [54.2.1. 啟動](protocol-flow.md#protocol-flow-start-up)
 
-    [54.2.2. 簡單查詢](protocol-flow.md#PROTOCOL-FLOW-SIMPLE-QUERY)
+  - [54.2.2. 簡單查詢](protocol-flow.md#PROTOCOL-FLOW-SIMPLE-QUERY)
 
-    [54.2.3. 延伸查詢](protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
+  - [54.2.3. 延伸查詢](protocol-flow.md#PROTOCOL-FLOW-EXT-QUERY)
 
-    [54.2.4. 管線化](protocol-flow.md#PROTOCOL-FLOW-PIPELINING)
+  - [54.2.4. 管線化](protocol-flow.md#PROTOCOL-FLOW-PIPELINING)
 
-    [54.2.5. 函式呼叫](protocol-flow.md#PROTOCOL-FLOW-FUNCTION-CALL)
+  - [54.2.5. 函式呼叫](protocol-flow.md#PROTOCOL-FLOW-FUNCTION-CALL)
 
-    [54.2.6. COPY 操作](protocol-flow.md#PROTOCOL-COPY)
+  - [54.2.6. COPY 操作](protocol-flow.md#PROTOCOL-COPY)
 
-    [54.2.7. 非同步操作](protocol-flow.md#PROTOCOL-ASYNC)
+  - [54.2.7. 非同步操作](protocol-flow.md#PROTOCOL-ASYNC)
 
-    [54.2.8. 取消進行中的請求](protocol-flow.md#PROTOCOL-FLOW-CANCELING-REQUESTS)
+  - [54.2.8. 取消進行中的請求](protocol-flow.md#PROTOCOL-FLOW-CANCELING-REQUESTS)
 
-    [54.2.9. 終止](protocol-flow.md#PROTOCOL-FLOW-TERMINATION)
+  - [54.2.9. 終止](protocol-flow.md#PROTOCOL-FLOW-TERMINATION)
 
-    [54.2.10. SSL 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-SSL)
+  - [54.2.10. SSL 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-SSL)
 
-    [54.2.11. GSSAPI 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-GSSAPI)
+  - [54.2.11. GSSAPI 工作階段加密](protocol-flow.md#PROTOCOL-FLOW-GSSAPI)
 
-[54.3. SASL 認證](sasl-authentication.md)
-:   [54.3.1. SCRAM-SHA-256 認證](sasl-authentication.md#sasl-scram-sha-256)
+- [54.3. SASL 認證](sasl-authentication.md)
+  - [54.3.1. SCRAM-SHA-256 認證](sasl-authentication.md#sasl-scram-sha-256)
 
-    [54.3.2. OAUTHBEARER 認證](sasl-authentication.md#SASL-OAUTHBEARER)
+  - [54.3.2. OAUTHBEARER 認證](sasl-authentication.md#SASL-OAUTHBEARER)
 
-[54.4. 串流複寫協定](protocol-replication.md)
+- [54.4. 串流複寫協定](protocol-replication.md)
 
-[54.5. 邏輯串流複寫協定](protocol-logical-replication.md)
-:   [54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#protocol-logical-replication-params)
+- [54.5. 邏輯串流複寫協定](protocol-logical-replication.md)
+  - [54.5.1. 邏輯串流複寫參數](protocol-logical-replication.md#protocol-logical-replication-params)
 
-    [54.5.2. 邏輯複寫協定訊息](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES)
+  - [54.5.2. 邏輯複寫協定訊息](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES)
 
-    [54.5.3. 邏輯複寫協定訊息流程](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES-FLOW)
+  - [54.5.3. 邏輯複寫協定訊息流程](protocol-logical-replication.md#PROTOCOL-LOGICAL-MESSAGES-FLOW)
 
-[54.6. 訊息資料型別](protocol-message-types.md)
+- [54.6. 訊息資料型別](protocol-message-types.md)
 
-[54.7. 訊息格式](protocol-message-formats.md)
+- [54.7. 訊息格式](protocol-message-formats.md)
 
-[54.8. 錯誤與通知訊息欄位](protocol-error-fields.md)
+- [54.8. 錯誤與通知訊息欄位](protocol-error-fields.md)
 
-[54.9. 邏輯複寫訊息格式](protocol-logicalrep-message-formats.md)
+- [54.9. 邏輯複寫訊息格式](protocol-logicalrep-message-formats.md)
 
-[54.10. 自協定 2.0 以來的變更摘要](protocol-changes.md)
+- [54.10. 自協定 2.0 以來的變更摘要](protocol-changes.md)
 
 <a id="id-1.10.6.2"></a>
 

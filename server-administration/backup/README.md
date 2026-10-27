@@ -4,31 +4,31 @@
 
 **目錄**
 
-[25.1. SQL 傾印](backup-dump.md)
-:   [25.1.1. 還原傾印內容](backup-dump.md#backup-dump-restore)
+- [25.1. SQL 傾印](backup-dump.md)
+  - [25.1.1. 還原傾印內容](backup-dump.md#backup-dump-restore)
 
-    [25.1.2. 使用 pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
+  - [25.1.2. 使用 pg_dumpall](backup-dump.md#BACKUP-DUMP-ALL)
 
-    [25.1.3. 處理大型資料庫](backup-dump.md#BACKUP-DUMP-LARGE)
+  - [25.1.3. 處理大型資料庫](backup-dump.md#BACKUP-DUMP-LARGE)
 
-[25.2. 檔案系統層級備份](backup-file.md)
+- [25.2. 檔案系統層級備份](backup-file.md)
 
-[25.3. 持續歸檔與時間點還原（PITR）](continuous-archiving.md)
-:   [25.3.1. 設定 WAL 歸檔](continuous-archiving.md#backup-archiving-wal)
+- [25.3. 持續歸檔與時間點還原（PITR）](continuous-archiving.md)
+  - [25.3.1. 設定 WAL 歸檔](continuous-archiving.md#backup-archiving-wal)
 
-    [25.3.2. 製作基礎備份](continuous-archiving.md#BACKUP-BASE-BACKUP)
+  - [25.3.2. 製作基礎備份](continuous-archiving.md#BACKUP-BASE-BACKUP)
 
-    [25.3.3. 製作增量備份](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
+  - [25.3.3. 製作增量備份](continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)
 
-    [25.3.4. 使用低階 API 製作基礎備份](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
+  - [25.3.4. 使用低階 API 製作基礎備份](continuous-archiving.md#BACKUP-LOWLEVEL-BASE-BACKUP)
 
-    [25.3.5. 使用持續歸檔備份進行還原](continuous-archiving.md#BACKUP-PITR-RECOVERY)
+  - [25.3.5. 使用持續歸檔備份進行還原](continuous-archiving.md#BACKUP-PITR-RECOVERY)
 
-    [25.3.6. 時間軸](continuous-archiving.md#BACKUP-TIMELINES)
+  - [25.3.6. 時間軸](continuous-archiving.md#BACKUP-TIMELINES)
 
-    [25.3.7. 技巧與範例](continuous-archiving.md#BACKUP-TIPS)
+  - [25.3.7. 技巧與範例](continuous-archiving.md#BACKUP-TIPS)
 
-    [25.3.8. 注意事項](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
+  - [25.3.8. 注意事項](continuous-archiving.md#CONTINUOUS-ARCHIVING-CAVEATS)
 
 <a id="id-1.6.12.2"></a>
 

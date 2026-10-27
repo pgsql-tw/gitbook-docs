@@ -4,40 +4,40 @@
 
 **目錄**
 
-[44.1. PL/Python 函式](plpython-funcs.md)
+- [44.1. PL/Python 函式](plpython-funcs.md)
 
-[44.2. 資料值](plpython-data.md)
-:   [44.2.1. 資料型別對應](plpython-data.md#plpython-data-type-mapping)
+- [44.2. 資料值](plpython-data.md)
+  - [44.2.1. 資料型別對應](plpython-data.md#plpython-data-type-mapping)
 
-    [44.2.2. Null、None](plpython-data.md#PLPYTHON-DATA-NULL)
+  - [44.2.2. Null、None](plpython-data.md#PLPYTHON-DATA-NULL)
 
-    [44.2.3. 陣列、清單](plpython-data.md#PLPYTHON-ARRAYS)
+  - [44.2.3. 陣列、清單](plpython-data.md#PLPYTHON-ARRAYS)
 
-    [44.2.4. 複合型別](plpython-data.md#PLPYTHON-DATA-COMPOSITE-TYPES)
+  - [44.2.4. 複合型別](plpython-data.md#PLPYTHON-DATA-COMPOSITE-TYPES)
 
-    [44.2.5. 回傳集合的函式](plpython-data.md#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+  - [44.2.5. 回傳集合的函式](plpython-data.md#PLPYTHON-DATA-SET-RETURNING-FUNCS)
 
-[44.3. 共享資料](plpython-sharing.md)
+- [44.3. 共享資料](plpython-sharing.md)
 
-[44.4. 匿名程式碼區塊](plpython-do.md)
+- [44.4. 匿名程式碼區塊](plpython-do.md)
 
-[44.5. 觸發程序函式](plpython-trigger.md)
+- [44.5. 觸發程序函式](plpython-trigger.md)
 
-[44.6. 存取資料庫](plpython-database.md)
-:   [44.6.1. 資料庫存取函式](plpython-database.md#plpython-database-access-funcs)
+- [44.6. 存取資料庫](plpython-database.md)
+  - [44.6.1. 資料庫存取函式](plpython-database.md#plpython-database-access-funcs)
 
-    [44.6.2. 攔截錯誤](plpython-database.md#PLPYTHON-TRAPPING)
+  - [44.6.2. 攔截錯誤](plpython-database.md#PLPYTHON-TRAPPING)
 
-[44.7. 明確子交易](plpython-subtransaction.md)
-:   [44.7.1. 子交易情境管理器](plpython-subtransaction.md#plpython-subtransaction-context-managers)
+- [44.7. 明確子交易](plpython-subtransaction.md)
+  - [44.7.1. 子交易情境管理器](plpython-subtransaction.md#plpython-subtransaction-context-managers)
 
-[44.8. 交易管理](plpython-transactions.md)
+- [44.8. 交易管理](plpython-transactions.md)
 
-[44.9. 公用函式](plpython-util.md)
+- [44.9. 公用函式](plpython-util.md)
 
-[44.10. Python 2 與 Python 3 的差異](plpython-python23.md)
+- [44.10. Python 2 與 Python 3 的差異](plpython-python23.md)
 
-[44.11. 環境變數](plpython-envar.md)
+- [44.11. 環境變數](plpython-envar.md)
 
 <a id="id-1.8.11.2"></a><a id="id-1.8.11.3"></a>
 

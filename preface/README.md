@@ -4,25 +4,25 @@
 
 **目錄**
 
-[1. 什麼是 PostgreSQL？](intro-whatis.md)
+- [1. 什麼是 PostgreSQL？](intro-whatis.md)
 
-[2. PostgreSQL 簡史](history.md)
-:   [2.1. 柏克萊 POSTGRES 專案](history.md#history-berkeley)
+- [2. PostgreSQL 簡史](history.md)
+  - [2.1. 柏克萊 POSTGRES 專案](history.md#history-berkeley)
 
-    [2.2. Postgres95](history.md#HISTORY-POSTGRES95)
+  - [2.2. Postgres95](history.md#HISTORY-POSTGRES95)
 
-    [2.3. PostgreSQL](history.md#HISTORY-POSTGRESQL)
+  - [2.3. PostgreSQL](history.md#HISTORY-POSTGRESQL)
 
-[3. 慣例](notation.md)
+- [3. 慣例](notation.md)
 
-[4. 更多資訊](resources.md)
+- [4. 更多資訊](resources.md)
 
-[5. 錯誤回報指引](bug-reporting.md)
-:   [5.1. 辨識錯誤](bug-reporting.md#bug-reporting-identifying-bugs)
+- [5. 錯誤回報指引](bug-reporting.md)
+  - [5.1. 辨識錯誤](bug-reporting.md#bug-reporting-identifying-bugs)
 
-    [5.2. 回報哪些內容](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
+  - [5.2. 回報哪些內容](bug-reporting.md#BUG-REPORTING-WHAT-TO-REPORT)
 
-    [5.3. 在哪裡回報錯誤](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
+  - [5.3. 在哪裡回報錯誤](bug-reporting.md#BUG-REPORTING-WHERE-TO-REPORT-BUGS)
 
 本書是 PostgreSQL 的官方文件。本書由 PostgreSQL 開發人員與其他志工撰寫，與 PostgreSQL 軟體的開發同步進行。本書說明目前版本的 PostgreSQL 正式支援的所有功能。
 

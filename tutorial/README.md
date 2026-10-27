@@ -8,48 +8,48 @@
 
 **目錄**
 
-[1. 入門](tutorial-start/README.md)
-:   [1.1. 安裝](tutorial-start/tutorial-install.md)
+- [1. 入門](tutorial-start/README.md)
+  - [1.1. 安裝](tutorial-start/tutorial-install.md)
 
-    [1.2. 架構基礎](tutorial-start/tutorial-arch.md)
+  - [1.2. 架構基礎](tutorial-start/tutorial-arch.md)
 
-    [1.3. 建立資料庫](tutorial-start/tutorial-createdb.md)
+  - [1.3. 建立資料庫](tutorial-start/tutorial-createdb.md)
 
-    [1.4. 存取資料庫](tutorial-start/tutorial-accessdb.md)
+  - [1.4. 存取資料庫](tutorial-start/tutorial-accessdb.md)
 
-[2. SQL 語言](tutorial-sql/README.md)
-:   [2.1. 簡介](tutorial-sql/tutorial-sql-intro.md)
+- [2. SQL 語言](tutorial-sql/README.md)
+  - [2.1. 簡介](tutorial-sql/tutorial-sql-intro.md)
 
-    [2.2. 概念](tutorial-sql/tutorial-concepts.md)
+  - [2.2. 概念](tutorial-sql/tutorial-concepts.md)
 
-    [2.3. 建立新資料表](tutorial-sql/tutorial-table.md)
+  - [2.3. 建立新資料表](tutorial-sql/tutorial-table.md)
 
-    [2.4. 將資料列加入資料表](tutorial-sql/tutorial-populate.md)
+  - [2.4. 將資料列加入資料表](tutorial-sql/tutorial-populate.md)
 
-    [2.5. 查詢資料表](tutorial-sql/tutorial-select.md)
+  - [2.5. 查詢資料表](tutorial-sql/tutorial-select.md)
 
-    [2.6. 資料表之間的聯結（JOIN）](tutorial-sql/tutorial-join.md)
+  - [2.6. 資料表之間的聯結（JOIN）](tutorial-sql/tutorial-join.md)
 
-    [2.7. 彙總函式](tutorial-sql/tutorial-agg.md)
+  - [2.7. 彙總函式](tutorial-sql/tutorial-agg.md)
 
-    [2.8. 更新](tutorial-sql/tutorial-update.md)
+  - [2.8. 更新](tutorial-sql/tutorial-update.md)
 
-    [2.9. 刪除](tutorial-sql/tutorial-delete.md)
+  - [2.9. 刪除](tutorial-sql/tutorial-delete.md)
 
-[3. 進階功能](tutorial-advanced/README.md)
-:   [3.1. 簡介](tutorial-advanced/tutorial-advanced-intro.md)
+- [3. 進階功能](tutorial-advanced/README.md)
+  - [3.1. 簡介](tutorial-advanced/tutorial-advanced-intro.md)
 
-    [3.2. 檢視表](tutorial-advanced/tutorial-views.md)
+  - [3.2. 檢視表](tutorial-advanced/tutorial-views.md)
 
-    [3.3. 外部索引鍵](tutorial-advanced/tutorial-fk.md)
+  - [3.3. 外部索引鍵](tutorial-advanced/tutorial-fk.md)
 
-    [3.4. 交易](tutorial-advanced/tutorial-transactions.md)
+  - [3.4. 交易](tutorial-advanced/tutorial-transactions.md)
 
-    [3.5. Window 函式](tutorial-advanced/tutorial-window.md)
+  - [3.5. Window 函式](tutorial-advanced/tutorial-window.md)
 
-    [3.6. 繼承](tutorial-advanced/tutorial-inheritance.md)
+  - [3.6. 繼承](tutorial-advanced/tutorial-inheritance.md)
 
-    [3.7. 結語](tutorial-advanced/tutorial-conclusion.md)
+  - [3.7. 結語](tutorial-advanced/tutorial-conclusion.md)
 
 ---
 

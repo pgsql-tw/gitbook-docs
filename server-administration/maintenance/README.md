@@ -4,22 +4,22 @@
 
 **目錄**
 
-[24.1. 常規 VACUUM 作業](routine-vacuuming.md)
-:   [24.1.1. VACUUM 基礎知識](routine-vacuuming.md#vacuum-basics)
+- [24.1. 常規 VACUUM 作業](routine-vacuuming.md)
+  - [24.1.1. VACUUM 基礎知識](routine-vacuuming.md#vacuum-basics)
 
-    [24.1.2. 回收磁碟空間](routine-vacuuming.md#VACUUM-FOR-SPACE-RECOVERY)
+  - [24.1.2. 回收磁碟空間](routine-vacuuming.md#VACUUM-FOR-SPACE-RECOVERY)
 
-    [24.1.3. 更新規劃器統計資訊](routine-vacuuming.md#VACUUM-FOR-STATISTICS)
+  - [24.1.3. 更新規劃器統計資訊](routine-vacuuming.md#VACUUM-FOR-STATISTICS)
 
-    [24.1.4. 更新可見性對照表](routine-vacuuming.md#VACUUM-FOR-VISIBILITY-MAP)
+  - [24.1.4. 更新可見性對照表](routine-vacuuming.md#VACUUM-FOR-VISIBILITY-MAP)
 
-    [24.1.5. 避免交易 ID 回卷失敗](routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)
+  - [24.1.5. 避免交易 ID 回卷失敗](routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)
 
-    [24.1.6. Autovacuum 常駐程序](routine-vacuuming.md#AUTOVACUUM)
+  - [24.1.6. Autovacuum 常駐程序](routine-vacuuming.md#AUTOVACUUM)
 
-[24.2. 常規重新索引](routine-reindex.md)
+- [24.2. 常規重新索引](routine-reindex.md)
 
-[24.3. 日誌檔維護](logfile-maintenance.md)
+- [24.3. 日誌檔維護](logfile-maintenance.md)
 
 <a id="id-1.6.11.2"></a><a id="id-1.6.11.3"></a>
 

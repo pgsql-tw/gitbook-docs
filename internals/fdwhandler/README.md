@@ -4,38 +4,38 @@
 
 **目錄**
 
-[58.1. 外部資料包裝器函式](fdw-functions.md)
+- [58.1. 外部資料包裝器函式](fdw-functions.md)
 
-[58.2. 外部資料包裝器回呼常式](fdw-callbacks.md)
-:   [58.2.1. 掃描外部資料表的 FDW 常式](fdw-callbacks.md#fdw-callbacks-scan)
+- [58.2. 外部資料包裝器回呼常式](fdw-callbacks.md)
+  - [58.2.1. 掃描外部資料表的 FDW 常式](fdw-callbacks.md#fdw-callbacks-scan)
 
-    [58.2.2. 掃描外部資料表連接的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-JOIN-SCAN)
+  - [58.2.2. 掃描外部資料表連接的 FDW 函式](fdw-callbacks.md#FDW-CALLBACKS-JOIN-SCAN)
 
-    [58.2.3. 規劃掃描／連接後處理的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-UPPER-PLANNING)
+  - [58.2.3. 規劃掃描／連接後處理的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-UPPER-PLANNING)
 
-    [58.2.4. 更新外部資料表的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-UPDATE)
+  - [58.2.4. 更新外部資料表的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-UPDATE)
 
-    [58.2.5. `TRUNCATE` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-TRUNCATE)
+  - [58.2.5. `TRUNCATE` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-TRUNCATE)
 
-    [58.2.6. 資料列鎖定的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)
+  - [58.2.6. 資料列鎖定的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-ROW-LOCKING)
 
-    [58.2.7. `EXPLAIN` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-EXPLAIN)
+  - [58.2.7. `EXPLAIN` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-EXPLAIN)
 
-    [58.2.8. `ANALYZE` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-ANALYZE)
+  - [58.2.8. `ANALYZE` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-ANALYZE)
 
-    [58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-IMPORT)
+  - [58.2.9. `IMPORT FOREIGN SCHEMA` 的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-IMPORT)
 
-    [58.2.10. 平行執行的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-PARALLEL)
+  - [58.2.10. 平行執行的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-PARALLEL)
 
-    [58.2.11. 非同步執行的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-ASYNC)
+  - [58.2.11. 非同步執行的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-ASYNC)
 
-    [58.2.12. 路徑重新參數化的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
+  - [58.2.12. 路徑重新參數化的 FDW 常式](fdw-callbacks.md#FDW-CALLBACKS-REPARAMETERIZE-PATHS)
 
-[58.3. 外部資料包裝器輔助函式](fdw-helpers.md)
+- [58.3. 外部資料包裝器輔助函式](fdw-helpers.md)
 
-[58.4. 外部資料包裝器查詢規劃](fdw-planning.md)
+- [58.4. 外部資料包裝器查詢規劃](fdw-planning.md)
 
-[58.5. 外部資料包裝器中的資料列鎖定](fdw-row-locking.md)
+- [58.5. 外部資料包裝器中的資料列鎖定](fdw-row-locking.md)
 
 <a id="id-1.10.10.2"></a>
 

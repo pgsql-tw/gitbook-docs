@@ -4,46 +4,46 @@
 
 **目錄**
 
-[47.1. 邏輯解碼範例](logicaldecoding-example.md)
+- [47.1. 邏輯解碼範例](logicaldecoding-example.md)
 
-[47.2. 邏輯解碼的概念](logicaldecoding-explanation.md)
-:   [47.2.1. 邏輯解碼](logicaldecoding-explanation.md#logicaldecoding-explanation-log-dec)
+- [47.2. 邏輯解碼的概念](logicaldecoding-explanation.md)
+  - [47.2.1. 邏輯解碼](logicaldecoding-explanation.md#logicaldecoding-explanation-log-dec)
 
-    [47.2.2. 複寫插槽](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS)
+  - [47.2.2. 複寫插槽](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS)
 
-    [47.2.3. 複寫插槽同步](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
+  - [47.2.3. 複寫插槽同步](logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)
 
-    [47.2.4. 輸出外掛程式](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
+  - [47.2.4. 輸出外掛程式](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS)
 
-    [47.2.5. 匯出的快照](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
+  - [47.2.5. 匯出的快照](logicaldecoding-explanation.md#LOGICALDECODING-EXPLANATION-EXPORTED-SNAPSHOTS)
 
-[47.3. 串流複寫協定介面](logicaldecoding-walsender.md)
+- [47.3. 串流複寫協定介面](logicaldecoding-walsender.md)
 
-[47.4. 邏輯解碼 SQL 介面](logicaldecoding-sql.md)
+- [47.4. 邏輯解碼 SQL 介面](logicaldecoding-sql.md)
 
-[47.5. 與邏輯解碼相關的系統目錄](logicaldecoding-catalogs.md)
+- [47.5. 與邏輯解碼相關的系統目錄](logicaldecoding-catalogs.md)
 
-[47.6. 邏輯解碼輸出外掛程式](logicaldecoding-output-plugin.md)
-:   [47.6.1. 初始化函式](logicaldecoding-output-plugin.md#logicaldecoding-output-init)
+- [47.6. 邏輯解碼輸出外掛程式](logicaldecoding-output-plugin.md)
+  - [47.6.1. 初始化函式](logicaldecoding-output-plugin.md#logicaldecoding-output-init)
 
-    [47.6.2. 功能](logicaldecoding-output-plugin.md#LOGICALDECODING-CAPABILITIES)
+  - [47.6.2. 功能](logicaldecoding-output-plugin.md#LOGICALDECODING-CAPABILITIES)
 
-    [47.6.3. 輸出模式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-MODE)
+  - [47.6.3. 輸出模式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-MODE)
 
-    [47.6.4. 輸出外掛程式回呼函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-CALLBACKS)
+  - [47.6.4. 輸出外掛程式回呼函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-CALLBACKS)
 
-    [47.6.5. 用於產生輸出的函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-OUTPUT)
+  - [47.6.5. 用於產生輸出的函式](logicaldecoding-output-plugin.md#LOGICALDECODING-OUTPUT-PLUGIN-OUTPUT)
 
-[47.7. 邏輯解碼輸出寫入器](logicaldecoding-writer.md)
+- [47.7. 邏輯解碼輸出寫入器](logicaldecoding-writer.md)
 
-[47.8. 邏輯解碼的同步複寫支援](logicaldecoding-synchronous.md)
-:   [47.8.1. 概觀](logicaldecoding-synchronous.md#logicaldecoding-synchronous-overview)
+- [47.8. 邏輯解碼的同步複寫支援](logicaldecoding-synchronous.md)
+  - [47.8.1. 概觀](logicaldecoding-synchronous.md#logicaldecoding-synchronous-overview)
 
-    [47.8.2. 注意事項](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS)
+  - [47.8.2. 注意事項](logicaldecoding-synchronous.md#LOGICALDECODING-SYNCHRONOUS-CAVEATS)
 
-[47.9. 邏輯解碼的大型交易串流](logicaldecoding-streaming.md)
+- [47.9. 邏輯解碼的大型交易串流](logicaldecoding-streaming.md)
 
-[47.10. 邏輯解碼的兩階段提交支援](logicaldecoding-two-phase-commits.md)
+- [47.10. 邏輯解碼的兩階段提交支援](logicaldecoding-two-phase-commits.md)
 
 <a id="id-1.8.14.2"></a>
 

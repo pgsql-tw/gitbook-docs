@@ -4,36 +4,36 @@
 
 **目錄**
 
-[33.1. 簡介](lo-intro.md)
+- [33.1. 簡介](lo-intro.md)
 
-[33.2. 實作特性](lo-implementation.md)
+- [33.2. 實作特性](lo-implementation.md)
 
-[33.3. 用戶端介面](lo-interfaces.md)
-:   [33.3.1. 建立大型物件](lo-interfaces.md#lo-create)
+- [33.3. 用戶端介面](lo-interfaces.md)
+  - [33.3.1. 建立大型物件](lo-interfaces.md#lo-create)
 
-    [33.3.2. 匯入大型物件](lo-interfaces.md#LO-IMPORT)
+  - [33.3.2. 匯入大型物件](lo-interfaces.md#LO-IMPORT)
 
-    [33.3.3. 匯出大型物件](lo-interfaces.md#LO-EXPORT)
+  - [33.3.3. 匯出大型物件](lo-interfaces.md#LO-EXPORT)
 
-    [33.3.4. 開啟既有的大型物件](lo-interfaces.md#LO-OPEN)
+  - [33.3.4. 開啟既有的大型物件](lo-interfaces.md#LO-OPEN)
 
-    [33.3.5. 將資料寫入大型物件](lo-interfaces.md#LO-WRITE)
+  - [33.3.5. 將資料寫入大型物件](lo-interfaces.md#LO-WRITE)
 
-    [33.3.6. 從大型物件讀取資料](lo-interfaces.md#LO-READ)
+  - [33.3.6. 從大型物件讀取資料](lo-interfaces.md#LO-READ)
 
-    [33.3.7. 在大型物件中移動位置](lo-interfaces.md#LO-SEEK)
+  - [33.3.7. 在大型物件中移動位置](lo-interfaces.md#LO-SEEK)
 
-    [33.3.8. 取得大型物件的目前位置](lo-interfaces.md#LO-TELL)
+  - [33.3.8. 取得大型物件的目前位置](lo-interfaces.md#LO-TELL)
 
-    [33.3.9. 截斷大型物件](lo-interfaces.md#LO-TRUNCATE)
+  - [33.3.9. 截斷大型物件](lo-interfaces.md#LO-TRUNCATE)
 
-    [33.3.10. 關閉大型物件描述子](lo-interfaces.md#LO-CLOSE)
+  - [33.3.10. 關閉大型物件描述子](lo-interfaces.md#LO-CLOSE)
 
-    [33.3.11. 移除大型物件](lo-interfaces.md#LO-UNLINK)
+  - [33.3.11. 移除大型物件](lo-interfaces.md#LO-UNLINK)
 
-[33.4. 伺服器端函式](lo-funcs.md)
+- [33.4. 伺服器端函式](lo-funcs.md)
 
-[33.5. 範例程式](lo-examplesect.md)
+- [33.5. 範例程式](lo-examplesect.md)
 
 <a id="id-1.7.4.2"></a><a id="id-1.7.4.3"></a>
 
