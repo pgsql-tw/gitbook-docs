@@ -9,7 +9,7 @@
 - [61.3. PostgreSQL 中的遺傳式查詢最佳化（GEQO）](geqo-pg-intro.md)
   - [61.3.1. 以 GEQO 產生可能的計畫](geqo-pg-intro.md#geqo-pg-intro-gen-possible-plans)
 
-  - [61.3.2. PostgreSQL GEQO 未來的實作工作](geqo-pg-intro.md#GEQO-FUTURE)
+  - [61.3.2. PostgreSQL GEQO 未來的實作工作](geqo-pg-intro.md#geqo-future)
 
 - [61.4. 延伸閱讀](geqo-biblio.md)
 

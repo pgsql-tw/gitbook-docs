@@ -9,18 +9,18 @@
 - [39.2. 檢視表與規則系統](rules-views.md)
   - [39.2.1. `SELECT` 規則如何運作](rules-views.md#rules-select)
 
-  - [39.2.2. 非 `SELECT` 陳述式中的檢視表規則](rules-views.md#RULES-VIEWS-NON-SELECT)
+  - [39.2.2. 非 `SELECT` 陳述式中的檢視表規則](rules-views.md#rules-views-non-select)
 
-  - [39.2.3. PostgreSQL 中檢視表的威力](rules-views.md#RULES-VIEWS-POWER)
+  - [39.2.3. PostgreSQL 中檢視表的威力](rules-views.md#rules-views-power)
 
-  - [39.2.4. 更新檢視表](rules-views.md#RULES-VIEWS-UPDATE)
+  - [39.2.4. 更新檢視表](rules-views.md#rules-views-update)
 
 - [39.3. 具體化檢視表](rules-materializedviews.md)
 
 - [39.4. `INSERT`、`UPDATE` 與 `DELETE` 上的規則](rules-update.md)
   - [39.4.1. 更新規則如何運作](rules-update.md#rules-update-how)
 
-  - [39.4.2. 與檢視表的搭配](rules-update.md#RULES-UPDATE-VIEWS)
+  - [39.4.2. 與檢視表的搭配](rules-update.md#rules-update-views)
 
 - [39.5. 規則與權限](rules-privileges.md)
 

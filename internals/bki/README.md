@@ -9,13 +9,13 @@
 - [68.2. 系統目錄初始資料](system-catalog-initial-data.md)
   - [68.2.1. 資料檔格式](system-catalog-initial-data.md#system-catalog-initial-data-format)
 
-  - [68.2.2. OID 指派](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-ASSIGNMENT)
+  - [68.2.2. OID 指派](system-catalog-initial-data.md#system-catalog-oid-assignment)
 
-  - [68.2.3. OID 參照查找](system-catalog-initial-data.md#SYSTEM-CATALOG-OID-REFERENCES)
+  - [68.2.3. OID 參照查找](system-catalog-initial-data.md#system-catalog-oid-references)
 
-  - [68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#SYSTEM-CATALOG-AUTO-ARRAY-TYPES)
+  - [68.2.4. 自動建立陣列型別](system-catalog-initial-data.md#system-catalog-auto-array-types)
 
-  - [68.2.5. 編輯資料檔的作法](system-catalog-initial-data.md#SYSTEM-CATALOG-RECIPES)
+  - [68.2.5. 編輯資料檔的作法](system-catalog-initial-data.md#system-catalog-recipes)
 
 - [68.3. BKI 檔案格式](bki-format.md)
 

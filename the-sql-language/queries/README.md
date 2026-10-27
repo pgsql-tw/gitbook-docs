@@ -7,20 +7,20 @@
 - [7.2. 資料表運算式](queries-table-expressions.md)
   - [7.2.1. `FROM` 子句](queries-table-expressions.md#queries-from)
 
-  - [7.2.2. `WHERE` 子句](queries-table-expressions.md#QUERIES-WHERE)
+  - [7.2.2. `WHERE` 子句](queries-table-expressions.md#queries-where)
 
-  - [7.2.3. `GROUP BY` 與 `HAVING` 子句](queries-table-expressions.md#QUERIES-GROUP)
+  - [7.2.3. `GROUP BY` 與 `HAVING` 子句](queries-table-expressions.md#queries-group)
 
-  - [7.2.4. `GROUPING SETS`、`CUBE` 與 `ROLLUP`](queries-table-expressions.md#QUERIES-GROUPING-SETS)
+  - [7.2.4. `GROUPING SETS`、`CUBE` 與 `ROLLUP`](queries-table-expressions.md#queries-grouping-sets)
 
-  - [7.2.5. Window 函式的處理](queries-table-expressions.md#QUERIES-WINDOW)
+  - [7.2.5. Window 函式的處理](queries-table-expressions.md#queries-window)
 
 - [7.3. 選取清單](queries-select-lists.md)
   - [7.3.1. 選取清單項目](queries-select-lists.md#queries-select-list-items)
 
-  - [7.3.2. 欄位標籤](queries-select-lists.md#QUERIES-COLUMN-LABELS)
+  - [7.3.2. 欄位標籤](queries-select-lists.md#queries-column-labels)
 
-  - [7.3.3. `DISTINCT`](queries-select-lists.md#QUERIES-DISTINCT)
+  - [7.3.3. `DISTINCT`](queries-select-lists.md#queries-distinct)
 
 - [7.4. 組合查詢（`UNION`、`INTERSECT`、`EXCEPT`）](queries-union.md)
 
@@ -33,11 +33,11 @@
 - [7.8. `WITH` 查詢（通用資料表運算式）](queries-with.md)
   - [7.8.1. `WITH` 中的 `SELECT`](queries-with.md#queries-with-select)
 
-  - [7.8.2. 遞迴查詢](queries-with.md#QUERIES-WITH-RECURSIVE)
+  - [7.8.2. 遞迴查詢](queries-with.md#queries-with-recursive)
 
-  - [7.8.3. 通用資料表運算式的具體化](queries-with.md#QUERIES-WITH-CTE-MATERIALIZATION)
+  - [7.8.3. 通用資料表運算式的具體化](queries-with.md#queries-with-cte-materialization)
 
-  - [7.8.4. `WITH` 中的資料修改陳述式](queries-with.md#QUERIES-WITH-MODIFYING)
+  - [7.8.4. `WITH` 中的資料修改陳述式](queries-with.md#queries-with-modifying)
 
 <a id="id-1.5.6.2"></a><a id="id-1.5.6.3"></a>
 

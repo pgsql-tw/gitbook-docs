@@ -7,36 +7,36 @@
 - [E.1. 18.6 版](release-18-6.md)
   - [E.1.1. 遷移至 18.6 版](release-18-6.md#release-18-6-migration)
 
-  - [E.1.2. 變更內容](release-18-6.md#RELEASE-18-6-CHANGES)
+  - [E.1.2. 變更內容](release-18-6.md#release-18-6-changes)
 
 - [E.2. 18.4 版](release-18-4.md)
   - [E.2.1. 遷移至 18.4 版](release-18-4.md#release-18-4-migration)
 
-  - [E.2.2. 變更內容](release-18-4.md#RELEASE-18-4-CHANGES)
+  - [E.2.2. 變更內容](release-18-4.md#release-18-4-changes)
 
 - [E.3. 18.3 版](release-18-3.md)
   - [E.3.1. 遷移至 18.3 版](release-18-3.md#release-18-3-migration)
 
-  - [E.3.2. 變更內容](release-18-3.md#RELEASE-18-3-CHANGES)
+  - [E.3.2. 變更內容](release-18-3.md#release-18-3-changes)
 
 - [E.4. 18.2 版](release-18-2.md)
   - [E.4.1. 遷移至 18.2 版](release-18-2.md#release-18-2-migration)
 
-  - [E.4.2. 變更內容](release-18-2.md#RELEASE-18-2-CHANGES)
+  - [E.4.2. 變更內容](release-18-2.md#release-18-2-changes)
 
 - [E.5. 18.1 版](release-18-1.md)
   - [E.5.1. 遷移至 18.1 版](release-18-1.md#release-18-1-migration)
 
-  - [E.5.2. 變更內容](release-18-1.md#RELEASE-18-1-CHANGES)
+  - [E.5.2. 變更內容](release-18-1.md#release-18-1-changes)
 
 - [E.6. 18 版](release-18.md)
   - [E.6.1. 概覽](release-18.md#release-18-highlights)
 
-  - [E.6.2. 遷移至 18 版](release-18.md#RELEASE-18-MIGRATION)
+  - [E.6.2. 遷移至 18 版](release-18.md#release-18-migration)
 
-  - [E.6.3. 變更內容](release-18.md#RELEASE-18-CHANGES)
+  - [E.6.3. 變更內容](release-18.md#release-18-changes)
 
-  - [E.6.4. 致謝](release-18.md#RELEASE-18-ACKNOWLEDGEMENTS)
+  - [E.6.4. 致謝](release-18.md#release-18-acknowledgements)
 
 - [E.7. 先前的版本](release-prior.md)
 

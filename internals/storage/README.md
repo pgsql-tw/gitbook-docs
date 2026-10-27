@@ -7,7 +7,7 @@
 - [66.2. TOAST](storage-toast.md)
   - [66.2.1. 資料列外的磁碟 TOAST 儲存](storage-toast.md#storage-toast-ondisk)
 
-  - [66.2.2. 資料列外的記憶體 TOAST 儲存](storage-toast.md#STORAGE-TOAST-INMEMORY)
+  - [66.2.2. 資料列外的記憶體 TOAST 儲存](storage-toast.md#storage-toast-inmemory)
 
 - [66.3. 可用空間對應表](storage-fsm.md)
 

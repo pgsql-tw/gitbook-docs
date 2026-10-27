@@ -7,9 +7,9 @@
 - [69.2. 多變量統計資訊範例](multivariate-statistics-examples.md)
   - [69.2.1. Functional Dependencies](multivariate-statistics-examples.md#functional-dependencies)
 
-  - [69.2.2. Multivariate N-Distinct Counts](multivariate-statistics-examples.md#MULTIVARIATE-NDISTINCT-COUNTS)
+  - [69.2.2. Multivariate N-Distinct Counts](multivariate-statistics-examples.md#multivariate-ndistinct-counts)
 
-  - [69.2.3. MCV Lists](multivariate-statistics-examples.md#MCV-LISTS)
+  - [69.2.3. MCV Lists](multivariate-statistics-examples.md#mcv-lists)
 
 - [69.3. 規劃器統計資訊與安全性](planner-stats-security.md)
 

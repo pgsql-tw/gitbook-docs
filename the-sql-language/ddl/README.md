@@ -15,34 +15,34 @@
 - [5.5. 限制條件](ddl-constraints.md)
   - [5.5.1. 檢查限制條件](ddl-constraints.md#ddl-constraints-check-constraints)
 
-  - [5.5.2. 非空值限制條件](ddl-constraints.md#DDL-CONSTRAINTS-NOT-NULL)
+  - [5.5.2. 非空值限制條件](ddl-constraints.md#ddl-constraints-not-null)
 
-  - [5.5.3. 唯一限制條件](ddl-constraints.md#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS)
+  - [5.5.3. 唯一限制條件](ddl-constraints.md#ddl-constraints-unique-constraints)
 
-  - [5.5.4. 主鍵](ddl-constraints.md#DDL-CONSTRAINTS-PRIMARY-KEYS)
+  - [5.5.4. 主鍵](ddl-constraints.md#ddl-constraints-primary-keys)
 
-  - [5.5.5. 外鍵](ddl-constraints.md#DDL-CONSTRAINTS-FK)
+  - [5.5.5. 外鍵](ddl-constraints.md#ddl-constraints-fk)
 
-  - [5.5.6. 排除限制條件](ddl-constraints.md#DDL-CONSTRAINTS-EXCLUSION)
+  - [5.5.6. 排除限制條件](ddl-constraints.md#ddl-constraints-exclusion)
 
 - [5.6. 系統欄位](ddl-system-columns.md)
 
 - [5.7. 修改資料表](ddl-alter.md)
   - [5.7.1. 新增欄位](ddl-alter.md#ddl-alter-adding-a-column)
 
-  - [5.7.2. 移除欄位](ddl-alter.md#DDL-ALTER-REMOVING-A-COLUMN)
+  - [5.7.2. 移除欄位](ddl-alter.md#ddl-alter-removing-a-column)
 
-  - [5.7.3. 新增限制條件](ddl-alter.md#DDL-ALTER-ADDING-A-CONSTRAINT)
+  - [5.7.3. 新增限制條件](ddl-alter.md#ddl-alter-adding-a-constraint)
 
-  - [5.7.4. 移除限制條件](ddl-alter.md#DDL-ALTER-REMOVING-A-CONSTRAINT)
+  - [5.7.4. 移除限制條件](ddl-alter.md#ddl-alter-removing-a-constraint)
 
-  - [5.7.5. 變更欄位的預設值](ddl-alter.md#DDL-ALTER-COLUMN-DEFAULT)
+  - [5.7.5. 變更欄位的預設值](ddl-alter.md#ddl-alter-column-default)
 
-  - [5.7.6. 變更欄位的資料型別](ddl-alter.md#DDL-ALTER-COLUMN-TYPE)
+  - [5.7.6. 變更欄位的資料型別](ddl-alter.md#ddl-alter-column-type)
 
-  - [5.7.7. 重新命名欄位](ddl-alter.md#DDL-ALTER-RENAMING-COLUMN)
+  - [5.7.7. 重新命名欄位](ddl-alter.md#ddl-alter-renaming-column)
 
-  - [5.7.8. 重新命名資料表](ddl-alter.md#DDL-ALTER-RENAMING-TABLE)
+  - [5.7.8. 重新命名資料表](ddl-alter.md#ddl-alter-renaming-table)
 
 - [5.8. 權限](ddl-priv.md)
 
@@ -51,17 +51,17 @@
 - [5.10. 綱要](ddl-schemas.md)
   - [5.10.1. 建立綱要](ddl-schemas.md#ddl-schemas-create)
 
-  - [5.10.2. public 綱要](ddl-schemas.md#DDL-SCHEMAS-PUBLIC)
+  - [5.10.2. public 綱要](ddl-schemas.md#ddl-schemas-public)
 
-  - [5.10.3. 綱要搜尋路徑](ddl-schemas.md#DDL-SCHEMAS-PATH)
+  - [5.10.3. 綱要搜尋路徑](ddl-schemas.md#ddl-schemas-path)
 
-  - [5.10.4. 綱要與權限](ddl-schemas.md#DDL-SCHEMAS-PRIV)
+  - [5.10.4. 綱要與權限](ddl-schemas.md#ddl-schemas-priv)
 
-  - [5.10.5. 系統目錄綱要](ddl-schemas.md#DDL-SCHEMAS-CATALOG)
+  - [5.10.5. 系統目錄綱要](ddl-schemas.md#ddl-schemas-catalog)
 
-  - [5.10.6. 使用模式](ddl-schemas.md#DDL-SCHEMAS-PATTERNS)
+  - [5.10.6. 使用模式](ddl-schemas.md#ddl-schemas-patterns)
 
-  - [5.10.7. 可攜性](ddl-schemas.md#DDL-SCHEMAS-PORTABILITY)
+  - [5.10.7. 可攜性](ddl-schemas.md#ddl-schemas-portability)
 
 - [5.11. 繼承](ddl-inherit.md)
   - [5.11.1. 注意事項](ddl-inherit.md#ddl-inherit-caveats)
@@ -69,15 +69,15 @@
 - [5.12. 資料表分割](ddl-partitioning.md)
   - [5.12.1. 概觀](ddl-partitioning.md#ddl-partitioning-overview)
 
-  - [5.12.2. 宣告式分割](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE)
+  - [5.12.2. 宣告式分割](ddl-partitioning.md#ddl-partitioning-declarative)
 
-  - [5.12.3. 使用繼承進行分割](ddl-partitioning.md#DDL-PARTITIONING-USING-INHERITANCE)
+  - [5.12.3. 使用繼承進行分割](ddl-partitioning.md#ddl-partitioning-using-inheritance)
 
-  - [5.12.4. 分割區修剪](ddl-partitioning.md#DDL-PARTITION-PRUNING)
+  - [5.12.4. 分割區修剪](ddl-partitioning.md#ddl-partition-pruning)
 
-  - [5.12.5. 分割與限制條件排除](ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)
+  - [5.12.5. 分割與限制條件排除](ddl-partitioning.md#ddl-partitioning-constraint-exclusion)
 
-  - [5.12.6. 宣告式分割的最佳實務](ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE-BEST-PRACTICES)
+  - [5.12.6. 宣告式分割的最佳實務](ddl-partitioning.md#ddl-partitioning-declarative-best-practices)
 
 - [5.13. 外部資料](ddl-foreign-data.md)
 

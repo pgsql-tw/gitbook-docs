@@ -7,33 +7,33 @@
 - [23.1. 區域設定支援](locale.md)
   - [23.1.1. 概觀](locale.md#locale-overview)
 
-  - [23.1.2. 行為](locale.md#LOCALE-BEHAVIOR)
+  - [23.1.2. 行為](locale.md#locale-behavior)
 
-  - [23.1.3. 選擇區域設定](locale.md#LOCALE-SELECTING-LOCALES)
+  - [23.1.3. 選擇區域設定](locale.md#locale-selecting-locales)
 
-  - [23.1.4. 區域設定提供者](locale.md#LOCALE-PROVIDERS)
+  - [23.1.4. 區域設定提供者](locale.md#locale-providers)
 
-  - [23.1.5. ICU 區域設定](locale.md#ICU-LOCALES)
+  - [23.1.5. ICU 區域設定](locale.md#icu-locales)
 
-  - [23.1.6. 問題](locale.md#LOCALE-PROBLEMS)
+  - [23.1.6. 問題](locale.md#locale-problems)
 
 - [23.2. 定序支援](collation.md)
   - [23.2.1. 概念](collation.md#collation-concepts)
 
-  - [23.2.2. 管理定序](collation.md#COLLATION-MANAGING)
+  - [23.2.2. 管理定序](collation.md#collation-managing)
 
-  - [23.2.3. ICU 自訂定序](collation.md#ICU-CUSTOM-COLLATIONS)
+  - [23.2.3. ICU 自訂定序](collation.md#icu-custom-collations)
 
 - [23.3. 字元集支援](multibyte.md)
   - [23.3.1. 支援的字元集](multibyte.md#multibyte-charset-supported)
 
-  - [23.3.2. 設定字元集](multibyte.md#MULTIBYTE-SETTING)
+  - [23.3.2. 設定字元集](multibyte.md#multibyte-setting)
 
-  - [23.3.3. 伺服器與用戶端間的自動字元集轉換](multibyte.md#MULTIBYTE-AUTOMATIC-CONVERSION)
+  - [23.3.3. 伺服器與用戶端間的自動字元集轉換](multibyte.md#multibyte-automatic-conversion)
 
-  - [23.3.4. 可用的字元集轉換](multibyte.md#MULTIBYTE-CONVERSIONS-SUPPORTED)
+  - [23.3.4. 可用的字元集轉換](multibyte.md#multibyte-conversions-supported)
 
-  - [23.3.5. 延伸閱讀](multibyte.md#MULTIBYTE-FURTHER-READING)
+  - [23.3.5. 延伸閱讀](multibyte.md#multibyte-further-reading)
 
 本章從管理者的角度說明可用的在地化功能。
 PostgreSQL 支援兩種在地化機制：

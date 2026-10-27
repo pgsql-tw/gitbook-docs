@@ -7,11 +7,11 @@
 - [8.1. 數值型別](datatype-numeric.md)
   - [8.1.1. 整數型別](datatype-numeric.md#datatype-int)
 
-  - [8.1.2. 任意精度數字](datatype-numeric.md#DATATYPE-NUMERIC-DECIMAL)
+  - [8.1.2. 任意精度數字](datatype-numeric.md#datatype-numeric-decimal)
 
-  - [8.1.3. 浮點數型別](datatype-numeric.md#DATATYPE-FLOAT)
+  - [8.1.3. 浮點數型別](datatype-numeric.md#datatype-float)
 
-  - [8.1.4. 序列型別](datatype-numeric.md#DATATYPE-SERIAL)
+  - [8.1.4. 序列型別](datatype-numeric.md#datatype-serial)
 
 - [8.2. 貨幣型別](datatype-money.md)
 
@@ -20,133 +20,133 @@
 - [8.4. 二進位資料型別](datatype-binary.md)
   - [8.4.1. `bytea` 十六進位格式](datatype-binary.md#datatype-binary-bytea-hex-format)
 
-  - [8.4.2. `bytea` 跳脫格式](datatype-binary.md#DATATYPE-BINARY-BYTEA-ESCAPE-FORMAT)
+  - [8.4.2. `bytea` 跳脫格式](datatype-binary.md#datatype-binary-bytea-escape-format)
 
 - [8.5. 日期／時間型別](datatype-datetime.md)
   - [8.5.1. 日期／時間輸入](datatype-datetime.md#datatype-datetime-input)
 
-  - [8.5.2. 日期／時間輸出](datatype-datetime.md#DATATYPE-DATETIME-OUTPUT)
+  - [8.5.2. 日期／時間輸出](datatype-datetime.md#datatype-datetime-output)
 
-  - [8.5.3. 時區](datatype-datetime.md#DATATYPE-TIMEZONES)
+  - [8.5.3. 時區](datatype-datetime.md#datatype-timezones)
 
-  - [8.5.4. 時間間隔輸入](datatype-datetime.md#DATATYPE-INTERVAL-INPUT)
+  - [8.5.4. 時間間隔輸入](datatype-datetime.md#datatype-interval-input)
 
-  - [8.5.5. 時間間隔輸出](datatype-datetime.md#DATATYPE-INTERVAL-OUTPUT)
+  - [8.5.5. 時間間隔輸出](datatype-datetime.md#datatype-interval-output)
 
 - [8.6. 布林型別](datatype-boolean.md)
 
 - [8.7. 列舉型別](datatype-enum.md)
   - [8.7.1. 列舉型別的宣告](datatype-enum.md#datatype-enum-declaration)
 
-  - [8.7.2. 排序](datatype-enum.md#DATATYPE-ENUM-ORDERING)
+  - [8.7.2. 排序](datatype-enum.md#datatype-enum-ordering)
 
-  - [8.7.3. 型別安全](datatype-enum.md#DATATYPE-ENUM-TYPE-SAFETY)
+  - [8.7.3. 型別安全](datatype-enum.md#datatype-enum-type-safety)
 
-  - [8.7.4. 實作細節](datatype-enum.md#DATATYPE-ENUM-IMPLEMENTATION-DETAILS)
+  - [8.7.4. 實作細節](datatype-enum.md#datatype-enum-implementation-details)
 
 - [8.8. 幾何型別](datatype-geometric.md)
   - [8.8.1. 點](datatype-geometric.md#datatype-geometric-points)
 
-  - [8.8.2. 直線](datatype-geometric.md#DATATYPE-LINE)
+  - [8.8.2. 直線](datatype-geometric.md#datatype-line)
 
-  - [8.8.3. 線段](datatype-geometric.md#DATATYPE-LSEG)
+  - [8.8.3. 線段](datatype-geometric.md#datatype-lseg)
 
-  - [8.8.4. 矩形](datatype-geometric.md#DATATYPE-GEOMETRIC-BOXES)
+  - [8.8.4. 矩形](datatype-geometric.md#datatype-geometric-boxes)
 
-  - [8.8.5. 路徑](datatype-geometric.md#DATATYPE-GEOMETRIC-PATHS)
+  - [8.8.5. 路徑](datatype-geometric.md#datatype-geometric-paths)
 
-  - [8.8.6. 多邊形](datatype-geometric.md#DATATYPE-POLYGON)
+  - [8.8.6. 多邊形](datatype-geometric.md#datatype-polygon)
 
-  - [8.8.7. 圓](datatype-geometric.md#DATATYPE-CIRCLE)
+  - [8.8.7. 圓](datatype-geometric.md#datatype-circle)
 
 - [8.9. 網路位址型別](datatype-net-types.md)
   - [8.9.1. `inet`](datatype-net-types.md#datatype-inet)
 
-  - [8.9.2. `cidr`](datatype-net-types.md#DATATYPE-CIDR)
+  - [8.9.2. `cidr`](datatype-net-types.md#datatype-cidr)
 
-  - [8.9.3. `inet` 與 `cidr` 的比較](datatype-net-types.md#DATATYPE-INET-VS-CIDR)
+  - [8.9.3. `inet` 與 `cidr` 的比較](datatype-net-types.md#datatype-inet-vs-cidr)
 
-  - [8.9.4. `macaddr`](datatype-net-types.md#DATATYPE-MACADDR)
+  - [8.9.4. `macaddr`](datatype-net-types.md#datatype-macaddr)
 
-  - [8.9.5. `macaddr8`](datatype-net-types.md#DATATYPE-MACADDR8)
+  - [8.9.5. `macaddr8`](datatype-net-types.md#datatype-macaddr8)
 
 - [8.10. 位元字串型別](datatype-bit.md)
 
 - [8.11. 全文檢索型別](datatype-textsearch.md)
   - [8.11.1. `tsvector`](datatype-textsearch.md#datatype-tsvector)
 
-  - [8.11.2. `tsquery`](datatype-textsearch.md#DATATYPE-TSQUERY)
+  - [8.11.2. `tsquery`](datatype-textsearch.md#datatype-tsquery)
 
 - [8.12. UUID 型別](datatype-uuid.md)
 
 - [8.13. XML 型別](datatype-xml.md)
   - [8.13.1. 建立 XML 值](datatype-xml.md#datatype-xml-creating)
 
-  - [8.13.2. 編碼處理](datatype-xml.md#DATATYPE-XML-ENCODING-HANDLING)
+  - [8.13.2. 編碼處理](datatype-xml.md#datatype-xml-encoding-handling)
 
-  - [8.13.3. 存取 XML 值](datatype-xml.md#DATATYPE-XML-ACCESSING-XML-VALUES)
+  - [8.13.3. 存取 XML 值](datatype-xml.md#datatype-xml-accessing-xml-values)
 
 - [8.14. JSON 型別](datatype-json.md)
   - [8.14.1. JSON 的輸入與輸出語法](datatype-json.md#json-keys-elements)
 
-  - [8.14.2. 設計 JSON 文件](datatype-json.md#JSON-DOC-DESIGN)
+  - [8.14.2. 設計 JSON 文件](datatype-json.md#json-doc-design)
 
-  - [8.14.3. `jsonb` 的包含與存在](datatype-json.md#JSON-CONTAINMENT)
+  - [8.14.3. `jsonb` 的包含與存在](datatype-json.md#json-containment)
 
-  - [8.14.4. `jsonb` 索引](datatype-json.md#JSON-INDEXING)
+  - [8.14.4. `jsonb` 索引](datatype-json.md#json-indexing)
 
-  - [8.14.5. `jsonb` 下標](datatype-json.md#JSONB-SUBSCRIPTING)
+  - [8.14.5. `jsonb` 下標](datatype-json.md#jsonb-subscripting)
 
-  - [8.14.6. 轉換](datatype-json.md#DATATYPE-JSON-TRANSFORMS)
+  - [8.14.6. 轉換](datatype-json.md#datatype-json-transforms)
 
-  - [8.14.7. jsonpath 型別](datatype-json.md#DATATYPE-JSONPATH)
+  - [8.14.7. jsonpath 型別](datatype-json.md#datatype-jsonpath)
 
 - [8.15. 陣列](arrays.md)
   - [8.15.1. 陣列型別的宣告](arrays.md#arrays-declaration)
 
-  - [8.15.2. 陣列值的輸入](arrays.md#ARRAYS-INPUT)
+  - [8.15.2. 陣列值的輸入](arrays.md#arrays-input)
 
-  - [8.15.3. 存取陣列](arrays.md#ARRAYS-ACCESSING)
+  - [8.15.3. 存取陣列](arrays.md#arrays-accessing)
 
-  - [8.15.4. 修改陣列](arrays.md#ARRAYS-MODIFYING)
+  - [8.15.4. 修改陣列](arrays.md#arrays-modifying)
 
-  - [8.15.5. 在陣列中搜尋](arrays.md#ARRAYS-SEARCHING)
+  - [8.15.5. 在陣列中搜尋](arrays.md#arrays-searching)
 
-  - [8.15.6. 陣列的輸入與輸出語法](arrays.md#ARRAYS-IO)
+  - [8.15.6. 陣列的輸入與輸出語法](arrays.md#arrays-io)
 
 - [8.16. 複合型別](rowtypes.md)
   - [8.16.1. 複合型別的宣告](rowtypes.md#rowtypes-declaring)
 
-  - [8.16.2. 建構複合值](rowtypes.md#ROWTYPES-CONSTRUCTING)
+  - [8.16.2. 建構複合值](rowtypes.md#rowtypes-constructing)
 
-  - [8.16.3. 存取複合型別](rowtypes.md#ROWTYPES-ACCESSING)
+  - [8.16.3. 存取複合型別](rowtypes.md#rowtypes-accessing)
 
-  - [8.16.4. 修改複合型別](rowtypes.md#ROWTYPES-MODIFYING)
+  - [8.16.4. 修改複合型別](rowtypes.md#rowtypes-modifying)
 
-  - [8.16.5. 在查詢中使用複合型別](rowtypes.md#ROWTYPES-USAGE)
+  - [8.16.5. 在查詢中使用複合型別](rowtypes.md#rowtypes-usage)
 
-  - [8.16.6. 複合型別的輸入與輸出語法](rowtypes.md#ROWTYPES-IO-SYNTAX)
+  - [8.16.6. 複合型別的輸入與輸出語法](rowtypes.md#rowtypes-io-syntax)
 
 - [8.17. 範圍型別](rangetypes.md)
   - [8.17.1. 內建的範圍與多重範圍型別](rangetypes.md#rangetypes-builtin)
 
-  - [8.17.2. 範例](rangetypes.md#RANGETYPES-EXAMPLES)
+  - [8.17.2. 範例](rangetypes.md#rangetypes-examples)
 
-  - [8.17.3. 含端點與不含端點的界限](rangetypes.md#RANGETYPES-INCLUSIVITY)
+  - [8.17.3. 含端點與不含端點的界限](rangetypes.md#rangetypes-inclusivity)
 
-  - [8.17.4. 無限（無界限）範圍](rangetypes.md#RANGETYPES-INFINITE)
+  - [8.17.4. 無限（無界限）範圍](rangetypes.md#rangetypes-infinite)
 
-  - [8.17.5. 範圍的輸入／輸出](rangetypes.md#RANGETYPES-IO)
+  - [8.17.5. 範圍的輸入／輸出](rangetypes.md#rangetypes-io)
 
-  - [8.17.6. 建構範圍與多重範圍](rangetypes.md#RANGETYPES-CONSTRUCT)
+  - [8.17.6. 建構範圍與多重範圍](rangetypes.md#rangetypes-construct)
 
-  - [8.17.7. 離散範圍型別](rangetypes.md#RANGETYPES-DISCRETE)
+  - [8.17.7. 離散範圍型別](rangetypes.md#rangetypes-discrete)
 
-  - [8.17.8. 定義新的範圍型別](rangetypes.md#RANGETYPES-DEFINING)
+  - [8.17.8. 定義新的範圍型別](rangetypes.md#rangetypes-defining)
 
-  - [8.17.9. 索引](rangetypes.md#RANGETYPES-INDEXING)
+  - [8.17.9. 索引](rangetypes.md#rangetypes-indexing)
 
-  - [8.17.10. 範圍上的限制條件](rangetypes.md#RANGETYPES-CONSTRAINT)
+  - [8.17.10. 範圍上的限制條件](rangetypes.md#rangetypes-constraint)
 
 - [8.18. 網域型別](domains.md)
 

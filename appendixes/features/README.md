@@ -11,7 +11,7 @@
 - [D.3. XML 限制與 SQL/XML 符合性](xml-limits-conformance.md)
   - [D.3.1. 查詢僅限於 XPath 1.0](xml-limits-conformance.md#functions-xml-limits-xpath1)
 
-  - [D.3.2. 實作上的附帶限制](xml-limits-conformance.md#FUNCTIONS-XML-LIMITS-POSTGRESQL)
+  - [D.3.2. 實作上的附帶限制](xml-limits-conformance.md#functions-xml-limits-postgresql)
 
 本節嘗試概述
 PostgreSQL 在多大程度上符合現行的 SQL

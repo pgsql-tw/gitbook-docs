@@ -9,15 +9,15 @@
 - [11.2. 索引類型](indexes-types.md)
   - [11.2.1. B-Tree](indexes-types.md#indexes-types-btree)
 
-  - [11.2.2. Hash](indexes-types.md#INDEXES-TYPES-HASH)
+  - [11.2.2. Hash](indexes-types.md#indexes-types-hash)
 
-  - [11.2.3. GiST](indexes-types.md#INDEXES-TYPE-GIST)
+  - [11.2.3. GiST](indexes-types.md#indexes-type-gist)
 
-  - [11.2.4. SP-GiST](indexes-types.md#INDEXES-TYPE-SPGIST)
+  - [11.2.4. SP-GiST](indexes-types.md#indexes-type-spgist)
 
-  - [11.2.5. GIN](indexes-types.md#INDEXES-TYPES-GIN)
+  - [11.2.5. GIN](indexes-types.md#indexes-types-gin)
 
-  - [11.2.6. BRIN](indexes-types.md#INDEXES-TYPES-BRIN)
+  - [11.2.6. BRIN](indexes-types.md#indexes-types-brin)
 
 - [11.3. 多欄位索引](indexes-multicolumn.md)
 

@@ -7,17 +7,17 @@
 - [38.1. 事件觸發程序行為概觀](event-trigger-definition.md)
   - [38.1.1. login](event-trigger-definition.md#event-trigger-login)
 
-  - [38.1.2. ddl_command_start](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_START)
+  - [38.1.2. ddl_command_start](event-trigger-definition.md#event-trigger-ddl_command_start)
 
-  - [38.1.3. ddl_command_end](event-trigger-definition.md#EVENT-TRIGGER-DDL_COMMAND_END)
+  - [38.1.3. ddl_command_end](event-trigger-definition.md#event-trigger-ddl_command_end)
 
-  - [38.1.4. sql_drop](event-trigger-definition.md#EVENT-TRIGGER-SQL_DROP)
+  - [38.1.4. sql_drop](event-trigger-definition.md#event-trigger-sql_drop)
 
-  - [38.1.5. table_rewrite](event-trigger-definition.md#EVENT-TRIGGER-TABLE_REWRITE)
+  - [38.1.5. table_rewrite](event-trigger-definition.md#event-trigger-table_rewrite)
 
-  - [38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-ABORTED-TRANSACTIONS)
+  - [38.1.6. 中止交易中的事件觸發程序](event-trigger-definition.md#event-trigger-aborted-transactions)
 
-  - [38.1.7. 建立事件觸發程序](event-trigger-definition.md#EVENT-TRIGGER-CREATING)
+  - [38.1.7. 建立事件觸發程序](event-trigger-definition.md#event-trigger-creating)
 
 - [38.2. 以 C 撰寫事件觸發程序函式](event-trigger-interface.md)
 

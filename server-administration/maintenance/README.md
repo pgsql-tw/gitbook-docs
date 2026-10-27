@@ -7,15 +7,15 @@
 - [24.1. 常規 VACUUM 作業](routine-vacuuming.md)
   - [24.1.1. VACUUM 基礎知識](routine-vacuuming.md#vacuum-basics)
 
-  - [24.1.2. 回收磁碟空間](routine-vacuuming.md#VACUUM-FOR-SPACE-RECOVERY)
+  - [24.1.2. 回收磁碟空間](routine-vacuuming.md#vacuum-for-space-recovery)
 
-  - [24.1.3. 更新規劃器統計資訊](routine-vacuuming.md#VACUUM-FOR-STATISTICS)
+  - [24.1.3. 更新規劃器統計資訊](routine-vacuuming.md#vacuum-for-statistics)
 
-  - [24.1.4. 更新可見性對照表](routine-vacuuming.md#VACUUM-FOR-VISIBILITY-MAP)
+  - [24.1.4. 更新可見性對照表](routine-vacuuming.md#vacuum-for-visibility-map)
 
-  - [24.1.5. 避免交易 ID 回卷失敗](routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)
+  - [24.1.5. 避免交易 ID 回卷失敗](routine-vacuuming.md#vacuum-for-wraparound)
 
-  - [24.1.6. Autovacuum 常駐程序](routine-vacuuming.md#AUTOVACUUM)
+  - [24.1.6. Autovacuum 常駐程序](routine-vacuuming.md#autovacuum)
 
 - [24.2. 常規重新索引](routine-reindex.md)
 

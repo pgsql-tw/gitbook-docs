@@ -10,26 +10,26 @@
 - [29.2. 訂閱](logical-replication-subscription.md)
   - [29.2.1. 複寫插槽管理](logical-replication-subscription.md#logical-replication-subscription-slot)
 
-  - [29.2.2. 範例：設定邏輯複寫](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES)
+  - [29.2.2. 範例：設定邏輯複寫](logical-replication-subscription.md#logical-replication-subscription-examples)
 
-  - [29.2.3. 範例：延後建立複寫插槽](logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT)
+  - [29.2.3. 範例：延後建立複寫插槽](logical-replication-subscription.md#logical-replication-subscription-examples-deferred-slot)
 
 - [29.3. 邏輯複寫失效切換](logical-replication-failover.md)
 
 - [29.4. 資料列篩選器](logical-replication-row-filter.md)
   - [29.4.1. 資料列篩選器規則](logical-replication-row-filter.md#logical-replication-row-filter-rules)
 
-  - [29.4.2. 運算式限制](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-RESTRICTIONS)
+  - [29.4.2. 運算式限制](logical-replication-row-filter.md#logical-replication-row-filter-restrictions)
 
-  - [29.4.3. UPDATE 轉換](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-TRANSFORMATIONS)
+  - [29.4.3. UPDATE 轉換](logical-replication-row-filter.md#logical-replication-row-filter-transformations)
 
-  - [29.4.4. 分割資料表](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-PARTITIONED-TABLE)
+  - [29.4.4. 分割資料表](logical-replication-row-filter.md#logical-replication-row-filter-partitioned-table)
 
-  - [29.4.5. 初始資料同步](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC)
+  - [29.4.5. 初始資料同步](logical-replication-row-filter.md#logical-replication-row-filter-initial-data-sync)
 
-  - [29.4.6. 合併多個資料列篩選器](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-COMBINING)
+  - [29.4.6. 合併多個資料列篩選器](logical-replication-row-filter.md#logical-replication-row-filter-combining)
 
-  - [29.4.7. 範例](logical-replication-row-filter.md#LOGICAL-REPLICATION-ROW-FILTER-EXAMPLES)
+  - [29.4.7. 範例](logical-replication-row-filter.md#logical-replication-row-filter-examples)
 
 - [29.5. 欄位清單](logical-replication-col-lists.md)
   - [29.5.1. 範例](logical-replication-col-lists.md#logical-replication-col-list-examples)
@@ -50,14 +50,14 @@
 - [29.12. 組態設定](logical-replication-config.md)
   - [29.12.1. 發佈者](logical-replication-config.md#logical-replication-config-publisher)
 
-  - [29.12.2. 訂閱者](logical-replication-config.md#LOGICAL-REPLICATION-CONFIG-SUBSCRIBER)
+  - [29.12.2. 訂閱者](logical-replication-config.md#logical-replication-config-subscriber)
 
 - [29.13. 升級](logical-replication-upgrade.md)
   - [29.13.1. 為發佈者升級做準備](logical-replication-upgrade.md#prepare-publisher-upgrades)
 
-  - [29.13.2. 為訂閱者升級做準備](logical-replication-upgrade.md#PREPARE-SUBSCRIBER-UPGRADES)
+  - [29.13.2. 為訂閱者升級做準備](logical-replication-upgrade.md#prepare-subscriber-upgrades)
 
-  - [29.13.3. 升級邏輯複寫叢集](logical-replication-upgrade.md#UPGRADING-LOGICAL-REPLICATION-CLUSTERS)
+  - [29.13.3. 升級邏輯複寫叢集](logical-replication-upgrade.md#upgrading-logical-replication-clusters)
 
 - [29.14. 快速設定](logical-replication-quick-setup.md)
 

@@ -9,7 +9,7 @@
 - [51.3. 剖析器階段](parser-stage.md)
   - [51.3.1. Parser](parser-stage.md#parser-stage-parser)
 
-  - [51.3.2. Transformation Process](parser-stage.md#PARSER-STAGE-TRANSFORMATION-PROCESS)
+  - [51.3.2. Transformation Process](parser-stage.md#parser-stage-transformation-process)
 
 - [51.4. PostgreSQL 規則系統](rule-system.md)
 

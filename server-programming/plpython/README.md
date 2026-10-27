@@ -9,13 +9,13 @@
 - [44.2. 資料值](plpython-data.md)
   - [44.2.1. 資料型別對應](plpython-data.md#plpython-data-type-mapping)
 
-  - [44.2.2. Null、None](plpython-data.md#PLPYTHON-DATA-NULL)
+  - [44.2.2. Null、None](plpython-data.md#plpython-data-null)
 
-  - [44.2.3. 陣列、清單](plpython-data.md#PLPYTHON-ARRAYS)
+  - [44.2.3. 陣列、清單](plpython-data.md#plpython-arrays)
 
-  - [44.2.4. 複合型別](plpython-data.md#PLPYTHON-DATA-COMPOSITE-TYPES)
+  - [44.2.4. 複合型別](plpython-data.md#plpython-data-composite-types)
 
-  - [44.2.5. 回傳集合的函式](plpython-data.md#PLPYTHON-DATA-SET-RETURNING-FUNCS)
+  - [44.2.5. 回傳集合的函式](plpython-data.md#plpython-data-set-returning-funcs)
 
 - [44.3. 共享資料](plpython-sharing.md)
 
@@ -26,7 +26,7 @@
 - [44.6. 存取資料庫](plpython-database.md)
   - [44.6.1. 資料庫存取函式](plpython-database.md#plpython-database-access-funcs)
 
-  - [44.6.2. 攔截錯誤](plpython-database.md#PLPYTHON-TRAPPING)
+  - [44.6.2. 攔截錯誤](plpython-database.md#plpython-trapping)
 
 - [44.7. 明確子交易](plpython-subtransaction.md)
   - [44.7.1. 子交易情境管理器](plpython-subtransaction.md#plpython-subtransaction-context-managers)
