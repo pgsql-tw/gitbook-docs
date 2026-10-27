@@ -4,35 +4,35 @@
 
 **目錄**
 
-[J.1. DocBook](docguide-docbook.md)
+- [J.1. DocBook](docguide-docbook.md)
 
-[J.2. 工具組](docguide-toolsets.md)
-:   [J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#docguide-toolsets-inst-fedora-et-al)
+- [J.2. 工具組](docguide-toolsets.md)
+  - [J.2.1. 在 Fedora、RHEL 及其衍生版本上安裝](docguide-toolsets.md#docguide-toolsets-inst-fedora-et-al)
 
-    [J.2.2. 在 FreeBSD 上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FREEBSD)
+  - [J.2.2. 在 FreeBSD 上安裝](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-FREEBSD)
 
-    [J.2.3. Debian 套件](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-DEBIAN)
+  - [J.2.3. Debian 套件](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-DEBIAN)
 
-    [J.2.4. macOS](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-MACOS)
+  - [J.2.4. macOS](docguide-toolsets.md#DOCGUIDE-TOOLSETS-INST-MACOS)
 
-    [J.2.5. 由 `configure` 偵測](docguide-toolsets.md#DOCGUIDE-TOOLSETS-CONFIGURE)
+  - [J.2.5. 由 `configure` 偵測](docguide-toolsets.md#DOCGUIDE-TOOLSETS-CONFIGURE)
 
-[J.3. 使用 Make 建置文件](docguide-build.md)
-:   [J.3.1. HTML](docguide-build.md#docguide-build-html)
+- [J.3. 使用 Make 建置文件](docguide-build.md)
+  - [J.3.1. HTML](docguide-build.md#docguide-build-html)
 
-    [J.3.2. 線上手冊頁（Manpages）](docguide-build.md#DOCGUIDE-BUILD-MANPAGES)
+  - [J.3.2. 線上手冊頁（Manpages）](docguide-build.md#DOCGUIDE-BUILD-MANPAGES)
 
-    [J.3.3. PDF](docguide-build.md#DOCGUIDE-BUILD-PDF)
+  - [J.3.3. PDF](docguide-build.md#DOCGUIDE-BUILD-PDF)
 
-    [J.3.4. 語法檢查](docguide-build.md#DOCGUIDE-BUILD-SYNTAX-CHECK)
+  - [J.3.4. 語法檢查](docguide-build.md#DOCGUIDE-BUILD-SYNTAX-CHECK)
 
-[J.4. 使用 Meson 建置文件](docguide-build-meson.md)
+- [J.4. 使用 Meson 建置文件](docguide-build-meson.md)
 
-[J.5. 文件撰寫](docguide-authoring.md)
-:   [J.5.1. Emacs](docguide-authoring.md#docguide-authoring-emacs)
+- [J.5. 文件撰寫](docguide-authoring.md)
+  - [J.5.1. Emacs](docguide-authoring.md#docguide-authoring-emacs)
 
-[J.6. 風格指南](docguide-style.md)
-:   [J.6.1. 參考頁面](docguide-style.md#docguide-style-ref-pages)
+- [J.6. 風格指南](docguide-style.md)
+  - [J.6.1. 參考頁面](docguide-style.md#docguide-style-ref-pages)
 
 PostgreSQL 有四種主要的文件
 格式：
