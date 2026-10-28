@@ -44,10 +44,11 @@ ALTER SEQUENCE [ IF EXISTS ] name SET SCHEMA new_schema
 :   序列不存在時不擲出錯誤；此情況會發出 notice。
 
 *`data_type`*
-:   選擇性的 `AS data_type` 子句會變更序列的資料型別。有效的型別為 `smallint`、`integer` 與 `bigint`。
 
-    變更資料型別時，若且唯若先前的最小值與最大值是舊資料型別的最小值或最大值（換句話說，若序列是以 `NO
-    MINVALUE` 或 `NO MAXVALUE` 建立的，無論是隱含或明確指定），才會自動變更序列的最小值與最大值。否則，最小值與最大值會保留，除非在同一個命令中提供了新的值。若最小值與最大值無法容納於新的資料型別中，則會產生錯誤。
+選擇性的 `AS data_type` 子句會變更序列的資料型別。有效的型別為 `smallint`、`integer` 與 `bigint`。
+
+變更資料型別時，若且唯若先前的最小值與最大值是舊資料型別的最小值或最大值（換句話說，若序列是以 `NO
+MINVALUE` 或 `NO MAXVALUE` 建立的，無論是隱含或明確指定），才會自動變更序列的最小值與最大值。否則，最小值與最大值會保留，除非在同一個命令中提供了新的值。若最小值與最大值無法容納於新的資料型別中，則會產生錯誤。
 
 *`increment`*
 :   `INCREMENT BY increment` 子句是選擇性的。正值會產生遞增序列，負值則產生遞減序列。若未指定，將維持舊的遞增值。
@@ -71,9 +72,10 @@ ALTER SEQUENCE [ IF EXISTS ] name SET SCHEMA new_schema
 :   選擇性的 `START WITH start` 子句會變更序列所記錄的起始值。這對*目前的*序列值沒有任何影響；它只是設定未來的 `ALTER SEQUENCE RESTART` 命令將使用的值。
 
 *`restart`*
-:   選擇性的 `RESTART [ WITH restart ]` 子句會變更序列的目前值。這類似於以 `is_called` = `false` 呼叫 `setval` 函式：指定的值將由*下一次* `nextval` 呼叫傳回。只寫 `RESTART` 而不提供 *`restart`* 值，等同於提供由 `CREATE SEQUENCE` 記錄、或最後一次由 `ALTER SEQUENCE START WITH` 設定的起始值。
 
-    與 `setval` 呼叫不同，對序列執行的 `RESTART` 操作是交易性的，並且會阻擋並行交易從同一個序列取得數字。若這不是所需的操作模式，應該使用 `setval`。
+選擇性的 `RESTART [ WITH restart ]` 子句會變更序列的目前值。這類似於以 `is_called` = `false` 呼叫 `setval` 函式：指定的值將由*下一次* `nextval` 呼叫傳回。只寫 `RESTART` 而不提供 *`restart`* 值，等同於提供由 `CREATE SEQUENCE` 記錄、或最後一次由 `ALTER SEQUENCE START WITH` 設定的起始值。
+
+與 `setval` 呼叫不同，對序列執行的 `RESTART` 操作是交易性的，並且會阻擋並行交易從同一個序列取得數字。若這不是所需的操作模式，應該使用 `setval`。
 
 *`cache`*
 :   `CACHE cache` 子句可讓序列號碼預先配置並儲存在記憶體中，以加快存取速度。最小值為 1（一次只能產生一個值，亦即不快取）。若未指定，將維持舊的快取值。

@@ -63,16 +63,18 @@ ALTER OPERATOR FAMILY name USING index_method
 :   與該運算子家族相關聯之運算子的名稱（可選擇以綱要限定）。
 
 *`op_type`*
-:   在 `OPERATOR` 子句中，為運算子的運算元資料型別，或以 `NONE` 表示前綴運算子。與 `CREATE OPERATOR CLASS` 中的類似語法不同，運算元資料型別必須一律指定。
 
-    在 `ADD FUNCTION` 子句中，為該函式要支援的運算元資料型別（若與函式的輸入資料型別不同）。對於 B-tree 比較函式與雜湊函式，不需要指定 *`op_type`*，因為函式的輸入資料型別一律就是應使用的正確型別。對於 B-tree 排序支援函式、B-Tree equal image 函式，以及 GiST、SP-GiST 與 GIN 運算子類別中的所有函式，則必須指定該函式要搭配使用的運算元資料型別。
+在 `OPERATOR` 子句中，為運算子的運算元資料型別，或以 `NONE` 表示前綴運算子。與 `CREATE OPERATOR CLASS` 中的類似語法不同，運算元資料型別必須一律指定。
 
-    在 `DROP FUNCTION` 子句中，必須指定該函式要支援的運算元資料型別。
+在 `ADD FUNCTION` 子句中，為該函式要支援的運算元資料型別（若與函式的輸入資料型別不同）。對於 B-tree 比較函式與雜湊函式，不需要指定 *`op_type`*，因為函式的輸入資料型別一律就是應使用的正確型別。對於 B-tree 排序支援函式、B-Tree equal image 函式，以及 GiST、SP-GiST 與 GIN 運算子類別中的所有函式，則必須指定該函式要搭配使用的運算元資料型別。
+
+在 `DROP FUNCTION` 子句中，必須指定該函式要支援的運算元資料型別。
 
 *`sort_family_name`*
-:   現有 `btree` 運算子家族的名稱（可選擇以綱要限定），該家族描述與排序運算子相關聯的排序順序。
 
-    若既未指定 `FOR SEARCH`，也未指定 `FOR ORDER BY`，則預設為 `FOR SEARCH`。
+現有 `btree` 運算子家族的名稱（可選擇以綱要限定），該家族描述與排序運算子相關聯的排序順序。
+
+若既未指定 `FOR SEARCH`，也未指定 `FOR ORDER BY`，則預設為 `FOR SEARCH`。
 
 *`support_number`*
 :   索引方法中與該運算子家族相關聯之函式的支援函式編號。

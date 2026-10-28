@@ -83,21 +83,24 @@ name` 來指定不同的範本。特別是，寫出 `TEMPLATE template0` 可以�
 <a id="CREATE-DATABASE-LC-COLLATE"></a>
 
 *`lc_collate`* [#](#CREATE-DATABASE-LC-COLLATE)
-:   設定資料庫伺服器作業系統環境中的 `LC_COLLATE`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。其他限制請見下文。
 
-    若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `libc`，此參數也會設定新資料庫中使用的預設定序順序，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。
+設定資料庫伺服器作業系統環境中的 `LC_COLLATE`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。其他限制請見下文。
+
+若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `libc`，此參數也會設定新資料庫中使用的預設定序順序，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。
 <a id="CREATE-DATABASE-LC-CTYPE"></a>
 
 *`lc_ctype`* [#](#CREATE-DATABASE-LC-CTYPE)
-:   設定資料庫伺服器作業系統環境中的 `LC_CTYPE`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。其他限制請見下文。
 
-    若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `libc`，此參數也會設定新資料庫中使用的預設字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。
+設定資料庫伺服器作業系統環境中的 `LC_CTYPE`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。其他限制請見下文。
+
+若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `libc`，此參數也會設定新資料庫中使用的預設字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。
 <a id="CREATE-DATABASE-BUILTIN-LOCALE"></a>
 
 *`builtin_locale`* [#](#CREATE-DATABASE-BUILTIN-LOCALE)
-:   指定內建（builtin）提供者的區域設定，用於資料庫的預設定序順序與字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。[區域設定提供者](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER)必須是 `builtin`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。
 
-    `builtin` 提供者可用的區域設定為 `C`、`C.UTF-8` 與 `PG_UNICODE_FAST`。
+指定內建（builtin）提供者的區域設定，用於資料庫的預設定序順序與字元分類，並覆寫 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE) 設定。[區域設定提供者](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER)必須是 `builtin`。若有指定 [*`locale`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE)，預設值為該設定；否則與範本資料庫的設定相同。
+
+`builtin` 提供者可用的區域設定為 `C`、`C.UTF-8` 與 `PG_UNICODE_FAST`。
 <a id="CREATE-DATABASE-ICU-LOCALE"></a>
 
 *`icu_locale`* [#](#CREATE-DATABASE-ICU-LOCALE)
@@ -113,9 +116,10 @@ name` 來指定不同的範本。特別是，寫出 `TEMPLATE template0` 可以�
 <a id="CREATE-DATABASE-COLLATION-VERSION"></a>
 
 *`collation_version`* [#](#CREATE-DATABASE-COLLATION-VERSION)
-:   指定要與資料庫一起儲存的定序版本字串。通常應該省略此參數，這會使版本由作業系統所提供之資料庫定序的實際版本計算而得。此選項的用途是讓 `pg_upgrade` 從現有安裝中複製版本。
 
-    關於如何處理資料庫定序版本不符的問題，另請參閱 [ALTER DATABASE](sql-alterdatabase.md)。
+指定要與資料庫一起儲存的定序版本字串。通常應該省略此參數，這會使版本由作業系統所提供之資料庫定序的實際版本計算而得。此選項的用途是讓 `pg_upgrade` 從現有安裝中複製版本。
+
+關於如何處理資料庫定序版本不符的問題，另請參閱 [ALTER DATABASE](sql-alterdatabase.md)。
 <a id="CREATE-DATABASE-TABLESPACE-NAME"></a>
 
 *`tablespace_name`* [#](#CREATE-DATABASE-TABLESPACE-NAME)

@@ -81,28 +81,32 @@ vacuumdb 接受下列命令列引數：
 :   一律移除指向死亡資料列的索引項目。
 
 `-j njobs`<br>`--jobs=njobs`
-:   同時執行 *`njobs`* 個命令，以平行方式執行清理或分析命令。此選項可能會縮短處理時間，但也會增加資料庫伺服器的負載。
 
-    vacuumdb 會開啟 *`njobs`* 個資料庫連線，因此請確認你的 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) 設定夠高，足以容納所有連線。
+同時執行 *`njobs`* 個命令，以平行方式執行清理或分析命令。此選項可能會縮短處理時間，但也會增加資料庫伺服器的負載。
 
-    請注意，若某些系統目錄被平行處理，將此模式與 `-f`（`FULL`）選項一起使用可能會導致死結失敗。
+vacuumdb 會開啟 *`njobs`* 個資料庫連線，因此請確認你的 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) 設定夠高，足以容納所有連線。
+
+請注意，若某些系統目錄被平行處理，將此模式與 `-f`（`FULL`）選項一起使用可能會導致死結失敗。
 
 `--min-mxid-age mxid_age`
-:   只對 multixact ID 年齡至少為 *`mxid_age`* 的資料表執行清理或分析命令。此設定適合用來安排資料表的處理優先順序，以防止 multixact ID 回捲（請參閱[第 24.1.5.1 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)）。
 
-    就此選項而言，關聯的 multixact ID 年齡是主關聯與其相關聯之 TOAST 資料表（若存在）兩者年齡中的最大值。由於 vacuumdb 所發出的命令在必要時也會處理該關聯的 TOAST 資料表，因此不需要另外考慮它。
+只對 multixact ID 年齡至少為 *`mxid_age`* 的資料表執行清理或分析命令。此設定適合用來安排資料表的處理優先順序，以防止 multixact ID 回捲（請參閱[第 24.1.5.1 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)）。
+
+就此選項而言，關聯的 multixact ID 年齡是主關聯與其相關聯之 TOAST 資料表（若存在）兩者年齡中的最大值。由於 vacuumdb 所發出的命令在必要時也會處理該關聯的 TOAST 資料表，因此不需要另外考慮它。
 
 `--min-xid-age xid_age`
-:   只對交易 ID 年齡至少為 *`xid_age`* 的資料表執行清理或分析命令。此設定適合用來安排資料表的處理優先順序，以防止交易 ID 回捲（請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。
 
-    就此選項而言，關聯的交易 ID 年齡是主關聯與其相關聯之 TOAST 資料表（若存在）兩者年齡中的最大值。由於 vacuumdb 所發出的命令在必要時也會處理該關聯的 TOAST 資料表，因此不需要另外考慮它。
+只對交易 ID 年齡至少為 *`xid_age`* 的資料表執行清理或分析命令。此設定適合用來安排資料表的處理優先順序，以防止交易 ID 回捲（請參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。
+
+就此選項而言，關聯的交易 ID 年齡是主關聯與其相關聯之 TOAST 資料表（若存在）兩者年齡中的最大值。由於 vacuumdb 所發出的命令在必要時也會處理該關聯的 TOAST 資料表，因此不需要另外考慮它。
 
 `--missing-stats-only`
-:   只分析缺少某個欄位、索引運算式或延伸統計物件之統計資訊的關聯。與 `--analyze-in-stages` 一起使用時，此選項可防止 vacuumdb 暫時以較低統計目標所產生的統計資訊取代現有的統計資訊，從而避免查詢最佳化器暫時做出較差的選擇。
 
-    此選項只能與 `--analyze-only` 或 `--analyze-in-stages` 一起使用。
+只分析缺少某個欄位、索引運算式或延伸統計物件之統計資訊的關聯。與 `--analyze-in-stages` 一起使用時，此選項可防止 vacuumdb 暫時以較低統計目標所產生的統計資訊取代現有的統計資訊，從而避免查詢最佳化器暫時做出較差的選擇。
 
-    請注意，`--missing-stats-only` 需要 [`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md) 與 [`pg_statistic_ext_data`](../../internals/catalogs/catalog-pg-statistic-ext-data.md) 的 `SELECT` 權限，而這些權限預設只限超級使用者擁有。
+此選項只能與 `--analyze-only` 或 `--analyze-in-stages` 一起使用。
+
+請注意，`--missing-stats-only` 需要 [`pg_statistic`](../../internals/catalogs/catalog-pg-statistic.md) 與 [`pg_statistic_ext_data`](../../internals/catalogs/catalog-pg-statistic-ext-data.md) 的 `SELECT` 權限，而這些權限預設只限超級使用者擁有。
 
 `-n schema`<br>`--schema=schema`
 :   只清理或分析 *`schema`* 中的所有資料表。寫多個 `-n` 參數即可清理多個綱要。
@@ -153,9 +157,10 @@ vacuumdb 接受下列命令列引數：
 :   只計算供最佳化器使用的統計資訊（不進行清理）。
 
 `--analyze-in-stages`
-:   只計算供最佳化器使用的統計資訊（不進行清理），與 `--analyze-only` 相同。分三個階段執行分析；第一階段使用盡可能最低的統計目標（請參閱 [default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET)），以更快產生可用的統計資訊，後續階段則建立完整的統計資訊。
 
-    此選項只適用於分析目前沒有統計資訊、或統計資訊完全不正確的資料庫，例如剛從還原的傾印或由 `pg_upgrade` 填入資料的資料庫。請注意，在已有統計資訊的資料庫中使用此選項執行，可能會因為早期階段的統計目標較低，而使查詢最佳化器暫時做出較差的選擇。
+只計算供最佳化器使用的統計資訊（不進行清理），與 `--analyze-only` 相同。分三個階段執行分析；第一階段使用盡可能最低的統計目標（請參閱 [default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET)），以更快產生可用的統計資訊，後續階段則建立完整的統計資訊。
+
+此選項只適用於分析目前沒有統計資訊、或統計資訊完全不正確的資料庫，例如剛從還原的傾印或由 `pg_upgrade` 填入資料的資料庫。請注意，在已有統計資訊的資料庫中使用此選項執行，可能會因為早期階段的統計目標較低，而使查詢最佳化器暫時做出較差的選擇。
 
 `-?`<br>`--help`
 :   顯示 vacuumdb 命令列引數的說明後結束。
@@ -175,9 +180,10 @@ vacuumdb 也接受下列用於連線參數的命令列引數：
 :   永不發出密碼提示。若伺服器要求密碼認證，而無法透過其他方式（例如 `.pgpass` 檔案）取得密碼，則連線嘗試會失敗。此選項適用於沒有使用者在場輸入密碼的批次工作與腳本。
 
 `-W`<br>`--password`
-:   強制 vacuumdb 在連線到資料庫之前提示輸入密碼。
 
-    此選項從來都不是必要的，因為如果伺服器要求密碼認證，vacuumdb 會自動提示輸入密碼。不過，vacuumdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
+強制 vacuumdb 在連線到資料庫之前提示輸入密碼。
+
+此選項從來都不是必要的，因為如果伺服器要求密碼認證，vacuumdb 會自動提示輸入密碼。不過，vacuumdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
 :   使用 `-a`/`--all` 時，連線到此資料庫以收集要清理的資料庫清單。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在，則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何相衝突的命令列選項。此外，連線到其他資料庫時，會重複使用資料庫名稱本身以外的連線字串參數。

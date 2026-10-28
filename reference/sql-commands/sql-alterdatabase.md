@@ -71,18 +71,20 @@ ALTER DATABASE name RESET ALL
 :   資料庫的新擁有者。
 
 *`new_tablespace`*
-:   資料庫的新預設資料表空間。
 
-    此形式的命令不能在交易區塊內執行。
+資料庫的新預設資料表空間。
+
+此形式的命令不能在交易區塊內執行。
 
 `REFRESH COLLATION VERSION`
 :   更新資料庫的定序版本。背景說明請參閱[注意事項](sql-altercollation.md#SQL-ALTERCOLLATION-NOTES)。
 
 *`configuration_parameter`*<br>*`value`*
-:   將此資料庫中指定組態參數的工作階段預設值設為給定的值。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除資料庫專屬的設定，新的工作階段將繼承系統層級的預設設定。使用 `RESET
-    ALL` 可清除所有資料庫專屬的設定。`SET FROM CURRENT` 會將該參數在工作階段中目前的值儲存為資料庫專屬的值。
 
-    關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
+將此資料庫中指定組態參數的工作階段預設值設為給定的值。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除資料庫專屬的設定，新的工作階段將繼承系統層級的預設設定。使用 `RESET
+ALL` 可清除所有資料庫專屬的設定。`SET FROM CURRENT` 會將該參數在工作階段中目前的值儲存為資料庫專屬的值。
+
+關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
 
 <a id="id-1.9.3.7.7"></a>
 

@@ -70,10 +70,11 @@ where action is one of:
 :   變更程序是否為 SECURITY DEFINER 程序。為了符合 SQL，關鍵字 `EXTERNAL` 會被忽略。關於此功能的更多資訊，請參閱 [CREATE PROCEDURE](sql-createprocedure.md)。
 
 *`configuration_parameter`*<br>*`value`*
-:   新增或變更呼叫程序時要對組態參數進行的設定。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除程序本身的區域設定，使程序以其環境中現有的值執行。使用 `RESET
-    ALL` 可清除所有程序本身的區域設定。`SET FROM CURRENT` 會將執行 `ALTER PROCEDURE` 時該參數的目前值，儲存為進入程序時要套用的值。
 
-    關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
+新增或變更呼叫程序時要對組態參數進行的設定。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除程序本身的區域設定，使程序以其環境中現有的值執行。使用 `RESET
+ALL` 可清除所有程序本身的區域設定。`SET FROM CURRENT` 會將執行 `ALTER PROCEDURE` 時該參數的目前值，儲存為進入程序時要套用的值。
+
+關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
 
 `RESTRICT`
 :   為符合 SQL 標準而接受，但會被忽略。

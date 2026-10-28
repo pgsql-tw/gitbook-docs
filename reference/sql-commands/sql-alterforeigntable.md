@@ -77,9 +77,10 @@ where action is one of:
 :   此形式會設定欄位的儲存模式。更多細節請參閱 [`ALTER TABLE`](sql-altertable.md) 中類似的形式。請注意，除非該資料表的外部資料包裝器選擇理會儲存模式，否則儲存模式不會有任何作用。
 
 `ADD table_constraint [ NOT VALID ]`
-:   此形式會在外部資料表中新增限制條件，使用與 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 相同的語法。目前只支援 `CHECK` 與 `NOT NULL` 限制條件。
 
-    與在一般資料表中新增限制條件不同，此動作不會做任何事來驗證限制條件是否正確；它只是宣告應假定某個新條件對外部資料表中的所有資料列都成立。（請參閱 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 中的討論。）若限制條件被標記為 `NOT VALID`（只允許用於 `CHECK` 的情況），則不會假定它成立，只會將它記錄下來，以供未來可能的使用。
+此形式會在外部資料表中新增限制條件，使用與 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 相同的語法。目前只支援 `CHECK` 與 `NOT NULL` 限制條件。
+
+與在一般資料表中新增限制條件不同，此動作不會做任何事來驗證限制條件是否正確；它只是宣告應假定某個新條件對外部資料表中的所有資料列都成立。（請參閱 [`CREATE FOREIGN TABLE`](sql-createforeigntable.md) 中的討論。）若限制條件被標記為 `NOT VALID`（只允許用於 `CHECK` 的情況），則不會假定它成立，只會將它記錄下來，以供未來可能的使用。
 
 `VALIDATE CONSTRAINT`
 :   此形式會將先前標記為 `NOT VALID` 的限制條件標記為有效。此動作不會驗證限制條件，但之後的查詢會假定它成立。

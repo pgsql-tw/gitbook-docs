@@ -206,21 +206,23 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 <a id="APP-PSQL-OPTION-NO-PASSWORD"></a>
 
 `-w`<br>`--no-password` [#](#APP-PSQL-OPTION-NO-PASSWORD)
-:   永不提示輸入密碼。若伺服器要求密碼認證，而又無法從其他來源（例如 `.pgpass` 檔案）取得密碼，連線嘗試就會失敗。此選項在沒有使用者可輸入密碼的批次作業與腳本中可能很有用。
 
-    請注意，此選項在整個工作階段中都會保持設定，因此它除了影響初始的連線嘗試之外，也會影響中繼命令
-    `\connect` 的使用。
+永不提示輸入密碼。若伺服器要求密碼認證，而又無法從其他來源（例如 `.pgpass` 檔案）取得密碼，連線嘗試就會失敗。此選項在沒有使用者可輸入密碼的批次作業與腳本中可能很有用。
+
+請注意，此選項在整個工作階段中都會保持設定，因此它除了影響初始的連線嘗試之外，也會影響中繼命令
+`\connect` 的使用。
 <a id="APP-PSQL-OPTION-PASSWORD"></a>
 
 `-W`<br>`--password` [#](#APP-PSQL-OPTION-PASSWORD)
-:   強制 psql 在連線到資料庫之前提示輸入密碼，即使該密碼不會被使用。
 
-    若伺服器要求密碼認證，而又無法從其他來源（例如 `.pgpass`
-    檔案）取得密碼，psql 無論如何都會提示輸入密碼。不過，psql
-    會浪費一次連線嘗試才發現伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免這次額外的連線嘗試。
+強制 psql 在連線到資料庫之前提示輸入密碼，即使該密碼不會被使用。
 
-    請注意，此選項在整個工作階段中都會保持設定，因此它除了影響初始的連線嘗試之外，也會影響中繼命令
-    `\connect` 的使用。
+若伺服器要求密碼認證，而又無法從其他來源（例如 `.pgpass`
+檔案）取得密碼，psql 無論如何都會提示輸入密碼。不過，psql
+會浪費一次連線嘗試才發現伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免這次額外的連線嘗試。
+
+請注意，此選項在整個工作階段中都會保持設定，因此它除了影響初始的連線嘗試之外，也會影響中繼命令
+`\connect` 的使用。
 <a id="APP-PSQL-OPTION-EXPANDED"></a>
 
 `-x`<br>`--expanded` [#](#APP-PSQL-OPTION-EXPANDED)
@@ -244,14 +246,15 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 <a id="APP-PSQL-OPTION-SINGLE-TRANSACTION"></a>
 
 `-1`<br>`--single-transaction` [#](#APP-PSQL-OPTION-SINGLE-TRANSACTION)
-:   此選項只能與一個或多個
-    `-c` 和／或 `-f` 選項組合使用。它會使
-    psql 在第一個這類選項之前發出 `BEGIN` 命令，並在最後一個之後發出 `COMMIT` 命令，藉此將所有命令包在單一交易中。若任何一個命令失敗，且已設定變數
-    `ON_ERROR_STOP`，則改為送出
-    `ROLLBACK` 命令。這可確保要嘛所有命令都成功完成，要嘛不套用任何變更。
 
-    若命令本身包含 `BEGIN`、`COMMIT`
-    或 `ROLLBACK`，此選項就無法達到預期效果。此外，若某個命令無法在交易區塊內執行，指定此選項會導致整個交易失敗。
+此選項只能與一個或多個
+`-c` 和／或 `-f` 選項組合使用。它會使
+psql 在第一個這類選項之前發出 `BEGIN` 命令，並在最後一個之後發出 `COMMIT` 命令，藉此將所有命令包在單一交易中。若任何一個命令失敗，且已設定變數
+`ON_ERROR_STOP`，則改為送出
+`ROLLBACK` 命令。這可確保要嘛所有命令都成功完成，要嘛不套用任何變更。
+
+若命令本身包含 `BEGIN`、`COMMIT`
+或 `ROLLBACK`，此選項就無法達到預期效果。此外，若某個命令無法在交易區塊內執行，指定此選項會導致整個交易失敗。
 <a id="APP-PSQL-OPTION-HELP"></a>
 
 `-?`<br>`--help[=topic]` [#](#APP-PSQL-OPTION-HELP)
@@ -475,11 +478,12 @@ name`。
 <a id="APP-PSQL-META-COMMAND-CONNINFO"></a>
 
 `\conninfo` [#](#APP-PSQL-META-COMMAND-CONNINFO)
-:   輸出目前資料庫連線的相關資訊，若使用 SSL，也包括 SSL 相關資訊。
 
-    請注意，`Client User` 欄位顯示的是連線當時的使用者，而
-    `Superuser` 欄位則表示目前使用者（在目前的執行情境中）是否具有超級使用者權限。這兩個使用者通常相同，但也可能不同，例如目前使用者已透過
-    `SET ROLE` 命令變更時。
+輸出目前資料庫連線的相關資訊，若使用 SSL，也包括 SSL 相關資訊。
+
+請注意，`Client User` 欄位顯示的是連線當時的使用者，而
+`Superuser` 欄位則表示目前使用者（在目前的執行情境中）是否具有超級使用者權限。這兩個使用者通常相同，但也可能不同，例如目前使用者已透過
+`SET ROLE` 命令變更時。
 <a id="APP-PSQL-META-COMMANDS-COPY"></a>
 
 `\copy { table [ ( column_list ) ] } from { 'filename' | program 'command' | stdin | pstdin } [ [ with ] ( option [, ...] ) ] [ where condition ]`<br>`\copy { table [ ( column_list ) ] | ( query ) } to { 'filename' | program 'command' | stdout | pstdout } [ [ with ] ( option [, ...] ) ]` [#](#APP-PSQL-META-COMMANDS-COPY)
@@ -883,17 +887,18 @@ name`。
 <a id="APP-PSQL-META-COMMAND-DP-UC"></a>
 
 `\dP[itnx+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DP-UC)
-:   列出分割關聯。
-    若指定了 *`pattern`*，
-    則只列出名稱符合該模式的項目。
-    可以在命令後附加修飾字 `t`（資料表）與 `i`
-    （索引），以篩選要列出的關聯種類。預設情況下，會列出分割資料表與分割索引。
 
-    若使用修飾字 `n`（「nested」），或指定了模式，則會包含非根層級的分割關聯，並顯示一個欄位，呈現每個分割關聯的父關聯。
+列出分割關聯。
+若指定了 *`pattern`*，
+則只列出名稱符合該模式的項目。
+可以在命令後附加修飾字 `t`（資料表）與 `i`
+（索引），以篩選要列出的關聯種類。預設情況下，會列出分割資料表與分割索引。
 
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
-    若在命令名稱後附加 `+`，則也會顯示每個關聯之分割區大小的總和，以及該關聯的描述。
-    若 `n` 與 `+` 組合使用，則會顯示兩種大小：一種是直接附加之葉分割區的總大小，另一種是所有分割區（包括間接附加的子分割區）的總大小。
+若使用修飾字 `n`（「nested」），或指定了模式，則會包含非根層級的分割關聯，並顯示一個欄位，呈現每個分割關聯的父關聯。
+
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+若在命令名稱後附加 `+`，則也會顯示每個關聯之分割區大小的總和，以及該關聯的描述。
+若 `n` 與 `+` 組合使用，則會顯示兩種大小：一種是直接附加之葉分割區的總大小，另一種是所有分割區（包括間接附加的子分割區）的總大小。
 <a id="APP-PSQL-META-COMMAND-DRDS"></a>
 
 `\drds[x] [ role-pattern [ database-pattern ] ]` [#](#APP-PSQL-META-COMMAND-DRDS)
@@ -910,16 +915,17 @@ name`。
 <a id="APP-PSQL-META-COMMAND-DRG"></a>
 
 `\drg[Sx] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DRG)
-:   列出每個已授予之角色成員資格的資訊，包括所指派的選項（`ADMIN`、
-    `INHERIT` 和／或 `SET`）以及授予者。
-    關於角色成員資格的資訊，請參閱 [`GRANT`](../sql-commands/sql-grant.md)
-    命令。
 
-    預設情況下，只會顯示授予使用者建立之角色的成員資格；若要包含系統角色，請提供
-    `S` 修飾字。
-    若指定了 *`pattern`*，
-    則只列出授予名稱符合該模式之角色的成員資格。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
+列出每個已授予之角色成員資格的資訊，包括所指派的選項（`ADMIN`、
+`INHERIT` 和／或 `SET`）以及授予者。
+關於角色成員資格的資訊，請參閱 [`GRANT`](../sql-commands/sql-grant.md)
+命令。
+
+預設情況下，只會顯示授予使用者建立之角色的成員資格；若要包含系統角色，請提供
+`S` 修飾字。
+若指定了 *`pattern`*，
+則只列出授予名稱符合該模式之角色的成員資格。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
 <a id="APP-PSQL-META-COMMAND-DRP"></a>
 
 `\dRp[x+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DRP)
@@ -968,15 +974,16 @@ name`。
 <a id="APP-PSQL-META-COMMAND-DX-UC"></a>
 
 `\dX[x] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DX-UC)
-:   列出擴充統計資訊。
-    若指定了 *`pattern`*，
-    則只列出名稱符合該模式的擴充統計資訊。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
 
-    每一種擴充統計資訊的狀態，會顯示在以其統計種類命名的欄位中（例如 Ndistinct）。
-    `defined` 表示建立統計資訊時有要求此種類，而 NULL 表示未要求。
-    若你想知道是否已執行 [`ANALYZE`](../sql-commands/sql-analyze.md)
-    且統計資訊可供規劃器使用，可以使用 `pg_stats_ext`。
+列出擴充統計資訊。
+若指定了 *`pattern`*，
+則只列出名稱符合該模式的擴充統計資訊。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+
+每一種擴充統計資訊的狀態，會顯示在以其統計種類命名的欄位中（例如 Ndistinct）。
+`defined` 表示建立統計資訊時有要求此種類，而 NULL 表示未要求。
+若你想知道是否已執行 [`ANALYZE`](../sql-commands/sql-analyze.md)
+且統計資訊可供規劃器使用，可以使用 `pg_stats_ext`。
 <a id="APP-PSQL-META-COMMAND-DY"></a>
 
 `\dy[x+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DY)
@@ -1066,19 +1073,20 @@ name`。
 <a id="APP-PSQL-META-COMMAND-EV"></a>
 
 `\ev [ view_name [ line_number ] ]` [#](#APP-PSQL-META-COMMAND-EV)
-:   此命令會擷取並編輯指定檢視表的定義，形式為 `CREATE OR REPLACE VIEW` 命令。
-    編輯方式與 `\edit` 相同。
-    若你未儲存就結束編輯器，該陳述式會被捨棄。
-    若你儲存後結束編輯器，而且你在更新後的命令中加上了分號，它就會立即執行。否則它會重新顯示；
-    輸入分號或 `\g` 以送出它，或輸入 `\r`
-    以取消。
 
-    若未指定檢視表，則會呈現一個空白的 `CREATE VIEW`
-    範本供你編輯。
+此命令會擷取並編輯指定檢視表的定義，形式為 `CREATE OR REPLACE VIEW` 命令。
+編輯方式與 `\edit` 相同。
+若你未儲存就結束編輯器，該陳述式會被捨棄。
+若你儲存後結束編輯器，而且你在更新後的命令中加上了分號，它就會立即執行。否則它會重新顯示；
+輸入分號或 `\g` 以送出它，或輸入 `\r`
+以取消。
 
-    若指定了行號，psql 會將游標定位在檢視表定義的指定行。
+若未指定檢視表，則會呈現一個空白的 `CREATE VIEW`
+範本供你編輯。
 
-    與大多數其他中繼命令不同，該行的其餘部分一律被視為 `\ev` 的引數，而且引數中既不會進行變數插值，也不會進行反引號展開。
+若指定了行號，psql 會將游標定位在檢視表定義的指定行。
+
+與大多數其他中繼命令不同，該行的其餘部分一律被視為 `\ev` 的引數，而且引數中既不會進行變數插值，也不會進行反引號展開。
 <a id="APP-PSQL-META-COMMAND-F"></a>
 
 `\f [ string ]` [#](#APP-PSQL-META-COMMAND-F)
@@ -1086,21 +1094,23 @@ name`。
 <a id="APP-PSQL-META-COMMAND-G"></a>
 
 `\g [ (option=value [...]) ] [ filename ]`<br>`\g [ (option=value [...]) ] [ |command ]` [#](#APP-PSQL-META-COMMAND-G)
-:   將目前的查詢緩衝區送到伺服器執行。
 
-    若 `\g` 之後出現括號，括號內是以空白分隔的 *`option`*`=`*`value`* 格式選項子句清單，其解讀方式與 `\pset` *`option`* *`value`* 命令相同，但只在這次查詢期間生效。在此清單中，`=` 符號兩側不允許有空白，但選項子句之間必須以空白分隔。若省略 `=`*`value`*，則所指定的 *`option`* 會以與不指定 *`value`* 的 `\pset` *`option`* 相同的方式變更。
+將目前的查詢緩衝區送到伺服器執行。
 
-    若給定 *`filename`* 或 `|`*`command`* 引數，查詢的輸出會寫入指定的檔案，或以管線傳給指定的 shell 命令，而不是如平常一樣顯示出來。只有在查詢成功傳回零筆或更多筆資料列時，才會寫入該檔案或命令；查詢失敗或屬於不傳回資料的 SQL 命令時則不會寫入。
+若 `\g` 之後出現括號，括號內是以空白分隔的 *`option`*`=`*`value`* 格式選項子句清單，其解讀方式與 `\pset` *`option`* *`value`* 命令相同，但只在這次查詢期間生效。在此清單中，`=` 符號兩側不允許有空白，但選項子句之間必須以空白分隔。若省略 `=`*`value`*，則所指定的 *`option`* 會以與不指定 *`value`* 的 `\pset` *`option`* 相同的方式變更。
 
-    若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。除了這個行為之外，不帶任何引數的 `\g` 基本上等同於分號。帶引數時，`\g` 提供了 `\o` 命令的「一次性」替代方式，並且還允許一次性地調整平常由 `\pset` 設定的輸出格式選項。
+若給定 *`filename`* 或 `|`*`command`* 引數，查詢的輸出會寫入指定的檔案，或以管線傳給指定的 shell 命令，而不是如平常一樣顯示出來。只有在查詢成功傳回零筆或更多筆資料列時，才會寫入該檔案或命令；查詢失敗或屬於不傳回資料的 SQL 命令時則不會寫入。
 
-    若最後一個引數以 `|` 開頭，該行的其餘部分全部會被當成要執行的 *`command`*，而且其中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
+若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。除了這個行為之外，不帶任何引數的 `\g` 基本上等同於分號。帶引數時，`\g` 提供了 `\o` 命令的「一次性」替代方式，並且還允許一次性地調整平常由 `\pset` 設定的輸出格式選項。
+
+若最後一個引數以 `|` 開頭，該行的其餘部分全部會被當成要執行的 *`command`*，而且其中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
 <a id="APP-PSQL-META-COMMAND-GDESC"></a>
 
 `\gdesc` [#](#APP-PSQL-META-COMMAND-GDESC)
-:   顯示目前查詢緩衝區之結果的描述（也就是欄位名稱與資料型別）。查詢並不會真正執行；不過，若其中含有某種語法錯誤，該錯誤會以一般方式回報。
 
-    若目前的查詢緩衝區是空的，則改為描述最近一次送出的查詢。
+顯示目前查詢緩衝區之結果的描述（也就是欄位名稱與資料型別）。查詢並不會真正執行；不過，若其中含有某種語法錯誤，該錯誤會以一般方式回報。
+
+若目前的查詢緩衝區是空的，則改為描述最近一次送出的查詢。
 <a id="APP-PSQL-META-COMMAND-GETENV"></a>
 
 `\getenv psql_var env_var` [#](#APP-PSQL-META-COMMAND-GETENV)
@@ -1316,9 +1326,10 @@ name`。
 <a id="APP-PSQL-META-COMMAND-PROMPT"></a>
 
 `\prompt [ text ] name` [#](#APP-PSQL-META-COMMAND-PROMPT)
-:   提示使用者輸入文字，並將該文字指派給變數 *`name`*。可以指定選用的提示字串 *`text`*。（若提示字串由多個單字組成，請用單引號括住該文字。）
 
-    預設情況下，`\prompt` 使用終端機進行輸入與輸出。不過，若使用了 `-f` 命令列選項，`\prompt` 會使用標準輸入與標準輸出。
+提示使用者輸入文字，並將該文字指派給變數 *`name`*。可以指定選用的提示字串 *`text`*。（若提示字串由多個單字組成，請用單引號括住該文字。）
+
+預設情況下，`\prompt` 使用終端機進行輸入與輸出。不過，若使用了 `-f` 命令列選項，`\prompt` 會使用標準輸入與標準輸出。
 <a id="APP-PSQL-META-COMMAND-PSET"></a>
 
 `\pset [ option [ value ] ]` [#](#APP-PSQL-META-COMMAND-PSET)
@@ -1475,9 +1486,10 @@ name`。
 <a id="APP-PSQL-META-COMMAND-RESTRICT"></a>
 
 `\restrict restrict_key` [#](#APP-PSQL-META-COMMAND-RESTRICT)
-:   以所提供的金鑰進入「受限」模式。在此模式下，唯一允許的中繼命令是用來離開受限模式的 `\unrestrict`。金鑰只能包含英數字元。
 
-    此命令主要供 pg_dump、pg_dumpall 與 pg_restore 所產生的純文字傾印使用，但在其他地方也可能有用。
+以所提供的金鑰進入「受限」模式。在此模式下，唯一允許的中繼命令是用來離開受限模式的 `\unrestrict`。金鑰只能包含英數字元。
+
+此命令主要供 pg_dump、pg_dumpall 與 pg_restore 所產生的純文字傾印使用，但在其他地方也可能有用。
 <a id="APP-PSQL-META-COMMAND-S"></a>
 
 `\s [ filename ]` [#](#APP-PSQL-META-COMMAND-S)
@@ -1511,21 +1523,23 @@ name`。
 <a id="APP-PSQL-META-COMMAND-SF"></a>
 
 `\sf[+] function_description` [#](#APP-PSQL-META-COMMAND-SF)
-:   此命令會取得並顯示指定函式或程序的定義，形式為 `CREATE OR REPLACE FUNCTION` 或 `CREATE OR REPLACE PROCEDURE` 命令。定義會印到由 `\o` 設定的目前查詢輸出通道。
 
-    目標函式可以只用名稱指定，也可以用名稱加上引數指定，例如 `foo(integer, text)`。若有超過一個同名的函式，就必須提供引數型別。
+此命令會取得並顯示指定函式或程序的定義，形式為 `CREATE OR REPLACE FUNCTION` 或 `CREATE OR REPLACE PROCEDURE` 命令。定義會印到由 `\o` 設定的目前查詢輸出通道。
 
-    若在命令名稱後加上 `+`，輸出的各行會加上行號，函式主體的第一行為第 1 行。
+目標函式可以只用名稱指定，也可以用名稱加上引數指定，例如 `foo(integer, text)`。若有超過一個同名的函式，就必須提供引數型別。
 
-    與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\sf` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。
+若在命令名稱後加上 `+`，輸出的各行會加上行號，函式主體的第一行為第 1 行。
+
+與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\sf` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。
 <a id="APP-PSQL-META-COMMAND-SV"></a>
 
 `\sv[+] view_name` [#](#APP-PSQL-META-COMMAND-SV)
-:   此命令會取得並顯示指定檢視表的定義，形式為 `CREATE OR REPLACE VIEW` 命令。定義會印到由 `\o` 設定的目前查詢輸出通道。
 
-    若在命令名稱後加上 `+`，輸出的各行會從 1 開始加上行號。
+此命令會取得並顯示指定檢視表的定義，形式為 `CREATE OR REPLACE VIEW` 命令。定義會印到由 `\o` 設定的目前查詢輸出通道。
 
-    與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\sv` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。
+若在命令名稱後加上 `+`，輸出的各行會從 1 開始加上行號。
+
+與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\sv` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。
 <a id="APP-PSQL-META-COMMAND-PIPELINE"></a>
 
 `\startpipeline`<br>`\sendpipeline`<br>`\syncpipeline`<br>`\endpipeline`<br>`\flushrequest`<br>`\flush`<br>`\getresults [ number_results ]` [#](#APP-PSQL-META-COMMAND-PIPELINE)
@@ -1569,23 +1583,26 @@ name`。
 <a id="APP-PSQL-META-COMMAND-UNRESTRICT"></a>
 
 `\unrestrict restrict_key` [#](#APP-PSQL-META-COMMAND-UNRESTRICT)
-:   離開「受限」模式（也就是其他所有中繼命令都被封鎖的模式），前提是指定的金鑰與進入受限模式時提供給 `\restrict` 的金鑰相符。
 
-    此命令主要供 pg_dump、pg_dumpall 與 pg_restore 所產生的純文字傾印使用，但在其他地方也可能有用。
+離開「受限」模式（也就是其他所有中繼命令都被封鎖的模式），前提是指定的金鑰與進入受限模式時提供給 `\restrict` 的金鑰相符。
 
-    與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\unrestrict` 的引數，而且既不進行變數插值，也不進行反引號展開。
+此命令主要供 pg_dump、pg_dumpall 與 pg_restore 所產生的純文字傾印使用，但在其他地方也可能有用。
+
+與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\unrestrict` 的引數，而且既不進行變數插值，也不進行反引號展開。
 <a id="APP-PSQL-META-COMMAND-UNSET"></a>
 
 `\unset name` [#](#APP-PSQL-META-COMMAND-UNSET)
-:   取消設定（刪除）psql 變數 *`name`*。
 
-    大多數控制 psql 行為的變數無法取消設定；對它們執行 `\unset` 命令，會被解讀為將其設為預設值。請參閱下方的[變數](app-psql.md#APP-PSQL-VARIABLES)。
+取消設定（刪除）psql 變數 *`name`*。
+
+大多數控制 psql 行為的變數無法取消設定；對它們執行 `\unset` 命令，會被解讀為將其設為預設值。請參閱下方的[變數](app-psql.md#APP-PSQL-VARIABLES)。
 <a id="APP-PSQL-META-COMMAND-WRITE"></a>
 
 `\w` 或 `\write` *`filename`*<br>`\w` 或 `\write` `|`*`command`* [#](#APP-PSQL-META-COMMAND-WRITE)
-:   將目前的查詢緩衝區寫入檔案 *`filename`*，或以管線傳給 shell 命令 *`command`*。若目前的查詢緩衝區是空的，則改為寫出最近一次執行的查詢。
 
-    若引數以 `|` 開頭，該行的其餘部分全部會被當成要執行的 *`command`*，而且其中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
+將目前的查詢緩衝區寫入檔案 *`filename`*，或以管線傳給 shell 命令 *`command`*。若目前的查詢緩衝區是空的，則改為寫出最近一次執行的查詢。
+
+若引數以 `|` 開頭，該行的其餘部分全部會被當成要執行的 *`command`*，而且其中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
 <a id="APP-PSQL-META-COMMAND-WARN"></a>
 
 `\warn text [ ... ]` [#](#APP-PSQL-META-COMMAND-WARN)
@@ -1593,9 +1610,10 @@ name`。
 <a id="APP-PSQL-META-COMMAND-WATCH"></a>
 
 `\watch [ i[nterval]=seconds ] [ c[ount]=times ] [ m[in_rows]=rows ] [ seconds ]` [#](#APP-PSQL-META-COMMAND-WATCH)
-:   重複執行目前的查詢緩衝區（如同 `\g` 所做的），直到被中斷、查詢失敗、達到執行次數上限（若有給定），或查詢傳回的資料列數不再達到最小數量為止。每次執行之間等待指定的秒數（預設為 2）。預設的等待時間可以用變數 [`WATCH_INTERVAL`](app-psql.md#APP-PSQL-VARIABLES-WATCH-INTERVAL) 變更。為了向後相容性，*`seconds`* 可以加上或不加 `interval=` 前綴來指定。每個查詢結果都會連同一個標頭一起顯示，標頭包含 `\pset title` 字串（若有）、查詢開始的時間以及延遲間隔。
 
-    若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。
+重複執行目前的查詢緩衝區（如同 `\g` 所做的），直到被中斷、查詢失敗、達到執行次數上限（若有給定），或查詢傳回的資料列數不再達到最小數量為止。每次執行之間等待指定的秒數（預設為 2）。預設的等待時間可以用變數 [`WATCH_INTERVAL`](app-psql.md#APP-PSQL-VARIABLES-WATCH-INTERVAL) 變更。為了向後相容性，*`seconds`* 可以加上或不加 `interval=` 前綴來指定。每個查詢結果都會連同一個標頭一起顯示，標頭包含 `\pset title` 字串（若有）、查詢開始的時間以及延遲間隔。
+
+若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。
 <a id="APP-PSQL-META-COMMAND-X"></a>
 
 `\x [ on | off | auto ]` [#](#APP-PSQL-META-COMMAND-X)
@@ -1603,15 +1621,17 @@ name`。
 <a id="APP-PSQL-META-COMMAND-Z"></a>
 
 `\z[Sx] [ pattern ]` [#](#APP-PSQL-META-COMMAND-Z)
-:   列出資料表、檢視表與序列，以及它們相關的存取權限。若指定了 *`pattern`*，只會列出名稱符合該模式的資料表、檢視表與序列。預設只顯示使用者建立的物件；提供模式或 `S` 修飾字可將系統物件也包含進來。若在命令名稱後加上 `x`，結果會以展開模式顯示。
 
-    這是 `\dp`（「display privileges」，顯示權限）的別名。
+列出資料表、檢視表與序列，以及它們相關的存取權限。若指定了 *`pattern`*，只會列出名稱符合該模式的資料表、檢視表與序列。預設只顯示使用者建立的物件；提供模式或 `S` 修飾字可將系統物件也包含進來。若在命令名稱後加上 `x`，結果會以展開模式顯示。
+
+這是 `\dp`（「display privileges」，顯示權限）的別名。
 <a id="APP-PSQL-META-COMMAND-EXCLAMATION-MARK"></a>
 
 `\! [ command ]` [#](#APP-PSQL-META-COMMAND-EXCLAMATION-MARK)
-:   不帶引數時，會跳出到子 shell；子 shell 結束後 psql 會繼續運作。帶引數時，會執行 shell 命令 *`command`*。
 
-    與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\!` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
+不帶引數時，會跳出到子 shell；子 shell 結束後 psql 會繼續運作。帶引數時，會執行 shell 命令 *`command`*。
+
+與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\!` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
 <a id="APP-PSQL-META-COMMAND-QUESTION-MARK"></a>
 
 `\? [ topic ]` [#](#APP-PSQL-META-COMMAND-QUESTION-MARK)
@@ -2321,13 +2341,14 @@ Readline。這會停用 Tab 鍵補全、命令列歷史的使用或記錄，以�
 <a id="APP-PSQL-FILES-PSQL-HISTORY"></a>
 
 `.psql_history` [#](#APP-PSQL-FILES-PSQL-HISTORY)
-:   命令列歷史儲存在檔案
-    `~/.psql_history` 中，
-    在 Windows 上則為 `%APPDATA%\postgresql\psql_history`。
 
-    歷史檔案的位置可以透過
-    `HISTFILE` psql 變數或
-    `PSQL_HISTORY` 環境變數明確設定。
+命令列歷史儲存在檔案
+`~/.psql_history` 中，
+在 Windows 上則為 `%APPDATA%\postgresql\psql_history`。
+
+歷史檔案的位置可以透過
+`HISTFILE` psql 變數或
+`PSQL_HISTORY` 環境變數明確設定。
 
 <a id="id-1.9.4.21.11"></a>
 

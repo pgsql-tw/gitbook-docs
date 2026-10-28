@@ -41,9 +41,10 @@ CREATE EVENT TRIGGER name
 :   相關聯之 *`filter_variable`* 的值清單，觸發程序應該針對這些值觸發。對 `TAG` 而言，這表示命令標籤的清單（例如 `'DROP FUNCTION'`）。
 
 *`function_name`*
-:   使用者提供的函式，宣告為不接受任何引數，並傳回 `event_trigger` 型別。
 
-    在 `CREATE EVENT TRIGGER` 的語法中，關鍵字 `FUNCTION` 與 `PROCEDURE` 是等價的，但所參照的函式無論如何都必須是函式，而不是程序。此處使用關鍵字 `PROCEDURE` 是歷史因素，且已不建議使用。
+使用者提供的函式，宣告為不接受任何引數，並傳回 `event_trigger` 型別。
+
+在 `CREATE EVENT TRIGGER` 的語法中，關鍵字 `FUNCTION` 與 `PROCEDURE` 是等價的，但所參照的函式無論如何都必須是函式，而不是程序。此處使用關鍵字 `PROCEDURE` 是歷史因素，且已不建議使用。
 
 <a id="SQL-CREATEEVENTTRIGGER-NOTES"></a>
 

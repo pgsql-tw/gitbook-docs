@@ -88,11 +88,12 @@ DATABASE` 子句時，只套用到指定資料庫中的工作階段。若指定 
 <a id="SQL-ALTERROLE-PARAMS-CONFIGURATION-PARAMETER"></a>
 
 *`configuration_parameter`*<br>*`value`* [#](#SQL-ALTERROLE-PARAMS-CONFIGURATION-PARAMETER)
-:   將此角色中指定組態參數的工作階段預設值設為給定的值。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除角色專屬的變數設定，該角色在新的工作階段中將繼承系統層級的預設設定。使用 `RESET ALL` 可清除所有角色專屬的設定。`SET FROM CURRENT` 會將該參數在工作階段中目前的值儲存為角色專屬的值。若指定了 `IN DATABASE`，則只會針對給定的角色與資料庫設定或移除該組態參數。
 
-    角色專屬的變數設定只在登入時生效；[`SET ROLE`](sql-set-role.md) 與 [`SET SESSION AUTHORIZATION`](sql-set-session-authorization.md) 不會處理角色專屬的變數設定。
+將此角色中指定組態參數的工作階段預設值設為給定的值。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除角色專屬的變數設定，該角色在新的工作階段中將繼承系統層級的預設設定。使用 `RESET ALL` 可清除所有角色專屬的設定。`SET FROM CURRENT` 會將該參數在工作階段中目前的值儲存為角色專屬的值。若指定了 `IN DATABASE`，則只會針對給定的角色與資料庫設定或移除該組態參數。
 
-    關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
+角色專屬的變數設定只在登入時生效；[`SET ROLE`](sql-set-role.md) 與 [`SET SESSION AUTHORIZATION`](sql-set-session-authorization.md) 不會處理角色專屬的變數設定。
+
+關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
 
 <a id="SQL-ALTERROLE-NOTES"></a>
 

@@ -46,11 +46,12 @@ pg_checksums 會檢查、啟用或停用 PostgreSQL 叢集中的資料校驗和�
 :   啟用進度回報。開啟此選項後，會在檢查或啟用校驗和時提供進度報告。
 
 `--sync-method=method`
-:   設定為預設值 `fsync` 時，`pg_checksums` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時，會跟隨 WAL 目錄與每個已設定資料表空間的符號連結。
 
-    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+設定為預設值 `fsync` 時，`pg_checksums` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時，會跟隨 WAL 目錄與每個已設定資料表空間的符號連結。
 
-    使用 `--no-sync` 時，此選項沒有作用。
+在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+
+使用 `--no-sync` 時，此選項沒有作用。
 
 `-v`<br>`--verbose`
 :   啟用詳細輸出。列出所有已檢查的檔案。

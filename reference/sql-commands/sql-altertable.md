@@ -150,9 +150,10 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-SET-DATA-TYPE"></a>
 
 `SET DATA TYPE` [#](#SQL-ALTERTABLE-DESC-SET-DATA-TYPE)
-:   此形式會變更資料表中某個欄位的型別。涉及該欄位的索引與簡單資料表限制條件，會透過重新剖析原先提供的運算式，自動轉換為使用新的欄位型別。選擇性的 `COLLATE` 子句為新欄位指定定序；若省略，則定序為新欄位型別的預設定序。選擇性的 `USING` 子句指定如何從舊值計算新的欄位值；若省略，預設的轉換方式與從舊資料型別到新資料型別的指派轉換相同。若舊型別到新型別之間沒有隱含轉換或指派轉換，就必須提供 `USING` 子句。
 
-    使用此形式時，該欄位的統計資訊會被移除，因此建議之後對該資料表執行 [`ANALYZE`](sql-analyze.md)。對於虛擬產生欄位，不需要執行 `ANALYZE`，因為這類欄位永遠不會有統計資訊。
+此形式會變更資料表中某個欄位的型別。涉及該欄位的索引與簡單資料表限制條件，會透過重新剖析原先提供的運算式，自動轉換為使用新的欄位型別。選擇性的 `COLLATE` 子句為新欄位指定定序；若省略，則定序為新欄位型別的預設定序。選擇性的 `USING` 子句指定如何從舊值計算新的欄位值；若省略，預設的轉換方式與從舊資料型別到新資料型別的指派轉換相同。若舊型別到新型別之間沒有隱含轉換或指派轉換，就必須提供 `USING` 子句。
+
+使用此形式時，該欄位的統計資訊會被移除，因此建議之後對該資料表執行 [`ANALYZE`](sql-analyze.md)。對於虛擬產生欄位，不需要執行 `ANALYZE`，因為這類欄位永遠不會有統計資訊。
 <a id="SQL-ALTERTABLE-DESC-SET-DROP-DEFAULT"></a>
 
 `SET`/`DROP DEFAULT` [#](#SQL-ALTERTABLE-DESC-SET-DROP-DEFAULT)
@@ -160,31 +161,35 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-SET-DROP-NOT-NULL"></a>
 
 `SET`/`DROP NOT NULL` [#](#SQL-ALTERTABLE-DESC-SET-DROP-NOT-NULL)
-:   這些形式會變更欄位被標記為允許空值或拒絕空值。
 
-    只有在資料表中沒有任何紀錄的該欄位含有 `NULL` 值時，才可以對該欄位套用 `SET NOT NULL`。通常這會在 `ALTER TABLE` 期間透過掃描整個資料表來檢查，除非指定了 `NOT VALID`；不過，若存在一個有效的 `CHECK` 限制條件（且未在同一個命令中被移除），能證明不可能存在 `NULL`，則會略過資料表掃描。若欄位具有無效的非空值限制條件，`SET NOT NULL` 會驗證它。
+這些形式會變更欄位被標記為允許空值或拒絕空值。
 
-    若此資料表是分割區，且某個欄位在父資料表中被標記為 `NOT NULL`，就不能對該欄位執行 `DROP NOT NULL`。若要從所有分割區移除 `NOT NULL` 限制條件，請對父資料表執行 `DROP NOT NULL`。即使父資料表上沒有 `NOT NULL` 限制條件，若有需要，仍然可以將這種限制條件加到個別分割區上；也就是說，即使父資料表允許空值，子資料表也可以不允許空值，但反過來則不行。也可以僅從父資料表（`ONLY`）移除 `NOT NULL` 限制條件，這樣不會從子資料表中移除它。
+只有在資料表中沒有任何紀錄的該欄位含有 `NULL` 值時，才可以對該欄位套用 `SET NOT NULL`。通常這會在 `ALTER TABLE` 期間透過掃描整個資料表來檢查，除非指定了 `NOT VALID`；不過，若存在一個有效的 `CHECK` 限制條件（且未在同一個命令中被移除），能證明不可能存在 `NULL`，則會略過資料表掃描。若欄位具有無效的非空值限制條件，`SET NOT NULL` 會驗證它。
+
+若此資料表是分割區，且某個欄位在父資料表中被標記為 `NOT NULL`，就不能對該欄位執行 `DROP NOT NULL`。若要從所有分割區移除 `NOT NULL` 限制條件，請對父資料表執行 `DROP NOT NULL`。即使父資料表上沒有 `NOT NULL` 限制條件，若有需要，仍然可以將這種限制條件加到個別分割區上；也就是說，即使父資料表允許空值，子資料表也可以不允許空值，但反過來則不行。也可以僅從父資料表（`ONLY`）移除 `NOT NULL` 限制條件，這樣不會從子資料表中移除它。
 <a id="SQL-ALTERTABLE-DESC-SET-EXPRESSION"></a>
 
 `SET EXPRESSION AS` [#](#SQL-ALTERTABLE-DESC-SET-EXPRESSION)
-:   此形式會取代產生欄位的運算式。儲存式產生欄位中的既有資料會被重寫，而之後的所有變更都會套用新的產生運算式。
 
-    對儲存式產生欄位使用此形式時，其統計資訊會被移除，因此建議之後對該資料表執行 [`ANALYZE`](sql-analyze.md)。對於虛擬產生欄位，不需要執行 `ANALYZE`，因為這類欄位永遠不會有統計資訊。
+此形式會取代產生欄位的運算式。儲存式產生欄位中的既有資料會被重寫，而之後的所有變更都會套用新的產生運算式。
+
+對儲存式產生欄位使用此形式時，其統計資訊會被移除，因此建議之後對該資料表執行 [`ANALYZE`](sql-analyze.md)。對於虛擬產生欄位，不需要執行 `ANALYZE`，因為這類欄位永遠不會有統計資訊。
 <a id="SQL-ALTERTABLE-DESC-DROP-EXPRESSION"></a>
 
 `DROP EXPRESSION [ IF EXISTS ]` [#](#SQL-ALTERTABLE-DESC-DROP-EXPRESSION)
-:   此形式會將儲存式產生欄位轉換為一般的基本欄位。欄位中的既有資料會被保留，但之後的變更將不再套用產生運算式。
 
-    此形式目前只支援儲存式產生欄位（不支援虛擬產生欄位）。
+此形式會將儲存式產生欄位轉換為一般的基本欄位。欄位中的既有資料會被保留，但之後的變更將不再套用產生運算式。
 
-    若指定了 `DROP EXPRESSION IF EXISTS` 而該欄位不是產生欄位，則不會擲出錯誤，而是發出 notice。
+此形式目前只支援儲存式產生欄位（不支援虛擬產生欄位）。
+
+若指定了 `DROP EXPRESSION IF EXISTS` 而該欄位不是產生欄位，則不會擲出錯誤，而是發出 notice。
 <a id="SQL-ALTERTABLE-DESC-GENERATED-IDENTITY"></a>
 
 `ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY`<br>`SET GENERATED { ALWAYS | BY DEFAULT }`<br>`DROP IDENTITY [ IF EXISTS ]` [#](#SQL-ALTERTABLE-DESC-GENERATED-IDENTITY)
-:   這些形式會變更欄位是否為識別欄位，或變更既有識別欄位的產生屬性。詳細資訊請參閱 [`CREATE TABLE`](sql-createtable.md)。與 `SET DEFAULT` 一樣，這些形式只會影響後續 `INSERT` 與 `UPDATE` 命令的行為；它們不會使資料表中已有的資料列發生變更。
 
-    若指定了 `DROP IDENTITY IF EXISTS` 而該欄位不是識別欄位，則不會擲出錯誤，而是發出 notice。
+這些形式會變更欄位是否為識別欄位，或變更既有識別欄位的產生屬性。詳細資訊請參閱 [`CREATE TABLE`](sql-createtable.md)。與 `SET DEFAULT` 一樣，這些形式只會影響後續 `INSERT` 與 `UPDATE` 命令的行為；它們不會使資料表中已有的資料列發生變更。
+
+若指定了 `DROP IDENTITY IF EXISTS` 而該欄位不是識別欄位，則不會擲出錯誤，而是發出 notice。
 <a id="SQL-ALTERTABLE-DESC-SET-SEQUENCE-OPTION"></a>
 
 `SET sequence_option`<br>`RESTART` [#](#SQL-ALTERTABLE-DESC-SET-SEQUENCE-OPTION)
@@ -198,9 +203,10 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-SET-ATTRIBUTE-OPTION"></a>
 
 `SET ( attribute_option = value [, ... ] )`<br>`RESET ( attribute_option [, ... ] )` [#](#SQL-ALTERTABLE-DESC-SET-ATTRIBUTE-OPTION)
-:   此形式會設定或重設各屬性的選項。目前唯一定義的各屬性選項是 `n_distinct` 與 `n_distinct_inherited`，它們會覆寫後續 [`ANALYZE`](sql-analyze.md) 操作所做的相異值數量估計。`n_distinct` 影響資料表本身的統計資訊，而 `n_distinct_inherited` 影響針對資料表及其繼承子資料表所收集的統計資訊，以及針對分割資料表所收集的統計資訊。當指定的值為正值時，查詢規劃器會假定該欄位恰好包含所指定數量的相異非空值。也可以使用小於 0 且大於或等於 -1 的值，來指定分數形式的值。這會指示查詢規劃器將指定數字的絕對值乘以資料表的估計資料列數，以估計相異值的數量。例如，值為 -1 表示欄位中的所有值都是相異的，而值為 -0.5 表示每個值平均出現兩次。當資料表的大小隨時間變化時，這可能很有用。關於 PostgreSQL 查詢規劃器如何使用統計資訊的詳細資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/planner-stats.md)。
 
-    變更各屬性的選項會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+此形式會設定或重設各屬性的選項。目前唯一定義的各屬性選項是 `n_distinct` 與 `n_distinct_inherited`，它們會覆寫後續 [`ANALYZE`](sql-analyze.md) 操作所做的相異值數量估計。`n_distinct` 影響資料表本身的統計資訊，而 `n_distinct_inherited` 影響針對資料表及其繼承子資料表所收集的統計資訊，以及針對分割資料表所收集的統計資訊。當指定的值為正值時，查詢規劃器會假定該欄位恰好包含所指定數量的相異非空值。也可以使用小於 0 且大於或等於 -1 的值，來指定分數形式的值。這會指示查詢規劃器將指定數字的絕對值乘以資料表的估計資料列數，以估計相異值的數量。例如，值為 -1 表示欄位中的所有值都是相異的，而值為 -0.5 表示每個值平均出現兩次。當資料表的大小隨時間變化時，這可能很有用。關於 PostgreSQL 查詢規劃器如何使用統計資訊的詳細資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/planner-stats.md)。
+
+變更各屬性的選項會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-SET-STORAGE"></a>
 
 `SET STORAGE { PLAIN | EXTERNAL | EXTENDED | MAIN | DEFAULT }` <a id="id-1.9.3.35.5.2.3.12.1.2"></a> [#](#SQL-ALTERTABLE-DESC-SET-STORAGE)
@@ -212,13 +218,14 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-ADD-TABLE-CONSTRAINT"></a>
 
 `ADD table_constraint [ NOT VALID ]` [#](#SQL-ALTERTABLE-DESC-ADD-TABLE-CONSTRAINT)
-:   此形式會在資料表中新增限制條件，使用與 [`CREATE TABLE`](sql-createtable.md) 相同的限制條件語法，外加 `NOT VALID` 選項；此選項目前只允許用於外鍵、`CHECK` 與非空值限制條件。
 
-    通常，此形式會掃描資料表，以驗證資料表中所有既有資料列都滿足新的限制條件。但若使用了 `NOT VALID` 選項，就會略過這個可能很耗時的掃描。該限制條件仍會套用於後續的插入或更新（也就是說，就外鍵而言，除非被參照的資料表中有相符的資料列，否則這些操作會失敗；或者，除非新資料列符合所指定的檢查條件，否則這些操作會失敗）。但在使用 `VALIDATE CONSTRAINT` 選項驗證之前，資料庫不會假定該限制條件對資料表中的所有資料列都成立。關於使用 `NOT VALID` 選項的詳細資訊，請參閱下方的[注意事項](sql-altertable.md#SQL-ALTERTABLE-NOTES)。
+此形式會在資料表中新增限制條件，使用與 [`CREATE TABLE`](sql-createtable.md) 相同的限制條件語法，外加 `NOT VALID` 選項；此選項目前只允許用於外鍵、`CHECK` 與非空值限制條件。
 
-    雖然大多數形式的 `ADD table_constraint` 都需要 `ACCESS EXCLUSIVE` 鎖定，但 `ADD FOREIGN KEY` 只需要 `SHARE ROW EXCLUSIVE` 鎖定。請注意，除了在宣告該限制條件的資料表上取得的鎖定之外，`ADD FOREIGN KEY` 也會在被參照的資料表上取得 `SHARE ROW EXCLUSIVE` 鎖定。
+通常，此形式會掃描資料表，以驗證資料表中所有既有資料列都滿足新的限制條件。但若使用了 `NOT VALID` 選項，就會略過這個可能很耗時的掃描。該限制條件仍會套用於後續的插入或更新（也就是說，就外鍵而言，除非被參照的資料表中有相符的資料列，否則這些操作會失敗；或者，除非新資料列符合所指定的檢查條件，否則這些操作會失敗）。但在使用 `VALIDATE CONSTRAINT` 選項驗證之前，資料庫不會假定該限制條件對資料表中的所有資料列都成立。關於使用 `NOT VALID` 選項的詳細資訊，請參閱下方的[注意事項](sql-altertable.md#SQL-ALTERTABLE-NOTES)。
 
-    在分割資料表上新增唯一或主鍵限制條件時，還有額外的限制；請參閱 [`CREATE TABLE`](sql-createtable.md)。
+雖然大多數形式的 `ADD table_constraint` 都需要 `ACCESS EXCLUSIVE` 鎖定，但 `ADD FOREIGN KEY` 只需要 `SHARE ROW EXCLUSIVE` 鎖定。請注意，除了在宣告該限制條件的資料表上取得的鎖定之外，`ADD FOREIGN KEY` 也會在被參照的資料表上取得 `SHARE ROW EXCLUSIVE` 鎖定。
+
+在分割資料表上新增唯一或主鍵限制條件時，還有額外的限制；請參閱 [`CREATE TABLE`](sql-createtable.md)。
 <a id="SQL-ALTERTABLE-DESC-ADD-TABLE-CONSTRAINT-USING-INDEX"></a>
 
 `ADD table_constraint_using_index` [#](#SQL-ALTERTABLE-DESC-ADD-TABLE-CONSTRAINT-USING-INDEX)
@@ -250,9 +257,10 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-VALIDATE-CONSTRAINT"></a>
 
 `VALIDATE CONSTRAINT` [#](#SQL-ALTERTABLE-DESC-VALIDATE-CONSTRAINT)
-:   此形式會驗證先前以 `NOT VALID` 建立的外鍵、檢查或非空值限制條件，做法是掃描資料表，確保沒有任何不滿足該限制條件的資料列。若該限制條件被設為 `NOT ENFORCED`，則會擲出錯誤。若限制條件已標記為有效，則不會發生任何事。（關於此命令的用處，請參閱下方[注意事項](sql-altertable.md#SQL-ALTERTABLE-NOTES)中的說明。）
 
-    此命令會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+此形式會驗證先前以 `NOT VALID` 建立的外鍵、檢查或非空值限制條件，做法是掃描資料表，確保沒有任何不滿足該限制條件的資料列。若該限制條件被設為 `NOT ENFORCED`，則會擲出錯誤。若限制條件已標記為有效，則不會發生任何事。（關於此命令的用處，請參閱下方[注意事項](sql-altertable.md#SQL-ALTERTABLE-NOTES)中的說明。）
+
+此命令會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-DROP-CONSTRAINT"></a>
 
 `DROP CONSTRAINT [ IF EXISTS ]` [#](#SQL-ALTERTABLE-DESC-DROP-CONSTRAINT)
@@ -260,21 +268,23 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-DISABLE-ENABLE-TRIGGER"></a>
 
 `DISABLE`/`ENABLE [ REPLICA | ALWAYS ] TRIGGER` [#](#SQL-ALTERTABLE-DESC-DISABLE-ENABLE-TRIGGER)
-:   這些形式設定屬於該資料表之觸發程序的觸發方式。已停用的觸發程序仍為系統所知，但在其觸發事件發生時不會執行。（對於延遲觸發程序，啟用狀態是在事件發生時檢查，而不是在觸發程序函式實際執行時檢查。）你可以停用或啟用依名稱指定的單一觸發程序、資料表上的所有觸發程序，或只停用或啟用使用者觸發程序（此選項會排除內部產生的限制條件觸發程序，例如用來實作外鍵限制條件，或可延遲的唯一性限制條件與排除限制條件的觸發程序）。停用或啟用內部產生的限制條件觸發程序需要超級使用者權限；這應該謹慎進行，因為若不執行這些觸發程序，當然就無法保證限制條件的完整性。
 
-    觸發程序的觸發機制也會受到設定變數 [session_replication_role](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-REPLICATION-ROLE) 的影響。單純啟用的觸發程序（預設）會在複寫角色為「origin」（預設）或「local」時觸發。設定為 `ENABLE REPLICA` 的觸發程序只會在工作階段處於「replica」模式時觸發，而設定為 `ENABLE ALWAYS` 的觸發程序則不論目前的複寫角色為何都會觸發。
+這些形式設定屬於該資料表之觸發程序的觸發方式。已停用的觸發程序仍為系統所知，但在其觸發事件發生時不會執行。（對於延遲觸發程序，啟用狀態是在事件發生時檢查，而不是在觸發程序函式實際執行時檢查。）你可以停用或啟用依名稱指定的單一觸發程序、資料表上的所有觸發程序，或只停用或啟用使用者觸發程序（此選項會排除內部產生的限制條件觸發程序，例如用來實作外鍵限制條件，或可延遲的唯一性限制條件與排除限制條件的觸發程序）。停用或啟用內部產生的限制條件觸發程序需要超級使用者權限；這應該謹慎進行，因為若不執行這些觸發程序，當然就無法保證限制條件的完整性。
 
-    此機制的效果是，在預設設定下，觸發程序不會在複本上觸發。這很有用，因為若在來源端使用觸發程序在資料表之間傳遞資料，複寫系統也會複寫這些被傳遞的資料；因此觸發程序不應該在複本上再觸發一次，否則會導致資料重複。不過，若觸發程序用於其他目的，例如建立外部警示，則可能適合將它設為 `ENABLE ALWAYS`，使它在複本上也會觸發。
+觸發程序的觸發機制也會受到設定變數 [session_replication_role](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-REPLICATION-ROLE) 的影響。單純啟用的觸發程序（預設）會在複寫角色為「origin」（預設）或「local」時觸發。設定為 `ENABLE REPLICA` 的觸發程序只會在工作階段處於「replica」模式時觸發，而設定為 `ENABLE ALWAYS` 的觸發程序則不論目前的複寫角色為何都會觸發。
 
-    當此命令套用於分割資料表時，分割區中對應的複製（clone）觸發程序的狀態也會一併更新，除非指定了 `ONLY`。
+此機制的效果是，在預設設定下，觸發程序不會在複本上觸發。這很有用，因為若在來源端使用觸發程序在資料表之間傳遞資料，複寫系統也會複寫這些被傳遞的資料；因此觸發程序不應該在複本上再觸發一次，否則會導致資料重複。不過，若觸發程序用於其他目的，例如建立外部警示，則可能適合將它設為 `ENABLE ALWAYS`，使它在複本上也會觸發。
 
-    此命令會取得 `SHARE ROW EXCLUSIVE` 鎖定。
+當此命令套用於分割資料表時，分割區中對應的複製（clone）觸發程序的狀態也會一併更新，除非指定了 `ONLY`。
+
+此命令會取得 `SHARE ROW EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-DISABLE-ENABLE-RULE"></a>
 
 `DISABLE`/`ENABLE [ REPLICA | ALWAYS ] RULE` [#](#SQL-ALTERTABLE-DESC-DISABLE-ENABLE-RULE)
-:   這些形式設定屬於該資料表之重寫規則的觸發方式。已停用的規則仍為系統所知，但在查詢重寫期間不會被套用。其語意與停用／啟用觸發程序相同。對於 `ON SELECT` 規則，此設定會被忽略；這類規則一律會被套用，以便即使目前工作階段處於非預設的複寫角色，檢視表仍能正常運作。
 
-    規則的觸發機制也會受到設定變數 [session_replication_role](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-REPLICATION-ROLE) 的影響，與上述的觸發程序類似。
+這些形式設定屬於該資料表之重寫規則的觸發方式。已停用的規則仍為系統所知，但在查詢重寫期間不會被套用。其語意與停用／啟用觸發程序相同。對於 `ON SELECT` 規則，此設定會被忽略；這類規則一律會被套用，以便即使目前工作階段處於非預設的複寫角色，檢視表仍能正常運作。
+
+規則的觸發機制也會受到設定變數 [session_replication_role](../../server-administration/runtime-config/runtime-config-client.md#GUC-SESSION-REPLICATION-ROLE) 的影響，與上述的觸發程序類似。
 <a id="SQL-ALTERTABLE-DESC-DISABLE-ENABLE-ROW-LEVEL-SECURITY"></a>
 
 `DISABLE`/`ENABLE ROW LEVEL SECURITY` [#](#SQL-ALTERTABLE-DESC-DISABLE-ENABLE-ROW-LEVEL-SECURITY)
@@ -286,15 +296,17 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-CLUSTER-ON"></a>
 
 `CLUSTER ON` [#](#SQL-ALTERTABLE-DESC-CLUSTER-ON)
-:   此形式會為未來的 [`CLUSTER`](sql-cluster.md) 操作選擇預設索引。它並不會實際重新叢集資料表。
 
-    變更叢集選項會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+此形式會為未來的 [`CLUSTER`](sql-cluster.md) 操作選擇預設索引。它並不會實際重新叢集資料表。
+
+變更叢集選項會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-SET-WITHOUT-CLUSTER"></a>
 
 `SET WITHOUT CLUSTER` [#](#SQL-ALTERTABLE-DESC-SET-WITHOUT-CLUSTER)
-:   此形式會從資料表中移除最近使用的 [`CLUSTER`](sql-cluster.md) 索引設定。這會影響未來未指定索引的叢集操作。
 
-    變更叢集選項會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+此形式會從資料表中移除最近使用的 [`CLUSTER`](sql-cluster.md) 索引設定。這會影響未來未指定索引的叢集操作。
+
+變更叢集選項會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-SET-WITHOUT-OIDS"></a>
 
 `SET WITHOUT OIDS` [#](#SQL-ALTERTABLE-DESC-SET-WITHOUT-OIDS)
@@ -302,29 +314,33 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-SET-ACCESS-METHOD"></a>
 
 `SET ACCESS METHOD` [#](#SQL-ALTERTABLE-DESC-SET-ACCESS-METHOD)
-:   此形式會使用指定的存取方法重寫資料表，藉此變更資料表的存取方法；指定 `DEFAULT` 會選擇 [default_table_access_method](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLE-ACCESS-METHOD) 設定參數所設定的存取方法。詳細資訊請參閱[第 62 章](../../internals/tableam/README.md)。
 
-    套用於分割資料表時，沒有資料需要重寫，但之後建立的分割區預設會使用所指定的存取方法，除非以 `USING` 子句覆寫。指定 `DEFAULT` 會移除先前的值，使未來的分割區預設使用 `default_table_access_method`。
+此形式會使用指定的存取方法重寫資料表，藉此變更資料表的存取方法；指定 `DEFAULT` 會選擇 [default_table_access_method](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLE-ACCESS-METHOD) 設定參數所設定的存取方法。詳細資訊請參閱[第 62 章](../../internals/tableam/README.md)。
+
+套用於分割資料表時，沒有資料需要重寫，但之後建立的分割區預設會使用所指定的存取方法，除非以 `USING` 子句覆寫。指定 `DEFAULT` 會移除先前的值，使未來的分割區預設使用 `default_table_access_method`。
 <a id="SQL-ALTERTABLE-DESC-SET-TABLESPACE"></a>
 
 `SET TABLESPACE` [#](#SQL-ALTERTABLE-DESC-SET-TABLESPACE)
-:   此形式會將資料表的資料表空間變更為指定的資料表空間，並將與該資料表相關聯的資料檔案移到新的資料表空間。資料表上的索引（若有的話）不會被移動；但可以用額外的 `SET TABLESPACE` 命令分別移動它們。套用於分割資料表時，不會移動任何東西，但之後以 `CREATE TABLE PARTITION OF` 建立的任何分割區都會使用該資料表空間，除非以 `TABLESPACE` 子句覆寫。
 
-    使用 `ALL IN TABLESPACE` 形式，可以移動目前資料庫中位於某個資料表空間內的所有資料表；此形式會先鎖定所有要移動的資料表，然後再逐一移動。此形式也支援 `OWNED BY`，只會移動由指定角色所擁有的資料表。若指定了 `NOWAIT` 選項，則當無法立即取得所有需要的鎖定時，命令就會失敗。請注意，此命令不會移動系統目錄；如有需要，請改用 `ALTER DATABASE` 或明確的 `ALTER TABLE` 呼叫。`information_schema` 中的關聯不被視為系統目錄的一部分，因此會被移動。另請參閱 [`CREATE TABLESPACE`](sql-createtablespace.md)。
+此形式會將資料表的資料表空間變更為指定的資料表空間，並將與該資料表相關聯的資料檔案移到新的資料表空間。資料表上的索引（若有的話）不會被移動；但可以用額外的 `SET TABLESPACE` 命令分別移動它們。套用於分割資料表時，不會移動任何東西，但之後以 `CREATE TABLE PARTITION OF` 建立的任何分割區都會使用該資料表空間，除非以 `TABLESPACE` 子句覆寫。
+
+使用 `ALL IN TABLESPACE` 形式，可以移動目前資料庫中位於某個資料表空間內的所有資料表；此形式會先鎖定所有要移動的資料表，然後再逐一移動。此形式也支援 `OWNED BY`，只會移動由指定角色所擁有的資料表。若指定了 `NOWAIT` 選項，則當無法立即取得所有需要的鎖定時，命令就會失敗。請注意，此命令不會移動系統目錄；如有需要，請改用 `ALTER DATABASE` 或明確的 `ALTER TABLE` 呼叫。`information_schema` 中的關聯不被視為系統目錄的一部分，因此會被移動。另請參閱 [`CREATE TABLESPACE`](sql-createtablespace.md)。
 <a id="SQL-ALTERTABLE-DESC-SET-LOGGED-UNLOGGED"></a>
 
 `SET { LOGGED | UNLOGGED }` [#](#SQL-ALTERTABLE-DESC-SET-LOGGED-UNLOGGED)
-:   此形式會將資料表從無日誌（unlogged）變更為有日誌（logged），或反之（請參閱 [`UNLOGGED`](sql-createtable.md#SQL-CREATETABLE-UNLOGGED)）。它不能套用於暫存資料表。
 
-    這也會變更與該資料表連結之任何序列（用於識別欄位或 serial 欄位）的持久性。不過，也可以另外單獨變更這類序列的持久性。
+此形式會將資料表從無日誌（unlogged）變更為有日誌（logged），或反之（請參閱 [`UNLOGGED`](sql-createtable.md#SQL-CREATETABLE-UNLOGGED)）。它不能套用於暫存資料表。
 
-    此形式不支援分割資料表。
+這也會變更與該資料表連結之任何序列（用於識別欄位或 serial 欄位）的持久性。不過，也可以另外單獨變更這類序列的持久性。
+
+此形式不支援分割資料表。
 <a id="SQL-ALTERTABLE-DESC-SET-STORAGE-PARAMETER"></a>
 
 `SET ( storage_parameter [= value] [, ... ] )` [#](#SQL-ALTERTABLE-DESC-SET-STORAGE-PARAMETER)
-:   此形式會變更資料表的一個或多個儲存參數。可用參數的詳細資訊，請參閱 [`CREATE TABLE`](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。請注意，此命令不會立即修改資料表內容；視參數而定，你可能需要重寫資料表才能得到想要的效果。這可以透過 [`VACUUM FULL`](sql-vacuum.md)、[`CLUSTER`](sql-cluster.md)，或某一種會強制重寫資料表的 `ALTER TABLE` 形式來完成。對於與規劃器相關的參數，變更會從下一次鎖定該資料表時開始生效，因此目前正在執行的查詢不會受到影響。
 
-    對於 fillfactor、TOAST 與 autovacuum 儲存參數，以及規劃器參數 `parallel_workers`，會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+此形式會變更資料表的一個或多個儲存參數。可用參數的詳細資訊，請參閱 [`CREATE TABLE`](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。請注意，此命令不會立即修改資料表內容；視參數而定，你可能需要重寫資料表才能得到想要的效果。這可以透過 [`VACUUM FULL`](sql-vacuum.md)、[`CLUSTER`](sql-cluster.md)，或某一種會強制重寫資料表的 `ALTER TABLE` 形式來完成。對於與規劃器相關的參數，變更會從下一次鎖定該資料表時開始生效，因此目前正在執行的查詢不會受到影響。
+
+對於 fillfactor、TOAST 與 autovacuum 儲存參數，以及規劃器參數 `parallel_workers`，會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-RESET-STORAGE-PARAMETER"></a>
 
 `RESET ( storage_parameter [, ... ] )` [#](#SQL-ALTERTABLE-DESC-RESET-STORAGE-PARAMETER)
@@ -332,9 +348,10 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-INHERIT"></a>
 
 `INHERIT parent_table` [#](#SQL-ALTERTABLE-DESC-INHERIT)
-:   此形式會將目標資料表加入為指定父資料表的新子資料表。之後，對父資料表的查詢將包含目標資料表的紀錄。要加入為子資料表，目標資料表必須已經包含與父資料表相同的所有欄位（它也可以有額外的欄位）。這些欄位的資料型別必須相符。
 
-    此外，父資料表上的所有 `CHECK` 與 `NOT NULL` 限制條件也必須存在於子資料表上，但標記為不可繼承者（也就是以 `ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT` 建立者）除外，這些會被忽略。所有相符的子資料表限制條件都不得標記為不可繼承。目前不會考慮 `UNIQUE`、`PRIMARY KEY` 與 `FOREIGN KEY` 限制條件，但這在未來可能會改變。
+此形式會將目標資料表加入為指定父資料表的新子資料表。之後，對父資料表的查詢將包含目標資料表的紀錄。要加入為子資料表，目標資料表必須已經包含與父資料表相同的所有欄位（它也可以有額外的欄位）。這些欄位的資料型別必須相符。
+
+此外，父資料表上的所有 `CHECK` 與 `NOT NULL` 限制條件也必須存在於子資料表上，但標記為不可繼承者（也就是以 `ALTER TABLE ... ADD CONSTRAINT ... NO INHERIT` 建立者）除外，這些會被忽略。所有相符的子資料表限制條件都不得標記為不可繼承。目前不會考慮 `UNIQUE`、`PRIMARY KEY` 與 `FOREIGN KEY` 限制條件，但這在未來可能會改變。
 <a id="SQL-ALTERTABLE-DESC-NO-INHERIT"></a>
 
 `NO INHERIT parent_table` [#](#SQL-ALTERTABLE-DESC-NO-INHERIT)
@@ -383,27 +400,29 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-ATTACH-PARTITION"></a>
 
 `ATTACH PARTITION partition_name { FOR VALUES partition_bound_spec | DEFAULT }` [#](#SQL-ALTERTABLE-ATTACH-PARTITION)
-:   此形式會將現有的資料表（它本身可能也是分割資料表）附加為目標資料表的分割區。可以使用 `FOR VALUES` 將該資料表附加為特定值的分割區，或使用 `DEFAULT` 將它附加為預設分割區。對於目標資料表中的每個索引，若分割區中已存在有效的等效索引，該索引會被附加到目標資料表的索引，如同執行了 ALTER INDEX ATTACH PARTITION 一樣；否則，會建立新的對應索引。分割區上的無效索引會被略過。請注意，若現有的資料表是外部資料表，且目標資料表上有 `UNIQUE` 索引，則目前不允許將該資料表附加為目標資料表的分割區。（另請參閱 [CREATE FOREIGN TABLE](sql-createforeigntable.md)。）對於目標資料表中存在的每個使用者定義的資料列層級觸發程序，都會在被附加的資料表中建立對應的觸發程序。
 
-    使用 `FOR VALUES` 的分割區，其 *`partition_bound_spec`* 使用與 [`CREATE TABLE`](sql-createtable.md) 相同的語法。分割區邊界規格必須符合目標資料表的分割策略與分割鍵。要附加的資料表必須擁有與目標資料表相同的所有欄位，且不能有更多欄位；此外，欄位型別也必須相符。並且，它必須具有目標資料表所有未標記為 `NO INHERIT` 的 `NOT NULL` 與 `CHECK` 限制條件。目前不會考慮 `FOREIGN KEY` 限制條件。若分割區中尚不存在父資料表的 `UNIQUE` 與 `PRIMARY KEY` 限制條件，則會在分割區中建立它們。
+此形式會將現有的資料表（它本身可能也是分割資料表）附加為目標資料表的分割區。可以使用 `FOR VALUES` 將該資料表附加為特定值的分割區，或使用 `DEFAULT` 將它附加為預設分割區。對於目標資料表中的每個索引，若分割區中已存在有效的等效索引，該索引會被附加到目標資料表的索引，如同執行了 ALTER INDEX ATTACH PARTITION 一樣；否則，會建立新的對應索引。分割區上的無效索引會被略過。請注意，若現有的資料表是外部資料表，且目標資料表上有 `UNIQUE` 索引，則目前不允許將該資料表附加為目標資料表的分割區。（另請參閱 [CREATE FOREIGN TABLE](sql-createforeigntable.md)。）對於目標資料表中存在的每個使用者定義的資料列層級觸發程序，都會在被附加的資料表中建立對應的觸發程序。
 
-    若新分割區是一般資料表，會執行完整的資料表掃描，以檢查資料表中的既有資料列沒有違反分割區限制條件。在執行此命令之前，可以先在該資料表上新增一個有效的 `CHECK` 限制條件，只允許滿足所需分割區限制條件的資料列，藉此避免這次掃描。系統會使用該 `CHECK` 限制條件來判定不需要掃描資料表就能驗證分割區限制條件。不過，若任何分割鍵是運算式，且該分割區不接受 `NULL` 值，這種做法就無效。若要附加一個不接受 `NULL` 值的清單分割區，除非分割鍵欄位是運算式，否則也請在該分割鍵欄位上新增 `NOT NULL` 限制條件。
+使用 `FOR VALUES` 的分割區，其 *`partition_bound_spec`* 使用與 [`CREATE TABLE`](sql-createtable.md) 相同的語法。分割區邊界規格必須符合目標資料表的分割策略與分割鍵。要附加的資料表必須擁有與目標資料表相同的所有欄位，且不能有更多欄位；此外，欄位型別也必須相符。並且，它必須具有目標資料表所有未標記為 `NO INHERIT` 的 `NOT NULL` 與 `CHECK` 限制條件。目前不會考慮 `FOREIGN KEY` 限制條件。若分割區中尚不存在父資料表的 `UNIQUE` 與 `PRIMARY KEY` 限制條件，則會在分割區中建立它們。
 
-    若新分割區是外部資料表，則不會進行任何驗證來確認外部資料表中的所有資料列都遵守分割區限制條件。（請參閱 [CREATE FOREIGN TABLE](sql-createforeigntable.md) 中關於外部資料表上限制條件的討論。）
+若新分割區是一般資料表，會執行完整的資料表掃描，以檢查資料表中的既有資料列沒有違反分割區限制條件。在執行此命令之前，可以先在該資料表上新增一個有效的 `CHECK` 限制條件，只允許滿足所需分割區限制條件的資料列，藉此避免這次掃描。系統會使用該 `CHECK` 限制條件來判定不需要掃描資料表就能驗證分割區限制條件。不過，若任何分割鍵是運算式，且該分割區不接受 `NULL` 值，這種做法就無效。若要附加一個不接受 `NULL` 值的清單分割區，除非分割鍵欄位是運算式，否則也請在該分割鍵欄位上新增 `NOT NULL` 限制條件。
 
-    當資料表有預設分割區時，定義新的分割區會改變預設分割區的分割區限制條件。預設分割區不能包含任何需要移到新分割區的資料列，系統會掃描預設分割區以驗證沒有這樣的資料列存在。這次掃描與新分割區的掃描一樣，若存在適當的 `CHECK` 限制條件就可以避免。同樣與新分割區的掃描一樣，當預設分割區是外部資料表時，一律會略過這次掃描。
+若新分割區是外部資料表，則不會進行任何驗證來確認外部資料表中的所有資料列都遵守分割區限制條件。（請參閱 [CREATE FOREIGN TABLE](sql-createforeigntable.md) 中關於外部資料表上限制條件的討論。）
 
-    附加分割區時，除了在被附加的資料表與預設分割區（若有的話）上取得 `ACCESS EXCLUSIVE` 鎖定之外，還會在父資料表上取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+當資料表有預設分割區時，定義新的分割區會改變預設分割區的分割區限制條件。預設分割區不能包含任何需要移到新分割區的資料列，系統會掃描預設分割區以驗證沒有這樣的資料列存在。這次掃描與新分割區的掃描一樣，若存在適當的 `CHECK` 限制條件就可以避免。同樣與新分割區的掃描一樣，當預設分割區是外部資料表時，一律會略過這次掃描。
 
-    若被附加的資料表本身是分割資料表，則還必須在其所有子分割區上持有更多鎖定。若預設分割區本身是分割資料表，情況也一樣。如[第 5.12.2.2 節](../../the-sql-language/ddl/ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE-MAINTENANCE)所述，可以透過新增 `CHECK` 限制條件來避免鎖定子分割區。
+附加分割區時，除了在被附加的資料表與預設分割區（若有的話）上取得 `ACCESS EXCLUSIVE` 鎖定之外，還會在父資料表上取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+
+若被附加的資料表本身是分割資料表，則還必須在其所有子分割區上持有更多鎖定。若預設分割區本身是分割資料表，情況也一樣。如[第 5.12.2.2 節](../../the-sql-language/ddl/ddl-partitioning.md#DDL-PARTITIONING-DECLARATIVE-MAINTENANCE)所述，可以透過新增 `CHECK` 限制條件來避免鎖定子分割區。
 <a id="SQL-ALTERTABLE-DETACH-PARTITION"></a>
 
 `DETACH PARTITION partition_name [ CONCURRENTLY | FINALIZE ]` [#](#SQL-ALTERTABLE-DETACH-PARTITION)
-:   此形式會卸離目標資料表的指定分割區。被卸離的分割區會繼續以獨立資料表的形式存在，但與它被卸離前所屬的資料表不再有任何關聯。任何已附加到目標資料表之索引的索引都會被卸離。任何作為目標資料表中觸發程序之複製品而建立的觸發程序都會被移除。在外鍵限制條件中參照此分割資料表的任何資料表上，都會取得 `SHARE` 鎖定。
 
-    若指定了 `CONCURRENTLY`，它會以較低的鎖定層級執行，以避免阻擋可能正在存取該分割資料表的其他工作階段。在此模式下，內部會使用兩個交易。在第一個交易期間，會在父資料表與分割區上都取得 `SHARE UPDATE EXCLUSIVE` 鎖定，並將分割區標記為正在卸離；此時，該交易會被提交，並等待所有其他正在使用該分割資料表的交易。一旦這些交易全部完成，第二個交易會在分割資料表上取得 `SHARE UPDATE EXCLUSIVE`，並在分割區上取得 `ACCESS EXCLUSIVE`，然後完成卸離作業。系統會在分割區上新增一個與分割區限制條件重複的 `CHECK` 限制條件。`CONCURRENTLY` 不能在交易區塊中執行，且若分割資料表包含預設分割區，則不允許使用。
+此形式會卸離目標資料表的指定分割區。被卸離的分割區會繼續以獨立資料表的形式存在，但與它被卸離前所屬的資料表不再有任何關聯。任何已附加到目標資料表之索引的索引都會被卸離。任何作為目標資料表中觸發程序之複製品而建立的觸發程序都會被移除。在外鍵限制條件中參照此分割資料表的任何資料表上，都會取得 `SHARE` 鎖定。
 
-    若指定了 `FINALIZE`，則會完成先前被取消或中斷的 `DETACH CONCURRENTLY` 呼叫。一個分割資料表中，同一時間最多只能有一個分割區處於等待卸離的狀態。
+若指定了 `CONCURRENTLY`，它會以較低的鎖定層級執行，以避免阻擋可能正在存取該分割資料表的其他工作階段。在此模式下，內部會使用兩個交易。在第一個交易期間，會在父資料表與分割區上都取得 `SHARE UPDATE EXCLUSIVE` 鎖定，並將分割區標記為正在卸離；此時，該交易會被提交，並等待所有其他正在使用該分割資料表的交易。一旦這些交易全部完成，第二個交易會在分割資料表上取得 `SHARE UPDATE EXCLUSIVE`，並在分割區上取得 `ACCESS EXCLUSIVE`，然後完成卸離作業。系統會在分割區上新增一個與分割區限制條件重複的 `CHECK` 限制條件。`CONCURRENTLY` 不能在交易區塊中執行，且若分割資料表包含預設分割區，則不允許使用。
+
+若指定了 `FINALIZE`，則會完成先前被取消或中斷的 `DETACH CONCURRENTLY` 呼叫。一個分割資料表中，同一時間最多只能有一個分割區處於等待卸離的狀態。
 
 除了 `RENAME`、`SET SCHEMA`、`ATTACH PARTITION` 與 `DETACH PARTITION` 之外，所有作用於單一資料表的 `ALTER TABLE` 形式都可以組合成一份由多項變更構成的清單，一起套用。例如，可以在單一命令中新增數個欄位和／或變更數個欄位的型別。這對大型資料表特別有用，因為只需要對資料表進行一次處理。
 

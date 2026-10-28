@@ -86,9 +86,10 @@ pg_upgrade 接受下列命令列引數：
 :   顯示版本資訊後結束
 
 `--clone`
-:   使用有效率的檔案複製（clone，在某些系統上也稱為「reflinks」），而不是將檔案複製（copy）到新叢集。這可以讓資料檔案的複製幾乎在瞬間完成，具有 `-k`/`--link` 的速度優勢，同時讓舊叢集保持不變。
 
-    只有部分作業系統與檔案系統支援檔案複製（clone）。如果選擇了此選項但系統不支援，pg_upgrade 的執行將會發生錯誤。目前，支援的環境有 Linux（核心 4.5 或更新版本）上的 Btrfs 與 XFS（在建立時啟用 reflink 支援的檔案系統上），以及 macOS 上的 APFS。
+使用有效率的檔案複製（clone，在某些系統上也稱為「reflinks」），而不是將檔案複製（copy）到新叢集。這可以讓資料檔案的複製幾乎在瞬間完成，具有 `-k`/`--link` 的速度優勢，同時讓舊叢集保持不變。
+
+只有部分作業系統與檔案系統支援檔案複製（clone）。如果選擇了此選項但系統不支援，pg_upgrade 的執行將會發生錯誤。目前，支援的環境有 Linux（核心 4.5 或更新版本）上的 Btrfs 與 XFS（在建立時啟用 reflink 支援的檔案系統上），以及 macOS 上的 APFS。
 
 `--copy`
 :   將檔案複製到新叢集。這是預設行為。（另請參閱 `--link`、`--clone`、`--copy-file-range` 與 `--swap`。）
@@ -112,18 +113,20 @@ pg_upgrade 接受下列命令列引數：
     * 如果你已經將叢集遷移到 char 有號性不同的平台（例如從 x86 系統遷移到 ARM 系統），則應該使用此選項來指定與原平台預設 char 有號性相符的有號性。此外，在遷移資料檔案與執行 `pg_upgrade` 之間，務必不要修改任何資料檔案。`pg_upgrade` 應該是在新平台上啟動叢集的第一個操作。
 
 `--swap`
-:   將資料目錄從舊叢集移動到新叢集。接著，以為新叢集產生的系統目錄檔案取代原本的系統目錄檔案。此模式的效能可能優於 `--link`、`--clone`、`--copy` 與 `--copy-file-range`，特別是在有許多關聯的叢集上。
 
-    不過，此模式會在舊叢集中產生許多垃圾檔案，若使用 `--sync-method=syncfs`，可能會拉長檔案同步步驟的時間。因此，建議搭配 `--swap` 使用 `--sync-method=fsync`。
+將資料目錄從舊叢集移動到新叢集。接著，以為新叢集產生的系統目錄檔案取代原本的系統目錄檔案。此模式的效能可能優於 `--link`、`--clone`、`--copy` 與 `--copy-file-range`，特別是在有許多關聯的叢集上。
 
-    此外，一旦檔案傳輸步驟開始，舊叢集將遭到破壞性的修改，因此將無法再安全地啟動。詳情請參閱[步驟 17](pgupgrade.md#PGUPGRADE-STEP-REVERT)。
+不過，此模式會在舊叢集中產生許多垃圾檔案，若使用 `--sync-method=syncfs`，可能會拉長檔案同步步驟的時間。因此，建議搭配 `--swap` 使用 `--sync-method=fsync`。
+
+此外，一旦檔案傳輸步驟開始，舊叢集將遭到破壞性的修改，因此將無法再安全地啟動。詳情請參閱[步驟 17](pgupgrade.md#PGUPGRADE-STEP-REVERT)。
 
 `--sync-method=`*`method`*
-:   設為預設值 `fsync` 時，`pg_upgrade` 會遞迴地開啟並同步已升級叢集資料目錄中的所有檔案。搜尋檔案時會跟隨 WAL 目錄與每個已設定之資料表空間的符號連結。
 
-    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含已升級叢集之資料目錄、其 WAL 檔案與每個資料表空間的整個檔案系統。關於使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+設為預設值 `fsync` 時，`pg_upgrade` 會遞迴地開啟並同步已升級叢集資料目錄中的所有檔案。搜尋檔案時會跟隨 WAL 目錄與每個已設定之資料表空間的符號連結。
 
-    使用 `--no-sync` 時，此選項沒有作用。
+在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含已升級叢集之資料目錄、其 WAL 檔案與每個資料表空間的整個檔案系統。關於使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+
+使用 `--no-sync` 時，此選項沒有作用。
 
 `-?`<br>`--help`
 :   顯示說明後結束

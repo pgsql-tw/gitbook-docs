@@ -56,11 +56,12 @@ and table_and_columns is:
 :   要變更其定義的現有發佈名稱。
 
 *`table_name`*
-:   現有資料表的名稱。若在資料表名稱前指定 `ONLY`，則只有該資料表會受到影響。若未指定 `ONLY`，則該資料表及其所有後代資料表（若有的話）都會受到影響。也可以選擇在資料表名稱後指定 `*`，以明確表示包含後代資料表。
 
-    也可以選擇指定欄位清單。詳情請參閱 [CREATE PUBLICATION](sql-createpublication.md)。請注意，不支援一個訂閱擁有多個發佈、而同一個資料表在這些發佈中以不同欄位清單發佈的情況。關於變更欄位清單時可能發生的問題，請參閱 [警告：合併多個發佈的欄位清單](../../server-administration/logical-replication/logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-COMBINING)。
+現有資料表的名稱。若在資料表名稱前指定 `ONLY`，則只有該資料表會受到影響。若未指定 `ONLY`，則該資料表及其所有後代資料表（若有的話）都會受到影響。也可以選擇在資料表名稱後指定 `*`，以明確表示包含後代資料表。
 
-    若指定了選擇性的 `WHERE` 子句，則 *`expression`* 求值結果為 false 或 null 的資料列將不會被發佈。請注意，運算式周圍必須加上括號。*`expression`* 會以複寫連線所使用的角色來求值。
+也可以選擇指定欄位清單。詳情請參閱 [CREATE PUBLICATION](sql-createpublication.md)。請注意，不支援一個訂閱擁有多個發佈、而同一個資料表在這些發佈中以不同欄位清單發佈的情況。關於變更欄位清單時可能發生的問題，請參閱 [警告：合併多個發佈的欄位清單](../../server-administration/logical-replication/logical-replication-col-lists.md#LOGICAL-REPLICATION-COL-LIST-COMBINING)。
+
+若指定了選擇性的 `WHERE` 子句，則 *`expression`* 求值結果為 false 或 null 的資料列將不會被發佈。請注意，運算式周圍必須加上括號。*`expression`* 會以複寫連線所使用的角色來求值。
 
 *`schema_name`*
 :   現有綱要的名稱。

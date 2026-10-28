@@ -46,11 +46,12 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-AUTH"></a>
 
 `-A authmethod`<br>`--auth=authmethod` [#](#APP-INITDB-OPTION-AUTH)
-:   此選項指定 `pg_hba.conf` 中本機使用者所用的預設驗證方法（`host` 與 `local` 行）。有效值的概述請參閱[第 20.1 節](../../server-administration/client-authentication/auth-pg-hba-conf.md)。
 
-    `initdb` 會使用指定的驗證方法，為非複寫連線以及複寫連線預先填入 `pg_hba.conf` 項目。
+此選項指定 `pg_hba.conf` 中本機使用者所用的預設驗證方法（`host` 與 `local` 行）。有效值的概述請參閱[第 20.1 節](../../server-administration/client-authentication/auth-pg-hba-conf.md)。
 
-    除非你信任系統上的所有本機使用者，否則不要使用 `trust`。為了方便安裝，`trust` 是預設值。
+`initdb` 會使用指定的驗證方法，為非複寫連線以及複寫連線預先填入 `pg_hba.conf` 項目。
+
+除非你信任系統上的所有本機使用者，否則不要使用 `trust`。為了方便安裝，`trust` 是預設值。
 <a id="APP-INITDB-OPTION-AUTH-HOST"></a>
 
 `--auth-host=authmethod` [#](#APP-INITDB-OPTION-AUTH-HOST)
@@ -66,9 +67,10 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-ENCODING"></a>
 
 `-E encoding`<br>`--encoding=encoding` [#](#APP-INITDB-OPTION-ENCODING)
-:   選擇範本資料庫的編碼。除非你屆時另行覆寫，這也會是你之後建立之任何資料庫的預設編碼。PostgreSQL 伺服器所支援的字元集說明請見[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
 
-    預設情況下，範本資料庫的編碼是由區域設定推導而來。若指定了 [`--no-locale`](app-initdb.md#APP-INITDB-OPTION-NO-LOCALE)（或等價地，若區域設定為 `C` 或 `POSIX`），則 ICU 提供者的預設編碼為 `UTF8`，`libc` 提供者的預設編碼為 `SQL_ASCII`。
+選擇範本資料庫的編碼。除非你屆時另行覆寫，這也會是你之後建立之任何資料庫的預設編碼。PostgreSQL 伺服器所支援的字元集說明請見[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
+
+預設情況下，範本資料庫的編碼是由區域設定推導而來。若指定了 [`--no-locale`](app-initdb.md#APP-INITDB-OPTION-NO-LOCALE)（或等價地，若區域設定為 `C` 或 `POSIX`），則 ICU 提供者的預設編碼為 `UTF8`，`libc` 提供者的預設編碼為 `SQL_ASCII`。
 <a id="APP-INITDB-ALLOW-GROUP-ACCESS"></a>
 
 `-g`<br>`--allow-group-access` [#](#APP-INITDB-ALLOW-GROUP-ACCESS)
@@ -84,15 +86,17 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-DATA-CHECKSUMS"></a>
 
 `-k`<br>`--data-checksums` [#](#APP-INITDB-DATA-CHECKSUMS)
-:   在資料頁面上使用校驗和，以協助偵測 I/O 系統造成、否則不會被察覺的損毀。此功能預設為啟用；使用 [`--no-data-checksums`](app-initdb.md#APP-INITDB-NO-DATA-CHECKSUMS) 可停用校驗和。
 
-    啟用校驗和可能會帶來些微的效能損失。若有設定，所有資料庫中的所有物件都會計算校驗和。所有校驗和失敗都會在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW) 檢視表中回報。詳細資訊請參閱[第 28.2 節](../../server-administration/wal/checksums.md)。
+在資料頁面上使用校驗和，以協助偵測 I/O 系統造成、否則不會被察覺的損毀。此功能預設為啟用；使用 [`--no-data-checksums`](app-initdb.md#APP-INITDB-NO-DATA-CHECKSUMS) 可停用校驗和。
+
+啟用校驗和可能會帶來些微的效能損失。若有設定，所有資料庫中的所有物件都會計算校驗和。所有校驗和失敗都會在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW) 檢視表中回報。詳細資訊請參閱[第 28.2 節](../../server-administration/wal/checksums.md)。
 <a id="APP-INITDB-OPTION-LOCALE"></a>
 
 `--locale=locale` [#](#APP-INITDB-OPTION-LOCALE)
-:   設定資料庫叢集的預設區域設定。若未指定此選項，區域設定會從 `initdb` 的執行環境繼承。區域設定支援的說明請見[第 23.1 節](../../server-administration/charset/locale.md)。
 
-    若 `--locale-provider` 為 `builtin`，則必須指定 `--locale` 或 `--builtin-locale`，並將其設為 `C`、`C.UTF-8` 或 `PG_UNICODE_FAST`。
+設定資料庫叢集的預設區域設定。若未指定此選項，區域設定會從 `initdb` 的執行環境繼承。區域設定支援的說明請見[第 23.1 節](../../server-administration/charset/locale.md)。
+
+若 `--locale-provider` 為 `builtin`，則必須指定 `--locale` 或 `--builtin-locale`，並將其設為 `C`、`C.UTF-8` 或 `PG_UNICODE_FAST`。
 <a id="APP-INITDB-OPTION-LC-COLLATE"></a>
 
 `--lc-collate=locale`<br>`--lc-ctype=locale`<br>`--lc-messages=locale`<br>`--lc-monetary=locale`<br>`--lc-numeric=locale`<br>`--lc-time=locale` [#](#APP-INITDB-OPTION-LC-COLLATE)
@@ -137,9 +141,10 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-WAL-SEGSIZE"></a>
 
 `--wal-segsize=size` [#](#APP-INITDB-OPTION-WAL-SEGSIZE)
-:   設定 *WAL 區段大小*，單位為 MB。這是 WAL 日誌中每個個別檔案的大小。預設大小為 16 MB。此值必須是 1 到 1024（MB）之間的 2 的冪次。此選項只能在初始化時設定，之後無法變更。
 
-    調整此大小可能有助於控制 WAL 日誌傳送或封存的粒度。此外，在 WAL 量很大的資料庫中，每個目錄中 WAL 檔案的數量本身就可能成為效能與管理上的問題。增加 WAL 檔案大小會減少 WAL 檔案的數量。
+設定 *WAL 區段大小*，單位為 MB。這是 WAL 日誌中每個個別檔案的大小。預設大小為 16 MB。此值必須是 1 到 1024（MB）之間的 2 的冪次。此選項只能在初始化時設定，之後無法變更。
+
+調整此大小可能有助於控制 WAL 日誌傳送或封存的粒度。此外，在 WAL 量很大的資料庫中，每個目錄中 WAL 檔案的數量本身就可能成為效能與管理上的問題。增加 WAL 檔案大小會減少 WAL 檔案的數量。
 
 另外還有其他較不常用的選項：
 
@@ -170,11 +175,12 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-NO-SYNC-DATA-FILES"></a>
 
 `--no-sync-data-files` [#](#APP-INITDB-OPTION-NO-SYNC-DATA-FILES)
-:   預設情況下，`initdb` 會將所有資料庫檔案安全地寫入磁碟。此選項會指示 `initdb` 略過同步個別資料庫目錄中的所有檔案、資料庫目錄本身以及資料表空間目錄，也就是 `base` 子目錄中的所有內容以及任何其他資料表空間目錄。其他檔案，例如 `pg_wal` 與 `pg_xact` 中的檔案，除非同時指定了 `--no-sync` 選項，否則仍然會被同步。
 
-    請注意，若 `--no-sync-data-files` 與 `--sync-method=syncfs` 一起使用，前述的部分或全部檔案與目錄仍會被同步，因為 `syncfs` 處理的是整個檔案系統。
+預設情況下，`initdb` 會將所有資料庫檔案安全地寫入磁碟。此選項會指示 `initdb` 略過同步個別資料庫目錄中的所有檔案、資料庫目錄本身以及資料表空間目錄，也就是 `base` 子目錄中的所有內容以及任何其他資料表空間目錄。其他檔案，例如 `pg_wal` 與 `pg_xact` 中的檔案，除非同時指定了 `--no-sync` 選項，否則仍然會被同步。
 
-    此選項主要供會另行確保被略過的檔案已同步到磁碟的工具在內部使用。
+請注意，若 `--no-sync-data-files` 與 `--sync-method=syncfs` 一起使用，前述的部分或全部檔案與目錄仍會被同步，因為 `syncfs` 處理的是整個檔案系統。
+
+此選項主要供會另行確保被略過的檔案已同步到磁碟的工具在內部使用。
 <a id="APP-INITDB-OPTION-NO-INSTRUCTIONS"></a>
 
 `--no-instructions` [#](#APP-INITDB-OPTION-NO-INSTRUCTIONS)
@@ -186,11 +192,12 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-SYNC-METHOD"></a>
 
 `--sync-method=method` [#](#APP-INITDB-OPTION-SYNC-METHOD)
-:   設定為預設值 `fsync` 時，`initdb` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時，會跟隨 WAL 目錄與每個已設定資料表空間的符號連結。
 
-    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+設定為預設值 `fsync` 時，`initdb` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時，會跟隨 WAL 目錄與每個已設定資料表空間的符號連結。
 
-    使用 `--no-sync` 時，此選項沒有作用。
+在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+
+使用 `--no-sync` 時，此選項沒有作用。
 <a id="APP-INITDB-OPTION-SYNC-ONLY"></a>
 
 `-S`<br>`--sync-only` [#](#APP-INITDB-OPTION-SYNC-ONLY)

@@ -74,11 +74,12 @@ pg_rewind 接受下列命令列引數：
 :   pg_rewind 要求目標伺服器在倒轉之前已正常關閉。預設情況下，如果目標伺服器沒有正常關閉，pg_rewind 會以單一使用者模式啟動目標伺服器，先完成當機復原，然後再停止它。傳入此選項後，pg_rewind 會略過這個步驟，並在伺服器未正常關閉時立即以錯誤結束。在這種情況下，使用者應該自行處理該狀況。
 
 `--sync-method=method`
-:   設為預設值 `fsync` 時，`pg_rewind` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時會跟隨 WAL 目錄與每個已設定之資料表空間的符號連結。
 
-    在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。關於使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+設為預設值 `fsync` 時，`pg_rewind` 會遞迴地開啟並同步資料目錄中的所有檔案。搜尋檔案時會跟隨 WAL 目錄與每個已設定之資料表空間的符號連結。
 
-    使用 `--no-sync` 時，此選項沒有作用。
+在 Linux 上，可以改用 `syncfs`，要求作業系統同步包含資料目錄、WAL 檔案與每個資料表空間的整個檔案系統。關於使用 `syncfs` 時需要注意的事項，請參閱 [recovery_init_sync_method](../../server-administration/runtime-config/runtime-config-error-handling.md#GUC-RECOVERY-INIT-SYNC-METHOD)。
+
+使用 `--no-sync` 時，此選項沒有作用。
 
 `-V`<br>`--version`
 :   顯示版本資訊後結束。

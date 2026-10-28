@@ -35,9 +35,10 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 :   使游標以二進位格式而非文字格式傳回資料。
 
 `ASENSITIVE`<br>`INSENSITIVE`
-:   游標敏感度決定了：在游標宣告之後、於同一交易中對游標底層資料所做的變更，在該游標中是否可見。`INSENSITIVE` 表示這些變更不可見，`ASENSITIVE` 表示此行為取決於實作。第三種行為 `SENSITIVE`（表示這類變更在游標中可見）在 PostgreSQL 中無法使用。在 PostgreSQL 中，所有游標都是不敏感的（insensitive）；因此這些關鍵字沒有作用，只是為了與 SQL 標準相容而被接受。
 
-    同時指定 `INSENSITIVE` 與 `FOR UPDATE` 或 `FOR SHARE` 是錯誤的。
+游標敏感度決定了：在游標宣告之後、於同一交易中對游標底層資料所做的變更，在該游標中是否可見。`INSENSITIVE` 表示這些變更不可見，`ASENSITIVE` 表示此行為取決於實作。第三種行為 `SENSITIVE`（表示這類變更在游標中可見）在 PostgreSQL 中無法使用。在 PostgreSQL 中，所有游標都是不敏感的（insensitive）；因此這些關鍵字沒有作用，只是為了與 SQL 標準相容而被接受。
+
+同時指定 `INSENSITIVE` 與 `FOR UPDATE` 或 `FOR SHARE` 是錯誤的。
 
 `SCROLL`<br>`NO SCROLL`
 :   `SCROLL` 指定游標可以用非循序的方式（例如向後）擷取資料列。視查詢執行計畫的複雜度而定，指定 `SCROLL` 可能會對查詢的執行時間造成效能損失。`NO SCROLL` 指定游標不能用非循序的方式擷取資料列。預設是在某些情況下允許捲動；這與指定 `SCROLL` 並不相同。詳細資訊請參閱下方的[注意事項](sql-declare.md#SQL-DECLARE-NOTES)。

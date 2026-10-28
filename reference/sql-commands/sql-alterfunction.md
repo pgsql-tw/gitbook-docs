@@ -101,10 +101,11 @@ where action is one of:
     REPLACE FUNCTION`。
 
 *`configuration_parameter`*<br>*`value`*
-:   新增或變更呼叫函式時要對組態參數進行的設定。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除函式本身的區域設定，使函式以其環境中現有的值執行。使用 `RESET
-    ALL` 可清除所有函式本身的區域設定。`SET FROM CURRENT` 會將執行 `ALTER FUNCTION` 時該參數的目前值，儲存為進入函式時要套用的值。
 
-    關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
+新增或變更呼叫函式時要對組態參數進行的設定。若 *`value`* 為 `DEFAULT`，或等效地使用 `RESET`，則會移除函式本身的區域設定，使函式以其環境中現有的值執行。使用 `RESET
+ALL` 可清除所有函式本身的區域設定。`SET FROM CURRENT` 會將執行 `ALTER FUNCTION` 時該參數的目前值，儲存為進入函式時要套用的值。
+
+關於允許的參數名稱與值的更多資訊，請參閱 [SET](sql-set.md) 與[第 19 章](../../server-administration/runtime-config/README.md)。
 
 `RESTRICT`
 :   為符合 SQL 標準而接受，但會被忽略。

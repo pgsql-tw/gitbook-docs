@@ -41,11 +41,12 @@ postgres — PostgreSQL 資料庫伺服器
 :   設定一個具名的執行時期參數。PostgreSQL 支援的組態參數在[第 19 章](../../server-administration/runtime-config/README.md)中說明。其他大多數命令列選項實際上都是這類參數設定的簡寫形式。`-c` 可以出現多次，以設定多個參數。
 
 `-C name`
-:   印出具名執行時期參數的值後結束。（細節請參閱上方的 `-c` 選項。）此選項傳回的是 `postgresql.conf` 中的值，並依這次呼叫所提供的任何參數加以修改。它不會反映叢集啟動時所提供的參數。
 
-    對大多數參數而言，這可以在執行中的伺服器上使用。不過，對於某些在執行時期計算的參數（例如 [shared_memory_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE)、[shared_memory_size_in_huge_pages](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES) 與 [wal_segment_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-WAL-SEGMENT-SIZE)），伺服器必須處於關閉狀態。
+印出具名執行時期參數的值後結束。（細節請參閱上方的 `-c` 選項。）此選項傳回的是 `postgresql.conf` 中的值，並依這次呼叫所提供的任何參數加以修改。它不會反映叢集啟動時所提供的參數。
 
-    此選項是供與伺服器執行個體互動的其他程式（例如 [pg_ctl](app-pg-ctl.md)）查詢組態參數值之用。面向使用者的應用程式應改用 [`SHOW`](../sql-commands/sql-show.md) 或 `pg_settings` 檢視表。
+對大多數參數而言，這可以在執行中的伺服器上使用。不過，對於某些在執行時期計算的參數（例如 [shared_memory_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE)、[shared_memory_size_in_huge_pages](../../server-administration/runtime-config/runtime-config-preset.md#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES) 與 [wal_segment_size](../../server-administration/runtime-config/runtime-config-preset.md#GUC-WAL-SEGMENT-SIZE)），伺服器必須處於關閉狀態。
+
+此選項是供與伺服器執行個體互動的其他程式（例如 [pg_ctl](app-pg-ctl.md)）查詢組態參數值之用。面向使用者的應用程式應改用 [`SHOW`](../sql-commands/sql-show.md) 或 `pg_settings` 檢視表。
 
 `-d debug-level`
 :   設定除錯層級。此值設得越高，寫入伺服器日誌的除錯輸出就越多。值的範圍為 1 到 5。也可以針對特定工作階段傳入 `-d
@@ -64,9 +65,10 @@ postgres — PostgreSQL 資料庫伺服器
 :   指定 `postgres` 要接聽用戶端應用程式 TCP/IP 連線的 IP 主機名稱或位址。此值也可以是以逗號分隔的位址清單，或以 `*` 指定接聽所有可用的介面。空值表示不接聽任何 IP 位址，此時只能使用 Unix 網域通訊端連線到伺服器。預設只接聽 localhost。指定此選項等同於設定組態參數 [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES)。
 
 `-i`
-:   允許遠端用戶端透過 TCP/IP（網際網路網域）連線進行連線。若沒有此選項，則只接受本機連線。此選項等同於在 `postgresql.conf` 中或透過 `-h` 將 `listen_addresses` 設為 `*`。
 
-    此選項已被棄用，因為它無法使用 [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) 的完整功能。通常直接設定 `listen_addresses` 會比較好。
+允許遠端用戶端透過 TCP/IP（網際網路網域）連線進行連線。若沒有此選項，則只接受本機連線。此選項等同於在 `postgresql.conf` 中或透過 `-h` 將 `listen_addresses` 設為 `*`。
+
+此選項已被棄用，因為它無法使用 [listen_addresses](../../server-administration/runtime-config/runtime-config-connection.md#GUC-LISTEN-ADDRESSES) 的完整功能。通常直接設定 `listen_addresses` 會比較好。
 
 `-k directory`
 :   指定 `postgres` 用來接聽用戶端應用程式連線的 Unix 網域通訊端目錄。此值也可以是以逗號分隔的目錄清單。空值表示不接聽任何 Unix 網域通訊端，此時只能使用 TCP/IP 通訊端連線到伺服器。預設值通常是 `/tmp`，但可以在建置時變更。指定此選項等同於設定組態參數 [unix_socket_directories](../../server-administration/runtime-config/runtime-config-connection.md#GUC-UNIX-SOCKET-DIRECTORIES)。
@@ -105,9 +107,10 @@ postgres — PostgreSQL 資料庫伺服器
 此處說明的選項主要用於除錯，在某些情況下也用來協助復原嚴重損壞的資料庫。在正式環境的資料庫設定中，應該沒有理由使用它們。將它們列在這裡，只是供 PostgreSQL 系統開發人員使用。此外，這些選項可能在未來的版本中變更或移除，且不另行通知。
 
 `-f` `{ s | i | o | b | t | n | m | h }`
-:   禁止使用特定的掃描與連接方法：`s` 與 `i` 分別停用循序掃描與索引掃描，`o`、`b` 與 `t` 分別停用僅索引掃描、點陣圖索引掃描與 TID 掃描，而 `n`、`m` 與 `h` 則分別停用巢狀迴圈連接、合併連接與雜湊連接。
 
-    循序掃描與巢狀迴圈連接都無法完全停用；`-fs` 與 `-fn` 選項只是在最佳化器有其他任何替代方案時，不鼓勵它使用這些計畫類型。
+禁止使用特定的掃描與連接方法：`s` 與 `i` 分別停用循序掃描與索引掃描，`o`、`b` 與 `t` 分別停用僅索引掃描、點陣圖索引掃描與 TID 掃描，而 `n`、`m` 與 `h` 則分別停用巢狀迴圈連接、合併連接與雜湊連接。
+
+循序掃描與巢狀迴圈連接都無法完全停用；`-fs` 與 `-fn` 選項只是在最佳化器有其他任何替代方案時，不鼓勵它使用這些計畫類型。
 
 `-O`
 :   允許修改系統資料表的結構。`initdb` 會使用此選項。

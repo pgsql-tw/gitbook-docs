@@ -33,51 +33,57 @@ pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 必須至少指定下列其中一個選項來選擇動作：
 
 `--create-slot`
-:   以 `--slot` 指定的名稱、使用 `--plugin` 指定的輸出外掛程式，為 `--dbname` 指定的資料庫建立新的邏輯複寫插槽。
 
-    此動作必須指定 `--slot` 與 `--dbname`。
+以 `--slot` 指定的名稱、使用 `--plugin` 指定的輸出外掛程式，為 `--dbname` 指定的資料庫建立新的邏輯複寫插槽。
 
-    `--enable-two-phase` 與 `--enable-failover` 選項可以與 `--create-slot` 一起指定。
+此動作必須指定 `--slot` 與 `--dbname`。
+
+`--enable-two-phase` 與 `--enable-failover` 選項可以與 `--create-slot` 一起指定。
 
 `--drop-slot`
-:   移除名稱由 `--slot` 指定的複寫插槽，然後結束。
 
-    此動作必須指定 `--slot`。
+移除名稱由 `--slot` 指定的複寫插槽，然後結束。
+
+此動作必須指定 `--slot`。
 
 `--start`
-:   開始從 `--slot` 指定的邏輯複寫插槽串流變更，並持續到被訊號終止為止。若伺服器端的變更串流因伺服器關閉或連線中斷而結束，除非指定了 `--no-loop`，否則會在迴圈中重試。
 
-    此動作必須指定 `--slot`、`--dbname` 與 `--file`。
+開始從 `--slot` 指定的邏輯複寫插槽串流變更，並持續到被訊號終止為止。若伺服器端的變更串流因伺服器關閉或連線中斷而結束，除非指定了 `--no-loop`，否則會在迴圈中重試。
 
-    串流格式由建立插槽時指定的輸出外掛程式決定。
+此動作必須指定 `--slot`、`--dbname` 與 `--file`。
 
-    連線必須連到建立插槽時所用的同一個資料庫。
+串流格式由建立插槽時指定的輸出外掛程式決定。
+
+連線必須連到建立插槽時所用的同一個資料庫。
 
 `--create-slot` 與 `--start` 可以一起指定。`--drop-slot` 不能與其他動作合併使用。
 
 下列命令列選項控制輸出的位置與格式，以及其他複寫行為：
 
 `-E lsn`<br>`--endpos=lsn`
-:   在 `--start` 模式下，當接收到達指定的 LSN 時，自動停止複寫並以正常結束狀態 0 結束。若不是在 `--start` 模式下指定此選項，會引發錯誤。
 
-    若有某筆記錄的 LSN 恰好等於 *`lsn`*，該記錄會被輸出。
+在 `--start` 模式下，當接收到達指定的 LSN 時，自動停止複寫並以正常結束狀態 0 結束。若不是在 `--start` 模式下指定此選項，會引發錯誤。
 
-    `--endpos` 選項不了解交易邊界，可能會在交易進行到一半時截斷輸出。任何只輸出了一部分的交易都不會被消耗，並會在下次讀取該插槽時再次重放。個別訊息絕不會被截斷。
+若有某筆記錄的 LSN 恰好等於 *`lsn`*，該記錄會被輸出。
+
+`--endpos` 選項不了解交易邊界，可能會在交易進行到一半時截斷輸出。任何只輸出了一部分的交易都不會被消耗，並會在下次讀取該插槽時再次重放。個別訊息絕不會被截斷。
 
 `--enable-failover`
 :   讓插槽能夠同步到待命伺服器。此選項只能與 `--create-slot` 一起指定。
 
 `-f filename`<br>`--file=filename`
-:   將接收並解碼後的交易資料寫入此檔案。使用 `-` 表示 stdout。
 
-    使用 `--start` 時必須指定此參數。
+將接收並解碼後的交易資料寫入此檔案。使用 `-` 表示 stdout。
+
+使用 `--start` 時必須指定此參數。
 
 `-F interval_seconds`<br>`--fsync-interval=interval_seconds`
-:   指定 pg_recvlogical 應該多久發出一次 `fsync()` 呼叫，以確保輸出檔安全地刷寫到磁碟。
 
-    伺服器偶爾會要求用戶端執行刷寫，並將刷寫位置回報給伺服器。此設定是在那之外額外加上的，用來更頻繁地執行刷寫。
+指定 pg_recvlogical 應該多久發出一次 `fsync()` 呼叫，以確保輸出檔安全地刷寫到磁碟。
 
-    將間隔指定為 `0` 會完全停止發出 `fsync()` 呼叫，但仍會向伺服器回報進度。在此情況下，發生當機時資料可能會遺失。
+伺服器偶爾會要求用戶端執行刷寫，並將刷寫位置回報給伺服器。此設定是在那之外額外加上的，用來更頻繁地執行刷寫。
+
+將間隔指定為 `0` 會完全停止發出 `fsync()` 呼叫，但仍會向伺服器回報進度。在此情況下，發生當機時資料可能會遺失。
 
 `-I lsn`<br>`--startpos=lsn`
 :   在 `--start` 模式下，從指定的 LSN 開始複寫。關於其效果的詳細資訊，請參閱[第 47 章](../../server-programming/logicaldecoding/README.md)與[第 54.4 節](../../internals/protocol/protocol-replication.md)中的文件。在其他模式下會被忽略。
@@ -98,9 +104,10 @@ pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 :   此選項與 [pg_receivewal](app-pgreceivewal.md) 中同名選項的效果相同。請參閱該處的說明。
 
 `-S slot_name`<br>`--slot=slot_name`
-:   在 `--start` 模式下，使用名為 *`slot_name`* 的現有邏輯複寫插槽。在 `--create-slot` 模式下，以此名稱建立插槽。在 `--drop-slot` 模式下，刪除具有此名稱的插槽。
 
-    任何動作都必須指定此參數。
+在 `--start` 模式下，使用名為 *`slot_name`* 的現有邏輯複寫插槽。在 `--create-slot` 模式下，以此名稱建立插槽。在 `--drop-slot` 模式下，刪除具有此名稱的插槽。
+
+任何動作都必須指定此參數。
 
 `-t`<br>`--enable-two-phase`<br>`--two-phase`（已棄用）
 :   啟用預備交易的解碼。此選項只能與 `--create-slot` 一起指定。
@@ -111,9 +118,10 @@ pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 下列命令列選項控制資料庫連線參數。
 
 `-d dbname`<br>`--dbname=dbname`
-:   要連線的資料庫。這在細節上代表什麼，請參閱各動作的說明。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
 
-    使用 `--create-slot` 與 `--start` 時必須指定此參數。
+要連線的資料庫。這在細節上代表什麼，請參閱各動作的說明。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。
+
+使用 `--create-slot` 與 `--start` 時必須指定此參數。
 
 `-h hostname-or-ip`<br>`--host=hostname-or-ip`
 :   指定伺服器所在機器的主機名稱。若值以斜線開頭，則作為 Unix 網域通訊端的目錄。預設值取自 `PGHOST` 環境變數（若有設定），否則會嘗試使用 Unix 網域通訊端連線。
@@ -128,9 +136,10 @@ pg_recvlogical — 控制 PostgreSQL 邏輯解碼串流
 :   絕不發出密碼提示。若伺服器要求密碼驗證，而密碼無法透過 `.pgpass` 檔案等其他方式取得，連線嘗試將會失敗。此選項在沒有使用者可輸入密碼的批次作業與指令稿中可能很有用。
 
 `-W`<br>`--password`
-:   強制 pg_recvlogical 在連線到資料庫之前提示輸入密碼。
 
-    此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_recvlogical 會自動提示輸入密碼。不過，pg_recvlogical 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
+強制 pg_recvlogical 在連線到資料庫之前提示輸入密碼。
+
+此選項從來都不是必要的，因為若伺服器要求密碼驗證，pg_recvlogical 會自動提示輸入密碼。不過，pg_recvlogical 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 另外也提供下列選項：
 

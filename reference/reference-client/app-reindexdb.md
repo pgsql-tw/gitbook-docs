@@ -63,11 +63,12 @@ reindexdb 接受下列命令列引數：
 :   只重建 *`index`*。可以寫多個 `-i` 參數來重建多個索引。
 
 `-j njobs`<br>`--jobs=njobs`
-:   同時執行 *`njobs`* 個命令，以平行方式執行重建索引命令。此選項可能縮短處理時間，但也會增加資料庫伺服器的負載。
 
-    reindexdb 會對資料庫開啟 *`njobs`* 個連線，因此請確認你的 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) 設定夠高，足以容納所有連線。
+同時執行 *`njobs`* 個命令，以平行方式執行重建索引命令。此選項可能縮短處理時間，但也會增加資料庫伺服器的負載。
 
-    請注意，此選項與 `--system` 選項不相容。
+reindexdb 會對資料庫開啟 *`njobs`* 個連線，因此請確認你的 [max_connections](../../server-administration/runtime-config/runtime-config-connection.md#GUC-MAX-CONNECTIONS) 設定夠高，足以容納所有連線。
+
+請注意，此選項與 `--system` 選項不相容。
 
 `-q`<br>`--quiet`
 :   不顯示進度訊息。
@@ -108,9 +109,10 @@ reindexdb 也接受下列用於連線參數的命令列引數：
 :   絕不發出密碼提示。若伺服器要求密碼驗證，而無法透過其他方式（例如 `.pgpass` 檔案）取得密碼，連線嘗試將會失敗。此選項在沒有使用者可以輸入密碼的批次作業與腳本中可能很有用。
 
 `-W`<br>`--password`
-:   強制 reindexdb 在連線到資料庫之前提示輸入密碼。
 
-    此選項從來都不是必要的，因為若伺服器要求密碼驗證，reindexdb 會自動提示輸入密碼。不過，reindexdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
+強制 reindexdb 在連線到資料庫之前提示輸入密碼。
+
+此選項從來都不是必要的，因為若伺服器要求密碼驗證，reindexdb 會自動提示輸入密碼。不過，reindexdb 會浪費一次連線嘗試來得知伺服器需要密碼。在某些情況下，值得輸入 `-W` 以避免額外的連線嘗試。
 
 `--maintenance-db=dbname`
 :   使用 `-a`/`--all` 時，連線到此資料庫以收集要重建索引的資料庫清單。若未指定，將使用 `postgres` 資料庫；若該資料庫不存在，則使用 `template1`。這可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何衝突的命令列選項。此外，連線到其他資料庫時，也會重複使用資料庫名稱本身以外的連線字串參數。
