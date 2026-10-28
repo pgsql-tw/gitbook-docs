@@ -209,23 +209,25 @@ $ sudo semodule -r sepgsql-regtest
 <a id="GUC-SEPGSQL-PERMISSIVE"></a>
 
 `sepgsql.permissive` (`boolean`) <a id="id-1.11.7.50.8.2.1.1.3"></a> [#](#GUC-SEPGSQL-PERMISSIVE)
-:   此參數讓 `sepgsql` 不論系統設定為何，都以寬鬆（permissive）模式運作。
-    預設為關閉。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
 
-    此參數開啟時，即使 SELinux 整體是以強制（enforcing）模式運作，`sepgsql`
-    仍會以寬鬆模式運作。此參數主要用於測試目的。
+此參數讓 `sepgsql` 不論系統設定為何，都以寬鬆（permissive）模式運作。
+預設為關閉。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+
+此參數開啟時，即使 SELinux 整體是以強制（enforcing）模式運作，`sepgsql`
+仍會以寬鬆模式運作。此參數主要用於測試目的。
 <a id="GUC-SEPGSQL-DEBUG-AUDIT"></a>
 
 `sepgsql.debug_audit` (`boolean`) <a id="id-1.11.7.50.8.2.2.1.3"></a> [#](#GUC-SEPGSQL-DEBUG-AUDIT)
-:   此參數讓稽核訊息不論系統政策設定為何都會輸出。
-    預設為關閉，表示訊息會依系統設定輸出。
 
-    SELinux 的安全政策也有規則，用來控制特定存取是否要記錄。
-    預設情況下，存取違規會被記錄，但允許的存取不會。
+此參數讓稽核訊息不論系統政策設定為何都會輸出。
+預設為關閉，表示訊息會依系統設定輸出。
 
-    此參數會強制開啟所有可能的記錄，而不論系統政策為何。
+SELinux 的安全政策也有規則，用來控制特定存取是否要記錄。
+預設情況下，存取違規會被記錄，但允許的存取不會。
+
+此參數會強制開啟所有可能的記錄，而不論系統政策為何。
 
 <a id="SEPGSQL-FEATURES"></a>
 

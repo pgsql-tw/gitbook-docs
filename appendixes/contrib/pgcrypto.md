@@ -638,9 +638,10 @@ fips_mode() returns boolean
 <a id="PGCRYPTO-CONFIGURATION-PARAMETERS-BUILTIN_CRYPTO_ENABLED"></a>
 
 `pgcrypto.builtin_crypto_enabled` (`enum`) <a id="id-1.11.7.36.13.3.1.1.3"></a> [#](#PGCRYPTO-CONFIGURATION-PARAMETERS-BUILTIN_CRYPTO_ENABLED)
-:   `pgcrypto.builtin_crypto_enabled` 決定內建的密碼學函式 `gen_salt()` 與 `crypt()` 是否可供使用。設為 `off` 會停用這些函式。`on`（預設值）讓這些函式正常運作。`fips` 則會在偵測到 OpenSSL 以 FIPS 模式運作時停用這些函式。
 
-    `pgp_sym_encrypt()` 與 `pgp_pub_encrypt()` 不使用內建的密碼學實作，因此不受影響。
+`pgcrypto.builtin_crypto_enabled` 決定內建的密碼學函式 `gen_salt()` 與 `crypt()` 是否可供使用。設為 `off` 會停用這些函式。`on`（預設值）讓這些函式正常運作。`fips` 則會在偵測到 OpenSSL 以 FIPS 模式運作時停用這些函式。
+
+`pgp_sym_encrypt()` 與 `pgp_pub_encrypt()` 不使用內建的密碼學實作，因此不受影響。
 
 一般使用時，此參數是在 `postgresql.conf` 中設定，不過超級使用者也可以在自己的工作階段中即時變更它。
 

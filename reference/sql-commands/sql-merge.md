@@ -71,9 +71,10 @@ and merge_delete is:
 :   `WITH` 子句可讓你指定一個或多個子查詢，並在 `MERGE` 查詢中以名稱參照它們。詳情請參閱[第 7.8 節](../../the-sql-language/queries/queries-with.md)與 [SELECT](sql-select.md)。請注意，`MERGE` 不支援 `WITH RECURSIVE`。
 
 *`target_table_name`*
-:   要合併進去的目標資料表或檢視表名稱（可加上綱要限定）。若在資料表名稱前指定了 `ONLY`，相符的資料列就只會在指名的資料表中被更新或刪除。若未指定 `ONLY`，相符的資料列也會在繼承自該指名資料表的任何資料表中被更新或刪除。你也可以選擇在資料表名稱後加上 `*`，明確表示要包含子資料表。`ONLY` 關鍵字與 `*` 選項不會影響插入動作，插入動作一律只會插入到指名的資料表中。
 
-    若 *`target_table_name`* 是檢視表，它必須是可自動更新、且沒有 `INSTEAD OF` 觸發程序的檢視表，或是必須針對 `WHEN` 子句中指定的每一種動作類型（`INSERT`、`UPDATE` 與 `DELETE`）都具備 `INSTEAD OF` 觸發程序。不支援帶有規則的檢視表。
+要合併進去的目標資料表或檢視表名稱（可加上綱要限定）。若在資料表名稱前指定了 `ONLY`，相符的資料列就只會在指名的資料表中被更新或刪除。若未指定 `ONLY`，相符的資料列也會在繼承自該指名資料表的任何資料表中被更新或刪除。你也可以選擇在資料表名稱後加上 `*`，明確表示要包含子資料表。`ONLY` 關鍵字與 `*` 選項不會影響插入動作，插入動作一律只會插入到指名的資料表中。
+
+若 *`target_table_name`* 是檢視表，它必須是可自動更新、且沒有 `INSTEAD OF` 觸發程序的檢視表，或是必須針對 `WHEN` 子句中指定的每一種動作類型（`INSERT`、`UPDATE` 與 `DELETE`）都具備 `INSTEAD OF` 觸發程序。不支援帶有規則的檢視表。
 
 *`target_alias`*
 :   目標資料表的替代名稱。若提供了別名，就會完全隱藏該資料表的實際名稱。舉例來說，若寫成 `MERGE INTO foo AS f`，則 `MERGE` 陳述式其餘的部分都必須以 `f` 而非 `foo` 來參照這個資料表。
@@ -97,36 +98,40 @@ and merge_delete is:
     若同時指定了 `WHEN NOT MATCHED BY SOURCE` 與 `WHEN NOT MATCHED [BY TARGET]` 子句，`MERGE` 指令就會在 *`data_source`* 與目標資料表之間執行 `FULL` 連接。為使其能正常運作，*`join_condition`* 的子運算式中，必須至少有一個使用支援雜湊連接（hash join）的運算子，否則所有子運算式都必須使用支援合併連接（merge join）的運算子。
 
 *`when_clause`*
-:   至少需要一個 `WHEN` 子句。
 
-    `WHEN` 子句可以指定 `WHEN MATCHED`、`WHEN NOT MATCHED BY SOURCE` 或 `WHEN NOT MATCHED [BY TARGET]`。請注意，SQL 標準只定義了 `WHEN MATCHED` 與 `WHEN NOT MATCHED`（其定義為沒有相符的目標資料列）。`WHEN NOT MATCHED BY SOURCE` 是 SQL 標準的擴充功能，在 `WHEN NOT MATCHED` 後加上 `BY TARGET` 選項、以更明確表達其意義，同樣也是擴充功能。
+至少需要一個 `WHEN` 子句。
 
-    若 `WHEN` 子句指定了 `WHEN MATCHED`，且候選變更資料列將 *`data_source`* 中的某資料列與目標資料表中的某資料列相符，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
+`WHEN` 子句可以指定 `WHEN MATCHED`、`WHEN NOT MATCHED BY SOURCE` 或 `WHEN NOT MATCHED [BY TARGET]`。請注意，SQL 標準只定義了 `WHEN MATCHED` 與 `WHEN NOT MATCHED`（其定義為沒有相符的目標資料列）。`WHEN NOT MATCHED BY SOURCE` 是 SQL 標準的擴充功能，在 `WHEN NOT MATCHED` 後加上 `BY TARGET` 選項、以更明確表達其意義，同樣也是擴充功能。
 
-    若 `WHEN` 子句指定了 `WHEN NOT MATCHED BY SOURCE`，且候選變更資料列代表目標資料表中某筆未與 *`data_source`* 中任何資料列相符的資料列，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
+若 `WHEN` 子句指定了 `WHEN MATCHED`，且候選變更資料列將 *`data_source`* 中的某資料列與目標資料表中的某資料列相符，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
 
-    若 `WHEN` 子句指定了 `WHEN NOT MATCHED [BY TARGET]`，且候選變更資料列代表 *`data_source`* 中某筆未與目標資料表中任何資料列相符的資料列，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
+若 `WHEN` 子句指定了 `WHEN NOT MATCHED BY SOURCE`，且候選變更資料列代表目標資料表中某筆未與 *`data_source`* 中任何資料列相符的資料列，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
+
+若 `WHEN` 子句指定了 `WHEN NOT MATCHED [BY TARGET]`，且候選變更資料列代表 *`data_source`* 中某筆未與目標資料表中任何資料列相符的資料列，則在 *`condition`* 未指定或求值為 `true` 時，就會執行該 `WHEN` 子句。
 
 *`condition`*
-:   傳回 `boolean` 型別數值的運算式。若某 `WHEN` 子句的此運算式求值為 `true`，就會對該資料列執行該子句的動作。
 
-    `WHEN MATCHED` 子句上的條件，可以參照來源與目標關聯兩者中的欄位。`WHEN NOT MATCHED BY SOURCE` 子句上的條件，則只能參照目標關聯中的欄位，因為依定義並不存在相符的來源資料列。`WHEN NOT MATCHED [BY TARGET]` 子句上的條件，則只能參照來源關聯中的欄位，因為依定義並不存在相符的目標資料列。只能存取目標資料表的系統屬性。
+傳回 `boolean` 型別數值的運算式。若某 `WHEN` 子句的此運算式求值為 `true`，就會對該資料列執行該子句的動作。
+
+`WHEN MATCHED` 子句上的條件，可以參照來源與目標關聯兩者中的欄位。`WHEN NOT MATCHED BY SOURCE` 子句上的條件，則只能參照目標關聯中的欄位，因為依定義並不存在相符的來源資料列。`WHEN NOT MATCHED [BY TARGET]` 子句上的條件，則只能參照來源關聯中的欄位，因為依定義並不存在相符的目標資料列。只能存取目標資料表的系統屬性。
 
 *`merge_insert`*
-:   指定一項 `INSERT` 動作，用來將一筆資料列插入目標資料表。目標欄位名稱可以依任意順序列出。若完全未給定欄位名稱清單，預設會採用該資料表宣告順序中的所有欄位。
 
-    任何未出現在明確或隱含欄位清單中的欄位，都會填入預設值，也就是其宣告的預設值；若沒有預設值，則填入 null。
+指定一項 `INSERT` 動作，用來將一筆資料列插入目標資料表。目標欄位名稱可以依任意順序列出。若完全未給定欄位名稱清單，預設會採用該資料表宣告順序中的所有欄位。
 
-    若目標資料表是分區資料表，每一列資料都會被繞送至適當的分區並插入其中。若目標資料表是某個分區，當任一筆輸入的資料列違反分區限制條件時，就會發生錯誤。
+任何未出現在明確或隱含欄位清單中的欄位，都會填入預設值，也就是其宣告的預設值；若沒有預設值，則填入 null。
 
-    欄位名稱不得重複指定。`INSERT` 動作不得包含子選取（sub-select）。
+若目標資料表是分區資料表，每一列資料都會被繞送至適當的分區並插入其中。若目標資料表是某個分區，當任一筆輸入的資料列違反分區限制條件時，就會發生錯誤。
 
-    只能指定一個 `VALUES` 子句。`VALUES` 子句只能參照來源關聯中的欄位，因為依定義並不存在相符的目標資料列。
+欄位名稱不得重複指定。`INSERT` 動作不得包含子選取（sub-select）。
+
+只能指定一個 `VALUES` 子句。`VALUES` 子句只能參照來源關聯中的欄位，因為依定義並不存在相符的目標資料列。
 
 *`merge_update`*
-:   指定一項 `UPDATE` 動作，用來更新目標資料表的目前資料列。欄位名稱不得重複指定。
 
-    不允許指定資料表名稱，也不允許 `WHERE` 子句。
+指定一項 `UPDATE` 動作，用來更新目標資料表的目前資料列。欄位名稱不得重複指定。
+
+不允許指定資料表名稱，也不允許 `WHERE` 子句。
 
 *`merge_delete`*
 :   指定一項 `DELETE` 動作，用來刪除目標資料表的目前資料列。不要像一般使用 [DELETE](sql-delete.md) 指令那樣包含資料表名稱或任何其他子句。
@@ -153,16 +158,18 @@ and merge_delete is:
 :   一個 `SELECT` 子查詢，其產生的輸出欄位數目，須與其前方括號中所列的欄位清單數目相同。此子查詢執行時傳回的資料列不得超過一筆。若傳回一筆資料列，其欄位數值會指派給目標欄位；若沒有傳回任何資料列，則會將 NULL 值指派給目標欄位。若用於 `WHEN MATCHED` 子句，此子查詢可以參照來自目標資料表中原始資料列的數值，以及來自 *`data_source`* 資料列的數值。若用於 `WHEN NOT MATCHED BY SOURCE` 子句，此子查詢只能參照來自目標資料表中原始資料列的數值。
 
 *`output_alias`*
-:   `RETURNING` 清單中 `OLD` 或 `NEW` 資料列的選用替代名稱。
 
-    依預設，可以撰寫 `OLD.column_name` 或 `OLD.*` 來傳回來自目標資料表的舊數值，也可以撰寫 `NEW.column_name` 或 `NEW.*` 來傳回新數值。若提供了別名，這些名稱就會被隱藏，必須改用該別名來參照新舊資料列。例如 `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
+`RETURNING` 清單中 `OLD` 或 `NEW` 資料列的選用替代名稱。
+
+依預設，可以撰寫 `OLD.column_name` 或 `OLD.*` 來傳回來自目標資料表的舊數值，也可以撰寫 `NEW.column_name` 或 `NEW.*` 來傳回新數值。若提供了別名，這些名稱就會被隱藏，必須改用該別名來參照新舊資料列。例如 `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
 
 *`output_expression`*
-:   每筆資料列變更（不論是插入、更新或刪除）後，要由 `MERGE` 指令計算並傳回的運算式。此運算式可以使用來源或目標資料表的任何欄位，或使用 [`merge_action()`](../../the-sql-language/functions/functions-merge-support.md#MERGE-ACTION) 函式來傳回關於所執行動作的額外資訊。
 
-    撰寫 `*` 會傳回來源資料表的所有欄位，接著是目標資料表的所有欄位。由於來源與目標資料表通常有許多相同的欄位，這麼做往往會產生大量重複。可以用來源或目標資料表的名稱或別名限定 `*`，來避免這種情況。
+每筆資料列變更（不論是插入、更新或刪除）後，要由 `MERGE` 指令計算並傳回的運算式。此運算式可以使用來源或目標資料表的任何欄位，或使用 [`merge_action()`](../../the-sql-language/functions/functions-merge-support.md#MERGE-ACTION) 函式來傳回關於所執行動作的額外資訊。
 
-    欄位名稱或 `*` 也可以使用 `OLD` 或 `NEW`，或是對應於 `OLD` 或 `NEW` 的 *`output_alias`* 加以限定，以傳回來自目標資料表的舊值或新值。未加限定、來自目標資料表的欄位名稱，或是以目標資料表名稱或別名限定的欄位名稱或 `*`，對於 `INSERT` 與 `UPDATE` 動作會傳回新值，對於 `DELETE` 動作則會傳回舊值。
+撰寫 `*` 會傳回來源資料表的所有欄位，接著是目標資料表的所有欄位。由於來源與目標資料表通常有許多相同的欄位，這麼做往往會產生大量重複。可以用來源或目標資料表的名稱或別名限定 `*`，來避免這種情況。
+
+欄位名稱或 `*` 也可以使用 `OLD` 或 `NEW`，或是對應於 `OLD` 或 `NEW` 的 *`output_alias`* 加以限定，以傳回來自目標資料表的舊值或新值。未加限定、來自目標資料表的欄位名稱，或是以目標資料表名稱或別名限定的欄位名稱或 `*`，對於 `INSERT` 與 `UPDATE` 動作會傳回新值，對於 `DELETE` 動作則會傳回舊值。
 
 *`output_name`*
 :   用於所傳回欄位的名稱。

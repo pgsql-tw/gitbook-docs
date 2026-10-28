@@ -36,13 +36,14 @@ where option can be:
 :   要移除的資料庫名稱。
 
 `FORCE`
-:   嘗試終止所有連到目標資料庫的現有連線。
-    若目標資料庫中存在已準備交易、作用中的邏輯複寫插槽或訂閱，則不會終止連線。
 
-    這會終止背景工作程序的連線，以及目前使用者有權限以
-    `pg_terminate_backend` 終止的連線；該函式說明於
-    [第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)。若仍有連線殘留，
-    此命令將會失敗。
+嘗試終止所有連到目標資料庫的現有連線。
+若目標資料庫中存在已準備交易、作用中的邏輯複寫插槽或訂閱，則不會終止連線。
+
+這會終止背景工作程序的連線，以及目前使用者有權限以
+`pg_terminate_backend` 終止的連線；該函式說明於
+[第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)。若仍有連線殘留，
+此命令將會失敗。
 
 <a id="id-1.9.3.108.7"></a>
 

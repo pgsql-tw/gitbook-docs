@@ -41,14 +41,16 @@ where lockmode is one of:
 ## 參數
 
 *`name`*
-:   要鎖定的既有資料表名稱（可加上綱要限定）。若在資料表名稱前指定了 `ONLY`，就只會鎖定該資料表本身。若未指定 `ONLY`，則該資料表及其所有子資料表（如果有的話）都會被鎖定。你也可以選擇在資料表名稱後加上 `*`，明確表示要包含子資料表。
 
-    指令 `LOCK TABLE a, b;` 等同於 `LOCK TABLE a; LOCK TABLE b;`。這些資料表會依照 `LOCK TABLE` 指令中所指定的順序逐一鎖定。
+要鎖定的既有資料表名稱（可加上綱要限定）。若在資料表名稱前指定了 `ONLY`，就只會鎖定該資料表本身。若未指定 `ONLY`，則該資料表及其所有子資料表（如果有的話）都會被鎖定。你也可以選擇在資料表名稱後加上 `*`，明確表示要包含子資料表。
+
+指令 `LOCK TABLE a, b;` 等同於 `LOCK TABLE a; LOCK TABLE b;`。這些資料表會依照 `LOCK TABLE` 指令中所指定的順序逐一鎖定。
 
 *`lockmode`*
-:   鎖定模式指定此鎖定會與哪些鎖定衝突。鎖定模式的說明請參閱[第 13.3 節](../../the-sql-language/mvcc/explicit-locking.md)。
 
-    若未指定鎖定模式，則會使用限制最嚴格的模式 `ACCESS EXCLUSIVE`。
+鎖定模式指定此鎖定會與哪些鎖定衝突。鎖定模式的說明請參閱[第 13.3 節](../../the-sql-language/mvcc/explicit-locking.md)。
+
+若未指定鎖定模式，則會使用限制最嚴格的模式 `ACCESS EXCLUSIVE`。
 
 `NOWAIT`
 :   指定 `LOCK TABLE` 不應等待任何互相衝突的鎖定被釋放：若無法在不等待的情況下立即取得指定的鎖定，該交易即會中止。

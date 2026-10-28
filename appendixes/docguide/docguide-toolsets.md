@@ -25,12 +25,13 @@
 <a id="DOCGUIDE-TOOLSETS-DOCBOOK-XSL"></a>
 
 [DocBook XSL 樣式表](https://github.com/docbook/wiki/wiki/DocBookXslStylesheets) [#](#DOCGUIDE-TOOLSETS-DOCBOOK-XSL)
-:   其中包含將
-    DocBook 原始檔轉換為其他格式（例如
-    HTML）的處理指令。
 
-    目前要求的最低版本為 1.77.0，但建議
-    使用可取得的最新版本，以獲得最佳結果。
+其中包含將
+DocBook 原始檔轉換為其他格式（例如
+HTML）的處理指令。
+
+目前要求的最低版本為 1.77.0，但建議
+使用可取得的最新版本，以獲得最佳結果。
 <a id="DOCGUIDE-TOOLSETS-LIBXML2"></a>
 
 [Libxml2](http://xmlsoft.org/)（提供 `xmllint`） [#](#DOCGUIDE-TOOLSETS-LIBXML2)

@@ -57,16 +57,18 @@ DELETE FROM [ ONLY ] table_name [ * ] [ [ AS ] alias ]
 :   在 `WHERE CURRENT OF` 條件中使用的游標名稱。要刪除的資料列是最近一次從這個游標擷取出的那一列。這個游標必須是針對 `DELETE` 目標資料表的非分組查詢。請注意，`WHERE CURRENT OF` 不能與布林條件一起指定。關於在 `WHERE CURRENT OF` 中使用游標的更多資訊，請參閱 [DECLARE](sql-declare.md)。
 
 *`output_alias`*
-:   `RETURNING` 清單中 `OLD` 或 `NEW` 資料列的選用替代名稱。
 
-    依預設，可以撰寫 `OLD.column_name` 或 `OLD.*` 來傳回目標資料表的舊值，也可以撰寫 `NEW.column_name` 或 `NEW.*` 來傳回新值。若提供了別名，這些名稱就會被隱藏，必須改用該別名來參照舊資料列或新資料列。例如 `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
+`RETURNING` 清單中 `OLD` 或 `NEW` 資料列的選用替代名稱。
+
+依預設，可以撰寫 `OLD.column_name` 或 `OLD.*` 來傳回目標資料表的舊值，也可以撰寫 `NEW.column_name` 或 `NEW.*` 來傳回新值。若提供了別名，這些名稱就會被隱藏，必須改用該別名來參照舊資料列或新資料列。例如 `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
 
 *`output_expression`*
-:   每筆資料列刪除後，要由 `DELETE` 命令計算並傳回的運算式。此運算式可以使用 *`table_name`* 所指名之資料表，或 `USING` 中列出之資料表的任何欄位名稱。撰寫 `*` 可傳回所有欄位。
 
-    欄位名稱或 `*` 可以使用 `OLD` 或 `NEW`，或是對應於 `OLD` 或 `NEW` 的 *`output_alias`* 加以限定，以傳回舊值或新值。未加限定的欄位名稱、`*`，或是以目標資料表名稱或別名限定的欄位名稱或 `*`，則會傳回舊值。
+每筆資料列刪除後，要由 `DELETE` 命令計算並傳回的運算式。此運算式可以使用 *`table_name`* 所指名之資料表，或 `USING` 中列出之資料表的任何欄位名稱。撰寫 `*` 可傳回所有欄位。
 
-    對於單純的 `DELETE`，所有新值都會是 `NULL`。不過，若 `ON DELETE` 規則導致改為執行 `INSERT` 或 `UPDATE`，新值則可能不是 `NULL`。
+欄位名稱或 `*` 可以使用 `OLD` 或 `NEW`，或是對應於 `OLD` 或 `NEW` 的 *`output_alias`* 加以限定，以傳回舊值或新值。未加限定的欄位名稱、`*`，或是以目標資料表名稱或別名限定的欄位名稱或 `*`，則會傳回舊值。
+
+對於單純的 `DELETE`，所有新值都會是 `NULL`。不過，若 `ON DELETE` 規則導致改為執行 `INSERT` 或 `UPDATE`，新值則可能不是 `NULL`。
 
 *`output_name`*
 :   用於所傳回欄位的名稱。

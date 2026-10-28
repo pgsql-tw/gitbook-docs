@@ -14,22 +14,24 @@ ACID
 <a id="GLOSSARY-AGGREGATE"></a>
 
 彙總函式（常式）（Aggregate function）
-:   一種[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)，
-    它會將多個輸入值結合起來（*彙總*），例如計數、平均或加總，
-    產生單一的輸出值。
 
-    更多資訊請參閱
-    [第 9.21 節](../../the-sql-language/functions/functions-aggregate.md)。
+一種[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)，
+它會將多個輸入值結合起來（*彙總*），例如計數、平均或加總，
+產生單一的輸出值。
 
-    另請參閱[視窗函式（常式）](README.md#GLOSSARY-WINDOW-FUNCTION)。
+更多資訊請參閱
+[第 9.21 節](../../the-sql-language/functions/functions-aggregate.md)。
+
+另請參閱[視窗函式（常式）](README.md#GLOSSARY-WINDOW-FUNCTION)。
 <a id="GLOSSARY-AM"></a>
 
 存取方法（Access Method）
-:   PostgreSQL 用來存取資料表與索引中資料的介面。
-    這層抽象使得新增對新型資料儲存方式的支援成為可能。
 
-    更多資訊請參閱[第 62 章](../../internals/tableam/README.md)與
-    [第 63 章](../../internals/indexam/README.md)。
+PostgreSQL 用來存取資料表與索引中資料的介面。
+這層抽象使得新增對新型資料儲存方式的支援成為可能。
+
+更多資訊請參閱[第 62 章](../../internals/tableam/README.md)與
+[第 63 章](../../internals/indexam/README.md)。
 
 分析函式（Analytic function）
 :   請參閱[視窗函式（常式）](README.md#GLOSSARY-WINDOW-FUNCTION)。
@@ -50,15 +52,16 @@ ACID
 <a id="GLOSSARY-AIO"></a>
 
 非同步 I/O（Asynchronous I/O，AIO）<a id="id-1.11.14.3.6.3"></a>
-:   非同步 I/O（AIO）指的是以非阻塞方式（非同步地）執行 I/O，
-    相對於同步 I/O 會在整個 I/O 期間阻塞。
 
-    使用 AIO 時，啟動 I/O 操作與等待該操作的結果是分開的，
-    因此可以同時發起多個 I/O 操作，
-    也可以在進行 I/O 的同時執行 CPU 密集的操作。
-    提高並行程度的代價是複雜度隨之增加。
+非同步 I/O（AIO）指的是以非阻塞方式（非同步地）執行 I/O，
+相對於同步 I/O 會在整個 I/O 期間阻塞。
 
-    另請參閱[輸入／輸出](README.md#GLOSSARY-IO)。
+使用 AIO 時，啟動 I/O 操作與等待該操作的結果是分開的，
+因此可以同時發起多個 I/O 操作，
+也可以在進行 I/O 的同時執行 CPU 密集的操作。
+提高並行程度的代價是複雜度隨之增加。
+
+另請參閱[輸入／輸出](README.md#GLOSSARY-IO)。
 <a id="GLOSSARY-ATOMIC"></a>
 
 原子的（Atomic）
@@ -81,17 +84,18 @@ ACID
 <a id="GLOSSARY-AUTOVACUUM"></a>
 
 自動清理（程序）（Autovacuum）
-:   一組定期執行
-    [*[清理](README.md#GLOSSARY-VACUUM)*](README.md#GLOSSARY-VACUUM)
-    與[*[分析](README.md#GLOSSARY-ANALYZE)*](README.md#GLOSSARY-ANALYZE)操作的背景程序。
-    負責協調工作、且一直存在（除非停用自動清理）的那個
-    [*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)
-    稱為*自動清理啟動器*（autovacuum launcher），
-    而實際執行這些工作的程序稱為
-    *自動清理工作程序*（autovacuum workers）。
 
-    更多資訊請參閱
-    [第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
+一組定期執行
+[*[清理](README.md#GLOSSARY-VACUUM)*](README.md#GLOSSARY-VACUUM)
+與[*[分析](README.md#GLOSSARY-ANALYZE)*](README.md#GLOSSARY-ANALYZE)操作的背景程序。
+負責協調工作、且一直存在（除非停用自動清理）的那個
+[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)
+稱為*自動清理啟動器*（autovacuum launcher），
+而實際執行這些工作的程序稱為
+*自動清理工作程序*（autovacuum workers）。
+
+更多資訊請參閱
+[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
 <a id="GLOSSARY-AUXILIARY-PROC"></a>
 
 輔助程序（Auxiliary process）
@@ -112,38 +116,41 @@ ACID
 <a id="GLOSSARY-BACKEND"></a>
 
 後端（程序）（Backend）
-:   [*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)中的程序，
-    它代表某個[*[用戶端工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)運作，
-    並處理該工作階段的請求。
 
-    （不要將此術語與相似的術語
-    [*[背景工作程序](README.md#GLOSSARY-BACKGROUND-WORKER)*](README.md#GLOSSARY-BACKGROUND-WORKER)或
-    [*[背景寫入程序](README.md#GLOSSARY-BACKGROUND-WRITER)*](README.md#GLOSSARY-BACKGROUND-WRITER)混淆。）
+[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)中的程序，
+它代表某個[*[用戶端工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)運作，
+並處理該工作階段的請求。
+
+（不要將此術語與相似的術語
+[*[背景工作程序](README.md#GLOSSARY-BACKGROUND-WORKER)*](README.md#GLOSSARY-BACKGROUND-WORKER)或
+[*[背景寫入程序](README.md#GLOSSARY-BACKGROUND-WRITER)*](README.md#GLOSSARY-BACKGROUND-WRITER)混淆。）
 <a id="GLOSSARY-BACKGROUND-WORKER"></a>
 
 背景工作程序（Background worker）
-:   [*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)內的程序，
-    負責執行系統或使用者所提供的程式碼。
-    它是 PostgreSQL 多項功能的基礎架構，例如
-    [*[邏輯複寫](README.md#GLOSSARY-REPLICATION)*](README.md#GLOSSARY-REPLICATION)
-    與[*[平行查詢](README.md#GLOSSARY-PARALLEL-QUERY)*](README.md#GLOSSARY-PARALLEL-QUERY)。
-    此外，[*[擴充功能](README.md#GLOSSARY-EXTENSION)*](README.md#GLOSSARY-EXTENSION)也可以加入
-    自訂的背景工作程序。
 
-    更多資訊請參閱
-    [第 46 章](../../server-programming/bgworker/README.md)。
+[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)內的程序，
+負責執行系統或使用者所提供的程式碼。
+它是 PostgreSQL 多項功能的基礎架構，例如
+[*[邏輯複寫](README.md#GLOSSARY-REPLICATION)*](README.md#GLOSSARY-REPLICATION)
+與[*[平行查詢](README.md#GLOSSARY-PARALLEL-QUERY)*](README.md#GLOSSARY-PARALLEL-QUERY)。
+此外，[*[擴充功能](README.md#GLOSSARY-EXTENSION)*](README.md#GLOSSARY-EXTENSION)也可以加入
+自訂的背景工作程序。
+
+更多資訊請參閱
+[第 46 章](../../server-programming/bgworker/README.md)。
 <a id="GLOSSARY-BACKGROUND-WRITER"></a>
 
 背景寫入程序（Background writer）
-:   一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    負責將[*[共享記憶體](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)中的髒
-    [*[資料頁](README.md#GLOSSARY-DATA-PAGE)*](README.md#GLOSSARY-DATA-PAGE)寫入
-    檔案系統。它會定期喚醒，但每次只工作一小段時間，
-    藉此將成本高昂的 I/O 活動分散到不同時間，
-    避免產生較大的 I/O 尖峰而阻擋其他程序。
 
-    更多資訊請參閱
-    [第 19.4.4 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)。
+一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+負責將[*[共享記憶體](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)中的髒
+[*[資料頁](README.md#GLOSSARY-DATA-PAGE)*](README.md#GLOSSARY-DATA-PAGE)寫入
+檔案系統。它會定期喚醒，但每次只工作一小段時間，
+藉此將成本高昂的 I/O 活動分散到不同時間，
+避免產生較大的 I/O 尖峰而阻擋其他程序。
+
+更多資訊請參閱
+[第 19.4.4 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)。
 <a id="GLOSSARY-BASEBACKUP"></a>
 
 基礎備份（Base Backup）
@@ -158,15 +165,16 @@ ACID
 <a id="GLOSSARY-BOOTSTRAP-SUPERUSER"></a>
 
 啟動用超級使用者（Bootstrap superuser）
-:   在[*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)中
-    第一個被初始化的[*[使用者](README.md#GLOSSARY-USER)*](README.md#GLOSSARY-USER)。
 
-    此使用者擁有每個資料庫中的所有系統目錄資料表。它也是所有已授予權限的
-    源頭角色。由於這些原因，此角色不可被刪除。
+在[*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)中
+第一個被初始化的[*[使用者](README.md#GLOSSARY-USER)*](README.md#GLOSSARY-USER)。
 
-    此角色同時也具有一般
-    [*[資料庫超級使用者](README.md#GLOSSARY-DATABASE-SUPERUSER)*](README.md#GLOSSARY-DATABASE-SUPERUSER)的行為，
-    而且其超級使用者身分無法被移除。
+此使用者擁有每個資料庫中的所有系統目錄資料表。它也是所有已授予權限的
+源頭角色。由於這些原因，此角色不可被刪除。
+
+此角色同時也具有一般
+[*[資料庫超級使用者](README.md#GLOSSARY-DATABASE-SUPERUSER)*](README.md#GLOSSARY-DATABASE-SUPERUSER)的行為，
+而且其超級使用者身分無法被移除。
 <a id="GLOSSARY-BUFFER-ACCESS-STRATEGY"></a>
 
 緩衝區存取策略（Buffer Access Strategy）
@@ -199,44 +207,47 @@ ACID
 <a id="GLOSSARY-CATALOG"></a>
 
 目錄（Catalog）
-:   SQL 標準使用此術語來表示在
-    PostgreSQL 術語中稱為
-    [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)的東西。
 
-    （不要將此術語與
-    [*[系統目錄](README.md#GLOSSARY-SYSTEM-CATALOG)*](README.md#GLOSSARY-SYSTEM-CATALOG)混淆。）
+SQL 標準使用此術語來表示在
+PostgreSQL 術語中稱為
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)的東西。
 
-    更多資訊請參閱
-    [第 22.1 節](../../server-administration/managing-databases/manage-ag-overview.md)。
+（不要將此術語與
+[*[系統目錄](README.md#GLOSSARY-SYSTEM-CATALOG)*](README.md#GLOSSARY-SYSTEM-CATALOG)混淆。）
+
+更多資訊請參閱
+[第 22.1 節](../../server-administration/managing-databases/manage-ag-overview.md)。
 <a id="GLOSSARY-CHECK-CONSTRAINT"></a>
 
 檢查限制條件（Check constraint）
-:   定義在[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)上的一種
-    [*[限制條件](README.md#GLOSSARY-CONSTRAINT)*](README.md#GLOSSARY-CONSTRAINT)，
-    用來限制一個或多個
-    [*[屬性](README.md#GLOSSARY-ATTRIBUTE)*](README.md#GLOSSARY-ATTRIBUTE)中允許的值。
-    檢查限制條件可以參照該關聯中同一資料列的任何屬性，
-    但不能參照同一關聯的其他資料列，也不能參照其他關聯。
 
-    更多資訊請參閱
-    [第 5.5 節](../../the-sql-language/ddl/ddl-constraints.md)。
+定義在[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)上的一種
+[*[限制條件](README.md#GLOSSARY-CONSTRAINT)*](README.md#GLOSSARY-CONSTRAINT)，
+用來限制一個或多個
+[*[屬性](README.md#GLOSSARY-ATTRIBUTE)*](README.md#GLOSSARY-ATTRIBUTE)中允許的值。
+檢查限制條件可以參照該關聯中同一資料列的任何屬性，
+但不能參照同一關聯的其他資料列，也不能參照其他關聯。
+
+更多資訊請參閱
+[第 5.5 節](../../the-sql-language/ddl/ddl-constraints.md)。
 <a id="GLOSSARY-CHECKPOINT"></a>
 
 檢查點（Checkpoint）
-:   [*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 序列中的一個點，
-    在該點可以保證，堆積與索引資料檔已經以該檢查點之前
-    在[*[共享記憶體](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)中
-    修改過的所有資訊完成更新；
-    系統會寫入一筆*檢查點記錄*（checkpoint record）並刷寫到 WAL，
-    以標示該點。
 
-    檢查點也指為了達到上述定義的檢查點而執行所有必要動作的行為。
-    此過程會在符合預先定義的條件時啟動，
-    例如經過了指定的時間，或已寫入一定數量的記錄；
-    也可以由使用者以 `CHECKPOINT` 命令觸發。
+[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 序列中的一個點，
+在該點可以保證，堆積與索引資料檔已經以該檢查點之前
+在[*[共享記憶體](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)中
+修改過的所有資訊完成更新；
+系統會寫入一筆*檢查點記錄*（checkpoint record）並刷寫到 WAL，
+以標示該點。
 
-    更多資訊請參閱
-    [第 28.5 節](../../server-administration/wal/wal-configuration.md)。
+檢查點也指為了達到上述定義的檢查點而執行所有必要動作的行為。
+此過程會在符合預先定義的條件時啟動，
+例如經過了指定的時間，或已寫入一定數量的記錄；
+也可以由使用者以 `CHECKPOINT` 命令觸發。
+
+更多資訊請參閱
+[第 28.5 節](../../server-administration/wal/wal-configuration.md)。
 <a id="GLOSSARY-CHECKPOINTER"></a>
 
 檢查點程序（Checkpointer）
@@ -257,14 +268,15 @@ ACID
 <a id="GLOSSARY-CLUSTER-OWNER"></a>
 
 叢集擁有者（Cluster owner）
-:   擁有[*[資料目錄](README.md#GLOSSARY-DATA-DIRECTORY)*](README.md#GLOSSARY-DATA-DIRECTORY)、
-    並以其身分執行 `postgres` 程序的作業系統使用者。
-    在建立新的
-    [*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)之前，
-    此使用者必須已經存在。
 
-    在有 `root` 使用者的作業系統上，
-    該使用者不得作為叢集擁有者。
+擁有[*[資料目錄](README.md#GLOSSARY-DATA-DIRECTORY)*](README.md#GLOSSARY-DATA-DIRECTORY)、
+並以其身分執行 `postgres` 程序的作業系統使用者。
+在建立新的
+[*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)之前，
+此使用者必須已經存在。
+
+在有 `root` 使用者的作業系統上，
+該使用者不得作為叢集擁有者。
 <a id="GLOSSARY-COLUMN"></a>
 
 欄位（Column）
@@ -292,14 +304,15 @@ ACID
 <a id="GLOSSARY-CONNECTION"></a>
 
 連線（Connection）
-:   用戶端程序與
-    [*[後端](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)程序之間已建立的通訊管道，
-    通常經由網路，用以支撐一個
-    [*[工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)。此術語
-    有時也作為工作階段的同義詞使用。
 
-    更多資訊請參閱
-    [第 19.3 節](../../server-administration/runtime-config/runtime-config-connection.md)。
+用戶端程序與
+[*[後端](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)程序之間已建立的通訊管道，
+通常經由網路，用以支撐一個
+[*[工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)。此術語
+有時也作為工作階段的同義詞使用。
+
+更多資訊請參閱
+[第 19.3 節](../../server-administration/runtime-config/runtime-config-connection.md)。
 <a id="GLOSSARY-CONSISTENCY"></a>
 
 一致性（Consistency）
@@ -314,77 +327,83 @@ ACID
 <a id="GLOSSARY-CONSTRAINT"></a>
 
 限制條件（Constraint）
-:   對[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中，
-    或[*[網域](README.md#GLOSSARY-DOMAIN)*](README.md#GLOSSARY-DOMAIN)的屬性中
-    所允許之資料值的限制。
 
-    更多資訊請參閱
-    [第 5.5 節](../../the-sql-language/ddl/ddl-constraints.md)。
+對[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中，
+或[*[網域](README.md#GLOSSARY-DOMAIN)*](README.md#GLOSSARY-DOMAIN)的屬性中
+所允許之資料值的限制。
+
+更多資訊請參閱
+[第 5.5 節](../../the-sql-language/ddl/ddl-constraints.md)。
 <a id="GLOSSARY-CUMULATIVE-STATISTICS"></a>
 
 累計統計系統（Cumulative Statistics System）
-:   一個系統，若已啟用，會累計關於
-    [*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)
-    活動的統計資訊。
 
-    更多資訊請參閱
-    [第 27.2 節](../../server-administration/monitoring/monitoring-stats.md)。
+一個系統，若已啟用，會累計關於
+[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)
+活動的統計資訊。
+
+更多資訊請參閱
+[第 27.2 節](../../server-administration/monitoring/monitoring-stats.md)。
 
 資料區（Data area）
 :   請參閱[資料目錄](README.md#GLOSSARY-DATA-DIRECTORY)。
 <a id="GLOSSARY-DATABASE"></a>
 
 資料庫（Database）
-:   具名的
-    [*[區域 SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)集合。
 
-    更多資訊請參閱
-    [第 22.1 節](../../server-administration/managing-databases/manage-ag-overview.md)。
+具名的
+[*[區域 SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)集合。
+
+更多資訊請參閱
+[第 22.1 節](../../server-administration/managing-databases/manage-ag-overview.md)。
 <a id="GLOSSARY-DB-CLUSTER"></a>
 
 資料庫叢集（Database cluster）
-:   由多個資料庫與全域 SQL 物件，
-    以及它們共同的靜態與動態中繼資料所構成的集合。
-    有時也稱為
-    *叢集*（cluster）。
-    資料庫叢集是使用
-    [initdb](../../reference/reference-server/app-initdb.md) 程式建立的。
 
-    在 PostgreSQL 中，
-    *叢集*一詞有時也用來指稱執行個體。
-    （不要將此術語與 SQL 命令 `CLUSTER` 混淆。）
+由多個資料庫與全域 SQL 物件，
+以及它們共同的靜態與動態中繼資料所構成的集合。
+有時也稱為
+*叢集*（cluster）。
+資料庫叢集是使用
+[initdb](../../reference/reference-server/app-initdb.md) 程式建立的。
 
-    另請參閱[*[叢集擁有者](README.md#GLOSSARY-CLUSTER-OWNER)*](README.md#GLOSSARY-CLUSTER-OWNER)，
-    即叢集在作業系統層面的擁有者，
-    以及[*[啟動用超級使用者](README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)*](README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)，
-    即叢集在 PostgreSQL 中的擁有者。
+在 PostgreSQL 中，
+*叢集*一詞有時也用來指稱執行個體。
+（不要將此術語與 SQL 命令 `CLUSTER` 混淆。）
+
+另請參閱[*[叢集擁有者](README.md#GLOSSARY-CLUSTER-OWNER)*](README.md#GLOSSARY-CLUSTER-OWNER)，
+即叢集在作業系統層面的擁有者，
+以及[*[啟動用超級使用者](README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)*](README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)，
+即叢集在 PostgreSQL 中的擁有者。
 
 資料庫伺服器（Database server）
 :   請參閱[執行個體](README.md#GLOSSARY-INSTANCE)。
 <a id="GLOSSARY-DATABASE-SUPERUSER"></a>
 
 資料庫超級使用者（Database superuser）
-:   具有*超級使用者身分*的角色
-    （請參閱[第 21.2 節](../../server-administration/user-manag/role-attributes.md)）。
 
-    常簡稱為*超級使用者*。
+具有*超級使用者身分*的角色
+（請參閱[第 21.2 節](../../server-administration/user-manag/role-attributes.md)）。
+
+常簡稱為*超級使用者*。
 <a id="GLOSSARY-DATA-DIRECTORY"></a>
 
 資料目錄（Data directory）
-:   [*[伺服器](README.md#GLOSSARY-SERVER)*](README.md#GLOSSARY-SERVER)檔案系統上的基礎目錄，
-    其中包含與某個
-    [*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)
-    相關的所有資料檔與子目錄
-    （但[*[資料表空間](README.md#GLOSSARY-TABLESPACE)*](README.md#GLOSSARY-TABLESPACE)除外，
-    [*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 也可選擇性地除外）。
-    通常使用環境變數 `PGDATA` 來
-    指稱資料目錄。
 
-    一個[*[叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)的儲存
-    空間由資料目錄加上任何額外的資料表空間組成。
+[*[伺服器](README.md#GLOSSARY-SERVER)*](README.md#GLOSSARY-SERVER)檔案系統上的基礎目錄，
+其中包含與某個
+[*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)
+相關的所有資料檔與子目錄
+（但[*[資料表空間](README.md#GLOSSARY-TABLESPACE)*](README.md#GLOSSARY-TABLESPACE)除外，
+[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 也可選擇性地除外）。
+通常使用環境變數 `PGDATA` 來
+指稱資料目錄。
 
-    更多資訊請參閱
-    [第 66.1 節](../../internals/storage/storage-file-layout.md)。
+一個[*[叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)的儲存
+空間由資料目錄加上任何額外的資料表空間組成。
+
+更多資訊請參閱
+[第 66.1 節](../../internals/storage/storage-file-layout.md)。
 <a id="GLOSSARY-DATA-PAGE"></a>
 
 資料頁（Data page）
@@ -413,11 +432,12 @@ ACID
 <a id="GLOSSARY-DOMAIN"></a>
 
 網域（Domain）
-:   以另一個底層資料型別為基礎的使用者自訂資料型別。
-    它的行為與底層型別相同，只是可能會限制
-    允許的值的集合。
 
-    更多資訊請參閱[第 8.18 節](../../the-sql-language/datatype/domains.md)。
+以另一個底層資料型別為基礎的使用者自訂資料型別。
+它的行為與底層型別相同，只是可能會限制
+允許的值的集合。
+
+更多資訊請參閱[第 8.18 節](../../the-sql-language/datatype/domains.md)。
 <a id="GLOSSARY-DURABILITY"></a>
 
 持久性（Durability）
@@ -432,26 +452,28 @@ ACID
 <a id="GLOSSARY-EXTENSION"></a>
 
 擴充功能（Extension）
-:   可以安裝在
-    [*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)上、
-    用以取得額外功能的附加軟體套件。
 
-    更多資訊請參閱
-    [第 36.17 節](../../server-programming/extend/extend-extensions.md)。
+可以安裝在
+[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)上、
+用以取得額外功能的附加軟體套件。
+
+更多資訊請參閱
+[第 36.17 節](../../server-programming/extend/extend-extensions.md)。
 <a id="GLOSSARY-FILE-SEGMENT"></a>
 
 檔案區段（File segment）
-:   儲存某個[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)
-    資料的實體檔案。
-    檔案區段的大小受一個設定值限制
-    （通常為 1 GB），
-    因此若關聯超過該大小，就會被分割成多個區段。
 
-    更多資訊請參閱
-    [第 66.1 節](../../internals/storage/storage-file-layout.md)。
+儲存某個[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)
+資料的實體檔案。
+檔案區段的大小受一個設定值限制
+（通常為 1 GB），
+因此若關聯超過該大小，就會被分割成多個區段。
 
-    （不要將此術語與相似的術語
-    [*[WAL 區段](README.md#GLOSSARY-WAL-FILE)*](README.md#GLOSSARY-WAL-FILE)混淆。）
+更多資訊請參閱
+[第 66.1 節](../../internals/storage/storage-file-layout.md)。
+
+（不要將此術語與相似的術語
+[*[WAL 區段](README.md#GLOSSARY-WAL-FILE)*](README.md#GLOSSARY-WAL-FILE)混淆。）
 <a id="GLOSSARY-FOREIGN-DATA-WRAPPER"></a>
 
 外部資料包裝器（Foreign data wrapper）
@@ -512,13 +534,14 @@ ACID
 <a id="GLOSSARY-FSM"></a>
 
 可用空間對應表（分支）（Free space map）
-:   一種儲存結構，保存資料表主分支中每個資料頁的中繼資料。
-    每個頁面的可用空間對應表項目，記錄該頁可供未來元組使用的
-    可用空間大小，其結構設計使得能夠有效率地搜尋
-    可容納指定大小新元組的可用空間。
 
-    更多資訊請參閱
-    [第 66.3 節](../../internals/storage/storage-fsm.md)。
+一種儲存結構，保存資料表主分支中每個資料頁的中繼資料。
+每個頁面的可用空間對應表項目，記錄該頁可供未來元組使用的
+可用空間大小，其結構設計使得能夠有效率地搜尋
+可容納指定大小新元組的可用空間。
+
+更多資訊請參閱
+[第 66.3 節](../../internals/storage/storage-fsm.md)。
 <a id="GLOSSARY-FUNCTION"></a>
 
 函式（常式）（Function）
@@ -577,27 +600,29 @@ GMT
 <a id="GLOSSARY-INCREMENTAL-BACKUP"></a>
 
 增量備份（Incremental backup）
-:   一種特殊的[*[基礎備份](README.md#GLOSSARY-BASEBACKUP)*](README.md#GLOSSARY-BASEBACKUP)，
-    對某些檔案而言，它可能只包含自前一次備份以來被修改過的頁面，
-    而不是每個檔案的完整內容。和基礎備份一樣，
-    它由 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 工具產生。
 
-    要還原增量備份，需使用 [pg_combinebackup](../../reference/reference-client/app-pgcombinebackup.md) 工具，
-    它會將增量備份與一份基礎備份合併。
-    之後，復原過程可以使用
-    [*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 使
-    [*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)達到
-    一致的狀態。
+一種特殊的[*[基礎備份](README.md#GLOSSARY-BASEBACKUP)*](README.md#GLOSSARY-BASEBACKUP)，
+對某些檔案而言，它可能只包含自前一次備份以來被修改過的頁面，
+而不是每個檔案的完整內容。和基礎備份一樣，
+它由 [pg_basebackup](../../reference/reference-client/app-pgbasebackup.md) 工具產生。
 
-    更多資訊請參閱[第 25.3.3 節](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)。
+要還原增量備份，需使用 [pg_combinebackup](../../reference/reference-client/app-pgcombinebackup.md) 工具，
+它會將增量備份與一份基礎備份合併。
+之後，復原過程可以使用
+[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 使
+[*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)達到
+一致的狀態。
+
+更多資訊請參閱[第 25.3.3 節](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)。
 <a id="GLOSSARY-IO"></a>
 
 輸入／輸出（Input/Output，I/O）
-:   輸入／輸出（I/O）描述程式與周邊裝置之間的通訊。
-    在資料庫系統的脈絡中，I/O 通常（但不限於）
-    指與儲存裝置或網路的互動。
 
-    另請參閱[非同步 I/O](README.md#GLOSSARY-AIO)。
+輸入／輸出（I/O）描述程式與周邊裝置之間的通訊。
+在資料庫系統的脈絡中，I/O 通常（但不限於）
+指與儲存裝置或網路的互動。
+
+另請參閱[非同步 I/O](README.md#GLOSSARY-AIO)。
 <a id="GLOSSARY-INSERT"></a>
 
 插入（Insert）
@@ -609,31 +634,33 @@ GMT
 <a id="GLOSSARY-INSTANCE"></a>
 
 執行個體（Instance）
-:   一群使用共同的共享記憶體區域彼此通訊的
-    [*[後端](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)與
-    [*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)。由一個
-    [*[postmaster 程序](README.md#GLOSSARY-POSTMASTER)*](README.md#GLOSSARY-POSTMASTER)
-    管理該執行個體；一個執行個體恰好管理一個
-    [*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)
-    及其所有資料庫。只要 TCP 連接埠不衝突，
-    同一台[*[伺服器](README.md#GLOSSARY-SERVER)*](README.md#GLOSSARY-SERVER)上
-    就可以執行多個執行個體。
 
-    執行個體負責處理 DBMS 的所有關鍵功能：
-    對檔案與共享記憶體的讀寫存取、
-    確保 ACID 特性、
-    與[*[用戶端程序](README.md#GLOSSARY-CLIENT)*](README.md#GLOSSARY-CLIENT)之間的
-    [*[連線](README.md#GLOSSARY-CONNECTION)*](README.md#GLOSSARY-CONNECTION)、
-    權限驗證、當機復原、複寫等等。
+一群使用共同的共享記憶體區域彼此通訊的
+[*[後端](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)與
+[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)。由一個
+[*[postmaster 程序](README.md#GLOSSARY-POSTMASTER)*](README.md#GLOSSARY-POSTMASTER)
+管理該執行個體；一個執行個體恰好管理一個
+[*[資料庫叢集](README.md#GLOSSARY-DB-CLUSTER)*](README.md#GLOSSARY-DB-CLUSTER)
+及其所有資料庫。只要 TCP 連接埠不衝突，
+同一台[*[伺服器](README.md#GLOSSARY-SERVER)*](README.md#GLOSSARY-SERVER)上
+就可以執行多個執行個體。
+
+執行個體負責處理 DBMS 的所有關鍵功能：
+對檔案與共享記憶體的讀寫存取、
+確保 ACID 特性、
+與[*[用戶端程序](README.md#GLOSSARY-CLIENT)*](README.md#GLOSSARY-CLIENT)之間的
+[*[連線](README.md#GLOSSARY-CONNECTION)*](README.md#GLOSSARY-CONNECTION)、
+權限驗證、當機復原、複寫等等。
 <a id="GLOSSARY-ISOLATION"></a>
 
 隔離性（Isolation）
-:   一筆交易的效果在其提交之前，對
-    [*[並行交易](README.md#GLOSSARY-CONCURRENCY)*](README.md#GLOSSARY-CONCURRENCY)
-    不可見的特性。
-    這是 ACID 特性之一。
 
-    更多資訊請參閱[第 13.2 節](../../the-sql-language/mvcc/transaction-iso.md)。
+一筆交易的效果在其提交之前，對
+[*[並行交易](README.md#GLOSSARY-CONCURRENCY)*](README.md#GLOSSARY-CONCURRENCY)
+不可見的特性。
+這是 ACID 特性之一。
+
+更多資訊請參閱[第 13.2 節](../../the-sql-language/mvcc/transaction-iso.md)。
 <a id="GLOSSARY-JOIN"></a>
 
 連接（Join）
@@ -656,11 +683,12 @@ GMT
 <a id="GLOSSARY-LOG-FILE"></a>
 
 日誌檔（Log file）
-:   日誌檔包含關於各種事件、供人閱讀的文字行。
-    例如登入失敗、長時間執行的查詢等等。
 
-    更多資訊請參閱
-    [第 24.3 節](../../server-administration/maintenance/logfile-maintenance.md)。
+日誌檔包含關於各種事件、供人閱讀的文字行。
+例如登入失敗、長時間執行的查詢等等。
+
+更多資訊請參閱
+[第 24.3 節](../../server-administration/maintenance/logfile-maintenance.md)。
 <a id="GLOSSARY-LOGGED"></a>
 
 有日誌（Logged）
@@ -673,15 +701,16 @@ GMT
 <a id="GLOSSARY-LOGGER"></a>
 
 日誌收集器（程序）（Logger）
-:   一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    若已啟用，它會將資料庫事件的相關資訊寫入目前的
-    [*[日誌檔](README.md#GLOSSARY-LOG-FILE)*](README.md#GLOSSARY-LOG-FILE)。
-    當達到某些與時間或
-    資料量相關的條件時，就會建立新的日誌檔。
-    也稱為 *syslogger*。
 
-    更多資訊請參閱
-    [第 19.8 節](../../server-administration/runtime-config/runtime-config-logging.md)。
+一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+若已啟用，它會將資料庫事件的相關資訊寫入目前的
+[*[日誌檔](README.md#GLOSSARY-LOG-FILE)*](README.md#GLOSSARY-LOG-FILE)。
+當達到某些與時間或
+資料量相關的條件時，就會建立新的日誌檔。
+也稱為 *syslogger*。
+
+更多資訊請參閱
+[第 19.8 節](../../server-administration/runtime-config/runtime-config-logging.md)。
 <a id="GLOSSARY-LOGICAL-REPLICATION-CLUSTER"></a>
 
 邏輯複寫叢集（Logical replication cluster）
@@ -694,10 +723,11 @@ GMT
 <a id="GLOSSARY-LOG-SEQUENCE-NUMBER"></a>
 
 日誌序號（Log sequence number，LSN）
-:   在[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 中的位元組偏移量，
-    隨著每一筆新的[*[WAL 記錄](README.md#GLOSSARY-WAL-RECORD)*](README.md#GLOSSARY-WAL-RECORD)單調遞增。
 
-    更多資訊請參閱 [`pg_lsn`](../../the-sql-language/datatype/datatype-pg-lsn.md) 與[第 28.6 節](../../server-administration/wal/wal-internals.md)。
+在[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 中的位元組偏移量，
+隨著每一筆新的[*[WAL 記錄](README.md#GLOSSARY-WAL-RECORD)*](README.md#GLOSSARY-WAL-RECORD)單調遞增。
+
+更多資訊請參閱 [`pg_lsn`](../../the-sql-language/datatype/datatype-pg-lsn.md) 與[第 28.6 節](../../server-administration/wal/wal-internals.md)。
 
 LSN
 :   請參閱[日誌序號](README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)。
@@ -707,17 +737,18 @@ LSN
 <a id="GLOSSARY-MATERIALIZED"></a>
 
 具體化（Materialized）
-:   某些資訊已預先計算並儲存起來供日後使用，
-    而不是在需要時即時計算的特性。
 
-    此術語用於
-    [*[具體化檢視表](README.md#GLOSSARY-MATERIALIZED-VIEW)*](README.md#GLOSSARY-MATERIALIZED-VIEW)，
-    意思是從該檢視表的查詢所衍生出的資料，會與資料來源分開、
-    儲存在磁碟上。
+某些資訊已預先計算並儲存起來供日後使用，
+而不是在需要時即時計算的特性。
 
-    此術語也用於某些多步驟查詢，意思是
-    執行某個步驟所產生的資料會儲存在記憶體中
-    （也可能溢寫到磁碟），以便另一個步驟可以多次讀取。
+此術語用於
+[*[具體化檢視表](README.md#GLOSSARY-MATERIALIZED-VIEW)*](README.md#GLOSSARY-MATERIALIZED-VIEW)，
+意思是從該檢視表的查詢所衍生出的資料，會與資料來源分開、
+儲存在磁碟上。
+
+此術語也用於某些多步驟查詢，意思是
+執行某個步驟所產生的資料會儲存在記憶體中
+（也可能溢寫到磁碟），以便另一個步驟可以多次讀取。
 <a id="GLOSSARY-MATERIALIZED-VIEW"></a>
 
 具體化檢視表（關聯）（Materialized view）
@@ -791,13 +822,14 @@ LSN
 <a id="GLOSSARY-POSTMASTER"></a>
 
 Postmaster（程序）
-:   [*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)的第一個程序。
-    它會啟動並管理
-    [*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    並且視需要建立[*[後端程序](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)。
 
-    更多資訊請參閱
-    [第 18.3 節](../../server-administration/runtime/server-start.md)。
+[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)的第一個程序。
+它會啟動並管理
+[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+並且視需要建立[*[後端程序](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)。
+
+更多資訊請參閱
+[第 18.3 節](../../server-administration/runtime/server-start.md)。
 <a id="GLOSSARY-PRIMARY-KEY"></a>
 
 主鍵（Primary key）
@@ -860,23 +892,24 @@ Postmaster（程序）
 <a id="GLOSSARY-RELATION"></a>
 
 關聯（Relation）
-:   [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中
-    所有具有名稱、以及依特定順序定義之
-    [*[屬性](README.md#GLOSSARY-ATTRIBUTE)*](README.md#GLOSSARY-ATTRIBUTE)清單的物件之通稱。
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)、
-    [*[序列](README.md#GLOSSARY-SEQUENCE)*](README.md#GLOSSARY-SEQUENCE)、
-    [*[檢視表](README.md#GLOSSARY-VIEW)*](README.md#GLOSSARY-VIEW)、
-    [*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)、
-    [*[具體化檢視表](README.md#GLOSSARY-MATERIALIZED-VIEW)*](README.md#GLOSSARY-MATERIALIZED-VIEW)、
-    複合型別與
-    [*[索引](README.md#GLOSSARY-INDEX)*](README.md#GLOSSARY-INDEX)都是關聯。
 
-    更廣泛地說，關聯是元組的集合；例如，
-    查詢的結果也是一個關聯。
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中
+所有具有名稱、以及依特定順序定義之
+[*[屬性](README.md#GLOSSARY-ATTRIBUTE)*](README.md#GLOSSARY-ATTRIBUTE)清單的物件之通稱。
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)、
+[*[序列](README.md#GLOSSARY-SEQUENCE)*](README.md#GLOSSARY-SEQUENCE)、
+[*[檢視表](README.md#GLOSSARY-VIEW)*](README.md#GLOSSARY-VIEW)、
+[*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)、
+[*[具體化檢視表](README.md#GLOSSARY-MATERIALIZED-VIEW)*](README.md#GLOSSARY-MATERIALIZED-VIEW)、
+複合型別與
+[*[索引](README.md#GLOSSARY-INDEX)*](README.md#GLOSSARY-INDEX)都是關聯。
 
-    在 PostgreSQL 中，
-    *類別*（Class）是
-    *關聯*的舊式同義詞。
+更廣泛地說，關聯是元組的集合；例如，
+查詢的結果也是一個關聯。
+
+在 PostgreSQL 中，
+*類別*（Class）是
+*關聯*的舊式同義詞。
 <a id="GLOSSARY-REPLICA"></a>
 
 複本（伺服器）（Replica）
@@ -898,10 +931,11 @@ Postmaster（程序）
 <a id="GLOSSARY-RESTARTPOINT"></a>
 
 重新啟動點（Restartpoint）
-:   在[*[複本](README.md#GLOSSARY-REPLICA)*](README.md#GLOSSARY-REPLICA)上執行的一種
-    [*[檢查點](README.md#GLOSSARY-CHECKPOINT)*](README.md#GLOSSARY-CHECKPOINT)變體。
 
-    更多資訊請參閱[第 28.5 節](../../server-administration/wal/wal-configuration.md)。
+在[*[複本](README.md#GLOSSARY-REPLICA)*](README.md#GLOSSARY-REPLICA)上執行的一種
+[*[檢查點](README.md#GLOSSARY-CHECKPOINT)*](README.md#GLOSSARY-CHECKPOINT)變體。
+
+更多資訊請參閱[第 28.5 節](../../server-administration/wal/wal-configuration.md)。
 <a id="GLOSSARY-RESULT-SET"></a>
 
 結果集（Result set）
@@ -947,17 +981,18 @@ Postmaster（程序）
 <a id="GLOSSARY-ROUTINE"></a>
 
 常式（Routine）
-:   儲存在資料庫系統中、可以被呼叫執行的一組已定義指令。
-    常式可以用多種程式語言撰寫。
-    常式可以是
-    [*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)
-    （包括集合回傳函式與
-    [*[觸發程序函式](README.md#GLOSSARY-TRIGGER)*](README.md#GLOSSARY-TRIGGER)）、
-    [*[彙總函式](README.md#GLOSSARY-AGGREGATE)*](README.md#GLOSSARY-AGGREGATE)，
-    以及[*[程序](README.md#GLOSSARY-PROCEDURE)*](README.md#GLOSSARY-PROCEDURE)。
 
-    許多常式已在 PostgreSQL 本身中定義，
-    但也可以加入使用者自訂的常式。
+儲存在資料庫系統中、可以被呼叫執行的一組已定義指令。
+常式可以用多種程式語言撰寫。
+常式可以是
+[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)
+（包括集合回傳函式與
+[*[觸發程序函式](README.md#GLOSSARY-TRIGGER)*](README.md#GLOSSARY-TRIGGER)）、
+[*[彙總函式](README.md#GLOSSARY-AGGREGATE)*](README.md#GLOSSARY-AGGREGATE)，
+以及[*[程序](README.md#GLOSSARY-PROCEDURE)*](README.md#GLOSSARY-PROCEDURE)。
+
+許多常式已在 PostgreSQL 本身中定義，
+但也可以加入使用者自訂的常式。
 
 資料列（Row）
 :   請參閱[元組](README.md#GLOSSARY-TUPLE)。
@@ -973,20 +1008,22 @@ Postmaster（程序）
 <a id="GLOSSARY-SCHEMA"></a>
 
 綱要（Schema）
-:   綱要是
-    [*[SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)的命名空間，
-    這些 SQL 物件全都位於同一個
-    [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中。
-    每個 SQL 物件必須恰好位於一個綱要中（譯註：此句過度概括，只適用於隸屬綱要的物件；如下文「SQL 物件」詞條所述，擴充功能、資料型別轉換、外部資料包裝器等區域物件並不位於任何綱要中）。
 
-    所有系統定義的 SQL 物件都位於綱要 `pg_catalog` 中。（譯註：原文此處為過度概括；系統也會在 information_schema 綱要中提供依 SQL 標準定義的檢視表，因此並非所有系統提供的 SQL 物件都位於 pg_catalog 中。）
-:   更廣泛地說，*綱要*（schema）一詞用來指稱
-    某個[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)或
-    其子集的所有資料描述（[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)定義、
-    [*[限制條件](README.md#GLOSSARY-CONSTRAINT)*](README.md#GLOSSARY-CONSTRAINT)、註解等等）。
+綱要是
+[*[SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)的命名空間，
+這些 SQL 物件全都位於同一個
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中。
+每個 SQL 物件必須恰好位於一個綱要中（譯註：此句過度概括，只適用於隸屬綱要的物件；如下文「SQL 物件」詞條所述，擴充功能、資料型別轉換、外部資料包裝器等區域物件並不位於任何綱要中）。
 
-    更多資訊請參閱
-    [第 5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。
+所有系統定義的 SQL 物件都位於綱要 `pg_catalog` 中。（譯註：原文此處為過度概括；系統也會在 information_schema 綱要中提供依 SQL 標準定義的檢視表，因此並非所有系統提供的 SQL 物件都位於 pg_catalog 中。）
+
+更廣泛地說，*綱要*（schema）一詞用來指稱
+某個[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)或
+其子集的所有資料描述（[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)定義、
+[*[限制條件](README.md#GLOSSARY-CONSTRAINT)*](README.md#GLOSSARY-CONSTRAINT)、註解等等）。
+
+更多資訊請參閱
+[第 5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。
 
 區段（Segment）
 :   請參閱[檔案區段](README.md#GLOSSARY-FILE-SEGMENT)。
@@ -1013,12 +1050,13 @@ Postmaster（程序）
 <a id="GLOSSARY-SERVER"></a>
 
 伺服器（Server）
-:   執行 PostgreSQL
-    [*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)的電腦。
-    *伺服器*一詞可以指實體硬體、
-    容器或*虛擬機器*。
 
-    此術語有時也用來指稱執行個體或主機。
+執行 PostgreSQL
+[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)的電腦。
+*伺服器*一詞可以指實體硬體、
+容器或*虛擬機器*。
+
+此術語有時也用來指稱執行個體或主機。
 <a id="GLOSSARY-SESSION"></a>
 
 工作階段（Session）
@@ -1027,55 +1065,57 @@ Postmaster（程序）
 <a id="GLOSSARY-SHARED-MEMORY"></a>
 
 共享記憶體（Shared memory）
-:   由[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)
-    共同的程序所使用的 RAM。
-    它映射[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)
-    檔案的部分內容，為
-    [*[WAL 記錄](README.md#GLOSSARY-WAL-RECORD)*](README.md#GLOSSARY-WAL-RECORD)提供暫存區域，
-    並儲存其他共用資訊。
-    請注意，共享記憶體屬於整個執行個體，而不屬於單一
-    資料庫。
 
-    共享記憶體中最大的部分稱為*共享緩衝區*（shared buffers），
-    用來映射資料檔的部分內容，並以頁面為單位組織。
-    頁面被修改後，在寫回檔案系統之前，
-    都稱為髒頁面。
+由[*[執行個體](README.md#GLOSSARY-INSTANCE)*](README.md#GLOSSARY-INSTANCE)
+共同的程序所使用的 RAM。
+它映射[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)
+檔案的部分內容，為
+[*[WAL 記錄](README.md#GLOSSARY-WAL-RECORD)*](README.md#GLOSSARY-WAL-RECORD)提供暫存區域，
+並儲存其他共用資訊。
+請注意，共享記憶體屬於整個執行個體，而不屬於單一
+資料庫。
 
-    更多資訊請參閱
-    [第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)。
+共享記憶體中最大的部分稱為*共享緩衝區*（shared buffers），
+用來映射資料檔的部分內容，並以頁面為單位組織。
+頁面被修改後，在寫回檔案系統之前，
+都稱為髒頁面。
+
+更多資訊請參閱
+[第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)。
 <a id="GLOSSARY-SQL-OBJECT"></a>
 
 SQL 物件（SQL object）
-:   任何可以用 `CREATE`
-    命令建立的物件。大多數物件專屬於某一個資料庫，通常
-    稱為*區域物件*（local objects）。
 
-    大多數區域物件位於其所屬資料庫中的某個特定
-    [*[綱要](README.md#GLOSSARY-SCHEMA)*](README.md#GLOSSARY-SCHEMA)內，
-    例如[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)（所有類型）、
-    [*[常式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)（所有類型）、
-    資料型別等等。
-    在同一個綱要中，同一類型的這類物件，其名稱強制必須唯一（譯註：常式是例外，函式與程序可以多載，只要輸入引數的型別不同，同一個綱要中就可以有同名的常式；請參閱 CREATE FUNCTION）。
+任何可以用 `CREATE`
+命令建立的物件。大多數物件專屬於某一個資料庫，通常
+稱為*區域物件*（local objects）。
 
-    也有不位於綱要中的區域物件；例如
-    [*[擴充功能](README.md#GLOSSARY-EXTENSION)*](README.md#GLOSSARY-EXTENSION)、
-    [*[資料型別轉換](README.md#GLOSSARY-CAST)*](README.md#GLOSSARY-CAST)與
-    [*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)。
-    同一類型的這類物件，其名稱在資料庫內強制必須唯一。
+大多數區域物件位於其所屬資料庫中的某個特定
+[*[綱要](README.md#GLOSSARY-SCHEMA)*](README.md#GLOSSARY-SCHEMA)內，
+例如[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)（所有類型）、
+[*[常式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)（所有類型）、
+資料型別等等。
+在同一個綱要中，同一類型的這類物件，其名稱強制必須唯一（譯註：常式是例外，函式與程序可以多載，只要輸入引數的型別不同，同一個綱要中就可以有同名的常式；請參閱 CREATE FUNCTION）。
 
-    其他物件類型，例如
-    [*[角色](README.md#GLOSSARY-ROLE)*](README.md#GLOSSARY-ROLE)、
-    [*[資料表空間](README.md#GLOSSARY-TABLESPACE)*](README.md#GLOSSARY-TABLESPACE)、
-    複寫來源、邏輯複寫的訂閱，以及
-    資料庫本身，都不是區域 SQL 物件，因為它們
-    完全存在於任何特定資料庫之外；
-    它們稱為*全域物件*（global objects）。
+也有不位於綱要中的區域物件；例如
+[*[擴充功能](README.md#GLOSSARY-EXTENSION)*](README.md#GLOSSARY-EXTENSION)、
+[*[資料型別轉換](README.md#GLOSSARY-CAST)*](README.md#GLOSSARY-CAST)與
+[*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)。
+同一類型的這類物件，其名稱在資料庫內強制必須唯一。
 
-    譯註：上述說法對邏輯複寫的訂閱並不精確。訂閱的資訊雖然存放在叢集共用的 pg_subscription 目錄中，但每個訂閱都隸屬於某個資料庫，名稱只須在所屬資料庫內唯一（請參閱 CREATE SUBSCRIPTION）。複寫來源則確實是叢集層級物件。
-    這類物件的名稱在整個資料庫叢集中強制必須唯一。
+其他物件類型，例如
+[*[角色](README.md#GLOSSARY-ROLE)*](README.md#GLOSSARY-ROLE)、
+[*[資料表空間](README.md#GLOSSARY-TABLESPACE)*](README.md#GLOSSARY-TABLESPACE)、
+複寫來源、邏輯複寫的訂閱，以及
+資料庫本身，都不是區域 SQL 物件，因為它們
+完全存在於任何特定資料庫之外；
+它們稱為*全域物件*（global objects）。
 
-    更多資訊請參閱
-    [第 22.1 節](../../server-administration/managing-databases/manage-ag-overview.md)。
+譯註：上述說法對邏輯複寫的訂閱並不精確。訂閱的資訊雖然存放在叢集共用的 pg_subscription 目錄中，但每個訂閱都隸屬於某個資料庫，名稱只須在所屬資料庫內唯一（請參閱 CREATE SUBSCRIPTION）。複寫來源則確實是叢集層級物件。
+這類物件的名稱在整個資料庫叢集中強制必須唯一。
+
+更多資訊請參閱
+[第 22.1 節](../../server-administration/managing-databases/manage-ag-overview.md)。
 <a id="GLOSSARY-SQL-STANDARD"></a>
 
 SQL 標準（SQL standard）
@@ -1086,13 +1126,14 @@ SQL 標準（SQL standard）
 <a id="GLOSSARY-STARTUP-PROCESS"></a>
 
 啟動程序（Startup process）
-:   一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    在當機復原期間以及在
-    [*[實體複本](README.md#GLOSSARY-REPLICATION)*](README.md#GLOSSARY-REPLICATION)中重播 WAL。
 
-    （這個名稱是沿襲歷史而來：啟動程序是在
-    複寫功能實作之前就命名的；這個名稱指的是它在
-    當機後伺服器啟動時所負責的工作。）
+一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+在當機復原期間以及在
+[*[實體複本](README.md#GLOSSARY-REPLICATION)*](README.md#GLOSSARY-REPLICATION)中重播 WAL。
+
+（這個名稱是沿襲歷史而來：啟動程序是在
+複寫功能實作之前就命名的；這個名稱指的是它在
+當機後伺服器啟動時所負責的工作。）
 <a id="GLOSSARY-SUPERUSER"></a>
 
 超級使用者（Superuser）
@@ -1101,23 +1142,24 @@ SQL 標準（SQL standard）
 <a id="GLOSSARY-SYSTEM-CATALOG"></a>
 
 系統目錄（System catalog）
-:   一組[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)，
-    描述該執行個體中所有
-    [*[SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)
-    的結構。
-    系統目錄位於綱要 `pg_catalog` 中。
-    這些資料表以內部表示形式存放資料，
-    通常不被認為適合供使用者查看；
-    有一些對使用者更友善的[*[檢視表](README.md#GLOSSARY-VIEW)*](README.md#GLOSSARY-VIEW)，
-    同樣位於綱要 `pg_catalog` 中，可以更方便地存取
-    其中部分資訊；另外，綱要 `information_schema` 中
-    還有其他資料表與檢視表
-    （請參閱[第 35 章](../../client-interfaces/information-schema/README.md)），依照
-    [*[SQL 標準](README.md#GLOSSARY-SQL-STANDARD)*](README.md#GLOSSARY-SQL-STANDARD)的規定，
-    提供部分相同的資訊以及額外的資訊。
 
-    更多資訊請參閱
-    [第 5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。
+一組[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)，
+描述該執行個體中所有
+[*[SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)
+的結構。
+系統目錄位於綱要 `pg_catalog` 中。
+這些資料表以內部表示形式存放資料，
+通常不被認為適合供使用者查看；
+有一些對使用者更友善的[*[檢視表](README.md#GLOSSARY-VIEW)*](README.md#GLOSSARY-VIEW)，
+同樣位於綱要 `pg_catalog` 中，可以更方便地存取
+其中部分資訊；另外，綱要 `information_schema` 中
+還有其他資料表與檢視表
+（請參閱[第 35 章](../../client-interfaces/information-schema/README.md)），依照
+[*[SQL 標準](README.md#GLOSSARY-SQL-STANDARD)*](README.md#GLOSSARY-SQL-STANDARD)的規定，
+提供部分相同的資訊以及額外的資訊。
+
+更多資訊請參閱
+[第 5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。
 <a id="GLOSSARY-TABLE"></a>
 
 資料表（Table）
@@ -1133,15 +1175,16 @@ SQL 標準（SQL standard）
 <a id="GLOSSARY-TABLESPACE"></a>
 
 資料表空間（Tablespace）
-:   伺服器檔案系統上的一個具名位置。
-    所有除了在[*[系統目錄](README.md#GLOSSARY-SYSTEM-CATALOG)*](README.md#GLOSSARY-SYSTEM-CATALOG)中的定義之外
-    還需要儲存空間的[*[SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)，
-    都必須屬於單一資料表空間。
-    最初，資料庫叢集只包含一個可用的資料表空間，
-    作為所有 SQL 物件的預設資料表空間，稱為 `pg_default`（譯註：此說法不夠精確。初始化時其實會建立兩個資料表空間：pg_default 是 template1 與 template0 資料庫的預設資料表空間，因此除非 CREATE DATABASE 另行指定，它也是其他資料庫的預設；另一個 pg_global 則用於叢集共用的系統目錄。請參閱第 22.6 節）。
 
-    更多資訊請參閱
-    [第 22.6 節](../../server-administration/managing-databases/manage-ag-tablespaces.md)。
+伺服器檔案系統上的一個具名位置。
+所有除了在[*[系統目錄](README.md#GLOSSARY-SYSTEM-CATALOG)*](README.md#GLOSSARY-SYSTEM-CATALOG)中的定義之外
+還需要儲存空間的[*[SQL 物件](README.md#GLOSSARY-SQL-OBJECT)*](README.md#GLOSSARY-SQL-OBJECT)，
+都必須屬於單一資料表空間。
+最初，資料庫叢集只包含一個可用的資料表空間，
+作為所有 SQL 物件的預設資料表空間，稱為 `pg_default`（譯註：此說法不夠精確。初始化時其實會建立兩個資料表空間：pg_default 是 template1 與 template0 資料庫的預設資料表空間，因此除非 CREATE DATABASE 另行指定，它也是其他資料庫的預設；另一個 pg_global 則用於叢集共用的系統目錄。請參閱第 22.6 節）。
+
+更多資訊請參閱
+[第 22.6 節](../../server-administration/managing-databases/manage-ag-tablespaces.md)。
 <a id="GLOSSARY-TEMPORARY-TABLE"></a>
 
 暫存資料表（Temporary table）
@@ -1159,41 +1202,44 @@ SQL 標準（SQL standard）
 <a id="GLOSSARY-TOAST"></a>
 
 TOAST
-:   一種機制，將資料表資料列中較大的屬性切分後，
-    儲存在稱為 *TOAST 資料表*（TOAST table）的次要資料表中。
-    每個具有大型屬性的關聯都有自己的 TOAST 資料表。
 
-    更多資訊請參閱
-    [第 66.2 節](../../internals/storage/storage-toast.md)。
+一種機制，將資料表資料列中較大的屬性切分後，
+儲存在稱為 *TOAST 資料表*（TOAST table）的次要資料表中。
+每個具有大型屬性的關聯都有自己的 TOAST 資料表。
+
+更多資訊請參閱
+[第 66.2 節](../../internals/storage/storage-toast.md)。
 <a id="GLOSSARY-TRANSACTION"></a>
 
 交易（Transaction）
-:   一組必須如同單一
-    [*[原子](README.md#GLOSSARY-ATOMIC)*](README.md#GLOSSARY-ATOMIC)命令般運作的命令：它們作為單一單位
-    全部成功或全部失敗，而且在交易完成之前，其效果對
-    其他[*[工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)不可見；
-    依隔離等級不同，甚至可能在更晚之後才可見。
 
-    更多資訊請參閱
-    [第 13.2 節](../../the-sql-language/mvcc/transaction-iso.md)。
+一組必須如同單一
+[*[原子](README.md#GLOSSARY-ATOMIC)*](README.md#GLOSSARY-ATOMIC)命令般運作的命令：它們作為單一單位
+全部成功或全部失敗，而且在交易完成之前，其效果對
+其他[*[工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)不可見；
+依隔離等級不同，甚至可能在更晚之後才可見。
+
+更多資訊請參閱
+[第 13.2 節](../../the-sql-language/mvcc/transaction-iso.md)。
 <a id="GLOSSARY-XID"></a>
 
 交易 ID（Transaction ID）
-:   每筆交易在第一次造成資料庫修改時所取得的
-    數值型、唯一、依序指派的識別碼。
-    常縮寫為 *xid*。
-    儲存在磁碟上時，xid 只有 32 位元寬，因此
-    只能產生大約四十億個寫入交易 ID；
-    為了讓系統能執行超過這個數量，
-    會使用同樣是 32 位元寬的*紀元*（epoch）。
-    當計數器達到最大 xid 值時，它會從
-    `3` 重新開始（小於該值的值保留供特殊用途：0 為無效交易 ID、1 為初始建置交易 ID、2 為凍結交易 ID），而
-    紀元值會加一。
-    在某些情境下，紀元與 xid 值會被
-    合起來視為單一的 64 位元值；更多細節請參閱[第 67.1 節](../../internals/transactions/transaction-id.md)。
 
-    更多資訊請參閱
-    [第 8.19 節](../../the-sql-language/datatype/datatype-oid.md)。
+每筆交易在第一次造成資料庫修改時所取得的
+數值型、唯一、依序指派的識別碼。
+常縮寫為 *xid*。
+儲存在磁碟上時，xid 只有 32 位元寬，因此
+只能產生大約四十億個寫入交易 ID；
+為了讓系統能執行超過這個數量，
+會使用同樣是 32 位元寬的*紀元*（epoch）。
+當計數器達到最大 xid 值時，它會從
+`3` 重新開始（小於該值的值保留供特殊用途：0 為無效交易 ID、1 為初始建置交易 ID、2 為凍結交易 ID），而
+紀元值會加一。
+在某些情境下，紀元與 xid 值會被
+合起來視為單一的 64 位元值；更多細節請參閱[第 67.1 節](../../internals/transactions/transaction-id.md)。
+
+更多資訊請參閱
+[第 8.19 節](../../the-sql-language/datatype/datatype-oid.md)。
 <a id="GLOSSARY-TPS"></a>
 
 每秒交易數（Transactions per second，TPS）
@@ -1228,30 +1274,32 @@ TOAST
 <a id="GLOSSARY-UNIQUE-CONSTRAINT"></a>
 
 唯一限制條件（Unique constraint）
-:   定義在[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)上的一種
-    [*[限制條件](README.md#GLOSSARY-CONSTRAINT)*](README.md#GLOSSARY-CONSTRAINT)，
-    它限制一個欄位或欄位組合中允許的值，
-    使每個值或值的組合在該關聯中只能出現一次——
-    也就是說，該關聯中沒有其他資料列包含與之相等的值。
 
-    由於[*[空值](README.md#GLOSSARY-NULL)*](README.md#GLOSSARY-NULL)
-    彼此不被視為相等，因此允許存在多筆含有空值的資料列，
-    而不會違反唯一限制條件。
+定義在[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)上的一種
+[*[限制條件](README.md#GLOSSARY-CONSTRAINT)*](README.md#GLOSSARY-CONSTRAINT)，
+它限制一個欄位或欄位組合中允許的值，
+使每個值或值的組合在該關聯中只能出現一次——
+也就是說，該關聯中沒有其他資料列包含與之相等的值。
 
-    譯註：這是預設的 NULLS DISTINCT 行為。若以 NULLS NOT DISTINCT 定義唯一限制條件，比較時會把空值視為彼此相等：只有當兩筆資料列在限制條件涵蓋的每個欄位上都相等（空值視為與空值相等）時才會違反限制。因此單一欄位時只能有一筆空值；但對欄位組合而言，(NULL, 1) 與 (NULL, 2) 這類其他欄位不同的組合仍可並存（請參閱第 5.5.3 節）。
+由於[*[空值](README.md#GLOSSARY-NULL)*](README.md#GLOSSARY-NULL)
+彼此不被視為相等，因此允許存在多筆含有空值的資料列，
+而不會違反唯一限制條件。
+
+譯註：這是預設的 NULLS DISTINCT 行為。若以 NULLS NOT DISTINCT 定義唯一限制條件，比較時會把空值視為彼此相等：只有當兩筆資料列在限制條件涵蓋的每個欄位上都相等（空值視為與空值相等）時才會違反限制。因此單一欄位時只能有一筆空值；但對欄位組合而言，(NULL, 1) 與 (NULL, 2) 這類其他欄位不同的組合仍可並存（請參閱第 5.5.3 節）。
 <a id="GLOSSARY-UNLOGGED"></a>
 
 無日誌（Unlogged）
-:   某些[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)的一種特性：
-    對它們的變更不會反映在
-    [*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 中。
-    這會使這些關聯無法進行複寫與當機復原。
 
-    無日誌資料表的主要用途，是存放
-    必須在程序之間共享的暫時性工作資料。
+某些[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)的一種特性：
+對它們的變更不會反映在
+[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 中。
+這會使這些關聯無法進行複寫與當機復原。
 
-    [*[暫存資料表](README.md#GLOSSARY-TEMPORARY-TABLE)*](README.md#GLOSSARY-TEMPORARY-TABLE)
-    一律是無日誌的。
+無日誌資料表的主要用途，是存放
+必須在程序之間共享的暫時性工作資料。
+
+[*[暫存資料表](README.md#GLOSSARY-TEMPORARY-TABLE)*](README.md#GLOSSARY-TEMPORARY-TABLE)
+一律是無日誌的。
 <a id="GLOSSARY-UPDATE"></a>
 
 更新（Update）
@@ -1285,16 +1333,17 @@ UTC
 <a id="GLOSSARY-VACUUM"></a>
 
 清理（Vacuum）
-:   從資料表或具體化檢視表中移除過時的
-    [*[元組版本](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)，
-    以及 PostgreSQL 的
-    [*[MVCC](README.md#GLOSSARY-MVCC)*](README.md#GLOSSARY-MVCC) 實作所需的其他密切相關處理的過程。
-    這可以透過
-    `VACUUM` 命令啟動，也可以經由
-    [*[自動清理](README.md#GLOSSARY-AUTOVACUUM)*](README.md#GLOSSARY-AUTOVACUUM)程序自動處理。
 
-    更多資訊請參閱
-    [第 24.1 節](../../server-administration/maintenance/routine-vacuuming.md)。
+從資料表或具體化檢視表中移除過時的
+[*[元組版本](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)，
+以及 PostgreSQL 的
+[*[MVCC](README.md#GLOSSARY-MVCC)*](README.md#GLOSSARY-MVCC) 實作所需的其他密切相關處理的過程。
+這可以透過
+`VACUUM` 命令啟動，也可以經由
+[*[自動清理](README.md#GLOSSARY-AUTOVACUUM)*](README.md#GLOSSARY-AUTOVACUUM)程序自動處理。
+
+更多資訊請參閱
+[第 24.1 節](../../server-administration/maintenance/routine-vacuuming.md)。
 <a id="GLOSSARY-VIEW"></a>
 
 檢視表（View）
@@ -1321,57 +1370,61 @@ WAL
 <a id="GLOSSARY-WAL-ARCHIVER"></a>
 
 WAL 歸檔程序（WAL archiver）
-:   一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    若已啟用，它會保存
-    [*[WAL 檔案](README.md#GLOSSARY-WAL-FILE)*](README.md#GLOSSARY-WAL-FILE)的複本，
-    用以建立備份或讓
-    [*[複本](README.md#GLOSSARY-REPLICA)*](README.md#GLOSSARY-REPLICA)保持在最新狀態。
 
-    更多資訊請參閱
-    [第 25.3 節](../../server-administration/backup/continuous-archiving.md)。
+一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+若已啟用，它會保存
+[*[WAL 檔案](README.md#GLOSSARY-WAL-FILE)*](README.md#GLOSSARY-WAL-FILE)的複本，
+用以建立備份或讓
+[*[複本](README.md#GLOSSARY-REPLICA)*](README.md#GLOSSARY-REPLICA)保持在最新狀態。
+
+更多資訊請參閱
+[第 25.3 節](../../server-administration/backup/continuous-archiving.md)。
 <a id="GLOSSARY-WAL-FILE"></a>
 
 WAL 檔案（WAL file）
-:   也稱為 *WAL 區段*（WAL segment）或
-    *WAL 區段檔*（WAL segment file）。
-    為[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 提供儲存空間、
-    依序編號的各個檔案。
-    這些檔案的大小都相同，且為預先定義的大小，
-    並依序寫入；多個同時進行的工作階段中發生的變更，
-    會依發生順序交錯寫入其中。
-    如果系統當機，這些檔案會依序讀取，
-    並重播其中的每一項變更，使系統恢復到當機前的狀態。
 
-    在[*[檢查點](README.md#GLOSSARY-CHECKPOINT)*](README.md#GLOSSARY-CHECKPOINT)
-    將某個 WAL 檔案中的所有變更寫入對應的資料檔之後，
-    該 WAL 檔案就可以被釋放。
-    釋放檔案的方式可以是將它刪除，或是更改它的
-    名稱以便日後再使用，後者稱為
-    *回收再利用*（recycling）。
+也稱為 *WAL 區段*（WAL segment）或
+*WAL 區段檔*（WAL segment file）。
+為[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL) 提供儲存空間、
+依序編號的各個檔案。
+這些檔案的大小都相同，且為預先定義的大小，
+並依序寫入；多個同時進行的工作階段中發生的變更，
+會依發生順序交錯寫入其中。
+如果系統當機，這些檔案會依序讀取，
+並重播其中的每一項變更，使系統恢復到當機前的狀態。
 
-    更多資訊請參閱
-    [第 28.6 節](../../server-administration/wal/wal-internals.md)。
+在[*[檢查點](README.md#GLOSSARY-CHECKPOINT)*](README.md#GLOSSARY-CHECKPOINT)
+將某個 WAL 檔案中的所有變更寫入對應的資料檔之後，
+該 WAL 檔案就可以被釋放。
+釋放檔案的方式可以是將它刪除，或是更改它的
+名稱以便日後再使用，後者稱為
+*回收再利用*（recycling）。
+
+更多資訊請參閱
+[第 28.6 節](../../server-administration/wal/wal-internals.md)。
 <a id="GLOSSARY-WAL-RECORD"></a>
 
 WAL 記錄（WAL record）
-:   對單一資料變更的低階描述。
-    它包含足夠的資訊，使得在系統故障
-    導致該變更遺失時，能夠重新執行（*重播*）該資料變更。
-    WAL 記錄使用不可列印的二進位格式。
 
-    更多資訊請參閱
-    [第 28.6 節](../../server-administration/wal/wal-internals.md)。
+對單一資料變更的低階描述。
+它包含足夠的資訊，使得在系統故障
+導致該變更遺失時，能夠重新執行（*重播*）該資料變更。
+WAL 記錄使用不可列印的二進位格式。
+
+更多資訊請參閱
+[第 28.6 節](../../server-administration/wal/wal-internals.md)。
 <a id="GLOSSARY-WAL-RECEIVER"></a>
 
 WAL 接收程序（WAL receiver）
-:   在[*[複本](README.md#GLOSSARY-REPLICA)*](README.md#GLOSSARY-REPLICA)上執行的一種
-    [*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    負責從[*[主要伺服器](README.md#GLOSSARY-PRIMARY-SERVER)*](README.md#GLOSSARY-PRIMARY-SERVER)
-    接收 WAL，供
-    [*[啟動程序](README.md#GLOSSARY-STARTUP-PROCESS)*](README.md#GLOSSARY-STARTUP-PROCESS)重播。
 
-    更多資訊請參閱
-    [第 26.2 節](../../server-administration/high-availability/warm-standby.md)。
+在[*[複本](README.md#GLOSSARY-REPLICA)*](README.md#GLOSSARY-REPLICA)上執行的一種
+[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+負責從[*[主要伺服器](README.md#GLOSSARY-PRIMARY-SERVER)*](README.md#GLOSSARY-PRIMARY-SERVER)
+接收 WAL，供
+[*[啟動程序](README.md#GLOSSARY-STARTUP-PROCESS)*](README.md#GLOSSARY-STARTUP-PROCESS)重播。
+
+更多資訊請參閱
+[第 26.2 節](../../server-administration/high-availability/warm-standby.md)。
 
 WAL 區段（WAL segment）
 :   請參閱[WAL 檔案](README.md#GLOSSARY-WAL-FILE)。
@@ -1387,40 +1440,43 @@ WAL 傳送程序（WAL sender）
 <a id="GLOSSARY-WAL-SUMMARIZER"></a>
 
 WAL 摘要程序（WAL summarizer）
-:   一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    負責為[*[增量備份](README.md#GLOSSARY-INCREMENTAL-BACKUP)*](README.md#GLOSSARY-INCREMENTAL-BACKUP)
-    彙整 WAL 資料的摘要。
 
-    更多資訊請參閱[第 19.5.7 節](../../server-administration/runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-SUMMARIZATION)。
+一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+負責為[*[增量備份](README.md#GLOSSARY-INCREMENTAL-BACKUP)*](README.md#GLOSSARY-INCREMENTAL-BACKUP)
+彙整 WAL 資料的摘要。
+
+更多資訊請參閱[第 19.5.7 節](../../server-administration/runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-SUMMARIZATION)。
 <a id="GLOSSARY-WAL-WRITER"></a>
 
 WAL 寫入程序（WAL writer）
-:   一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
-    負責將[*[共享記憶體](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)中的
-    [*[WAL 記錄](README.md#GLOSSARY-WAL-RECORD)*](README.md#GLOSSARY-WAL-RECORD)寫入
-    [*[WAL 檔案](README.md#GLOSSARY-WAL-FILE)*](README.md#GLOSSARY-WAL-FILE)。
 
-    更多資訊請參閱
-    [第 19.5 節](../../server-administration/runtime-config/runtime-config-wal.md)。
+一種[*[輔助程序](README.md#GLOSSARY-AUXILIARY-PROC)*](README.md#GLOSSARY-AUXILIARY-PROC)，
+負責將[*[共享記憶體](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)中的
+[*[WAL 記錄](README.md#GLOSSARY-WAL-RECORD)*](README.md#GLOSSARY-WAL-RECORD)寫入
+[*[WAL 檔案](README.md#GLOSSARY-WAL-FILE)*](README.md#GLOSSARY-WAL-FILE)。
+
+更多資訊請參閱
+[第 19.5 節](../../server-administration/runtime-config/runtime-config-wal.md)。
 <a id="GLOSSARY-WINDOW-FUNCTION"></a>
 
 視窗函式（常式）（Window function）
-:   用於[*[查詢](README.md#GLOSSARY-QUERY)*](README.md#GLOSSARY-QUERY)中的一種
-    [*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)，
-    它套用於該查詢[*[結果集](README.md#GLOSSARY-RESULT-SET)*](README.md#GLOSSARY-RESULT-SET)的某個
-    [*[分割區](README.md#GLOSSARY-PARTITION)*](README.md#GLOSSARY-PARTITION)；
-    函式的結果是根據同一分割區或框架中
-    [*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)的值而得。
 
-    所有[*[彙總函式](README.md#GLOSSARY-AGGREGATE)*](README.md#GLOSSARY-AGGREGATE)
-    都可以作為視窗函式使用，但視窗函式也可以
-    用來做到其他事，例如為分割區中的每一資料列給定排名。
-    也稱為*分析函式*（analytic functions）。
+用於[*[查詢](README.md#GLOSSARY-QUERY)*](README.md#GLOSSARY-QUERY)中的一種
+[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)，
+它套用於該查詢[*[結果集](README.md#GLOSSARY-RESULT-SET)*](README.md#GLOSSARY-RESULT-SET)的某個
+[*[分割區](README.md#GLOSSARY-PARTITION)*](README.md#GLOSSARY-PARTITION)；
+函式的結果是根據同一分割區或框架中
+[*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)的值而得。
 
-    譯註：此處「所有彙總函式」只適用於一般彙總函式；有序集合（ordered-set）與假設集合（hypothetical-set）彙總函式不能作為視窗函式使用（請參閱第 9.22 節）。
+所有[*[彙總函式](README.md#GLOSSARY-AGGREGATE)*](README.md#GLOSSARY-AGGREGATE)
+都可以作為視窗函式使用，但視窗函式也可以
+用來做到其他事，例如為分割區中的每一資料列給定排名。
+也稱為*分析函式*（analytic functions）。
 
-    更多資訊請參閱
-    [第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)。
+譯註：此處「所有彙總函式」只適用於一般彙總函式；有序集合（ordered-set）與假設集合（hypothetical-set）彙總函式不能作為視窗函式使用（請參閱第 9.22 節）。
+
+更多資訊請參閱
+[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)。
 <a id="GLOSSARY-WAL"></a>
 
 預寫式日誌（Write-ahead log）

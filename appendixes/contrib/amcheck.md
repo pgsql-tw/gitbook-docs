@@ -65,11 +65,12 @@ B-tree 檢查函式會驗證特定關聯表示法結構中的各種*不變量*�
     `bt_index_check` 會在目標索引及其所屬堆積關聯上取得 `AccessShareLock`。此鎖定模式與簡單 `SELECT` 陳述式在關聯上取得的鎖定模式相同。`bt_index_check` 不會驗證跨越子項／父項關係的不變量；但當 *`heapallindexed`* 為 `true` 時，會驗證所有堆積 tuple 都存在為索引中的索引 tuple。當 *`checkunique`* 為 `true` 時，`bt_index_check` 會檢查唯一值索引中的重複項目至多只有一個可見。在正式環境需要例行且輕量的毀損測試時，使用 `bt_index_check` 通常可在驗證完整性與降低對應用程式效能及可用性影響之間取得最佳平衡。
 
 `bt_index_parent_check(index regclass, heapallindexed boolean, rootdescend boolean, checkunique boolean) returns void` <a id="id-1.11.7.11.8.2.2.1.2"></a>
-:   `bt_index_parent_check` 測試其目標 B-tree 索引是否遵守各種不變量。選擇性地，當 *`heapallindexed`* 引數為 `true` 時，函式會驗證所有應存在於索引中的堆積 tuple。當 *`checkunique`* 為 `true` 時，`bt_index_parent_check` 會檢查唯一值索引中的重複項目至多只有一個可見。選用的 *`rootdescend`* 引數為 `true` 時，驗證會針對每個 tuple 自根頁面開始執行新搜尋，以重新找出葉層中的 tuple。`bt_index_parent_check` 可執行的檢查是 `bt_index_check` 可執行檢查的超集。可將 `bt_index_parent_check` 視為更完整的 `bt_index_check` 版本：它也檢查跨越父項／子項關係的不變量，包括確認索引結構中沒有遺漏的下行連結。若發現邏輯不一致或其他問題，`bt_index_parent_check` 會依一般慣例引發錯誤。
 
-    `bt_index_parent_check` 需要在目標索引上取得 `ShareLock`（也會在堆積關聯上取得 `ShareLock`）。這些鎖定會阻止 `INSERT`、`UPDATE` 及 `DELETE` 指令的並行資料修改，也會阻止基礎關聯遭 `VACUUM` 與所有其他公用程式指令並行處理。請注意，函式只在執行期間持有鎖定，不會持有整個交易期間。
+`bt_index_parent_check` 測試其目標 B-tree 索引是否遵守各種不變量。選擇性地，當 *`heapallindexed`* 引數為 `true` 時，函式會驗證所有應存在於索引中的堆積 tuple。當 *`checkunique`* 為 `true` 時，`bt_index_parent_check` 會檢查唯一值索引中的重複項目至多只有一個可見。選用的 *`rootdescend`* 引數為 `true` 時，驗證會針對每個 tuple 自根頁面開始執行新搜尋，以重新找出葉層中的 tuple。`bt_index_parent_check` 可執行的檢查是 `bt_index_check` 可執行檢查的超集。可將 `bt_index_parent_check` 視為更完整的 `bt_index_check` 版本：它也檢查跨越父項／子項關係的不變量，包括確認索引結構中沒有遺漏的下行連結。若發現邏輯不一致或其他問題，`bt_index_parent_check` 會依一般慣例引發錯誤。
 
-    `bt_index_parent_check` 的額外驗證更可能偵測各種病態情況。這些情況可能涉及被檢查索引所使用、實作不正確的 B-tree 運算子類別，或假設性地涉及基礎 B-tree 索引存取方法程式碼中尚未發現的錯誤。請注意，不同於 `bt_index_check`，啟用熱待命模式時（亦即唯讀實體複本上）無法使用 `bt_index_parent_check`。
+`bt_index_parent_check` 需要在目標索引上取得 `ShareLock`（也會在堆積關聯上取得 `ShareLock`）。這些鎖定會阻止 `INSERT`、`UPDATE` 及 `DELETE` 指令的並行資料修改，也會阻止基礎關聯遭 `VACUUM` 與所有其他公用程式指令並行處理。請注意，函式只在執行期間持有鎖定，不會持有整個交易期間。
+
+`bt_index_parent_check` 的額外驗證更可能偵測各種病態情況。這些情況可能涉及被檢查索引所使用、實作不正確的 B-tree 運算子類別，或假設性地涉及基礎 B-tree 索引存取方法程式碼中尚未發現的錯誤。請注意，不同於 `bt_index_check`，啟用熱待命模式時（亦即唯讀實體複本上）無法使用 `bt_index_parent_check`。
 
 `gin_index_check(index regclass) returns void` <a id="id-1.11.7.11.8.2.3.1.2"></a>
 :   `gin_index_check` 測試目標 GIN 索引是否具有一致的父項／子項 tuple 關係（不需調整任何父項 tuple），以及頁面圖形是否遵守平衡樹不變量（內部頁面只參照葉頁或只參照內部頁面）。
