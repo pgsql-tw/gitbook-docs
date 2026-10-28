@@ -27,15 +27,16 @@ Resource Server（資源伺服器）
     PostgreSQL 叢集即為資源伺服器。
 
 Provider（提供者）
-:   開發及／或管理某特定應用程式之 OAuth 授權伺服器與用戶端的組織、產品供應商或其他實體。
-    不同的提供者通常會為其 OAuth 系統選擇不同的實作細節；某一提供者的用戶端通常
-    無法保證能存取另一提供者的伺服器。
 
-    「provider」一詞的這種用法並非標準用語，但在口語上似乎已相當普遍。（不應與 OpenID 中類似的
-    「Identity Provider（身分識別提供者）」一詞混淆。雖然
-    PostgreSQL 中 OAuth 的實作旨在
-    與 OpenID Connect／OIDC 相容並可互通，但它本身並非 OIDC 用戶端，
-    也不要求必須使用 OIDC。）
+開發及／或管理某特定應用程式之 OAuth 授權伺服器與用戶端的組織、產品供應商或其他實體。
+不同的提供者通常會為其 OAuth 系統選擇不同的實作細節；某一提供者的用戶端通常
+無法保證能存取另一提供者的伺服器。
+
+「provider」一詞的這種用法並非標準用語，但在口語上似乎已相當普遍。（不應與 OpenID 中類似的
+「Identity Provider（身分識別提供者）」一詞混淆。雖然
+PostgreSQL 中 OAuth 的實作旨在
+與 OpenID Connect／OIDC 相容並可互通，但它本身並非 OIDC 用戶端，
+也不要求必須使用 OIDC。）
 
 Authorization Server（授權伺服器）
 :   在通過驗證的資源擁有者核准後，接收來自用戶端的請求並向其核發存取權杖的系統。

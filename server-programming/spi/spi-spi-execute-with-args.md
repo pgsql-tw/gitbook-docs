@@ -43,9 +43,10 @@ int SPI_execute_with_args(const char *command,
 :   長度為 *`nargs`* 的陣列，內含實際的參數值
 
 `const char * nulls`
-:   長度為 *`nargs`* 的陣列，描述哪些參數為 NULL
 
-    如果 *`nulls`* 是 `NULL`，則 `SPI_execute_with_args` 會假設沒有任何參數是 NULL。否則，*`nulls`* 陣列的每個項目在對應的參數值不為 NULL 時應該是 `' '`，在對應的參數值為 NULL 時則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中的實際值並不重要。）請注意，*`nulls`* 並不是文字字串，而只是一個陣列：它不需要 `'\0'` 結束符號。
+長度為 *`nargs`* 的陣列，描述哪些參數為 NULL
+
+如果 *`nulls`* 是 `NULL`，則 `SPI_execute_with_args` 會假設沒有任何參數是 NULL。否則，*`nulls`* 陣列的每個項目在對應的參數值不為 NULL 時應該是 `' '`，在對應的參數值為 NULL 時則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中的實際值並不重要。）請注意，*`nulls`* 並不是文字字串，而只是一個陣列：它不需要 `'\0'` 結束符號。
 
 `bool read_only`
 :   `true` 表示唯讀執行

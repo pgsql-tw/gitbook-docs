@@ -186,62 +186,65 @@
 <a id="GUC-FULL-PAGE-WRITES"></a>
 
 `full_page_writes` (`boolean`) <a id="id-1.6.6.8.3.2.5.1.3"></a> [#](#GUC-FULL-PAGE-WRITES)
-:   當此參數為 on 時，PostgreSQL 伺服器會在檢查點後，
-    每個磁碟頁面第一次被修改時，將其完整內容寫入 WAL。
-    這是必要的，因為若作業系統在頁面寫入過程中當機，
-    該寫入可能只完成一部分，導致磁碟上的頁面混雜著
-    新舊資料。通常儲存在 WAL 中的資料列層級變更資訊，
-    不足以在當機後復原時完整還原這類頁面。儲存完整頁面映像
-    能保證頁面可被正確還原，但代價是必須寫入 WAL 的資料量增加。
-    （由於 WAL 重播一律從某個檢查點開始，因此只需在
-    檢查點後每個頁面第一次變更時執行此動作即可。
-    因此，降低完整頁面寫入成本的方法之一，就是拉長
-    檢查點間隔參數。）
 
-    關閉此參數能加快一般作業速度，但在系統故障後，
-    可能導致無法復原的資料損毀，或不動聲色的資料損毀。
-    其風險與關閉 `fsync` 類似，只是程度較小，
-    也應僅在符合該參數建議的相同情境下才關閉。
+當此參數為 on 時，PostgreSQL 伺服器會在檢查點後，
+每個磁碟頁面第一次被修改時，將其完整內容寫入 WAL。
+這是必要的，因為若作業系統在頁面寫入過程中當機，
+該寫入可能只完成一部分，導致磁碟上的頁面混雜著
+新舊資料。通常儲存在 WAL 中的資料列層級變更資訊，
+不足以在當機後復原時完整還原這類頁面。儲存完整頁面映像
+能保證頁面可被正確還原，但代價是必須寫入 WAL 的資料量增加。
+（由於 WAL 重播一律從某個檢查點開始，因此只需在
+檢查點後每個頁面第一次變更時執行此動作即可。
+因此，降低完整頁面寫入成本的方法之一，就是拉長
+檢查點間隔參數。）
 
-    關閉此參數不會影響 WAL 歸檔用於時間點復原（PITR）的使用
-    （請參閱 [25.3 節](../backup/continuous-archiving.md)）。
+關閉此參數能加快一般作業速度，但在系統故障後，
+可能導致無法復原的資料損毀，或不動聲色的資料損毀。
+其風險與關閉 `fsync` 類似，只是程度較小，
+也應僅在符合該參數建議的相同情境下才關閉。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
-    預設值為 `on`。
+關閉此參數不會影響 WAL 歸檔用於時間點復原（PITR）的使用
+（請參閱 [25.3 節](../backup/continuous-archiving.md)）。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+預設值為 `on`。
 <a id="GUC-WAL-LOG-HINTS"></a>
 
 `wal_log_hints` (`boolean`) <a id="id-1.6.6.8.3.2.6.1.3"></a> [#](#GUC-WAL-LOG-HINTS)
-:   當此參數為 `on` 時，PostgreSQL 伺服器會在檢查點後，
-    每個磁碟頁面第一次被修改時，將其完整內容寫入 WAL，
-    即使是對所謂提示位元（hint bits）的非關鍵性修改也一樣。
 
-    若已啟用資料總和檢查碼，提示位元更新一律會記錄到 WAL，
-    此時本設定會被忽略。你可以利用此設定來測試，
-    若你的資料庫啟用資料總和檢查碼，會額外產生多少 WAL 記錄量。
+當此參數為 `on` 時，PostgreSQL 伺服器會在檢查點後，
+每個磁碟頁面第一次被修改時，將其完整內容寫入 WAL，
+即使是對所謂提示位元（hint bits）的非關鍵性修改也一樣。
 
-    此參數只能在伺服器啟動時設定。預設值為 `off`。
+若已啟用資料總和檢查碼，提示位元更新一律會記錄到 WAL，
+此時本設定會被忽略。你可以利用此設定來測試，
+若你的資料庫啟用資料總和檢查碼，會額外產生多少 WAL 記錄量。
+
+此參數只能在伺服器啟動時設定。預設值為 `off`。
 <a id="GUC-WAL-COMPRESSION"></a>
 
 `wal_compression` (`enum`) <a id="id-1.6.6.8.3.2.7.1.3"></a> [#](#GUC-WAL-COMPRESSION)
-:   此參數會啟用以指定壓縮方法對 WAL 進行壓縮。
-    啟用後，PostgreSQL 伺服器會壓縮寫入 WAL 的完整頁面映像
-    （例如當 [full_page_writes](runtime-config-wal.md#GUC-FULL-PAGE-WRITES) 為 on、
-    進行基礎備份時等）。
-    壓縮過的頁面映像會在 WAL 重播時解壓縮。
-    支援的方法有 `pglz`、
-    `lz4`（若 PostgreSQL 是以
-    `--with-lz4` 編譯的），
-    以及 `zstd`（若 PostgreSQL 是以
-    `--with-zstd` 編譯的）。
-    值 `on` 是 `pglz` 的舊式拼法。
-    預設值為 `off`。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    啟用壓縮可在不增加無法復原資料損毀風險的情況下減少 WAL 用量，
-    但代價是在 WAL 記錄時會多耗費一些 CPU 進行壓縮，
-    在 WAL 重播時則多耗費一些 CPU 進行解壓縮。
+此參數會啟用以指定壓縮方法對 WAL 進行壓縮。
+啟用後，PostgreSQL 伺服器會壓縮寫入 WAL 的完整頁面映像
+（例如當 [full_page_writes](runtime-config-wal.md#GUC-FULL-PAGE-WRITES) 為 on、
+進行基礎備份時等）。
+壓縮過的頁面映像會在 WAL 重播時解壓縮。
+支援的方法有 `pglz`、
+`lz4`（若 PostgreSQL 是以
+`--with-lz4` 編譯的），
+以及 `zstd`（若 PostgreSQL 是以
+`--with-zstd` 編譯的）。
+值 `on` 是 `pglz` 的舊式拼法。
+預設值為 `off`。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
+
+啟用壓縮可在不增加無法復原資料損毀風險的情況下減少 WAL 用量，
+但代價是在 WAL 記錄時會多耗費一些 CPU 進行壓縮，
+在 WAL 重播時則多耗費一些 CPU 進行解壓縮。
 <a id="GUC-WAL-INIT-ZERO"></a>
 
 `wal_init_zero` (`boolean`) <a id="id-1.6.6.8.3.2.8.1.3"></a> [#](#GUC-WAL-INIT-ZERO)
@@ -261,22 +264,23 @@
 <a id="GUC-WAL-BUFFERS"></a>
 
 `wal_buffers` (`integer`) <a id="id-1.6.6.8.3.2.10.1.3"></a> [#](#GUC-WAL-BUFFERS)
-:   用於存放尚未寫入磁碟之 WAL 資料的共享記憶體量。
-    預設值 -1 會選擇等同於
-    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS) 1/32（約 3%）的大小，
-    但不會小於 `64kB`，也不會大於單一 WAL
-    區段的大小（通常為 `16MB`）。若自動選擇的值
-    太大或太小，可以手動設定此值，但任何小於
-    `32kB` 的正數值，都會被視為 `32kB`。
-    若此值未指定單位，則以 WAL 區塊為單位計算，
-    也就是 `XLOG_BLCKSZ` 位元組，通常為 8kB。
-    此參數只能在伺服器啟動時設定。
 
-    WAL 緩衝區的內容會在每次交易提交時寫出至磁碟，
-    因此極大的值不太可能帶來顯著的好處。然而，
-    將此值設為至少數個 MB，能在有許多用戶端同時提交的
-    繁忙伺服器上改善寫入效能。預設值 -1 所選用的
-    自動調校，在多數情況下應能提供合理的結果。
+用於存放尚未寫入磁碟之 WAL 資料的共享記憶體量。
+預設值 -1 會選擇等同於
+[shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS) 1/32（約 3%）的大小，
+但不會小於 `64kB`，也不會大於單一 WAL
+區段的大小（通常為 `16MB`）。若自動選擇的值
+太大或太小，可以手動設定此值，但任何小於
+`32kB` 的正數值，都會被視為 `32kB`。
+若此值未指定單位，則以 WAL 區塊為單位計算，
+也就是 `XLOG_BLCKSZ` 位元組，通常為 8kB。
+此參數只能在伺服器啟動時設定。
+
+WAL 緩衝區的內容會在每次交易提交時寫出至磁碟，
+因此極大的值不太可能帶來顯著的好處。然而，
+將此值設為至少數個 MB，能在有許多用戶端同時提交的
+繁忙伺服器上改善寫入效能。預設值 -1 所選用的
+自動調校，在多數情況下應能提供合理的結果。
 <a id="GUC-WAL-WRITER-DELAY"></a>
 
 `wal_writer_delay` (`integer`) <a id="id-1.6.6.8.3.2.11.1.3"></a> [#](#GUC-WAL-WRITER-DELAY)
@@ -324,29 +328,30 @@
 <a id="GUC-COMMIT-DELAY"></a>
 
 `commit_delay` (`integer`) <a id="id-1.6.6.8.3.2.14.1.3"></a> [#](#GUC-COMMIT-DELAY)
-:   設定 `commit_delay` 會在啟動 WAL 刷寫之前
-    加入一段時間延遲。若系統負載夠高，使得額外的交易
-    能在指定的時間間隔內準備好進行提交，這能讓更多筆交易
-    透過單次 WAL 刷寫進行群組提交，藉此提升群組提交的
-    輸送量。然而，這也會使每次 WAL 刷寫的延遲，
-    最多增加 `commit_delay` 這麼多。
-    由於若沒有其他交易準備好提交，這段延遲就只是白白浪費，
-    因此只有在即將啟動刷寫時，至少有
-    `commit_siblings` 筆其他交易正在進行中，
-    才會執行延遲。此外，若已停用 `fsync`，
-    則不會執行任何延遲。
-    若此值未指定單位，則以微秒為單位。
-    `commit_delay` 的預設值為零（不延遲）。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    在 9.3 之前的 PostgreSQL 版本中，
-    `commit_delay` 的行為並不相同，效果也差得多：
-    它只影響提交動作，而非所有的 WAL 刷寫，
-    且即使 WAL 刷寫提早完成，仍會等待完整設定的延遲時間。
-    從 PostgreSQL 9.3 開始，
-    第一個準備好進行刷寫的程序，會等待設定的間隔時間，
-    而後續的程序，則只需等到領頭者完成刷寫作業為止。
+設定 `commit_delay` 會在啟動 WAL 刷寫之前
+加入一段時間延遲。若系統負載夠高，使得額外的交易
+能在指定的時間間隔內準備好進行提交，這能讓更多筆交易
+透過單次 WAL 刷寫進行群組提交，藉此提升群組提交的
+輸送量。然而，這也會使每次 WAL 刷寫的延遲，
+最多增加 `commit_delay` 這麼多。
+由於若沒有其他交易準備好提交，這段延遲就只是白白浪費，
+因此只有在即將啟動刷寫時，至少有
+`commit_siblings` 筆其他交易正在進行中，
+才會執行延遲。此外，若已停用 `fsync`，
+則不會執行任何延遲。
+若此值未指定單位，則以微秒為單位。
+`commit_delay` 的預設值為零（不延遲）。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
+
+在 9.3 之前的 PostgreSQL 版本中，
+`commit_delay` 的行為並不相同，效果也差得多：
+它只影響提交動作，而非所有的 WAL 刷寫，
+且即使 WAL 刷寫提早完成，仍會等待完整設定的延遲時間。
+從 PostgreSQL 9.3 開始，
+第一個準備好進行刷寫的程序，會等待設定的間隔時間，
+而後續的程序，則只需等到領頭者完成刷寫作業為止。
 <a id="GUC-COMMIT-SIBLINGS"></a>
 
 `commit_siblings` (`integer`) <a id="id-1.6.6.8.3.2.15.1.3"></a> [#](#GUC-COMMIT-SIBLINGS)
@@ -469,47 +474,49 @@
 <a id="GUC-ARCHIVE-COMMAND"></a>
 
 `archive_command` (`string`) <a id="id-1.6.6.8.5.2.2.1.3"></a> [#](#GUC-ARCHIVE-COMMAND)
-:   用於歸檔已完成 WAL 檔案區段的本機 shell 命令。
-    字串中的任何 `%p` 都會被替換為
-    要歸檔之檔案的路徑名稱，任何
-    `%f` 則會被替換為僅有檔案名稱。
-    （此路徑名稱是相對於伺服器的工作目錄，
-    也就是叢集的資料目錄。）
-    使用 `%%` 可在命令中嵌入實際的 `%` 字元。
-    此命令唯有在成功時才回傳退出狀態碼零，這一點非常重要。
-    更多資訊請參閱
-    [25.3.1 節](../backup/continuous-archiving.md#backup-archiving-wal)。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。它只有在
-    `archive_mode` 在伺服器啟動時被啟用，
-    且 `archive_library` 設為空字串時才會使用。
-    若 `archive_command` 與 `archive_library`
-    同時被設定，就會引發錯誤。
-    若 `archive_command` 為空字串（預設值），
-    而 `archive_mode` 已啟用（且 `archive_library`
-    設為空字串），WAL 歸檔會暫時停用，但伺服器仍會繼續
-    累積 WAL 區段檔案，以待稍後提供命令。將
-    `archive_command` 設為一個除了回傳 true
-    之外不做任何事的命令，例如 `/bin/true`
-    （Windows 上為 `REM`），實際上等同於停用歸檔，
-    但也會破壞歸檔復原所需的 WAL 檔案鏈結，因此只應在
-    不常見的情況下使用。
+用於歸檔已完成 WAL 檔案區段的本機 shell 命令。
+字串中的任何 `%p` 都會被替換為
+要歸檔之檔案的路徑名稱，任何
+`%f` 則會被替換為僅有檔案名稱。
+（此路徑名稱是相對於伺服器的工作目錄，
+也就是叢集的資料目錄。）
+使用 `%%` 可在命令中嵌入實際的 `%` 字元。
+此命令唯有在成功時才回傳退出狀態碼零，這一點非常重要。
+更多資訊請參閱
+[25.3.1 節](../backup/continuous-archiving.md#backup-archiving-wal)。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。它只有在
+`archive_mode` 在伺服器啟動時被啟用，
+且 `archive_library` 設為空字串時才會使用。
+若 `archive_command` 與 `archive_library`
+同時被設定，就會引發錯誤。
+若 `archive_command` 為空字串（預設值），
+而 `archive_mode` 已啟用（且 `archive_library`
+設為空字串），WAL 歸檔會暫時停用，但伺服器仍會繼續
+累積 WAL 區段檔案，以待稍後提供命令。將
+`archive_command` 設為一個除了回傳 true
+之外不做任何事的命令，例如 `/bin/true`
+（Windows 上為 `REM`），實際上等同於停用歸檔，
+但也會破壞歸檔復原所需的 WAL 檔案鏈結，因此只應在
+不常見的情況下使用。
 <a id="GUC-ARCHIVE-LIBRARY"></a>
 
 `archive_library` (`string`) <a id="id-1.6.6.8.5.2.3.1.3"></a> [#](#GUC-ARCHIVE-LIBRARY)
-:   用於歸檔已完成 WAL 檔案區段的程式庫。若設為
-    空字串（預設值），則會啟用透過 shell 進行的歸檔，
-    並使用 [archive_command](runtime-config-wal.md#GUC-ARCHIVE-COMMAND)。
-    若 `archive_command` 與 `archive_library`
-    同時被設定，就會引發錯誤。否則，
-    就會使用指定的共享程式庫來進行歸檔。當此參數變更時，
-    postmaster 會重新啟動 WAL 歸檔程序。更多資訊請參閱
-    [25.3.1 節](../backup/continuous-archiving.md#backup-archiving-wal) 與
-    [第 49 章](../../server-programming/archive-modules/README.md)。
 
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令列上設定。
+用於歸檔已完成 WAL 檔案區段的程式庫。若設為
+空字串（預設值），則會啟用透過 shell 進行的歸檔，
+並使用 [archive_command](runtime-config-wal.md#GUC-ARCHIVE-COMMAND)。
+若 `archive_command` 與 `archive_library`
+同時被設定，就會引發錯誤。否則，
+就會使用指定的共享程式庫來進行歸檔。當此參數變更時，
+postmaster 會重新啟動 WAL 歸檔程序。更多資訊請參閱
+[25.3.1 節](../backup/continuous-archiving.md#backup-archiving-wal) 與
+[第 49 章](../../server-programming/archive-modules/README.md)。
+
+此參數只能在
+`postgresql.conf` 檔案中或伺服器命令列上設定。
 <a id="GUC-ARCHIVE-TIMEOUT"></a>
 
 `archive_timeout` (`integer`) <a id="id-1.6.6.8.5.2.4.1.3"></a> [#](#GUC-ARCHIVE-TIMEOUT)
@@ -547,19 +554,20 @@
 <a id="GUC-RECOVERY-PREFETCH"></a>
 
 `recovery_prefetch` (`enum`) <a id="id-1.6.6.8.6.4.1.1.3"></a> [#](#GUC-RECOVERY-PREFETCH)
-:   復原期間，是否嘗試預先擷取 WAL 中已提及、
-    但尚未進入緩衝區集區的區塊。有效值為
-    `off`、`on` 與
-    `try`（預設值）。設定為
-    `try` 時，只有在作業系統提供支援發出
-    預讀建議（read-ahead advice）的能力時，
-    才會啟用預先擷取。
 
-    針對即將用到的區塊進行預先擷取，在某些工作負載下，
-    能減少復原期間的 I/O 等待時間。
-    另請參閱 [wal_decode_buffer_size](runtime-config-wal.md#GUC-WAL-DECODE-BUFFER-SIZE) 與
-    [maintenance_io_concurrency](runtime-config-resource.md#GUC-MAINTENANCE-IO-CONCURRENCY) 設定，
-    這兩者會限制預先擷取的活動量。
+復原期間，是否嘗試預先擷取 WAL 中已提及、
+但尚未進入緩衝區集區的區塊。有效值為
+`off`、`on` 與
+`try`（預設值）。設定為
+`try` 時，只有在作業系統提供支援發出
+預讀建議（read-ahead advice）的能力時，
+才會啟用預先擷取。
+
+針對即將用到的區塊進行預先擷取，在某些工作負載下，
+能減少復原期間的 I/O 等待時間。
+另請參閱 [wal_decode_buffer_size](runtime-config-wal.md#GUC-WAL-DECODE-BUFFER-SIZE) 與
+[maintenance_io_concurrency](runtime-config-resource.md#GUC-MAINTENANCE-IO-CONCURRENCY) 設定，
+這兩者會限制預先擷取的活動量。
 <a id="GUC-WAL-DECODE-BUFFER-SIZE"></a>
 
 `wal_decode_buffer_size` (`integer`) <a id="id-1.6.6.8.6.4.2.1.3"></a> [#](#GUC-WAL-DECODE-BUFFER-SIZE)
@@ -674,19 +682,20 @@
 <a id="GUC-RECOVERY-END-COMMAND"></a>
 
 `recovery_end_command` (`string`) <a id="id-1.6.6.8.7.7.3.1.3"></a> [#](#GUC-RECOVERY-END-COMMAND)
-:   此參數指定一個只會在復原結束時執行一次的 shell 命令。
-    此參數為選用。`recovery_end_command`
-    的用途，是提供一種機制，用於在複寫或復原完成後進行清理。
-    任何 `%r` 都會被替換為包含最後一個有效重新啟動點的
-    檔案名稱，用法與 [archive_cleanup_command](runtime-config-wal.md#GUC-ARCHIVE-CLEANUP-COMMAND) 相同。
 
-    若命令回傳非零的退出狀態碼，就會寫入一則警告日誌訊息，
-    但資料庫仍會繼續啟動。有一個例外情況：若命令是因訊號
-    或 shell 發生錯誤（例如找不到命令）而終止，
-    則資料庫不會繼續啟動。
+此參數指定一個只會在復原結束時執行一次的 shell 命令。
+此參數為選用。`recovery_end_command`
+的用途，是提供一種機制，用於在複寫或復原完成後進行清理。
+任何 `%r` 都會被替換為包含最後一個有效重新啟動點的
+檔案名稱，用法與 [archive_cleanup_command](runtime-config-wal.md#GUC-ARCHIVE-CLEANUP-COMMAND) 相同。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+若命令回傳非零的退出狀態碼，就會寫入一則警告日誌訊息，
+但資料庫仍會繼續啟動。有一個例外情況：若命令是因訊號
+或 shell 發生錯誤（例如找不到命令）而終止，
+則資料庫不會繼續啟動。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 
 <a id="RUNTIME-CONFIG-WAL-RECOVERY-TARGET"></a>
 
@@ -704,12 +713,13 @@
 <a id="GUC-RECOVERY-TARGET"></a>
 
 `recovery_target` `= 'immediate'` <a id="id-1.6.6.8.8.3.1.1.3"></a> [#](#GUC-RECOVERY-TARGET)
-:   此參數指定復原應在達到一致狀態後立即結束，
-    也就是儘可能提早結束。若是從線上備份還原，
-    這代表的是備份完成時的那個時間點。
 
-    技術上而言，這是一個字串參數，但目前
-    `'immediate'` 是唯一允許的值。
+此參數指定復原應在達到一致狀態後立即結束，
+也就是儘可能提早結束。若是從線上備份還原，
+這代表的是備份完成時的那個時間點。
+
+技術上而言，這是一個字串參數，但目前
+`'immediate'` 是唯一允許的值。
 <a id="GUC-RECOVERY-TARGET-NAME"></a>
 
 `recovery_target_name` (`string`) <a id="id-1.6.6.8.8.3.2.1.3"></a> [#](#GUC-RECOVERY-TARGET-NAME)
@@ -791,44 +801,45 @@
 <a id="GUC-RECOVERY-TARGET-ACTION"></a>
 
 `recovery_target_action` (`enum`) <a id="id-1.6.6.8.8.5.3.1.3"></a> [#](#GUC-RECOVERY-TARGET-ACTION)
-:   指定伺服器在抵達復原目標之後應採取的動作。
-    預設值為 `pause`，代表復原會被暫停。
-    `promote` 代表復原程序會結束，
-    伺服器會開始接受連線。
-    最後，`shutdown` 則會在抵達復原目標後
-    將伺服器停止。
 
-    `pause` 設定的用意，是讓你能對資料庫
-    執行查詢，以檢查此復原目標是否是最理想的復原停止點。
-    可以透過使用 `pg_wal_replay_resume()`
-    （請參閱
-    [表 9.99](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-CONTROL-TABLE)）
-    來繼續已暫停的狀態，如此便會使復原結束。
-    若此復原目標並非所需的停止點，
-    請關閉伺服器、將復原目標設定變更為更晚的目標，
-    再重新啟動以繼續復原。
+指定伺服器在抵達復原目標之後應採取的動作。
+預設值為 `pause`，代表復原會被暫停。
+`promote` 代表復原程序會結束，
+伺服器會開始接受連線。
+最後，`shutdown` 則會在抵達復原目標後
+將伺服器停止。
 
-    `shutdown` 設定的用途，
-    是讓執行個體準備好停在所需的確切重播位置。
-    此執行個體仍能重播更多 WAL 紀錄
-    （事實上，下次啟動時，它必須重播自上次檢查點以來的 WAL 紀錄）。
+`pause` 設定的用意，是讓你能對資料庫
+執行查詢，以檢查此復原目標是否是最理想的復原停止點。
+可以透過使用 `pg_wal_replay_resume()`
+（請參閱
+[表 9.99](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-CONTROL-TABLE)）
+來繼續已暫停的狀態，如此便會使復原結束。
+若此復原目標並非所需的停止點，
+請關閉伺服器、將復原目標設定變更為更晚的目標，
+再重新啟動以繼續復原。
 
-    請注意，由於當 `recovery_target_action` 設為
-    `shutdown` 時，`recovery.signal`
-    不會被移除，因此除非變更組態，
-    或手動移除 `recovery.signal` 檔案，
-    否則任何後續的啟動都會以立即關機收場。
+`shutdown` 設定的用途，
+是讓執行個體準備好停在所需的確切重播位置。
+此執行個體仍能重播更多 WAL 紀錄
+（事實上，下次啟動時，它必須重播自上次檢查點以來的 WAL 紀錄）。
 
-    若未設定復原目標，此設定不會產生任何效果。
-    若未啟用 [hot_standby](runtime-config-replication.md#GUC-HOT-STANDBY)，
-    則 `pause` 設定的行為會與 `shutdown` 相同。
-    若在提升正在進行時抵達復原目標，
-    則 `pause` 設定的行為會與
-    `promote` 相同。
+請注意，由於當 `recovery_target_action` 設為
+`shutdown` 時，`recovery.signal`
+不會被移除，因此除非變更組態，
+或手動移除 `recovery.signal` 檔案，
+否則任何後續的啟動都會以立即關機收場。
 
-    無論如何，若已設定復原目標，
-    但歸檔復原卻在抵達目標之前結束，
-    伺服器就會以致命錯誤關機。
+若未設定復原目標，此設定不會產生任何效果。
+若未啟用 [hot_standby](runtime-config-replication.md#GUC-HOT-STANDBY)，
+則 `pause` 設定的行為會與 `shutdown` 相同。
+若在提升正在進行時抵達復原目標，
+則 `pause` 設定的行為會與
+`promote` 相同。
+
+無論如何，若已設定復原目標，
+但歸檔復原卻在抵達目標之前結束，
+伺服器就會以致命錯誤關機。
 
 <a id="RUNTIME-CONFIG-WAL-SUMMARIZATION"></a>
 
@@ -841,18 +852,19 @@
 <a id="GUC-SUMMARIZE-WAL"></a>
 
 `summarize_wal` (`boolean`) <a id="id-1.6.6.8.9.3.1.1.3"></a> [#](#GUC-SUMMARIZE-WAL)
-:   啟用 WAL 摘要器（summarizer）程序。請注意，
-    WAL 摘要化可以在主要伺服器或待命伺服器上啟用。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。預設值為 `off`。
 
-    若 `wal_level` 設為 `minimal`，
-    伺服器無法以 `summarize_wal=on` 啟動。
-    若是在伺服器啟動後，於 `wal_level=minimal`
-    的狀態下設定 `summarize_wal=on`，
-    摘要器仍會執行，但會拒絕為任何以
-    `wal_level=minimal` 產生的 WAL
-    產生摘要檔案。
+啟用 WAL 摘要器（summarizer）程序。請注意，
+WAL 摘要化可以在主要伺服器或待命伺服器上啟用。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。預設值為 `off`。
+
+若 `wal_level` 設為 `minimal`，
+伺服器無法以 `summarize_wal=on` 啟動。
+若是在伺服器啟動後，於 `wal_level=minimal`
+的狀態下設定 `summarize_wal=on`，
+摘要器仍會執行，但會拒絕為任何以
+`wal_level=minimal` 產生的 WAL
+產生摘要檔案。
 <a id="GUC-WAL-SUMMARY-KEEP-TIME"></a>
 
 `wal_summary_keep_time` (`integer`) <a id="id-1.6.6.8.9.3.2.1.3"></a> [#](#GUC-WAL-SUMMARY-KEEP-TIME)

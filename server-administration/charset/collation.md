@@ -359,11 +359,12 @@ libc 區域設定區分開來。
 <a id="COLLATION-MANAGING-PREDEFINED-ICU-DE-AT-X-ICU"></a>
 
 `de-AT-x-icu` [#](#COLLATION-MANAGING-PREDEFINED-ICU-DE-AT-X-ICU)
-:   奧地利地區的德文定序，預設變體
 
-    （也會存在例如 `de-DE-x-icu`
-    或 `de-CH-x-icu` 等定序，但截至本文撰寫時，它們
-    等同於 `de-x-icu`。）
+奧地利地區的德文定序，預設變體
+
+（也會存在例如 `de-DE-x-icu`
+或 `de-CH-x-icu` 等定序，但截至本文撰寫時，它們
+等同於 `de-x-icu`。）
 <a id="COLLATION-MANAGING-PREDEFINED-ICU-UND-X-ICU"></a>
 
 `und-x-icu`（表示「undefined，未定義」） [#](#COLLATION-MANAGING-PREDEFINED-ICU-UND-X-ICU)

@@ -29,24 +29,28 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
 **資料表層級鎖定模式**
 
 `ACCESS SHARE` (`AccessShareLock`)
-:   只與 `ACCESS EXCLUSIVE` 鎖定模式衝突。
 
-    `SELECT` 命令會在被參照的資料表上取得這種模式的鎖定。一般而言，任何只*讀取*資料表而不修改它的查詢，都會取得這種鎖定模式。
+只與 `ACCESS EXCLUSIVE` 鎖定模式衝突。
+
+`SELECT` 命令會在被參照的資料表上取得這種模式的鎖定。一般而言，任何只*讀取*資料表而不修改它的查詢，都會取得這種鎖定模式。
 
 `ROW SHARE` (`RowShareLock`)
-:   與 `EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。
 
-    `SELECT` 命令會在所有指定了 `FOR UPDATE`、`FOR NO KEY UPDATE`、`FOR SHARE` 或 `FOR KEY SHARE` 選項之一的資料表上，取得這種模式的鎖定（此外，對於任何其他未指定明確 `FOR ...` 鎖定選項而被參照的資料表，則會取得 `ACCESS SHARE` 鎖定）。
+與 `EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。
+
+`SELECT` 命令會在所有指定了 `FOR UPDATE`、`FOR NO KEY UPDATE`、`FOR SHARE` 或 `FOR KEY SHARE` 選項之一的資料表上，取得這種模式的鎖定（此外，對於任何其他未指定明確 `FOR ...` 鎖定選項而被參照的資料表，則會取得 `ACCESS SHARE` 鎖定）。
 
 `ROW EXCLUSIVE` (`RowExclusiveLock`)
-:   與 `SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。
 
-    `UPDATE`、`DELETE`、`INSERT` 與 `MERGE` 命令會在目標資料表上取得這種鎖定模式（此外，對任何其他被參照的資料表則會取得 `ACCESS SHARE` 鎖定）。一般而言，任何會*修改資料表中資料*的命令，都會取得這種鎖定模式。
+與 `SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。
+
+`UPDATE`、`DELETE`、`INSERT` 與 `MERGE` 命令會在目標資料表上取得這種鎖定模式（此外，對任何其他被參照的資料表則會取得 `ACCESS SHARE` 鎖定）。一般而言，任何會*修改資料表中資料*的命令，都會取得這種鎖定模式。
 
 `SHARE UPDATE EXCLUSIVE` (`ShareUpdateExclusiveLock`)
-:   與 `SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的綱要變更與 `VACUUM` 執行。
 
-    由 `VACUUM`（不含 `FULL`）、`ANALYZE`、`CREATE INDEX CONCURRENTLY`、`CREATE STATISTICS`、`COMMENT ON`、`REINDEX CONCURRENTLY`，以及某些 [`ALTER INDEX`](../../reference/sql-commands/sql-alterindex.md) 與 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 的變化形式取得（完整細節請參閱這些命令的說明文件）。
+與 `SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的綱要變更與 `VACUUM` 執行。
+
+由 `VACUUM`（不含 `FULL`）、`ANALYZE`、`CREATE INDEX CONCURRENTLY`、`CREATE STATISTICS`、`COMMENT ON`、`REINDEX CONCURRENTLY`，以及某些 [`ALTER INDEX`](../../reference/sql-commands/sql-alterindex.md) 與 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 的變化形式取得（完整細節請參閱這些命令的說明文件）。
 
 `SHARE` (`ShareLock`)
 :   與 `ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的資料變更。
@@ -54,9 +58,10 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
     由 `CREATE INDEX`（不含 `CONCURRENTLY`）取得。
 
 `SHARE ROW EXCLUSIVE` (`ShareRowExclusiveLock`)
-:   與 `ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的資料變更，而且它會與自己互斥，因此同一時間只能有一個工作階段持有它。
 
-    由 `CREATE TRIGGER` 以及某些形式的 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 取得。
+與 `ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的資料變更，而且它會與自己互斥，因此同一時間只能有一個工作階段持有它。
+
+由 `CREATE TRIGGER` 以及某些形式的 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 取得。
 
 `EXCLUSIVE` (`ExclusiveLock`)
 :   與 `ROW SHARE`、`ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式只允許並行的 `ACCESS SHARE` 鎖定，也就是說，在交易持有這種鎖定模式時，只有對該資料表的讀取可以同時進行。
@@ -64,9 +69,10 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
     由 `REFRESH MATERIALIZED VIEW CONCURRENTLY` 取得。
 
 `ACCESS EXCLUSIVE` (`AccessExclusiveLock`)
-:   與所有模式的鎖定衝突（`ACCESS SHARE`、`ROW SHARE`、`ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE`）。這種模式保證持有者是唯一以任何方式存取該資料表的交易。
 
-    由 `DROP TABLE`、`TRUNCATE`、`REINDEX`、`CLUSTER`、`VACUUM FULL` 以及 `REFRESH MATERIALIZED VIEW`（不含 `CONCURRENTLY`）命令取得。許多形式的 `ALTER INDEX` 與 `ALTER TABLE` 也會取得這個層級的鎖定。對於沒有明確指定模式的 `LOCK TABLE` 陳述式，這也是預設的鎖定模式。
+與所有模式的鎖定衝突（`ACCESS SHARE`、`ROW SHARE`、`ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE`）。這種模式保證持有者是唯一以任何方式存取該資料表的交易。
+
+由 `DROP TABLE`、`TRUNCATE`、`REINDEX`、`CLUSTER`、`VACUUM FULL` 以及 `REFRESH MATERIALIZED VIEW`（不含 `CONCURRENTLY`）命令取得。許多形式的 `ALTER INDEX` 與 `ALTER TABLE` 也會取得這個層級的鎖定。對於沒有明確指定模式的 `LOCK TABLE` 陳述式，這也是預設的鎖定模式。
 
 ### 提示
 
@@ -91,9 +97,10 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
 **資料列層級鎖定模式**
 
 `FOR UPDATE`
-:   `FOR UPDATE` 會使 `SELECT` 陳述式取得的資料列，如同要進行更新一般被鎖定。這可以防止它們在目前交易結束之前被其他交易鎖定、修改或刪除。也就是說，其他嘗試對這些資料列執行 `UPDATE`、`DELETE`、`SELECT FOR UPDATE`、`SELECT FOR NO KEY UPDATE`、`SELECT FOR SHARE` 或 `SELECT FOR KEY SHARE` 的交易，都會被阻擋直到目前交易結束為止；反過來說，`SELECT FOR UPDATE` 會等待已經在同一筆資料列上執行過上述任何命令的並行交易，然後鎖定並回傳更新後的資料列（如果該資料列已被刪除，則不回傳任何資料列）。不過，在 `REPEATABLE READ` 或 `SERIALIZABLE` 交易中，如果要鎖定的資料列在交易開始之後已經被變更，就會引發錯誤。進一步的討論請參閱[第 13.4 節](applevel-consistency.md)。
 
-    任何對資料列的 `DELETE`，以及修改某些欄位值的 `UPDATE`，也會取得 `FOR UPDATE` 鎖定模式。目前，`UPDATE` 情況所考量的欄位集合，是那些具有可用於外鍵之唯一索引的欄位（因此不考慮部分索引與運算式索引），但這在未來可能會改變。
+`FOR UPDATE` 會使 `SELECT` 陳述式取得的資料列，如同要進行更新一般被鎖定。這可以防止它們在目前交易結束之前被其他交易鎖定、修改或刪除。也就是說，其他嘗試對這些資料列執行 `UPDATE`、`DELETE`、`SELECT FOR UPDATE`、`SELECT FOR NO KEY UPDATE`、`SELECT FOR SHARE` 或 `SELECT FOR KEY SHARE` 的交易，都會被阻擋直到目前交易結束為止；反過來說，`SELECT FOR UPDATE` 會等待已經在同一筆資料列上執行過上述任何命令的並行交易，然後鎖定並回傳更新後的資料列（如果該資料列已被刪除，則不回傳任何資料列）。不過，在 `REPEATABLE READ` 或 `SERIALIZABLE` 交易中，如果要鎖定的資料列在交易開始之後已經被變更，就會引發錯誤。進一步的討論請參閱[第 13.4 節](applevel-consistency.md)。
+
+任何對資料列的 `DELETE`，以及修改某些欄位值的 `UPDATE`，也會取得 `FOR UPDATE` 鎖定模式。目前，`UPDATE` 情況所考量的欄位集合，是那些具有可用於外鍵之唯一索引的欄位（因此不考慮部分索引與運算式索引），但這在未來可能會改變。
 
 `FOR NO KEY UPDATE`
 :   行為與 `FOR UPDATE` 類似，只是所取得的鎖定較弱：這種鎖定不會阻擋嘗試在相同資料列上取得鎖定的 `SELECT FOR KEY SHARE` 命令。任何沒有取得 `FOR UPDATE` 鎖定的 `UPDATE`，也會取得這種鎖定模式。

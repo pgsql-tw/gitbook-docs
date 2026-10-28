@@ -128,14 +128,15 @@ PostgreSQL 時就已決定。
 <a id="GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES"></a>
 
 `shared_memory_size_in_huge_pages` (`integer`) <a id="id-1.6.6.18.3.17.1.3"></a> [#](#GUC-SHARED-MEMORY-SIZE-IN-HUGE-PAGES)
-:   根據所指定的 [huge_page_size](runtime-config-resource.md#GUC-HUGE-PAGE-SIZE)，
-    回報主要共享記憶體區域所需的巨型分頁數量。
-    若不支援巨型分頁，此值會是 `-1`。
 
-    此設定僅在 Linux 上受支援。在
-    其他平台上，此值永遠為 `-1`。有關在 Linux 上使用
-    巨型分頁的更多細節，請參閱
-    [18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
+根據所指定的 [huge_page_size](runtime-config-resource.md#GUC-HUGE-PAGE-SIZE)，
+回報主要共享記憶體區域所需的巨型分頁數量。
+若不支援巨型分頁，此值會是 `-1`。
+
+此設定僅在 Linux 上受支援。在
+其他平台上，此值永遠為 `-1`。有關在 Linux 上使用
+巨型分頁的更多細節，請參閱
+[18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
 <a id="GUC-SSL-LIBRARY"></a>
 
 `ssl_library` (`string`) <a id="id-1.6.6.18.3.18.1.3"></a> [#](#GUC-SSL-LIBRARY)

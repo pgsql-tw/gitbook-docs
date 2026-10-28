@@ -100,29 +100,31 @@ make 規則。
 <a id="EXTEND-PGXS-HEADERS"></a>
 
 `HEADERS`<br>`HEADERS_built` [#](#EXTEND-PGXS-HEADERS)
-:   要（視需要先建置後）安裝到 `prefix/include/server/$MODULEDIR/$MODULE_big` 下的檔案。
 
-    與 `DATA_built` 不同，`HEADERS_built` 中的檔案
-    不會被 `clean` 目標移除；若您希望它們被移除，
-    請將它們另外加入 `EXTRA_CLEAN`，或自行加入規則來處理。
+要（視需要先建置後）安裝到 `prefix/include/server/$MODULEDIR/$MODULE_big` 下的檔案。
+
+與 `DATA_built` 不同，`HEADERS_built` 中的檔案
+不會被 `clean` 目標移除；若您希望它們被移除，
+請將它們另外加入 `EXTRA_CLEAN`，或自行加入規則來處理。
 <a id="EXTEND-PGXS-HEADERS-MODULE"></a>
 
 `HEADERS_$MODULE`<br>`HEADERS_built_$MODULE` [#](#EXTEND-PGXS-HEADERS-MODULE)
-:   要（視需要先建置後）安裝到
-    `prefix/include/server/$MODULEDIR/$MODULE` 下的檔案，
-    其中 `$MODULE` 必須是
-    `MODULES` 或 `MODULE_big` 中所使用的模組名稱。
 
-    與 `DATA_built` 不同，`HEADERS_built_$MODULE` 中的檔案
-    不會被 `clean` 目標移除；若您希望它們被移除，
-    請將它們另外加入 `EXTRA_CLEAN`，或自行加入規則來處理。
+要（視需要先建置後）安裝到
+`prefix/include/server/$MODULEDIR/$MODULE` 下的檔案，
+其中 `$MODULE` 必須是
+`MODULES` 或 `MODULE_big` 中所使用的模組名稱。
 
-    對同一個模組同時使用這兩個變數，或以任何方式組合使用都是合法的，
-    除非您在
-    `MODULES` 清單中有兩個模組名稱僅差在是否有
-    `built_` 前綴，這會造成語意不明確。在
-    那種（希望不太可能發生的）情況下，您應該只使用
-    `HEADERS_built_$MODULE` 變數。
+與 `DATA_built` 不同，`HEADERS_built_$MODULE` 中的檔案
+不會被 `clean` 目標移除；若您希望它們被移除，
+請將它們另外加入 `EXTRA_CLEAN`，或自行加入規則來處理。
+
+對同一個模組同時使用這兩個變數，或以任何方式組合使用都是合法的，
+除非您在
+`MODULES` 清單中有兩個模組名稱僅差在是否有
+`built_` 前綴，這會造成語意不明確。在
+那種（希望不太可能發生的）情況下，您應該只使用
+`HEADERS_built_$MODULE` 變數。
 <a id="EXTEND-PGXS-SCRIPTS"></a>
 
 `SCRIPTS` [#](#EXTEND-PGXS-SCRIPTS)

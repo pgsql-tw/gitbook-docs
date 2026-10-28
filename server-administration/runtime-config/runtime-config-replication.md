@@ -48,22 +48,23 @@ Primary 永遠是傳送端伺服器，因此這些參數必須
 <a id="GUC-MAX-WAL-SENDERS"></a>
 
 `max_wal_senders` (`integer`) <a id="id-1.6.6.9.5.3.1.1.3"></a> [#](#GUC-MAX-WAL-SENDERS)
-:   指定來自 standby 伺服器或串流基礎備份用戶端的
-    最大並行連線數（也就是同時執行中的 WAL 傳送程序
-    最大數量）。預設值為
-    `10`。值為 `0` 代表
-    停用複寫功能。串流用戶端的突然斷線，可能會
-    留下一個孤兒連線插槽，直到逾時才會釋放，
-    因此此參數應設定得比預期的最大用戶端數量
-    略高一些，以便斷線的用戶端能夠立即
-    重新連線。此參數只能在伺服器啟動時設定。此外，
-    必須將 `wal_level` 設為
-    `replica` 或更高，才允許來自 standby
-    伺服器的連線。
 
-    在執行 standby 伺服器時，你必須將此參數設為與
-    primary 伺服器相同或更高的值，否則
-    standby 伺服器中將不允許執行查詢。
+指定來自 standby 伺服器或串流基礎備份用戶端的
+最大並行連線數（也就是同時執行中的 WAL 傳送程序
+最大數量）。預設值為
+`10`。值為 `0` 代表
+停用複寫功能。串流用戶端的突然斷線，可能會
+留下一個孤兒連線插槽，直到逾時才會釋放，
+因此此參數應設定得比預期的最大用戶端數量
+略高一些，以便斷線的用戶端能夠立即
+重新連線。此參數只能在伺服器啟動時設定。此外，
+必須將 `wal_level` 設為
+`replica` 或更高，才允許來自 standby
+伺服器的連線。
+
+在執行 standby 伺服器時，你必須將此參數設為與
+primary 伺服器相同或更高的值，否則
+standby 伺服器中將不允許執行查詢。
 <a id="GUC-MAX-REPLICATION-SLOTS"></a>
 
 `max_replication_slots` (`integer`) <a id="id-1.6.6.9.5.3.2.1.3"></a> [#](#GUC-MAX-REPLICATION-SLOTS)
@@ -198,19 +199,20 @@ Primary 永遠是傳送端伺服器，因此這些參數必須
 <a id="GUC-WAL-SENDER-TIMEOUT"></a>
 
 `wal_sender_timeout` (`integer`) <a id="id-1.6.6.9.5.3.7.1.3"></a> [#](#GUC-WAL-SENDER-TIMEOUT)
-:   終止閒置時間超過此時間量的複寫連線。
-    這對於傳送端伺服器偵測 standby 當機或網路
-    中斷很有用。
-    若此值指定時未帶單位，則以毫秒為單位。
-    預設值為 60 秒。
-    值為零則會停用逾時機制。
 
-    對於跨越多個地理位置分散的叢集，
-    在不同位置使用不同的值，可以為叢集管理帶來更大的
-    彈性。較小的值有助於在 standby 具備低延遲網路
-    連線時更快偵測到故障，較大的值則有助於
-    在 standby 位於遠端位置、網路延遲較高時，
-    更好地判斷該 standby 的健康狀況。
+終止閒置時間超過此時間量的複寫連線。
+這對於傳送端伺服器偵測 standby 當機或網路
+中斷很有用。
+若此值指定時未帶單位，則以毫秒為單位。
+預設值為 60 秒。
+值為零則會停用逾時機制。
+
+對於跨越多個地理位置分散的叢集，
+在不同位置使用不同的值，可以為叢集管理帶來更大的
+彈性。較小的值有助於在 standby 具備低延遲網路
+連線時更快偵測到故障，較大的值則有助於
+在 standby 位於遠端位置、網路延遲較高時，
+更好地判斷該 standby 的健康狀況。
 <a id="GUC-TRACK-COMMIT-TIMESTAMP"></a>
 
 `track_commit_timestamp` (`boolean`) <a id="id-1.6.6.9.5.3.8.1.3"></a> [#](#GUC-TRACK-COMMIT-TIMESTAMP)
@@ -439,46 +441,48 @@ primary 伺服器上也必須妥善設定
 <a id="GUC-MAX-STANDBY-ARCHIVE-DELAY"></a>
 
 `max_standby_archive_delay` (`integer`) <a id="id-1.6.6.9.7.3.4.1.3"></a> [#](#GUC-MAX-STANDBY-ARCHIVE-DELAY)
-:   當 hot standby 為作用中狀態時，此參數決定
-    standby 伺服器在取消與即將套用的 WAL 項目
-    衝突的 standby 查詢之前，應等待多久，如
-    [26.4.2 節](../high-availability/hot-standby.md#hot-standby-conflict)所述。
-    `max_standby_archive_delay` 適用於正從 WAL 歸檔
-    讀取 WAL 資料（因此並非最新資料）的情況。
-    若此值指定時未帶單位，則以毫秒為單位。
-    預設值為 30 秒。
-    值為 -1 則允許 standby 永遠等待衝突的
-    查詢完成。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
 
-    請注意，`max_standby_archive_delay` 與查詢在被取消前
-    可執行的最長時間並不相同；它是套用任一個 WAL 區段
-    資料所允許的最長總時間。因此，如果某個查詢在
-    WAL 區段較早的部分已造成顯著延遲，後續發生衝突的
-    查詢，寬限時間就會少得多。
+當 hot standby 為作用中狀態時，此參數決定
+standby 伺服器在取消與即將套用的 WAL 項目
+衝突的 standby 查詢之前，應等待多久，如
+[26.4.2 節](../high-availability/hot-standby.md#hot-standby-conflict)所述。
+`max_standby_archive_delay` 適用於正從 WAL 歸檔
+讀取 WAL 資料（因此並非最新資料）的情況。
+若此值指定時未帶單位，則以毫秒為單位。
+預設值為 30 秒。
+值為 -1 則允許 standby 永遠等待衝突的
+查詢完成。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+
+請注意，`max_standby_archive_delay` 與查詢在被取消前
+可執行的最長時間並不相同；它是套用任一個 WAL 區段
+資料所允許的最長總時間。因此，如果某個查詢在
+WAL 區段較早的部分已造成顯著延遲，後續發生衝突的
+查詢，寬限時間就會少得多。
 <a id="GUC-MAX-STANDBY-STREAMING-DELAY"></a>
 
 `max_standby_streaming_delay` (`integer`) <a id="id-1.6.6.9.7.3.5.1.3"></a> [#](#GUC-MAX-STANDBY-STREAMING-DELAY)
-:   當 hot standby 為作用中狀態時，此參數決定
-    standby 伺服器在取消與即將套用的 WAL 項目
-    衝突的 standby 查詢之前，應等待多久，如
-    [26.4.2 節](../high-availability/hot-standby.md#hot-standby-conflict)所述。
-    `max_standby_streaming_delay` 適用於正透過串流複寫
-    接收 WAL 資料的情況。
-    若此值指定時未帶單位，則以毫秒為單位。
-    預設值為 30 秒。
-    值為 -1 則允許 standby 永遠等待衝突的
-    查詢完成。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
 
-    請注意，`max_standby_streaming_delay` 與查詢在被取消前
-    可執行的最長時間並不相同；它是自從 WAL 資料
-    從 primary 伺服器收到之後，套用該資料所允許的
-    最長總時間。因此，如果某個查詢已造成顯著延遲，
-    在 standby 伺服器再次趕上進度之前，後續發生衝突的
-    查詢，寬限時間就會少得多。
+當 hot standby 為作用中狀態時，此參數決定
+standby 伺服器在取消與即將套用的 WAL 項目
+衝突的 standby 查詢之前，應等待多久，如
+[26.4.2 節](../high-availability/hot-standby.md#hot-standby-conflict)所述。
+`max_standby_streaming_delay` 適用於正透過串流複寫
+接收 WAL 資料的情況。
+若此值指定時未帶單位，則以毫秒為單位。
+預設值為 30 秒。
+值為 -1 則允許 standby 永遠等待衝突的
+查詢完成。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+
+請注意，`max_standby_streaming_delay` 與查詢在被取消前
+可執行的最長時間並不相同；它是自從 WAL 資料
+從 primary 伺服器收到之後，套用該資料所允許的
+最長總時間。因此，如果某個查詢已造成顯著延遲，
+在 standby 伺服器再次趕上進度之前，後續發生衝突的
+查詢，寬限時間就會少得多。
 <a id="GUC-WAL-RECEIVER-CREATE-TEMP-SLOT"></a>
 
 `wal_receiver_create_temp_slot` (`boolean`) <a id="id-1.6.6.9.7.3.6.1.3"></a> [#](#GUC-WAL-RECEIVER-CREATE-TEMP-SLOT)
@@ -515,25 +519,26 @@ primary 伺服器上也必須妥善設定
 <a id="GUC-HOT-STANDBY-FEEDBACK"></a>
 
 `hot_standby_feedback` (`boolean`) <a id="id-1.6.6.9.7.3.8.1.3"></a> [#](#GUC-HOT-STANDBY-FEEDBACK)
-:   指定 hot standby 是否應該向 primary 或上游 standby
-    傳送有關目前在 standby 上執行之查詢的回饋資訊。
-    此參數可用於消除因清理記錄而導致的查詢取消，
-    但對某些工作負載而言，可能導致 primary 上的資料庫
-    膨脹。回饋訊息傳送的頻率
-    不會超過每
-    `wal_receiver_status_interval` 一次。預設值為
-    `off`。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令列上設定。
 
-    若正在使用串接式複寫，回饋會向上傳遞，
-    直到最終到達 primary。Standby 除了向上傳遞外，
-    不會對收到的回饋做其他用途。
+指定 hot standby 是否應該向 primary 或上游 standby
+傳送有關目前在 standby 上執行之查詢的回饋資訊。
+此參數可用於消除因清理記錄而導致的查詢取消，
+但對某些工作負載而言，可能導致 primary 上的資料庫
+膨脹。回饋訊息傳送的頻率
+不會超過每
+`wal_receiver_status_interval` 一次。預設值為
+`off`。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令列上設定。
 
-    請注意，如果 standby 上的時鐘被調快或調慢，
-    回饋訊息可能無法依所需間隔傳送。在
-    極端情況下，由於回饋機制是以時間戳記為基礎，
-    這可能導致 primary 長時間無法移除死亡資料列的風險
-    延長。
+若正在使用串接式複寫，回饋會向上傳遞，
+直到最終到達 primary。Standby 除了向上傳遞外，
+不會對收到的回饋做其他用途。
+
+請注意，如果 standby 上的時鐘被調快或調慢，
+回饋訊息可能無法依所需間隔傳送。在
+極端情況下，由於回饋機制是以時間戳記為基礎，
+這可能導致 primary 長時間無法移除死亡資料列的風險
+延長。
 <a id="GUC-WAL-RECEIVER-TIMEOUT"></a>
 
 `wal_receiver_timeout` (`integer`) <a id="id-1.6.6.9.7.3.9.1.3"></a> [#](#GUC-WAL-RECEIVER-TIMEOUT)
@@ -549,27 +554,28 @@ primary 伺服器上也必須妥善設定
 <a id="GUC-WAL-RETRIEVE-RETRY-INTERVAL"></a>
 
 `wal_retrieve_retry_interval` (`integer`) <a id="id-1.6.6.9.7.3.10.1.3"></a> [#](#GUC-WAL-RETRIEVE-RETRY-INTERVAL)
-:   指定在任何來源（串流複寫、本機
-    `pg_wal` 或 WAL 歸檔）皆無法取得 WAL 資料時，
-    standby 伺服器在再次嘗試擷取 WAL 資料之前
-    應等待多久。
-    若此值指定時未帶單位，則以毫秒為單位。
-    預設值為 5 秒。
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器
-    命令列上設定。
 
-    此參數適用於正在復原的節點需要控制等待新 WAL
-    資料可用之時間量的組態設定情境。舉例來說，在
-    歸檔復原中，可以透過降低此參數的值，
-    讓偵測新 WAL 檔案的復原程序更快反應。
-    在 WAL 活動較低的系統上，提高此值可以減少
-    存取 WAL 歸檔所需的請求數量，這在
-    例如雲端環境中很有用，因為那類環境會將
-    基礎架構被存取的次數納入考量。
+指定在任何來源（串流複寫、本機
+`pg_wal` 或 WAL 歸檔）皆無法取得 WAL 資料時，
+standby 伺服器在再次嘗試擷取 WAL 資料之前
+應等待多久。
+若此值指定時未帶單位，則以毫秒為單位。
+預設值為 5 秒。
+此參數只能在
+`postgresql.conf` 檔案中或伺服器
+命令列上設定。
 
-    在邏輯複寫中，此參數也限制了失敗的複寫套用
-    工作程序或資料表同步工作程序重新啟動的頻率。
+此參數適用於正在復原的節點需要控制等待新 WAL
+資料可用之時間量的組態設定情境。舉例來說，在
+歸檔復原中，可以透過降低此參數的值，
+讓偵測新 WAL 檔案的復原程序更快反應。
+在 WAL 活動較低的系統上，提高此值可以減少
+存取 WAL 歸檔所需的請求數量，這在
+例如雲端環境中很有用，因為那類環境會將
+基礎架構被存取的次數納入考量。
+
+在邏輯複寫中，此參數也限制了失敗的複寫套用
+工作程序或資料表同步工作程序重新啟動的頻率。
 <a id="GUC-RECOVERY-MIN-APPLY-DELAY"></a>
 
 `recovery_min_apply_delay` (`integer`) <a id="id-1.6.6.9.7.3.11.1.3"></a> [#](#GUC-RECOVERY-MIN-APPLY-DELAY)
@@ -625,12 +631,13 @@ primary 伺服器上也必須妥善設定
 <a id="GUC-SYNC-REPLICATION-SLOTS"></a>
 
 `sync_replication_slots` (`boolean`) <a id="id-1.6.6.9.7.3.12.1.3"></a> [#](#GUC-SYNC-REPLICATION-SLOTS)
-:   啟用此設定，可讓實體 standby 從 primary 伺服器
-    同步邏輯容錯移轉插槽，使邏輯訂閱端能夠在
-    容錯移轉後，從新的 primary 伺服器繼續複寫。
 
-    此設定預設為停用。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令列上設定。
+啟用此設定，可讓實體 standby 從 primary 伺服器
+同步邏輯容錯移轉插槽，使邏輯訂閱端能夠在
+容錯移轉後，從新的 primary 伺服器繼續複寫。
+
+此設定預設為停用。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令列上設定。
 
 <a id="RUNTIME-CONFIG-REPLICATION-SUBSCRIBER"></a>
 
@@ -657,44 +664,47 @@ primary 伺服器上也必須妥善設定
 <a id="GUC-MAX-LOGICAL-REPLICATION-WORKERS"></a>
 
 `max_logical_replication_workers` (`integer`) <a id="id-1.6.6.9.8.3.2.1.3"></a> [#](#GUC-MAX-LOGICAL-REPLICATION-WORKERS)
-:   指定邏輯複寫工作程序的最大數量。這包括
-    領導者（leader）套用工作程序、平行套用工作程序，以及
-    資料表同步工作程序。
 
-    邏輯複寫工作程序取自
-    `max_worker_processes` 所定義的集區。
+指定邏輯複寫工作程序的最大數量。這包括
+領導者（leader）套用工作程序、平行套用工作程序，以及
+資料表同步工作程序。
 
-    預設值為 4。此參數只能在伺服器
-    啟動時設定。
+邏輯複寫工作程序取自
+`max_worker_processes` 所定義的集區。
+
+預設值為 4。此參數只能在伺服器
+啟動時設定。
 <a id="GUC-MAX-SYNC-WORKERS-PER-SUBSCRIPTION"></a>
 
 `max_sync_workers_per_subscription` (`integer`) <a id="id-1.6.6.9.8.3.3.1.3"></a> [#](#GUC-MAX-SYNC-WORKERS-PER-SUBSCRIPTION)
-:   每個訂閱的最大同步工作程序數量。此
-    參數控制訂閱初始化期間，或新增資料表時，
-    初始資料複製的平行處理程度。
 
-    目前，每個資料表只能有一個同步工作程序。
+每個訂閱的最大同步工作程序數量。此
+參數控制訂閱初始化期間，或新增資料表時，
+初始資料複製的平行處理程度。
 
-    同步工作程序取自
-    `max_logical_replication_workers` 所定義的集區。
+目前，每個資料表只能有一個同步工作程序。
 
-    預設值為 2。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定。
+同步工作程序取自
+`max_logical_replication_workers` 所定義的集區。
+
+預設值為 2。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定。
 <a id="GUC-MAX-PARALLEL-APPLY-WORKERS-PER-SUBSCRIPTION"></a>
 
 `max_parallel_apply_workers_per_subscription` (`integer`) <a id="id-1.6.6.9.8.3.4.1.3"></a> [#](#GUC-MAX-PARALLEL-APPLY-WORKERS-PER-SUBSCRIPTION)
-:   每個訂閱的最大平行套用工作程序數量。此
-    參數控制對於帶有訂閱參數
-    `streaming = parallel` 之進行中交易，
-    串流處理的平行程度。
 
-    平行套用工作程序取自
-    `max_logical_replication_workers` 所定義的集區。
+每個訂閱的最大平行套用工作程序數量。此
+參數控制對於帶有訂閱參數
+`streaming = parallel` 之進行中交易，
+串流處理的平行程度。
 
-    預設值為 2。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定。
+平行套用工作程序取自
+`max_logical_replication_workers` 所定義的集區。
+
+預設值為 2。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定。
 
 ---
 

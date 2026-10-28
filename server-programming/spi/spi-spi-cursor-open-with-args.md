@@ -49,9 +49,10 @@ Portal SPI_cursor_open_with_args(const char *name,
 :   長度為 *`nargs`* 的陣列，內含實際的參數值
 
 `const char * nulls`
-:   長度為 *`nargs`* 的陣列，用來描述哪些參數為 NULL
 
-    如果 *`nulls`* 為 `NULL`，`SPI_cursor_open_with_args` 就會假設沒有任何參數是 NULL。否則，若對應的參數值不是 NULL，*`nulls`* 陣列中的每一個項目都應該是 `' '`；若對應的參數值是 NULL，則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中實際存放的值並不重要。）請注意，*`nulls`* 並不是一個文字字串，而只是一個陣列：它不需要 `'\0'` 結尾字元。
+長度為 *`nargs`* 的陣列，用來描述哪些參數為 NULL
+
+如果 *`nulls`* 為 `NULL`，`SPI_cursor_open_with_args` 就會假設沒有任何參數是 NULL。否則，若對應的參數值不是 NULL，*`nulls`* 陣列中的每一個項目都應該是 `' '`；若對應的參數值是 NULL，則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中實際存放的值並不重要。）請注意，*`nulls`* 並不是一個文字字串，而只是一個陣列：它不需要 `'\0'` 結尾字元。
 
 `bool read_only`
 :   `true` 表示唯讀執行

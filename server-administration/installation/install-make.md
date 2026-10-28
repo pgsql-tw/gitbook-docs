@@ -352,15 +352,16 @@ PostgreSQL 功能。這些功能之所以非預設，大多是因為
 <a id="CONFIGURE-OPTION-ENABLE-NLS"></a>
 
 `--enable-nls[=LANGUAGES]` [#](#CONFIGURE-OPTION-ENABLE-NLS)
-:   啟用原生語言支援（NLS，Native Language Support），
-    即以非英文語言顯示程式訊息的能力。
-    *`LANGUAGES`* 是一個選用、以空白分隔的語言代碼清單，
-    用來指定你想要支援的語言，例如
-    `--enable-nls='de fr'`。（你所列的清單與實際提供的
-    翻譯集合之間的交集，會自動計算出來。）
-    如果你沒有指定清單，則會安裝所有可用的翻譯。
 
-    若要使用這個選項，你需要一套 Gettext API 的實作。
+啟用原生語言支援（NLS，Native Language Support），
+即以非英文語言顯示程式訊息的能力。
+*`LANGUAGES`* 是一個選用、以空白分隔的語言代碼清單，
+用來指定你想要支援的語言，例如
+`--enable-nls='de fr'`。（你所列的清單與實際提供的
+翻譯集合之間的交集，會自動計算出來。）
+如果你沒有指定清單，則會安裝所有可用的翻譯。
+
+若要使用這個選項，你需要一套 Gettext API 的實作。
 <a id="CONFIGURE-OPTION-WITH-PERL"></a>
 
 `--with-perl` [#](#CONFIGURE-OPTION-WITH-PERL)
@@ -521,26 +522,27 @@ PostgreSQL 功能。這些功能之所以非預設，大多是因為
 <a id="CONFIGURE-OPTION-WITH-LIBXML"></a>
 
 `--with-libxml` [#](#CONFIGURE-OPTION-WITH-LIBXML)
-:   建置時使用 libxml2，啟用 SQL/XML 支援。這項功能需要
-    Libxml2 2.6.23 以上版本。
 
-    為偵測所需的編譯器與連結器選項，PostgreSQL 會查詢
-    `pkg-config`（如果已安裝且認得 libxml2 的話）。
-    否則會使用由 libxml2 隨附安裝的
-    `xml2-config` 程式（如果能找到的話）。
-    建議優先使用 `pkg-config`，因為它能更妥善地
-    處理多架構安裝的情況。
+建置時使用 libxml2，啟用 SQL/XML 支援。這項功能需要
+Libxml2 2.6.23 以上版本。
 
-    若要使用位於非一般位置的 libxml2 安裝，
-    你可以設定與 `pkg-config` 相關的環境變數
-    （詳見其文件），或是將環境變數
-    `XML2_CONFIG` 設為指向屬於該 libxml2 安裝的
-    `xml2-config` 程式，或是設定
-    `XML2_CFLAGS` 與 `XML2_LIBS`
-    這兩個變數。（如果已安裝 `pkg-config`，
-    若要覆寫它對 libxml2 位置的判斷，你必須
-    設定 `XML2_CONFIG`，或是同時將
-    `XML2_CFLAGS` 與 `XML2_LIBS` 設為非空字串。）
+為偵測所需的編譯器與連結器選項，PostgreSQL 會查詢
+`pkg-config`（如果已安裝且認得 libxml2 的話）。
+否則會使用由 libxml2 隨附安裝的
+`xml2-config` 程式（如果能找到的話）。
+建議優先使用 `pkg-config`，因為它能更妥善地
+處理多架構安裝的情況。
+
+若要使用位於非一般位置的 libxml2 安裝，
+你可以設定與 `pkg-config` 相關的環境變數
+（詳見其文件），或是將環境變數
+`XML2_CONFIG` 設為指向屬於該 libxml2 安裝的
+`xml2-config` 程式，或是設定
+`XML2_CFLAGS` 與 `XML2_LIBS`
+這兩個變數。（如果已安裝 `pkg-config`，
+若要覆寫它對 libxml2 位置的判斷，你必須
+設定 `XML2_CONFIG`，或是同時將
+`XML2_CFLAGS` 與 `XML2_LIBS` 設為非空字串。）
 <a id="CONFIGURE-OPTION-WITH-LIBXSLT"></a>
 
 `--with-libxslt` [#](#CONFIGURE-OPTION-WITH-LIBXSLT)

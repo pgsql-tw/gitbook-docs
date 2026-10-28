@@ -138,40 +138,41 @@
 <a id="GUC-LOG-FILENAME"></a>
 
 `log_filename` (`string`) <a id="id-1.6.6.11.3.4.4.1.3"></a> [#](#GUC-LOG-FILENAME)
-:   當 `logging_collector` 啟用時，
-    此參數設定所建立日誌檔案的檔名。此值會被視為
-    `strftime` 樣式字串，因此可使用
-    `%`-逸出序列來指定隨時間變化的檔名。
-    （請注意，若含有任何與時區相關的
-    `%`-逸出序列，計算時會採用
-    [log_timezone](runtime-config-logging.md#GUC-LOG-TIMEZONE) 所指定的時區。）
-    所支援的 `%`-逸出序列，
-    與 Open Group 的 [strftime](https://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) 規格
-    中所列出的類似。請注意，並不會直接使用
-    系統的 `strftime`，因此平台特有（非標準）
-    的擴充功能無法運作。
-    預設值為 `postgresql-%Y-%m-%d_%H%M%S.log`。
 
-    若你指定的檔名沒有逸出序列，就應規劃使用日誌輪替工具，
-    以避免最終塞滿整個磁碟。在 8.4
-    之前的版本中，若沒有任何 `%` 逸出序列，
-    PostgreSQL 會附加新日誌檔案建立時間的
-    epoch 值，但現在已不再如此。
+當 `logging_collector` 啟用時，
+此參數設定所建立日誌檔案的檔名。此值會被視為
+`strftime` 樣式字串，因此可使用
+`%`-逸出序列來指定隨時間變化的檔名。
+（請注意，若含有任何與時區相關的
+`%`-逸出序列，計算時會採用
+[log_timezone](runtime-config-logging.md#GUC-LOG-TIMEZONE) 所指定的時區。）
+所支援的 `%`-逸出序列，
+與 Open Group 的 [strftime](https://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html) 規格
+中所列出的類似。請注意，並不會直接使用
+系統的 `strftime`，因此平台特有（非標準）
+的擴充功能無法運作。
+預設值為 `postgresql-%Y-%m-%d_%H%M%S.log`。
 
-    若 `log_destination` 中啟用了 CSV 格式輸出，
-    系統會在加上時間戳記的日誌檔名後附加
-    `.csv`，作為 CSV 格式輸出的檔名。
-    （若 `log_filename` 以 `.log` 結尾，
-    則會改為替換該副檔名。）
+若你指定的檔名沒有逸出序列，就應規劃使用日誌輪替工具，
+以避免最終塞滿整個磁碟。在 8.4
+之前的版本中，若沒有任何 `%` 逸出序列，
+PostgreSQL 會附加新日誌檔案建立時間的
+epoch 值，但現在已不再如此。
 
-    若 `log_destination` 中啟用了 JSON 格式輸出，
-    系統會在加上時間戳記的日誌檔名後附加
-    `.json`，作為 JSON 格式輸出的檔名。
-    （若 `log_filename` 以 `.log` 結尾，
-    則會改為替換該副檔名。）
+若 `log_destination` 中啟用了 CSV 格式輸出，
+系統會在加上時間戳記的日誌檔名後附加
+`.csv`，作為 CSV 格式輸出的檔名。
+（若 `log_filename` 以 `.log` 結尾，
+則會改為替換該副檔名。）
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+若 `log_destination` 中啟用了 JSON 格式輸出，
+系統會在加上時間戳記的日誌檔名後附加
+`.json`，作為 JSON 格式輸出的檔名。
+（若 `log_filename` 以 `.log` 結尾，
+則會改為替換該副檔名。）
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-FILE-MODE"></a>
 
 `log_file_mode` (`integer`) <a id="id-1.6.6.11.3.4.5.1.3"></a> [#](#GUC-LOG-FILE-MODE)
@@ -221,33 +222,34 @@
 <a id="GUC-LOG-TRUNCATE-ON-ROTATION"></a>
 
 `log_truncate_on_rotation` (`boolean`) <a id="id-1.6.6.11.3.4.8.1.3"></a> [#](#GUC-LOG-TRUNCATE-ON-ROTATION)
-:   當 `logging_collector` 啟用時，
-    此參數會使 PostgreSQL 截斷（覆寫）任何同名的既有日誌檔案，
-    而不是附加寫入其後。然而，只有在因時間基礎輪替而開啟
-    新檔案時才會發生截斷，伺服器啟動時或因大小基礎輪替時則不會。
-    當此參數為 off 時，既有檔案在所有情況下都會被附加寫入。
-    舉例來說，若將此設定與類似
-    `postgresql-%H.log` 的 `log_filename`
-    搭配使用，就會產生二十四個逐小時的日誌檔案，
-    並依循環方式覆寫它們。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
 
-    範例：若要保留 7 天的日誌，每天一個日誌檔案，
-    分別命名為 `server_log.Mon`、`server_log.Tue`
-    等，並自動以本週的日誌覆寫上週的日誌，
-    請將 `log_filename` 設為 `server_log.%a`，
-    `log_truncate_on_rotation` 設為 `on`，
-    並將 `log_rotation_age` 設為 `1440`。
+當 `logging_collector` 啟用時，
+此參數會使 PostgreSQL 截斷（覆寫）任何同名的既有日誌檔案，
+而不是附加寫入其後。然而，只有在因時間基礎輪替而開啟
+新檔案時才會發生截斷，伺服器啟動時或因大小基礎輪替時則不會。
+當此參數為 off 時，既有檔案在所有情況下都會被附加寫入。
+舉例來說，若將此設定與類似
+`postgresql-%H.log` 的 `log_filename`
+搭配使用，就會產生二十四個逐小時的日誌檔案，
+並依循環方式覆寫它們。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 
-    範例：若要保留 24 小時的日誌，每小時一個日誌檔案，
-    但當日誌檔案大小超過 1GB 時也提早輪替，
-    請將 `log_filename` 設為 `server_log.%H%M`，
-    `log_truncate_on_rotation` 設為 `on`，
-    `log_rotation_age` 設為 `60`，
-    並將 `log_rotation_size` 設為 `1000000`。
-    在 `log_filename` 中加入 `%M`，
-    可讓任何因大小觸發的輪替，選用與該小時初始檔名不同的檔名。
+範例：若要保留 7 天的日誌，每天一個日誌檔案，
+分別命名為 `server_log.Mon`、`server_log.Tue`
+等，並自動以本週的日誌覆寫上週的日誌，
+請將 `log_filename` 設為 `server_log.%a`，
+`log_truncate_on_rotation` 設為 `on`，
+並將 `log_rotation_age` 設為 `1440`。
+
+範例：若要保留 24 小時的日誌，每小時一個日誌檔案，
+但當日誌檔案大小超過 1GB 時也提早輪替，
+請將 `log_filename` 設為 `server_log.%H%M`，
+`log_truncate_on_rotation` 設為 `on`，
+`log_rotation_age` 設為 `60`，
+並將 `log_rotation_size` 設為 `1000000`。
+在 `log_filename` 中加入 `%M`，
+可讓任何因大小觸發的輪替，選用與該小時初始檔名不同的檔名。
 <a id="GUC-SYSLOG-FACILITY"></a>
 
 `syslog_facility` (`enum`) <a id="id-1.6.6.11.3.4.9.1.3"></a> [#](#GUC-SYSLOG-FACILITY)
@@ -289,23 +291,24 @@
 <a id="GUC-SYSLOG-SPLIT-MESSAGES"></a>
 
 `syslog_split_messages` (`boolean`) <a id="id-1.6.6.11.3.4.12.1.3"></a> [#](#GUC-SYSLOG-SPLIT-MESSAGES)
-:   當啟用記錄到 syslog 時，此參數決定訊息傳遞給
-    syslog 的方式。當此設定為 on（預設值）時，
-    訊息會依行分割，過長的行也會被切分，
-    使其符合傳統 syslog 實作常見的 1024 位元組大小限制。
-    當設為 off 時，PostgreSQL 伺服器日誌訊息
-    會依原樣傳遞給 syslog 服務，
-    至於如何處理可能很龐大的訊息，則由 syslog 服務自行負責。
 
-    若 syslog 最終是記錄到文字檔案，
-    則不論哪種設定，結果都會相同，此時最好保持此設定為開啟，
-    因為大多數 syslog 實作要嘛無法處理大型訊息，
-    要嘛需要特別設定才能處理。但若 syslog
-    最終是寫入其他媒介，將訊息在邏輯上保持完整，
-    可能有其必要性或更為實用。
+當啟用記錄到 syslog 時，此參數決定訊息傳遞給
+syslog 的方式。當此設定為 on（預設值）時，
+訊息會依行分割，過長的行也會被切分，
+使其符合傳統 syslog 實作常見的 1024 位元組大小限制。
+當設為 off 時，PostgreSQL 伺服器日誌訊息
+會依原樣傳遞給 syslog 服務，
+至於如何處理可能很龐大的訊息，則由 syslog 服務自行負責。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+若 syslog 最終是記錄到文字檔案，
+則不論哪種設定，結果都會相同，此時最好保持此設定為開啟，
+因為大多數 syslog 實作要嘛無法處理大型訊息，
+要嘛需要特別設定才能處理。但若 syslog
+最終是寫入其他媒介，將訊息在邏輯上保持完整，
+可能有其必要性或更為實用。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-EVENT-SOURCE"></a>
 
 `event_source` (`string`) <a id="id-1.6.6.11.3.4.13.1.3"></a> [#](#GUC-EVENT-SOURCE)
@@ -451,21 +454,22 @@
 <a id="GUC-LOG-STARTUP-PROGRESS-INTERVAL"></a>
 
 `log_startup_progress_interval` (`integer`) <a id="id-1.6.6.11.4.2.7.1.3"></a> [#](#GUC-LOG-STARTUP-PROGRESS-INTERVAL)
-:   設定啟動程序在多久之後，
-    會針對仍在進行中的長時間執行作業記錄一則訊息，
-    以及該作業後續進度訊息之間的間隔時間。
-    預設值為 10 秒。設為 `0`
-    會停用此功能。若此值未指定單位，
-    則以毫秒為單位。此設定會分別套用於每項作業。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
 
-    舉例來說，若同步資料目錄花費 25 秒，
-    接著重設未記錄（unlogged）的關聯又花費 8 秒，
-    而此設定為預設值 10 秒，
-    則在同步資料目錄進行 10 秒後，
-    以及進行 20 秒後，各會記錄一則訊息，
-    但重設未記錄（unlogged）的關聯則不會記錄任何訊息。
+設定啟動程序在多久之後，
+會針對仍在進行中的長時間執行作業記錄一則訊息，
+以及該作業後續進度訊息之間的間隔時間。
+預設值為 10 秒。設為 `0`
+會停用此功能。若此值未指定單位，
+則以毫秒為單位。此設定會分別套用於每項作業。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+
+舉例來說，若同步資料目錄花費 25 秒，
+接著重設未記錄（unlogged）的關聯又花費 8 秒，
+而此設定為預設值 10 秒，
+則在同步資料目錄進行 10 秒後，
+以及進行 20 秒後，各會記錄一則訊息，
+但重設未記錄（unlogged）的關聯則不會記錄任何訊息。
 
 [表 19.2](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS) 說明了
 PostgreSQL 所使用的訊息嚴重性層級。若日誌輸出
@@ -779,14 +783,15 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 <a id="GUC-LOG-RECOVERY-CONFLICT-WAITS"></a>
 
 `log_recovery_conflict_waits` (`boolean`) <a id="id-1.6.6.11.5.3.14.1.3"></a> [#](#GUC-LOG-RECOVERY-CONFLICT-WAITS)
-:   控制當啟動程序因復原衝突而等待的時間，
-    超過 `deadlock_timeout` 時，
-    是否要產生日誌訊息。這對於判斷復原衝突
-    是否阻礙了復原套用 WAL 很有用。
 
-    預設值為 `off`。此參數只能在
-    `postgresql.conf` 檔案中或伺服器
-    命令列上設定。
+控制當啟動程序因復原衝突而等待的時間，
+超過 `deadlock_timeout` 時，
+是否要產生日誌訊息。這對於判斷復原衝突
+是否阻礙了復原套用 WAL 很有用。
+
+預設值為 `off`。此參數只能在
+`postgresql.conf` 檔案中或伺服器
+命令列上設定。
 <a id="GUC-LOG-PARAMETER-MAX-LENGTH"></a>
 
 `log_parameter_max_length` (`integer`) <a id="id-1.6.6.11.5.3.15.1.3"></a> [#](#GUC-LOG-PARAMETER-MAX-LENGTH)
@@ -808,19 +813,20 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 <a id="GUC-LOG-PARAMETER-MAX-LENGTH-ON-ERROR"></a>
 
 `log_parameter_max_length_on_error` (`integer`) <a id="id-1.6.6.11.5.3.16.1.3"></a> [#](#GUC-LOG-PARAMETER-MAX-LENGTH-ON-ERROR)
-:   若大於零，每個在錯誤訊息中回報的
-    綁定參數值，都會被裁剪至此位元組數。
-    零（預設值）會停用在錯誤訊息中包含綁定參數。
-    `-1` 允許完整印出綁定參數。
-    若此值未指定單位，則以位元組為單位。
 
-    此設定的非零值會增加額外負擔，
-    因為 PostgreSQL 需要在每個陳述式開始時，
-    就將參數值的文字表示形式儲存在記憶體中，
-    無論最終是否發生錯誤都一樣。當綁定參數
-    以二進位形式傳送時，額外負擔會比以文字形式傳送時更大，
-    因為前者需要進行資料轉換，
-    而後者只需要複製字串。
+若大於零，每個在錯誤訊息中回報的
+綁定參數值，都會被裁剪至此位元組數。
+零（預設值）會停用在錯誤訊息中包含綁定參數。
+`-1` 允許完整印出綁定參數。
+若此值未指定單位，則以位元組為單位。
+
+此設定的非零值會增加額外負擔，
+因為 PostgreSQL 需要在每個陳述式開始時，
+就將參數值的文字表示形式儲存在記憶體中，
+無論最終是否發生錯誤都一樣。當綁定參數
+以二進位形式傳送時，額外負擔會比以文字形式傳送時更大，
+因為前者需要進行資料轉換，
+而後者只需要複製字串。
 <a id="GUC-LOG-STATEMENT"></a>
 
 `log_statement` (`enum`) <a id="id-1.6.6.11.5.3.17.1.3"></a> [#](#GUC-LOG-STATEMENT)

@@ -17,27 +17,28 @@
 <a id="GUC-LISTEN-ADDRESSES"></a>
 
 `listen_addresses` (`string`) <a id="id-1.6.6.6.2.2.1.1.3"></a> [#](#GUC-LISTEN-ADDRESSES)
-:   指定伺服器要監聽來自用戶端應用程式連線的
-    TCP/IP 位址。
-    此值的格式為以逗號分隔的主機名稱
-    及（或）數字 IP 位址清單。特殊項目 `*`
-    代表所有可用的 IP 介面。項目
-    `0.0.0.0` 允許監聽所有 IPv4 位址，
-    `::` 則允許監聽所有 IPv6 位址。
-    若此清單為空，伺服器將完全不監聽任何 IP 介面，
-    此時只能使用 Unix 網域通訊端連線至伺服器。
-    若清單不為空，只要伺服器能夠監聽至少一個 TCP/IP
-    位址，伺服器就會啟動。對於任何無法開啟的
-    TCP/IP 位址，都會發出警告。
-    預設值為 localhost，
-    這僅允許本機 TCP/IP「loopback」連線。
 
-    雖然用戶端驗證（[第 20 章](../client-authentication/README.md)）能夠
-    細緻地控制誰可以存取伺服器，
-    `listen_addresses` 則控制哪些介面
-    會接受連線嘗試，這有助於防止在不安全的
-    網路介面上反覆出現的惡意連線請求。此參數只能
-    在伺服器啟動時設定。
+指定伺服器要監聽來自用戶端應用程式連線的
+TCP/IP 位址。
+此值的格式為以逗號分隔的主機名稱
+及（或）數字 IP 位址清單。特殊項目 `*`
+代表所有可用的 IP 介面。項目
+`0.0.0.0` 允許監聽所有 IPv4 位址，
+`::` 則允許監聽所有 IPv6 位址。
+若此清單為空，伺服器將完全不監聽任何 IP 介面，
+此時只能使用 Unix 網域通訊端連線至伺服器。
+若清單不為空，只要伺服器能夠監聽至少一個 TCP/IP
+位址，伺服器就會啟動。對於任何無法開啟的
+TCP/IP 位址，都會發出警告。
+預設值為 localhost，
+這僅允許本機 TCP/IP「loopback」連線。
+
+雖然用戶端驗證（[第 20 章](../client-authentication/README.md)）能夠
+細緻地控制誰可以存取伺服器，
+`listen_addresses` 則控制哪些介面
+會接受連線嘗試，這有助於防止在不安全的
+網路介面上反覆出現的惡意連線請求。此參數只能
+在伺服器啟動時設定。
 <a id="GUC-PORT"></a>
 
 `port` (`integer`) <a id="id-1.6.6.6.2.2.2.1.3"></a> [#](#GUC-PORT)
@@ -47,20 +48,21 @@
 <a id="GUC-MAX-CONNECTIONS"></a>
 
 `max_connections` (`integer`) <a id="id-1.6.6.6.2.2.3.1.3"></a> [#](#GUC-MAX-CONNECTIONS)
-:   決定資料庫伺服器允許的最大並行連線數。
-    預設值通常為 100 個連線，但若你的核心
-    設定無法支援（由 initdb 期間判斷），
-    則可能較少。此參數只能在伺服器啟動時
-    設定。
 
-    PostgreSQL 會直接根據
-    `max_connections` 的值調整某些資源的大小。
-    提高此值會導致這些資源（包括共享記憶體）的
-    配置量增加。
+決定資料庫伺服器允許的最大並行連線數。
+預設值通常為 100 個連線，但若你的核心
+設定無法支援（由 initdb 期間判斷），
+則可能較少。此參數只能在伺服器啟動時
+設定。
 
-    在執行 standby 伺服器時，你必須將此參數設為與
-    primary 伺服器相同或更高的值，否則
-    standby 伺服器中將不允許執行查詢。
+PostgreSQL 會直接根據
+`max_connections` 的值調整某些資源的大小。
+提高此值會導致這些資源（包括共享記憶體）的
+配置量增加。
+
+在執行 standby 伺服器時，你必須將此參數設為與
+primary 伺服器相同或更高的值，否則
+standby 伺服器中將不允許執行查詢。
 <a id="GUC-RESERVED-CONNECTIONS"></a>
 
 `reserved_connections` (`integer`) <a id="id-1.6.6.6.2.2.4.1.3"></a> [#](#GUC-RESERVED-CONNECTIONS)
@@ -138,48 +140,50 @@
 <a id="GUC-UNIX-SOCKET-GROUP"></a>
 
 `unix_socket_group` (`string`) <a id="id-1.6.6.6.2.2.7.1.3"></a> [#](#GUC-UNIX-SOCKET-GROUP)
-:   設定 Unix 網域通訊端的擁有群組。（通訊端的
-    擁有使用者永遠是啟動伺服器的使用者。）搭配
-    `unix_socket_permissions` 參數，
-    此設定可以作為 Unix 網域連線的額外存取控制機制。
-    根據預設，此值為空字串，代表使用
-    伺服器使用者的預設群組。此參數只能在
-    伺服器啟動時設定。
 
-    此參數在 Windows 上不受支援。任何設定
-    都會被忽略。此外，位於抽象命名空間中的通訊端沒有檔案擁有者，
-    因此在這種情況下，此設定同樣會被忽略。
+設定 Unix 網域通訊端的擁有群組。（通訊端的
+擁有使用者永遠是啟動伺服器的使用者。）搭配
+`unix_socket_permissions` 參數，
+此設定可以作為 Unix 網域連線的額外存取控制機制。
+根據預設，此值為空字串，代表使用
+伺服器使用者的預設群組。此參數只能在
+伺服器啟動時設定。
+
+此參數在 Windows 上不受支援。任何設定
+都會被忽略。此外，位於抽象命名空間中的通訊端沒有檔案擁有者，
+因此在這種情況下，此設定同樣會被忽略。
 <a id="GUC-UNIX-SOCKET-PERMISSIONS"></a>
 
 `unix_socket_permissions` (`integer`) <a id="id-1.6.6.6.2.2.8.1.3"></a> [#](#GUC-UNIX-SOCKET-PERMISSIONS)
-:   設定 Unix 網域通訊端的存取權限。Unix 網域
-    通訊端使用一般的 Unix 檔案系統權限集合。
-    此參數的值應為一個數字模式，
-    格式與
-    `chmod` 及 `umask`
-    系統呼叫所接受的格式相同。（若要使用慣用的八進位格式，
-    該數字必須以 `0`（零）開頭。）
 
-    預設權限為 `0777`，代表
-    任何人皆可連線。合理的替代方案有
-    `0770`（僅擁有者與群組，另請參閱
-    `unix_socket_group`）與 `0700`
-    （僅擁有者）。（請注意，對於 Unix 網域通訊端而言，
-    只有寫入權限有意義，因此設定或撤銷讀取或
-    執行權限並沒有意義。）
+設定 Unix 網域通訊端的存取權限。Unix 網域
+通訊端使用一般的 Unix 檔案系統權限集合。
+此參數的值應為一個數字模式，
+格式與
+`chmod` 及 `umask`
+系統呼叫所接受的格式相同。（若要使用慣用的八進位格式，
+該數字必須以 `0`（零）開頭。）
 
-    此存取控制機制與
-    [第 20 章](../client-authentication/README.md)所述的機制彼此獨立。
+預設權限為 `0777`，代表
+任何人皆可連線。合理的替代方案有
+`0770`（僅擁有者與群組，另請參閱
+`unix_socket_group`）與 `0700`
+（僅擁有者）。（請注意，對於 Unix 網域通訊端而言，
+只有寫入權限有意義，因此設定或撤銷讀取或
+執行權限並沒有意義。）
 
-    此參數只能在伺服器啟動時設定。
+此存取控制機制與
+[第 20 章](../client-authentication/README.md)所述的機制彼此獨立。
 
-    在某些會完全忽略通訊端權限的系統上（特別是
-    Solaris 10 以後的 Solaris），此參數並無意義。在這類系統上，
-    可以透過將 `unix_socket_directories` 指向一個
-    搜尋權限僅限於預期對象的目錄，達到類似的效果。
+此參數只能在伺服器啟動時設定。
 
-    位於抽象命名空間中的通訊端沒有檔案權限，因此在這種情況下，
-    此設定同樣會被忽略。
+在某些會完全忽略通訊端權限的系統上（特別是
+Solaris 10 以後的 Solaris），此參數並無意義。在這類系統上，
+可以透過將 `unix_socket_directories` 指向一個
+搜尋權限僅限於預期對象的目錄，達到類似的效果。
+
+位於抽象命名空間中的通訊端沒有檔案權限，因此在這種情況下，
+此設定同樣會被忽略。
 <a id="GUC-BONJOUR"></a>
 
 `bonjour` (`boolean`) <a id="id-1.6.6.6.2.2.9.1.3"></a> [#](#GUC-BONJOUR)
@@ -371,19 +375,20 @@
 <a id="GUC-OAUTH-VALIDATOR-LIBRARIES"></a>
 
 `oauth_validator_libraries` (`string`) <a id="id-1.6.6.6.4.2.8.1.3"></a> [#](#GUC-OAUTH-VALIDATOR-LIBRARIES)
-:   用於驗證 OAuth 連線權杖（token）的
-    程式庫。若只提供一個驗證器程式庫，
-    預設將用於所有 OAuth 連線；否則，所有
-    [`oauth` HBA 項目](../client-authentication/auth-oauth.md)
-    都必須從此清單中明確設定一個
-    `validator`。若設為空字串（預設值），
-    OAuth 連線將被拒絕。此參數只能在
-    `postgresql.conf` 檔案中設定。
 
-    驗證器模組必須另外實作／取得；
-    PostgreSQL 本身不隨附任何預設
-    實作。有關實作 OAuth 驗證器的更多資訊，
-    請參閱[第 50 章](../../server-programming/oauth-validators/README.md)。
+用於驗證 OAuth 連線權杖（token）的
+程式庫。若只提供一個驗證器程式庫，
+預設將用於所有 OAuth 連線；否則，所有
+[`oauth` HBA 項目](../client-authentication/auth-oauth.md)
+都必須從此清單中明確設定一個
+`validator`。若設為空字串（預設值），
+OAuth 連線將被拒絕。此參數只能在
+`postgresql.conf` 檔案中設定。
+
+驗證器模組必須另外實作／取得；
+PostgreSQL 本身不隨附任何預設
+實作。有關實作 OAuth 驗證器的更多資訊，
+請參閱[第 50 章](../../server-programming/oauth-validators/README.md)。
 
 <a id="RUNTIME-CONFIG-CONNECTION-SSL"></a>
 
@@ -435,25 +440,26 @@ TLS 可互換使用。
 <a id="GUC-SSL-CRL-DIR"></a>
 
 `ssl_crl_dir` (`string`) <a id="id-1.6.6.6.5.3.5.1.3"></a> [#](#GUC-SSL-CRL-DIR)
-:   指定包含 SSL 用戶端憑證撤銷清單（CRL）的
-    目錄名稱。相對路徑是相對於
-    資料目錄。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定。預設值為空，代表不使用任何 CRL（除非
-    設定了 [ssl_crl_file](runtime-config-connection.md#GUC-SSL-CRL-FILE)）。
 
-    此目錄需要以
-    OpenSSL 命令
-    `openssl rehash` 或 `c_rehash`
-    準備。詳情請參閱其
-    文件。
+指定包含 SSL 用戶端憑證撤銷清單（CRL）的
+目錄名稱。相對路徑是相對於
+資料目錄。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定。預設值為空，代表不使用任何 CRL（除非
+設定了 [ssl_crl_file](runtime-config-connection.md#GUC-SSL-CRL-FILE)）。
 
-    使用此設定時，指定目錄中的 CRL 會在連線時
-    依需求載入。新的 CRL 可以隨時加入目錄，
-    並會立即生效。這與 [ssl_crl_file](runtime-config-connection.md#GUC-SSL-CRL-FILE)
-    不同，後者會導致該檔案中的 CRL
-    在伺服器啟動時或重新載入組態設定時載入。
-    這兩個設定可以搭配使用。
+此目錄需要以
+OpenSSL 命令
+`openssl rehash` 或 `c_rehash`
+準備。詳情請參閱其
+文件。
+
+使用此設定時，指定目錄中的 CRL 會在連線時
+依需求載入。新的 CRL 可以隨時加入目錄，
+並會立即生效。這與 [ssl_crl_file](runtime-config-connection.md#GUC-SSL-CRL-FILE)
+不同，後者會導致該檔案中的 CRL
+在伺服器啟動時或重新載入組態設定時載入。
+這兩個設定可以搭配使用。
 <a id="GUC-SSL-KEY-FILE"></a>
 
 `ssl_key_file` (`string`) <a id="id-1.6.6.6.5.3.6.1.3"></a> [#](#GUC-SSL-KEY-FILE)
@@ -465,14 +471,15 @@ TLS 可互換使用。
 <a id="GUC-SSL-TLS13-CIPHERS"></a>
 
 `ssl_tls13_ciphers` (`string`) <a id="id-1.6.6.6.5.3.7.1.3"></a> [#](#GUC-SSL-TLS13-CIPHERS)
-:   指定使用 TLS 1.3 版連線時允許的密碼套件
-    （cipher suite）清單。可以使用以冒號分隔的清單
-    指定多個密碼套件。若留白，將使用
-    OpenSSL 中的預設密碼套件集合。
 
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定。
+指定使用 TLS 1.3 版連線時允許的密碼套件
+（cipher suite）清單。可以使用以冒號分隔的清單
+指定多個密碼套件。若留白，將使用
+OpenSSL 中的預設密碼套件集合。
+
+此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定。
 <a id="GUC-SSL-CIPHERS"></a>
 
 `ssl_ciphers` (`string`) <a id="id-1.6.6.6.5.3.8.1.3"></a> [#](#GUC-SSL-CIPHERS)
@@ -526,17 +533,18 @@ TLS 可互換使用。
 <a id="GUC-SSL-PREFER-SERVER-CIPHERS"></a>
 
 `ssl_prefer_server_ciphers` (`boolean`) <a id="id-1.6.6.6.5.3.9.1.3"></a> [#](#GUC-SSL-PREFER-SERVER-CIPHERS)
-:   指定是否應使用伺服器的 SSL 密碼偏好順序，
-    而非用戶端的偏好順序。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
-    預設值為 `on`。
 
-    9.4 之前的 PostgreSQL 版本沒有
-    此設定，永遠使用用戶端的偏好順序。此設定
-    主要是為了與那些版本向後相容。使用
-    伺服器的偏好順序通常比較好，因為伺服器
-    更有可能被妥善設定。
+指定是否應使用伺服器的 SSL 密碼偏好順序，
+而非用戶端的偏好順序。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+預設值為 `on`。
+
+9.4 之前的 PostgreSQL 版本沒有
+此設定，永遠使用用戶端的偏好順序。此設定
+主要是為了與那些版本向後相容。使用
+伺服器的偏好順序通常比較好，因為伺服器
+更有可能被妥善設定。
 <a id="GUC-SSL-GROUPS"></a>
 
 `ssl_groups` (`string`) <a id="id-1.6.6.6.5.3.10.1.3"></a> [#](#GUC-SSL-GROUPS)
@@ -564,31 +572,33 @@ TLS 可互換使用。
 <a id="GUC-SSL-MIN-PROTOCOL-VERSION"></a>
 
 `ssl_min_protocol_version` (`enum`) <a id="id-1.6.6.6.5.3.11.1.3"></a> [#](#GUC-SSL-MIN-PROTOCOL-VERSION)
-:   設定要使用的最低 SSL/TLS 協定版本。目前
-    合法的值有：`TLSv1`、`TLSv1.1`、
-    `TLSv1.2`、`TLSv1.3`。較舊
-    版本的 OpenSSL 程式庫不支援
-    所有值；若選擇不支援的設定，將會引發錯誤。
-    TLS 1.0 之前的協定版本，也就是 SSL 2 版與
-    3 版，永遠處於停用狀態。
 
-    預設值為 `TLSv1.2`，在撰寫本文當下
-    符合業界最佳實務。
+設定要使用的最低 SSL/TLS 協定版本。目前
+合法的值有：`TLSv1`、`TLSv1.1`、
+`TLSv1.2`、`TLSv1.3`。較舊
+版本的 OpenSSL 程式庫不支援
+所有值；若選擇不支援的設定，將會引發錯誤。
+TLS 1.0 之前的協定版本，也就是 SSL 2 版與
+3 版，永遠處於停用狀態。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+預設值為 `TLSv1.2`，在撰寫本文當下
+符合業界最佳實務。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-SSL-MAX-PROTOCOL-VERSION"></a>
 
 `ssl_max_protocol_version` (`enum`) <a id="id-1.6.6.6.5.3.12.1.3"></a> [#](#GUC-SSL-MAX-PROTOCOL-VERSION)
-:   設定要使用的最高 SSL/TLS 協定版本。合法值
-    與 [ssl_min_protocol_version](runtime-config-connection.md#GUC-SSL-MIN-PROTOCOL-VERSION) 相同，
-    另外還可以設為空字串，代表允許任何協定版本。
-    預設為允許任何版本。設定最高協定版本
-    主要用於測試，或是在某些元件無法搭配較新
-    協定正常運作時使用。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+設定要使用的最高 SSL/TLS 協定版本。合法值
+與 [ssl_min_protocol_version](runtime-config-connection.md#GUC-SSL-MIN-PROTOCOL-VERSION) 相同，
+另外還可以設為空字串，代表允許任何協定版本。
+預設為允許任何版本。設定最高協定版本
+主要用於測試，或是在某些元件無法搭配較新
+協定正常運作時使用。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-SSL-DH-PARAMS-FILE"></a>
 
 `ssl_dh_params_file` (`string`) <a id="id-1.6.6.6.5.3.13.1.3"></a> [#](#GUC-SSL-DH-PARAMS-FILE)
@@ -605,45 +615,47 @@ TLS 可互換使用。
 <a id="GUC-SSL-PASSPHRASE-COMMAND"></a>
 
 `ssl_passphrase_command` (`string`) <a id="id-1.6.6.6.5.3.14.1.3"></a> [#](#GUC-SSL-PASSPHRASE-COMMAND)
-:   設定當需要取得用於解密 SSL 檔案（例如私密金鑰）的
-    密碼短語（passphrase）時，要呼叫的外部命令。
-    根據預設，此參數為空，代表使用內建的
-    提示機制。
 
-    此命令必須將密碼短語輸出到標準輸出，並以
-    代碼 0 結束。在參數值中，`%p` 會被
-    替換為提示字串。（若要輸出字面上的
-    `%`，請寫成 `%%`。）請注意，提示
-    字串很可能包含空白字元，因此請務必妥善加上引號。
-    若輸出結尾有換行字元，會被移除一個。
+設定當需要取得用於解密 SSL 檔案（例如私密金鑰）的
+密碼短語（passphrase）時，要呼叫的外部命令。
+根據預設，此參數為空，代表使用內建的
+提示機制。
 
-    此命令實際上不必真的向使用者提示輸入
-    密碼短語，可以從檔案讀取、從金鑰圈（keychain）
-    機制取得，或以類似方式取得。至於所選機制
-    是否具備足夠的安全性，則由使用者自行負責確保。
+此命令必須將密碼短語輸出到標準輸出，並以
+代碼 0 結束。在參數值中，`%p` 會被
+替換為提示字串。（若要輸出字面上的
+`%`，請寫成 `%%`。）請注意，提示
+字串很可能包含空白字元，因此請務必妥善加上引號。
+若輸出結尾有換行字元，會被移除一個。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+此命令實際上不必真的向使用者提示輸入
+密碼短語，可以從檔案讀取、從金鑰圈（keychain）
+機制取得，或以類似方式取得。至於所選機制
+是否具備足夠的安全性，則由使用者自行負責確保。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-SSL-PASSPHRASE-COMMAND-SUPPORTS-RELOAD"></a>
 
 `ssl_passphrase_command_supports_reload` (`boolean`) <a id="id-1.6.6.6.5.3.15.1.3"></a> [#](#GUC-SSL-PASSPHRASE-COMMAND-SUPPORTS-RELOAD)
-:   此參數決定當金鑰檔案需要密碼短語時，
-    是否也會在重新載入組態設定期間呼叫由
-    `ssl_passphrase_command` 設定的密碼短語命令。
-    若此參數為 `off`（預設值），則
-    `ssl_passphrase_command` 在重新載入期間將被
-    忽略，若需要密碼短語，SSL 組態設定將不會
-    重新載入。此設定適用於需要 TTY 進行提示的
-    命令，因為伺服器執行時 TTY 可能不可用。
-    若密碼短語是例如從檔案取得的，將此參數設為 on
-    可能較為合適。
 
-    在 Windows 上執行時，此參數必須設為
-    `on`，因為該平台不同的程序模型，
-    會使所有連線都執行組態設定重新載入。
+此參數決定當金鑰檔案需要密碼短語時，
+是否也會在重新載入組態設定期間呼叫由
+`ssl_passphrase_command` 設定的密碼短語命令。
+若此參數為 `off`（預設值），則
+`ssl_passphrase_command` 在重新載入期間將被
+忽略，若需要密碼短語，SSL 組態設定將不會
+重新載入。此設定適用於需要 TTY 進行提示的
+命令，因為伺服器執行時 TTY 可能不可用。
+若密碼短語是例如從檔案取得的，將此參數設為 on
+可能較為合適。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+在 Windows 上執行時，此參數必須設為
+`on`，因為該平台不同的程序模型，
+會使所有連線都執行組態設定重新載入。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 
 ---
 

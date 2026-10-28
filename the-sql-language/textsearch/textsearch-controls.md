@@ -233,9 +233,10 @@ SELECT websearch_to_tsquery('english', '""" )( dummy \\ query <->');
 :   依據相符詞素的出現頻率為向量排名。
 
 <a id="id-1.5.11.6.5.3.1.2.1.1"></a> `ts_rank_cd([ weights float4[], ] vector tsvector, query tsquery [, normalization integer ]) returns float4`
-:   這個函式會為給定的文件向量與查詢計算*覆蓋密度*（cover density）排名，其方法見 Clarke、Cormack 與 Tudhope 於 1999 年發表在期刊「Information Processing and Management」上的「Relevance Ranking for One to Three Term Queries」。覆蓋密度與 `ts_rank` 排名類似，差別在於它會考量相符詞素彼此之間的鄰近程度。
 
-    這個函式需要詞素的位置資訊才能進行計算。因此，它會忽略 `tsvector` 中任何已「移除位置資訊」（stripped）的詞素。如果輸入中沒有保留位置資訊的詞素，結果將為零。（關於 `strip` 函式與 `tsvector` 中的位置資訊，詳情請參閱[第 12.4.1 節](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)。）
+這個函式會為給定的文件向量與查詢計算*覆蓋密度*（cover density）排名，其方法見 Clarke、Cormack 與 Tudhope 於 1999 年發表在期刊「Information Processing and Management」上的「Relevance Ranking for One to Three Term Queries」。覆蓋密度與 `ts_rank` 排名類似，差別在於它會考量相符詞素彼此之間的鄰近程度。
+
+這個函式需要詞素的位置資訊才能進行計算。因此，它會忽略 `tsvector` 中任何已「移除位置資訊」（stripped）的詞素。如果輸入中沒有保留位置資訊的詞素，結果將為零。（關於 `strip` 函式與 `tsvector` 中的位置資訊，詳情請參閱[第 12.4.1 節](textsearch-features.md#TEXTSEARCH-MANIPULATE-TSVECTOR)。）
 
 對這兩個函式而言，選用的 *`weights`* 參數可以依單字的標記方式，加重或減輕單字出現次數的權重。權重陣列依下列順序指定各類單字的權重：
 

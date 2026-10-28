@@ -25,26 +25,28 @@
 <a id="GUC-BACKTRACE-FUNCTIONS"></a>
 
 `backtrace_functions` (`string`) <a id="id-1.6.6.20.3.3.1.3"></a> [#](#GUC-BACKTRACE-FUNCTIONS)
-:   此參數包含以逗號分隔的 C 函式名稱清單。
-    如果發生錯誤，且發生錯誤的內部 C 函式名稱與清單中的值相符，
-    則會將回溯（backtrace）連同錯誤訊息一併寫入伺服器日誌。這可
-    用於除錯原始碼中的特定區域。
 
-    並非所有平台都支援回溯功能，且回溯的品質取決於編譯選項。
+此參數包含以逗號分隔的 C 函式名稱清單。
+如果發生錯誤，且發生錯誤的內部 C 函式名稱與清單中的值相符，
+則會將回溯（backtrace）連同錯誤訊息一併寫入伺服器日誌。這可
+用於除錯原始碼中的特定區域。
 
-    只有超級使用者以及具備相應 `SET`
-    權限的使用者可以變更此設定。
+並非所有平台都支援回溯功能，且回溯的品質取決於編譯選項。
+
+只有超級使用者以及具備相應 `SET`
+權限的使用者可以變更此設定。
 <a id="GUC-DEBUG-COPY-PARSE-PLAN-TREES"></a>
 
 `debug_copy_parse_plan_trees` (`boolean`) <a id="id-1.6.6.20.3.4.1.3"></a> [#](#GUC-DEBUG-COPY-PARSE-PLAN-TREES)
-:   啟用此選項會強制所有剖析樹與規劃樹都經過
-    `copyObject()`，以協助找出
-    `copyObject()` 中的錯誤與疏漏。預設值為關閉。
 
-    此參數僅在編譯時定義了
-    `DEBUG_NODE_TESTS_ENABLED`（使用
-    configure 選項
-    `--enable-cassert` 時會自動定義）時才可用。
+啟用此選項會強制所有剖析樹與規劃樹都經過
+`copyObject()`，以協助找出
+`copyObject()` 中的錯誤與疏漏。預設值為關閉。
+
+此參數僅在編譯時定義了
+`DEBUG_NODE_TESTS_ENABLED`（使用
+configure 選項
+`--enable-cassert` 時會自動定義）時才可用。
 <a id="GUC-DEBUG-DISCARD-CACHES"></a>
 
 `debug_discard_caches` (`integer`) <a id="id-1.6.6.20.3.5.1.3"></a> [#](#GUC-DEBUG-DISCARD-CACHES)
@@ -67,21 +69,22 @@
 <a id="GUC-DEBUG-IO-DIRECT"></a>
 
 `debug_io_direct` (`string`) <a id="id-1.6.6.20.3.6.1.3"></a> [#](#GUC-DEBUG-IO-DIRECT)
-:   要求核心對關聯資料檔與 WAL 檔案使用
-    `O_DIRECT`（大多數類 Unix 系統）、
-    `F_NOCACHE`（macOS）或
-    `FILE_FLAG_NO_BUFFERING`（Windows）以降低快取效應。
 
-    可設為空字串（預設值）以停用直接 I/O，
-    或設為以逗號分隔、應使用直接 I/O 的操作清單。
-    合法的選項有 `data`（表示
-    主要資料檔）、`wal`（表示 WAL 檔案），以及
-    `wal_init`（表示 WAL 檔案在最初配置時）。
-    此參數只能在伺服器啟動時設定。
+要求核心對關聯資料檔與 WAL 檔案使用
+`O_DIRECT`（大多數類 Unix 系統）、
+`F_NOCACHE`（macOS）或
+`FILE_FLAG_NO_BUFFERING`（Windows）以降低快取效應。
 
-    部分作業系統與檔案系統不支援直接 I/O，因此非預設設定可能會在啟動時被拒絕或造成錯誤。
+可設為空字串（預設值）以停用直接 I/O，
+或設為以逗號分隔、應使用直接 I/O 的操作清單。
+合法的選項有 `data`（表示
+主要資料檔）、`wal`（表示 WAL 檔案），以及
+`wal_init`（表示 WAL 檔案在最初配置時）。
+此參數只能在伺服器啟動時設定。
 
-    目前此功能會降低效能，僅供開發人員測試之用。
+部分作業系統與檔案系統不支援直接 I/O，因此非預設設定可能會在啟動時被拒絕或造成錯誤。
+
+目前此功能會降低效能，僅供開發人員測試之用。
 <a id="GUC-DEBUG-PARALLEL-QUERY"></a>
 
 `debug_parallel_query` (`enum`) <a id="id-1.6.6.20.3.7.1.3"></a> [#](#GUC-DEBUG-PARALLEL-QUERY)
@@ -109,25 +112,27 @@
 <a id="GUC-DEBUG-RAW-EXPRESSION-COVERAGE-TEST"></a>
 
 `debug_raw_expression_coverage_test` (`boolean`) <a id="id-1.6.6.20.3.8.1.3"></a> [#](#GUC-DEBUG-RAW-EXPRESSION-COVERAGE-TEST)
-:   啟用此選項會強制所有 DML 陳述式的原始剖析樹都由
-    `raw_expression_tree_walker()` 掃描，以協助找出
-    該函式中的錯誤與疏漏。預設值為關閉。
 
-    此參數僅在編譯時定義了
-    `DEBUG_NODE_TESTS_ENABLED`（使用
-    configure 選項
-    `--enable-cassert` 時會自動定義）時才可用。
+啟用此選項會強制所有 DML 陳述式的原始剖析樹都由
+`raw_expression_tree_walker()` 掃描，以協助找出
+該函式中的錯誤與疏漏。預設值為關閉。
+
+此參數僅在編譯時定義了
+`DEBUG_NODE_TESTS_ENABLED`（使用
+configure 選項
+`--enable-cassert` 時會自動定義）時才可用。
 <a id="GUC-DEBUG-WRITE-READ-PARSE-PLAN-TREES"></a>
 
 `debug_write_read_parse_plan_trees` (`boolean`) <a id="id-1.6.6.20.3.9.1.3"></a> [#](#GUC-DEBUG-WRITE-READ-PARSE-PLAN-TREES)
-:   啟用此選項會強制所有剖析樹與規劃樹都經過
-    `outfuncs.c`／`readfuncs.c`，以協助找出
-    這些模組中的錯誤與疏漏。預設值為關閉。
 
-    此參數僅在編譯時定義了
-    `DEBUG_NODE_TESTS_ENABLED`（使用
-    configure 選項
-    `--enable-cassert` 時會自動定義）時才可用。
+啟用此選項會強制所有剖析樹與規劃樹都經過
+`outfuncs.c`／`readfuncs.c`，以協助找出
+這些模組中的錯誤與疏漏。預設值為關閉。
+
+此參數僅在編譯時定義了
+`DEBUG_NODE_TESTS_ENABLED`（使用
+configure 選項
+`--enable-cassert` 時會自動定義）時才可用。
 <a id="GUC-IGNORE-SYSTEM-INDEXES"></a>
 
 `ignore_system_indexes` (`boolean`) <a id="id-1.6.6.20.3.10.1.3"></a> [#](#GUC-IGNORE-SYSTEM-INDEXES)
@@ -199,48 +204,54 @@
 <a id="GUC-TRACE-LWLOCKS"></a>
 
 `trace_lwlocks` (`boolean`) <a id="id-1.6.6.20.3.16.1.3"></a> [#](#GUC-TRACE-LWLOCKS)
-:   若為開啟，會輸出輕量鎖使用資訊。輕量鎖主要用於
-    對共享記憶體資料結構提供互斥存取。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
-    巨集的情況下才可用。
+若為開啟，會輸出輕量鎖使用資訊。輕量鎖主要用於
+對共享記憶體資料結構提供互斥存取。
+
+此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
+巨集的情況下才可用。
 <a id="GUC-TRACE-USERLOCKS"></a>
 
 `trace_userlocks` (`boolean`) <a id="id-1.6.6.20.3.17.1.3"></a> [#](#GUC-TRACE-USERLOCKS)
-:   若為開啟，會輸出使用者鎖使用資訊。輸出內容與
-    `trace_locks` 相同，只是針對建議鎖（advisory lock）而言。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
-    巨集的情況下才可用。
+若為開啟，會輸出使用者鎖使用資訊。輸出內容與
+`trace_locks` 相同，只是針對建議鎖（advisory lock）而言。
+
+此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
+巨集的情況下才可用。
 <a id="GUC-TRACE-LOCK-OIDMIN"></a>
 
 `trace_lock_oidmin` (`integer`) <a id="id-1.6.6.20.3.18.1.3"></a> [#](#GUC-TRACE-LOCK-OIDMIN)
-:   若有設定，則不追蹤 OID 低於此值的資料表的鎖定
-    （用以避免對系統表輸出）。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
-    巨集的情況下才可用。
+若有設定，則不追蹤 OID 低於此值的資料表的鎖定
+（用以避免對系統表輸出）。
+
+此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
+巨集的情況下才可用。
 <a id="GUC-TRACE-LOCK-TABLE"></a>
 
 `trace_lock_table` (`integer`) <a id="id-1.6.6.20.3.19.1.3"></a> [#](#GUC-TRACE-LOCK-TABLE)
-:   無條件追蹤此資料表（OID）上的鎖定。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
-    巨集的情況下才可用。
+無條件追蹤此資料表（OID）上的鎖定。
+
+此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
+巨集的情況下才可用。
 <a id="GUC-DEBUG-DEADLOCKS"></a>
 
 `debug_deadlocks` (`boolean`) <a id="id-1.6.6.20.3.20.1.3"></a> [#](#GUC-DEBUG-DEADLOCKS)
-:   若有設定，會在死結逾時發生時傾印所有目前鎖定的資訊。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
-    巨集的情況下才可用。
+若有設定，會在死結逾時發生時傾印所有目前鎖定的資訊。
+
+此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
+巨集的情況下才可用。
 <a id="GUC-LOG-BTREE-BUILD-STATS"></a>
 
 `log_btree_build_stats` (`boolean`) <a id="id-1.6.6.20.3.21.1.3"></a> [#](#GUC-LOG-BTREE-BUILD-STATS)
-:   若有設定，會記錄各種 B-tree 操作的系統資源使用統計（記憶體與 CPU）。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `BTREE_BUILD_STATS`
-    巨集的情況下才可用。
+若有設定，會記錄各種 B-tree 操作的系統資源使用統計（記憶體與 CPU）。
+
+此參數僅在編譯 PostgreSQL 時定義了 `BTREE_BUILD_STATS`
+巨集的情況下才可用。
 <a id="GUC-WAL-CONSISTENCY-CHECKING"></a>
 
 `wal_consistency_checking` (`string`) <a id="id-1.6.6.20.3.22.1.3"></a> [#](#GUC-WAL-CONSISTENCY-CHECKING)
@@ -268,18 +279,19 @@
 <a id="GUC-IGNORE-CHECKSUM-FAILURE"></a>
 
 `ignore_checksum_failure` (`boolean`) <a id="id-1.6.6.20.3.24.1.3"></a> [#](#GUC-IGNORE-CHECKSUM-FAILURE)
-:   僅在啟用[資料檢查碼](../wal/checksums.md)時才有效果。
 
-    讀取時偵測到檢查碼失敗，通常會導致 PostgreSQL
-    回報錯誤，中止目前的交易。將 `ignore_checksum_failure`
-    設為開啟會使系統忽略此失敗（但仍會回報警告），並
-    繼續進行處理。此行為可能會*導致當機、擴散
-    或隱藏損毀，或其他嚴重問題*。不過，這可能讓你
-    能夠繞過該錯誤，並取回資料表中仍完好、且區塊標頭仍正常的資料列。
-    如果標頭本身已損毀，即使啟用此選項也仍會回報錯誤。
-    預設設定為 `off`。
-    只有超級使用者以及具備相應 `SET`
-    權限的使用者可以變更此設定。
+僅在啟用[資料檢查碼](../wal/checksums.md)時才有效果。
+
+讀取時偵測到檢查碼失敗，通常會導致 PostgreSQL
+回報錯誤，中止目前的交易。將 `ignore_checksum_failure`
+設為開啟會使系統忽略此失敗（但仍會回報警告），並
+繼續進行處理。此行為可能會*導致當機、擴散
+或隱藏損毀，或其他嚴重問題*。不過，這可能讓你
+能夠繞過該錯誤，並取回資料表中仍完好、且區塊標頭仍正常的資料列。
+如果標頭本身已損毀，即使啟用此選項也仍會回報錯誤。
+預設設定為 `off`。
+只有超級使用者以及具備相應 `SET`
+權限的使用者可以變更此設定。
 <a id="GUC-ZERO-DAMAGED-PAGES"></a>
 
 `zero_damaged_pages` (`boolean`) <a id="id-1.6.6.20.3.25.1.3"></a> [#](#GUC-ZERO-DAMAGED-PAGES)

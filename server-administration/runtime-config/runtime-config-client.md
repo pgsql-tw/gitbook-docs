@@ -96,18 +96,19 @@
 <a id="GUC-ROW-SECURITY"></a>
 
 `row_security` (`boolean`) <a id="id-1.6.6.14.2.2.3.1.3"></a> [#](#GUC-ROW-SECURITY)
-:   此變數控制是否應在套用資料列安全性原則之外，
-    改為引發錯誤。設為 `on` 時，
-    原則會正常套用。設為 `off` 時，
-    原本會套用至少一項原則的查詢會失敗。預設值為 `on`。
-    在受限的資料列可見性可能導致不正確結果的情況下，
-    請改為 `off`；舉例來說，pg_dump
-    預設就會這麼做。此變數對繞過所有資料列安全性
-    原則的角色（也就是超級使用者，以及具備
-    `BYPASSRLS` 屬性的角色）沒有影響。
 
-    有關資料列安全性原則的更多資訊，
-    請參閱 [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md)。
+此變數控制是否應在套用資料列安全性原則之外，
+改為引發錯誤。設為 `on` 時，
+原則會正常套用。設為 `off` 時，
+原本會套用至少一項原則的查詢會失敗。預設值為 `on`。
+在受限的資料列可見性可能導致不正確結果的情況下，
+請改為 `off`；舉例來說，pg_dump
+預設就會這麼做。此變數對繞過所有資料列安全性
+原則的角色（也就是超級使用者，以及具備
+`BYPASSRLS` 屬性的角色）沒有影響。
+
+有關資料列安全性原則的更多資訊，
+請參閱 [CREATE POLICY](../../reference/sql-commands/sql-createpolicy.md)。
 <a id="GUC-DEFAULT-TABLE-ACCESS-METHOD"></a>
 
 `default_table_access_method` (`string`) <a id="id-1.6.6.14.2.2.4.1.3"></a> [#](#GUC-DEFAULT-TABLE-ACCESS-METHOD)
@@ -119,33 +120,34 @@
 <a id="GUC-DEFAULT-TABLESPACE"></a>
 
 `default_tablespace` (`string`) <a id="id-1.6.6.14.2.2.5.1.3"></a> <a id="id-1.6.6.14.2.2.5.1.4"></a> [#](#GUC-DEFAULT-TABLESPACE)
-:   此變數指定在 `CREATE` 命令未明確指定
-    表空間時，用來建立物件（資料表與索引）的
-    預設表空間。
 
-    此值可以是表空間的名稱，或是空字串（代表
-    使用目前資料庫的預設表空間）。
-    若此值與任何既有表空間的名稱都不相符，
-    PostgreSQL 會自動使用目前資料庫的
-    預設表空間。若指定了非預設的表空間，
-    使用者必須對其具備 `CREATE` 權限，
-    否則建立嘗試將會失敗。
+此變數指定在 `CREATE` 命令未明確指定
+表空間時，用來建立物件（資料表與索引）的
+預設表空間。
 
-    暫存資料表不使用此變數；對於暫存資料表，
-    會改為查詢 [temp_tablespaces](runtime-config-client.md#GUC-TEMP-TABLESPACES)。
+此值可以是表空間的名稱，或是空字串（代表
+使用目前資料庫的預設表空間）。
+若此值與任何既有表空間的名稱都不相符，
+PostgreSQL 會自動使用目前資料庫的
+預設表空間。若指定了非預設的表空間，
+使用者必須對其具備 `CREATE` 權限，
+否則建立嘗試將會失敗。
 
-    建立資料庫時也不會使用此變數。
-    根據預設，新資料庫會繼承其複製自的範本
-    資料庫的表空間設定。
+暫存資料表不使用此變數；對於暫存資料表，
+會改為查詢 [temp_tablespaces](runtime-config-client.md#GUC-TEMP-TABLESPACES)。
 
-    若在建立分割資料表時，此參數設為非空字串，
-    該分割資料表的表空間會被設為此值，
-    並會被用作未來建立的分割區的預設
-    表空間，即使 `default_tablespace` 此後
-    已經變更也一樣。
+建立資料庫時也不會使用此變數。
+根據預設，新資料庫會繼承其複製自的範本
+資料庫的表空間設定。
 
-    有關表空間的更多資訊，
-    請參閱[22.6 節](../managing-databases/manage-ag-tablespaces.md)。
+若在建立分割資料表時，此參數設為非空字串，
+該分割資料表的表空間會被設為此值，
+並會被用作未來建立的分割區的預設
+表空間，即使 `default_tablespace` 此後
+已經變更也一樣。
+
+有關表空間的更多資訊，
+請參閱[22.6 節](../managing-databases/manage-ag-tablespaces.md)。
 <a id="GUC-DEFAULT-TOAST-COMPRESSION"></a>
 
 `default_toast_compression` (`enum`) <a id="id-1.6.6.14.2.2.6.1.3"></a> [#](#GUC-DEFAULT-TOAST-COMPRESSION)
@@ -162,34 +164,35 @@
 <a id="GUC-TEMP-TABLESPACES"></a>
 
 `temp_tablespaces` (`string`) <a id="id-1.6.6.14.2.2.7.1.3"></a> <a id="id-1.6.6.14.2.2.7.1.4"></a> [#](#GUC-TEMP-TABLESPACES)
-:   此變數指定在 `CREATE` 命令未明確指定
-    表空間時，用來建立暫存物件（暫存資料表，
-    以及暫存資料表上的索引）的表空間。
-    用於例如排序大型資料集等用途的暫存檔案，
-    也會建立在這些表空間中。
 
-    此值是一份表空間名稱清單。若清單中有
-    多於一個名稱，PostgreSQL 每次
-    要建立暫存物件時，會從清單中隨機選擇
-    一個成員；不過在同一個交易內，連續建立的
-    暫存物件，會依序放入清單中連續的表空間。
-    若清單中選中的項目是空字串，
-    PostgreSQL 會自動改用目前資料庫的
-    預設表空間。
+此變數指定在 `CREATE` 命令未明確指定
+表空間時，用來建立暫存物件（暫存資料表，
+以及暫存資料表上的索引）的表空間。
+用於例如排序大型資料集等用途的暫存檔案，
+也會建立在這些表空間中。
 
-    以互動方式設定 `temp_tablespaces` 時，
-    指定不存在的表空間會導致錯誤，指定使用者
-    沒有 `CREATE` 權限的表空間也一樣。不過，
-    使用先前設定好的值時，不存在的表空間會被
-    忽略，使用者缺少 `CREATE` 權限的表空間
-    也一樣。特別是，此規則適用於使用
-    `postgresql.conf` 中設定的值時。
+此值是一份表空間名稱清單。若清單中有
+多於一個名稱，PostgreSQL 每次
+要建立暫存物件時，會從清單中隨機選擇
+一個成員；不過在同一個交易內，連續建立的
+暫存物件，會依序放入清單中連續的表空間。
+若清單中選中的項目是空字串，
+PostgreSQL 會自動改用目前資料庫的
+預設表空間。
 
-    預設值為空字串，這會使所有暫存物件
-    都建立在目前資料庫的預設
-    表空間中。
+以互動方式設定 `temp_tablespaces` 時，
+指定不存在的表空間會導致錯誤，指定使用者
+沒有 `CREATE` 權限的表空間也一樣。不過，
+使用先前設定好的值時，不存在的表空間會被
+忽略，使用者缺少 `CREATE` 權限的表空間
+也一樣。特別是，此規則適用於使用
+`postgresql.conf` 中設定的值時。
 
-    另請參閱 [default_tablespace](runtime-config-client.md#GUC-DEFAULT-TABLESPACE)。
+預設值為空字串，這會使所有暫存物件
+都建立在目前資料庫的預設
+表空間中。
+
+另請參閱 [default_tablespace](runtime-config-client.md#GUC-DEFAULT-TABLESPACE)。
 <a id="GUC-CHECK-FUNCTION-BODIES"></a>
 
 `check_function_bodies` (`boolean`) <a id="id-1.6.6.14.2.2.8.1.3"></a> [#](#GUC-CHECK-FUNCTION-BODIES)
@@ -203,39 +206,42 @@
 <a id="GUC-DEFAULT-TRANSACTION-ISOLATION"></a>
 
 `default_transaction_isolation` (`enum`) <a id="id-1.6.6.14.2.2.9.1.3"></a> <a id="id-1.6.6.14.2.2.9.1.4"></a> [#](#GUC-DEFAULT-TRANSACTION-ISOLATION)
-:   每個 SQL 交易都有一個隔離等級，可以是
-    「read uncommitted（讀取未提交）」、「read
-    committed（讀取已提交）」、「repeatable read（可重複讀取）」，
-    或「serializable（可序列化）」。此參數控制
-    每個新交易的預設隔離等級。預設值
-    為「read committed」。
 
-    詳情請參閱[第 13 章](../../the-sql-language/mvcc/README.md)與 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
+每個 SQL 交易都有一個隔離等級，可以是
+「read uncommitted（讀取未提交）」、「read
+committed（讀取已提交）」、「repeatable read（可重複讀取）」，
+或「serializable（可序列化）」。此參數控制
+每個新交易的預設隔離等級。預設值
+為「read committed」。
+
+詳情請參閱[第 13 章](../../the-sql-language/mvcc/README.md)與 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
 <a id="GUC-DEFAULT-TRANSACTION-READ-ONLY"></a>
 
 `default_transaction_read_only` (`boolean`) <a id="id-1.6.6.14.2.2.10.1.3"></a> <a id="id-1.6.6.14.2.2.10.1.4"></a> [#](#GUC-DEFAULT-TRANSACTION-READ-ONLY)
-:   唯讀的 SQL 交易無法變更非暫存資料表。
-    此參數控制每個新交易的預設唯讀狀態。
-    預設值為 `off`（讀寫）。
 
-    詳情請參閱 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
+唯讀的 SQL 交易無法變更非暫存資料表。
+此參數控制每個新交易的預設唯讀狀態。
+預設值為 `off`（讀寫）。
+
+詳情請參閱 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
 <a id="GUC-DEFAULT-TRANSACTION-DEFERRABLE"></a>
 
 `default_transaction_deferrable` (`boolean`) <a id="id-1.6.6.14.2.2.11.1.3"></a> <a id="id-1.6.6.14.2.2.11.1.4"></a> [#](#GUC-DEFAULT-TRANSACTION-DEFERRABLE)
-:   在 `serializable` 隔離等級下執行時，
-    可延遲（deferrable）的唯讀 SQL 交易，
-    在被允許繼續進行之前可能會被延遲。不過，
-    一旦它開始執行，就不會產生任何確保
-    可序列化性所需的額外負擔；因此序列化程式碼
-    不會因為並行更新而強制中止此交易，
-    使此選項適合用於長時間執行的唯讀交易。
 
-    此參數控制每個新交易的預設可延遲狀態。
-    目前對讀寫交易，或以低於
-    `serializable` 隔離等級執行的交易
-    沒有影響。預設值為 `off`。
+在 `serializable` 隔離等級下執行時，
+可延遲（deferrable）的唯讀 SQL 交易，
+在被允許繼續進行之前可能會被延遲。不過，
+一旦它開始執行，就不會產生任何確保
+可序列化性所需的額外負擔；因此序列化程式碼
+不會因為並行更新而強制中止此交易，
+使此選項適合用於長時間執行的唯讀交易。
 
-    詳情請參閱 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
+此參數控制每個新交易的預設可延遲狀態。
+目前對讀寫交易，或以低於
+`serializable` 隔離等級執行的交易
+沒有影響。預設值為 `off`。
+
+詳情請參閱 [SET TRANSACTION](../../reference/sql-commands/sql-set-transaction.md)。
 <a id="GUC-TRANSACTION-ISOLATION"></a>
 
 `transaction_isolation` (`enum`) <a id="id-1.6.6.14.2.2.12.1.3"></a> <a id="id-1.6.6.14.2.2.12.1.4"></a> [#](#GUC-TRANSACTION-ISOLATION)
@@ -263,56 +269,58 @@
 <a id="GUC-SESSION-REPLICATION-ROLE"></a>
 
 `session_replication_role` (`enum`) <a id="id-1.6.6.14.2.2.15.1.3"></a> [#](#GUC-SESSION-REPLICATION-ROLE)
-:   控制目前工作階段中複寫相關觸發程序與規則的
-    觸發行為。
-    可能的值有 `origin`（預設值）、
-    `replica` 與 `local`。
-    設定此參數會導致捨棄任何先前快取的
-    查詢計畫。
-    只有超級使用者以及具備相應 `SET`
-    權限的使用者可以變更此設定。
 
-    此設定的用途，是讓邏輯複寫系統在套用
-    已複寫的變更時，將其設為 `replica`。
-    這麼做的效果，是使（未從預設組態設定變更的）
-    觸發程序與規則不會在複寫端觸發。詳情請參閱
-    [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 中的
-    `ENABLE TRIGGER` 與 `ENABLE RULE`
-    子句。
+控制目前工作階段中複寫相關觸發程序與規則的
+觸發行為。
+可能的值有 `origin`（預設值）、
+`replica` 與 `local`。
+設定此參數會導致捨棄任何先前快取的
+查詢計畫。
+只有超級使用者以及具備相應 `SET`
+權限的使用者可以變更此設定。
 
-    PostgreSQL 在內部將 `origin` 與
-    `local` 這兩個設定視為相同。第三方複寫
-    系統可能會將這兩個值用於其內部用途，
-    例如使用 `local` 表示其變更
-    不應被複寫的工作階段。
+此設定的用途，是讓邏輯複寫系統在套用
+已複寫的變更時，將其設為 `replica`。
+這麼做的效果，是使（未從預設組態設定變更的）
+觸發程序與規則不會在複寫端觸發。詳情請參閱
+[`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 中的
+`ENABLE TRIGGER` 與 `ENABLE RULE`
+子句。
 
-    由於外部索引鍵是以觸發程序實作的，將此參數
-    設為 `replica` 也會停用所有外部索引鍵
-    檢查，若使用不當，可能導致資料處於不一致的
-    狀態。
+PostgreSQL 在內部將 `origin` 與
+`local` 這兩個設定視為相同。第三方複寫
+系統可能會將這兩個值用於其內部用途，
+例如使用 `local` 表示其變更
+不應被複寫的工作階段。
+
+由於外部索引鍵是以觸發程序實作的，將此參數
+設為 `replica` 也會停用所有外部索引鍵
+檢查，若使用不當，可能導致資料處於不一致的
+狀態。
 <a id="GUC-STATEMENT-TIMEOUT"></a>
 
 `statement_timeout` (`integer`) <a id="id-1.6.6.14.2.2.16.1.3"></a> [#](#GUC-STATEMENT-TIMEOUT)
-:   中止耗時超過指定時間量的任何陳述式。
-    若 `log_min_error_statement` 設為
-    `ERROR` 或更低，逾時的陳述式
-    也會被記錄下來。
-    若此值指定時未帶單位，則以毫秒為單位。
-    值為零（預設值）代表停用此逾時。
 
-    此逾時是從命令抵達伺服器的時間點開始計算，
-    直到伺服器完成該命令為止。若單一簡單查詢訊息中
-    含有多個 SQL 陳述式，逾時會分別套用於
-    每個陳述式。
-    （13 之前的 PostgreSQL 版本通常將
-    此逾時視為套用於整個查詢字串。）
-    在擴充查詢通訊協定中，逾時會在任何與查詢相關的
-    訊息（Parse、Bind、Execute、Describe）抵達時開始計時，
-    並在 Execute 或 Sync 訊息完成時被取消。
+中止耗時超過指定時間量的任何陳述式。
+若 `log_min_error_statement` 設為
+`ERROR` 或更低，逾時的陳述式
+也會被記錄下來。
+若此值指定時未帶單位，則以毫秒為單位。
+值為零（預設值）代表停用此逾時。
 
-    不建議在
-    `postgresql.conf` 中設定 `statement_timeout`，
-    因為這會影響所有工作階段。
+此逾時是從命令抵達伺服器的時間點開始計算，
+直到伺服器完成該命令為止。若單一簡單查詢訊息中
+含有多個 SQL 陳述式，逾時會分別套用於
+每個陳述式。
+（13 之前的 PostgreSQL 版本通常將
+此逾時視為套用於整個查詢字串。）
+在擴充查詢通訊協定中，逾時會在任何與查詢相關的
+訊息（Parse、Bind、Execute、Describe）抵達時開始計時，
+並在 Execute 或 Sync 訊息完成時被取消。
+
+不建議在
+`postgresql.conf` 中設定 `statement_timeout`，
+因為這會影響所有工作階段。
 <a id="GUC-TRANSACTION-TIMEOUT"></a>
 
 `transaction_timeout` (`integer`) <a id="id-1.6.6.14.2.2.17.1.3"></a> [#](#GUC-TRANSACTION-TIMEOUT)
@@ -337,61 +345,64 @@
 <a id="GUC-LOCK-TIMEOUT"></a>
 
 `lock_timeout` (`integer`) <a id="id-1.6.6.14.2.2.18.1.3"></a> [#](#GUC-LOCK-TIMEOUT)
-:   中止在嘗試取得資料表、索引、
-    資料列或其他資料庫物件的鎖定時，等待時間超過
-    指定時間量的任何陳述式。此時間上限是分別套用於
-    每一次取得鎖定的嘗試。此上限同時適用於明確的
-    鎖定請求（例如 `LOCK TABLE`，或未使用
-    `NOWAIT` 的 `SELECT
-    FOR UPDATE`），以及隱含取得的
-    鎖定。
-    若此值指定時未帶單位，則以毫秒為單位。
-    值為零（預設值）代表停用此逾時。
 
-    與 `statement_timeout` 不同，此逾時
-    只可能在等待鎖定時發生。請注意，若
-    `statement_timeout` 為非零值，將
-    `lock_timeout` 設為與其相同或更大的值
-    相當沒有意義，因為陳述式逾時永遠會先觸發。若
-    `log_min_error_statement` 設為
-    `ERROR` 或更低，逾時的陳述式將會
-    被記錄下來。
+中止在嘗試取得資料表、索引、
+資料列或其他資料庫物件的鎖定時，等待時間超過
+指定時間量的任何陳述式。此時間上限是分別套用於
+每一次取得鎖定的嘗試。此上限同時適用於明確的
+鎖定請求（例如 `LOCK TABLE`，或未使用
+`NOWAIT` 的 `SELECT
+FOR UPDATE`），以及隱含取得的
+鎖定。
+若此值指定時未帶單位，則以毫秒為單位。
+值為零（預設值）代表停用此逾時。
 
-    不建議在
-    `postgresql.conf` 中設定 `lock_timeout`，
-    因為這會影響所有工作階段。
+與 `statement_timeout` 不同，此逾時
+只可能在等待鎖定時發生。請注意，若
+`statement_timeout` 為非零值，將
+`lock_timeout` 設為與其相同或更大的值
+相當沒有意義，因為陳述式逾時永遠會先觸發。若
+`log_min_error_statement` 設為
+`ERROR` 或更低，逾時的陳述式將會
+被記錄下來。
+
+不建議在
+`postgresql.conf` 中設定 `lock_timeout`，
+因為這會影響所有工作階段。
 <a id="GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT"></a>
 
 `idle_in_transaction_session_timeout` (`integer`) <a id="id-1.6.6.14.2.2.19.1.3"></a> [#](#GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT)
-:   終止在開啟的交易中閒置（也就是等待用戶端查詢）
-    超過指定時間量的任何工作階段。
-    若此值指定時未帶單位，則以毫秒為單位。
-    值為零（預設值）代表停用此逾時。
 
-    此選項可用於確保閒置的工作階段不會
-    持有鎖定過長的時間。即使沒有持有重要的
-    鎖定，開啟中的交易仍會阻止清除可能僅對此
-    交易可見的近期死亡 tuple；因此長時間保持
-    閒置，可能導致資料表膨脹。
-    詳情請參閱[24.1 節](../maintenance/routine-vacuuming.md)。
+終止在開啟的交易中閒置（也就是等待用戶端查詢）
+超過指定時間量的任何工作階段。
+若此值指定時未帶單位，則以毫秒為單位。
+值為零（預設值）代表停用此逾時。
+
+此選項可用於確保閒置的工作階段不會
+持有鎖定過長的時間。即使沒有持有重要的
+鎖定，開啟中的交易仍會阻止清除可能僅對此
+交易可見的近期死亡 tuple；因此長時間保持
+閒置，可能導致資料表膨脹。
+詳情請參閱[24.1 節](../maintenance/routine-vacuuming.md)。
 <a id="GUC-IDLE-SESSION-TIMEOUT"></a>
 
 `idle_session_timeout` (`integer`) <a id="id-1.6.6.14.2.2.20.1.3"></a> [#](#GUC-IDLE-SESSION-TIMEOUT)
-:   終止閒置（也就是等待用戶端查詢，但不在
-    開啟的交易中）超過指定時間量的任何工作階段。
-    若此值指定時未帶單位，則以毫秒為單位。
-    值為零（預設值）代表停用此逾時。
 
-    與開啟中交易的情況不同，沒有交易的閒置
-    工作階段不會對伺服器造成太大成本，因此
-    比起 `idle_in_transaction_session_timeout`，
-    啟用此逾時的需求較小。
+終止閒置（也就是等待用戶端查詢，但不在
+開啟的交易中）超過指定時間量的任何工作階段。
+若此值指定時未帶單位，則以毫秒為單位。
+值為零（預設值）代表停用此逾時。
 
-    對透過連線池軟體或其他中介軟體建立的連線
-    強制執行此逾時時請務必小心，因為這類
-    層級可能無法妥善應對非預期的連線關閉。
-    僅對互動式工作階段啟用此逾時可能會有幫助，
-    例如只針對特定使用者套用。
+與開啟中交易的情況不同，沒有交易的閒置
+工作階段不會對伺服器造成太大成本，因此
+比起 `idle_in_transaction_session_timeout`，
+啟用此逾時的需求較小。
+
+對透過連線池軟體或其他中介軟體建立的連線
+強制執行此逾時時請務必小心，因為這類
+層級可能無法妥善應對非預期的連線關閉。
+僅對互動式工作階段啟用此逾時可能會有幫助，
+例如只針對特定使用者套用。
 <a id="GUC-BYTEA-OUTPUT"></a>
 
 `bytea_output` (`enum`) <a id="id-1.6.6.14.2.2.21.1.3"></a> [#](#GUC-BYTEA-OUTPUT)
@@ -404,20 +415,21 @@
 <a id="GUC-XMLBINARY"></a>
 
 `xmlbinary` (`enum`) <a id="id-1.6.6.14.2.2.22.1.3"></a> [#](#GUC-XMLBINARY)
-:   設定二進位值在 XML 中應如何編碼。此設定
-    適用於，例如透過 `xmlelement` 或
-    `xmlforest` 函式將 `bytea` 值
-    轉換為 XML 的情況。可能的值有
-    `base64` 與 `hex`，這兩者
-    都定義於 XML Schema 標準中。預設值為
-    `base64`。有關 XML 相關函式的
-    更多資訊，請參閱[9.15 節](../../the-sql-language/functions/functions-xml.md)。
 
-    此處實際的選擇主要取決於個人偏好，
-    唯一的限制是用戶端應用程式可能存在的
-    限制。兩種方法都支援所有可能的值，
-    不過 hex 編碼會比
-    base64 編碼稍大一些。
+設定二進位值在 XML 中應如何編碼。此設定
+適用於，例如透過 `xmlelement` 或
+`xmlforest` 函式將 `bytea` 值
+轉換為 XML 的情況。可能的值有
+`base64` 與 `hex`，這兩者
+都定義於 XML Schema 標準中。預設值為
+`base64`。有關 XML 相關函式的
+更多資訊，請參閱[9.15 節](../../the-sql-language/functions/functions-xml.md)。
+
+此處實際的選擇主要取決於個人偏好，
+唯一的限制是用戶端應用程式可能存在的
+限制。兩種方法都支援所有可能的值，
+不過 hex 編碼會比
+base64 編碼稍大一些。
 <a id="GUC-XMLOPTION"></a>
 
 `xmloption` (`enum`) <a id="id-1.6.6.14.2.2.23.1.3"></a> <a id="id-1.6.6.14.2.2.23.1.4"></a> <a id="id-1.6.6.14.2.2.23.1.5"></a> [#](#GUC-XMLOPTION)
@@ -452,29 +464,30 @@
 <a id="GUC-CREATEROLE-SELF-GRANT"></a>
 
 `createrole_self_grant` (`string`) <a id="id-1.6.6.14.2.2.25.1.3"></a> [#](#GUC-CREATEROLE-SELF-GRANT)
-:   若一個具備 `CREATEROLE` 但不具備
-    `SUPERUSER` 的使用者建立了一個角色，
-    且此參數設為非空值，新建立的角色
-    將以指定的選項授予給建立該角色的使用者。
-    此值必須是
-    `set`、`inherit`，或這兩者以逗號
-    分隔的清單。預設值為空字串，
-    代表停用此功能。
 
-    此選項的目的，是讓不具超級使用者身分的
-    `CREATEROLE` 使用者，能夠自動繼承，
-    或自動取得對任何已建立使用者執行
-    `SET ROLE` 的能力。由於
-    `CREATEROLE` 使用者永遠會隱含被授予
-    對已建立角色的 `ADMIN OPTION`，
-    該使用者原本就一直可以執行
-    `GRANT` 陳述式來達成與此設定相同的效果。
-    不過，若能自動授予，對易用性而言可能較為方便。
-    超級使用者會自動繼承每個角色的權限，
-    也永遠可以對任何角色執行
-    `SET ROLE`，此設定可以用來
-    為 `CREATEROLE` 使用者針對其建立的
-    使用者，產生類似的行為。
+若一個具備 `CREATEROLE` 但不具備
+`SUPERUSER` 的使用者建立了一個角色，
+且此參數設為非空值，新建立的角色
+將以指定的選項授予給建立該角色的使用者。
+此值必須是
+`set`、`inherit`，或這兩者以逗號
+分隔的清單。預設值為空字串，
+代表停用此功能。
+
+此選項的目的，是讓不具超級使用者身分的
+`CREATEROLE` 使用者，能夠自動繼承，
+或自動取得對任何已建立使用者執行
+`SET ROLE` 的能力。由於
+`CREATEROLE` 使用者永遠會隱含被授予
+對已建立角色的 `ADMIN OPTION`，
+該使用者原本就一直可以執行
+`GRANT` 陳述式來達成與此設定相同的效果。
+不過，若能自動授予，對易用性而言可能較為方便。
+超級使用者會自動繼承每個角色的權限，
+也永遠可以對任何角色執行
+`SET ROLE`，此設定可以用來
+為 `CREATEROLE` 使用者針對其建立的
+使用者，產生類似的行為。
 <a id="GUC-EVENT-TRIGGERS"></a>
 
 `event_triggers` (`boolean`) <a id="id-1.6.6.14.2.2.26.1.3"></a> [#](#GUC-EVENT-TRIGGERS)
@@ -518,24 +531,25 @@
 <a id="GUC-INTERVALSTYLE"></a>
 
 `IntervalStyle` (`enum`) <a id="id-1.6.6.14.3.2.2.1.3"></a> [#](#GUC-INTERVALSTYLE)
-:   設定間隔（interval）值的顯示格式。
-    值 `sql_standard` 會產生符合
-    SQL 標準間隔常值的輸出。
-    值 `postgres`（此為預設值）會產生
-    與 8.4 之前的 PostgreSQL 版本
-    在 [DateStyle](runtime-config-client.md#GUC-DATESTYLE)
-    參數設為 `ISO` 時相符的輸出。
-    值 `postgres_verbose` 會產生
-    與 8.4 之前的 PostgreSQL 版本
-    在 `DateStyle`
-    參數設為非 `ISO` 輸出時相符的輸出。
-    值 `iso_8601` 會產生符合 ISO 8601 第
-    4.4.3.2 節所定義「帶有指定符的格式（format
-    with designators）」的時間間隔輸出。
 
-    `IntervalStyle` 參數也會影響
-    對模糊間隔輸入的解讀。詳情請參閱
-    [8.5.4 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-INTERVAL-INPUT)。
+設定間隔（interval）值的顯示格式。
+值 `sql_standard` 會產生符合
+SQL 標準間隔常值的輸出。
+值 `postgres`（此為預設值）會產生
+與 8.4 之前的 PostgreSQL 版本
+在 [DateStyle](runtime-config-client.md#GUC-DATESTYLE)
+參數設為 `ISO` 時相符的輸出。
+值 `postgres_verbose` 會產生
+與 8.4 之前的 PostgreSQL 版本
+在 `DateStyle`
+參數設為非 `ISO` 輸出時相符的輸出。
+值 `iso_8601` 會產生符合 ISO 8601 第
+4.4.3.2 節所定義「帶有指定符的格式（format
+with designators）」的時間間隔輸出。
+
+`IntervalStyle` 參數也會影響
+對模糊間隔輸入的解讀。詳情請參閱
+[8.5.4 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-INTERVAL-INPUT)。
 <a id="GUC-TIMEZONE"></a>
 
 `TimeZone` (`string`) <a id="id-1.6.6.14.3.2.3.1.3"></a> <a id="id-1.6.6.14.3.2.3.1.4"></a> [#](#GUC-TIMEZONE)
@@ -596,20 +610,21 @@
 <a id="GUC-LC-MESSAGES"></a>
 
 `lc_messages` (`string`) <a id="id-1.6.6.14.3.2.7.1.3"></a> [#](#GUC-LC-MESSAGES)
-:   設定訊息顯示所使用的語言。可接受的
-    值因系統而異；詳情請參閱[23.1 節](../charset/locale.md)。
-    若此變數設為空字串（此為預設值），
-    則此值會以因系統而異的方式，
-    繼承自伺服器的執行環境。
 
-    在某些系統上，此地區設定類別並不存在。
-    設定此變數仍然可以運作，但不會有任何效果。
-    此外，也有可能不存在所需語言的翻譯訊息。
-    在這種情況下，你會繼續看到
-    英文訊息。
+設定訊息顯示所使用的語言。可接受的
+值因系統而異；詳情請參閱[23.1 節](../charset/locale.md)。
+若此變數設為空字串（此為預設值），
+則此值會以因系統而異的方式，
+繼承自伺服器的執行環境。
 
-    只有超級使用者以及具備相應 `SET`
-    權限的使用者可以變更此設定。
+在某些系統上，此地區設定類別並不存在。
+設定此變數仍然可以運作，但不會有任何效果。
+此外，也有可能不存在所需語言的翻譯訊息。
+在這種情況下，你會繼續看到
+英文訊息。
+
+只有超級使用者以及具備相應 `SET`
+權限的使用者可以變更此設定。
 <a id="GUC-LC-MONETARY"></a>
 
 `lc_monetary` (`string`) <a id="id-1.6.6.14.3.2.8.1.3"></a> [#](#GUC-LC-MONETARY)
@@ -734,35 +749,36 @@ PostgreSQL 程序語言程式庫
 <a id="GUC-SESSION-PRELOAD-LIBRARIES"></a>
 
 `session_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.2.1.3"></a> [#](#GUC-SESSION-PRELOAD-LIBRARIES)
-:   此變數指定一個或多個要在連線開始時
-    預先載入的共享程式庫。
-    此值包含以逗號分隔的程式庫名稱清單，每個名稱
-    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
-    項目之間的空白字元會被忽略；如果程式庫名稱中
-    需要包含空白字元或逗號，請以雙引號括住該名稱。
-    此參數的值只會在連線開始時生效。
-    後續的變更沒有效果。若找不到指定的
-    程式庫，連線嘗試就會失敗。
-    只有超級使用者以及具備相應 `SET`
-    權限的使用者可以變更此設定。
 
-    此功能的目的，是讓除錯或效能量測程式庫，
-    能夠在不需要明確給予
-    `LOAD` 命令的情況下，被載入特定的工作階段。
-    舉例來說，可以透過
-    `ALTER ROLE SET` 設定此參數，
-    對特定使用者名稱下的所有工作階段啟用
-    [auto_explain](../../appendixes/contrib/auto-explain.md)。此外，此參數
-    可以在不重新啟動伺服器的情況下變更
-    （但變更只會在新工作階段開始時生效），
-    因此即使某個模組應套用於所有工作階段，
-    以這種方式新增模組也比較容易。
+此變數指定一個或多個要在連線開始時
+預先載入的共享程式庫。
+此值包含以逗號分隔的程式庫名稱清單，每個名稱
+的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
+項目之間的空白字元會被忽略；如果程式庫名稱中
+需要包含空白字元或逗號，請以雙引號括住該名稱。
+此參數的值只會在連線開始時生效。
+後續的變更沒有效果。若找不到指定的
+程式庫，連線嘗試就會失敗。
+只有超級使用者以及具備相應 `SET`
+權限的使用者可以變更此設定。
 
-    與 [shared_preload_libraries](runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) 不同，
-    在工作階段開始時載入程式庫，
-    相較於第一次使用時才載入，並沒有太大的
-    效能優勢。不過，在使用連線池時，
-    確實有一些優勢。
+此功能的目的，是讓除錯或效能量測程式庫，
+能夠在不需要明確給予
+`LOAD` 命令的情況下，被載入特定的工作階段。
+舉例來說，可以透過
+`ALTER ROLE SET` 設定此參數，
+對特定使用者名稱下的所有工作階段啟用
+[auto_explain](../../appendixes/contrib/auto-explain.md)。此外，此參數
+可以在不重新啟動伺服器的情況下變更
+（但變更只會在新工作階段開始時生效），
+因此即使某個模組應套用於所有工作階段，
+以這種方式新增模組也比較容易。
+
+與 [shared_preload_libraries](runtime-config-client.md#GUC-SHARED-PRELOAD-LIBRARIES) 不同，
+在工作階段開始時載入程式庫，
+相較於第一次使用時才載入，並沒有太大的
+效能優勢。不過，在使用連線池時，
+確實有一些優勢。
 <a id="GUC-SHARED-PRELOAD-LIBRARIES"></a>
 
 `shared_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.3.1.3"></a> [#](#GUC-SHARED-PRELOAD-LIBRARIES)
@@ -803,15 +819,16 @@ PostgreSQL 程序語言程式庫
 <a id="GUC-JIT-PROVIDER"></a>
 
 `jit_provider` (`string`) <a id="id-1.6.6.14.4.6.4.1.3"></a> [#](#GUC-JIT-PROVIDER)
-:   此變數是要使用的 JIT 提供者程式庫名稱
-    （參閱[30.4.2 節](../jit/jit-extensibility.md#jit-pluggable)）。
-    預設值為 `llvmjit`。
-    此參數只能在伺服器啟動時設定。
 
-    若設為不存在的程式庫，JIT 將無法
-    使用，但不會引發錯誤。這使得 JIT 支援
-    可以獨立於主要的
-    PostgreSQL 套件安裝。
+此變數是要使用的 JIT 提供者程式庫名稱
+（參閱[30.4.2 節](../jit/jit-extensibility.md#jit-pluggable)）。
+預設值為 `llvmjit`。
+此參數只能在伺服器啟動時設定。
+
+若設為不存在的程式庫，JIT 將無法
+使用，但不會引發錯誤。這使得 JIT 支援
+可以獨立於主要的
+PostgreSQL 套件安裝。
 
 <a id="RUNTIME-CONFIG-CLIENT-OTHER"></a>
 

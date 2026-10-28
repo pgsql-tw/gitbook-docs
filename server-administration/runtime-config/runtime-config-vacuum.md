@@ -27,16 +27,17 @@
 <a id="GUC-AUTOVACUUM"></a>
 
 `autovacuum` (`boolean`) <a id="id-1.6.6.13.4.3.1.1.3"></a> [#](#GUC-AUTOVACUUM)
-:   控制伺服器是否應該執行
-    autovacuum launcher 守護程序。此設定預設為開啟；不過
-    [track_counts](runtime-config-statistics.md#GUC-TRACK-COUNTS) 也必須啟用，
-    autovacuum 才能正常運作。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定；不過可以透過變更資料表儲存參數，
-    針對個別資料表停用 autovacuum。
 
-    請注意，即使此參數已停用，系統在必要時仍會啟動
-    autovacuum 程序，以防止交易 ID 回捲。詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+控制伺服器是否應該執行
+autovacuum launcher 守護程序。此設定預設為開啟；不過
+[track_counts](runtime-config-statistics.md#GUC-TRACK-COUNTS) 也必須啟用，
+autovacuum 才能正常運作。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定；不過可以透過變更資料表儲存參數，
+針對個別資料表停用 autovacuum。
+
+請注意，即使此參數已停用，系統在必要時仍會啟動
+autovacuum 程序，以防止交易 ID 回捲。詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 <a id="GUC-AUTOVACUUM-WORKER-SLOTS"></a>
 
 `autovacuum_worker_slots` (`integer`) <a id="id-1.6.6.13.4.3.2.1.3"></a> [#](#GUC-AUTOVACUUM-WORKER-SLOTS)
@@ -50,15 +51,16 @@
 <a id="GUC-AUTOVACUUM-MAX-WORKERS"></a>
 
 `autovacuum_max_workers` (`integer`) <a id="id-1.6.6.13.4.3.3.1.3"></a> [#](#GUC-AUTOVACUUM-MAX-WORKERS)
-:   指定同一時間可以執行的 autovacuum 程序（不含
-    autovacuum launcher）最大數量。預設值
-    為 `3`。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令列上設定。
 
-    請注意，若此值設定得比
-    [autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS) 更高，將不會有任何效果，
-    因為 autovacuum 工作程序是從該設定所建立的插槽集區
-    中取得的。
+指定同一時間可以執行的 autovacuum 程序（不含
+autovacuum launcher）最大數量。預設值
+為 `3`。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令列上設定。
+
+請注意，若此值設定得比
+[autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS) 更高，將不會有任何效果，
+因為 autovacuum 工作程序是從該設定所建立的插槽集區
+中取得的。
 <a id="GUC-AUTOVACUUM-NAPTIME"></a>
 
 `autovacuum_naptime` (`integer`) <a id="id-1.6.6.13.4.3.4.1.3"></a> [#](#GUC-AUTOVACUUM-NAPTIME)
@@ -151,36 +153,38 @@
 <a id="GUC-AUTOVACUUM-FREEZE-MAX-AGE"></a>
 
 `autovacuum_freeze_max_age` (`integer`) <a id="id-1.6.6.13.4.3.12.1.3"></a> [#](#GUC-AUTOVACUUM-FREEZE-MAX-AGE)
-:   指定資料表的
-    `pg_class`.`relfrozenxid` 欄位在被強制執行
-    `VACUUM` 操作以防止該資料表內交易 ID 回捲之前，
-    所能達到的最大年齡（以交易數計）。
-    請注意，即使 autovacuum 在其他方面已停用，
-    系統仍會啟動 autovacuum 程序以防止回捲。
 
-    Vacuum 也可以移除
-    `pg_xact` 子目錄中的舊檔案，這也是為何預設值
-    相對較低，為兩億筆交易。
-    此參數只能在伺服器啟動時設定，但可以
-    透過變更資料表儲存參數，針對個別資料表調降此設定。
-    詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+指定資料表的
+`pg_class`.`relfrozenxid` 欄位在被強制執行
+`VACUUM` 操作以防止該資料表內交易 ID 回捲之前，
+所能達到的最大年齡（以交易數計）。
+請注意，即使 autovacuum 在其他方面已停用，
+系統仍會啟動 autovacuum 程序以防止回捲。
+
+Vacuum 也可以移除
+`pg_xact` 子目錄中的舊檔案，這也是為何預設值
+相對較低，為兩億筆交易。
+此參數只能在伺服器啟動時設定，但可以
+透過變更資料表儲存參數，針對個別資料表調降此設定。
+詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 <a id="GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE"></a>
 
 `autovacuum_multixact_freeze_max_age` (`integer`) <a id="id-1.6.6.13.4.3.13.1.3"></a> [#](#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE)
-:   指定資料表的
-    `pg_class`.`relminmxid` 欄位在被強制執行
-    `VACUUM` 操作以防止該資料表內 multixact ID 回捲之前，
-    所能達到的最大年齡（以 multixact 數計）。
-    請注意，即使 autovacuum 在其他方面已停用，
-    系統仍會啟動 autovacuum 程序以防止回捲。
 
-    對 multixact 執行 vacuum 也可以移除
-    `pg_multixact/members` 與 `pg_multixact/offsets`
-    子目錄中的舊檔案，這也是為何預設值相對較低，
-    為四億筆 multixact。
-    此參數只能在伺服器啟動時設定，但可以
-    透過變更資料表儲存參數，針對個別資料表調降此設定。
-    詳情請參閱[24.1.5.1 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)。
+指定資料表的
+`pg_class`.`relminmxid` 欄位在被強制執行
+`VACUUM` 操作以防止該資料表內 multixact ID 回捲之前，
+所能達到的最大年齡（以 multixact 數計）。
+請注意，即使 autovacuum 在其他方面已停用，
+系統仍會啟動 autovacuum 程序以防止回捲。
+
+對 multixact 執行 vacuum 也可以移除
+`pg_multixact/members` 與 `pg_multixact/offsets`
+子目錄中的舊檔案，這也是為何預設值相對較低，
+為四億筆 multixact。
+此參數只能在伺服器啟動時設定，但可以
+透過變更資料表儲存參數，針對個別資料表調降此設定。
+詳情請參閱[24.1.5.1 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-MULTIXACT-WRAPAROUND)。
 <a id="GUC-AUTOVACUUM-VACUUM-COST-DELAY"></a>
 
 `autovacuum_vacuum_cost_delay` (`floating point`) <a id="id-1.6.6.13.4.3.14.1.3"></a> [#](#GUC-AUTOVACUUM-VACUUM-COST-DELAY)
@@ -238,20 +242,21 @@
 <a id="GUC-VACUUM-COST-DELAY"></a>
 
 `vacuum_cost_delay` (`floating point`) <a id="id-1.6.6.13.5.5.1.1.3"></a> [#](#GUC-VACUUM-COST-DELAY)
-:   當成本上限被超過時，程序將休眠的時間量。若此值
-    指定時未帶單位，則以毫秒為單位。預設值為
-    `0`，這會停用以成本為基礎的 vacuum 延遲
-    功能。正值則會啟用以成本為基礎的 vacuum 功能。
 
-    使用以成本為基礎的 vacuum 時，
-    `vacuum_cost_delay` 通常應設定為相當小的值，
-    或許小於 1 毫秒。雖然 `vacuum_cost_delay`
-    可以設為小數毫秒的值，但這類延遲在較舊的平台上
-    可能無法精確測量。在這類平台上，若要在 1 毫秒所能達到的
-    程度之上，進一步提高 `VACUUM` 受節流限制的資源消耗量，
-    就需要變更其他 vacuum 成本參數。無論如何，
-    你都應該將 `vacuum_cost_delay` 設定為
-    你的平台能夠穩定測量的最小值；過大的延遲並沒有幫助。
+當成本上限被超過時，程序將休眠的時間量。若此值
+指定時未帶單位，則以毫秒為單位。預設值為
+`0`，這會停用以成本為基礎的 vacuum 延遲
+功能。正值則會啟用以成本為基礎的 vacuum 功能。
+
+使用以成本為基礎的 vacuum 時，
+`vacuum_cost_delay` 通常應設定為相當小的值，
+或許小於 1 毫秒。雖然 `vacuum_cost_delay`
+可以設為小數毫秒的值，但這類延遲在較舊的平台上
+可能無法精確測量。在這類平台上，若要在 1 毫秒所能達到的
+程度之上，進一步提高 `VACUUM` 受節流限制的資源消耗量，
+就需要變更其他 vacuum 成本參數。無論如何，
+你都應該將 `vacuum_cost_delay` 設定為
+你的平台能夠穩定測量的最小值；過大的延遲並沒有幫助。
 <a id="GUC-VACUUM-COST-PAGE-HIT"></a>
 
 `vacuum_cost_page_hit` (`integer`) <a id="id-1.6.6.13.5.5.2.1.3"></a> [#](#GUC-VACUUM-COST-PAGE-HIT)

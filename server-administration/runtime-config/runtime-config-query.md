@@ -413,16 +413,17 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 <a id="GUC-GEQO-EFFORT"></a>
 
 `geqo_effort` (`integer`) <a id="id-1.6.6.10.4.3.3.1.3"></a> [#](#GUC-GEQO-EFFORT)
-:   控制 GEQO 中規劃時間與查詢計畫
-    品質之間的取捨。此變數必須是介於 1 到 10 之間的
-    整數。預設值為五。較大的值會
-    增加花費在查詢規劃上的時間，但也會
-    增加選出有效率查詢計畫的機率。
 
-    `geqo_effort` 本身並不會直接進行任何操作；
-    它僅用於計算影響 GEQO 行為的其他變數
-    （如下所述）的預設值。如果你偏好，
-    也可以自行手動設定其他參數。
+控制 GEQO 中規劃時間與查詢計畫
+品質之間的取捨。此變數必須是介於 1 到 10 之間的
+整數。預設值為五。較大的值會
+增加花費在查詢規劃上的時間，但也會
+增加選出有效率查詢計畫的機率。
+
+`geqo_effort` 本身並不會直接進行任何操作；
+它僅用於計算影響 GEQO 行為的其他變數
+（如下所述）的預設值。如果你偏好，
+也可以自行手動設定其他參數。
 <a id="GUC-GEQO-POOL-SIZE"></a>
 
 `geqo_pool_size` (`integer`) <a id="id-1.6.6.10.4.3.4.1.3"></a> [#](#GUC-GEQO-POOL-SIZE)
@@ -528,15 +529,16 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 <a id="GUC-FROM-COLLAPSE-LIMIT"></a>
 
 `from_collapse_limit` (`integer`) <a id="id-1.6.6.10.5.2.4.1.3"></a> [#](#GUC-FROM-COLLAPSE-LIMIT)
-:   如果合併後的 `FROM` 清單項目數量不超過
-    此值，規劃器就會將子查詢合併到上層查詢中。
-    較小的值可以縮短規劃時間，但可能產生較差的
-    查詢計畫。預設值為八。
-    詳情請參閱[14.3 節](../../the-sql-language/performance-tips/explicit-joins.md)。
 
-    將此值設為 [geqo_threshold](runtime-config-query.md#GUC-GEQO-THRESHOLD) 或更大，
-    可能觸發使用 GEQO 規劃器，導致產生非最佳的
-    計畫。參閱[19.7.3 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)。
+如果合併後的 `FROM` 清單項目數量不超過
+此值，規劃器就會將子查詢合併到上層查詢中。
+較小的值可以縮短規劃時間，但可能產生較差的
+查詢計畫。預設值為八。
+詳情請參閱[14.3 節](../../the-sql-language/performance-tips/explicit-joins.md)。
+
+將此值設為 [geqo_threshold](runtime-config-query.md#GUC-GEQO-THRESHOLD) 或更大，
+可能觸發使用 GEQO 規劃器，導致產生非最佳的
+計畫。參閱[19.7.3 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)。
 <a id="GUC-JIT"></a>
 
 `jit` (`boolean`) <a id="id-1.6.6.10.5.2.5.1.3"></a> [#](#GUC-JIT)
@@ -546,24 +548,25 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 <a id="GUC-JOIN-COLLAPSE-LIMIT"></a>
 
 `join_collapse_limit` (`integer`) <a id="id-1.6.6.10.5.2.6.1.3"></a> [#](#GUC-JOIN-COLLAPSE-LIMIT)
-:   只要重寫結果不超過此值個項目，規劃器就會將
-    明確的 `JOIN` 結構（`FULL JOIN` 除外）
-    重寫為 `FROM` 項目清單。較小的值可以
-    縮短規劃時間，但可能產生較差的查詢計畫。
 
-    根據預設，此變數的設定值與
-    `from_collapse_limit` 相同，這對大多數
-    用途而言是合適的。設為 1 可防止對明確的
-    `JOIN` 進行任何重新排序。因此，查詢中
-    指定的明確聯結順序，就會是關聯實際被
-    聯結的順序。由於查詢規劃器不一定總是選擇
-    最佳的聯結順序，進階使用者可以選擇暫時
-    將此變數設為 1，然後自行明確指定所需的聯結
-    順序。詳情請參閱[14.3 節](../../the-sql-language/performance-tips/explicit-joins.md)。
+只要重寫結果不超過此值個項目，規劃器就會將
+明確的 `JOIN` 結構（`FULL JOIN` 除外）
+重寫為 `FROM` 項目清單。較小的值可以
+縮短規劃時間，但可能產生較差的查詢計畫。
 
-    將此值設為 [geqo_threshold](runtime-config-query.md#GUC-GEQO-THRESHOLD) 或更大，
-    可能觸發使用 GEQO 規劃器，導致產生非最佳的
-    計畫。參閱[19.7.3 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)。
+根據預設，此變數的設定值與
+`from_collapse_limit` 相同，這對大多數
+用途而言是合適的。設為 1 可防止對明確的
+`JOIN` 進行任何重新排序。因此，查詢中
+指定的明確聯結順序，就會是關聯實際被
+聯結的順序。由於查詢規劃器不一定總是選擇
+最佳的聯結順序，進階使用者可以選擇暫時
+將此變數設為 1，然後自行明確指定所需的聯結
+順序。詳情請參閱[14.3 節](../../the-sql-language/performance-tips/explicit-joins.md)。
+
+將此值設為 [geqo_threshold](runtime-config-query.md#GUC-GEQO-THRESHOLD) 或更大，
+可能觸發使用 GEQO 規劃器，導致產生非最佳的
+計畫。參閱[19.7.3 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)。
 <a id="GUC-PLAN-CACHE-MODE"></a>
 
 `plan_cache_mode` (`enum`) <a id="id-1.6.6.10.5.2.7.1.3"></a> [#](#GUC-PLAN-CACHE-MODE)

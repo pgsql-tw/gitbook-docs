@@ -42,9 +42,10 @@ HeapTuple SPI_modifytuple(Relation rel, HeapTuple row, int ncols,
 :   長度為 *`ncols`* 的陣列，內含指定欄位的新值
 
 `const char * nulls`
-:   長度為 *`ncols`* 的陣列，描述哪些新值為 NULL
 
-    如果 *`nulls`* 是 `NULL`，則 `SPI_modifytuple` 會假設沒有任何新值是 NULL。否則，*`nulls`* 陣列的每個項目在對應的新值不為 NULL 時應該是 `' '`，在對應的新值為 NULL 時則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中的實際值並不重要。）請注意，*`nulls`* 並不是文字字串，而只是一個陣列：它不需要 `'\0'` 結束符號。
+長度為 *`ncols`* 的陣列，描述哪些新值為 NULL
+
+如果 *`nulls`* 是 `NULL`，則 `SPI_modifytuple` 會假設沒有任何新值是 NULL。否則，*`nulls`* 陣列的每個項目在對應的新值不為 NULL 時應該是 `' '`，在對應的新值為 NULL 時則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中的實際值並不重要。）請注意，*`nulls`* 並不是文字字串，而只是一個陣列：它不需要 `'\0'` 結束符號。
 
 <a id="id-1.8.12.10.11.7"></a>
 

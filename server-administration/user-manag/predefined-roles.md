@@ -89,44 +89,46 @@ GRANT pg_signal_backend TO admin_user;
 <a id="PREDEFINED-ROLE-PG-READ-ALL-DATA"></a>
 
 `pg_read_all_data`<br>`pg_write_all_data` [#](#PREDEFINED-ROLE-PG-READ-ALL-DATA)
-:   `pg_read_all_data` 允許讀取所有資料
-    （資料表、檢視表、序列），如同對這些物件具有
-    `SELECT` 權限、並對所有 schema 具有
-    `USAGE` 權限一般。此角色不會略過
-    資料列層級安全性（RLS）政策。若有使用 RLS，
-    管理者或許會想針對被授予此角色的角色，
-    另外設定 `BYPASSRLS`。
 
-    `pg_write_all_data` 允許寫入所有資料
-    （資料表、檢視表、序列），如同對這些物件具有
-    `INSERT`、`UPDATE` 與
-    `DELETE` 權限、並對所有 schema 具有
-    `USAGE` 權限一般。此角色不會略過
-    資料列層級安全性（RLS）政策。若有使用 RLS，
-    管理者或許會想針對被授予此角色的角色，
-    另外設定 `BYPASSRLS`。
+`pg_read_all_data` 允許讀取所有資料
+（資料表、檢視表、序列），如同對這些物件具有
+`SELECT` 權限、並對所有 schema 具有
+`USAGE` 權限一般。此角色不會略過
+資料列層級安全性（RLS）政策。若有使用 RLS，
+管理者或許會想針對被授予此角色的角色，
+另外設定 `BYPASSRLS`。
+
+`pg_write_all_data` 允許寫入所有資料
+（資料表、檢視表、序列），如同對這些物件具有
+`INSERT`、`UPDATE` 與
+`DELETE` 權限、並對所有 schema 具有
+`USAGE` 權限一般。此角色不會略過
+資料列層級安全性（RLS）政策。若有使用 RLS，
+管理者或許會想針對被授予此角色的角色，
+另外設定 `BYPASSRLS`。
 <a id="PREDEFINED-ROLE-PG-READ-SERVER-FILES"></a>
 
 `pg_read_server_files`<br>`pg_write_server_files`<br>`pg_execute_server_program` [#](#PREDEFINED-ROLE-PG-READ-SERVER-FILES)
-:   這些角色的目的，是讓管理者能夠擁有受信任、但非超級使用者的
-    角色，讓其能以資料庫執行時所使用的使用者身分，
-    存取伺服器上的檔案並執行程式。這些角色在直接存取檔案時，
-    會略過所有資料庫層級的權限檢查，因此可能被用來取得
-    等同超級使用者層級的存取權。因此，在將這些角色授予
-    使用者時，應格外謹慎。
 
-    `pg_read_server_files` 允許使用
-    `COPY` 及其他檔案存取函式，讀取資料庫
-    在伺服器上能夠存取之任何位置的檔案。
+這些角色的目的，是讓管理者能夠擁有受信任、但非超級使用者的
+角色，讓其能以資料庫執行時所使用的使用者身分，
+存取伺服器上的檔案並執行程式。這些角色在直接存取檔案時，
+會略過所有資料庫層級的權限檢查，因此可能被用來取得
+等同超級使用者層級的存取權。因此，在將這些角色授予
+使用者時，應格外謹慎。
 
-    `pg_write_server_files` 允許使用
-    `COPY` 及其他檔案存取函式，寫入至資料庫
-    在伺服器上能夠存取之任何位置的檔案。
+`pg_read_server_files` 允許使用
+`COPY` 及其他檔案存取函式，讀取資料庫
+在伺服器上能夠存取之任何位置的檔案。
 
-    `pg_execute_server_program` 允許使用
-    `COPY` 及其他能夠執行伺服端程式的函式，
-    以資料庫執行時所使用的使用者身分，
-    在資料庫伺服器上執行程式。
+`pg_write_server_files` 允許使用
+`COPY` 及其他檔案存取函式，寫入至資料庫
+在伺服器上能夠存取之任何位置的檔案。
+
+`pg_execute_server_program` 允許使用
+`COPY` 及其他能夠執行伺服端程式的函式，
+以資料庫執行時所使用的使用者身分，
+在資料庫伺服器上執行程式。
 <a id="PREDEFINED-ROLE-PG-SIGNAL-AUTOVACUUM-WORKER"></a>
 
 `pg_signal_autovacuum_worker` [#](#PREDEFINED-ROLE-PG-SIGNAL-AUTOVACUUM-WORKER)

@@ -405,12 +405,13 @@ setup` 時使用。
 <a id="CONFIGURE-WITH-LIBURING-MESON"></a>
 
 `-Dliburing={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LIBURING-MESON)
-:   建置時支援 liburing，以啟用非同步 I/O 所需的 io_uring 支援。
-    預設為 auto。
 
-    若要使用安裝在非常見位置的 liburing，你可以設定
-    `pkg-config` 相關的環境
-    變數（詳見其文件）。
+建置時支援 liburing，以啟用非同步 I/O 所需的 io_uring 支援。
+預設為 auto。
+
+若要使用安裝在非常見位置的 liburing，你可以設定
+`pkg-config` 相關的環境
+變數（詳見其文件）。
 <a id="CONFIGURE-WITH-LIBNUMA-MESON"></a>
 
 `-Dlibnuma={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LIBNUMA-MESON)
@@ -420,12 +421,13 @@ setup` 時使用。
 <a id="CONFIGURE-WITH-LIBXML-MESON"></a>
 
 `-Dlibxml={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LIBXML-MESON)
-:   建置時支援 libxml2，以啟用 SQL/XML 支援。預設為
-    auto。此功能需要 libxml2 2.6.23 或更新版本。
 
-    若要使用安裝在非常見位置的 libxml2，你可以設定
-    `pkg-config` 相關的環境
-    變數（詳見其文件）。
+建置時支援 libxml2，以啟用 SQL/XML 支援。預設為
+auto。此功能需要 libxml2 2.6.23 或更新版本。
+
+若要使用安裝在非常見位置的 libxml2，你可以設定
+`pkg-config` 相關的環境
+變數（詳見其文件）。
 <a id="CONFIGURE-WITH-LIBXSLT-MESON"></a>
 
 `-Dlibxslt={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LIBXSLT-MESON)

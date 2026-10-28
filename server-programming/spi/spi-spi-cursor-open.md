@@ -39,9 +39,10 @@ Portal SPI_cursor_open(const char * name, SPIPlanPtr plan,
 :   實際參數值的陣列。長度必須與該陳述式的引數個數相同。
 
 `const char * nulls`
-:   描述哪些參數為 NULL 的陣列。長度必須與該陳述式的引數個數相同。
 
-    如果 *`nulls`* 為 `NULL`，`SPI_cursor_open` 就會假設沒有任何參數是 NULL。否則，若對應的參數值不是 NULL，*`nulls`* 陣列中的每一個項目都應該是 `' '`；若對應的參數值是 NULL，則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中實際存放的值並不重要。）請注意，*`nulls`* 並不是一個文字字串，而只是一個陣列：它不需要 `'\0'` 結尾字元。
+描述哪些參數為 NULL 的陣列。長度必須與該陳述式的引數個數相同。
+
+如果 *`nulls`* 為 `NULL`，`SPI_cursor_open` 就會假設沒有任何參數是 NULL。否則，若對應的參數值不是 NULL，*`nulls`* 陣列中的每一個項目都應該是 `' '`；若對應的參數值是 NULL，則應該是 `'n'`。（在後者的情況下，對應的 *`values`* 項目中實際存放的值並不重要。）請注意，*`nulls`* 並不是一個文字字串，而只是一個陣列：它不需要 `'\0'` 結尾字元。
 
 `bool read_only`
 :   `true` 表示唯讀執行
