@@ -32,6 +32,10 @@ Determine the publishing target from the user's request and repository guidance/
 - **GitBook:** For output formatting, navigation repair, or publication acceptance, read [references/gitbook-maintenance.md](references/gitbook-maintenance.md). Apply its renderer-specific guidance only to GitBook output.
 - **Other targets:** Do not assume GitBook's anchor, hierarchy, path, or rendering behavior applies. Establish that target's build/navigation/acceptance requirements; add a focused target reference only when a concrete target is introduced. Do not create speculative target implementations. If the target is unclear and materially affects the work, clarify it before target-specific edits.
 
+### New-manual compatibility pilot
+
+When starting a new manual or major-version translation (for example, PostgreSQL 19), explicitly prompt the user to run a small publishing-compatibility pilot before bulk translation. Check for an existing pilot for that version and publishing setup; do not silently carry forward another version's acceptance or repeat a still-applicable pilot for every batch. For GitBook, read and follow the new-manual pilot in [references/gitbook-maintenance.md](references/gitbook-maintenance.md). For another target, establish an equivalent target-specific pilot without imposing GitBook markup rules. If publication access or authorization is unavailable, report that rendering acceptance is pending and agree on the next step rather than treating local checks as a pass or proceeding silently to bulk work. This prompt does not authorize creating a test space, submitting externally, pushing, or changing publication settings.
+
 ## Shared translation and preservation rules
 
 - Use the official `/docs/<major>/` manual as the technical authority. Record the minor-version baseline and retrieval date in the work report. A page copied from `/current/` or an older manual is not evidence of target-version correctness.
