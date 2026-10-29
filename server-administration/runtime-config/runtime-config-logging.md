@@ -560,16 +560,17 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 <a id="GUC-LOG-CONNECTIONS"></a>
 
 `log_connections` (`string`) <a id="id-1.6.6.11.5.3.6.1.3"></a> [#](#GUC-LOG-CONNECTIONS)
-:   使每個連線到伺服器的連線各方面資訊都被記錄。
-    預設值為空字串 `''`，
-    會停用所有連線記錄。以下選項可單獨指定，
-    也可以逗號分隔清單的形式指定：
 
-    <a id="LOG-CONNECTIONS-OPTIONS"></a>
+使每個連線到伺服器的連線各方面資訊都被記錄。
+預設值為空字串 `''`，
+會停用所有連線記錄。以下選項可單獨指定，
+也可以逗號分隔清單的形式指定：
 
-    **表 19.3. 連線記錄選項**
+<a id="LOG-CONNECTIONS-OPTIONS"></a>
 
-    <table border="1" class="table" summary="連線記錄選項"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>名稱</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">receipt</code></td><td>記錄連線的接收。</td></tr><tr><td><code class="literal">authentication</code></td><td>
+**表 19.3. 連線記錄選項**
+
+<table border="1" class="table" summary="連線記錄選項"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>名稱</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">receipt</code></td><td>記錄連線的接收。</td></tr><tr><td><code class="literal">authentication</code></td><td>
                 記錄驗證方法用來識別使用者的原始身分。
                 在多數情況下，此身分字串
                 會與 <span class="productname">PostgreSQL</span> 使用者名稱相符，
@@ -595,29 +596,29 @@ eventlog，嚴重性層級會依表中所示進行轉換。
                 所有連線相關的資訊都會被記錄。
                </td></tr></tbody></table>
 
-    <br>
+<br>
 
-    中斷連線記錄則由 [log_disconnections](runtime-config-logging.md#GUC-LOG-DISCONNECTIONS)
-    另外控制。
+中斷連線記錄則由 [log_disconnections](runtime-config-logging.md#GUC-LOG-DISCONNECTIONS)
+另外控制。
 
-    為了向後相容，`on`、
-    `off`、`true`、
-    `false`、`yes`、
-    `no`、`1`，以及 `0`
-    目前仍受到支援。其中的啟用值（肯定值）等同於指定
-    `receipt`、`authentication`，與
-    `authorization` 選項。
+為了向後相容，`on`、
+`off`、`true`、
+`false`、`yes`、
+`no`、`1`，以及 `0`
+目前仍受到支援。其中的啟用值（肯定值）等同於指定
+`receipt`、`authentication`，與
+`authorization` 選項。
 
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能在工作階段開始時變更此參數，
-    且在工作階段內完全無法變更。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能在工作階段開始時變更此參數，
+且在工作階段內完全無法變更。
 
-    ### 注意
+### 注意
 
-    某些用戶端程式（例如 psql）在判斷
-    是否需要密碼時，會嘗試連線兩次，
-    因此重複出現「connection received」訊息，
-    未必代表發生了問題。
+某些用戶端程式（例如 psql）在判斷
+是否需要密碼時，會嘗試連線兩次，
+因此重複出現「connection received」訊息，
+未必代表發生了問題。
 <a id="GUC-LOG-DISCONNECTIONS"></a>
 
 `log_disconnections` (`boolean`) <a id="id-1.6.6.11.5.3.7.1.3"></a> [#](#GUC-LOG-DISCONNECTIONS)

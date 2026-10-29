@@ -87,11 +87,12 @@ pg_waldump — 以人類可讀的形式顯示 PostgreSQL 資料庫叢集的預�
 若 pg_waldump 被訊號 SIGINT（**Control**+**C**）終止，會顯示截至終止時點所計算的統計摘要。Windows 上不支援此操作。
 
 `--save-fullpage=save_path`
-:   將 WAL 記錄中找到的完整頁面映像儲存到 *`save_path`* 目錄。所儲存的映像與所顯示的記錄適用相同的篩選與限制條件。
 
-    完整頁面映像會以下列檔名格式儲存：`TIMELINE-LSN.RELTABLESPACE.DATOID.RELNODE.BLKNO_FORK`。檔名由下列部分組成：
+將 WAL 記錄中找到的完整頁面映像儲存到 *`save_path`* 目錄。所儲存的映像與所顯示的記錄適用相同的篩選與限制條件。
 
-    <table border="1" class="informaltable"><colgroup><col/><col/></colgroup><thead><tr><th>組成部分</th><th>說明</th></tr></thead><tbody><tr><td>TIMELINE</td><td>記錄所在之 WAL 區段檔案的時間軸，格式化為一個 8 字元的十六進位數字
+完整頁面映像會以下列檔名格式儲存：`TIMELINE-LSN.RELTABLESPACE.DATOID.RELNODE.BLKNO_FORK`。檔名由下列部分組成：
+
+<table border="1" class="informaltable"><colgroup><col/><col/></colgroup><thead><tr><th>組成部分</th><th>說明</th></tr></thead><tbody><tr><td>TIMELINE</td><td>記錄所在之 WAL 區段檔案的時間軸，格式化為一個 8 字元的十六進位數字
                  <code class="literal">%08X</code></td></tr><tr><td>LSN</td><td>含有此映像之記錄的 <acronym class="acronym">LSN</acronym>，格式化為兩個 8 字元的十六進位數字
                  <code class="literal">%08X-%08X</code></td></tr><tr><td>RELTABLESPACE</td><td>該區塊的資料表空間 OID</td></tr><tr><td>DATOID</td><td>該區塊的資料庫 OID</td></tr><tr><td>RELNODE</td><td>該區塊的 filenode</td></tr><tr><td>BLKNO</td><td>該區塊的區塊編號</td></tr><tr><td>FORK</td><td>
                  完整頁面映像來源分支的名稱，例如

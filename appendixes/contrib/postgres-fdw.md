@@ -553,23 +553,24 @@ PostgreSQL 9.5 或更新版本，因為較早的版本不支援此功能。
 <a id="GUC-PGFDW-APPLICATION-NAME"></a>
 
 `postgres_fdw.application_name` (`string`) <a id="id-1.11.7.48.19.2.1.1.3"></a> [#](#GUC-PGFDW-APPLICATION-NAME)
-:   指定 `postgres_fdw`
-    與外部伺服器建立連線時所使用的 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME)
-    設定參數值。這會覆寫伺服器物件的
-    `application_name` 選項。
-    請注意，變更此參數不會影響任何現有連線，直到這些連線重新建立為止。
 
-    `postgres_fdw.application_name` 可以是任意長度的任何字串，甚至可以包含非 ASCII 字元。不過，當它被傳遞到外部伺服器並作為
-    `application_name` 使用時，請注意它會被截斷為少於
-    `NAMEDATALEN` 個字元。
-    可列印 ASCII 字元以外的任何字元，都會被替換為 [C 語言風格的十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
-    詳細資訊請參閱 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME)。
+指定 `postgres_fdw`
+與外部伺服器建立連線時所使用的 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME)
+設定參數值。這會覆寫伺服器物件的
+`application_name` 選項。
+請注意，變更此參數不會影響任何現有連線，直到這些連線重新建立為止。
 
-    `%` 字元表示「逸出序列」的開始，這些序列會被替換為下文所述的狀態資訊。
-    無法辨識的逸出序列會被忽略。其他字元會直接複製到應用程式名稱中。請注意，不允許在 `%`
-    之後、選項之前指定正負號或數值常數，以進行對齊與填補。
+`postgres_fdw.application_name` 可以是任意長度的任何字串，甚至可以包含非 ASCII 字元。不過，當它被傳遞到外部伺服器並作為
+`application_name` 使用時，請注意它會被截斷為少於
+`NAMEDATALEN` 個字元。
+可列印 ASCII 字元以外的任何字元，都會被替換為 [C 語言風格的十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
+詳細資訊請參閱 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME)。
 
-    <table border="1" class="informaltable"><colgroup><col/><col/></colgroup><thead><tr><th>逸出序列</th><th>效果</th></tr></thead><tbody><tr><td><code class="literal">%a</code></td><td>本機伺服器上的應用程式名稱</td></tr><tr><td><code class="literal">%c</code></td><td>
+`%` 字元表示「逸出序列」的開始，這些序列會被替換為下文所述的狀態資訊。
+無法辨識的逸出序列會被忽略。其他字元會直接複製到應用程式名稱中。請注意，不允許在 `%`
+之後、選項之前指定正負號或數值常數，以進行對齊與填補。
+
+<table border="1" class="informaltable"><colgroup><col/><col/></colgroup><thead><tr><th>逸出序列</th><th>效果</th></tr></thead><tbody><tr><td><code class="literal">%a</code></td><td>本機伺服器上的應用程式名稱</td></tr><tr><td><code class="literal">%c</code></td><td>
               本機伺服器上的工作階段 ID
               （詳細資訊請參閱 <a class="xref" href="../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-LINE-PREFIX">log_line_prefix</a>）
              </td></tr><tr><td><code class="literal">%C</code></td><td>
@@ -577,10 +578,10 @@ PostgreSQL 9.5 或更新版本，因為較早的版本不支援此功能。
               （詳細資訊請參閱 <a class="xref" href="../../server-administration/runtime-config/runtime-config-logging.md#GUC-CLUSTER-NAME">cluster_name</a>）
              </td></tr><tr><td><code class="literal">%u</code></td><td>本機伺服器上的使用者名稱</td></tr><tr><td><code class="literal">%d</code></td><td>本機伺服器上的資料庫名稱</td></tr><tr><td><code class="literal">%p</code></td><td>本機伺服器上後端的程序 ID</td></tr><tr><td><code class="literal">%%</code></td><td>字面的 %</td></tr></tbody></table>
 
-    例如，假設使用者 `local_user` 從資料庫 `local_db` 以使用者 `foreign_user` 的身分建立連到
-    `foreign_db` 的連線，
-    則設定 `'db=%d, user=%u'` 會被替換為
-    `'db=local_db, user=local_user'`。
+例如，假設使用者 `local_user` 從資料庫 `local_db` 以使用者 `foreign_user` 的身分建立連到
+`foreign_db` 的連線，
+則設定 `'db=%d, user=%u'` 會被替換為
+`'db=local_db, user=local_user'`。
 
 <a id="POSTGRES-FDW-EXAMPLES"></a>
 
