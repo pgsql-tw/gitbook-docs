@@ -243,28 +243,29 @@ tar 封存格式目前完全不支援壓縮。
 :   傾印浮點數資料時，使用指定的 `extra_float_digits` 值，而不是可用的最大精確度。為備份目的而進行的例行傾印不應該使用此選項。
 
 `--filter=filename`
-:   指定一個檔名，從中讀取要在傾印中包含或排除之物件的模式。這些模式的解譯規則與對應的選項相同：資料表為 `-t`/`--table`、`--table-and-children`、`-T`/`--exclude-table` 與 `--exclude-table-and-children`；綱要為 `-n`/`--schema` 與 `-N`/`--exclude-schema`；外部伺服器上的資料為 `--include-foreign-data`；資料表資料為 `--exclude-table-data` 與 `--exclude-table-data-and-children`；擴充功能為 `-e`/`--extension` 與 `--exclude-extension`。若要從 `STDIN` 讀取，請使用 `-` 作為檔名。`--filter` 選項可以與上列用來包含或排除物件的選項一起指定，也可以為多個過濾檔案指定超過一次。
 
-    此檔案每一列列出一個物件模式，格式如下：
+指定一個檔名，從中讀取要在傾印中包含或排除之物件的模式。這些模式的解譯規則與對應的選項相同：資料表為 `-t`/`--table`、`--table-and-children`、`-T`/`--exclude-table` 與 `--exclude-table-and-children`；綱要為 `-n`/`--schema` 與 `-N`/`--exclude-schema`；外部伺服器上的資料為 `--include-foreign-data`；資料表資料為 `--exclude-table-data` 與 `--exclude-table-data-and-children`；擴充功能為 `-e`/`--extension` 與 `--exclude-extension`。若要從 `STDIN` 讀取，請使用 `-` 作為檔名。`--filter` 選項可以與上列用來包含或排除物件的選項一起指定，也可以為多個過濾檔案指定超過一次。
 
-    ```
+此檔案每一列列出一個物件模式，格式如下：
+
+```
 
     { include | exclude } { extension | foreign_data | table | table_and_children | table_data | table_data_and_children | schema } PATTERN
-    ```
+```
 
-    第一個關鍵字指定符合該模式的物件是要包含還是排除。第二個關鍵字指定要以該模式過濾的物件類型：
+第一個關鍵字指定符合該模式的物件是要包含還是排除。第二個關鍵字指定要以該模式過濾的物件類型：
 
-    * `extension`：擴充功能。作用如同 `-e`/`--extension` 或 `--exclude-extension` 選項。
-    * `foreign_data`：外部伺服器上的資料。作用如同 `--include-foreign-data` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
-    * `table`：資料表。作用如同 `-t`/`--table` 或 `-T`/`--exclude-table` 選項。
-    * `table_and_children`：資料表，包括其任何分割區或繼承子資料表。作用如同 `--table-and-children` 或 `--exclude-table-and-children` 選項。
-    * `table_data`：符合 *`pattern`* 之任何資料表的資料表資料。作用如同 `--exclude-table-data` 選項。此關鍵字只能與 `exclude` 關鍵字一起使用。
-    * `table_data_and_children`：符合 *`pattern`* 之任何資料表的資料表資料，以及這些資料表之任何分割區或繼承子資料表的資料表資料。作用如同 `--exclude-table-data-and-children` 選項。此關鍵字只能與 `exclude` 關鍵字一起使用。
-    * `schema`：綱要。作用如同 `-n`/`--schema` 或 `-N`/`--exclude-schema` 選項。
+* `extension`：擴充功能。作用如同 `-e`/`--extension` 或 `--exclude-extension` 選項。
+* `foreign_data`：外部伺服器上的資料。作用如同 `--include-foreign-data` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
+* `table`：資料表。作用如同 `-t`/`--table` 或 `-T`/`--exclude-table` 選項。
+* `table_and_children`：資料表，包括其任何分割區或繼承子資料表。作用如同 `--table-and-children` 或 `--exclude-table-and-children` 選項。
+* `table_data`：符合 *`pattern`* 之任何資料表的資料表資料。作用如同 `--exclude-table-data` 選項。此關鍵字只能與 `exclude` 關鍵字一起使用。
+* `table_data_and_children`：符合 *`pattern`* 之任何資料表的資料表資料，以及這些資料表之任何分割區或繼承子資料表的資料表資料。作用如同 `--exclude-table-data-and-children` 選項。此關鍵字只能與 `exclude` 關鍵字一起使用。
+* `schema`：綱要。作用如同 `-n`/`--schema` 或 `-N`/`--exclude-schema` 選項。
 
-    以 `#` 開頭的行會被視為註解而忽略。註解也可以放在物件模式那一列的後面。空白行同樣會被忽略。關於如何在模式中使用引號，請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)。
+以 `#` 開頭的行會被視為註解而忽略。註解也可以放在物件模式那一列的後面。空白行同樣會被忽略。關於如何在模式中使用引號，請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)。
 
-    範例檔案列於下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)一節。
+範例檔案列於下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)一節。
 
 `--if-exists`
 :   在 `--clean` 模式中使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。
