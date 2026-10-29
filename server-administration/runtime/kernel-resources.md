@@ -143,168 +143,174 @@ $ postgres -D $PGDATA -C num_os_semaphores
 對 POSIX 號誌的數量，並沒有特定的核心限制。
 
 FreeBSD <a id="id-1.6.5.7.3.15.1.1.2"></a>
-:   除非您已將 `shared_memory_type`
-    設定為 `sysv`，否則預設的共享記憶體設定，
-    通常已經足夠。此平台不使用 System V 號誌。
 
-    可以使用 `sysctl` 或 `loader`
-    介面，變更預設的 IPC 設定。以下參數，
-    可以使用 `sysctl` 設定：
+除非您已將 `shared_memory_type`
+設定為 `sysv`，否則預設的共享記憶體設定，
+通常已經足夠。此平台不使用 System V 號誌。
 
-    ```
+可以使用 `sysctl` 或 `loader`
+介面，變更預設的 IPC 設定。以下參數，
+可以使用 `sysctl` 設定：
+
+```
 
     # sysctl kern.ipc.shmall=32768
     # sysctl kern.ipc.shmmax=134217728
-    ```
+```
 
-    若要讓這些設定在重新開機後仍然有效，
-    請修改 `/etc/sysctl.conf`。
+若要讓這些設定在重新開機後仍然有效，
+請修改 `/etc/sysctl.conf`。
 
-    若您已將 `shared_memory_type`
-    設定為 `sysv`，您可能也會想要設定核心，
-    將 System V 共享記憶體鎖定於 RAM 中，
-    防止其被分頁至交換空間。可以透過
-    `sysctl` 設定 `kern.ipc.shm_use_phys`
-    來達成此目的。
+若您已將 `shared_memory_type`
+設定為 `sysv`，您可能也會想要設定核心，
+將 System V 共享記憶體鎖定於 RAM 中，
+防止其被分頁至交換空間。可以透過
+`sysctl` 設定 `kern.ipc.shm_use_phys`
+來達成此目的。
 
-    若在 FreeBSD jail 中執行，您應該將其
-    `sysvshm` 參數，設定為 `new`，
-    如此一來，它就會擁有自己獨立的 System V
-    共享記憶體命名空間。
-    （在 FreeBSD 11.0 之前的版本，需要啟用
-    jail 對主機 IPC 命名空間的共享存取，
-    並採取措施避免衝突。）
+若在 FreeBSD jail 中執行，您應該將其
+`sysvshm` 參數，設定為 `new`，
+如此一來，它就會擁有自己獨立的 System V
+共享記憶體命名空間。
+（在 FreeBSD 11.0 之前的版本，需要啟用
+jail 對主機 IPC 命名空間的共享存取，
+並採取措施避免衝突。）
 
 NetBSD <a id="id-1.6.5.7.3.15.2.1.2"></a>
-:   除非您已將 `shared_memory_type`
-    設定為 `sysv`，否則預設的共享記憶體設定，
-    通常已經足夠。不過，您將需要提高
-    `kern.ipc.semmni` 與
-    `kern.ipc.semmns`，因為 NetBSD
-    對這些參數的預設值，小到難以使用。
 
-    可以使用 `sysctl`，調整 IPC 參數，例如：
+除非您已將 `shared_memory_type`
+設定為 `sysv`，否則預設的共享記憶體設定，
+通常已經足夠。不過，您將需要提高
+`kern.ipc.semmni` 與
+`kern.ipc.semmns`，因為 NetBSD
+對這些參數的預設值，小到難以使用。
 
-    ```
+可以使用 `sysctl`，調整 IPC 參數，例如：
+
+```
 
     # sysctl -w kern.ipc.semmni=100
-    ```
+```
 
-    若要讓這些設定在重新開機後仍然有效，
-    請修改 `/etc/sysctl.conf`。
+若要讓這些設定在重新開機後仍然有效，
+請修改 `/etc/sysctl.conf`。
 
-    若您已將 `shared_memory_type`
-    設定為 `sysv`，您可能也會想要設定核心，
-    將 System V 共享記憶體鎖定於 RAM 中，
-    防止其被分頁至交換空間。可以透過
-    `sysctl` 設定 `kern.ipc.shm_use_phys`
-    來達成此目的。
+若您已將 `shared_memory_type`
+設定為 `sysv`，您可能也會想要設定核心，
+將 System V 共享記憶體鎖定於 RAM 中，
+防止其被分頁至交換空間。可以透過
+`sysctl` 設定 `kern.ipc.shm_use_phys`
+來達成此目的。
 
 OpenBSD <a id="id-1.6.5.7.3.15.3.1.2"></a>
-:   除非您已將 `shared_memory_type`
-    設定為 `sysv`，否則預設的共享記憶體設定，
-    通常已經足夠。不過，您將需要提高
-    `kern.seminfo.semmni` 與
-    `kern.seminfo.semmns`，因為 OpenBSD
-    對這些參數的預設值，小到難以使用。
 
-    可以使用 `sysctl`，調整 IPC 參數，例如：
+除非您已將 `shared_memory_type`
+設定為 `sysv`，否則預設的共享記憶體設定，
+通常已經足夠。不過，您將需要提高
+`kern.seminfo.semmni` 與
+`kern.seminfo.semmns`，因為 OpenBSD
+對這些參數的預設值，小到難以使用。
 
-    ```
+可以使用 `sysctl`，調整 IPC 參數，例如：
+
+```
 
     # sysctl kern.seminfo.semmni=100
-    ```
+```
 
-    若要讓這些設定在重新開機後仍然有效，
-    請修改 `/etc/sysctl.conf`。
+若要讓這些設定在重新開機後仍然有效，
+請修改 `/etc/sysctl.conf`。
 
 Linux <a id="id-1.6.5.7.3.15.4.1.2"></a>
-:   除非您已將 `shared_memory_type`
-    設定為 `sysv`，否則預設的共享記憶體設定，
-    通常已經足夠，即使如此，也只有在搭載較舊版本核心、
-    預設值偏低的系統上，才需要調整。此平台不使用
-    System V 號誌。
 
-    可以透過 `sysctl` 介面，
-    變更共享記憶體大小的設定。舉例來說，
-    若要允許 16 GB：
+除非您已將 `shared_memory_type`
+設定為 `sysv`，否則預設的共享記憶體設定，
+通常已經足夠，即使如此，也只有在搭載較舊版本核心、
+預設值偏低的系統上，才需要調整。此平台不使用
+System V 號誌。
 
-    ```
+可以透過 `sysctl` 介面，
+變更共享記憶體大小的設定。舉例來說，
+若要允許 16 GB：
+
+```
 
     $ sysctl -w kernel.shmmax=17179869184
     $ sysctl -w kernel.shmall=4194304
-    ```
+```
 
-    若要讓這些設定在重新開機後仍然有效，
-    請參閱 `/etc/sysctl.conf`。
+若要讓這些設定在重新開機後仍然有效，
+請參閱 `/etc/sysctl.conf`。
 
 macOS <a id="id-1.6.5.7.3.15.5.1.2"></a>
-:   除非您已將 `shared_memory_type`
-    設定為 `sysv`，否則預設的共享記憶體與號誌設定，
-    通常已經足夠。
 
-    在 macOS 上設定共享記憶體，建議的方法，
-    是建立一個名為 `/etc/sysctl.conf` 的檔案，
-    其中包含類似以下的變數指派：
+除非您已將 `shared_memory_type`
+設定為 `sysv`，否則預設的共享記憶體與號誌設定，
+通常已經足夠。
 
-    ```
+在 macOS 上設定共享記憶體，建議的方法，
+是建立一個名為 `/etc/sysctl.conf` 的檔案，
+其中包含類似以下的變數指派：
+
+```
 
     kern.sysv.shmmax=4194304
     kern.sysv.shmmin=1
     kern.sysv.shmmni=32
     kern.sysv.shmseg=8
     kern.sysv.shmall=1024
-    ```
+```
 
-    請注意，在某些 macOS 版本中，
-    *全部五個*共享記憶體參數，都必須在
-    `/etc/sysctl.conf` 中設定，
-    否則這些值將被忽略。
+請注意，在某些 macOS 版本中，
+*全部五個*共享記憶體參數，都必須在
+`/etc/sysctl.conf` 中設定，
+否則這些值將被忽略。
 
-    `SHMMAX` 只能設定為 4096 的倍數。
+`SHMMAX` 只能設定為 4096 的倍數。
 
-    在此平台上，`SHMALL` 是以 4 kB 頁面為單位計算的。
+在此平台上，`SHMALL` 是以 4 kB 頁面為單位計算的。
 
-    除了 `SHMMNI` 之外，其他參數都可以使用
-    sysctl 即時變更。但最好還是透過
-    `/etc/sysctl.conf`，設定您偏好的值，
-    這樣這些值就能在重新開機後保留下來。
+除了 `SHMMNI` 之外，其他參數都可以使用
+sysctl 即時變更。但最好還是透過
+`/etc/sysctl.conf`，設定您偏好的值，
+這樣這些值就能在重新開機後保留下來。
 
 Solaris<br>illumos
-:   對大多數 PostgreSQL 應用程式而言，
-    預設的共享記憶體與號誌設定，通常已經足夠。Solaris
-    的 `SHMMAX` 預設為系統 RAM 的四分之一。
-    若要進一步調整此設定，請使用與
-    `postgres` 使用者關聯的 project 設定。
-    舉例來說，以 `root` 身分執行以下指令：
 
-    ```
+對大多數 PostgreSQL 應用程式而言，
+預設的共享記憶體與號誌設定，通常已經足夠。Solaris
+的 `SHMMAX` 預設為系統 RAM 的四分之一。
+若要進一步調整此設定，請使用與
+`postgres` 使用者關聯的 project 設定。
+舉例來說，以 `root` 身分執行以下指令：
+
+```
 
     projadd -c "PostgreSQL DB User" -K "project.max-shm-memory=(privileged,8GB,deny)" -U postgres -G postgres user.postgres
-    ```
+```
 
-    此指令會新增 `user.postgres` project，
-    並將 `postgres` 使用者的共享記憶體上限，
-    設為 8GB，此設定會在該使用者下次登入時，
-    或您重新啟動（而非重新載入）PostgreSQL 時生效。
-    以上假設 PostgreSQL 是由 `postgres` 群組中的
-    `postgres` 使用者執行的。不需要重新啟動伺服器。
+此指令會新增 `user.postgres` project，
+並將 `postgres` 使用者的共享記憶體上限，
+設為 8GB，此設定會在該使用者下次登入時，
+或您重新啟動（而非重新載入）PostgreSQL 時生效。
+以上假設 PostgreSQL 是由 `postgres` 群組中的
+`postgres` 使用者執行的。不需要重新啟動伺服器。
 
-    對於將有大量連線的資料庫伺服器而言，
-    其他建議變更的核心設定包括：
+對於將有大量連線的資料庫伺服器而言，
+其他建議變更的核心設定包括：
 
-    ```
+```
 
     project.max-shm-ids=(priv,32768,deny)
     project.max-sem-ids=(priv,4096,deny)
     project.max-msg-ids=(priv,4096,deny)
-    ```
+```
 
-    此外，若您在某個 zone 中執行 PostgreSQL，
-    可能也需要提高該 zone 的資源使用限制。
-    關於 `projects` 與 `prctl` 的更多資訊，
-    請參閱*System Administrator's Guide* 中的
-    「Chapter2: Projects and Tasks」。
+此外，若您在某個 zone 中執行 PostgreSQL，
+可能也需要提高該 zone 的資源使用限制。
+關於 `projects` 與 `prctl` 的更多資訊，
+請參閱*System Administrator's Guide* 中的
+「Chapter2: Projects and Tasks」。
 
 <a id="SYSTEMD-REMOVEIPC"></a>
 

@@ -616,71 +616,73 @@ postmaster 會重新啟動 WAL 歸檔程序。更多資訊請參閱
 <a id="GUC-RESTORE-COMMAND"></a>
 
 `restore_command` (`string`) <a id="id-1.6.6.8.7.7.1.1.3"></a> [#](#GUC-RESTORE-COMMAND)
-:   用於從 WAL 檔案序列中取回已歸檔區段的本機 shell 命令。
-    此參數為歸檔復原所必須，但對串流複寫而言為選用。
-    字串中的任何 `%f` 都會被替換為
-    要從歸檔取回之檔案的名稱，任何
-    `%p` 則會被替換為伺服器上的複本目的地路徑名稱。
-    （此路徑名稱是相對於目前的工作目錄，
-    也就是叢集的資料目錄。）
-    任何 `%r` 都會被替換為包含最後一個有效
-    重新啟動點的檔案名稱。這是必須保留、
-    以讓還原動作可重新啟動的最早檔案，因此此資訊可用來
-    將歸檔截短至支援目前還原所需的最小範圍。
-    `%r` 一般僅用於暖待命（warm-standby）組態
-    （請參閱 [26.2 節](../high-availability/warm-standby.md)）。
-    寫入 `%%` 可嵌入實際的 `%` 字元。
 
-    此命令唯有在成功時才回傳退出狀態碼零，這一點非常重要。
-    此命令*將會*被要求提供歸檔中不存在的檔案名稱；
-    在這種情況下，它必須回傳非零值。範例：
+用於從 WAL 檔案序列中取回已歸檔區段的本機 shell 命令。
+此參數為歸檔復原所必須，但對串流複寫而言為選用。
+字串中的任何 `%f` 都會被替換為
+要從歸檔取回之檔案的名稱，任何
+`%p` 則會被替換為伺服器上的複本目的地路徑名稱。
+（此路徑名稱是相對於目前的工作目錄，
+也就是叢集的資料目錄。）
+任何 `%r` 都會被替換為包含最後一個有效
+重新啟動點的檔案名稱。這是必須保留、
+以讓還原動作可重新啟動的最早檔案，因此此資訊可用來
+將歸檔截短至支援目前還原所需的最小範圍。
+`%r` 一般僅用於暖待命（warm-standby）組態
+（請參閱 [26.2 節](../high-availability/warm-standby.md)）。
+寫入 `%%` 可嵌入實際的 `%` 字元。
 
-    ```
+此命令唯有在成功時才回傳退出狀態碼零，這一點非常重要。
+此命令*將會*被要求提供歸檔中不存在的檔案名稱；
+在這種情況下，它必須回傳非零值。範例：
+
+```
 
     restore_command = 'cp /mnt/server/archivedir/%f "%p"'
     restore_command = 'copy "C:\\server\\archivedir\\%f" "%p"'  # Windows
-    ```
+```
 
-    有一個例外情況：若命令是因訊號而終止（SIGTERM 除外，
-    該訊號屬於資料庫伺服器關機程序的一部分），
-    或因 shell 發生錯誤（例如找不到命令）而終止，
-    則復原會中止，且伺服器不會啟動。
+有一個例外情況：若命令是因訊號而終止（SIGTERM 除外，
+該訊號屬於資料庫伺服器關機程序的一部分），
+或因 shell 發生錯誤（例如找不到命令）而終止，
+則復原會中止，且伺服器不會啟動。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-ARCHIVE-CLEANUP-COMMAND"></a>
 
 `archive_cleanup_command` (`string`) <a id="id-1.6.6.8.7.7.2.1.3"></a> [#](#GUC-ARCHIVE-CLEANUP-COMMAND)
-:   此選用參數指定一個 shell 命令，會在每個重新啟動點執行。
-    `archive_cleanup_command` 的用途，
-    是提供一種機制，用來清除待命伺服器不再需要的
-    舊已歸檔 WAL 檔案。
-    任何 `%r` 都會被替換為包含最後一個有效
-    重新啟動點的檔案名稱。
-    這是必須*保留*、以讓還原動作可重新啟動的最早檔案，
-    因此所有早於 `%r` 的檔案都可以安全移除。
-    此資訊可用來將歸檔截短至支援目前還原所需的最小範圍。
-    [pg_archivecleanup](../../reference/reference-server/pgarchivecleanup.md) 模組
-    常被用於單一待命伺服器組態中的
-    `archive_cleanup_command`，例如：
 
-    ```
+此選用參數指定一個 shell 命令，會在每個重新啟動點執行。
+`archive_cleanup_command` 的用途，
+是提供一種機制，用來清除待命伺服器不再需要的
+舊已歸檔 WAL 檔案。
+任何 `%r` 都會被替換為包含最後一個有效
+重新啟動點的檔案名稱。
+這是必須*保留*、以讓還原動作可重新啟動的最早檔案，
+因此所有早於 `%r` 的檔案都可以安全移除。
+此資訊可用來將歸檔截短至支援目前還原所需的最小範圍。
+[pg_archivecleanup](../../reference/reference-server/pgarchivecleanup.md) 模組
+常被用於單一待命伺服器組態中的
+`archive_cleanup_command`，例如：
+
+```
     archive_cleanup_command = 'pg_archivecleanup /mnt/server/archivedir %r'
-    ```
+```
 
-    然而請注意，若有多個待命伺服器正從同一個歸檔目錄還原，
-    你必須確保在任一伺服器仍需要某個 WAL 檔案時，不會將其刪除。
-    `archive_cleanup_command` 一般會用於
-    暖待命組態中（請參閱 [26.2 節](../high-availability/warm-standby.md)）。
-    寫入 `%%` 可在命令中嵌入實際的 `%` 字元。
+然而請注意，若有多個待命伺服器正從同一個歸檔目錄還原，
+你必須確保在任一伺服器仍需要某個 WAL 檔案時，不會將其刪除。
+`archive_cleanup_command` 一般會用於
+暖待命組態中（請參閱 [26.2 節](../high-availability/warm-standby.md)）。
+寫入 `%%` 可在命令中嵌入實際的 `%` 字元。
 
-    若命令回傳非零的退出狀態碼，就會寫入一則警告日誌訊息。
-    但有一個例外情況：若命令是因訊號終止，
-    或因 shell 發生錯誤（例如找不到命令）而終止，
-    則會引發致命錯誤。
+若命令回傳非零的退出狀態碼，就會寫入一則警告日誌訊息。
+但有一個例外情況：若命令是因訊號終止，
+或因 shell 發生錯誤（例如找不到命令）而終止，
+則會引發致命錯誤。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-RECOVERY-END-COMMAND"></a>
 
 `recovery_end_command` (`string`) <a id="id-1.6.6.8.7.7.3.1.3"></a> [#](#GUC-RECOVERY-END-COMMAND)

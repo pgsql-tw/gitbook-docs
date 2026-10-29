@@ -41,11 +41,12 @@ CREATE [ DEFAULT ] CONVERSION name
 :   目的編碼名稱。
 
 *`function_name`*
-:   用來執行轉換的函式。函式名稱可以用綱要限定。若未以綱要限定，則會在搜尋路徑中查找該函式。
 
-    此函式必須具有下列簽章：
+用來執行轉換的函式。函式名稱可以用綱要限定。若未以綱要限定，則會在搜尋路徑中查找該函式。
 
-    ```
+此函式必須具有下列簽章：
+
+```
 
     conv_proc(
         integer,  -- source encoding ID
@@ -55,9 +56,9 @@ CREATE [ DEFAULT ] CONVERSION name
         integer,  -- source string length
         boolean   -- if true, don't throw an error if conversion fails
     ) RETURNS integer;
-    ```
+```
 
-    傳回值是成功轉換的來源位元組數。若最後一個引數為 false，函式必須在輸入無效時擲出錯誤，且傳回值一律等於來源字串長度。
+傳回值是成功轉換的來源位元組數。若最後一個引數為 false，函式必須在輸入無效時擲出錯誤，且傳回值一律等於來源字串長度。
 
 <a id="SQL-CREATECONVERSION-NOTES"></a>
 

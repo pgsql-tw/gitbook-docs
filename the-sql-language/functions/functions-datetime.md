@@ -774,15 +774,16 @@ EXTRACT(field FROM source)
     ```
 
 `dow`
-:   星期幾，從星期日（`0`）到星期六（`6`）
 
-    ```
+星期幾，從星期日（`0`）到星期六（`6`）
+
+```
 
     SELECT EXTRACT(DOW FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 5
-    ```
+```
 
-    請注意，`extract` 的星期編號與 `to_char(..., 'D')` 函式的不同。
+請注意，`extract` 的星期編號與 `to_char(..., 'D')` 函式的不同。
 
 `doy`
 :   一年中的第幾天（1–365/366）
@@ -794,9 +795,10 @@ EXTRACT(field FROM source)
     ```
 
 `epoch`
-:   對於 `timestamp with time zone` 值，是自 1970-01-01 00:00:00 UTC 起的秒數（之前的時間戳記為負數）；對於 `date` 與 `timestamp` 值，是自 1970-01-01 00:00:00 起的名目秒數，不考慮時區或日光節約時間規則；對於 `interval` 值，則是該時間間隔的總秒數
 
-    ```
+對於 `timestamp with time zone` 值，是自 1970-01-01 00:00:00 UTC 起的秒數（之前的時間戳記為負數）；對於 `date` 與 `timestamp` 值，是自 1970-01-01 00:00:00 起的名目秒數，不考慮時區或日光節約時間規則；對於 `interval` 值，則是該時間間隔的總秒數
+
+```
 
     SELECT EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '2001-02-16 20:38:40.12-08');
     Result: 982384720.120000
@@ -804,17 +806,17 @@ EXTRACT(field FROM source)
     Result: 982355920.120000
     SELECT EXTRACT(EPOCH FROM INTERVAL '5 days 3 hours');
     Result: 442800.000000
-    ```
+```
 
-    你可以使用 `to_timestamp` 將 epoch 值轉換回 `timestamp with time zone`：
+你可以使用 `to_timestamp` 將 epoch 值轉換回 `timestamp with time zone`：
 
-    ```
+```
 
     SELECT to_timestamp(982384720.12);
     Result: 2001-02-17 04:38:40.12+00
-    ```
+```
 
-    請注意，對從 `date` 或 `timestamp` 值取出的 epoch 套用 `to_timestamp`，可能會產生誤導性的結果：結果實際上會假設原始值是以 UTC 給定的，而事實不一定如此。
+請注意，對從 `date` 或 `timestamp` 值取出的 epoch 套用 `to_timestamp`，可能會產生誤導性的結果：結果實際上會假設原始值是以 UTC 給定的，而事實不一定如此。
 
 `hour`
 :   小時欄位（在時間戳記中為 0–23，在時間間隔中則不受限制）
@@ -826,28 +828,30 @@ EXTRACT(field FROM source)
     ```
 
 `isodow`
-:   星期幾，從星期一（`1`）到星期日（`7`）
 
-    ```
+星期幾，從星期一（`1`）到星期日（`7`）
+
+```
 
     SELECT EXTRACT(ISODOW FROM TIMESTAMP '2001-02-18 20:38:40');
     Result: 7
-    ```
+```
 
-    除了星期日之外，這與 `dow` 相同。這符合 ISO 8601 的星期編號。
+除了星期日之外，這與 `dow` 相同。這符合 ISO 8601 的星期編號。
 
 `isoyear`
-:   該日期所屬的 ISO 8601 週編號年
 
-    ```
+該日期所屬的 ISO 8601 週編號年
+
+```
 
     SELECT EXTRACT(ISOYEAR FROM DATE '2006-01-01');
     Result: 2005
     SELECT EXTRACT(ISOYEAR FROM DATE '2006-01-02');
     Result: 2006
-    ```
+```
 
-    每個 ISO 8601 週編號年都從包含 1 月 4 日那一週的星期一開始，因此在一月初或十二月底，ISO 年可能會與格里曆年不同。更多資訊請參閱 `week` 欄位。
+每個 ISO 8601 週編號年都從包含 1 月 4 日那一週的星期一開始，因此在一月初或十二月底，ISO 年可能會與格里曆年不同。更多資訊請參閱 `week` 欄位。
 
 `julian`
 :   對應於該日期或時間戳記的*儒略日*（Julian Date）。不是當地午夜的時間戳記會產生帶小數的值。更多資訊請參閱[第 B.7 節](../../appendixes/datetime-appendix/datetime-julian-dates.md)。
@@ -870,17 +874,18 @@ EXTRACT(field FROM source)
     ```
 
 `millennium`
-:   千禧年；對於 `interval` 值，則是年欄位除以 1000
 
-    ```
+千禧年；對於 `interval` 值，則是年欄位除以 1000
+
+```
 
     SELECT EXTRACT(MILLENNIUM FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 3
     SELECT EXTRACT(MILLENNIUM FROM INTERVAL '2001 years');
     Result: 2
-    ```
+```
 
-    1900 年代屬於第二個千禧年。第三個千禧年從 2001 年 1 月 1 日開始。
+1900 年代屬於第二個千禧年。第三個千禧年從 2001 年 1 月 1 日開始。
 
 `milliseconds`
 :   秒欄位（包括小數部分）乘以 1000。請注意，這包括完整的秒數。
@@ -945,19 +950,20 @@ EXTRACT(field FROM source)
 :   時區位移的分鐘部分
 
 `week`
-:   一年中 ISO 8601 週編號週的編號。依照定義，ISO 週從星期一開始，而一年的第一週包含該年的 1 月 4 日。換句話說，一年中的第一個星期四位於該年的第 1 週。
 
-    在 ISO 週編號系統中，一月初的日期有可能屬於前一年的第 52 或第 53 週，而十二月底的日期也有可能屬於下一年的第一週。例如，`2005-01-01` 屬於 2004 年的第 53 週，`2006-01-01` 屬於 2005 年的第 52 週，而 `2012-12-31` 則屬於 2013 年的第一週。建議將 `isoyear` 欄位與 `week` 一起使用，以得到一致的結果。
+一年中 ISO 8601 週編號週的編號。依照定義，ISO 週從星期一開始，而一年的第一週包含該年的 1 月 4 日。換句話說，一年中的第一個星期四位於該年的第 1 週。
 
-    對於 `interval` 值，週欄位就是整數天數除以 7。
+在 ISO 週編號系統中，一月初的日期有可能屬於前一年的第 52 或第 53 週，而十二月底的日期也有可能屬於下一年的第一週。例如，`2005-01-01` 屬於 2004 年的第 53 週，`2006-01-01` 屬於 2005 年的第 52 週，而 `2012-12-31` 則屬於 2013 年的第一週。建議將 `isoyear` 欄位與 `week` 一起使用，以得到一致的結果。
 
-    ```
+對於 `interval` 值，週欄位就是整數天數除以 7。
+
+```
 
     SELECT EXTRACT(WEEK FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 7
     SELECT EXTRACT(WEEK FROM INTERVAL '13 days 24 hours');
     Result: 1
-    ```
+```
 
 `year`
 :   年欄位。請記住，並沒有 `0 AD`（西元 0 年），因此從 `AD`（西元）年份減去 `BC`（西元前）年份時應該小心。

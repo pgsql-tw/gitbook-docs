@@ -173,14 +173,15 @@ configure 選項
 <a id="GUC-TRACE-LOCKS"></a>
 
 `trace_locks` (`boolean`) <a id="id-1.6.6.20.3.15.1.3"></a> [#](#GUC-TRACE-LOCKS)
-:   若為開啟，會輸出鎖定使用資訊。傾印的資訊
-    包括鎖定操作的類型、鎖定的種類，以及被鎖定或解鎖之物件的唯一識別碼。
-    另外還會包括此物件目前已授予的鎖定類型位元遮罩，
-    以及正在等待的鎖定類型位元遮罩。針對每種鎖定類型，
-    也會傾印已授予的鎖定數量與等待中的鎖定數量，以及各自的總計。
-    以下是日誌檔輸出的範例：
 
-    ```
+若為開啟，會輸出鎖定使用資訊。傾印的資訊
+包括鎖定操作的類型、鎖定的種類，以及被鎖定或解鎖之物件的唯一識別碼。
+另外還會包括此物件目前已授予的鎖定類型位元遮罩，
+以及正在等待的鎖定類型位元遮罩。針對每種鎖定類型，
+也會傾印已授予的鎖定數量與等待中的鎖定數量，以及各自的總計。
+以下是日誌檔輸出的範例：
+
+```
 
     LOG:  LockAcquire: new: lock(0xb7acd844) id(24688,24696,0,0,0,1)
           grantMask(0) req(0,0,0,0,0,0,0)=0 grant(0,0,0,0,0,0,0)=0
@@ -194,13 +195,13 @@ configure 選項
     LOG:  CleanUpLock: deleting: lock(0xb7acd844) id(24688,24696,0,0,0,1)
           grantMask(0) req(0,0,0,0,0,0,0)=0 grant(0,0,0,0,0,0,0)=0
           wait(0) type(INVALID)
-    ```
+```
 
-    此傾印結構的詳細內容可以在
-    `src/include/storage/lock.h` 中找到。
+此傾印結構的詳細內容可以在
+`src/include/storage/lock.h` 中找到。
 
-    此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
-    巨集的情況下才可用。
+此參數僅在編譯 PostgreSQL 時定義了 `LOCK_DEBUG`
+巨集的情況下才可用。
 <a id="GUC-TRACE-LWLOCKS"></a>
 
 `trace_lwlocks` (`boolean`) <a id="id-1.6.6.20.3.16.1.3"></a> [#](#GUC-TRACE-LWLOCKS)

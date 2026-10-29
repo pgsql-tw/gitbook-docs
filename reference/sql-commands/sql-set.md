@@ -99,16 +99,17 @@ SET [ SESSION | LOCAL ] TIME ZONE { value | 'value' | LOCAL | DEFAULT }
     `SET client_encoding TO value` 的別名寫法。
 
 `SEED`
-:   設定亂數產生器（`random` 函式）所使用的內部種子值。
-    允許的值為 -1 到 1（含）之間的浮點數。
 
-    也可以透過呼叫函式
-    `setseed` 來設定種子值：
+設定亂數產生器（`random` 函式）所使用的內部種子值。
+允許的值為 -1 到 1（含）之間的浮點數。
 
-    ```
+也可以透過呼叫函式
+`setseed` 來設定種子值：
+
+```
 
     SELECT setseed(value);
-    ```
+```
 
 `TIME ZONE`
 :   `SET TIME ZONE 'value'` 是

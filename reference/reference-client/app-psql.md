@@ -42,40 +42,41 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 <a id="APP-PSQL-OPTION-COMMAND"></a>
 
 `-c command`<br>`--command=command` [#](#APP-PSQL-OPTION-COMMAND)
-:   指定 psql 要執行給定的命令字串 *`command`*。
-    此選項可以重複使用，並可與 `-f` 選項以任意順序組合。指定了 `-c`
-    或 `-f` 其中之一時，psql
-    不會從標準輸入讀取命令；而是依序處理完所有 `-c` 與 `-f`
-    選項後結束。
 
-    *`command`* 必須是可由伺服器完整剖析的命令字串（也就是不含任何 psql 專屬功能），或是單一個反斜線命令。因此，你不能在一個 `-c` 選項中混用 SQL 與 psql 中繼命令。若要達到這個目的，你可以重複使用 `-c` 選項，或將字串以管線傳給 psql，例如：
+指定 psql 要執行給定的命令字串 *`command`*。
+此選項可以重複使用，並可與 `-f` 選項以任意順序組合。指定了 `-c`
+或 `-f` 其中之一時，psql
+不會從標準輸入讀取命令；而是依序處理完所有 `-c` 與 `-f`
+選項後結束。
 
-    ```
+*`command`* 必須是可由伺服器完整剖析的命令字串（也就是不含任何 psql 專屬功能），或是單一個反斜線命令。因此，你不能在一個 `-c` 選項中混用 SQL 與 psql 中繼命令。若要達到這個目的，你可以重複使用 `-c` 選項，或將字串以管線傳給 psql，例如：
+
+```
 
     psql -c '\x' -c 'SELECT * FROM foo;'
-    ```
+```
 
-    或
+或
 
-    ```
+```
 
     echo '\x \\ SELECT * FROM foo;' | psql
-    ```
+```
 
-    （`\\` 是分隔用的中繼命令。）
+（`\\` 是分隔用的中繼命令。）
 
-    傳給 `-c` 的每個 SQL 命令字串都會以單一請求送給伺服器。因此，即使字串中包含多個 SQL 命令，伺服器仍會將它當作單一交易執行，除非字串中包含明確的 `BEGIN`/`COMMIT`
-    命令把它分成多個交易。（關於伺服器如何處理含多個查詢的字串，詳情請參閱[第 54.2.2.1 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT)。）
+傳給 `-c` 的每個 SQL 命令字串都會以單一請求送給伺服器。因此，即使字串中包含多個 SQL 命令，伺服器仍會將它當作單一交易執行，除非字串中包含明確的 `BEGIN`/`COMMIT`
+命令把它分成多個交易。（關於伺服器如何處理含多個查詢的字串，詳情請參閱[第 54.2.2.1 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT)。）
 
-    若不希望多個命令在同一個交易中執行，請重複使用 `-c` 命令，或將多個命令餵給 psql 的標準輸入，可以像上面那樣使用 echo，或透過 shell 的 here-document，例如：
+若不希望多個命令在同一個交易中執行，請重複使用 `-c` 命令，或將多個命令餵給 psql 的標準輸入，可以像上面那樣使用 echo，或透過 shell 的 here-document，例如：
 
-    ```
+```
 
     psql <<EOF
     \x
     SELECT * FROM foo;
     EOF
-    ```
+```
 <a id="APP-PSQL-OPTION-CSV"></a>
 
 `--csv` [#](#APP-PSQL-OPTION-CSV)
@@ -377,72 +378,75 @@ name`。
 <a id="APP-PSQL-META-COMMAND-BIND"></a>
 
 `\bind` [ *`parameter`* ] ... [#](#APP-PSQL-META-COMMAND-BIND)
-:   設定下一次查詢執行的查詢參數，所指定的參數會傳給任何參數佔位符號
-    （`$1` 等）。
 
-    範例：
+設定下一次查詢執行的查詢參數，所指定的參數會傳給任何參數佔位符號
+（`$1` 等）。
 
-    ```
+範例：
+
+```
 
     INSERT INTO tbl1 VALUES ($1, $2) \bind 'first value' 'second value' \g
-    ```
+```
 
-    這也適用於 `\g` 以外的查詢執行命令，例如 `\gx` 與
-    `\gset`。
+這也適用於 `\g` 以外的查詢執行命令，例如 `\gx` 與
+`\gset`。
 
-    此命令會使用延伸查詢協定（請參閱[第 54.1.2 節](../../internals/protocol/protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。（即使查詢沒有參數，而此命令指定了零個參數，仍會使用延伸查詢協定。）此命令只影響下一個執行的查詢；之後的所有查詢預設都會使用簡單查詢協定。
+此命令會使用延伸查詢協定（請參閱[第 54.1.2 節](../../internals/protocol/protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。（即使查詢沒有參數，而此命令指定了零個參數，仍會使用延伸查詢協定。）此命令只影響下一個執行的查詢；之後的所有查詢預設都會使用簡單查詢協定。
 <a id="APP-PSQL-META-COMMAND-BIND-NAMED"></a>
 
 `\bind_named` *`statement_name`* [ *`parameter`* ] ... [#](#APP-PSQL-META-COMMAND-BIND-NAMED)
-:   `\bind_named` 等同於 `\bind`，
-    差別在於它的第一個參數是現有預備陳述式的名稱。空字串表示未命名的預備陳述式。
 
-    範例：
+`\bind_named` 等同於 `\bind`，
+差別在於它的第一個參數是現有預備陳述式的名稱。空字串表示未命名的預備陳述式。
 
-    ```
+範例：
+
+```
 
     INSERT INTO tbls1 VALUES ($1, $2) \parse stmt1
     \bind_named stmt1 'first value' 'second value' \g
-    ```
+```
 
-    此命令會使用延伸查詢協定（請參閱
-    [第 54.1.2 節](../../internals/protocol/protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。
+此命令會使用延伸查詢協定（請參閱
+[第 54.1.2 節](../../internals/protocol/protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-C-LC"></a>
 
 `\c` 或 `\connect [ -reuse-previous=on|off ] [ dbname [ username ] [ host ] [ port ] | conninfo ]` [#](#APP-PSQL-META-COMMAND-C-LC)
-:   建立與 PostgreSQL 伺服器的新連線。要使用的連線參數可以用位置語法指定（資料庫名稱、使用者、主機與連接埠其中一項或多項），也可以使用
-    [第 32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)所詳述的 *`conninfo`*
-    連線字串指定。若未提供任何引數，則會使用與先前相同的參數建立新連線。
 
-    將
-    *`dbname`*、
-    *`username`*、
-    *`host`* 或
-    *`port`*
-    其中任何一個指定為 `-`，等同於省略該參數。
+建立與 PostgreSQL 伺服器的新連線。要使用的連線參數可以用位置語法指定（資料庫名稱、使用者、主機與連接埠其中一項或多項），也可以使用
+[第 32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)所詳述的 *`conninfo`*
+連線字串指定。若未提供任何引數，則會使用與先前相同的參數建立新連線。
 
-    新連線可以重複使用先前連線的連線參數；不只是資料庫名稱、使用者、主機與連接埠，還包括其他設定，例如 *`sslmode`*。預設情況下，使用位置語法時會重複使用參數，但提供 *`conninfo`* 字串時則不會。將第一個引數傳入 `-reuse-previous=on`
-    或 `-reuse-previous=off` 可覆寫這個預設行為。若會重複使用參數，則任何未以位置參數或在 *`conninfo`*
-    字串中明確指定的參數，都會取自現有連線的參數。例外的是，若使用位置語法將 *`host`* 設定從先前的值變更，則現有連線參數中的任何 *`hostaddr`* 設定都會被捨棄。
-    此外，只有在使用者、主機與連接埠設定都未變更時，才會重複使用現有連線所用的密碼。
-    當命令既未指定也未重複使用某個參數時，會使用 libpq 的預設值。
+將
+*`dbname`*、
+*`username`*、
+*`host`* 或
+*`port`*
+其中任何一個指定為 `-`，等同於省略該參數。
 
-    若新連線建立成功，先前的連線就會關閉。
-    若連線嘗試失敗（使用者名稱錯誤、存取被拒等），而 psql 處於互動模式，則會保留先前的連線。但在執行非互動式腳本時，舊連線會被關閉並回報錯誤。這可能會、也可能不會終止腳本；若未終止，則所有存取資料庫的命令都會失敗，直到另一個 `\connect` 命令成功執行為止。之所以選擇這樣的區別，一方面是為了在打錯字時方便使用者，另一方面則是一種安全機制，避免腳本意外地在錯誤的資料庫上執行。
-    請注意，每當 `\connect` 命令嘗試重複使用參數時，所重複使用的值是最後一次成功連線的值，而不是之後任何失敗嘗試的值。
-    不過，在非互動式 `\connect` 失敗的情況下，之後不允許重複使用任何參數，因為腳本很可能會預期重複使用失敗的 `\connect`
-    中的值。
+新連線可以重複使用先前連線的連線參數；不只是資料庫名稱、使用者、主機與連接埠，還包括其他設定，例如 *`sslmode`*。預設情況下，使用位置語法時會重複使用參數，但提供 *`conninfo`* 字串時則不會。將第一個引數傳入 `-reuse-previous=on`
+或 `-reuse-previous=off` 可覆寫這個預設行為。若會重複使用參數，則任何未以位置參數或在 *`conninfo`*
+字串中明確指定的參數，都會取自現有連線的參數。例外的是，若使用位置語法將 *`host`* 設定從先前的值變更，則現有連線參數中的任何 *`hostaddr`* 設定都會被捨棄。
+此外，只有在使用者、主機與連接埠設定都未變更時，才會重複使用現有連線所用的密碼。
+當命令既未指定也未重複使用某個參數時，會使用 libpq 的預設值。
 
-    範例：
+若新連線建立成功，先前的連線就會關閉。
+若連線嘗試失敗（使用者名稱錯誤、存取被拒等），而 psql 處於互動模式，則會保留先前的連線。但在執行非互動式腳本時，舊連線會被關閉並回報錯誤。這可能會、也可能不會終止腳本；若未終止，則所有存取資料庫的命令都會失敗，直到另一個 `\connect` 命令成功執行為止。之所以選擇這樣的區別，一方面是為了在打錯字時方便使用者，另一方面則是一種安全機制，避免腳本意外地在錯誤的資料庫上執行。
+請注意，每當 `\connect` 命令嘗試重複使用參數時，所重複使用的值是最後一次成功連線的值，而不是之後任何失敗嘗試的值。
+不過，在非互動式 `\connect` 失敗的情況下，之後不允許重複使用任何參數，因為腳本很可能會預期重複使用失敗的 `\connect`
+中的值。
 
-    ```
+範例：
+
+```
 
     => \c mydb myuser host.dom 6432
     => \c service=foo
     => \c "host=localhost port=5432 dbname=mydb connect_timeout=10 sslmode=disable"
     => \c -reuse-previous=on sslmode=require    -- changes only sslmode
     => \c postgresql://tom@localhost/mydb?application_name=myapp
-    ```
+```
 <a id="APP-PSQL-META-COMMAND-C-UC"></a>
 
 `\C [ title ]` [#](#APP-PSQL-META-COMMAND-C-UC)
@@ -463,18 +467,19 @@ name`。
 <a id="APP-PSQL-META-COMMAND-CLOSE-PREPARED"></a>
 
 `\close_prepared` *`prepared_statement_name`* [#](#APP-PSQL-META-COMMAND-CLOSE-PREPARED)
-:   關閉指定的預備陳述式。空字串表示未命名的預備陳述式。若不存在此名稱的預備陳述式，此操作不會有任何作用。
 
-    範例：
+關閉指定的預備陳述式。空字串表示未命名的預備陳述式。若不存在此名稱的預備陳述式，此操作不會有任何作用。
 
-    ```
+範例：
+
+```
 
     SELECT $1 \parse stmt1
     \close_prepared stmt1
-    ```
+```
 
-    此命令會使用延伸查詢協定，這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從
-    psql 測試延伸查詢協定。
+此命令會使用延伸查詢協定，這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從
+psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-CONNINFO"></a>
 
 `\conninfo` [#](#APP-PSQL-META-COMMAND-CONNINFO)
@@ -1125,9 +1130,10 @@ name`。
 <a id="APP-PSQL-META-COMMAND-GEXEC"></a>
 
 `\gexec` [#](#APP-PSQL-META-COMMAND-GEXEC)
-:   將目前的查詢緩衝區送到伺服器，然後把查詢輸出（若有）中每一筆資料列的每一個欄位都當成要執行的 SQL 陳述式。例如，要在 `my_table` 的每個欄位上建立索引：
 
-    ```
+將目前的查詢緩衝區送到伺服器，然後把查詢輸出（若有）中每一筆資料列的每一個欄位都當成要執行的 SQL 陳述式。例如，要在 `my_table` 的每個欄位上建立索引：
+
+```
 
     => SELECT format('create index on my_table(%I)', attname)
     -> FROM pg_attribute
@@ -1138,39 +1144,40 @@ name`。
     CREATE INDEX
     CREATE INDEX
     CREATE INDEX
-    ```
+```
 
-    產生的查詢會依資料列傳回的順序執行；若有超過一個欄位，則在每筆資料列內由左至右執行。NULL 欄位會被忽略。產生的查詢會原封不動地送到伺服器處理，因此它們不能是 psql 中繼命令，也不能包含 psql 變數參照。若其中任何一個查詢失敗，除非設定了 `ON_ERROR_STOP`，否則其餘查詢會繼續執行。每個查詢的執行都受 `ECHO` 處理的影響。（使用 `\gexec` 時，通常建議將 `ECHO` 設為 `all` 或 `queries`。）查詢記錄、單步模式、計時以及其他查詢執行功能，也同樣適用於每一個產生的查詢。
+產生的查詢會依資料列傳回的順序執行；若有超過一個欄位，則在每筆資料列內由左至右執行。NULL 欄位會被忽略。產生的查詢會原封不動地送到伺服器處理，因此它們不能是 psql 中繼命令，也不能包含 psql 變數參照。若其中任何一個查詢失敗，除非設定了 `ON_ERROR_STOP`，否則其餘查詢會繼續執行。每個查詢的執行都受 `ECHO` 處理的影響。（使用 `\gexec` 時，通常建議將 `ECHO` 設為 `all` 或 `queries`。）查詢記錄、單步模式、計時以及其他查詢執行功能，也同樣適用於每一個產生的查詢。
 
-    若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。
+若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。
 <a id="APP-PSQL-META-COMMAND-GSET"></a>
 
 `\gset [ prefix ]` [#](#APP-PSQL-META-COMMAND-GSET)
-:   將目前的查詢緩衝區送到伺服器，並把查詢的輸出存入 psql 變數（請參閱下方的[變數](app-psql.md#APP-PSQL-VARIABLES)）。要執行的查詢必須恰好傳回一筆資料列。該資料列的每個欄位會分別存入一個獨立的變數，變數名稱與欄位名稱相同。例如：
 
-    ```
+將目前的查詢緩衝區送到伺服器，並把查詢的輸出存入 psql 變數（請參閱下方的[變數](app-psql.md#APP-PSQL-VARIABLES)）。要執行的查詢必須恰好傳回一筆資料列。該資料列的每個欄位會分別存入一個獨立的變數，變數名稱與欄位名稱相同。例如：
+
+```
 
     => SELECT 'hello' AS var1, 10 AS var2
     -> \gset
     => \echo :var1 :var2
     hello 10
-    ```
+```
 
-    若你指定了 *`prefix`*，該字串會加在查詢的欄位名稱前面，作為要使用的變數名稱：
+若你指定了 *`prefix`*，該字串會加在查詢的欄位名稱前面，作為要使用的變數名稱：
 
-    ```
+```
 
     => SELECT 'hello' AS var1, 10 AS var2
     -> \gset result_
     => \echo :result_var1 :result_var2
     hello 10
-    ```
+```
 
-    若某個欄位結果為 NULL，對應的變數會被取消設定，而不是被設定。
+若某個欄位結果為 NULL，對應的變數會被取消設定，而不是被設定。
 
-    若查詢失敗或沒有傳回一筆資料列，則不會變更任何變數。
+若查詢失敗或沒有傳回一筆資料列，則不會變更任何變數。
 
-    若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。
+若目前的查詢緩衝區是空的，則改為重新執行最近一次送出的查詢。
 <a id="APP-PSQL-META-COMMAND-GX"></a>
 
 `\gx [ (option=value [...]) ] [ filename ]`<br>`\gx [ (option=value [...]) ] [ |command ]` [#](#APP-PSQL-META-COMMAND-GX)
@@ -1207,21 +1214,22 @@ name`。
 <a id="PSQL-METACOMMAND-IF"></a>
 
 `\if` *`expression`*<br>`\elif` *`expression`*<br>`\else`<br>`\endif` [#](#PSQL-METACOMMAND-IF)
-:   這組命令實作可巢狀的條件區塊。條件區塊必須以 `\if` 開始，並以 `\endif` 結束。兩者之間可以有任意數量的 `\elif` 子句，其後可以選擇性地接一個 `\else` 子句。一般查詢與其他類型的反斜線命令可以（而且通常會）出現在構成條件區塊的命令之間。
 
-    `\if` 與 `\elif` 命令會讀取其引數，並將其當作布林運算式求值。若運算式得出 `true`，處理會正常繼續；否則會略過後續各行，直到遇到相對應的 `\elif`、`\else` 或 `\endif` 為止。一旦某個 `\if` 或 `\elif` 測試成功，同一區塊中後續 `\elif` 命令的引數就不會求值，而是視為 false。只有在先前相對應的 `\if` 或 `\elif` 都沒有成功時，才會處理 `\else` 之後的各行。
+這組命令實作可巢狀的條件區塊。條件區塊必須以 `\if` 開始，並以 `\endif` 結束。兩者之間可以有任意數量的 `\elif` 子句，其後可以選擇性地接一個 `\else` 子句。一般查詢與其他類型的反斜線命令可以（而且通常會）出現在構成條件區塊的命令之間。
 
-    `\if` 或 `\elif` 命令的 *`expression`* 引數，與任何其他反斜線命令的引數一樣，會進行變數插值與反引號展開。之後，它會像 on/off 選項變數的值一樣被求值。因此，有效的值是與下列任一者不分大小寫且不產生歧義的相符字串：`true`、`false`、`1`、`0`、`on`、`off`、`yes`、`no`。例如，`t`、`T` 與 `tR` 都會被視為 `true`。
+`\if` 與 `\elif` 命令會讀取其引數，並將其當作布林運算式求值。若運算式得出 `true`，處理會正常繼續；否則會略過後續各行，直到遇到相對應的 `\elif`、`\else` 或 `\endif` 為止。一旦某個 `\if` 或 `\elif` 測試成功，同一區塊中後續 `\elif` 命令的引數就不會求值，而是視為 false。只有在先前相對應的 `\if` 或 `\elif` 都沒有成功時，才會處理 `\else` 之後的各行。
 
-    無法正確求值為 true 或 false 的運算式會產生警告，並被視為 false。
+`\if` 或 `\elif` 命令的 *`expression`* 引數，與任何其他反斜線命令的引數一樣，會進行變數插值與反引號展開。之後，它會像 on/off 選項變數的值一樣被求值。因此，有效的值是與下列任一者不分大小寫且不產生歧義的相符字串：`true`、`false`、`1`、`0`、`on`、`off`、`yes`、`no`。例如，`t`、`T` 與 `tR` 都會被視為 `true`。
 
-    被略過的各行仍會正常剖析，以辨識查詢與反斜線命令，但查詢不會送到伺服器，而條件命令（`\if`、`\elif`、`\else`、`\endif`）以外的反斜線命令都會被忽略。對條件命令只檢查巢狀結構是否有效。被略過的各行中的變數參照不會展開，也不會進行反引號展開。
+無法正確求值為 true 或 false 的運算式會產生警告，並被視為 false。
 
-    同一個條件區塊的所有反斜線命令都必須出現在同一個來源檔案中。若在所有區域的 `\if` 區塊關閉之前，就到達主輸入檔或某個以 `\include` 引入之檔案的 EOF，psql 會引發錯誤。
+被略過的各行仍會正常剖析，以辨識查詢與反斜線命令，但查詢不會送到伺服器，而條件命令（`\if`、`\elif`、`\else`、`\endif`）以外的反斜線命令都會被忽略。對條件命令只檢查巢狀結構是否有效。被略過的各行中的變數參照不會展開，也不會進行反引號展開。
 
-    以下是一個範例：
+同一個條件區塊的所有反斜線命令都必須出現在同一個來源檔案中。若在所有區域的 `\if` 區塊關閉之前，就到達主輸入檔或某個以 `\include` 引入之檔案的 EOF，psql 會引發錯誤。
 
-    ```
+以下是一個範例：
+
+```
 
     -- check for the existence of two separate records in the database and store
     -- the results in separate psql variables
@@ -1241,7 +1249,7 @@ name`。
             \echo 'this will never print'
         \endif
     \endif
-    ```
+```
 <a id="APP-PSQL-META-COMMAND-INCLUDE-RELATIVE"></a>
 
 `\ir` 或 `\include_relative` *`filename`* [#](#APP-PSQL-META-COMMAND-INCLUDE-RELATIVE)
@@ -1263,17 +1271,18 @@ name`。
 <a id="APP-PSQL-META-COMMAND-LO-IMPORT"></a>
 
 `\lo_import filename [ comment ]` [#](#APP-PSQL-META-COMMAND-LO-IMPORT)
-:   將檔案存成 PostgreSQL 大型物件。也可以選擇為該物件附上指定的註解。範例：
 
-    ```
+將檔案存成 PostgreSQL 大型物件。也可以選擇為該物件附上指定的註解。範例：
+
+```
 
     foo=> \lo_import '/home/peter/pictures/photo.xcf' 'a picture of me'
     lo_import 152801
-    ```
+```
 
-    此回應表示該大型物件取得了物件 ID 152801，日後可用它來存取這個新建立的大型物件。為了可讀性，建議一律為每個物件附上人類可讀的註解。OID 與註解都可以用 `\lo_list` 命令檢視。
+此回應表示該大型物件取得了物件 ID 152801，日後可用它來存取這個新建立的大型物件。為了可讀性，建議一律為每個物件附上人類可讀的註解。OID 與註解都可以用 `\lo_list` 命令檢視。
 
-    請注意，此命令與伺服器端的 `lo_import` 有細微的差異，因為它是以本機使用者的身分在本機檔案系統上運作，而不是以伺服器的使用者身分與檔案系統運作。
+請注意，此命令與伺服器端的 `lo_import` 有細微的差異，因為它是以本機使用者的身分在本機檔案系統上運作，而不是以伺服器的使用者身分與檔案系統運作。
 <a id="APP-PSQL-META-COMMAND-LO-LIST"></a>
 
 `\lo_list[x+]` [#](#APP-PSQL-META-COMMAND-LO-LIST)
@@ -1309,16 +1318,17 @@ name`。
 <a id="APP-PSQL-META-COMMAND-PARSE"></a>
 
 `\parse statement_name` [#](#APP-PSQL-META-COMMAND-PARSE)
-:   依據目標預備陳述式物件的名稱，從目前的查詢緩衝區建立一個預備陳述式。空字串表示未命名的預備陳述式。
 
-    範例：
+依據目標預備陳述式物件的名稱，從目前的查詢緩衝區建立一個預備陳述式。空字串表示未命名的預備陳述式。
 
-    ```
+範例：
+
+```
 
     SELECT $1 \parse stmt1
-    ```
+```
 
-    與一般 psql 運作使用簡單查詢協定不同，此命令會使用延伸查詢協定。此命令會發出一個 [Parse (F)](../../internals/protocol/protocol-message-formats.md#PROTOCOL-MESSAGE-FORMATS-PARSE) 訊息，因此可用來從 psql 測試延伸查詢協定。此命令只影響下一個執行的查詢；之後的所有查詢預設都會使用簡單查詢協定。
+與一般 psql 運作使用簡單查詢協定不同，此命令會使用延伸查詢協定。此命令會發出一個 [Parse (F)](../../internals/protocol/protocol-message-formats.md#PROTOCOL-MESSAGE-FORMATS-PARSE) 訊息，因此可用來從 psql 測試延伸查詢協定。此命令只影響下一個執行的查詢；之後的所有查詢預設都會使用簡單查詢協定。
 <a id="APP-PSQL-META-COMMAND-PASSWORD"></a>
 
 `\password [ username ]` [#](#APP-PSQL-META-COMMAND-PASSWORD)
@@ -1543,21 +1553,22 @@ name`。
 <a id="APP-PSQL-META-COMMAND-PIPELINE"></a>
 
 `\startpipeline`<br>`\sendpipeline`<br>`\syncpipeline`<br>`\endpipeline`<br>`\flushrequest`<br>`\flush`<br>`\getresults [ number_results ]` [#](#APP-PSQL-META-COMMAND-PIPELINE)
-:   這組命令實作 SQL 陳述式的管線化。管線必須以 `\startpipeline` 開始，並以 `\endpipeline` 結束。兩者之間可以有任意數量的 `\syncpipeline` 命令，它會送出一個 [sync 訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)，但不會結束進行中的管線，並會將傳送緩衝區中的資料送出（flush）。在管線模式下，陳述式會送到伺服器，而不等待先前陳述式的結果。詳細資訊請參閱[第 32.5 節](../../client-interfaces/libpq/libpq-pipeline-mode.md)。
 
-    管線進行期間執行的所有查詢都使用延伸查詢協定。查詢以分號結尾時會附加到管線中。中繼命令 `\bind`、`\bind_named`、`\close_prepared` 或 `\parse` 可以在進行中的管線中使用。管線進行期間，`\sendpipeline` 會將目前的查詢緩衝區附加到管線中。其他中繼命令，例如 `\g`、`\gx` 或 `\gdesc`，在管線模式下不允許使用。
+這組命令實作 SQL 陳述式的管線化。管線必須以 `\startpipeline` 開始，並以 `\endpipeline` 結束。兩者之間可以有任意數量的 `\syncpipeline` 命令，它會送出一個 [sync 訊息](../../internals/protocol/protocol-flow.md#protocol-flow-ext-query)，但不會結束進行中的管線，並會將傳送緩衝區中的資料送出（flush）。在管線模式下，陳述式會送到伺服器，而不等待先前陳述式的結果。詳細資訊請參閱[第 32.5 節](../../client-interfaces/libpq/libpq-pipeline-mode.md)。
 
-    `\flushrequest` 會在管線中附加一個 flush 命令，讓你可以用 `\getresults` 讀取結果，而不必發出 sync 或結束管線。`\getresults` 會自動將尚未送出的資料推送到伺服器。`\flush` 可用來手動推送尚未送出的資料。
+管線進行期間執行的所有查詢都使用延伸查詢協定。查詢以分號結尾時會附加到管線中。中繼命令 `\bind`、`\bind_named`、`\close_prepared` 或 `\parse` 可以在進行中的管線中使用。管線進行期間，`\sendpipeline` 會將目前的查詢緩衝區附加到管線中。其他中繼命令，例如 `\g`、`\gx` 或 `\gdesc`，在管線模式下不允許使用。
 
-    `\getresults` 接受一個選用的 *`number_results`* 參數。若有提供，只會讀取前 *`number_results`* 個待處理的結果。若未提供或為 `0`，則會讀取所有待處理的結果。
+`\flushrequest` 會在管線中附加一個 flush 命令，讓你可以用 `\getresults` 讀取結果，而不必發出 sync 或結束管線。`\getresults` 會自動將尚未送出的資料推送到伺服器。`\flush` 可用來手動推送尚未送出的資料。
 
-    管線模式啟用時，會有一個專用的提示字串變數可用來回報管線狀態。詳細資訊請參閱 [`%P`](app-psql.md#APP-PSQL-PROMPTING-P-UC)
+`\getresults` 接受一個選用的 *`number_results`* 參數。若有提供，只會讀取前 *`number_results`* 個待處理的結果。若未提供或為 `0`，則會讀取所有待處理的結果。
 
-    管線模式下不支援 `COPY`。
+管線模式啟用時，會有一個專用的提示字串變數可用來回報管線狀態。詳細資訊請參閱 [`%P`](app-psql.md#APP-PSQL-PROMPTING-P-UC)
 
-    範例：
+管線模式下不支援 `COPY`。
 
-    ```
+範例：
+
+```
 
     \startpipeline
     SELECT * FROM pg_class;
@@ -1565,7 +1576,7 @@ name`。
     \flushrequest
     \getresults
     \endpipeline
-    ```
+```
 <a id="APP-PSQL-META-COMMAND-T-LC"></a>
 
 `\t` [#](#APP-PSQL-META-COMMAND-T-LC)
@@ -1639,23 +1650,24 @@ name`。
 <a id="APP-PSQL-META-COMMAND-SEMICOLON"></a>
 
 `\;` [#](#APP-PSQL-META-COMMAND-SEMICOLON)
-:   反斜線分號並不是與前述命令同類的中繼命令；它只是讓一個分號被加入查詢緩衝區，而不做任何進一步的處理。
 
-    一般而言，psql 一讀到結束命令的分號，就會將 SQL 命令送到伺服器，即使目前這一行還有更多輸入也一樣。因此，舉例來說，輸入
+反斜線分號並不是與前述命令同類的中繼命令；它只是讓一個分號被加入查詢緩衝區，而不做任何進一步的處理。
 
-    ```
+一般而言，psql 一讀到結束命令的分號，就會將 SQL 命令送到伺服器，即使目前這一行還有更多輸入也一樣。因此，舉例來說，輸入
+
+```
 
     select 1; select 2; select 3;
-    ```
+```
 
-    會使這三個 SQL 命令個別送到伺服器，並在繼續下一個命令之前顯示每個命令的結果。然而，以 `\;` 輸入的分號不會觸發命令處理，因此它前面的命令與後面的命令實際上會合併，並以單一請求送到伺服器。所以舉例來說，
+會使這三個 SQL 命令個別送到伺服器，並在繼續下一個命令之前顯示每個命令的結果。然而，以 `\;` 輸入的分號不會觸發命令處理，因此它前面的命令與後面的命令實際上會合併，並以單一請求送到伺服器。所以舉例來說，
 
-    ```
+```
 
     select 1\; select 2\; select 3;
-    ```
+```
 
-    會在遇到沒有反斜線的分號時，以單一請求將這三個 SQL 命令送到伺服器。除非字串中包含明確的 `BEGIN`/`COMMIT` 命令將其分成多個交易，否則伺服器會將這樣的請求當作單一交易執行。（關於伺服器如何處理多查詢字串的詳細資訊，請參閱[第 54.2.2.1 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT)。）
+會在遇到沒有反斜線的分號時，以單一請求將這三個 SQL 命令送到伺服器。除非字串中包含明確的 `BEGIN`/`COMMIT` 命令將其分成多個交易，否則伺服器會將這樣的請求當作單一交易執行。（關於伺服器如何處理多查詢字串的詳細資訊，請參閱[第 54.2.2.1 節](../../internals/protocol/protocol-flow.md#PROTOCOL-FLOW-MULTI-STATEMENT)。）
 
 <a id="APP-PSQL-PATTERNS"></a>
 
@@ -2153,16 +2165,17 @@ psql 要求輸入新命令時發出的一般提示字串。提示字串 2 會在
 <a id="APP-PSQL-PROMPTING-SQUARE-BRACKETS"></a>
 
 `%[` ... `%]` [#](#APP-PSQL-PROMPTING-SQUARE-BRACKETS)
-:   提示字串可以包含終端機控制字元，例如用來改變提示字串文字的顏色、背景或樣式，或改變終端機視窗的標題。為了讓 Readline 的行編輯功能正常運作，這些不可列印的控制字元必須以 `%[` 與
-    `%]` 括住，標示為不可見。提示字串中可以出現多對這種標記。例如：
 
-    ```
+提示字串可以包含終端機控制字元，例如用來改變提示字串文字的顏色、背景或樣式，或改變終端機視窗的標題。為了讓 Readline 的行編輯功能正常運作，這些不可列印的控制字元必須以 `%[` 與
+`%]` 括住，標示為不可見。提示字串中可以出現多對這種標記。例如：
+
+```
 
     testdb=> \set PROMPT1 '%[%033[1;33;40m%]%n@%/%R%[%033[0m%]%# '
-    ```
+```
 
-    會在相容 VT100、支援彩色的終端機上，產生粗體（`1;`）、黑底黃字
-    （`33;40`）的提示字串。
+會在相容 VT100、支援彩色的終端機上，產生粗體（`1;`）、黑底黃字
+（`33;40`）的提示字串。
 <a id="APP-PSQL-PROMPTING-W"></a>
 
 `%w` [#](#APP-PSQL-PROMPTING-W)
@@ -2247,19 +2260,20 @@ Readline。這會停用 Tab 鍵補全、命令列歷史的使用或記錄，以�
 <a id="APP-PSQL-ENVIRONMENT-PSQL-EDITOR-LINENUMBER-ARG"></a>
 
 `PSQL_EDITOR_LINENUMBER_ARG` [#](#APP-PSQL-ENVIRONMENT-PSQL-EDITOR-LINENUMBER-ARG)
-:   當 `\e`、`\ef` 或
-    `\ev` 搭配行號引數使用時，此變數指定用來將起始行號傳給使用者編輯器的命令列引數。對於 Emacs 或
-    vi 等編輯器，這是一個加號。如果選項名稱與行號之間需要空格，請在變數的值結尾加上一個空格。範例：
 
-    ```
+當 `\e`、`\ef` 或
+`\ev` 搭配行號引數使用時，此變數指定用來將起始行號傳給使用者編輯器的命令列引數。對於 Emacs 或
+vi 等編輯器，這是一個加號。如果選項名稱與行號之間需要空格，請在變數的值結尾加上一個空格。範例：
+
+```
 
     PSQL_EDITOR_LINENUMBER_ARG='+'
     PSQL_EDITOR_LINENUMBER_ARG='--line '
-    ```
+```
 
-    在 Unix 系統上預設為 `+`
-    （對應預設編輯器 `vi`，
-    也適用於許多其他常見編輯器）；但在 Windows 系統上沒有預設值。
+在 Unix 系統上預設為 `+`
+（對應預設編輯器 `vi`，
+也適用於許多其他常見編輯器）；但在 Windows 系統上沒有預設值。
 <a id="APP-PSQL-ENVIRONMENT-PSQL-HISTORY"></a>
 
 `PSQL_HISTORY` [#](#APP-PSQL-ENVIRONMENT-PSQL-HISTORY)

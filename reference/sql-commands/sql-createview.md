@@ -38,21 +38,22 @@ myschema.myview ...`），檢視表就會建立在指定的綱要中；否則會
 若檢視表所參照的任何資料表是暫存的，則該檢視表會建立為暫存檢視表（無論是否指定了 `TEMPORARY`）。
 
 `RECURSIVE` <a id="id-1.9.3.97.6.2.2.1.2"></a>
-:   建立遞迴檢視表。語法
 
-    ```
+建立遞迴檢視表。語法
+
+```
 
     CREATE RECURSIVE VIEW [ schema . ] view_name (column_names) AS SELECT ...;
-    ```
+```
 
-    等同於
+等同於
 
-    ```
+```
 
     CREATE VIEW [ schema . ] view_name AS WITH RECURSIVE view_name (column_names) AS (SELECT ...) SELECT column_names FROM view_name;
-    ```
+```
 
-    遞迴檢視表必須指定檢視表欄位名稱清單。
+遞迴檢視表必須指定檢視表欄位名稱清單。
 
 *`name`*
 :   要建立的檢視表名稱（可選擇以綱要限定）。

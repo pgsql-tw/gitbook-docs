@@ -385,28 +385,29 @@ PostgreSQL 功能。這些功能之所以非預設，大多是因為
 <a id="CONFIGURE-WITH-LLVM"></a>
 
 `--with-llvm` [#](#CONFIGURE-WITH-LLVM)
-:   建置時支援以 LLVM 為基礎的 JIT 編譯
-    （見[第 30 章](../jit/README.md)）。
-    這需要安裝 LLVM 函式庫。
-    目前所需的最低 LLVM 版本為 14。
 
-    系統會使用 `llvm-config`<a id="id-1.6.4.6.4.5.3.6.2.2.2"></a>
-    來尋找所需的編譯選項。
-    系統會在 `PATH` 中搜尋 `llvm-config`。
-    如果這樣找不到你想要的程式，
-    可以使用 `LLVM_CONFIG` 指定正確
-    `llvm-config` 的路徑。例如：
+建置時支援以 LLVM 為基礎的 JIT 編譯
+（見[第 30 章](../jit/README.md)）。
+這需要安裝 LLVM 函式庫。
+目前所需的最低 LLVM 版本為 14。
 
-    ```
+系統會使用 `llvm-config`<a id="id-1.6.4.6.4.5.3.6.2.2.2"></a>
+來尋找所需的編譯選項。
+系統會在 `PATH` 中搜尋 `llvm-config`。
+如果這樣找不到你想要的程式，
+可以使用 `LLVM_CONFIG` 指定正確
+`llvm-config` 的路徑。例如：
+
+```
 
     ./configure ... --with-llvm LLVM_CONFIG='/path/to/llvm/bin/llvm-config'
-    ```
+```
 
-    LLVM 支援需要相容的
-    `clang` 編譯器（如有需要，可透過
-    `CLANG` 環境變數指定），以及一套可運作的 C++
-    編譯器（如有需要，可透過 `CXX`
-    環境變數指定）。
+LLVM 支援需要相容的
+`clang` 編譯器（如有需要，可透過
+`CLANG` 環境變數指定），以及一套可運作的 C++
+編譯器（如有需要，可透過 `CXX`
+環境變數指定）。
 <a id="CONFIGURE-OPTION-WITH-LZ4"></a>
 
 `--with-lz4` [#](#CONFIGURE-OPTION-WITH-LZ4)
@@ -797,35 +798,36 @@ Libxml2 2.6.23 以上版本。
 <a id="CONFIGURE-OPTION-ENABLE-DTRACE"></a>
 
 `--enable-dtrace` [#](#CONFIGURE-OPTION-ENABLE-DTRACE)
-:   <a id="id-1.6.4.6.4.9.4.7.2.1.1"></a>
-    編譯 PostgreSQL 時支援動態追蹤工具
-    DTrace。
-    詳見[27.5 節](../monitoring/dynamic-trace.md)以取得更多資訊。
 
-    你可以設定環境變數 `DTRACE`，
-    來指向 `dtrace` 程式。
-    這通常是必要的，因為 `dtrace`
-    一般安裝於 `/usr/sbin`，
-    可能不在你的 `PATH` 之中。
+<a id="id-1.6.4.6.4.9.4.7.2.1.1"></a>
+編譯 PostgreSQL 時支援動態追蹤工具
+DTrace。
+詳見[27.5 節](../monitoring/dynamic-trace.md)以取得更多資訊。
 
-    可以在環境變數 `DTRACEFLAGS` 中，
-    指定要傳給 `dtrace` 程式的額外命令列選項。
-    在 Solaris 上，若要在 64 位元二進位檔中納入 DTrace 支援，
-    你必須指定
-    `DTRACEFLAGS="-64"`。例如，
-    使用 GCC 編譯器時：
+你可以設定環境變數 `DTRACE`，
+來指向 `dtrace` 程式。
+這通常是必要的，因為 `dtrace`
+一般安裝於 `/usr/sbin`，
+可能不在你的 `PATH` 之中。
 
-    ```
+可以在環境變數 `DTRACEFLAGS` 中，
+指定要傳給 `dtrace` 程式的額外命令列選項。
+在 Solaris 上，若要在 64 位元二進位檔中納入 DTrace 支援，
+你必須指定
+`DTRACEFLAGS="-64"`。例如，
+使用 GCC 編譯器時：
+
+```
 
     ./configure CC='gcc -m64' --enable-dtrace DTRACEFLAGS='-64' ...
-    ```
+```
 
-    使用 Sun 的編譯器時：
+使用 Sun 的編譯器時：
 
-    ```
+```
 
     ./configure CC='/opt/SUNWspro/bin/cc -xtarget=native64' --enable-dtrace DTRACEFLAGS='-64' ...
-    ```
+```
 <a id="CONFIGURE-OPTION-ENABLE-INJECTION-POINTS"></a>
 
 `--enable-injection-points` [#](#CONFIGURE-OPTION-ENABLE-INJECTION-POINTS)

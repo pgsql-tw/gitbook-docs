@@ -474,46 +474,47 @@ STATISTICS` 增加為特定欄位收集的統計資訊量。
 <a id="GUC-CONSTRAINT-EXCLUSION"></a>
 
 `constraint_exclusion` (`enum`) <a id="id-1.6.6.10.5.2.2.1.3"></a> <a id="id-1.6.6.10.5.2.2.1.4"></a> [#](#GUC-CONSTRAINT-EXCLUSION)
-:   控制查詢規劃器使用資料表限制條件
-    來最佳化查詢的方式。
-    `constraint_exclusion` 允許的值有
-    `on`（檢查所有資料表的限制條件）、
-    `off`（永不檢查限制條件），以及
-    `partition`（僅針對繼承子資料表與
-    `UNION ALL` 子查詢檢查限制條件）。
-    `partition` 是預設設定。
-    此功能通常與傳統繼承樹搭配使用，以改善
-    效能。
 
-    當此參數允許對特定資料表使用此功能時，
-    規劃器會將查詢條件與該資料表的 `CHECK`
-    限制條件比對，並略過掃描條件與限制條件矛盾的
-    資料表。舉例來說：
+控制查詢規劃器使用資料表限制條件
+來最佳化查詢的方式。
+`constraint_exclusion` 允許的值有
+`on`（檢查所有資料表的限制條件）、
+`off`（永不檢查限制條件），以及
+`partition`（僅針對繼承子資料表與
+`UNION ALL` 子查詢檢查限制條件）。
+`partition` 是預設設定。
+此功能通常與傳統繼承樹搭配使用，以改善
+效能。
 
-    ```
+當此參數允許對特定資料表使用此功能時，
+規劃器會將查詢條件與該資料表的 `CHECK`
+限制條件比對，並略過掃描條件與限制條件矛盾的
+資料表。舉例來說：
+
+```
 
     CREATE TABLE parent(key integer, ...);
     CREATE TABLE child1000(check (key between 1000 and 1999)) INHERITS(parent);
     CREATE TABLE child2000(check (key between 2000 and 2999)) INHERITS(parent);
     ...
     SELECT * FROM parent WHERE key = 2400;
-    ```
+```
 
-    啟用限制條件排除後，這個 `SELECT`
-    完全不會掃描 `child1000`，藉此改善效能。
+啟用限制條件排除後，這個 `SELECT`
+完全不會掃描 `child1000`，藉此改善效能。
 
-    目前，限制條件排除功能預設僅在常用於
-    透過繼承樹實作資料表分割的情況下啟用。若對所有
-    資料表開啟此功能，會帶來額外的規劃負擔，
-    在簡單查詢上相當明顯，而且多數情況下對簡單查詢
-    不會帶來任何好處。如果你沒有任何使用傳統繼承方式
-    分割的資料表，可能會偏好完全關閉此功能。
-    （請注意，分割資料表的對應功能是由另一個
-    獨立參數
-    [enable_partition_pruning](runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) 控制的。）
+目前，限制條件排除功能預設僅在常用於
+透過繼承樹實作資料表分割的情況下啟用。若對所有
+資料表開啟此功能，會帶來額外的規劃負擔，
+在簡單查詢上相當明顯，而且多數情況下對簡單查詢
+不會帶來任何好處。如果你沒有任何使用傳統繼承方式
+分割的資料表，可能會偏好完全關閉此功能。
+（請注意，分割資料表的對應功能是由另一個
+獨立參數
+[enable_partition_pruning](runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) 控制的。）
 
-    有關使用限制條件排除實作分割的更多資訊，
-    請參閱[5.12.5 節](../../the-sql-language/ddl/ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)。
+有關使用限制條件排除實作分割的更多資訊，
+請參閱[5.12.5 節](../../the-sql-language/ddl/ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)。
 <a id="GUC-CURSOR-TUPLE-FRACTION"></a>
 
 `cursor_tuple_fraction` (`floating point`) <a id="id-1.6.6.10.5.2.3.1.3"></a> [#](#GUC-CURSOR-TUPLE-FRACTION)

@@ -389,48 +389,49 @@ PostgreSQL 資料庫的名稱，或是一個正規表示式。
         身分識別提供者進行授權，並可選擇性地進行認證。詳情請見 [第 20.15 節](auth-oauth.md)。
 
 *`auth-options`*
-:   在 *`auth-method`* 欄位之後，可以有一個或多個
-    *`name`*`=`*`value`* 形式的欄位，用來
-    指定該認證方法的選項。哪些選項可用於哪些
-    認證方法，詳情列於下方。
 
-    除了下方列出的各方法專屬選項之外，還有一個
-    與方法無關的認證選項 `clientcert`，
-    可以在任何 `hostssl` 記錄中指定。
-    此選項可設為 `verify-ca` 或
-    `verify-full`。這兩個選項都要求用戶端
-    出示有效（受信任）的 SSL 憑證，而
-    `verify-full` 另外還會強制要求憑證中的
-    `cn`（Common Name）
-    必須與使用者名稱或某個適用的對應相符。
-    此行為與 `cert` 認證方式
-    （見 [第 20.12 節](auth-cert.md)）相似，但可讓你將用戶端憑證
-    的驗證，與任何支援 `hostssl` 項目的
-    認證方法搭配使用。
+在 *`auth-method`* 欄位之後，可以有一個或多個
+*`name`*`=`*`value`* 形式的欄位，用來
+指定該認證方法的選項。哪些選項可用於哪些
+認證方法，詳情列於下方。
 
-    在任何使用用戶端憑證認證的記錄上（也就是使用
-    `cert` 認證方法，或使用
-    `clientcert` 選項的記錄），你可以透過
-    `clientname` 選項指定要比對用戶端憑證中的
-    哪個部分。此選項可以有兩種
-    值。若指定 `clientname=CN`（此為
-    預設值），使用者名稱會與憑證的
-    `Common Name (CN)` 比對。若改為指定
-    `clientname=DN`，使用者名稱則會與憑證的
-    整個 `Distinguished Name (DN)` 比對。
-    此選項可能最適合搭配使用者名稱對應表使用。
-    比對時使用的 `DN` 格式為
-    [RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253)
-    格式。若要以這種格式查看用戶端憑證的
-    `DN`，可執行
+除了下方列出的各方法專屬選項之外，還有一個
+與方法無關的認證選項 `clientcert`，
+可以在任何 `hostssl` 記錄中指定。
+此選項可設為 `verify-ca` 或
+`verify-full`。這兩個選項都要求用戶端
+出示有效（受信任）的 SSL 憑證，而
+`verify-full` 另外還會強制要求憑證中的
+`cn`（Common Name）
+必須與使用者名稱或某個適用的對應相符。
+此行為與 `cert` 認證方式
+（見 [第 20.12 節](auth-cert.md)）相似，但可讓你將用戶端憑證
+的驗證，與任何支援 `hostssl` 項目的
+認證方法搭配使用。
 
-    ```
+在任何使用用戶端憑證認證的記錄上（也就是使用
+`cert` 認證方法，或使用
+`clientcert` 選項的記錄），你可以透過
+`clientname` 選項指定要比對用戶端憑證中的
+哪個部分。此選項可以有兩種
+值。若指定 `clientname=CN`（此為
+預設值），使用者名稱會與憑證的
+`Common Name (CN)` 比對。若改為指定
+`clientname=DN`，使用者名稱則會與憑證的
+整個 `Distinguished Name (DN)` 比對。
+此選項可能最適合搭配使用者名稱對應表使用。
+比對時使用的 `DN` 格式為
+[RFC 2253](https://datatracker.ietf.org/doc/html/rfc2253)
+格式。若要以這種格式查看用戶端憑證的
+`DN`，可執行
+
+```
 
     openssl x509 -in myclient.crt -noout -subject -nameopt RFC2253 | sed "s/^subject=//"
-    ```
+```
 
-    使用此選項時需要特別小心，尤其是在對
-    `DN` 使用正規表示式比對時。
+使用此選項時需要特別小心，尤其是在對
+`DN` 使用正規表示式比對時。
 
 `include`
 :   這一行會被替換為指定檔案的內容。

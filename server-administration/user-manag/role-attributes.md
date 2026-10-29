@@ -6,20 +6,21 @@
 並與用戶端驗證系統互動。
 
 login 權限<a id="id-1.6.8.6.2.1.1.1.1"></a>
-:   只有具有 `LOGIN` 屬性的角色，才能用作資料庫連線的
-    初始角色名稱。具有 `LOGIN` 屬性的角色，
-    可以視為等同於「資料庫使用者」。若要建立具有登入權限的角色，
-    可使用以下任一方式：
 
-    ```
+只有具有 `LOGIN` 屬性的角色，才能用作資料庫連線的
+初始角色名稱。具有 `LOGIN` 屬性的角色，
+可以視為等同於「資料庫使用者」。若要建立具有登入權限的角色，
+可使用以下任一方式：
+
+```
 
     CREATE ROLE name LOGIN;
     CREATE USER name;
-    ```
+```
 
-    （`CREATE USER` 等同於 `CREATE ROLE`，
-    差別在於 `CREATE USER` 預設包含 `LOGIN`，
-    而 `CREATE ROLE` 則不會。）
+（`CREATE USER` 等同於 `CREATE ROLE`，
+差別在於 `CREATE USER` 預設包含 `LOGIN`，
+而 `CREATE ROLE` 則不會。）
 
 超級使用者狀態<a id="id-1.6.8.6.2.1.2.1.1"></a>
 :   資料庫超級使用者，會略過除了登入權限以外的所有權限檢查。

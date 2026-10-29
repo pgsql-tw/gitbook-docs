@@ -433,22 +433,23 @@ base64 編碼稍大一些。
 <a id="GUC-XMLOPTION"></a>
 
 `xmloption` (`enum`) <a id="id-1.6.6.14.2.2.23.1.3"></a> <a id="id-1.6.6.14.2.2.23.1.4"></a> <a id="id-1.6.6.14.2.2.23.1.5"></a> [#](#GUC-XMLOPTION)
-:   設定在 XML 與字元字串值之間轉換時，
-    隱含使用 `DOCUMENT` 還是
-    `CONTENT`。詳情請參閱[8.13 節](../../the-sql-language/datatype/datatype-xml.md)
-    的說明。合法的
-    值有 `DOCUMENT` 與
-    `CONTENT`。預設值為
-    `CONTENT`。
 
-    依照 SQL 標準，設定此選項的命令為
+設定在 XML 與字元字串值之間轉換時，
+隱含使用 `DOCUMENT` 還是
+`CONTENT`。詳情請參閱[8.13 節](../../the-sql-language/datatype/datatype-xml.md)
+的說明。合法的
+值有 `DOCUMENT` 與
+`CONTENT`。預設值為
+`CONTENT`。
 
-    ```
+依照 SQL 標準，設定此選項的命令為
+
+```
 
     SET XML OPTION { DOCUMENT | CONTENT };
-    ```
+```
 
-    此語法在 PostgreSQL 中同樣可用。
+此語法在 PostgreSQL 中同樣可用。
 <a id="GUC-GIN-PENDING-LIST-LIMIT"></a>
 
 `gin_pending_list_limit` (`integer`) <a id="id-1.6.6.14.2.2.24.1.3"></a> [#](#GUC-GIN-PENDING-LIST-LIMIT)
@@ -837,113 +838,115 @@ PostgreSQL 套件安裝。
 <a id="GUC-DYNAMIC-LIBRARY-PATH"></a>
 
 `dynamic_library_path` (`string`) <a id="id-1.6.6.14.5.2.1.1.3"></a> <a id="id-1.6.6.14.5.2.1.1.4"></a> [#](#GUC-DYNAMIC-LIBRARY-PATH)
-:   若需要開啟一個動態載入模組，且
-    `CREATE FUNCTION` 或
-    `LOAD` 命令中指定的檔案名稱
-    不含目錄部分（也就是該
-    名稱不包含斜線），系統將會在此
-    路徑中搜尋所需的檔案。
 
-    `dynamic_library_path` 的值必須是
-    以冒號（在 Windows 上為分號）分隔的絕對目錄路徑
-    清單。若清單中的某個項目以特殊字串
-    `$libdir` 開頭，則會以編譯時內建的
-    PostgreSQL 套件程式庫目錄取代 `$libdir`；
-    這是標準
-    PostgreSQL 發行版所提供之模組的
-    安裝位置。
-    （可以使用 `pg_config --pkglibdir`
-    找出此目錄的名稱。）舉例來說：
+若需要開啟一個動態載入模組，且
+`CREATE FUNCTION` 或
+`LOAD` 命令中指定的檔案名稱
+不含目錄部分（也就是該
+名稱不包含斜線），系統將會在此
+路徑中搜尋所需的檔案。
 
-    ```
+`dynamic_library_path` 的值必須是
+以冒號（在 Windows 上為分號）分隔的絕對目錄路徑
+清單。若清單中的某個項目以特殊字串
+`$libdir` 開頭，則會以編譯時內建的
+PostgreSQL 套件程式庫目錄取代 `$libdir`；
+這是標準
+PostgreSQL 發行版所提供之模組的
+安裝位置。
+（可以使用 `pg_config --pkglibdir`
+找出此目錄的名稱。）舉例來說：
+
+```
 
     dynamic_library_path = '/usr/local/lib/postgresql:/home/my_project/lib:$libdir'
-    ```
+```
 
-    或者，在 Windows 環境中：
+或者，在 Windows 環境中：
 
-    ```
+```
 
     dynamic_library_path = 'C:\tools\postgresql;H:\my_project\lib;$libdir'
-    ```
+```
 
-    此參數的預設值為
-    `'$libdir'`。若此值設為空
-    字串，會停用自動路徑搜尋。
+此參數的預設值為
+`'$libdir'`。若此值設為空
+字串，會停用自動路徑搜尋。
 
-    此參數可以在執行時期由超級使用者，
-    以及具備相應 `SET` 權限的使用者變更，
-    但以此方式設定的值，只會持續到
-    用戶端連線結束為止，因此此方法應
-    保留供開發用途使用。設定此參數
-    建議的方式，是在
-    `postgresql.conf` 組態設定
-    檔案中設定。
+此參數可以在執行時期由超級使用者，
+以及具備相應 `SET` 權限的使用者變更，
+但以此方式設定的值，只會持續到
+用戶端連線結束為止，因此此方法應
+保留供開發用途使用。設定此參數
+建議的方式，是在
+`postgresql.conf` 組態設定
+檔案中設定。
 <a id="GUC-EXTENSION-CONTROL-PATH"></a>
 
 `extension_control_path` (`string`) <a id="id-1.6.6.14.5.2.2.1.3"></a> [#](#GUC-EXTENSION-CONTROL-PATH)
-:   用於搜尋延伸模組，特別是延伸模組控制檔案
-    （`name.control`）的路徑。其餘的
-    延伸模組指令碼與次要控制檔案，
-    則會從找到主要控制檔案的同一個目錄載入。
-    詳情請參閱[36.17.1 節](../../server-programming/extend/extend-extensions.md#extend-extensions-files)。
 
-    `extension_control_path` 的值必須是
-    以冒號（在 Windows 上為分號）分隔的絕對目錄路徑
-    清單。若清單中的某個項目以特殊字串
-    `$system` 開頭，則會以編譯時內建的
-    PostgreSQL 延伸模組目錄取代 `$system`；
-    這是標準
-    PostgreSQL 發行版所提供延伸模組的
-    安裝位置。
-    （可以使用 `pg_config --sharedir`
-    找出此目錄的名稱。）舉例來說：
+用於搜尋延伸模組，特別是延伸模組控制檔案
+（`name.control`）的路徑。其餘的
+延伸模組指令碼與次要控制檔案，
+則會從找到主要控制檔案的同一個目錄載入。
+詳情請參閱[36.17.1 節](../../server-programming/extend/extend-extensions.md#extend-extensions-files)。
 
-    ```
+`extension_control_path` 的值必須是
+以冒號（在 Windows 上為分號）分隔的絕對目錄路徑
+清單。若清單中的某個項目以特殊字串
+`$system` 開頭，則會以編譯時內建的
+PostgreSQL 延伸模組目錄取代 `$system`；
+這是標準
+PostgreSQL 發行版所提供延伸模組的
+安裝位置。
+（可以使用 `pg_config --sharedir`
+找出此目錄的名稱。）舉例來說：
+
+```
 
     extension_control_path = '/usr/local/share/postgresql:/home/my_project/share:$system'
-    ```
+```
 
-    或者，在 Windows 環境中：
+或者，在 Windows 環境中：
 
-    ```
+```
 
     extension_control_path = 'C:\tools\postgresql;H:\my_project\share;$system'
-    ```
+```
 
-    請注意，指定的路徑項目應具有一個
-    `extension` 子目錄，其中會存放
-    `.control` 與 `.sql` 檔案；
-    `extension` 後綴會自動附加到
-    每個路徑項目後面。
+請注意，指定的路徑項目應具有一個
+`extension` 子目錄，其中會存放
+`.control` 與 `.sql` 檔案；
+`extension` 後綴會自動附加到
+每個路徑項目後面。
 
-    此參數的預設值為
-    `'$system'`。若此值設為空
-    字串，同樣會採用預設值 `'$system'`。
+此參數的預設值為
+`'$system'`。若此值設為空
+字串，同樣會採用預設值 `'$system'`。
 
-    若組態設定路徑中的多個目錄，皆存在名稱相同的
-    延伸模組，則只會使用路徑中最先找到的那個
-    實例。
+若組態設定路徑中的多個目錄，皆存在名稱相同的
+延伸模組，則只會使用路徑中最先找到的那個
+實例。
 
-    此參數可以在執行時期由超級使用者，
-    以及具備相應 `SET` 權限的使用者變更，
-    但以此方式設定的值，只會持續到
-    用戶端連線結束為止，因此此方法應
-    保留供開發用途使用。設定此參數
-    建議的方式，是在
-    `postgresql.conf` 組態設定
-    檔案中設定。
+此參數可以在執行時期由超級使用者，
+以及具備相應 `SET` 權限的使用者變更，
+但以此方式設定的值，只會持續到
+用戶端連線結束為止，因此此方法應
+保留供開發用途使用。設定此參數
+建議的方式，是在
+`postgresql.conf` 組態設定
+檔案中設定。
 
-    請注意，如果你設定此參數，以便能夠從
-    非標準位置載入延伸模組，很可能也需要將
-    [dynamic_library_path](runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) 設為對應的
-    位置，例如：
+請注意，如果你設定此參數，以便能夠從
+非標準位置載入延伸模組，很可能也需要將
+[dynamic_library_path](runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) 設為對應的
+位置，例如：
 
-    ```
+```
 
     extension_control_path = '/usr/local/share/postgresql:$system'
     dynamic_library_path = '/usr/local/lib/postgresql:$libdir'
-    ```
+```
 <a id="GUC-GIN-FUZZY-SEARCH-LIMIT"></a>
 
 `gin_fuzzy_search_limit` (`integer`) <a id="id-1.6.6.14.5.2.3.1.3"></a> [#](#GUC-GIN-FUZZY-SEARCH-LIMIT)

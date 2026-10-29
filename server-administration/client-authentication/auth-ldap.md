@@ -98,39 +98,40 @@ PostgreSQL 伺服器與 LDAP 伺服器之間的流量。PostgreSQL
 以下選項可作為另一種方式，以更精簡且標準的形式撰寫上述部分 LDAP 選項：
 
 `ldapurl`
-:   一個符合 [RFC 4516](https://datatracker.ietf.org/doc/html/rfc4516) 的
-    LDAP URL。其格式為
 
-    ```
+一個符合 [RFC 4516](https://datatracker.ietf.org/doc/html/rfc4516) 的
+LDAP URL。其格式為
+
+```
 
     ldap[s]://host[:port]/basedn[?[attribute][?[scope][?[filter]]]]
-    ```
+```
 
-    *`scope`* 必須是
-    `base`、`one`、`sub`
-    其中之一，通常會使用最後一個。（預設值為 `base`，
-    這在本應用場景中通常沒有用處。）*`attribute`* 可以
-    指定單一屬性，此時它會被用作
-    `ldapsearchattribute` 的值。若
-    *`attribute`* 為空，則
-    *`filter`* 可以被用作
-    `ldapsearchfilter` 的值。
+*`scope`* 必須是
+`base`、`one`、`sub`
+其中之一，通常會使用最後一個。（預設值為 `base`，
+這在本應用場景中通常沒有用處。）*`attribute`* 可以
+指定單一屬性，此時它會被用作
+`ldapsearchattribute` 的值。若
+*`attribute`* 為空，則
+*`filter`* 可以被用作
+`ldapsearchfilter` 的值。
 
-    URL 配置（scheme）`ldaps` 會選用 LDAPS 方法
-    透過 SSL 建立 LDAP 連線，等同於使用
-    `ldapscheme=ldaps`。若要使用
-    `StartTLS` 操作來使用加密的 LDAP
-    連線，請使用一般的 URL 配置（scheme）
-    `ldap`，並額外指定
-    `ldaptls` 選項與
-    `ldapurl`。
+URL 配置（scheme）`ldaps` 會選用 LDAPS 方法
+透過 SSL 建立 LDAP 連線，等同於使用
+`ldapscheme=ldaps`。若要使用
+`StartTLS` 操作來使用加密的 LDAP
+連線，請使用一般的 URL 配置（scheme）
+`ldap`，並額外指定
+`ldaptls` 選項與
+`ldapurl`。
 
-    對於非匿名繫結，`ldapbinddn`
-    與 `ldapbindpasswd` 必須以分開的
-    選項指定。
+對於非匿名繫結，`ldapbinddn`
+與 `ldapbindpasswd` 必須以分開的
+選項指定。
 
-    LDAP URL 目前僅在
-    OpenLDAP 上受支援，Windows 上不支援。
+LDAP URL 目前僅在
+OpenLDAP 上受支援，Windows 上不支援。
 
 不可混用 simple bind 與 search+bind 的組態選項。若要在 simple bind 模式中使用
 `ldapurl`，則該 URL 不得包含

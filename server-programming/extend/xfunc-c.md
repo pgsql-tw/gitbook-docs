@@ -731,19 +731,20 @@ C 撰寫的 PostgreSQL 擴充功能函式之前，
 一個。
 
 FreeBSD <a id="id-1.8.3.13.9.6.1.1.2"></a>
-:   用來建立 PIC 的編譯器旗標
-    是 `-fPIC`。要建立共享函式庫，編譯器
-    旗標則是 `-shared`。
 
-    ```
+用來建立 PIC 的編譯器旗標
+是 `-fPIC`。要建立共享函式庫，編譯器
+旗標則是 `-shared`。
+
+```
 
     cc -fPIC -c foo.c
     cc -shared -o foo.so foo.o
-    ```
+```
 
-    自 FreeBSD 13.0
-    版起皆適用，較舊的版本則是使用
-    `gcc` 編譯器。
+自 FreeBSD 13.0
+版起皆適用，較舊的版本則是使用
+`gcc` 編譯器。
 
 Linux <a id="id-1.8.3.13.9.6.2.1.2"></a>
 :   用來建立 PIC 的編譯器旗標

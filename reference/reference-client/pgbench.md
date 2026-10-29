@@ -450,17 +450,18 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-GSET"></a>
 
 `\gset [prefix]` `\aset [prefix]` [#](#PGBENCH-METACOMMAND-GSET)
-:   這些命令可以用來結束 SQL 查詢，取代結尾的分號（`;`）。
 
-    使用 `\gset` 命令時，前面的 SQL 查詢預期會傳回一個資料列，其各欄位會存入以欄位名稱命名的變數；若有提供 *`prefix`*，變數名稱會加上該前綴。
+這些命令可以用來結束 SQL 查詢，取代結尾的分號（`;`）。
 
-    使用 `\aset` 命令時，所有合併的 SQL 查詢（以 `\;` 分隔）的欄位都會存入以欄位名稱命名的變數；若有提供 *`prefix`*，變數名稱會加上該前綴。若某個查詢沒有傳回任何資料列，則不會進行指派，此時可以測試變數是否存在來偵測這種情況。若某個查詢傳回超過一個資料列，則保留最後一個值。
+使用 `\gset` 命令時，前面的 SQL 查詢預期會傳回一個資料列，其各欄位會存入以欄位名稱命名的變數；若有提供 *`prefix`*，變數名稱會加上該前綴。
 
-    `\gset` 與 `\aset` 不能在管線模式中使用，因為到了這些命令需要查詢結果的時候，結果還無法取得。
+使用 `\aset` 命令時，所有合併的 SQL 查詢（以 `\;` 分隔）的欄位都會存入以欄位名稱命名的變數；若有提供 *`prefix`*，變數名稱會加上該前綴。若某個查詢沒有傳回任何資料列，則不會進行指派，此時可以測試變數是否存在來偵測這種情況。若某個查詢傳回超過一個資料列，則保留最後一個值。
 
-    下列範例將第一個查詢的最終帳戶餘額放入變數 *`abalance`*，並以第三個查詢的整數填入變數 *`p_two`* 與 *`p_three`*。第二個查詢的結果會被捨棄。最後兩個合併查詢的結果會存入變數 *`four`* 與 *`five`*。
+`\gset` 與 `\aset` 不能在管線模式中使用，因為到了這些命令需要查詢結果的時候，結果還無法取得。
 
-    ```
+下列範例將第一個查詢的最終帳戶餘額放入變數 *`abalance`*，並以第三個查詢的整數填入變數 *`p_two`* 與 *`p_three`*。第二個查詢的結果會被捨棄。最後兩個合併查詢的結果會存入變數 *`four`* 與 *`five`*。
+
+```
 
     UPDATE pgbench_accounts
       SET abalance = abalance + :delta
@@ -470,7 +471,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
     SELECT 1 \;
     SELECT 2 AS two, 3 AS three \gset p_
     SELECT 4 AS four \; SELECT 5 AS five \aset
-    ```
+```
 <a id="PGBENCH-METACOMMAND-IF-ELSE"></a>
 
 `\if` *`expression`*<br>`\elif` *`expression`*<br>`\else`<br>`\endif` [#](#PGBENCH-METACOMMAND-IF-ELSE)
@@ -478,25 +479,26 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-SET"></a>
 
 `\set varname expression` [#](#PGBENCH-METACOMMAND-SET)
-:   將變數 *`varname`* 設為由 *`expression`* 計算出的值。運算式可以包含 `NULL` 常數、布林常數 `TRUE` 與 `FALSE`、整數常數（例如 `5432`）、倍精度常數（例如 `3.14159`）、對變數的參照 `:`*`variablename`*、具有一般 SQL 優先順序與結合性的[運算子](pgbench.md#PGBENCH-BUILTIN-OPERATORS)、[函式呼叫](pgbench.md#PGBENCH-BUILTIN-FUNCTIONS)、SQL [`CASE` 通用條件運算式](../../the-sql-language/functions/functions-conditional.md#functions-case)以及括號。
 
-    函式與大多數運算子在輸入為 `NULL` 時會傳回 `NULL`。
+將變數 *`varname`* 設為由 *`expression`* 計算出的值。運算式可以包含 `NULL` 常數、布林常數 `TRUE` 與 `FALSE`、整數常數（例如 `5432`）、倍精度常數（例如 `3.14159`）、對變數的參照 `:`*`variablename`*、具有一般 SQL 優先順序與結合性的[運算子](pgbench.md#PGBENCH-BUILTIN-OPERATORS)、[函式呼叫](pgbench.md#PGBENCH-BUILTIN-FUNCTIONS)、SQL [`CASE` 通用條件運算式](../../the-sql-language/functions/functions-conditional.md#functions-case)以及括號。
 
-    就條件判斷而言，非零的數值為 `TRUE`，為零的數值以及 `NULL` 為 `FALSE`。
+函式與大多數運算子在輸入為 `NULL` 時會傳回 `NULL`。
 
-    過大或過小的整數與倍精度常數，以及整數算術運算子（`+`、`-`、`*` 與 `/`），在溢位時會引發錯誤。
+就條件判斷而言，非零的數值為 `TRUE`，為零的數值以及 `NULL` 為 `FALSE`。
 
-    當 `CASE` 沒有提供最後的 `ELSE` 子句時，預設值為 `NULL`。
+過大或過小的整數與倍精度常數，以及整數算術運算子（`+`、`-`、`*` 與 `/`），在溢位時會引發錯誤。
 
-    範例：
+當 `CASE` 沒有提供最後的 `ELSE` 子句時，預設值為 `NULL`。
 
-    ```
+範例：
+
+```
 
     \set ntellers 10 * :scale
     \set aid (1021 * random(1, 100000 * :scale)) % \
                (100000 * :scale) + 1
     \set divx CASE WHEN :x <> 0 THEN :y/:x ELSE NULL END
-    ```
+```
 <a id="PGBENCH-METACOMMAND-SLEEP"></a>
 
 `\sleep number [ us | ms | s ]` [#](#PGBENCH-METACOMMAND-SLEEP)
@@ -511,16 +513,17 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-SETSHELL"></a>
 
 `\setshell varname command [ argument ... ]` [#](#PGBENCH-METACOMMAND-SETSHELL)
-:   將變數 *`varname`* 設為以指定的 *`argument`* 執行 shell 命令 *`command`* 的結果。該命令必須透過其標準輸出傳回一個整數值。
 
-    *`command`* 與每個 *`argument`* 可以是文字常數，也可以是對變數的 `:`*`variablename`* 參照。若你想使用以冒號開頭的 *`argument`*，請在 *`argument`* 的開頭再多寫一個冒號。
+將變數 *`varname`* 設為以指定的 *`argument`* 執行 shell 命令 *`command`* 的結果。該命令必須透過其標準輸出傳回一個整數值。
 
-    範例：
+*`command`* 與每個 *`argument`* 可以是文字常數，也可以是對變數的 `:`*`variablename`* 參照。若你想使用以冒號開頭的 *`argument`*，請在 *`argument`* 的開頭再多寫一個冒號。
 
-    ```
+範例：
+
+```
 
     \setshell variable_to_be_assigned command literal_argument :variable ::literal_starting_with_colon
-    ```
+```
 <a id="PGBENCH-METACOMMAND-SHELL"></a>
 
 `\shell command [ argument ... ]` [#](#PGBENCH-METACOMMAND-SHELL)

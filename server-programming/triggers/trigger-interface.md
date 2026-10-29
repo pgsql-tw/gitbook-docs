@@ -113,10 +113,11 @@ typedef struct TriggerData
     欄位的值並未定義。
 
 `tg_trigger`
-:   指向型別為 `Trigger` 之結構的指標，
-    定義於 `utils/reltrigger.h` 中：
 
-    ```
+指向型別為 `Trigger` 之結構的指標，
+定義於 `utils/reltrigger.h` 中：
+
+```
 
     typedef struct Trigger
     {
@@ -140,13 +141,13 @@ typedef struct TriggerData
         char       *tgoldtable;
         char       *tgnewtable;
     } Trigger;
-    ```
+```
 
-    其中 `tgname` 是觸發程序的名稱，
-    `tgnargs` 是 `tgargs` 中引數的數量，
-    而 `tgargs` 則是一個陣列，其中每個元素都是指向 `CREATE
-    TRIGGER` 陳述式中所指定引數的指標。其餘成員僅供
-    內部使用。
+其中 `tgname` 是觸發程序的名稱，
+`tgnargs` 是 `tgargs` 中引數的數量，
+而 `tgargs` 則是一個陣列，其中每個元素都是指向 `CREATE
+TRIGGER` 陳述式中所指定引數的指標。其餘成員僅供
+內部使用。
 
 `tg_trigslot`
 :   包含 `tg_trigtuple` 的插槽（slot），
