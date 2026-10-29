@@ -681,25 +681,26 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 <a id="GUC-LOG-LINE-PREFIX"></a>
 
 `log_line_prefix` (`string`) <a id="id-1.6.6.11.5.3.11.1.3"></a> [#](#GUC-LOG-LINE-PREFIX)
-:   這是一個 `printf` 樣式的字串，
-    會輸出於每一行日誌的開頭。
-    `%` 字元開始「逸出序列」，
-    會被替換為如下所述的狀態資訊。
-    無法識別的逸出序列會被忽略。其他
-    字元則會直接複製到日誌行中。有些逸出序列
-    僅會被工作階段程序識別，
-    在主要伺服器程序等背景程序中，會被視為空字串，不產生任何輸出。
-    可在 % 之後、選項之前指定一個數字字面值，
-    藉此讓狀態資訊靠左或靠右對齊。負值
-    會使狀態資訊在右側以空白填補，
-    以達到最小寬度，而正值則會在左側填補。
-    填補有助於提升日誌檔案的人工可讀性。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。預設值為
-    `'%m [%p] '`，會記錄時間戳記與程序 ID。
+這是一個 `printf` 樣式的字串，
+會輸出於每一行日誌的開頭。
+`%` 字元開始「逸出序列」，
+會被替換為如下所述的狀態資訊。
+無法識別的逸出序列會被忽略。其他
+字元則會直接複製到日誌行中。有些逸出序列
+僅會被工作階段程序識別，
+在主要伺服器程序等背景程序中，會被視為空字串，不產生任何輸出。
+可在 % 之後、選項之前指定一個數字字面值，
+藉此讓狀態資訊靠左或靠右對齊。負值
+會使狀態資訊在右側以空白填補，
+以達到最小寬度，而正值則會在左側填補。
+填補有助於提升日誌檔案的人工可讀性。
 
-    <table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>逸出序列</th><th>作用</th><th>僅限工作階段</th></tr></thead><tbody><tr><td><code class="literal">%a</code></td><td>應用程式名稱</td><td>是</td></tr><tr><td><code class="literal">%u</code></td><td>使用者名稱</td><td>是</td></tr><tr><td><code class="literal">%d</code></td><td>資料庫名稱</td><td>是</td></tr><tr><td><code class="literal">%r</code></td><td>遠端主機名稱或 IP 位址，及遠端連接埠</td><td>是</td></tr><tr><td><code class="literal">%h</code></td><td>遠端主機名稱或 IP 位址</td><td>是</td></tr><tr><td><code class="literal">%L</code></td><td>本機位址（用戶端所連線之伺服器上的
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。預設值為
+`'%m [%p] '`，會記錄時間戳記與程序 ID。
+
+<table border="1" class="informaltable"><colgroup><col/><col/><col/></colgroup><thead><tr><th>逸出序列</th><th>作用</th><th>僅限工作階段</th></tr></thead><tbody><tr><td><code class="literal">%a</code></td><td>應用程式名稱</td><td>是</td></tr><tr><td><code class="literal">%u</code></td><td>使用者名稱</td><td>是</td></tr><tr><td><code class="literal">%d</code></td><td>資料庫名稱</td><td>是</td></tr><tr><td><code class="literal">%r</code></td><td>遠端主機名稱或 IP 位址，及遠端連接埠</td><td>是</td></tr><tr><td><code class="literal">%h</code></td><td>遠端主機名稱或 IP 位址</td><td>是</td></tr><tr><td><code class="literal">%L</code></td><td>本機位址（用戶端所連線之伺服器上的
                  IP 位址）</td><td>是</td></tr><tr><td><code class="literal">%b</code></td><td>後端類型</td><td>否</td></tr><tr><td><code class="literal">%p</code></td><td>程序 ID</td><td>否</td></tr><tr><td><code class="literal">%P</code></td><td>若此程序為平行查詢工作者，
                   則為其平行群組領導者的程序 ID</td><td>否</td></tr><tr><td><code class="literal">%t</code></td><td>不含毫秒的時間戳記</td><td>否</td></tr><tr><td><code class="literal">%m</code></td><td>含毫秒的時間戳記</td><td>否</td></tr><tr><td><code class="literal">%n</code></td><td>含毫秒的時間戳記（以 Unix epoch 表示）</td><td>否</td></tr><tr><td><code class="literal">%i</code></td><td>命令標籤：工作階段目前命令的類型</td><td>是</td></tr><tr><td><code class="literal">%e</code></td><td>SQLSTATE 錯誤代碼</td><td>否</td></tr><tr><td><code class="literal">%c</code></td><td>工作階段 ID：請參閱下文</td><td>否</td></tr><tr><td><code class="literal">%l</code></td><td>每個工作階段或程序的日誌行編號，從 1 開始</td><td>否</td></tr><tr><td><code class="literal">%s</code></td><td>程序啟動時間戳記</td><td>否</td></tr><tr><td><code class="literal">%v</code></td><td>虛擬交易 ID（procNumber/localXID）；請參閱
                  <a class="xref" href="../../internals/transactions/transaction-id.md">第 67.1 節</a></td><td>否</td></tr><tr><td><code class="literal">%x</code></td><td>交易 ID（若未指派則為 0）；請參閱
@@ -711,57 +712,57 @@ eventlog，嚴重性層級會依表中所示進行轉換。
                  參數，或設定了會計算查詢識別碼的第三方模組，
                  否則此欄位會為零。</td><td>是</td></tr><tr><td><code class="literal">%%</code></td><td>字面值 <code class="literal">%</code></td><td>否</td></tr></tbody></table>
 
-    後端類型對應於
-    [`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
-    檢視表中的 `backend_type` 欄，
-    但日誌中可能會出現該檢視表未顯示的其他類型。
+後端類型對應於
+[`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
+檢視表中的 `backend_type` 欄，
+但日誌中可能會出現該檢視表未顯示的其他類型。
 
-    `%c` 逸出序列會印出一個近乎唯一的工作階段識別碼，
-    由兩個以點號分隔的 4 位元組十六進位數字（不含前導零）組成。
-    這兩個數字分別是程序啟動時間與
-    程序 ID，因此 `%c` 也可用來作為
-    印出這兩項資訊的節省空間寫法。舉例來說，
-    若要從 `pg_stat_activity` 產生工作階段識別碼，
-    可使用下列查詢：
+`%c` 逸出序列會印出一個近乎唯一的工作階段識別碼，
+由兩個以點號分隔的 4 位元組十六進位數字（不含前導零）組成。
+這兩個數字分別是程序啟動時間與
+程序 ID，因此 `%c` 也可用來作為
+印出這兩項資訊的節省空間寫法。舉例來說，
+若要從 `pg_stat_activity` 產生工作階段識別碼，
+可使用下列查詢：
 
-    ```
+```
 
     SELECT to_hex(trunc(EXTRACT(EPOCH FROM backend_start))::integer) || '.' ||
            to_hex(pid)
     FROM pg_stat_activity;
-    ```
+```
 
-    ### 提示
+### 提示
 
-    若你將 `log_line_prefix` 設為非空值，
-    通常應讓其最後一個字元為空白，
-    以與日誌行的其餘部分做視覺上的區隔。
-    也可以使用標點符號。
+若你將 `log_line_prefix` 設為非空值，
+通常應讓其最後一個字元為空白，
+以與日誌行的其餘部分做視覺上的區隔。
+也可以使用標點符號。
 
-    ### 提示
+### 提示
 
-    Syslog 會產生自己的
-    時間戳記與程序 ID 資訊，因此若你將日誌記錄到 syslog，
-    可能不會想要一併包含這些逸出序列。
+Syslog 會產生自己的
+時間戳記與程序 ID 資訊，因此若你將日誌記錄到 syslog，
+可能不會想要一併包含這些逸出序列。
 
-    ### 提示
+### 提示
 
-    `%q` 逸出序列，適合用於加入僅在工作階段
-    （後端）情境下才可取得的資訊，例如使用者或資料庫
-    名稱。例如：
+`%q` 逸出序列，適合用於加入僅在工作階段
+（後端）情境下才可取得的資訊，例如使用者或資料庫
+名稱。例如：
 
-    ```
+```
 
     log_line_prefix = '%m [%p] %q%u@%d/%a '
-    ```
+```
 
-    ### 注意
+### 注意
 
-    對於因 [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
-    而輸出的行，`%Q` 逸出序列一律會回報零識別碼，
-    因為 `log_statement` 會在
-    識別碼能被計算之前就產生輸出，
-    包括那些無法計算出識別碼的無效陳述式。
+對於因 [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
+而輸出的行，`%Q` 逸出序列一律會回報零識別碼，
+因為 `log_statement` 會在
+識別碼能被計算之前就產生輸出，
+包括那些無法計算出識別碼的無效陳述式。
 <a id="GUC-LOG-LOCK-WAITS"></a>
 
 `log_lock_waits` (`boolean`) <a id="id-1.6.6.11.5.3.12.1.3"></a> [#](#GUC-LOG-LOCK-WAITS)

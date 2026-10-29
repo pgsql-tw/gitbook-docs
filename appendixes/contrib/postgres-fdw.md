@@ -360,20 +360,21 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
 ### F.38.2. 函式 [#](#postgres-fdw-functions) <a href="#postgres-fdw-functions" id="postgres-fdw-functions"></a>
 
 `postgres_fdw_get_connections( IN check_conn boolean DEFAULT false, OUT server_name text, OUT user_name text, OUT valid boolean, OUT used_in_xact boolean, OUT closed boolean, OUT remote_backend_pid int4) returns setof record`
-:   此函式傳回 postgres_fdw 從本機工作階段與外部伺服器建立的所有開啟中連線的資訊。若沒有開啟中的連線，則不傳回任何紀錄。
 
-    若 `check_conn` 設為 `true`，
-    此函式會檢查每個連線的狀態，並將結果顯示在 `closed` 欄位中。
-    此功能目前只在支援
-    `poll` 系統呼叫之非標準 `POLLRDHUP` 擴充的系統（包括 Linux）上可用。
-    這對於檢查交易中使用的所有連線是否仍然開啟很有用。若有任何連線已關閉，交易就無法成功提交，
-    因此最好在偵測到已關閉的連線時就立即回復，而不是繼續執行到最後。若此函式回報有連線的
-    `used_in_xact` 與 `closed` 都是
-    `true`，使用者可以立即回復交易。
+此函式傳回 postgres_fdw 從本機工作階段與外部伺服器建立的所有開啟中連線的資訊。若沒有開啟中的連線，則不傳回任何紀錄。
 
-    此函式的使用範例：
+若 `check_conn` 設為 `true`，
+此函式會檢查每個連線的狀態，並將結果顯示在 `closed` 欄位中。
+此功能目前只在支援
+`poll` 系統呼叫之非標準 `POLLRDHUP` 擴充的系統（包括 Linux）上可用。
+這對於檢查交易中使用的所有連線是否仍然開啟很有用。若有任何連線已關閉，交易就無法成功提交，
+因此最好在偵測到已關閉的連線時就立即回復，而不是繼續執行到最後。若此函式回報有連線的
+`used_in_xact` 與 `closed` 都是
+`true`，使用者可以立即回復交易。
 
-    ```
+此函式的使用範例：
+
+```
 
     postgres=# SELECT * FROM postgres_fdw_get_connections(true);
      server_name | user_name | valid | used_in_xact | closed | remote_backend_pid
@@ -381,16 +382,16 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
      loopback1   | postgres  | t     | t            | f      |            1353340
      loopback2   | public    | t     | t            | f      |            1353120
      loopback3   |           | f     | t            | f      |            1353156
-    ```
+```
 
-    輸出欄位說明列於
-    [表 F.28](postgres-fdw.md#POSTGRES-FDW-GET-CONNECTIONS-COLUMNS)。
+輸出欄位說明列於
+[表 F.28](postgres-fdw.md#POSTGRES-FDW-GET-CONNECTIONS-COLUMNS)。
 
-    <a id="POSTGRES-FDW-GET-CONNECTIONS-COLUMNS"></a>
+<a id="POSTGRES-FDW-GET-CONNECTIONS-COLUMNS"></a>
 
-    **表 F.28. `postgres_fdw_get_connections` 輸出欄位**
+**表 F.28. `postgres_fdw_get_connections` 輸出欄位**
 
-    <table border="1" class="table" summary="postgres_fdw_get_connections 輸出欄位"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">server_name</code></td><td><code class="type">text</code></td><td>
+<table border="1" class="table" summary="postgres_fdw_get_connections 輸出欄位"><colgroup><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="structfield">server_name</code></td><td><code class="type">text</code></td><td>
              此連線的外部伺服器名稱。若伺服器已被刪除但連線仍保持開啟（亦即被標記為無效），此值將為 <code class="literal">NULL</code>。
             </td></tr><tr><td><code class="structfield">user_name</code></td><td><code class="type">text</code></td><td>
              對應到此連線之外部伺服器的本機使用者名稱；若使用的是 public 對應，則為 <code class="literal">public</code>。
@@ -409,7 +410,7 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
              <code class="literal">true</code>），此欄位仍會顯示已終止後端的程序 ID。
             </td></tr></tbody></table>
 
-    <br>
+<br>
 
 `postgres_fdw_disconnect(server_name text) returns boolean`
 
