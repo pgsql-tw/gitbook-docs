@@ -145,9 +145,10 @@
 ### F.23.3. B-tree 函式 [#](#pageinspect-b-tree-funcs) <a href="#pageinspect-b-tree-funcs" id="pageinspect-b-tree-funcs"></a>
 
 `bt_metap(relname text) returns record` <a id="id-1.11.7.33.6.2.1.1.2"></a>
-:   `bt_metap` 傳回 B-tree 索引中繼頁面（metapage）的相關資訊。例如：
 
-    ```
+`bt_metap` 傳回 B-tree 索引中繼頁面（metapage）的相關資訊。例如：
+
+```
 
     test=# SELECT * FROM bt_metap('pg_cast_oid_index');
     -[ RECORD 1 ]-------------+-------
@@ -160,12 +161,13 @@
     last_cleanup_num_delpages | 0
     last_cleanup_num_tuples   | 230
     allequalimage             | f
-    ```
+```
 
 `bt_page_stats(relname text, blkno bigint) returns record` <a id="id-1.11.7.33.6.2.2.1.2"></a>
-:   `bt_page_stats` 傳回 B-tree 索引某個資料頁面的摘要資訊。例如：
 
-    ```
+`bt_page_stats` 傳回 B-tree 索引某個資料頁面的摘要資訊。例如：
+
+```
 
     test=# SELECT * FROM bt_page_stats('pg_cast_oid_index', 1);
     -[ RECORD 1 ]-+-----
@@ -180,12 +182,13 @@
     btpo_next     | 0
     btpo_level    | 0
     btpo_flags    | 3
-    ```
+```
 
 `bt_multi_page_stats(relname text, blkno bigint, blk_count bigint) returns setof record` <a id="id-1.11.7.33.6.2.3.1.2"></a>
-:   `bt_multi_page_stats` 傳回與 `bt_page_stats` 相同的資訊，但對象是從 *`blkno`* 開始、延伸 *`blk_count`* 個頁面之範圍內的每個頁面。若 *`blk_count`* 為負數，則會回報從 *`blkno`* 到索引結尾的所有頁面。例如：
 
-    ```
+`bt_multi_page_stats` 傳回與 `bt_page_stats` 相同的資訊，但對象是從 *`blkno`* 開始、延伸 *`blk_count`* 個頁面之範圍內的每個頁面。若 *`blk_count`* 為負數，則會回報從 *`blkno`* 到索引結尾的所有頁面。例如：
+
+```
 
     test=# SELECT * FROM bt_multi_page_stats('pg_proc_oid_index', 5, 2);
     -[ RECORD 1 ]-+-----
@@ -212,7 +215,7 @@
     btpo_next     | 7
     btpo_level    | 0
     btpo_flags    | 1
-    ```
+```
 
 `bt_page_items(relname text, blkno bigint) returns setof record` <a id="id-1.11.7.33.6.2.4.1.2"></a>
 
@@ -283,31 +286,34 @@
 ### F.23.4. BRIN 函式 [#](#pageinspect-brin-funcs) <a href="#pageinspect-brin-funcs" id="pageinspect-brin-funcs"></a>
 
 `brin_page_type(page bytea) returns text` <a id="id-1.11.7.33.7.2.1.1.2"></a>
-:   `brin_page_type` 傳回給定 BRIN 索引頁面的頁面類型；若該頁面不是有效的 BRIN 頁面，則擲出錯誤。例如：
 
-    ```
+`brin_page_type` 傳回給定 BRIN 索引頁面的頁面類型；若該頁面不是有效的 BRIN 頁面，則擲出錯誤。例如：
+
+```
 
     test=# SELECT brin_page_type(get_raw_page('brinidx', 0));
      brin_page_type
     ----------------
      meta
-    ```
+```
 
 `brin_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.7.2.2.1.2"></a>
-:   `brin_metapage_info` 傳回 BRIN 索引中繼頁面的各種資訊。例如：
 
-    ```
+`brin_metapage_info` 傳回 BRIN 索引中繼頁面的各種資訊。例如：
+
+```
 
     test=# SELECT * FROM brin_metapage_info(get_raw_page('brinidx', 0));
        magic    | version | pagesperrange | lastrevmappage
     ------------+---------+---------------+----------------
      0xA8109CFA |       1 |             4 |              2
-    ```
+```
 
 `brin_revmap_data(page bytea) returns setof tid` <a id="id-1.11.7.33.7.2.3.1.2"></a>
-:   `brin_revmap_data` 傳回 BRIN 索引範圍對應（range map）頁面中的元組識別碼清單。例如：
 
-    ```
+`brin_revmap_data` 傳回 BRIN 索引範圍對應（range map）頁面中的元組識別碼清單。例如：
+
+```
 
     test=# SELECT * FROM brin_revmap_data(get_raw_page('brinidx', 2)) LIMIT 5;
       pages
@@ -317,7 +323,7 @@
      (6,139)
      (6,140)
      (6,141)
-    ```
+```
 
 `brin_page_items(page bytea, index oid) returns setof record` <a id="id-1.11.7.33.7.2.4.1.2"></a>
 
@@ -345,9 +351,10 @@
 ### F.23.5. GIN 函式 [#](#pageinspect-gin-funcs) <a href="#pageinspect-gin-funcs" id="pageinspect-gin-funcs"></a>
 
 `gin_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.8.2.1.1.2"></a>
-:   `gin_metapage_info` 傳回 GIN 索引中繼頁面的相關資訊。例如：
 
-    ```
+`gin_metapage_info` 傳回 GIN 索引中繼頁面的相關資訊。例如：
+
+```
 
     test=# SELECT * FROM gin_metapage_info(get_raw_page('gin_index', 0));
     -[ RECORD 1 ]----+-----------
@@ -361,24 +368,26 @@
     n_data_pages     | 0
     n_entries        | 693
     version          | 2
-    ```
+```
 
 `gin_page_opaque_info(page bytea) returns record` <a id="id-1.11.7.33.8.2.2.1.2"></a>
-:   `gin_page_opaque_info` 傳回 GIN 索引不透明區域（opaque area）的相關資訊，像是頁面類型。例如：
 
-    ```
+`gin_page_opaque_info` 傳回 GIN 索引不透明區域（opaque area）的相關資訊，像是頁面類型。例如：
+
+```
 
     test=# SELECT * FROM gin_page_opaque_info(get_raw_page('gin_index', 2));
      rightlink | maxoff |         flags
     -----------+--------+------------------------
              5 |      0 | {data,leaf,compressed}
     (1 row)
-    ```
+```
 
 `gin_leafpage_items(page bytea) returns setof record` <a id="id-1.11.7.33.8.2.3.1.2"></a>
-:   `gin_leafpage_items` 傳回壓縮 GIN 葉頁面中所儲存資料的相關資訊。例如：
 
-    ```
+`gin_leafpage_items` 傳回壓縮 GIN 葉頁面中所儲存資料的相關資訊。例如：
+
+```
 
     test=# SELECT first_tid, nbytes, tids[0:5] AS some_tids
             FROM gin_leafpage_items(get_raw_page('gin_test_idx', 2));
@@ -392,28 +401,30 @@
      (170,30)  |    376 | {"(170,30)","(170,31)","(170,32)","(170,33)","(170,34)"}
      (173,44)  |    197 | {"(173,44)","(173,45)","(173,46)","(173,47)","(173,48)"}
     (7 rows)
-    ```
+```
 
 <a id="PAGEINSPECT-GIST-FUNCS"></a>
 
 ### F.23.6. GiST 函式 [#](#pageinspect-gist-funcs) <a href="#pageinspect-gist-funcs" id="pageinspect-gist-funcs"></a>
 
 `gist_page_opaque_info(page bytea) returns record` <a id="id-1.11.7.33.9.2.1.1.2"></a>
-:   `gist_page_opaque_info` 傳回 GiST 索引頁面不透明區域中的資訊，像是 NSN、右鏈結（rightlink）與頁面類型。例如：
 
-    ```
+`gist_page_opaque_info` 傳回 GiST 索引頁面不透明區域中的資訊，像是 NSN、右鏈結（rightlink）與頁面類型。例如：
+
+```
 
     test=# SELECT * FROM gist_page_opaque_info(get_raw_page('test_gist_idx', 2));
      lsn | nsn | rightlink | flags
     -----+-----+-----------+--------
      0/1 | 0/0 |         1 | {leaf}
     (1 row)
-    ```
+```
 
 `gist_page_items(page bytea, index_oid regclass) returns setof record` <a id="id-1.11.7.33.9.2.2.1.2"></a>
-:   `gist_page_items` 傳回 GiST 索引頁面中所儲存資料的相關資訊。例如：
 
-    ```
+`gist_page_items` 傳回 GiST 索引頁面中所儲存資料的相關資訊。例如：
+
+```
 
     test=# SELECT * FROM gist_page_items(get_raw_page('test_gist_idx', 0), 'test_gist_idx');
      itemoffset |   ctid    | itemlen | dead |             keys
@@ -425,7 +436,7 @@
               5 | (5,65535) |      40 | f    | (p)=("(870,870),(741,741)")
               6 | (6,65535) |      40 | f    | (p)=("(1000,1000),(871,871)")
     (6 rows)
-    ```
+```
 
 `gist_page_items_bytea(page bytea) returns setof record` <a id="id-1.11.7.33.9.2.3.1.2"></a>
 
@@ -453,15 +464,16 @@
 ### F.23.7. 雜湊函式 [#](#pageinspect-hash-funcs) <a href="#pageinspect-hash-funcs" id="pageinspect-hash-funcs"></a>
 
 `hash_page_type(page bytea) returns text` <a id="id-1.11.7.33.10.2.1.1.2"></a>
-:   `hash_page_type` 傳回給定 HASH 索引頁面的頁面類型。例如：
 
-    ```
+`hash_page_type` 傳回給定 HASH 索引頁面的頁面類型。例如：
+
+```
 
     test=# SELECT hash_page_type(get_raw_page('con_hash_index', 0));
      hash_page_type
     ----------------
      metapage
-    ```
+```
 
 `hash_page_stats(page bytea) returns setof record` <a id="id-1.11.7.33.10.2.2.1.2"></a>
 
@@ -485,9 +497,10 @@
 譯註：原文函式簽章寫作 returns setof record，但 pageinspect 擴充功能腳本是以 OUT 參數定義此函式，並未宣告 SETOF，因此實際上只傳回單一筆紀錄（上方範例輸出也只有一筆 RECORD）。
 
 `hash_page_items(page bytea) returns setof record` <a id="id-1.11.7.33.10.2.3.1.2"></a>
-:   `hash_page_items` 傳回 HASH 索引頁面之桶頁面或溢位頁面中所儲存資料的相關資訊。例如：
 
-    ```
+`hash_page_items` 傳回 HASH 索引頁面之桶頁面或溢位頁面中所儲存資料的相關資訊。例如：
+
+```
 
     test=# SELECT * FROM hash_page_items(get_raw_page('con_hash_index', 1)) LIMIT 5;
      itemoffset |   ctid    |    data
@@ -497,23 +510,25 @@
               3 | (894,207) | 1053474816
               4 | (892,159) | 1053474816
               5 | (890,111) | 1053474816
-    ```
+```
 
 `hash_bitmap_info(index oid, blkno bigint) returns record` <a id="id-1.11.7.33.10.2.4.1.2"></a>
-:   `hash_bitmap_info` 顯示 HASH 索引中，特定溢位頁面在點陣圖頁面中所對應位元的狀態。例如：
 
-    ```
+`hash_bitmap_info` 顯示 HASH 索引中，特定溢位頁面在點陣圖頁面中所對應位元的狀態。例如：
+
+```
 
     test=# SELECT * FROM hash_bitmap_info('con_hash_index', 2052);
      bitmapblkno | bitmapbit | bitstatus
     -------------+-----------+-----------
               65 |         3 | t
-    ```
+```
 
 `hash_metapage_info(page bytea) returns record` <a id="id-1.11.7.33.10.2.5.1.2"></a>
-:   `hash_metapage_info` 傳回儲存在 HASH 索引中繼頁面中的資訊。例如：
 
-    ```
+`hash_metapage_info` 傳回儲存在 HASH 索引中繼頁面中的資訊。例如：
+
+```
 
     test=# SELECT magic, version, ntuples, ffactor, bsize, bmsize, bmshift,
     test-#     maxbucket, highmask, lowmask, ovflpoint, firstfree, nmaps, procid,
@@ -537,7 +552,7 @@
     procid    | 450
     spares    | {0,0,0,0,0,0,1,1,1,1,1,1,1,1,3,4,4,4,45,55,58,59,​508,567,628,704,1193,1202,1204}
     mapp      | {65}
-    ```
+```
 
 ---
 

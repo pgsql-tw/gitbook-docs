@@ -563,15 +563,16 @@ auto。此功能需要 libxml2 2.6.23 或更新版本。
 <a id="CONFIGURE-BINARY-NAME-MESON"></a>
 
 `-DBINARY_NAME=PATH` [#](#CONFIGURE-BINARY-NAME-MESON)
-:   若建置 PostgreSQL（無論是否搭配選用旗標）所需的某個程式，
-    是存放在非標準路徑下，你可以手動指定給
-    `meson configure`。支援此做法的完整程式清單，
-    可透過執行 `meson
-    configure` 取得。範例：
 
-    ```
+若建置 PostgreSQL（無論是否搭配選用旗標）所需的某個程式，
+是存放在非標準路徑下，你可以手動指定給
+`meson configure`。支援此做法的完整程式清單，
+可透過執行 `meson
+configure` 取得。範例：
+
+```
     meson configure -DBISON=PATH_TO_BISON
-    ```
+```
 
 <a id="MESON-OPTIONS-DOCS"></a>
 

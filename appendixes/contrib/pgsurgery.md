@@ -15,9 +15,10 @@
 ### F.34.1. 函式 [#](#pgsurgery-funcs) <a href="#pgsurgery-funcs" id="pgsurgery-funcs"></a>
 
 `heap_force_kill(regclass, tid[]) returns void`
-:   `heap_force_kill` 不檢查 tuple，便將「已使用」的行指標標記為「死亡」。此函式的用途是強制移除其他方式無法存取的 tuple。例如：
 
-    ```
+`heap_force_kill` 不檢查 tuple，便將「已使用」的行指標標記為「死亡」。此函式的用途是強制移除其他方式無法存取的 tuple。例如：
+
+```
 
     test=> select * from t1 where ctid = '(0, 1)';
     ERROR:  could not access status of transaction 4007513275
@@ -31,12 +32,13 @@
 
     test=# select * from t1 where ctid = '(0, 1)';
     (0 rows)
-    ```
+```
 
 `heap_force_freeze(regclass, tid[]) returns void`
-:   `heap_force_freeze` 不檢查 tuple 資料，便將 tuple 標記為凍結。此函式的用途是讓因可見性資訊損毀而無法存取的 tuple 可被存取，或讓因可見性資訊損毀而無法成功執行清理的資料表得以清理。例如：
 
-    ```
+`heap_force_freeze` 不檢查 tuple 資料，便將 tuple 標記為凍結。此函式的用途是讓因可見性資訊損毀而無法存取的 tuple 可被存取，或讓因可見性資訊損毀而無法成功執行清理的資料表得以清理。例如：
+
+```
 
     test=> vacuum t1;
     ERROR:  found xmin 507 from before relfrozenxid 515
@@ -59,7 +61,7 @@
     -------
      (0,3)
     (1 row)
-    ```
+```
 
 <a id="PGSURGERY-AUTHORS"></a>
 

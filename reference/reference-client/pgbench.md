@@ -502,14 +502,15 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-SLEEP"></a>
 
 `\sleep number [ us | ms | s ]` [#](#PGBENCH-METACOMMAND-SLEEP)
-:   使腳本執行暫停指定的時間長度，單位為微秒（`us`）、毫秒（`ms`）或秒（`s`）。若省略單位，則預設為秒。*`number`* 可以是整數常數，也可以是對具有整數值之變數的 `:`*`variablename`* 參照。
 
-    範例：
+使腳本執行暫停指定的時間長度，單位為微秒（`us`）、毫秒（`ms`）或秒（`s`）。若省略單位，則預設為秒。*`number`* 可以是整數常數，也可以是對具有整數值之變數的 `:`*`variablename`* 參照。
 
-    ```
+範例：
+
+```
 
     \sleep 10 ms
-    ```
+```
 <a id="PGBENCH-METACOMMAND-SETSHELL"></a>
 
 `\setshell varname command [ argument ... ]` [#](#PGBENCH-METACOMMAND-SETSHELL)
@@ -527,14 +528,15 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 <a id="PGBENCH-METACOMMAND-SHELL"></a>
 
 `\shell command [ argument ... ]` [#](#PGBENCH-METACOMMAND-SHELL)
-:   與 `\setshell` 相同，但命令的結果會被捨棄。
 
-    範例：
+與 `\setshell` 相同，但命令的結果會被捨棄。
 
-    ```
+範例：
+
+```
 
     \shell command literal_argument :variable ::literal_starting_with_colon
-    ```
+```
 <a id="PGBENCH-METACOMMAND-PIPELINE"></a>
 
 `\startpipeline`<br>`\syncpipeline`<br>`\endpipeline` [#](#PGBENCH-METACOMMAND-PIPELINE)

@@ -737,9 +737,10 @@ EXTRACT(field FROM source)
 以下是有效的欄位名稱：
 
 `century`
-:   世紀；對於 `interval` 值，則是年欄位除以 100
 
-    ```
+世紀；對於 `interval` 值，則是年欄位除以 100
+
+```
 
     SELECT EXTRACT(CENTURY FROM TIMESTAMP '2000-12-16 12:21:13');
     Result: 20
@@ -751,27 +752,29 @@ EXTRACT(field FROM source)
     Result: -1
     SELECT EXTRACT(CENTURY FROM INTERVAL '2001 years');
     Result: 20
-    ```
+```
 
 `day`
-:   月中的第幾天（1–31）；對於 `interval` 值，則是天數
 
-    ```
+月中的第幾天（1–31）；對於 `interval` 值，則是天數
+
+```
 
     SELECT EXTRACT(DAY FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 16
     SELECT EXTRACT(DAY FROM INTERVAL '40 days 1 minute');
     Result: 40
-    ```
+```
 
 `decade`
-:   年欄位除以 10
 
-    ```
+年欄位除以 10
+
+```
 
     SELECT EXTRACT(DECADE FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 200
-    ```
+```
 
 `dow`
 
@@ -786,13 +789,14 @@ EXTRACT(field FROM source)
 請注意，`extract` 的星期編號與 `to_char(..., 'D')` 函式的不同。
 
 `doy`
-:   一年中的第幾天（1–365/366）
 
-    ```
+一年中的第幾天（1–365/366）
+
+```
 
     SELECT EXTRACT(DOY FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 47
-    ```
+```
 
 `epoch`
 
@@ -819,13 +823,14 @@ EXTRACT(field FROM source)
 請注意，對從 `date` 或 `timestamp` 值取出的 epoch 套用 `to_timestamp`，可能會產生誤導性的結果：結果實際上會假設原始值是以 UTC 給定的，而事實不一定如此。
 
 `hour`
-:   小時欄位（在時間戳記中為 0–23，在時間間隔中則不受限制）
 
-    ```
+小時欄位（在時間戳記中為 0–23，在時間間隔中則不受限制）
+
+```
 
     SELECT EXTRACT(HOUR FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 20
-    ```
+```
 
 `isodow`
 
@@ -854,24 +859,26 @@ EXTRACT(field FROM source)
 每個 ISO 8601 週編號年都從包含 1 月 4 日那一週的星期一開始，因此在一月初或十二月底，ISO 年可能會與格里曆年不同。更多資訊請參閱 `week` 欄位。
 
 `julian`
-:   對應於該日期或時間戳記的*儒略日*（Julian Date）。不是當地午夜的時間戳記會產生帶小數的值。更多資訊請參閱[第 B.7 節](../../appendixes/datetime-appendix/datetime-julian-dates.md)。
 
-    ```
+對應於該日期或時間戳記的*儒略日*（Julian Date）。不是當地午夜的時間戳記會產生帶小數的值。更多資訊請參閱[第 B.7 節](../../appendixes/datetime-appendix/datetime-julian-dates.md)。
+
+```
 
     SELECT EXTRACT(JULIAN FROM DATE '2006-01-01');
     Result: 2453737
     SELECT EXTRACT(JULIAN FROM TIMESTAMP '2006-01-01 12:00');
     Result: 2453737.50000000000000000000
-    ```
+```
 
 `microseconds`
-:   秒欄位（包括小數部分）乘以 1 000 000；請注意，這包括完整的秒數
 
-    ```
+秒欄位（包括小數部分）乘以 1 000 000；請注意，這包括完整的秒數
+
+```
 
     SELECT EXTRACT(MICROSECONDS FROM TIME '17:12:28.5');
     Result: 28500000
-    ```
+```
 
 `millennium`
 
@@ -888,27 +895,30 @@ EXTRACT(field FROM source)
 1900 年代屬於第二個千禧年。第三個千禧年從 2001 年 1 月 1 日開始。
 
 `milliseconds`
-:   秒欄位（包括小數部分）乘以 1000。請注意，這包括完整的秒數。
 
-    ```
+秒欄位（包括小數部分）乘以 1000。請注意，這包括完整的秒數。
+
+```
 
     SELECT EXTRACT(MILLISECONDS FROM TIME '17:12:28.5');
     Result: 28500.000
-    ```
+```
 
 `minute`
-:   分鐘欄位（0–59）
 
-    ```
+分鐘欄位（0–59）
+
+```
 
     SELECT EXTRACT(MINUTE FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 38
-    ```
+```
 
 `month`
-:   一年中的月份編號（1–12）；對於 `interval` 值，則是月數除以 12 的餘數（0–11）
 
-    ```
+一年中的月份編號（1–12）；對於 `interval` 值，則是月數除以 12 的餘數（0–11）
+
+```
 
     SELECT EXTRACT(MONTH FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 2
@@ -916,29 +926,31 @@ EXTRACT(field FROM source)
     Result: 3
     SELECT EXTRACT(MONTH FROM INTERVAL '2 years 13 months');
     Result: 1
-    ```
+```
 
 `quarter`
-:   該日期所在的季（1–4）；對於 `interval` 值，則是月欄位除以 3 再加 1
 
-    ```
+該日期所在的季（1–4）；對於 `interval` 值，則是月欄位除以 3 再加 1
+
+```
 
     SELECT EXTRACT(QUARTER FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 1
     SELECT EXTRACT(QUARTER FROM INTERVAL '1 year 6 months');
     Result: 3
-    ```
+```
 
 `second`
-:   秒欄位，包括任何小數部分的秒數
 
-    ```
+秒欄位，包括任何小數部分的秒數
+
+```
 
     SELECT EXTRACT(SECOND FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 40.000000
     SELECT EXTRACT(SECOND FROM TIME '17:12:28.5');
     Result: 28.500000
-    ```
+```
 
 `timezone`
 :   相對於 UTC 的時區位移，以秒為單位。正值對應於 UTC 以東的時區，負值對應於 UTC 以西的時區。（嚴格來說，PostgreSQL 並不使用 UTC，因為它不處理閏秒。）
@@ -966,13 +978,14 @@ EXTRACT(field FROM source)
 ```
 
 `year`
-:   年欄位。請記住，並沒有 `0 AD`（西元 0 年），因此從 `AD`（西元）年份減去 `BC`（西元前）年份時應該小心。
 
-    ```
+年欄位。請記住，並沒有 `0 AD`（西元 0 年），因此從 `AD`（西元）年份減去 `BC`（西元前）年份時應該小心。
+
+```
 
     SELECT EXTRACT(YEAR FROM TIMESTAMP '2001-02-16 20:38:40');
     Result: 2001
-    ```
+```
 
 處理 `interval` 值時，`extract` 函式所產生的欄位值，會與時間間隔輸出函式所使用的解讀方式一致。如果一開始使用的是未正規化的時間間隔表示，就可能產生令人意外的結果，例如：
 

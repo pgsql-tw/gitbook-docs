@@ -412,34 +412,36 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
     <br>
 
 `postgres_fdw_disconnect(server_name text) returns boolean`
-:   此函式會捨棄
-    `postgres_fdw` 從本機工作階段與指定名稱之外部伺服器建立的開啟中連線。請注意，使用不同的使用者對應，可能會有多個連到指定伺服器的連線。
-    若這些連線在目前的本機交易中被使用，則不會中斷它們，並會回報警告訊息。
-    若此函式中斷了至少一個連線，則傳回 `true`，否則傳回 `false`。
-    若找不到指定名稱的外部伺服器，則會回報錯誤。
-    此函式的使用範例：
 
-    ```
+此函式會捨棄
+`postgres_fdw` 從本機工作階段與指定名稱之外部伺服器建立的開啟中連線。請注意，使用不同的使用者對應，可能會有多個連到指定伺服器的連線。
+若這些連線在目前的本機交易中被使用，則不會中斷它們，並會回報警告訊息。
+若此函式中斷了至少一個連線，則傳回 `true`，否則傳回 `false`。
+若找不到指定名稱的外部伺服器，則會回報錯誤。
+此函式的使用範例：
+
+```
 
     postgres=# SELECT postgres_fdw_disconnect('loopback1');
      postgres_fdw_disconnect
     -------------------------
      t
-    ```
+```
 
 `postgres_fdw_disconnect_all() returns boolean`
-:   此函式會捨棄
-    `postgres_fdw` 從本機工作階段與外部伺服器建立的所有開啟中連線。若這些連線在目前的本機交易中被使用，則不會中斷它們，並會回報警告訊息。
-    若此函式中斷了至少一個連線，則傳回 `true`，否則傳回 `false`。
-    此函式的使用範例：
 
-    ```
+此函式會捨棄
+`postgres_fdw` 從本機工作階段與外部伺服器建立的所有開啟中連線。若這些連線在目前的本機交易中被使用，則不會中斷它們，並會回報警告訊息。
+若此函式中斷了至少一個連線，則傳回 `true`，否則傳回 `false`。
+此函式的使用範例：
+
+```
 
     postgres=# SELECT postgres_fdw_disconnect_all();
      postgres_fdw_disconnect_all
     -----------------------------
      t
-    ```
+```
 
 <a id="POSTGRES-FDW-CONNECTION-MANAGEMENT"></a>
 

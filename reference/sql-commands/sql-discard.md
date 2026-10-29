@@ -33,9 +33,10 @@ DISCARD { ALL | PLANS | SEQUENCES | TEMPORARY | TEMP }
 :   移除目前工作階段中建立的所有暫存資料表。
 
 `ALL`
-:   釋放與目前工作階段相關聯的所有暫時性資源，並將工作階段重設為其初始狀態。目前，這與執行下列陳述式序列的效果相同：
 
-    ```
+釋放與目前工作階段相關聯的所有暫時性資源，並將工作階段重設為其初始狀態。目前，這與執行下列陳述式序列的效果相同：
+
+```
 
     CLOSE ALL;
     SET SESSION AUTHORIZATION DEFAULT;
@@ -46,7 +47,7 @@ DISCARD { ALL | PLANS | SEQUENCES | TEMPORARY | TEMP }
     DISCARD PLANS;
     DISCARD TEMP;
     DISCARD SEQUENCES;
-    ```
+```
 
 <a id="id-1.9.3.101.7"></a>
 

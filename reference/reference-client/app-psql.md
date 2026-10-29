@@ -1119,14 +1119,15 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-GETENV"></a>
 
 `\getenv psql_var env_var` [#](#APP-PSQL-META-COMMAND-GETENV)
-:   取得環境變數 *`env_var`* 的值，並指派給 psql 變數 *`psql_var`*。若 *`env_var`* 未定義於 psql 程序的環境中，*`psql_var`* 不會被變更。範例：
 
-    ```
+取得環境變數 *`env_var`* 的值，並指派給 psql 變數 *`psql_var`*。若 *`env_var`* 未定義於 psql 程序的環境中，*`psql_var`* 不會被變更。範例：
+
+```
 
     => \getenv home HOME
     => \echo :home
     /home/postgres
-    ```
+```
 <a id="APP-PSQL-META-COMMAND-GEXEC"></a>
 
 `\gexec` [#](#APP-PSQL-META-COMMAND-GEXEC)
@@ -1523,13 +1524,14 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-SETENV"></a>
 
 `\setenv name [ value ]` [#](#APP-PSQL-META-COMMAND-SETENV)
-:   將環境變數 *`name`* 設為 *`value`*；若未提供 *`value`*，則取消設定該環境變數。範例：
 
-    ```
+將環境變數 *`name`* 設為 *`value`*；若未提供 *`value`*，則取消設定該環境變數。範例：
+
+```
 
     testdb=> \setenv PAGER less
     testdb=> \setenv LESS -imx4F
-    ```
+```
 <a id="APP-PSQL-META-COMMAND-SF"></a>
 
 `\sf[+] function_description` [#](#APP-PSQL-META-COMMAND-SF)

@@ -747,71 +747,76 @@ FreeBSD <a id="id-1.8.3.13.9.6.1.1.2"></a>
 `gcc` 編譯器。
 
 Linux <a id="id-1.8.3.13.9.6.2.1.2"></a>
-:   用來建立 PIC 的編譯器旗標
-    是 `-fPIC`。
-    用來建立共享函式庫的編譯器旗標
-    是 `-shared`。一個完整的範例如下：
 
-    ```
+用來建立 PIC 的編譯器旗標
+是 `-fPIC`。
+用來建立共享函式庫的編譯器旗標
+是 `-shared`。一個完整的範例如下：
+
+```
 
     cc -fPIC -c foo.c
     cc -shared -o foo.so foo.o
-    ```
+```
 
 macOS <a id="id-1.8.3.13.9.6.3.1.2"></a>
-:   以下是一個範例。這假設已安裝了開發工具。
 
-    ```
+以下是一個範例。這假設已安裝了開發工具。
+
+```
 
     cc -c foo.c
     cc -bundle -flat_namespace -undefined suppress -o foo.so foo.o
-    ```
+```
 
 NetBSD <a id="id-1.8.3.13.9.6.4.1.2"></a>
-:   用來建立 PIC 的編譯器旗標
-    是 `-fPIC`。對於 ELF 系統，
-    連結共享函式庫時，會使用帶有 `-shared` 旗標的
-    編譯器。在較舊的非 ELF 系統上，則會使用 `ld
-    -Bshareable`。
 
-    ```
+用來建立 PIC 的編譯器旗標
+是 `-fPIC`。對於 ELF 系統，
+連結共享函式庫時，會使用帶有 `-shared` 旗標的
+編譯器。在較舊的非 ELF 系統上，則會使用 `ld
+-Bshareable`。
+
+```
 
     gcc -fPIC -c foo.c
     gcc -shared -o foo.so foo.o
-    ```
+```
 
 OpenBSD <a id="id-1.8.3.13.9.6.5.1.2"></a>
-:   用來建立 PIC 的編譯器旗標
-    是 `-fPIC`。連結共享函式庫時，
-    會使用 `ld -Bshareable`。
 
-    ```
+用來建立 PIC 的編譯器旗標
+是 `-fPIC`。連結共享函式庫時，
+會使用 `ld -Bshareable`。
+
+```
 
     gcc -fPIC -c foo.c
     ld -Bshareable -o foo.so foo.o
-    ```
+```
 
 Solaris <a id="id-1.8.3.13.9.6.6.1.2"></a>
-:   用來建立 PIC 的編譯器旗標，在 Sun
-    編譯器中是 `-KPIC`，在 GCC 中則是
-    `-fPIC`。要
-    連結共享函式庫，這兩種編譯器的編譯器選項都可以是
-    `-G`，若使用 GCC，則也可以
-    改用 `-shared`。
 
-    ```
+用來建立 PIC 的編譯器旗標，在 Sun
+編譯器中是 `-KPIC`，在 GCC 中則是
+`-fPIC`。要
+連結共享函式庫，這兩種編譯器的編譯器選項都可以是
+`-G`，若使用 GCC，則也可以
+改用 `-shared`。
+
+```
 
     cc -KPIC -c foo.c
     cc -G -o foo.so foo.o
-    ```
+```
 
-    或者
+或者
 
-    ```
+```
 
     gcc -fPIC -c foo.c
     gcc -G -o foo.so foo.o
-    ```
+```
 
 ### 提示
 
