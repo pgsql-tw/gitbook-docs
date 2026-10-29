@@ -27,9 +27,10 @@ B-tree 檢查函式會驗證特定關聯表示法結構中的各種*不變量*�
 ### F.1.1. 函式 [#](#amcheck-functions) <a href="#amcheck-functions" id="amcheck-functions"></a>
 
 `bt_index_check(index regclass, heapallindexed boolean, checkunique boolean) returns void` <a id="id-1.11.7.11.8.2.1.1.2"></a>
-:   `bt_index_check` 測試其目標 B-tree 索引是否遵守各種不變量。使用範例如下：
 
-    ```
+`bt_index_check` 測試其目標 B-tree 索引是否遵守各種不變量。使用範例如下：
+
+```
 
     test=# SELECT bt_index_check(index => c.oid, heapallindexed => i.indisunique),
                    c.relname,
@@ -58,11 +59,11 @@ B-tree 檢查函式會驗證特定關聯表示法結構中的各種*不變量*�
                     | pg_amop_opr_fam_index           |        5
                     | pg_amop_fam_strat_index         |        5
     (10 rows)
-    ```
+```
 
-    此範例顯示一個工作階段，驗證資料庫「test」中最大的 10 個系統目錄索引。對其中的唯一值索引要求驗證堆積 tuple 是否存在為索引 tuple。由於沒有引發錯誤，所有測試的索引看起來在邏輯上都一致。當然，也可輕易修改此查詢，以便對資料庫內支援驗證的每個索引呼叫 `bt_index_check`。
+此範例顯示一個工作階段，驗證資料庫「test」中最大的 10 個系統目錄索引。對其中的唯一值索引要求驗證堆積 tuple 是否存在為索引 tuple。由於沒有引發錯誤，所有測試的索引看起來在邏輯上都一致。當然，也可輕易修改此查詢，以便對資料庫內支援驗證的每個索引呼叫 `bt_index_check`。
 
-    `bt_index_check` 會在目標索引及其所屬堆積關聯上取得 `AccessShareLock`。此鎖定模式與簡單 `SELECT` 陳述式在關聯上取得的鎖定模式相同。`bt_index_check` 不會驗證跨越子項／父項關係的不變量；但當 *`heapallindexed`* 為 `true` 時，會驗證所有堆積 tuple 都存在為索引中的索引 tuple。當 *`checkunique`* 為 `true` 時，`bt_index_check` 會檢查唯一值索引中的重複項目至多只有一個可見。在正式環境需要例行且輕量的毀損測試時，使用 `bt_index_check` 通常可在驗證完整性與降低對應用程式效能及可用性影響之間取得最佳平衡。
+`bt_index_check` 會在目標索引及其所屬堆積關聯上取得 `AccessShareLock`。此鎖定模式與簡單 `SELECT` 陳述式在關聯上取得的鎖定模式相同。`bt_index_check` 不會驗證跨越子項／父項關係的不變量；但當 *`heapallindexed`* 為 `true` 時，會驗證所有堆積 tuple 都存在為索引中的索引 tuple。當 *`checkunique`* 為 `true` 時，`bt_index_check` 會檢查唯一值索引中的重複項目至多只有一個可見。在正式環境需要例行且輕量的毀損測試時，使用 `bt_index_check` 通常可在驗證完整性與降低對應用程式效能及可用性影響之間取得最佳平衡。
 
 `bt_index_parent_check(index regclass, heapallindexed boolean, rootdescend boolean, checkunique boolean) returns void` <a id="id-1.11.7.11.8.2.2.1.2"></a>
 

@@ -19,11 +19,12 @@
 <a id="PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-META"></a>
 
 `pg_get_logical_snapshot_meta(filename text) returns record` [#](#PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-META)
-:   取得位於伺服器 `pg_logical/snapshots` 目錄中某個快照檔的邏輯快照中繼資料。
-    *`filename`* 引數代表快照檔名。
-    例如：
 
-    ```
+取得位於伺服器 `pg_logical/snapshots` 目錄中某個快照檔的邏輯快照中繼資料。
+*`filename`* 引數代表快照檔名。
+例如：
+
+```
 
     postgres=# SELECT * FROM pg_ls_logicalsnapdir();
     -[ RECORD 1 ]+-----------------------
@@ -44,18 +45,19 @@
     magic    | 1369563137
     checksum | 1028045905
     version  | 6
-    ```
+```
 
-    若 *`filename`* 不符合任何快照檔，
-    此函式會擲出錯誤。
+若 *`filename`* 不符合任何快照檔，
+此函式會擲出錯誤。
 <a id="PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-INFO"></a>
 
 `pg_get_logical_snapshot_info(filename text) returns record` [#](#PGLOGICALINSPECT-FUNCS-PG-GET-LOGICAL-SNAPSHOT-INFO)
-:   取得位於伺服器 `pg_logical/snapshots` 目錄中某個快照檔的邏輯快照資訊。
-    *`filename`* 引數代表快照檔名。
-    例如：
 
-    ```
+取得位於伺服器 `pg_logical/snapshots` 目錄中某個快照檔的邏輯快照資訊。
+*`filename`* 引數代表快照檔名。
+例如：
+
+```
 
     postgres=# SELECT * FROM pg_ls_logicalsnapdir();
     -[ RECORD 1 ]+-----------------------
@@ -98,10 +100,10 @@
     committed_xip            |
     catchange_count          | 2
     catchange_xip            | {751,752}
-    ```
+```
 
-    若 *`filename`* 不符合任何快照檔，
-    此函式會擲出錯誤。
+若 *`filename`* 不符合任何快照檔，
+此函式會擲出錯誤。
 
 <a id="PGLOGICALINSPECT-AUTHOR"></a>
 

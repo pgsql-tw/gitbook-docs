@@ -41,9 +41,10 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-RECORD-INFO"></a>
 
 `pg_get_wal_record_info(in_lsn pg_lsn) returns record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-RECORD-INFO)
-:   取得位於 *`in_lsn`* 引數所指位置或其後之紀錄的 WAL 紀錄資訊。例如：
 
-    ```
+取得位於 *`in_lsn`* 引數所指位置或其後之紀錄的 WAL 紀錄資訊。例如：
+
+```
 
     postgres=# SELECT * FROM pg_get_wal_record_info('0/E419E28');
     -[ RECORD 1 ]----+-------------------------------------------------
@@ -58,17 +59,18 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
     fpi_length       | 0
     description      | nunused: 5, unused: [1, 2, 3, 4, 5]
     block_ref        | blkref #0: rel 1663/16385/1249 fork main blk 364
-    ```
+```
 
-    若 *`in_lsn`* 不在某筆 WAL 紀錄的開頭，則改為顯示下一筆有效 WAL
-    紀錄的資訊。若沒有下一筆有效的 WAL 紀錄，此函式會引發錯誤。
+若 *`in_lsn`* 不在某筆 WAL 紀錄的開頭，則改為顯示下一筆有效 WAL
+紀錄的資訊。若沒有下一筆有效的 WAL 紀錄，此函式會引發錯誤。
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-RECORDS-INFO"></a>
 
 `pg_get_wal_records_info(start_lsn pg_lsn, end_lsn pg_lsn) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-RECORDS-INFO)
-:   取得 *`start_lsn`* 與 *`end_lsn`*
-    之間所有有效 WAL 紀錄的資訊。每筆 WAL 紀錄傳回一個資料列。例如：
 
-    ```
+取得 *`start_lsn`* 與 *`end_lsn`*
+之間所有有效 WAL 紀錄的資訊。每筆 WAL 紀錄傳回一個資料列。例如：
+
+```
 
     postgres=# SELECT * FROM pg_get_wal_records_info('0/1E913618', '0/1E913740') LIMIT 1;
     -[ RECORD 1 ]----+--------------------------------------------------------------
@@ -83,9 +85,9 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
     fpi_length       | 0
     description      | nextXid 33775 latestCompletedXid 33774 oldestRunningXid 33775
     block_ref        |
-    ```
+```
 
-    若 *`start_lsn`* 無法使用，此函式會引發錯誤。
+若 *`start_lsn`* 無法使用，此函式會引發錯誤。
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-BLOCK-INFO"></a>
 
 `pg_get_wal_block_info(start_lsn pg_lsn, end_lsn pg_lsn, show_data boolean DEFAULT true) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-BLOCK-INFO)
@@ -160,14 +162,15 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-STATS"></a>
 
 `pg_get_wal_stats(start_lsn pg_lsn, end_lsn pg_lsn, per_record boolean DEFAULT false) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-STATS)
-:   取得 *`start_lsn`* 與
-    *`end_lsn`* 之間所有有效 WAL 紀錄的統計資訊。預設情況下，每種
-    *`resource_manager`* 類型傳回一個資料列。當
-    *`per_record`* 設為 `true` 時，
-    每種 *`record_type`* 傳回一個資料列。
-    例如：
 
-    ```
+取得 *`start_lsn`* 與
+*`end_lsn`* 之間所有有效 WAL 紀錄的統計資訊。預設情況下，每種
+*`resource_manager`* 類型傳回一個資料列。當
+*`per_record`* 設為 `true` 時，
+每種 *`record_type`* 傳回一個資料列。
+例如：
+
+```
 
     postgres=# SELECT * FROM pg_get_wal_stats('0/1E847D00', '0/1E84F500')
                WHERE count > 0 AND
@@ -183,9 +186,9 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
     fpi_size_percentage          | 0
     combined_size                | 875
     combined_size_percentage     | 2.8634072910530795
-    ```
+```
 
-    若 *`start_lsn`* 無法使用，此函式會引發錯誤。
+若 *`start_lsn`* 無法使用，此函式會引發錯誤。
 
 <a id="PGWALINSPECT-AUTHOR"></a>
 
