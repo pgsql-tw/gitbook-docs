@@ -104,38 +104,40 @@ pgbench 接受下列命令列初始化引數：
 <a id="PGBENCH-OPTION-INIT-STEPS"></a>
 
 `-I init_steps`<br>`--init-steps=init_steps` [#](#PGBENCH-OPTION-INIT-STEPS)
-:   只執行一般初始化步驟中所選定的一組步驟。*`init_steps`* 指定要執行的初始化步驟，每個步驟使用一個字元。各步驟會依指定的順序執行。預設值為 `dtgvp`。可用的步驟如下：
 
-    <a id="PGBENCH-OPTION-INIT-STEPS-D"></a>
+只執行一般初始化步驟中所選定的一組步驟。*`init_steps`* 指定要執行的初始化步驟，每個步驟使用一個字元。各步驟會依指定的順序執行。預設值為 `dtgvp`。可用的步驟如下：
 
-    `d` (Drop) [#](#PGBENCH-OPTION-INIT-STEPS-D)
-    :   移除任何現有的 pgbench 資料表。
-    <a id="PGBENCH-OPTION-INIT-STEPS-T"></a>
 
-    `t` (create Tables) [#](#PGBENCH-OPTION-INIT-STEPS-T)
-    :   建立標準 pgbench 情境所使用的資料表，也就是 `pgbench_accounts`、`pgbench_branches`、`pgbench_history` 與 `pgbench_tellers`。
-    <a id="PGBENCH-OPTION-INIT-STEPS-G"></a>
+- <a id="PGBENCH-OPTION-INIT-STEPS-D"></a> `d` (Drop) [#](#PGBENCH-OPTION-INIT-STEPS-D)
 
-    `g` 或 `G`（Generate data，用戶端或伺服器端） [#](#PGBENCH-OPTION-INIT-STEPS-G)
-    :   產生資料並載入標準資料表，取代任何已存在的資料。
+  移除任何現有的 pgbench 資料表。
 
-        使用 `g`（用戶端資料產生）時，資料會在 `pgbench` 用戶端中產生，然後傳送到伺服器。這會透過 `COPY` 大量使用用戶端／伺服器之間的頻寬。對於 PostgreSQL 14 或更新版本，`pgbench` 會使用 `FREEZE` 選項將資料載入一般（非分割區）資料表，以加快後續的 `VACUUM`。使用 `g` 時，在為所有資料表產生資料的期間，日誌每 100,000 個資料列會印出一則訊息。
+- <a id="PGBENCH-OPTION-INIT-STEPS-T"></a> `t` (create Tables) [#](#PGBENCH-OPTION-INIT-STEPS-T)
 
-        使用 `G`（伺服器端資料產生）時，`pgbench` 用戶端只會送出小型查詢，而資料實際上是在伺服器中產生。這種方式不需要可觀的頻寬，但伺服器會做更多工作。使用 `G` 時，日誌在產生資料期間不會印出任何進度訊息。
+  建立標準 pgbench 情境所使用的資料表，也就是 `pgbench_accounts`、`pgbench_branches`、`pgbench_history` 與 `pgbench_tellers`。
 
-        預設的初始化行為使用用戶端資料產生（等同於 `g`）。
-    <a id="PGBENCH-OPTION-INIT-STEPS-V"></a>
+- <a id="PGBENCH-OPTION-INIT-STEPS-G"></a> `g` 或 `G`（Generate data，用戶端或伺服器端） [#](#PGBENCH-OPTION-INIT-STEPS-G)
 
-    `v` (Vacuum) [#](#PGBENCH-OPTION-INIT-STEPS-V)
-    :   對標準資料表執行 `VACUUM`。
-    <a id="PGBENCH-OPTION-INIT-STEPS-P"></a>
+  產生資料並載入標準資料表，取代任何已存在的資料。
 
-    `p` (create Primary keys) [#](#PGBENCH-OPTION-INIT-STEPS-P)
-    :   在標準資料表上建立主鍵索引。
-    <a id="PGBENCH-OPTION-INIT-STEPS-F"></a>
+  使用 `g`（用戶端資料產生）時，資料會在 `pgbench` 用戶端中產生，然後傳送到伺服器。這會透過 `COPY` 大量使用用戶端／伺服器之間的頻寬。對於 PostgreSQL 14 或更新版本，`pgbench` 會使用 `FREEZE` 選項將資料載入一般（非分割區）資料表，以加快後續的 `VACUUM`。使用 `g` 時，在為所有資料表產生資料的期間，日誌每 100,000 個資料列會印出一則訊息。
 
-    `f` (create Foreign keys) [#](#PGBENCH-OPTION-INIT-STEPS-F)
-    :   在標準資料表之間建立外部鍵限制條件。（請注意，預設不會執行此步驟。）
+  使用 `G`（伺服器端資料產生）時，`pgbench` 用戶端只會送出小型查詢，而資料實際上是在伺服器中產生。這種方式不需要可觀的頻寬，但伺服器會做更多工作。使用 `G` 時，日誌在產生資料期間不會印出任何進度訊息。
+
+  預設的初始化行為使用用戶端資料產生（等同於 `g`）。
+
+- <a id="PGBENCH-OPTION-INIT-STEPS-V"></a> `v` (Vacuum) [#](#PGBENCH-OPTION-INIT-STEPS-V)
+
+  對標準資料表執行 `VACUUM`。
+
+- <a id="PGBENCH-OPTION-INIT-STEPS-P"></a> `p` (create Primary keys) [#](#PGBENCH-OPTION-INIT-STEPS-P)
+
+  在標準資料表上建立主鍵索引。
+
+- <a id="PGBENCH-OPTION-INIT-STEPS-F"></a> `f` (create Foreign keys) [#](#PGBENCH-OPTION-INIT-STEPS-F)
+
+  在標準資料表之間建立外部鍵限制條件。（請注意，預設不會執行此步驟。）
+
 <a id="PGBENCH-OPTION-FILLFACTOR"></a>
 
 `-F` *`fillfactor`*<br>`--fillfactor=`*`fillfactor`* [#](#PGBENCH-OPTION-FILLFACTOR)

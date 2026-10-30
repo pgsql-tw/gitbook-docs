@@ -485,53 +485,55 @@ OpenSSL 中的預設密碼套件集合。
 <a id="GUC-SSL-CIPHERS"></a>
 
 `ssl_ciphers` (`string`) <a id="id-1.6.6.6.5.3.8.1.3"></a> [#](#GUC-SSL-CIPHERS)
-:   指定使用 TLS 1.2 版以下連線時允許的 SSL
-    密碼清單，TLS 1.3 版連線請參閱
-    [ssl_tls13_ciphers](runtime-config-connection.md#GUC-SSL-TLS13-CIPHERS)。有關此設定的語法
-    與支援值清單，請參閱 OpenSSL 套件中的
-    ciphers
-    手冊頁。預設值
-    為 `HIGH:MEDIUM:+3DES:!aNULL`。除非你有
-    特定的安全性需求，否則預設值通常是合理的選擇。
 
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定。
+指定使用 TLS 1.2 版以下連線時允許的 SSL
+密碼清單，TLS 1.3 版連線請參閱
+[ssl_tls13_ciphers](runtime-config-connection.md#GUC-SSL-TLS13-CIPHERS)。有關此設定的語法
+與支援值清單，請參閱 OpenSSL 套件中的
+ciphers
+手冊頁。預設值
+為 `HIGH:MEDIUM:+3DES:!aNULL`。除非你有
+特定的安全性需求，否則預設值通常是合理的選擇。
 
-    預設值的說明：
+此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定。
 
-    <a id="GUC-SSL-CIPHERS-HIGH"></a>
+預設值的說明：
 
-    `HIGH` [#](#GUC-SSL-CIPHERS-HIGH)
-    :   使用 `HIGH` 群組密碼（例如
-        AES、Camellia、3DES）的密碼套件
-    <a id="GUC-SSL-CIPHERS-MEDIUM"></a>
 
-    `MEDIUM` [#](#GUC-SSL-CIPHERS-MEDIUM)
-    :   使用 `MEDIUM` 群組密碼（例如 RC4、SEED）
-        的密碼套件
-    <a id="GUC-SSL-CIPHERS-PLUS-3DES"></a>
+- <a id="GUC-SSL-CIPHERS-HIGH"></a> `HIGH` [#](#GUC-SSL-CIPHERS-HIGH)
 
-    `+3DES` [#](#GUC-SSL-CIPHERS-PLUS-3DES)
-    :   OpenSSL 對 `HIGH` 的預設排序
-        有問題，因為它將 3DES 排在
-        AES128 之前。這是錯誤的，因為 3DES 提供的
-        安全性低於 AES128，而且速度也慢得多。
-        `+3DES` 會將其重新排序到所有其他
-        `HIGH` 與 `MEDIUM` 密碼之後。
-    <a id="GUC-SSL-CIPHERS-NOT-ANULL"></a>
+  使用 `HIGH` 群組密碼（例如
+  AES、Camellia、3DES）的密碼套件
 
-    `!aNULL` [#](#GUC-SSL-CIPHERS-NOT-ANULL)
-    :   停用不進行驗證的匿名密碼套件。這類
-        密碼套件容易受到中間人（MITM）攻擊，
-        因此不應使用。
+- <a id="GUC-SSL-CIPHERS-MEDIUM"></a> `MEDIUM` [#](#GUC-SSL-CIPHERS-MEDIUM)
 
-    可用密碼套件的詳細內容，會因
-    OpenSSL 版本而異。可以使用命令
-    `openssl ciphers -v 'HIGH:MEDIUM:+3DES:!aNULL'`
-    查看目前所安裝
-    OpenSSL 版本的實際詳細內容。請注意，
-    此清單會在執行期間根據伺服器金鑰類型進行篩選。
+  使用 `MEDIUM` 群組密碼（例如 RC4、SEED）
+  的密碼套件
+
+- <a id="GUC-SSL-CIPHERS-PLUS-3DES"></a> `+3DES` [#](#GUC-SSL-CIPHERS-PLUS-3DES)
+
+  OpenSSL 對 `HIGH` 的預設排序
+  有問題，因為它將 3DES 排在
+  AES128 之前。這是錯誤的，因為 3DES 提供的
+  安全性低於 AES128，而且速度也慢得多。
+  `+3DES` 會將其重新排序到所有其他
+  `HIGH` 與 `MEDIUM` 密碼之後。
+
+- <a id="GUC-SSL-CIPHERS-NOT-ANULL"></a> `!aNULL` [#](#GUC-SSL-CIPHERS-NOT-ANULL)
+
+  停用不進行驗證的匿名密碼套件。這類
+  密碼套件容易受到中間人（MITM）攻擊，
+  因此不應使用。
+
+可用密碼套件的詳細內容，會因
+OpenSSL 版本而異。可以使用命令
+`openssl ciphers -v 'HIGH:MEDIUM:+3DES:!aNULL'`
+查看目前所安裝
+OpenSSL 版本的實際詳細內容。請注意，
+此清單會在執行期間根據伺服器金鑰類型進行篩選。
+
 <a id="GUC-SSL-PREFER-SERVER-CIPHERS"></a>
 
 `ssl_prefer_server_ciphers` (`boolean`) <a id="id-1.6.6.6.5.3.9.1.3"></a> [#](#GUC-SSL-PREFER-SERVER-CIPHERS)

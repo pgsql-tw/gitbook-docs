@@ -372,24 +372,26 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-REPLICA-IDENTITY"></a>
 
 `REPLICA IDENTITY` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY)
-:   此形式會變更寫入預寫日誌（write-ahead log）、用來識別被更新或刪除之資料列的資訊。在大多數情況下，只有當每個欄位的舊值與新值不同時才會記錄舊值；不過，若舊值是以外部方式儲存，則不論是否變更都一律會記錄。除非使用邏輯複寫，否則此選項沒有任何效果。
 
-    <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-DEFAULT"></a>
+此形式會變更寫入預寫日誌（write-ahead log）、用來識別被更新或刪除之資料列的資訊。在大多數情況下，只有當每個欄位的舊值與新值不同時才會記錄舊值；不過，若舊值是以外部方式儲存，則不論是否變更都一律會記錄。除非使用邏輯複寫，否則此選項沒有任何效果。
 
-    `DEFAULT` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-DEFAULT)
-    :   記錄主鍵欄位的舊值。這是非系統資料表的預設值。沒有主鍵時，行為與 `NOTHING` 相同。
-    <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-USING-INDEX"></a>
 
-    `USING INDEX index_name` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-USING-INDEX)
-    :   記錄所指名索引所涵蓋之欄位的舊值；該索引必須是唯一的、非部分的、不可延遲的，並且只包含標記為 `NOT NULL` 的欄位。若此索引被移除，行為與 `NOTHING` 相同。
-    <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-FULL"></a>
+- <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-DEFAULT"></a> `DEFAULT` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-DEFAULT)
 
-    `FULL` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-FULL)
-    :   記錄資料列中所有欄位的舊值。
-    <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-NOTHING"></a>
+  記錄主鍵欄位的舊值。這是非系統資料表的預設值。沒有主鍵時，行為與 `NOTHING` 相同。
 
-    `NOTHING` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-NOTHING)
-    :   不記錄任何關於舊資料列的資訊。這是系統資料表的預設值。
+- <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-USING-INDEX"></a> `USING INDEX index_name` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-USING-INDEX)
+
+  記錄所指名索引所涵蓋之欄位的舊值；該索引必須是唯一的、非部分的、不可延遲的，並且只包含標記為 `NOT NULL` 的欄位。若此索引被移除，行為與 `NOTHING` 相同。
+
+- <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-FULL"></a> `FULL` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-FULL)
+
+  記錄資料列中所有欄位的舊值。
+
+- <a id="SQL-ALTERTABLE-REPLICA-IDENTITY-NOTHING"></a> `NOTHING` [#](#SQL-ALTERTABLE-REPLICA-IDENTITY-NOTHING)
+
+  不記錄任何關於舊資料列的資訊。這是系統資料表的預設值。
+
 <a id="SQL-ALTERTABLE-DESC-RENAME"></a>
 
 `RENAME` [#](#SQL-ALTERTABLE-DESC-RENAME)
