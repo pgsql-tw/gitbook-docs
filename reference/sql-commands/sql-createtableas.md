@@ -63,16 +63,20 @@ CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXI
     OIDS` 的資料表已不再支援。
 
 `ON COMMIT`
-:   暫存資料表在交易區塊結束時的行為可以使用 `ON COMMIT` 來控制。三個選項如下：
 
-    `PRESERVE ROWS`
-    :   在交易結束時不採取任何特殊動作。這是預設行為。
+暫存資料表在交易區塊結束時的行為可以使用 `ON COMMIT` 來控制。三個選項如下：
 
-    `DELETE ROWS`
-    :   暫存資料表中的所有資料列會在每個交易區塊結束時被刪除。基本上，就是在每次提交時自動執行一次 [`TRUNCATE`](sql-truncate.md)。
+- `PRESERVE ROWS`
 
-    `DROP`
-    :   暫存資料表會在目前交易區塊結束時被移除。
+  在交易結束時不採取任何特殊動作。這是預設行為。
+
+- `DELETE ROWS`
+
+  暫存資料表中的所有資料列會在每個交易區塊結束時被刪除。基本上，就是在每次提交時自動執行一次 [`TRUNCATE`](sql-truncate.md)。
+
+- `DROP`
+
+  暫存資料表會在目前交易區塊結束時被移除。
 
 `TABLESPACE tablespace_name`
 :   *`tablespace_name`* 是要在其中建立新資料表的資料表空間名稱。若未指定，會參考 [default_tablespace](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLESPACE)；若資料表是暫存的，則參考 [temp_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#GUC-TEMP-TABLESPACES)。

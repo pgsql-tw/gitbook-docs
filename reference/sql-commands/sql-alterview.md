@@ -57,16 +57,20 @@ ALTER VIEW [ IF EXISTS ] name RESET ( view_option_name [, ... ] )
 :   檢視表的新綱要。
 
 `SET ( view_option_name [= view_option_value] [, ... ] )`<br>`RESET ( view_option_name [, ... ] )`
-:   設定或重設檢視表選項。目前支援的選項有：
 
-    `check_option` (`enum`)
-    :   變更檢視表的檢查選項。值必須是 `local` 或 `cascaded`。
+設定或重設檢視表選項。目前支援的選項有：
 
-    `security_barrier` (`boolean`)
-    :   變更檢視表的安全屏障（security-barrier）屬性。值必須是布林值，例如 `true` 或 `false`。
+- `check_option` (`enum`)
 
-    `security_invoker` (`boolean`)
-    :   變更檢視表的呼叫者權限檢查（security-invoker）屬性。值必須是布林值，例如 `true` 或 `false`。
+  變更檢視表的檢查選項。值必須是 `local` 或 `cascaded`。
+
+- `security_barrier` (`boolean`)
+
+  變更檢視表的安全屏障（security-barrier）屬性。值必須是布林值，例如 `true` 或 `false`。
+
+- `security_invoker` (`boolean`)
+
+  變更檢視表的呼叫者權限檢查（security-invoker）屬性。值必須是布林值，例如 `true` 或 `false`。
 
 <a id="id-1.9.3.45.7"></a>
 

@@ -90,26 +90,28 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-REFRESH-PUBLICATION"></a>
 
 `REFRESH PUBLICATION` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-REFRESH-PUBLICATION)
-:   從發佈者擷取缺少的資料表資訊。這會開始複寫自 [`CREATE SUBSCRIPTION`](sql-createsubscription.md) 或上一次呼叫
-    `REFRESH PUBLICATION` 以來，新加入所訂閱之發佈的資料表。
 
-    *`refresh_option`* 指定重新整理操作的額外選項。支援的選項有：
+從發佈者擷取缺少的資料表資訊。這會開始複寫自 [`CREATE SUBSCRIPTION`](sql-createsubscription.md) 或上一次呼叫
+`REFRESH PUBLICATION` 以來，新加入所訂閱之發佈的資料表。
 
-    `copy_data` (`boolean`)
-    :   指定複寫開始時，是否要複製所訂閱之發佈中既有的資料。
-        預設值為 `true`。
+*`refresh_option`* 指定重新整理操作的額外選項。支援的選項有：
 
-        先前已訂閱的資料表不會被複製，即使某個資料表的資料列篩選器
-        `WHERE` 子句在那之後已被修改。
+- `copy_data` (`boolean`)
 
-        關於 `copy_data = true` 如何與
-        [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN)
-        參數互動的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
+  指定複寫開始時，是否要複製所訂閱之發佈中既有的資料。
+  預設值為 `true`。
 
-        關於以二進位格式複製既有資料的細節，請參閱
-        `CREATE SUBSCRIPTION` 的
-        [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)
-        參數。
+  先前已訂閱的資料表不會被複製，即使某個資料表的資料列篩選器
+  `WHERE` 子句在那之後已被修改。
+
+  關於 `copy_data = true` 如何與
+  [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN)
+  參數互動的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
+
+  關於以二進位格式複製既有資料的細節，請參閱
+  `CREATE SUBSCRIPTION` 的
+  [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)
+  參數。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-ENABLE"></a>
 
 `ENABLE` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-ENABLE)
@@ -164,22 +166,24 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SKIP"></a>
 
 `SKIP ( skip_option = value )` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SKIP)
-:   略過套用遠端交易的所有變更。若傳入的資料違反任何限制條件，邏輯複寫會停止，直到問題解決為止。使用 `ALTER SUBSCRIPTION ... SKIP` 命令，
-    邏輯複寫工作程序會略過該交易中所有的資料修改變更。對於已在訂閱者啟用
-    [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
-    而已預備的交易，此選項沒有作用。
-    在邏輯複寫工作程序成功略過該交易或完成某個交易之後，LSN（儲存於
-    `pg_subscription`.`subskiplsn`）
-    會被清除。關於邏輯複寫衝突的細節，請參閱[第 29.7 節](../../server-administration/logical-replication/logical-replication-conflicts.md)。
 
-    *`skip_option`* 指定此操作的選項。
-    支援的選項有：
+略過套用遠端交易的所有變更。若傳入的資料違反任何限制條件，邏輯複寫會停止，直到問題解決為止。使用 `ALTER SUBSCRIPTION ... SKIP` 命令，
+邏輯複寫工作程序會略過該交易中所有的資料修改變更。對於已在訂閱者啟用
+[`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+而已預備的交易，此選項沒有作用。
+在邏輯複寫工作程序成功略過該交易或完成某個交易之後，LSN（儲存於
+`pg_subscription`.`subskiplsn`）
+會被清除。關於邏輯複寫衝突的細節，請參閱[第 29.7 節](../../server-administration/logical-replication/logical-replication-conflicts.md)。
 
-    `lsn` (`pg_lsn`)
-    :   指定其變更要被邏輯複寫工作程序略過之遠端交易的完成 LSN。完成 LSN
-        是該交易被提交或被預備時的 LSN。
-        不支援略過個別的子交易。設定
-        `NONE` 會重設 LSN。
+*`skip_option`* 指定此操作的選項。
+支援的選項有：
+
+- `lsn` (`pg_lsn`)
+
+  指定其變更要被邏輯複寫工作程序略過之遠端交易的完成 LSN。完成 LSN
+  是該交易被提交或被預備時的 LSN。
+  不支援略過個別的子交易。設定
+  `NONE` 會重設 LSN。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-NEW-OWNER"></a>
 
 *`new_owner`* [#](#SQL-ALTERSUBSCRIPTION-PARAMS-NEW-OWNER)

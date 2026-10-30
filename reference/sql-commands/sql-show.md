@@ -30,18 +30,22 @@ SHOW ALL
 ## 參數
 
 *`name`*
-:   執行期參數的名稱。可用的參數記載於[第 19 章](../../server-administration/runtime-config/README.md)以及[SET](sql-set.md)參考頁面中。
-    此外，還有少數幾個參數只能顯示、不能設定：
 
-    `SERVER_VERSION`
-    :   顯示伺服器的版本號碼。
+執行期參數的名稱。可用的參數記載於[第 19 章](../../server-administration/runtime-config/README.md)以及[SET](sql-set.md)參考頁面中。
+此外，還有少數幾個參數只能顯示、不能設定：
 
-    `SERVER_ENCODING`
-    :   顯示伺服器端的字元集編碼。目前這個參數只能顯示、不能設定，
-        因為編碼是在建立資料庫時就決定的。
+- `SERVER_VERSION`
 
-    `IS_SUPERUSER`
-    :   若目前角色具有超級使用者權限，則為真。
+  顯示伺服器的版本號碼。
+
+- `SERVER_ENCODING`
+
+  顯示伺服器端的字元集編碼。目前這個參數只能顯示、不能設定，
+  因為編碼是在建立資料庫時就決定的。
+
+- `IS_SUPERUSER`
+
+  若目前角色具有超級使用者權限，則為真。
 
 `ALL`
 :   顯示所有組態參數的值，並附上說明。

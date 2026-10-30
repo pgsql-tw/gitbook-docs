@@ -55,34 +55,44 @@ typedef struct TriggerData
 :   固定為 `T_TriggerData`。
 
 `tg_event`
-:   描述呼叫此函式的事件。您可以使用下列巨集來檢查 `tg_event`：
 
-    `TRIGGER_FIRED_BEFORE(tg_event)`
-    :   若觸發程序是在操作之前觸發，則傳回 true。
+描述呼叫此函式的事件。您可以使用下列巨集來檢查 `tg_event`：
 
-    `TRIGGER_FIRED_AFTER(tg_event)`
-    :   若觸發程序是在操作之後觸發，則傳回 true。
+- `TRIGGER_FIRED_BEFORE(tg_event)`
 
-    `TRIGGER_FIRED_INSTEAD(tg_event)`
-    :   若觸發程序是用以取代該操作而觸發，則傳回 true。
+  若觸發程序是在操作之前觸發，則傳回 true。
 
-    `TRIGGER_FIRED_FOR_ROW(tg_event)`
-    :   若觸發程序是針對資料列層級事件而觸發，則傳回 true。
+- `TRIGGER_FIRED_AFTER(tg_event)`
 
-    `TRIGGER_FIRED_FOR_STATEMENT(tg_event)`
-    :   若觸發程序是針對陳述式層級事件而觸發，則傳回 true。
+  若觸發程序是在操作之後觸發，則傳回 true。
 
-    `TRIGGER_FIRED_BY_INSERT(tg_event)`
-    :   若觸發程序是由 `INSERT` 命令觸發，則傳回 true。
+- `TRIGGER_FIRED_INSTEAD(tg_event)`
 
-    `TRIGGER_FIRED_BY_UPDATE(tg_event)`
-    :   若觸發程序是由 `UPDATE` 命令觸發，則傳回 true。
+  若觸發程序是用以取代該操作而觸發，則傳回 true。
 
-    `TRIGGER_FIRED_BY_DELETE(tg_event)`
-    :   若觸發程序是由 `DELETE` 命令觸發，則傳回 true。
+- `TRIGGER_FIRED_FOR_ROW(tg_event)`
 
-    `TRIGGER_FIRED_BY_TRUNCATE(tg_event)`
-    :   若觸發程序是由 `TRUNCATE` 命令觸發，則傳回 true。
+  若觸發程序是針對資料列層級事件而觸發，則傳回 true。
+
+- `TRIGGER_FIRED_FOR_STATEMENT(tg_event)`
+
+  若觸發程序是針對陳述式層級事件而觸發，則傳回 true。
+
+- `TRIGGER_FIRED_BY_INSERT(tg_event)`
+
+  若觸發程序是由 `INSERT` 命令觸發，則傳回 true。
+
+- `TRIGGER_FIRED_BY_UPDATE(tg_event)`
+
+  若觸發程序是由 `UPDATE` 命令觸發，則傳回 true。
+
+- `TRIGGER_FIRED_BY_DELETE(tg_event)`
+
+  若觸發程序是由 `DELETE` 命令觸發，則傳回 true。
+
+- `TRIGGER_FIRED_BY_TRUNCATE(tg_event)`
+
+  若觸發程序是由 `TRUNCATE` 命令觸發，則傳回 true。
 
 `tg_relation`
 :   指向描述該觸發程序所觸發之關聯（relation）的結構之指標。
