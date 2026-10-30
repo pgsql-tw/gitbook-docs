@@ -72,21 +72,23 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SETADDDROP-PUBLICATION"></a>
 
 `SET PUBLICATION publication_name`<br>`ADD PUBLICATION publication_name`<br>`DROP PUBLICATION publication_name` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SETADDDROP-PUBLICATION)
-:   這些形式會變更所訂閱之發佈的清單。
-    `SET`
-    會以新的清單取代整份發佈清單，
-    `ADD` 會將額外的發佈加入發佈清單，而 `DROP` 會從發佈清單中移除這些發佈。我們允許在 `ADD` 與 `SET` 形式中指定不存在的發佈，讓使用者可以之後再加入它們。更多資訊請參閱 [CREATE SUBSCRIPTION](sql-createsubscription.md)。預設情況下，此命令也會發揮與
-    `REFRESH PUBLICATION` 相同的作用。
 
-    *`publication_option`* 指定此操作的額外選項。支援的選項有：
+這些形式會變更所訂閱之發佈的清單。
+`SET`
+會以新的清單取代整份發佈清單，
+`ADD` 會將額外的發佈加入發佈清單，而 `DROP` 會從發佈清單中移除這些發佈。我們允許在 `ADD` 與 `SET` 形式中指定不存在的發佈，讓使用者可以之後再加入它們。更多資訊請參閱 [CREATE SUBSCRIPTION](sql-createsubscription.md)。預設情況下，此命令也會發揮與
+`REFRESH PUBLICATION` 相同的作用。
 
-    `refresh` (`boolean`)
-    :   設為 false 時，此命令不會嘗試重新整理資料表資訊。
-        之後應該另外執行 `REFRESH PUBLICATION`。
-        預設值為 `true`。
+*`publication_option`* 指定此操作的額外選項。支援的選項有：
 
-    此外，也可以指定
-    `REFRESH PUBLICATION` 底下所述的選項，以控制隱含的重新整理操作。
+- `refresh` (`boolean`)
+
+  設為 false 時，此命令不會嘗試重新整理資料表資訊。
+  之後應該另外執行 `REFRESH PUBLICATION`。
+  預設值為 `true`。
+
+此外，也可以指定
+`REFRESH PUBLICATION` 底下所述的選項，以控制隱含的重新整理操作。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-REFRESH-PUBLICATION"></a>
 
 `REFRESH PUBLICATION` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-REFRESH-PUBLICATION)

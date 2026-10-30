@@ -54,49 +54,64 @@ ALL` 一律會讓游標停留在最後一筆資料列之後或第一筆資料列
 ## 參數
 
 *`direction`*
-:   *`direction`* 定義取回的方向以及要取回的資料列數。它可以是下列其中之一：
 
-    `NEXT`
-    :   取回下一筆資料列。若省略 *`direction`*，這是預設值。
+*`direction`* 定義取回的方向以及要取回的資料列數。它可以是下列其中之一：
 
-    `PRIOR`
-    :   取回前一筆資料列。
+- `NEXT`
 
-    `FIRST`
-    :   取回查詢的第一筆資料列（與 `ABSOLUTE 1` 相同）。
+  取回下一筆資料列。若省略 *`direction`*，這是預設值。
 
-    `LAST`
-    :   取回查詢的最後一筆資料列（與 `ABSOLUTE -1` 相同）。
+- `PRIOR`
 
-    `ABSOLUTE count`
-    :   取回查詢的第 *`count`* 筆資料列；若 *`count`* 為負數，則取回從結尾算起的第 `abs(count)` 筆資料列。若 *`count`* 超出範圍，則定位在第一筆資料列之前或最後一筆資料列之後；特別是，`ABSOLUTE 0` 會定位在第一筆資料列之前。
+  取回前一筆資料列。
 
-    `RELATIVE count`
-    :   取回其後的第 *`count`* 筆資料列；若 *`count`* 為負數，則取回其前的第 `abs(count)` 筆資料列。`RELATIVE 0` 會重新取回目前的資料列（若有的話）。
+- `FIRST`
 
-    *`count`*
-    :   取回接下來的 *`count`* 筆資料列（與 `FORWARD count` 相同）。
+  取回查詢的第一筆資料列（與 `ABSOLUTE 1` 相同）。
 
-    `ALL`
-    :   取回所有剩餘的資料列（與 `FORWARD ALL` 相同）。
+- `LAST`
 
-    `FORWARD`
-    :   取回下一筆資料列（與 `NEXT` 相同）。
+  取回查詢的最後一筆資料列（與 `ABSOLUTE -1` 相同）。
 
-    `FORWARD count`
-    :   取回接下來的 *`count`* 筆資料列。`FORWARD 0` 會重新取回目前的資料列。
+- `ABSOLUTE count`
 
-    `FORWARD ALL`
-    :   取回所有剩餘的資料列。
+  取回查詢的第 *`count`* 筆資料列；若 *`count`* 為負數，則取回從結尾算起的第 `abs(count)` 筆資料列。若 *`count`* 超出範圍，則定位在第一筆資料列之前或最後一筆資料列之後；特別是，`ABSOLUTE 0` 會定位在第一筆資料列之前。
 
-    `BACKWARD`
-    :   取回前一筆資料列（與 `PRIOR` 相同）。
+- `RELATIVE count`
 
-    `BACKWARD count`
-    :   取回之前的 *`count`* 筆資料列（向後掃描）。`BACKWARD 0` 會重新取回目前的資料列。
+  取回其後的第 *`count`* 筆資料列；若 *`count`* 為負數，則取回其前的第 `abs(count)` 筆資料列。`RELATIVE 0` 會重新取回目前的資料列（若有的話）。
 
-    `BACKWARD ALL`
-    :   取回之前所有的資料列（向後掃描）。
+- *`count`*
+
+  取回接下來的 *`count`* 筆資料列（與 `FORWARD count` 相同）。
+
+- `ALL`
+
+  取回所有剩餘的資料列（與 `FORWARD ALL` 相同）。
+
+- `FORWARD`
+
+  取回下一筆資料列（與 `NEXT` 相同）。
+
+- `FORWARD count`
+
+  取回接下來的 *`count`* 筆資料列。`FORWARD 0` 會重新取回目前的資料列。
+
+- `FORWARD ALL`
+
+  取回所有剩餘的資料列。
+
+- `BACKWARD`
+
+  取回前一筆資料列（與 `PRIOR` 相同）。
+
+- `BACKWARD count`
+
+  取回之前的 *`count`* 筆資料列（向後掃描）。`BACKWARD 0` 會重新取回目前的資料列。
+
+- `BACKWARD ALL`
+
+  取回之前所有的資料列（向後掃描）。
 
 *`count`*
 :   *`count`* 是可能帶有正負號的整數常數，用來決定要取回的位置或資料列數。在 `FORWARD` 與 `BACKWARD` 的情況下，指定負的 *`count`* 等同於將 `FORWARD` 與 `BACKWARD` 的方向對調。

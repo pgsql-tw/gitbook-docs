@@ -88,50 +88,60 @@ SET client_min_messages = DEBUG1;
 在互動式 psql 工作階段中、執行驗證查詢之前設定，即可顯示驗證進度訊息，其詳細程度足以管理。
 
 `verify_heapam(relation regclass, on_error_stop boolean, check_toast boolean, skip text, startblock bigint, endblock bigint, blkno OUT bigint, offnum OUT integer, attnum OUT integer, msg OUT text) returns setof record`
-:   檢查資料表、序列或具體化檢視表是否有結構毀損（關聯中的頁面含有格式無效的資料），以及邏輯毀損（頁面在結構上有效，但與資料庫叢集其餘部分不一致）。
 
-    可識別下列選用引數：
+檢查資料表、序列或具體化檢視表是否有結構毀損（關聯中的頁面含有格式無效的資料），以及邏輯毀損（頁面在結構上有效，但與資料庫叢集其餘部分不一致）。
 
-    `on_error_stop`
-    :   若為 true，毀損檢查會在發現任何毀損的第一個區塊結束時停止。
+可識別下列選用引數：
 
-        預設為 false。
+- `on_error_stop`
 
-    `check_toast`
-    :   若為 true，會對照目標關聯的 TOAST 資料表檢查已 TOAST 化的值。
+  若為 true，毀損檢查會在發現任何毀損的第一個區塊結束時停止。
 
-        此選項已知速度較慢。此外，若 TOAST 資料表或其索引已毀損，對照 TOAST 值進行檢查可能會使伺服器當機，雖然許多情況下只會產生錯誤。
+  預設為 false。
 
-        預設為 false。
+- `check_toast`
 
-    `skip`
-    :   若非 `none`，毀損檢查會依指定方式略過標示為全可見或全凍結的區塊。有效選項為 `all-visible`、`all-frozen` 與 `none`。
+  若為 true，會對照目標關聯的 TOAST 資料表檢查已 TOAST 化的值。
 
-        預設為 `none`。
+  此選項已知速度較慢。此外，若 TOAST 資料表或其索引已毀損，對照 TOAST 值進行檢查可能會使伺服器當機，雖然許多情況下只會產生錯誤。
 
-    `startblock`
-    :   若已指定，毀損檢查會從指定區塊開始，略過所有先前的區塊。若指定的 *`startblock`* 超出目標資料表的區塊範圍，會產生錯誤。
+  預設為 false。
 
-        預設從第一個區塊開始檢查。
+- `skip`
 
-    `endblock`
-    :   若已指定，毀損檢查會在指定區塊結束，略過所有剩餘區塊。若指定的 *`endblock`* 超出目標資料表的區塊範圍，會產生錯誤。
+  若非 `none`，毀損檢查會依指定方式略過標示為全可見或全凍結的區塊。有效選項為 `all-visible`、`all-frozen` 與 `none`。
 
-        預設會檢查所有區塊。
+  預設為 `none`。
 
-    對於每個偵測到的毀損，`verify_heapam` 會傳回包含下列欄位的一列：
+- `startblock`
 
-    `blkno`
-    :   含有毀損頁面的區塊編號。
+  若已指定，毀損檢查會從指定區塊開始，略過所有先前的區塊。若指定的 *`startblock`* 超出目標資料表的區塊範圍，會產生錯誤。
 
-    `offnum`
-    :   毀損 tuple 的 OffsetNumber。
+  預設從第一個區塊開始檢查。
 
-    `attnum`
-    :   若毀損專屬於某個欄位而非整個 tuple，則為該 tuple 中毀損欄位的屬性編號。
+- `endblock`
 
-    `msg`
-    :   說明偵測到問題的訊息。
+  若已指定，毀損檢查會在指定區塊結束，略過所有剩餘區塊。若指定的 *`endblock`* 超出目標資料表的區塊範圍，會產生錯誤。
+
+  預設會檢查所有區塊。
+
+對於每個偵測到的毀損，`verify_heapam` 會傳回包含下列欄位的一列：
+
+- `blkno`
+
+  含有毀損頁面的區塊編號。
+
+- `offnum`
+
+  毀損 tuple 的 OffsetNumber。
+
+- `attnum`
+
+  若毀損專屬於某個欄位而非整個 tuple，則為該 tuple 中毀損欄位的屬性編號。
+
+- `msg`
+
+  說明偵測到問題的訊息。
 
 <a id="AMCHECK-OPTIONAL-HEAPALLINDEXED-VERIFICATION"></a>
 

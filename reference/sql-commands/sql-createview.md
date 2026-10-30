@@ -62,34 +62,41 @@ myschema.myview ...`），檢視表就會建立在指定的綱要中；否則會
 :   選用的名稱清單，用作檢視表的欄位名稱。若未指定，欄位名稱會從查詢中推導而來。
 
 `WITH ( view_option_name [= view_option_value] [, ... ] )`
-:   此子句為檢視表指定選用參數；支援下列參數：
 
-    `check_option` (`enum`)
-    :   此參數可以是 `local` 或 `cascaded`，等同於指定 `WITH [ CASCADED | LOCAL ] CHECK OPTION`（見下文）。
+此子句為檢視表指定選用參數；支援下列參數：
 
-    `security_barrier` (`boolean`)
-    :   若檢視表是用來提供資料列層級安全性，就應該使用此參數。完整細節請參閱[第 39.5 節](../../server-programming/rules/rules-privileges.md)。
+- `check_option` (`enum`)
 
-    `security_invoker` (`boolean`)
-    :   此選項會讓底層的基礎關聯依據檢視表使用者的權限進行檢查，而不是依據檢視表擁有者的權限。完整細節請參閱下方的注意事項。
+  此參數可以是 `local` 或 `cascaded`，等同於指定 `WITH [ CASCADED | LOCAL ] CHECK OPTION`（見下文）。
 
-    以上所有選項都可以使用 [`ALTER VIEW`](sql-alterview.md) 在現有的檢視表上變更。
+- `security_barrier` (`boolean`)
+
+  若檢視表是用來提供資料列層級安全性，就應該使用此參數。完整細節請參閱[第 39.5 節](../../server-programming/rules/rules-privileges.md)。
+
+- `security_invoker` (`boolean`)
+
+  此選項會讓底層的基礎關聯依據檢視表使用者的權限進行檢查，而不是依據檢視表擁有者的權限。完整細節請參閱下方的注意事項。
+
+以上所有選項都可以使用 [`ALTER VIEW`](sql-alterview.md) 在現有的檢視表上變更。
 
 *`query`*
 :   提供檢視表欄位與資料列的 [`SELECT`](sql-select.md) 或 [`VALUES`](sql-values.md) 命令。
 
 `WITH [ CASCADED | LOCAL ] CHECK OPTION` <a id="id-1.9.3.97.6.2.7.1.2"></a> <a id="id-1.9.3.97.6.2.7.1.3"></a>
-:   此選項控制可自動更新之檢視表的行為。指定此選項時，會檢查對該檢視表執行的 `INSERT`、`UPDATE` 與 `MERGE` 命令，以確保新的資料列滿足檢視表的定義條件（也就是檢查新的資料列，確保它們可以透過該檢視表看見）。若不滿足，該更新就會被拒絕。若未指定 `CHECK OPTION`，則允許對該檢視表執行的 `INSERT`、`UPDATE` 與 `MERGE` 命令建立無法透過該檢視表看見的資料列。支援下列檢查選項：
 
-    `LOCAL`
-    :   新的資料列只會依據直接定義在該檢視表本身的條件進行檢查。定義在底層基礎檢視表上的任何條件都不會被檢查（除非它們也指定了 `CHECK OPTION`）。
+此選項控制可自動更新之檢視表的行為。指定此選項時，會檢查對該檢視表執行的 `INSERT`、`UPDATE` 與 `MERGE` 命令，以確保新的資料列滿足檢視表的定義條件（也就是檢查新的資料列，確保它們可以透過該檢視表看見）。若不滿足，該更新就會被拒絕。若未指定 `CHECK OPTION`，則允許對該檢視表執行的 `INSERT`、`UPDATE` 與 `MERGE` 命令建立無法透過該檢視表看見的資料列。支援下列檢查選項：
 
-    `CASCADED`
-    :   新的資料列會依據該檢視表以及所有底層基礎檢視表的條件進行檢查。若指定了 `CHECK OPTION`，且既未指定 `LOCAL`，也未指定 `CASCADED`，則假定為 `CASCADED`。
+- `LOCAL`
 
-    `CHECK OPTION` 不可以用於 `RECURSIVE` 檢視表。
+  新的資料列只會依據直接定義在該檢視表本身的條件進行檢查。定義在底層基礎檢視表上的任何條件都不會被檢查（除非它們也指定了 `CHECK OPTION`）。
 
-    請注意，`CHECK OPTION` 只支援可自動更新、且沒有 `INSTEAD OF` 觸發程序或 `INSTEAD` 規則的檢視表。若可自動更新的檢視表是定義在具有 `INSTEAD OF` 觸發程序的基礎檢視表之上，則可以使用 `LOCAL CHECK OPTION` 檢查該可自動更新檢視表上的條件，但具有 `INSTEAD OF` 觸發程序之基礎檢視表上的條件將不會被檢查（串聯（cascaded）檢查選項不會向下串聯到可經由觸發程序更新的檢視表，而直接定義在可經由觸發程序更新之檢視表上的任何檢查選項都會被忽略）。若該檢視表或其任何基礎關聯具有會使 `INSERT` 或 `UPDATE` 命令被重寫的 `INSTEAD` 規則，則在重寫後的查詢中會忽略所有檢查選項，包括來自定義在該具有 `INSTEAD` 規則之關聯之上的可自動更新檢視表的任何檢查。若該檢視表或其任何基礎關聯具有規則，則不支援 `MERGE`。
+- `CASCADED`
+
+  新的資料列會依據該檢視表以及所有底層基礎檢視表的條件進行檢查。若指定了 `CHECK OPTION`，且既未指定 `LOCAL`，也未指定 `CASCADED`，則假定為 `CASCADED`。
+
+`CHECK OPTION` 不可以用於 `RECURSIVE` 檢視表。
+
+請注意，`CHECK OPTION` 只支援可自動更新、且沒有 `INSTEAD OF` 觸發程序或 `INSTEAD` 規則的檢視表。若可自動更新的檢視表是定義在具有 `INSTEAD OF` 觸發程序的基礎檢視表之上，則可以使用 `LOCAL CHECK OPTION` 檢查該可自動更新檢視表上的條件，但具有 `INSTEAD OF` 觸發程序之基礎檢視表上的條件將不會被檢查（串聯（cascaded）檢查選項不會向下串聯到可經由觸發程序更新的檢視表，而直接定義在可經由觸發程序更新之檢視表上的任何檢查選項都會被忽略）。若該檢視表或其任何基礎關聯具有會使 `INSERT` 或 `UPDATE` 命令被重寫的 `INSTEAD` 規則，則在重寫後的查詢中會忽略所有檢查選項，包括來自定義在該具有 `INSTEAD` 規則之關聯之上的可自動更新檢視表的任何檢查。若該檢視表或其任何基礎關聯具有規則，則不支援 `MERGE`。
 
 <a id="id-1.9.3.97.7"></a>
 

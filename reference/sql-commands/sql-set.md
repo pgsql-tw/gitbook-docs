@@ -112,36 +112,42 @@ SET [ SESSION | LOCAL ] TIME ZONE { value | 'value' | LOCAL | DEFAULT }
 ```
 
 `TIME ZONE`
-:   `SET TIME ZONE 'value'` 是
-    `SET timezone TO 'value'` 的別名寫法。
-    `SET TIME ZONE` 語法允許為時區規格使用特殊語法。
-    以下是有效值的範例：
 
-    `'America/Los_Angeles'`
-    :   加州柏克萊的時區。
+`SET TIME ZONE 'value'` 是
+`SET timezone TO 'value'` 的別名寫法。
+`SET TIME ZONE` 語法允許為時區規格使用特殊語法。
+以下是有效值的範例：
 
-    `'Europe/Rome'`
-    :   義大利的時區。
+- `'America/Los_Angeles'`
 
-    `-7`
-    :   比 UTC 西邊 7 小時的時區（相當於
-        PDT）。正值表示 UTC 以東。
+  加州柏克萊的時區。
 
-    `INTERVAL '-08:00' HOUR TO MINUTE`
-    :   比 UTC 西邊 8 小時的時區（相當於
-        PST）。
+- `'Europe/Rome'`
 
-    `LOCAL`<br>`DEFAULT`
-    :   將時區設為你本地的時區（也就是伺服器
-        `timezone` 的預設值）。
+  義大利的時區。
 
-    以數字或區間形式指定的時區設定，內部會轉換為 POSIX
-    時區語法。舉例來說，執行
-    `SET TIME ZONE -7` 之後，`SHOW TIME ZONE` 會
-    回報 `<-07>+07`。
+- `-7`
 
-    `SET` 不支援時區縮寫；關於時區的更多資訊，
-    請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
+  比 UTC 西邊 7 小時的時區（相當於
+  PDT）。正值表示 UTC 以東。
+
+- `INTERVAL '-08:00' HOUR TO MINUTE`
+
+  比 UTC 西邊 8 小時的時區（相當於
+  PST）。
+
+- `LOCAL`<br>`DEFAULT`
+
+  將時區設為你本地的時區（也就是伺服器
+  `timezone` 的預設值）。
+
+以數字或區間形式指定的時區設定，內部會轉換為 POSIX
+時區語法。舉例來說，執行
+`SET TIME ZONE -7` 之後，`SHOW TIME ZONE` 會
+回報 `<-07>+07`。
+
+`SET` 不支援時區縮寫；關於時區的更多資訊，
+請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
 
 <a id="id-1.9.3.174.7"></a>
 
