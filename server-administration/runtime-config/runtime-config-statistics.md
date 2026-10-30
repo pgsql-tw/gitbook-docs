@@ -100,41 +100,43 @@
 <a id="GUC-TRACK-FUNCTIONS"></a>
 
 `track_functions` (`enum`) <a id="id-1.6.6.12.2.3.7.1.3"></a> [#](#GUC-TRACK-FUNCTIONS)
-:   啟用函式呼叫次數與使用時間的追蹤。指定
-    `pl` 僅追蹤程序語言（procedural-language）函式，
-    `all` 則同時追蹤 SQL 與 C 語言函式。
-    預設值為 `none`，即停用函式
-    統計追蹤。
-    只有超級使用者以及具備相應 `SET`
-    權限的使用者可以變更此設定。
 
-    ### 注意
+啟用函式呼叫次數與使用時間的追蹤。指定
+`pl` 僅追蹤程序語言（procedural-language）函式，
+`all` 則同時追蹤 SQL 與 C 語言函式。
+預設值為 `none`，即停用函式
+統計追蹤。
+只有超級使用者以及具備相應 `SET`
+權限的使用者可以變更此設定。
 
-    簡單到可以被「內聯（inline）」進呼叫查詢的 SQL 語言函式，
-    無論此設定為何，都不會被追蹤。
+### 注意 [#](#runtime-config-statistics-restored-note-1) <a href="#runtime-config-statistics-restored-note-1" id="runtime-config-statistics-restored-note-1"></a>
+
+簡單到可以被「內聯（inline）」進呼叫查詢的 SQL 語言函式，
+無論此設定為何，都不會被追蹤。
 <a id="GUC-STATS-FETCH-CONSISTENCY"></a>
 
 `stats_fetch_consistency` (`enum`) <a id="id-1.6.6.12.2.3.8.1.3"></a> [#](#GUC-STATS-FETCH-CONSISTENCY)
-:   決定在同一交易中多次存取累計統計資訊時的行為。
-    當設為 `none` 時，每次存取都會重新從
-    共享記憶體擷取計數器。當設為 `cache` 時，
-    首次存取某物件的統計資訊時，會快取該統計資訊直到交易結束，
-    除非呼叫了 `pg_stat_clear_snapshot()`。
-    當設為 `snapshot` 時，首次存取統計資訊時，
-    會快取目前資料庫中可存取的所有統計資訊，直到
-    交易結束，除非呼叫了
-    `pg_stat_clear_snapshot()`。在交易中變更此
-    參數會捨棄該統計資訊快照。
-    預設值為 `cache`。
 
-    ### 注意
+決定在同一交易中多次存取累計統計資訊時的行為。
+當設為 `none` 時，每次存取都會重新從
+共享記憶體擷取計數器。當設為 `cache` 時，
+首次存取某物件的統計資訊時，會快取該統計資訊直到交易結束，
+除非呼叫了 `pg_stat_clear_snapshot()`。
+當設為 `snapshot` 時，首次存取統計資訊時，
+會快取目前資料庫中可存取的所有統計資訊，直到
+交易結束，除非呼叫了
+`pg_stat_clear_snapshot()`。在交易中變更此
+參數會捨棄該統計資訊快照。
+預設值為 `cache`。
 
-    `none` 最適合用於監控系統。若
-    數值僅會被存取一次，此選項是最有
-    效率的。`cache` 可確保重複存取時取得
-    相同的數值，這對於涉及例如自我聯結（self-join）的查詢很重要。
-    `snapshot` 在互動式檢視統計資訊時很有用，
-    但額外負擔較高，尤其是在存在許多資料庫物件時。
+### 注意 [#](#runtime-config-statistics-restored-note-2) <a href="#runtime-config-statistics-restored-note-2" id="runtime-config-statistics-restored-note-2"></a>
+
+`none` 最適合用於監控系統。若
+數值僅會被存取一次，此選項是最有
+效率的。`cache` 可確保重複存取時取得
+相同的數值，這對於涉及例如自我聯結（self-join）的查詢很重要。
+`snapshot` 在互動式檢視統計資訊時很有用，
+但額外負擔較高，尤其是在存在許多資料庫物件時。
 
 <a id="RUNTIME-CONFIG-STATISTICS-MONITOR"></a>
 
@@ -143,27 +145,28 @@
 <a id="GUC-COMPUTE-QUERY-ID"></a>
 
 `compute_query_id` (`enum`) <a id="id-1.6.6.12.3.2.1.1.3"></a> [#](#GUC-COMPUTE-QUERY-ID)
-:   啟用核心內建的查詢識別碼計算功能。
-    查詢識別碼可以顯示在 [`pg_stat_activity`](../monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view)
-    檢視表中、透過 `EXPLAIN` 顯示，或若透過
-    [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) 參數設定，也可以輸出到日誌中。
-    [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 延伸模組同樣需要
-    計算查詢識別碼。請注意，如果核心內建的查詢識別碼
-    計算方式不被接受，也可以改用外部模組。在這種情況下，
-    必須永遠停用核心內建的計算功能。
-    合法的值有 `off`（永遠停用）、
-    `on`（永遠啟用）、`auto`
-    （讓 [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 等模組
-    自動啟用此功能），以及 `regress`（效果
-    與 `auto` 相同，只是為了方便自動化迴歸測試，
-    查詢識別碼不會顯示在 `EXPLAIN` 輸出中）。
-    預設值為 `auto`。
 
-    ### 注意
+啟用核心內建的查詢識別碼計算功能。
+查詢識別碼可以顯示在 [`pg_stat_activity`](../monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view)
+檢視表中、透過 `EXPLAIN` 顯示，或若透過
+[log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX) 參數設定，也可以輸出到日誌中。
+[pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 延伸模組同樣需要
+計算查詢識別碼。請注意，如果核心內建的查詢識別碼
+計算方式不被接受，也可以改用外部模組。在這種情況下，
+必須永遠停用核心內建的計算功能。
+合法的值有 `off`（永遠停用）、
+`on`（永遠啟用）、`auto`
+（讓 [pg_stat_statements](../../appendixes/contrib/pgstatstatements.md) 等模組
+自動啟用此功能），以及 `regress`（效果
+與 `auto` 相同，只是為了方便自動化迴歸測試，
+查詢識別碼不會顯示在 `EXPLAIN` 輸出中）。
+預設值為 `auto`。
 
-    為確保只計算並顯示一個查詢識別碼，
-    計算查詢識別碼的延伸模組在查詢識別碼已經
-    被計算過的情況下應該要拋出錯誤。
+### 注意 [#](#runtime-config-statistics-restored-note-3) <a href="#runtime-config-statistics-restored-note-3" id="runtime-config-statistics-restored-note-3"></a>
+
+為確保只計算並顯示一個查詢識別碼，
+計算查詢識別碼的延伸模組在查詢識別碼已經
+被計算過的情況下應該要拋出錯誤。
 <a id="GUC-LOG-STATEMENT-STATS"></a>
 
 `log_statement_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.1.3"></a> <br>`log_parser_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.2.3"></a> <br>`log_planner_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.3.3"></a> <br>`log_executor_stats` (`boolean`) <a id="id-1.6.6.12.3.2.2.4.3"></a> [#](#GUC-LOG-STATEMENT-STATS)

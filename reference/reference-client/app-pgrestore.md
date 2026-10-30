@@ -127,25 +127,26 @@ pg_restore 接受下列命令列引數。
 :   指定停用觸發程序時要使用的超級使用者名稱。只有在使用 `--disable-triggers` 時才有關係。
 
 `-t table`<br>`--table=table`
-:   只還原指定資料表的定義和／或資料。就此目的而言，「資料表」包含檢視表、具體化檢視表、序列與外部資料表。寫出多個 `-t` 選項即可選取多個資料表。此選項可以與 `-n` 選項合併使用，以指定特定綱要中的資料表。
 
-    <a id="id-1.9.4.19.6.3.20.2.2"></a>
+只還原指定資料表的定義和／或資料。就此目的而言，「資料表」包含檢視表、具體化檢視表、序列與外部資料表。寫出多個 `-t` 選項即可選取多個資料表。此選項可以與 `-n` 選項合併使用，以指定特定綱要中的資料表。
 
-    ### 注意
+<a id="id-1.9.4.19.6.3.20.2.2"></a>
 
-    指定 `-t` 時，pg_restore 不會嘗試還原所選資料表可能相依的任何其他資料庫物件。因此，無法保證將特定資料表還原到乾淨的資料庫中一定會成功。
+### 注意 [#](#app-pgrestore-restored-note-1) <a href="#app-pgrestore-restored-note-1" id="app-pgrestore-restored-note-1"></a>
 
-    <a id="id-1.9.4.19.6.3.20.2.3"></a>
+指定 `-t` 時，pg_restore 不會嘗試還原所選資料表可能相依的任何其他資料庫物件。因此，無法保證將特定資料表還原到乾淨的資料庫中一定會成功。
 
-    ### 注意
+<a id="id-1.9.4.19.6.3.20.2.3"></a>
 
-    此旗標的行為與 pg_dump 的 `-t` 旗標並不完全相同。目前 pg_restore 不提供萬用字元比對，你也不能在其 `-t` 中包含綱要名稱。而且，pg_dump 的 `-t` 旗標也會傾印所選資料表的附屬物件（例如索引），但 pg_restore 的 `-t` 旗標不包含這類附屬物件。
+### 注意 [#](#app-pgrestore-restored-note-2) <a href="#app-pgrestore-restored-note-2" id="app-pgrestore-restored-note-2"></a>
 
-    <a id="id-1.9.4.19.6.3.20.2.4"></a>
+此旗標的行為與 pg_dump 的 `-t` 旗標並不完全相同。目前 pg_restore 不提供萬用字元比對，你也不能在其 `-t` 中包含綱要名稱。而且，pg_dump 的 `-t` 旗標也會傾印所選資料表的附屬物件（例如索引），但 pg_restore 的 `-t` 旗標不包含這類附屬物件。
 
-    ### 注意
+<a id="id-1.9.4.19.6.3.20.2.4"></a>
 
-    在 PostgreSQL 9.6 之前的版本中，此旗標只比對資料表，不比對任何其他類型的關聯。
+### 注意 [#](#app-pgrestore-restored-note-3) <a href="#app-pgrestore-restored-note-3" id="app-pgrestore-restored-note-3"></a>
+
+在 PostgreSQL 9.6 之前的版本中，此旗標只比對資料表，不比對任何其他類型的關聯。
 
 `-T trigger`<br>`--trigger=trigger`
 :   只還原指定的觸發程序。可以使用多個 `-T` 選項指定多個觸發程序。

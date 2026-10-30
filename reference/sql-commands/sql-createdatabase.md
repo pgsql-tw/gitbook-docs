@@ -68,18 +68,19 @@ name` 來指定不同的範本。特別是，寫出 `TEMPLATE template0` 可以�
 <a id="CREATE-DATABASE-LOCALE"></a>
 
 *`locale`* [#](#CREATE-DATABASE-LOCALE)
-:   設定新資料庫中的預設定序順序與字元分類。定序會影響套用於字串的排序順序，例如在帶有 `ORDER BY` 的查詢中，以及文字欄位上的索引所使用的順序。字元分類會影響字元的歸類，例如小寫、大寫與數字。此外也會設定作業系統環境中的相關面向，即 `LC_COLLATE` 與 `LC_CTYPE`。預設值與範本資料庫的設定相同。詳情請參閱[第 23.2.2.3.1 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-LIBC)與[第 23.2.2.3.2 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU)。
 
-    可以藉由個別設定 [*`lc_collate`*](sql-createdatabase.md#CREATE-DATABASE-LC-COLLATE)、[*`lc_ctype`*](sql-createdatabase.md#CREATE-DATABASE-LC-CTYPE)、[*`builtin_locale`*](sql-createdatabase.md#CREATE-DATABASE-BUILTIN-LOCALE) 或 [*`icu_locale`*](sql-createdatabase.md#CREATE-DATABASE-ICU-LOCALE) 來覆寫。
+設定新資料庫中的預設定序順序與字元分類。定序會影響套用於字串的排序順序，例如在帶有 `ORDER BY` 的查詢中，以及文字欄位上的索引所使用的順序。字元分類會影響字元的歸類，例如小寫、大寫與數字。此外也會設定作業系統環境中的相關面向，即 `LC_COLLATE` 與 `LC_CTYPE`。預設值與範本資料庫的設定相同。詳情請參閱[第 23.2.2.3.1 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-LIBC)與[第 23.2.2.3.2 節](../../server-administration/charset/collation.md#COLLATION-MANAGING-CREATE-ICU)。
 
-    若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `builtin`，則必須指定 *`locale`* 或 *`builtin_locale`*，並將其設為 `C`、`C.UTF-8` 或 `PG_UNICODE_FAST` 其中之一。
+可以藉由個別設定 [*`lc_collate`*](sql-createdatabase.md#CREATE-DATABASE-LC-COLLATE)、[*`lc_ctype`*](sql-createdatabase.md#CREATE-DATABASE-LC-CTYPE)、[*`builtin_locale`*](sql-createdatabase.md#CREATE-DATABASE-BUILTIN-LOCALE) 或 [*`icu_locale`*](sql-createdatabase.md#CREATE-DATABASE-ICU-LOCALE) 來覆寫。
 
-    <a id="id-1.9.3.61.6.2.6.2.4"></a>
+若 [*`locale_provider`*](sql-createdatabase.md#CREATE-DATABASE-LOCALE-PROVIDER) 為 `builtin`，則必須指定 *`locale`* 或 *`builtin_locale`*，並將其設為 `C`、`C.UTF-8` 或 `PG_UNICODE_FAST` 其中之一。
 
-    ### 提示
+<a id="id-1.9.3.61.6.2.6.2.4"></a>
 
-    其他的區域設定 [lc_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MESSAGES)、[lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY)、[lc_numeric](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-NUMERIC) 與 [lc_time](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-TIME) 並非每個資料庫固定，也不會由此命令設定。若你想讓它們成為特定資料庫的預設值，可以使用 `ALTER DATABASE
-    ... SET`。
+### 提示 [#](#sql-createdatabase-restored-note-1) <a href="#sql-createdatabase-restored-note-1" id="sql-createdatabase-restored-note-1"></a>
+
+其他的區域設定 [lc_messages](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MESSAGES)、[lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY)、[lc_numeric](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-NUMERIC) 與 [lc_time](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-TIME) 並非每個資料庫固定，也不會由此命令設定。若你想讓它們成為特定資料庫的預設值，可以使用 `ALTER DATABASE
+... SET`。
 <a id="CREATE-DATABASE-LC-COLLATE"></a>
 
 *`lc_collate`* [#](#CREATE-DATABASE-LC-COLLATE)

@@ -73,15 +73,16 @@ pg_dump 只會傾印單一資料庫。若要匯出整個叢集，或匯出叢集
 輸出封存（非文字）檔案時會忽略此選項。對於封存格式，你可以在呼叫 `pg_restore` 時指定此選項。
 
 `-e pattern`<br>`--extension=pattern`
-:   只傾印符合 *`pattern`* 的擴充功能。未指定此選項時，會傾印目標資料庫中所有的非系統擴充功能。可以寫多個 `-e` 選項來選擇多個擴充功能。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個擴充功能。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元。
 
-    若某個擴充功能經由 `--extension` 指定，則由 `pg_extension_config_dump` 註冊的任何該擴充功能之組態關聯都會包含在傾印中。
+只傾印符合 *`pattern`* 的擴充功能。未指定此選項時，會傾印目標資料庫中所有的非系統擴充功能。可以寫多個 `-e` 選項來選擇多個擴充功能。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個擴充功能。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元。
 
-    <a id="id-1.9.4.14.6.3.7.2.3"></a>
+若某個擴充功能經由 `--extension` 指定，則由 `pg_extension_config_dump` 註冊的任何該擴充功能之組態關聯都會包含在傾印中。
 
-    ### 注意
+<a id="id-1.9.4.14.6.3.7.2.3"></a>
 
-    指定 `-e` 時，pg_dump 不會嘗試傾印所選擴充功能可能相依的任何其他資料庫物件。因此，無法保證特定擴充功能傾印的結果能單獨成功還原到乾淨的資料庫中。
+### 注意 [#](#app-pgdump-restored-note-1) <a href="#app-pgdump-restored-note-1" id="app-pgdump-restored-note-1"></a>
+
+指定 `-e` 時，pg_dump 不會嘗試傾印所選擴充功能可能相依的任何其他資料庫物件。因此，無法保證特定擴充功能傾印的結果能單獨成功還原到乾淨的資料庫中。
 
 `-E encoding`<br>`--encoding=encoding`
 :   以指定的字元集編碼建立傾印。預設情況下，傾印會以資料庫編碼建立。（取得相同結果的另一種方式，是將環境變數 `PGCLIENTENCODING` 設為所要的傾印編碼。）支援的編碼說明於[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
@@ -115,19 +116,20 @@ pg_dump 會開啟 *`njobs`* + 1 個資料庫連線，因此請確認你的 [max_
 若要執行平行傾印，資料庫伺服器必須支援同步快照；這項功能對主要伺服器而言是在 PostgreSQL 9.2 引入，對待命伺服器則是在 10 版引入。有了這項功能，資料庫用戶端即使使用不同的連線，也能確保看到相同的資料集。`pg_dump -j` 會使用多個資料庫連線；它以領導程序連線到資料庫一次，並為每個工作者作業再各連線一次。若沒有同步快照功能，就無法保證不同的工作者作業在各個連線中看到相同的資料，這可能導致備份不一致。
 
 `-n pattern`<br>`--schema=pattern`
-:   只傾印符合 *`pattern`* 的綱要；這會同時選擇綱要本身及其包含的所有物件。未指定此選項時，會傾印目標資料庫中所有的非系統綱要。可以寫多個 `-n` 選項來選擇多個綱要。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個綱要。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。
 
-    <a id="id-1.9.4.14.6.3.12.2.2"></a>
+只傾印符合 *`pattern`* 的綱要；這會同時選擇綱要本身及其包含的所有物件。未指定此選項時，會傾印目標資料庫中所有的非系統綱要。可以寫多個 `-n` 選項來選擇多個綱要。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個綱要。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。
 
-    ### 注意
+<a id="id-1.9.4.14.6.3.12.2.2"></a>
 
-    指定 `-n` 時，pg_dump 不會嘗試傾印所選綱要可能相依的任何其他資料庫物件。因此，無法保證特定綱要傾印的結果能單獨成功還原到乾淨的資料庫中。
+### 注意 [#](#app-pgdump-restored-note-2) <a href="#app-pgdump-restored-note-2" id="app-pgdump-restored-note-2"></a>
 
-    <a id="id-1.9.4.14.6.3.12.2.3"></a>
+指定 `-n` 時，pg_dump 不會嘗試傾印所選綱要可能相依的任何其他資料庫物件。因此，無法保證特定綱要傾印的結果能單獨成功還原到乾淨的資料庫中。
 
-    ### 注意
+<a id="id-1.9.4.14.6.3.12.2.3"></a>
 
-    指定 `-n` 時，不會傾印大型物件之類的非綱要物件。你可以使用 `--large-objects` 選項把大型物件加回傾印中。
+### 注意 [#](#app-pgdump-restored-note-3) <a href="#app-pgdump-restored-note-3" id="app-pgdump-restored-note-3"></a>
+
+指定 `-n` 時，不會傾印大型物件之類的非綱要物件。你可以使用 `--large-objects` 選項把大型物件加回傾印中。
 
 `-N pattern`<br>`--exclude-schema=pattern`
 
@@ -158,17 +160,18 @@ pg_dump 會開啟 *`njobs`* + 1 個資料庫連線，因此請確認你的 [max_
 :   指定停用觸發程序時要使用的超級使用者名稱。只有在使用 `--disable-triggers` 時才有關係。（通常最好省略此選項，改為以超級使用者身分啟動產生的腳本。）
 
 `-t pattern`<br>`--table=pattern`
-:   只傾印名稱符合 *`pattern`* 的資料表。可以寫多個 `-t` 選項來選擇多個資料表。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個資料表。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。
 
-    除了資料表之外，此選項也可以用來傾印符合之檢視表、具體化檢視表、外部資料表與序列的定義。它不會傾印檢視表或具體化檢視表的內容，而外部資料表的內容只有在以 `--include-foreign-data` 指定了對應的外部伺服器時才會被傾印。
+只傾印名稱符合 *`pattern`* 的資料表。可以寫多個 `-t` 選項來選擇多個資料表。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個資料表。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。
 
-    使用 `-t` 時，`-n` 與 `-N` 選項沒有作用，因為無論這些選項為何，以 `-t` 選擇的資料表都會被傾印，而非資料表物件則不會被傾印。
+除了資料表之外，此選項也可以用來傾印符合之檢視表、具體化檢視表、外部資料表與序列的定義。它不會傾印檢視表或具體化檢視表的內容，而外部資料表的內容只有在以 `--include-foreign-data` 指定了對應的外部伺服器時才會被傾印。
 
-    <a id="id-1.9.4.14.6.3.18.2.4"></a>
+使用 `-t` 時，`-n` 與 `-N` 選項沒有作用，因為無論這些選項為何，以 `-t` 選擇的資料表都會被傾印，而非資料表物件則不會被傾印。
 
-    ### 注意
+<a id="id-1.9.4.14.6.3.18.2.4"></a>
 
-    指定 `-t` 時，pg_dump 不會嘗試傾印所選資料表可能相依的任何其他資料庫物件。因此，無法保證特定資料表傾印的結果能單獨成功還原到乾淨的資料庫中。
+### 注意 [#](#app-pgdump-restored-note-4) <a href="#app-pgdump-restored-note-4" id="app-pgdump-restored-note-4"></a>
+
+指定 `-t` 時，pg_dump 不會嘗試傾印所選資料表可能相依的任何其他資料庫物件。因此，無法保證特定資料表傾印的結果能單獨成功還原到乾淨的資料庫中。
 
 `-T pattern`<br>`--exclude-table=pattern`
 
@@ -271,19 +274,20 @@ tar 封存格式目前完全不支援壓縮。
 :   在 `--clean` 模式中使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。
 
 `--include-foreign-data=foreignserver`
-:   傾印外部伺服器符合 *`foreignserver`* 模式之任何外部資料表的資料。可以寫多個 `--include-foreign-data` 選項來選擇多個外部伺服器。此外，*`foreignserver`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個外部伺服器。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。唯一的例外是不允許空的模式。
 
-    <a id="id-1.9.4.14.6.3.36.2.2"></a>
+傾印外部伺服器符合 *`foreignserver`* 模式之任何外部資料表的資料。可以寫多個 `--include-foreign-data` 選項來選擇多個外部伺服器。此外，*`foreignserver`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個外部伺服器。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。唯一的例外是不允許空的模式。
 
-    ### 注意
+<a id="id-1.9.4.14.6.3.36.2.2"></a>
 
-    在 `--include-foreign-data` 中使用萬用字元，可能會存取到非預期的外部伺服器。此外，若要安全地使用此選項，請確認所指定的伺服器必須有受信任的擁有者。
+### 注意 [#](#app-pgdump-restored-note-5) <a href="#app-pgdump-restored-note-5" id="app-pgdump-restored-note-5"></a>
 
-    <a id="id-1.9.4.14.6.3.36.2.3"></a>
+在 `--include-foreign-data` 中使用萬用字元，可能會存取到非預期的外部伺服器。此外，若要安全地使用此選項，請確認所指定的伺服器必須有受信任的擁有者。
 
-    ### 注意
+<a id="id-1.9.4.14.6.3.36.2.3"></a>
 
-    指定 `--include-foreign-data` 時，pg_dump 不會檢查外部資料表是否可寫入。因此，無法保證外部資料表傾印的結果能成功還原。
+### 注意 [#](#app-pgdump-restored-note-6) <a href="#app-pgdump-restored-note-6" id="app-pgdump-restored-note-6"></a>
+
+指定 `--include-foreign-data` 時，pg_dump 不會檢查外部資料表是否可寫入。因此，無法保證外部資料表傾印的結果能成功還原。
 
 `--inserts`
 :   將資料傾印為 `INSERT` 命令（而不是 `COPY`）。這會使還原變得非常慢；它主要用於產生可以載入非 PostgreSQL 資料庫的傾印。還原期間的任何錯誤，只會使屬於出問題之 `INSERT` 的資料列遺失，而不是整個資料表的內容。請注意，若你重新排列了欄位順序，還原可能會完全失敗。`--column-inserts` 選項不受欄位順序變更的影響，但速度更慢。

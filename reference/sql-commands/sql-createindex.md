@@ -144,13 +144,14 @@ B-tree 索引另外接受此參數：
 <a id="INDEX-RELOPTION-DEDUPLICATE-ITEMS"></a>
 
 `deduplicate_items` (`boolean`) <a id="id-1.9.3.69.6.3.6.1.1.3"></a> [#](#INDEX-RELOPTION-DEDUPLICATE-ITEMS)
-:   控制是否使用[第 65.1.4.3 節](../../internals/indextypes/btree.md#BTREE-DEDUPLICATION)所描述的 B-tree 去重複技術。設為 `ON` 或 `OFF` 以啟用或停用此最佳化。（如[第 19.1 節](../../server-administration/runtime-config/config-setting.md)所述，`ON` 與 `OFF` 也允許使用其他寫法。）預設為 `ON`。
 
-    <a id="id-1.9.3.69.6.3.6.1.2.2"></a>
+控制是否使用[第 65.1.4.3 節](../../internals/indextypes/btree.md#BTREE-DEDUPLICATION)所描述的 B-tree 去重複技術。設為 `ON` 或 `OFF` 以啟用或停用此最佳化。（如[第 19.1 節](../../server-administration/runtime-config/config-setting.md)所述，`ON` 與 `OFF` 也允許使用其他寫法。）預設為 `ON`。
 
-    ### 注意
+<a id="id-1.9.3.69.6.3.6.1.2.2"></a>
 
-    透過 `ALTER INDEX` 關閉 `deduplicate_items`，可以防止未來的插入觸發去重複，但其本身並不會讓現有的 posting list tuple 改用標準的 tuple 表示法。
+### 注意 [#](#sql-createindex-restored-note-1) <a href="#sql-createindex-restored-note-1" id="sql-createindex-restored-note-1"></a>
+
+透過 `ALTER INDEX` 關閉 `deduplicate_items`，可以防止未來的插入觸發去重複，但其本身並不會讓現有的 posting list tuple 改用標準的 tuple 表示法。
 
 GiST 索引另外接受此參數：
 
@@ -164,13 +165,14 @@ GIN 索引接受這些參數：
 <a id="INDEX-RELOPTION-FASTUPDATE"></a>
 
 `fastupdate` (`boolean`) <a id="id-1.9.3.69.6.3.10.1.1.3"></a> [#](#INDEX-RELOPTION-FASTUPDATE)
-:   控制是否使用[第 65.4.4.1 節](../../internals/indextypes/gin.md#GIN-FAST-UPDATE)所描述的快速更新技術。`ON` 啟用快速更新，`OFF` 則停用。預設為 `ON`。
 
-    <a id="id-1.9.3.69.6.3.10.1.2.2"></a>
+控制是否使用[第 65.4.4.1 節](../../internals/indextypes/gin.md#GIN-FAST-UPDATE)所描述的快速更新技術。`ON` 啟用快速更新，`OFF` 則停用。預設為 `ON`。
 
-    ### 注意
+<a id="id-1.9.3.69.6.3.10.1.2.2"></a>
 
-    透過 `ALTER INDEX` 關閉 `fastupdate`，可以防止未來的插入進入待處理索引項目清單，但其本身並不會清除現有的項目。之後你可能會想對該資料表執行 `VACUUM`，或呼叫 `gin_clean_pending_list` 函式，以確保待處理清單被清空。
+### 注意 [#](#sql-createindex-restored-note-2) <a href="#sql-createindex-restored-note-2" id="sql-createindex-restored-note-2"></a>
+
+透過 `ALTER INDEX` 關閉 `fastupdate`，可以防止未來的插入進入待處理索引項目清單，但其本身並不會清除現有的項目。之後你可能會想對該資料表執行 `VACUUM`，或呼叫 `gin_clean_pending_list` 函式，以確保待處理清單被清空。
 
 <a id="INDEX-RELOPTION-GIN-PENDING-LIST-LIMIT"></a>
 

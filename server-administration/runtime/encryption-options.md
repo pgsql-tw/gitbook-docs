@@ -11,21 +11,22 @@ PostgreSQL 在多個層級提供加密功能，
 也可能需要用到加密功能。
 
 密碼加密
-:   資料庫使用者的密碼，會以雜湊值的形式儲存
-    （由 [password_encryption](../runtime-config/runtime-config-connection.md#GUC-PASSWORD-ENCRYPTION)
-    設定決定），因此管理者無法得知指派給使用者的實際密碼。
-    若用戶端驗證使用 SCRAM 或 MD5 加密，
-    則未加密的密碼，甚至不會暫時出現在伺服器上，
-    因為用戶端會在透過網路傳送之前，先對密碼進行加密。
-    建議優先使用 SCRAM，因為它是一項網際網路標準，
-    比 PostgreSQL 專屬的 MD5 驗證協定更安全。
 
-    ### 警告
+資料庫使用者的密碼，會以雜湊值的形式儲存
+（由 [password_encryption](../runtime-config/runtime-config-connection.md#GUC-PASSWORD-ENCRYPTION)
+設定決定），因此管理者無法得知指派給使用者的實際密碼。
+若用戶端驗證使用 SCRAM 或 MD5 加密，
+則未加密的密碼，甚至不會暫時出現在伺服器上，
+因為用戶端會在透過網路傳送之前，先對密碼進行加密。
+建議優先使用 SCRAM，因為它是一項網際網路標準，
+比 PostgreSQL 專屬的 MD5 驗證協定更安全。
 
-    對 MD5 加密密碼的支援，已被棄用，
-    未來的 PostgreSQL 版本將會將其移除。
-    關於遷移至其他密碼型別的詳情，
-    請參閱[20.5 節](../client-authentication/auth-password.md)。
+### 警告 [#](#encryption-options-restored-note-1) <a href="#encryption-options-restored-note-1" id="encryption-options-restored-note-1"></a>
+
+對 MD5 加密密碼的支援，已被棄用，
+未來的 PostgreSQL 版本將會將其移除。
+關於遷移至其他密碼型別的詳情，
+請參閱[20.5 節](../client-authentication/auth-password.md)。
 
 針對特定欄位加密
 

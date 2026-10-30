@@ -78,21 +78,22 @@ where option can be:
 :   若角色可以登入，此選項指定該角色可以建立多少個並行連線。-1（預設值）表示沒有限制。請注意，只有一般連線會計入此限制。此限制既不計入預備交易，也不計入背景工作程序連線。
 
 [ `ENCRYPTED` ] `PASSWORD` '*`password`*'<br>`PASSWORD NULL`
-:   設定角色的密碼。（密碼只對具有 `LOGIN` 屬性的角色有用，但你仍然可以為沒有此屬性的角色定義密碼。）若你不打算使用密碼身分驗證，可以省略此選項。若未指定密碼，密碼將被設為 null，且該使用者的密碼身分驗證一律會失敗。null 密碼也可以選擇明確寫成 `PASSWORD NULL`。
 
-    <a id="id-1.9.3.78.6.2.10.2.2"></a>
+設定角色的密碼。（密碼只對具有 `LOGIN` 屬性的角色有用，但你仍然可以為沒有此屬性的角色定義密碼。）若你不打算使用密碼身分驗證，可以省略此選項。若未指定密碼，密碼將被設為 null，且該使用者的密碼身分驗證一律會失敗。null 密碼也可以選擇明確寫成 `PASSWORD NULL`。
 
-    ### 注意
+<a id="id-1.9.3.78.6.2.10.2.2"></a>
 
-    指定空字串也會將密碼設為 null，但在 PostgreSQL 10 版之前並非如此。在較早的版本中，依身分驗證方法與確切版本而定，空字串可能可以使用，也可能不行，而且 libpq 在任何情況下都會拒絕使用它。為了避免歧義，應該避免指定空字串。
+### 注意 [#](#sql-createrole-restored-note-1) <a href="#sql-createrole-restored-note-1" id="sql-createrole-restored-note-1"></a>
 
-    密碼一律以加密形式儲存在系統目錄中。`ENCRYPTED` 關鍵字沒有作用，但為了向後相容性而仍被接受。加密方法由設定參數 [password_encryption](../../server-administration/runtime-config/runtime-config-connection.md#GUC-PASSWORD-ENCRYPTION) 決定。若提供的密碼字串已經是 MD5 加密或 SCRAM 加密格式，則不論 `password_encryption` 為何，都會原樣儲存（因為系統無法解密所指定的已加密密碼字串，也就無法將它以不同格式加密）。這使得在傾印／還原期間可以重新載入已加密的密碼。
+指定空字串也會將密碼設為 null，但在 PostgreSQL 10 版之前並非如此。在較早的版本中，依身分驗證方法與確切版本而定，空字串可能可以使用，也可能不行，而且 libpq 在任何情況下都會拒絕使用它。為了避免歧義，應該避免指定空字串。
 
-    <a id="id-1.9.3.78.6.2.10.2.4"></a>
+密碼一律以加密形式儲存在系統目錄中。`ENCRYPTED` 關鍵字沒有作用，但為了向後相容性而仍被接受。加密方法由設定參數 [password_encryption](../../server-administration/runtime-config/runtime-config-connection.md#GUC-PASSWORD-ENCRYPTION) 決定。若提供的密碼字串已經是 MD5 加密或 SCRAM 加密格式，則不論 `password_encryption` 為何，都會原樣儲存（因為系統無法解密所指定的已加密密碼字串，也就無法將它以不同格式加密）。這使得在傾印／還原期間可以重新載入已加密的密碼。
 
-    ### 警告
+<a id="id-1.9.3.78.6.2.10.2.4"></a>
 
-    對 MD5 加密密碼的支援已被棄用，並將在 PostgreSQL 的未來版本中移除。關於遷移到其他密碼類型的細節，請參閱[第 20.5 節](../../server-administration/client-authentication/auth-password.md)。
+### 警告 [#](#sql-createrole-restored-note-2) <a href="#sql-createrole-restored-note-2" id="sql-createrole-restored-note-2"></a>
+
+對 MD5 加密密碼的支援已被棄用，並將在 PostgreSQL 的未來版本中移除。關於遷移到其他密碼類型的細節，請參閱[第 20.5 節](../../server-administration/client-authentication/auth-password.md)。
 
 `VALID UNTIL` '*`timestamp`*'
 :   `VALID UNTIL` 子句設定一個日期與時間，在此之後角色的密碼便不再有效。若省略此子句，密碼將永久有效。

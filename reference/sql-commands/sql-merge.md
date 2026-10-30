@@ -89,13 +89,14 @@ and merge_delete is:
 :   資料來源的替代名稱。若提供了別名，就會完全隱藏該資料表的實際名稱，或掩蓋此處使用的其實是一個查詢的事實。
 
 *`join_condition`*
-:   *`join_condition`* 是一個求值結果為 `boolean` 型別的運算式（類似 `WHERE` 子句），用來指定 *`data_source`* 中哪些資料列與目標資料表中的資料列相符。
 
-    ### 警告
+*`join_condition`* 是一個求值結果為 `boolean` 型別的運算式（類似 `WHERE` 子句），用來指定 *`data_source`* 中哪些資料列與目標資料表中的資料列相符。
 
-    *`join_condition`* 中應該只出現用來嘗試比對 *`data_source`* 資料列的目標資料表欄位。只參照目標資料表欄位的 *`join_condition`* 子運算式，可能會以令人意外的方式影響最終採取哪個動作。
+### 警告 [#](#sql-merge-restored-note-1) <a href="#sql-merge-restored-note-1" id="sql-merge-restored-note-1"></a>
 
-    若同時指定了 `WHEN NOT MATCHED BY SOURCE` 與 `WHEN NOT MATCHED [BY TARGET]` 子句，`MERGE` 指令就會在 *`data_source`* 與目標資料表之間執行 `FULL` 連接。為使其能正常運作，*`join_condition`* 的子運算式中，必須至少有一個使用支援雜湊連接（hash join）的運算子，否則所有子運算式都必須使用支援合併連接（merge join）的運算子。
+*`join_condition`* 中應該只出現用來嘗試比對 *`data_source`* 資料列的目標資料表欄位。只參照目標資料表欄位的 *`join_condition`* 子運算式，可能會以令人意外的方式影響最終採取哪個動作。
+
+若同時指定了 `WHEN NOT MATCHED BY SOURCE` 與 `WHEN NOT MATCHED [BY TARGET]` 子句，`MERGE` 指令就會在 *`data_source`* 與目標資料表之間執行 `FULL` 連接。為使其能正常運作，*`join_condition`* 的子運算式中，必須至少有一個使用支援雜湊連接（hash join）的運算子，否則所有子運算式都必須使用支援合併連接（merge join）的運算子。
 
 *`when_clause`*
 

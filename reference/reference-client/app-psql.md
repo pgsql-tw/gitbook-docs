@@ -173,13 +173,14 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 <a id="APP-PSQL-OPTION-SINGLE-LINE"></a>
 
 `-S`<br>`--single-line` [#](#APP-PSQL-OPTION-SINGLE-LINE)
-:   以單行模式執行，在此模式下，換行字元會像分號一樣結束一個 SQL 命令。
 
-    <a id="APP-PSQL-OPTION-SINGLE-LINE-NOTE"></a>
+以單行模式執行，在此模式下，換行字元會像分號一樣結束一個 SQL 命令。
 
-    ### 注意
+<a id="APP-PSQL-OPTION-SINGLE-LINE-NOTE"></a>
 
-    提供此模式是為了堅持要使用它的人，但並不一定鼓勵你使用。特別是，若你在同一行混用 SQL 與中繼命令，對沒有經驗的使用者而言，執行順序未必總是清楚明白。
+### 注意 [#](#app-psql-restored-note-1) <a href="#app-psql-restored-note-1" id="app-psql-restored-note-1"></a>
+
+提供此模式是為了堅持要使用它的人，但並不一定鼓勵你使用。特別是，若你在同一行混用 SQL 與中繼命令，對沒有經驗的使用者而言，執行順序未必總是清楚明白。
 <a id="APP-PSQL-OPTION-TUPLES-ONLY"></a>
 
 `-t`<br>`--tuples-only` [#](#APP-PSQL-OPTION-TUPLES-ONLY)
@@ -456,14 +457,15 @@ name`。
 <a id="APP-PSQL-META-COMMAND-CD"></a>
 
 `\cd [ directory ]` [#](#APP-PSQL-META-COMMAND-CD)
-:   將目前的工作目錄變更為
-    *`directory`*。若沒有引數，則變更為目前使用者的家目錄。關於如何找出家目錄的詳細資訊，請參閱[第 32.16 節](../../client-interfaces/libpq/libpq-pgpass.md)。
 
-    <a id="APP-PSQL-META-COMMAND-CD-TIP"></a>
+將目前的工作目錄變更為
+*`directory`*。若沒有引數，則變更為目前使用者的家目錄。關於如何找出家目錄的詳細資訊，請參閱[第 32.16 節](../../client-interfaces/libpq/libpq-pgpass.md)。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMAND-CD-TIP"></a>
 
-    若要印出目前的工作目錄，請使用 `\! pwd`。
+### 提示 [#](#app-psql-restored-note-2) <a href="#app-psql-restored-note-2" id="app-psql-restored-note-2"></a>
+
+若要印出目前的工作目錄，請使用 `\! pwd`。
 <a id="APP-PSQL-META-COMMAND-CLOSE-PREPARED"></a>
 
 `\close_prepared` *`prepared_statement_name`* [#](#APP-PSQL-META-COMMAND-CLOSE-PREPARED)
@@ -492,46 +494,47 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMANDS-COPY"></a>
 
 `\copy { table [ ( column_list ) ] } from { 'filename' | program 'command' | stdin | pstdin } [ [ with ] ( option [, ...] ) ] [ where condition ]`<br>`\copy { table [ ( column_list ) ] | ( query ) } to { 'filename' | program 'command' | stdout | pstdout } [ [ with ] ( option [, ...] ) ]` [#](#APP-PSQL-META-COMMANDS-COPY)
-:   執行前端（用戶端）複製。這項操作會執行 SQL [`COPY`](../sql-commands/sql-copy.md)
-    命令，但不是由伺服器讀取或寫入指定的檔案，而是由 psql 讀取或寫入該檔案，並在伺服器與本機檔案系統之間傳遞資料。
-    這表示檔案的可存取性與權限取決於本機使用者，而非伺服器，而且不需要 SQL 超級使用者權限。
 
-    指定 `program` 時，
-    *`command`* 會由 psql 執行，而傳自或傳往
-    *`command`* 的資料會在伺服器與用戶端之間傳遞。
-    同樣地，執行權限取決於本機使用者，而非伺服器，而且不需要 SQL 超級使用者權限。
+執行前端（用戶端）複製。這項操作會執行 SQL [`COPY`](../sql-commands/sql-copy.md)
+命令，但不是由伺服器讀取或寫入指定的檔案，而是由 psql 讀取或寫入該檔案，並在伺服器與本機檔案系統之間傳遞資料。
+這表示檔案的可存取性與權限取決於本機使用者，而非伺服器，而且不需要 SQL 超級使用者權限。
 
-    對於 `\copy ... from stdin`，資料列會從發出此命令的同一個來源讀取，直到讀到只含有
-    `\.`
-    的一行，或資料流到達 EOF 為止。此選項適合用於在 SQL 腳本檔中以內嵌方式填入資料表。
-    對於 `\copy ... to stdout`，輸出會送到與 psql 命令輸出相同的地方，而且不會印出
-    `COPY count` 命令狀態（因為它可能會與資料列混淆）。
-    若要不論目前的命令來源或 `\o`
-    選項為何，都讀取或寫入 psql 的標準輸入或輸出，請寫成 `from pstdin` 或 `to pstdout`。
+指定 `program` 時，
+*`command`* 會由 psql 執行，而傳自或傳往
+*`command`* 的資料會在伺服器與用戶端之間傳遞。
+同樣地，執行權限取決於本機使用者，而非伺服器，而且不需要 SQL 超級使用者權限。
 
-    此命令的語法與 SQL [`COPY`](../sql-commands/sql-copy.md)
-    命令的語法類似。除了資料來源／目的地之外，所有選項都與 `COPY` 的規定相同。
-    因此，`\copy`
-    中繼命令適用特殊的剖析規則。與大多數其他中繼命令不同，該行的其餘部分一律被視為 `\copy` 的引數，
-    而且引數中既不會進行變數插值，也不會進行反引號展開。
+對於 `\copy ... from stdin`，資料列會從發出此命令的同一個來源讀取，直到讀到只含有
+`\.`
+的一行，或資料流到達 EOF 為止。此選項適合用於在 SQL 腳本檔中以內嵌方式填入資料表。
+對於 `\copy ... to stdout`，輸出會送到與 psql 命令輸出相同的地方，而且不會印出
+`COPY count` 命令狀態（因為它可能會與資料列混淆）。
+若要不論目前的命令來源或 `\o`
+選項為何，都讀取或寫入 psql 的標準輸入或輸出，請寫成 `from pstdin` 或 `to pstdout`。
 
-    <a id="APP-PSQL-META-COMMANDS-COPY-TIP"></a>
+此命令的語法與 SQL [`COPY`](../sql-commands/sql-copy.md)
+命令的語法類似。除了資料來源／目的地之外，所有選項都與 `COPY` 的規定相同。
+因此，`\copy`
+中繼命令適用特殊的剖析規則。與大多數其他中繼命令不同，該行的其餘部分一律被視為 `\copy` 的引數，
+而且引數中既不會進行變數插值，也不會進行反引號展開。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMANDS-COPY-TIP"></a>
 
-    要得到與 `\copy
-    ... to` 相同結果的另一種方式，是使用 SQL `COPY
-    ... TO STDOUT` 命令，並以
-    `\g filename`
-    或 `\g |program` 結束它。
-    與 `\copy` 不同，此方法允許命令跨越多行；此外，也可以使用變數插值與反引號展開。
+### 提示 [#](#app-psql-restored-note-3) <a href="#app-psql-restored-note-3" id="app-psql-restored-note-3"></a>
 
-    <a id="APP-PSQL-META-COMMANDS-COPY-TIP-2"></a>
+要得到與 `\copy
+... to` 相同結果的另一種方式，是使用 SQL `COPY
+... TO STDOUT` 命令，並以
+`\g filename`
+或 `\g |program` 結束它。
+與 `\copy` 不同，此方法允許命令跨越多行；此外，也可以使用變數插值與反引號展開。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMANDS-COPY-TIP-2"></a>
 
-    這些操作的效率不如以檔案或程式作為資料來源或目的地的 SQL
-    `COPY` 命令，因為所有資料都必須經過用戶端／伺服器連線。對於大量資料，使用 SQL 命令可能比較好。
+### 提示 [#](#app-psql-restored-note-4) <a href="#app-psql-restored-note-4" id="app-psql-restored-note-4"></a>
+
+這些操作的效率不如以檔案或程式作為資料來源或目的地的 SQL
+`COPY` 命令，因為所有資料都必須經過用戶端／伺服器連線。對於大量資料，使用 SQL 命令可能比較好。
 <a id="APP-PSQL-META-COMMAND-COPYRIGHT"></a>
 
 `\copyright` [#](#APP-PSQL-META-COMMAND-COPYRIGHT)
@@ -569,34 +572,35 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-D"></a>
 
 `\d[Sx+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-D)
-:   對於每個符合
-    *`pattern`* 的關聯（資料表、檢視表、具體化檢視表、索引、序列或外部資料表）或複合型別，顯示其所有欄位、欄位的型別、資料表空間（若不是預設值）以及任何特殊屬性，例如 `NOT NULL` 或預設值。
-    相關的索引、限制條件、規則與觸發程序也會一併顯示。對於外部資料表，也會顯示相關的外部伺服器。
-    （「符合模式」的定義請參閱下方的[模式](app-psql.md#APP-PSQL-PATTERNS)。）
 
-    對於某些種類的關聯，`\d` 會為每個欄位顯示額外資訊：序列的欄位值、索引的索引運算式，以及外部資料表的外部資料包裝器選項。
+對於每個符合
+*`pattern`* 的關聯（資料表、檢視表、具體化檢視表、索引、序列或外部資料表）或複合型別，顯示其所有欄位、欄位的型別、資料表空間（若不是預設值）以及任何特殊屬性，例如 `NOT NULL` 或預設值。
+相關的索引、限制條件、規則與觸發程序也會一併顯示。對於外部資料表，也會顯示相關的外部伺服器。
+（「符合模式」的定義請參閱下方的[模式](app-psql.md#APP-PSQL-PATTERNS)。）
 
-    命令形式 `\d+` 完全相同，差別在於會顯示更多資訊：會顯示與資料表欄位相關聯的任何註解、資料表中是否有 OID、若關聯是檢視表則顯示檢視表定義、非預設的
-    [replica
-    identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設定，以及若關聯具有存取方法則顯示[存取方法](../sql-commands/sql-create-access-method.md)名稱。
+對於某些種類的關聯，`\d` 會為每個欄位顯示額外資訊：序列的欄位值、索引的索引運算式，以及外部資料表的外部資料包裝器選項。
 
-    預設情況下，只會顯示使用者建立的物件；若要包含系統物件，請提供模式或 `S` 修飾字。
+命令形式 `\d+` 完全相同，差別在於會顯示更多資訊：會顯示與資料表欄位相關聯的任何註解、資料表中是否有 OID、若關聯是檢視表則顯示檢視表定義、非預設的
+[replica
+identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設定，以及若關聯具有存取方法則顯示[存取方法](../sql-commands/sql-create-access-method.md)名稱。
 
-    <a id="APP-PSQL-META-COMMAND-D-NOTE"></a>
+預設情況下，只會顯示使用者建立的物件；若要包含系統物件，請提供模式或 `S` 修飾字。
 
-    ### 注意
+<a id="APP-PSQL-META-COMMAND-D-NOTE"></a>
 
-    若使用 `\d` 時沒有
-    *`pattern`* 引數，它等同於 `\dtvmsE`，會顯示所有可見的資料表、檢視表、具體化檢視表、序列與外部資料表的清單。
-    這純粹是為了方便。
+### 注意 [#](#app-psql-restored-note-5) <a href="#app-psql-restored-note-5" id="app-psql-restored-note-5"></a>
 
-    與許多其他命令一樣，若在命令名稱後附加 `x`，結果會以展開模式顯示，但請注意，這只適用於使用 `\d` 時沒有
-    *`pattern`* 引數的情況，而且
-    `x` 修飾字不能緊接在
-    `\d` 之後（因為 `\dx` 是另一個命令）；`x` 修飾字只能出現在
-    `S` 或 `+` 修飾字之後。例如，
-    `\d+x` 等同於 `\dtvmsE+x`，
-    會以展開模式顯示所有關聯的清單。
+若使用 `\d` 時沒有
+*`pattern`* 引數，它等同於 `\dtvmsE`，會顯示所有可見的資料表、檢視表、具體化檢視表、序列與外部資料表的清單。
+這純粹是為了方便。
+
+與許多其他命令一樣，若在命令名稱後附加 `x`，結果會以展開模式顯示，但請注意，這只適用於使用 `\d` 時沒有
+*`pattern`* 引數的情況，而且
+`x` 修飾字不能緊接在
+`\d` 之後（因為 `\dx` 是另一個命令）；`x` 修飾字只能出現在
+`S` 或 `+` 修飾字之後。例如，
+`\d+x` 等同於 `\dtvmsE+x`，
+會以展開模式顯示所有關聯的清單。
 <a id="APP-PSQL-META-COMMAND-DA-LC"></a>
 
 `\da[Sx] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DA-LC)
@@ -1000,26 +1004,27 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-EDIT"></a>
 
 `\e` 或 `\edit` `[ filename ] [ line_number ]` [#](#APP-PSQL-META-COMMAND-EDIT)
-:   若指定了 *`filename`*，
-    則會編輯該檔案；編輯器結束後，檔案的內容會複製到目前的查詢緩衝區中。若未提供 *`filename`*，則會將目前的查詢緩衝區複製到暫存檔，然後以相同方式編輯。或者，若目前的查詢緩衝區是空的，則會將最近執行的查詢複製到暫存檔，並以相同方式編輯。
 
-    若你編輯的是檔案或前一個查詢，並且在未修改檔案的情況下結束編輯器，查詢緩衝區會被清除。
-    否則，查詢緩衝區的新內容會依照 psql 的一般規則重新剖析，並將整個緩衝區視為單一行。任何完整的查詢都會立即執行；也就是說，若查詢緩衝區包含分號或以分號結尾，則到該處為止的所有內容都會被執行並從查詢緩衝區中移除。查詢緩衝區中剩下的內容會重新顯示。輸入分號或 `\g` 以送出它，
-    或輸入 `\r` 以清除查詢緩衝區來取消它。
+若指定了 *`filename`*，
+則會編輯該檔案；編輯器結束後，檔案的內容會複製到目前的查詢緩衝區中。若未提供 *`filename`*，則會將目前的查詢緩衝區複製到暫存檔，然後以相同方式編輯。或者，若目前的查詢緩衝區是空的，則會將最近執行的查詢複製到暫存檔，並以相同方式編輯。
 
-    將緩衝區視為單一行主要會影響中繼命令：緩衝區中位於中繼命令之後的任何內容，都會被視為該中繼命令的引數，即使它跨越多行也一樣。
-    （因此，你無法以這種方式製作使用中繼命令的腳本。
-    這種情況請使用 `\i`。）
+若你編輯的是檔案或前一個查詢，並且在未修改檔案的情況下結束編輯器，查詢緩衝區會被清除。
+否則，查詢緩衝區的新內容會依照 psql 的一般規則重新剖析，並將整個緩衝區視為單一行。任何完整的查詢都會立即執行；也就是說，若查詢緩衝區包含分號或以分號結尾，則到該處為止的所有內容都會被執行並從查詢緩衝區中移除。查詢緩衝區中剩下的內容會重新顯示。輸入分號或 `\g` 以送出它，
+或輸入 `\r` 以清除查詢緩衝區來取消它。
 
-    若指定了行號，psql 會將游標定位在檔案或查詢緩衝區的指定行。
-    請注意，若只提供了一個全為數字的引數，
-    psql 會假設它是行號，而不是檔案名稱。
+將緩衝區視為單一行主要會影響中繼命令：緩衝區中位於中繼命令之後的任何內容，都會被視為該中繼命令的引數，即使它跨越多行也一樣。
+（因此，你無法以這種方式製作使用中繼命令的腳本。
+這種情況請使用 `\i`。）
 
-    <a id="APP-PSQL-META-COMMAND-EDIT-TIP"></a>
+若指定了行號，psql 會將游標定位在檔案或查詢緩衝區的指定行。
+請注意，若只提供了一個全為數字的引數，
+psql 會假設它是行號，而不是檔案名稱。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMAND-EDIT-TIP"></a>
 
-    關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#APP-PSQL-ENVIRONMENT)。
+### 提示 [#](#app-psql-restored-note-6) <a href="#app-psql-restored-note-6" id="app-psql-restored-note-6"></a>
+
+關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#APP-PSQL-ENVIRONMENT)。
 <a id="APP-PSQL-META-COMMAND-ECHO"></a>
 
 `\echo text [ ... ]` [#](#APP-PSQL-META-COMMAND-ECHO)
@@ -1043,30 +1048,31 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-EF"></a>
 
 `\ef [ function_description [ line_number ] ]` [#](#APP-PSQL-META-COMMAND-EF)
-:   此命令會擷取並編輯指定函式或程序的定義，形式為 `CREATE OR REPLACE FUNCTION` 或
-    `CREATE OR REPLACE PROCEDURE` 命令。
-    編輯方式與 `\edit` 相同。
-    若你未儲存就結束編輯器，該陳述式會被捨棄。
-    若你儲存後結束編輯器，而且你在更新後的命令中加上了分號，它就會立即執行。否則它會重新顯示；
-    輸入分號或 `\g` 以送出它，或輸入 `\r`
-    以取消。
 
-    目標函式可以只以名稱指定，也可以以名稱與引數指定，例如 `foo(integer, text)`。
-    若有超過一個同名函式，則必須提供引數型別。
+此命令會擷取並編輯指定函式或程序的定義，形式為 `CREATE OR REPLACE FUNCTION` 或
+`CREATE OR REPLACE PROCEDURE` 命令。
+編輯方式與 `\edit` 相同。
+若你未儲存就結束編輯器，該陳述式會被捨棄。
+若你儲存後結束編輯器，而且你在更新後的命令中加上了分號，它就會立即執行。否則它會重新顯示；
+輸入分號或 `\g` 以送出它，或輸入 `\r`
+以取消。
 
-    若未指定函式，則會呈現一個空白的 `CREATE FUNCTION`
-    範本供你編輯。
+目標函式可以只以名稱指定，也可以以名稱與引數指定，例如 `foo(integer, text)`。
+若有超過一個同名函式，則必須提供引數型別。
 
-    若指定了行號，psql 會將游標定位在函式主體的指定行。
-    （請注意，函式主體通常不是從檔案的第一行開始。）
+若未指定函式，則會呈現一個空白的 `CREATE FUNCTION`
+範本供你編輯。
 
-    與大多數其他中繼命令不同，該行的其餘部分一律被視為 `\ef` 的引數，而且引數中既不會進行變數插值，也不會進行反引號展開。
+若指定了行號，psql 會將游標定位在函式主體的指定行。
+（請注意，函式主體通常不是從檔案的第一行開始。）
 
-    <a id="APP-PSQL-META-COMMAND-EF-TIP"></a>
+與大多數其他中繼命令不同，該行的其餘部分一律被視為 `\ef` 的引數，而且引數中既不會進行變數插值，也不會進行反引號展開。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMAND-EF-TIP"></a>
 
-    關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#APP-PSQL-ENVIRONMENT)。
+### 提示 [#](#app-psql-restored-note-7) <a href="#app-psql-restored-note-7" id="app-psql-restored-note-7"></a>
+
+關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#APP-PSQL-ENVIRONMENT)。
 <a id="APP-PSQL-META-COMMAND-ENCODING"></a>
 
 `\encoding [ encoding ]` [#](#APP-PSQL-META-COMMAND-ENCODING)
@@ -1187,16 +1193,17 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-HELP"></a>
 
 `\h` 或 `\help` `[ command ]` [#](#APP-PSQL-META-COMMAND-HELP)
-:   提供指定 SQL 命令的語法說明。若未指定 *`command`*，psql 會列出所有提供語法說明的命令。若 *`command`* 是星號（`*`），則顯示所有 SQL 命令的語法說明。
 
-    與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\help` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。
+提供指定 SQL 命令的語法說明。若未指定 *`command`*，psql 會列出所有提供語法說明的命令。若 *`command`* 是星號（`*`），則顯示所有 SQL 命令的語法說明。
 
-    <a id="APP-PSQL-META-COMMAND-HELP-NOTE"></a>
+與其他大多數中繼命令不同，該行的其餘部分一律會被當成 `\help` 的引數，而且引數中既不進行變數插值，也不進行反引號展開。
 
-    ### 注意
+<a id="APP-PSQL-META-COMMAND-HELP-NOTE"></a>
 
-    為了簡化輸入，由多個單字組成的命令不必加上引號。因此輸入 **`\help
-    alter table`** 是可以的。
+### 注意 [#](#app-psql-restored-note-8) <a href="#app-psql-restored-note-8" id="app-psql-restored-note-8"></a>
+
+為了簡化輸入，由多個單字組成的命令不必加上引號。因此輸入 **`\help
+alter table`** 是可以的。
 <a id="APP-PSQL-META-COMMAND-HTML"></a>
 
 `\H` 或 `\html` [#](#APP-PSQL-META-COMMAND-HTML)
@@ -1204,15 +1211,16 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-INCLUDE"></a>
 
 `\i` 或 `\include` *`filename`* [#](#APP-PSQL-META-COMMAND-INCLUDE)
-:   從檔案 *`filename`* 讀取輸入並執行，如同這些內容是從鍵盤輸入的一樣。
 
-    若 *`filename`* 是 `-`（連字號），則會讀取標準輸入，直到遇到 EOF 指示或 `\q` 中繼命令為止。這可用來將互動式輸入與檔案輸入穿插使用。請注意，只有在最外層啟用 Readline 時，才會使用 Readline 的行為。
+從檔案 *`filename`* 讀取輸入並執行，如同這些內容是從鍵盤輸入的一樣。
 
-    <a id="APP-PSQL-META-COMMAND-INCLUDE-NOTE"></a>
+若 *`filename`* 是 `-`（連字號），則會讀取標準輸入，直到遇到 EOF 指示或 `\q` 中繼命令為止。這可用來將互動式輸入與檔案輸入穿插使用。請注意，只有在最外層啟用 Readline 時，才會使用 Readline 的行為。
 
-    ### 注意
+<a id="APP-PSQL-META-COMMAND-INCLUDE-NOTE"></a>
 
-    若你想在讀取各行時於螢幕上看到它們，必須將變數 `ECHO` 設為 `all`。
+### 注意 [#](#app-psql-restored-note-9) <a href="#app-psql-restored-note-9" id="app-psql-restored-note-9"></a>
+
+若你想在讀取各行時於螢幕上看到它們，必須將變數 `ECHO` 設為 `all`。
 <a id="PSQL-METACOMMAND-IF"></a>
 
 `\if` *`expression`*<br>`\elif` *`expression`*<br>`\else`<br>`\endif` [#](#PSQL-METACOMMAND-IF)
@@ -1263,13 +1271,14 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-LO-EXPORT"></a>
 
 `\lo_export loid filename` [#](#APP-PSQL-META-COMMAND-LO-EXPORT)
-:   從資料庫讀取 OID 為 *`loid`* 的大型物件，並寫入 *`filename`*。請注意，這與伺服器函式 `lo_export` 有細微的差異；後者是以資料庫伺服器執行身分之使用者的權限，在伺服器的檔案系統上運作。
 
-    <a id="APP-PSQL-META-COMMAND-LO-EXPORT-TIP"></a>
+從資料庫讀取 OID 為 *`loid`* 的大型物件，並寫入 *`filename`*。請注意，這與伺服器函式 `lo_export` 有細微的差異；後者是以資料庫伺服器執行身分之使用者的權限，在伺服器的檔案系統上運作。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMAND-LO-EXPORT-TIP"></a>
 
-    使用 `\lo_list` 查出大型物件的 OID。
+### 提示 [#](#app-psql-restored-note-10) <a href="#app-psql-restored-note-10" id="app-psql-restored-note-10"></a>
+
+使用 `\lo_list` 查出大型物件的 OID。
 <a id="APP-PSQL-META-COMMAND-LO-IMPORT"></a>
 
 `\lo_import filename [ comment ]` [#](#APP-PSQL-META-COMMAND-LO-IMPORT)
@@ -1292,27 +1301,29 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-LO-UNLINK"></a>
 
 `\lo_unlink loid` [#](#APP-PSQL-META-COMMAND-LO-UNLINK)
-:   從資料庫刪除 OID 為 *`loid`* 的大型物件。
 
-    <a id="APP-PSQL-META-COMMAND-LO-UNLINK-TIP"></a>
+從資料庫刪除 OID 為 *`loid`* 的大型物件。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMAND-LO-UNLINK-TIP"></a>
 
-    使用 `\lo_list` 查出大型物件的 OID。
+### 提示 [#](#app-psql-restored-note-11) <a href="#app-psql-restored-note-11" id="app-psql-restored-note-11"></a>
+
+使用 `\lo_list` 查出大型物件的 OID。
 <a id="APP-PSQL-META-COMMAND-OUT"></a>
 
 `\o` 或 `\out [ filename ]`<br>`\o` 或 `\out [ |command ]` [#](#APP-PSQL-META-COMMAND-OUT)
-:   安排將之後的查詢結果存入檔案 *`filename`*，或將之後的結果以管線傳給 shell 命令 *`command`*。若未指定引數，查詢輸出會重設為標準輸出。
 
-    若引數以 `|` 開頭，該行的其餘部分全部會被當成要執行的 *`command`*，而且其中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
+安排將之後的查詢結果存入檔案 *`filename`*，或將之後的結果以管線傳給 shell 命令 *`command`*。若未指定引數，查詢輸出會重設為標準輸出。
 
-    「查詢結果」包括從資料庫伺服器取得的所有資料表、命令回應與通知（notice），以及查詢資料庫的各種反斜線命令（例如 `\d`）的輸出；但不包括錯誤訊息。
+若引數以 `|` 開頭，該行的其餘部分全部會被當成要執行的 *`command`*，而且其中既不進行變數插值，也不進行反引號展開。該行的其餘部分只是原封不動地傳給 shell。
 
-    <a id="APP-PSQL-META-COMMAND-OUT-TIP"></a>
+「查詢結果」包括從資料庫伺服器取得的所有資料表、命令回應與通知（notice），以及查詢資料庫的各種反斜線命令（例如 `\d`）的輸出；但不包括錯誤訊息。
 
-    ### 提示
+<a id="APP-PSQL-META-COMMAND-OUT-TIP"></a>
 
-    若要在查詢結果之間穿插文字輸出，請使用 `\qecho`。
+### 提示 [#](#app-psql-restored-note-12) <a href="#app-psql-restored-note-12" id="app-psql-restored-note-12"></a>
+
+若要在查詢結果之間穿插文字輸出，請使用 `\qecho`。
 <a id="APP-PSQL-META-COMMAND-PRINT"></a>
 
 `\p` 或 `\print` [#](#APP-PSQL-META-COMMAND-PRINT)
@@ -1509,19 +1520,20 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-SET"></a>
 
 `\set [ name [ value [ ... ] ] ]` [#](#APP-PSQL-META-COMMAND-SET)
-:   將 psql 變數 *`name`* 設為 *`value`*；若給定超過一個值，則設為所有值串接的結果。若只給定一個引數，該變數會被設為空字串值。若要取消設定變數，請使用 `\unset` 命令。
 
-    不帶任何引數的 `\set` 會顯示目前所有已設定之 psql 變數的名稱與值。
+將 psql 變數 *`name`* 設為 *`value`*；若給定超過一個值，則設為所有值串接的結果。若只給定一個引數，該變數會被設為空字串值。若要取消設定變數，請使用 `\unset` 命令。
 
-    有效的變數名稱可以包含字母、數字與底線。詳細資訊請參閱下方的[變數](app-psql.md#APP-PSQL-VARIABLES)。變數名稱區分大小寫。
+不帶任何引數的 `\set` 會顯示目前所有已設定之 psql 變數的名稱與值。
 
-    某些變數比較特殊，它們會控制 psql 的行為，或是會自動設定以反映連線狀態。這些變數記載於下方的[變數](app-psql.md#APP-PSQL-VARIABLES)。
+有效的變數名稱可以包含字母、數字與底線。詳細資訊請參閱下方的[變數](app-psql.md#APP-PSQL-VARIABLES)。變數名稱區分大小寫。
 
-    <a id="APP-PSQL-META-COMMAND-SET-NOTE"></a>
+某些變數比較特殊，它們會控制 psql 的行為，或是會自動設定以反映連線狀態。這些變數記載於下方的[變數](app-psql.md#APP-PSQL-VARIABLES)。
 
-    ### 注意
+<a id="APP-PSQL-META-COMMAND-SET-NOTE"></a>
 
-    此命令與 SQL 命令 [`SET`](../sql-commands/sql-set.md) 無關。
+### 注意 [#](#app-psql-restored-note-13) <a href="#app-psql-restored-note-13" id="app-psql-restored-note-13"></a>
+
+此命令與 SQL 命令 [`SET`](../sql-commands/sql-set.md) 無關。
 <a id="APP-PSQL-META-COMMAND-SETENV"></a>
 
 `\setenv name [ value ]` [#](#APP-PSQL-META-COMMAND-SETENV)
@@ -1724,7 +1736,7 @@ bar
 
 <a id="APP-PSQL-VARIABLES-NOTE"></a>
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 `\set` 的引數與其他命令一樣，適用相同的替換規則。因此你可以建構出有趣的參照，例如 `\set :foo
 'something'`，分別得到 Perl 或 PHP 中著名的「軟連結」或「變數的變數」。不幸的是（或者說幸運的是？），這些建構方式沒有辦法拿來做任何有用的事。另一方面，
@@ -1742,26 +1754,27 @@ bar
 <a id="APP-PSQL-VARIABLES-AUTOCOMMIT"></a>
 
 `AUTOCOMMIT` <a id="id-1.9.4.21.8.5.2.9.1.1.2"></a> [#](#APP-PSQL-VARIABLES-AUTOCOMMIT)
-:   設為 `on`（預設值）時，每個 SQL 命令在成功完成後都會自動提交。在此模式下若要延後提交，你必須輸入 `BEGIN` 或 `START
-    TRANSACTION` SQL 命令。設為 `off` 或未設定時，SQL
-    命令在你明確發出
-    `COMMIT` 或 `END` 之前都不會提交。autocommit-off
-    模式的運作方式是：在任何尚未位於交易區塊中、本身不是 `BEGIN` 或其他交易控制命令、也不是無法在交易區塊內執行的命令（例如 `VACUUM`）之前，替你隱含地發出 `BEGIN`。
 
-    <a id="id-1.9.4.21.8.5.2.9.1.2.2"></a>
+設為 `on`（預設值）時，每個 SQL 命令在成功完成後都會自動提交。在此模式下若要延後提交，你必須輸入 `BEGIN` 或 `START
+TRANSACTION` SQL 命令。設為 `off` 或未設定時，SQL
+命令在你明確發出
+`COMMIT` 或 `END` 之前都不會提交。autocommit-off
+模式的運作方式是：在任何尚未位於交易區塊中、本身不是 `BEGIN` 或其他交易控制命令、也不是無法在交易區塊內執行的命令（例如 `VACUUM`）之前，替你隱含地發出 `BEGIN`。
 
-    ### 注意
+<a id="id-1.9.4.21.8.5.2.9.1.2.2"></a>
 
-    在 autocommit-off 模式下，你必須輸入 `ABORT` 或 `ROLLBACK` 來明確放棄任何失敗的交易。
-    也請記住，如果你未提交就結束工作階段，你所做的工作將會遺失。
+### 注意 [#](#app-psql-restored-note-14) <a href="#app-psql-restored-note-14" id="app-psql-restored-note-14"></a>
 
-    <a id="id-1.9.4.21.8.5.2.9.1.2.3"></a>
+在 autocommit-off 模式下，你必須輸入 `ABORT` 或 `ROLLBACK` 來明確放棄任何失敗的交易。
+也請記住，如果你未提交就結束工作階段，你所做的工作將會遺失。
 
-    ### 注意
+<a id="id-1.9.4.21.8.5.2.9.1.2.3"></a>
 
-    autocommit-on 模式是 PostgreSQL 的傳統行為，但 autocommit-off 較接近 SQL 規格。如果你偏好 autocommit-off，可以考慮在系統層級的
-    `psqlrc` 檔案或你的
-    `~/.psqlrc` 檔案中設定它。
+### 注意 [#](#app-psql-restored-note-15) <a href="#app-psql-restored-note-15" id="app-psql-restored-note-15"></a>
+
+autocommit-on 模式是 PostgreSQL 的傳統行為，但 autocommit-off 較接近 SQL 規格。如果你偏好 autocommit-off，可以考慮在系統層級的
+`psqlrc` 檔案或你的
+`~/.psqlrc` 檔案中設定它。
 <a id="APP-PSQL-VARIABLES-COMP-KEYWORD-CASE"></a>
 
 `COMP_KEYWORD_CASE` [#](#APP-PSQL-VARIABLES-COMP-KEYWORD-CASE)
@@ -1799,15 +1812,16 @@ bar
 <a id="APP-PSQL-VARIABLES-FETCH-COUNT"></a>
 
 `FETCH_COUNT` [#](#APP-PSQL-VARIABLES-FETCH-COUNT)
-:   若此變數設為大於零的整數值，
-    `SELECT` 查詢的結果會以該數量的資料列為一組擷取並顯示，而不是採用預設行為：在顯示前收集整個結果集。因此，無論結果集多大，都只會使用有限的記憶體。啟用此功能時，常用的設定值為 100 到 1000。
-    請記住，使用此功能時，查詢可能會在已經顯示部分資料列之後才失敗。
 
-    <a id="id-1.9.4.21.8.5.2.9.8.2.2"></a>
+若此變數設為大於零的整數值，
+`SELECT` 查詢的結果會以該數量的資料列為一組擷取並顯示，而不是採用預設行為：在顯示前收集整個結果集。因此，無論結果集多大，都只會使用有限的記憶體。啟用此功能時，常用的設定值為 100 到 1000。
+請記住，使用此功能時，查詢可能會在已經顯示部分資料列之後才失敗。
 
-    ### 提示
+<a id="id-1.9.4.21.8.5.2.9.8.2.2"></a>
 
-    雖然此功能可以搭配任何輸出格式使用，但預設的 `aligned` 格式往往看起來不佳，因為每組 `FETCH_COUNT` 筆資料列會分開格式化，導致各組資料列的欄位寬度不一。其他輸出格式的效果較好。
+### 提示 [#](#app-psql-restored-note-16) <a href="#app-psql-restored-note-16" id="app-psql-restored-note-16"></a>
+
+雖然此功能可以搭配任何輸出格式使用，但預設的 `aligned` 格式往往看起來不佳，因為每組 `FETCH_COUNT` 筆資料列會分開格式化，導致各組資料列的欄位寬度不一。其他輸出格式的效果較好。
 <a id="APP-PSQL-VARIABLES-HIDE-TABLEAM"></a>
 
 `HIDE_TABLEAM` [#](#APP-PSQL-VARIABLES-HIDE-TABLEAM)
@@ -1819,15 +1833,16 @@ bar
 <a id="APP-PSQL-VARIABLES-HISTCONTROL"></a>
 
 `HISTCONTROL` [#](#APP-PSQL-VARIABLES-HISTCONTROL)
-:   若此變數設為 `ignorespace`，以空白開頭的行不會被加入歷史清單。若設為值 `ignoredups`，與前一筆歷史行相同的行不會被加入。值
-    `ignoreboth` 結合了上述兩個選項。若設為 `none`（預設值），在互動模式中讀取的所有行都會儲存到歷史清單中。
 
-    <a id="id-1.9.4.21.8.5.2.9.11.2.2"></a>
+若此變數設為 `ignorespace`，以空白開頭的行不會被加入歷史清單。若設為值 `ignoredups`，與前一筆歷史行相同的行不會被加入。值
+`ignoreboth` 結合了上述兩個選項。若設為 `none`（預設值），在互動模式中讀取的所有行都會儲存到歷史清單中。
 
-    ### 注意
+<a id="id-1.9.4.21.8.5.2.9.11.2.2"></a>
 
-    此功能是毫不客氣地從
-    Bash 抄來的。
+### 注意 [#](#app-psql-restored-note-17) <a href="#app-psql-restored-note-17" id="app-psql-restored-note-17"></a>
+
+此功能是毫不客氣地從
+Bash 抄來的。
 <a id="APP-PSQL-VARIABLES-HISTFILE"></a>
 
 `HISTFILE` [#](#APP-PSQL-VARIABLES-HISTFILE)
@@ -1854,14 +1869,15 @@ Bash 抄來的。
 <a id="APP-PSQL-VARIABLES-HISTSIZE"></a>
 
 `HISTSIZE` [#](#APP-PSQL-VARIABLES-HISTSIZE)
-:   命令歷史中最多儲存的命令數量（預設為 500）。若設為負值，則不設限制。
 
-    <a id="id-1.9.4.21.8.5.2.9.13.2.2"></a>
+命令歷史中最多儲存的命令數量（預設為 500）。若設為負值，則不設限制。
 
-    ### 注意
+<a id="id-1.9.4.21.8.5.2.9.13.2.2"></a>
 
-    此功能是毫不客氣地從
-    Bash 抄來的。
+### 注意 [#](#app-psql-restored-note-18) <a href="#app-psql-restored-note-18" id="app-psql-restored-note-18"></a>
+
+此功能是毫不客氣地從
+Bash 抄來的。
 <a id="APP-PSQL-VARIABLES-HOST"></a>
 
 `HOST` [#](#APP-PSQL-VARIABLES-HOST)
@@ -1869,16 +1885,17 @@ Bash 抄來的。
 <a id="APP-PSQL-VARIABLES-IGNOREEOF"></a>
 
 `IGNOREEOF` [#](#APP-PSQL-VARIABLES-IGNOREEOF)
-:   若設為 1 或更小，對 psql 的互動式工作階段送出 EOF 字元（通常是
-    **Control**+**D**）
-    會終止應用程式。若設為更大的數值，則必須連續輸入該數量的 EOF 字元，才能讓互動式工作階段終止。若變數設為非數值的值，會被解讀為 10。預設值為 0。
 
-    <a id="id-1.9.4.21.8.5.2.9.15.2.2"></a>
+若設為 1 或更小，對 psql 的互動式工作階段送出 EOF 字元（通常是
+**Control**+**D**）
+會終止應用程式。若設為更大的數值，則必須連續輸入該數量的 EOF 字元，才能讓互動式工作階段終止。若變數設為非數值的值，會被解讀為 10。預設值為 0。
 
-    ### 注意
+<a id="id-1.9.4.21.8.5.2.9.15.2.2"></a>
 
-    此功能是毫不客氣地從
-    Bash 抄來的。
+### 注意 [#](#app-psql-restored-note-19) <a href="#app-psql-restored-note-19" id="app-psql-restored-note-19"></a>
+
+此功能是毫不客氣地從
+Bash 抄來的。
 <a id="APP-PSQL-VARIABLES-LASTOID"></a>
 
 `LASTOID` [#](#APP-PSQL-VARIABLES-LASTOID)

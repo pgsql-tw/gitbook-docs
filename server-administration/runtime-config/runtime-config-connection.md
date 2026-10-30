@@ -298,45 +298,47 @@ Solaris 10 以後的 Solaris），此參數並無意義。在這類系統上，
 <a id="GUC-PASSWORD-ENCRYPTION"></a>
 
 `password_encryption` (`enum`) <a id="id-1.6.6.6.4.2.2.1.3"></a> [#](#GUC-PASSWORD-ENCRYPTION)
-:   當在 [CREATE ROLE](../../reference/sql-commands/sql-createrole.md) 或
-    [ALTER ROLE](../../reference/sql-commands/sql-alterrole.md) 中指定密碼時，
-    此參數決定用來加密密碼的演算法。可能的值有
-    `scram-sha-256`（以 SCRAM-SHA-256
-    加密密碼），以及 `md5`（將密碼
-    儲存為 MD5 雜湊值）。預設值為 `scram-sha-256`。
 
-    請注意，較舊的用戶端可能缺乏對 SCRAM 驗證
-    機制的支援，因此無法搭配以
-    SCRAM-SHA-256 加密的密碼運作。詳情請參閱[20.5 節](../client-authentication/auth-password.md)。
+當在 [CREATE ROLE](../../reference/sql-commands/sql-createrole.md) 或
+[ALTER ROLE](../../reference/sql-commands/sql-alterrole.md) 中指定密碼時，
+此參數決定用來加密密碼的演算法。可能的值有
+`scram-sha-256`（以 SCRAM-SHA-256
+加密密碼），以及 `md5`（將密碼
+儲存為 MD5 雜湊值）。預設值為 `scram-sha-256`。
 
-    ### 警告
+請注意，較舊的用戶端可能缺乏對 SCRAM 驗證
+機制的支援，因此無法搭配以
+SCRAM-SHA-256 加密的密碼運作。詳情請參閱[20.5 節](../client-authentication/auth-password.md)。
 
-    對 MD5 加密密碼的支援已被棄用，未來的
-    PostgreSQL 版本將移除此支援。有關遷移到
-    其他密碼類型的詳情，請參閱[20.5 節](../client-authentication/auth-password.md)。
+### 警告 [#](#runtime-config-connection-restored-note-1) <a href="#runtime-config-connection-restored-note-1" id="runtime-config-connection-restored-note-1"></a>
+
+對 MD5 加密密碼的支援已被棄用，未來的
+PostgreSQL 版本將移除此支援。有關遷移到
+其他密碼類型的詳情，請參閱[20.5 節](../client-authentication/auth-password.md)。
 <a id="GUC-SCRAM-ITERATIONS"></a>
 
 `scram_iterations` (`integer`) <a id="id-1.6.6.6.4.2.3.1.3"></a> [#](#GUC-SCRAM-ITERATIONS)
-:   使用 SCRAM-SHA-256 加密密碼時所執行的
-    運算迭代次數。預設值為 `4096`。
-    較高的迭代次數，可以為已儲存的密碼提供額外的
-    保護，防止暴力破解攻擊，但也會使驗證
-    速度變慢。變更此值不會影響既有的
-    SCRAM-SHA-256 加密密碼，因為迭代次數是在
-    加密當下就固定的。若要套用變更後的值，必須
-    重新設定密碼。
 
-    ### 注意
+使用 SCRAM-SHA-256 加密密碼時所執行的
+運算迭代次數。預設值為 `4096`。
+較高的迭代次數，可以為已儲存的密碼提供額外的
+保護，防止暴力破解攻擊，但也會使驗證
+速度變慢。變更此值不會影響既有的
+SCRAM-SHA-256 加密密碼，因為迭代次數是在
+加密當下就固定的。若要套用變更後的值，必須
+重新設定密碼。
 
-    如果某個角色的密碼是以不同於
-    `postgresql.conf` 檔案或伺服器命令列上所指定的
-    `scram_iterations` 值建立的，未經驗證的使用者
-    可以透過觀察伺服器對連線嘗試回應的差異，
-    察覺該角色的存在。如果你認為這是個問題，
-    請確保所有角色密碼都是在
-    `scram_iterations` 設為
-    `postgresql.conf` 檔案或伺服器命令列上所指定值的情況下
-    建立的。
+### 注意 [#](#runtime-config-connection-restored-note-2) <a href="#runtime-config-connection-restored-note-2" id="runtime-config-connection-restored-note-2"></a>
+
+如果某個角色的密碼是以不同於
+`postgresql.conf` 檔案或伺服器命令列上所指定的
+`scram_iterations` 值建立的，未經驗證的使用者
+可以透過觀察伺服器對連線嘗試回應的差異，
+察覺該角色的存在。如果你認為這是個問題，
+請確保所有角色密碼都是在
+`scram_iterations` 設為
+`postgresql.conf` 檔案或伺服器命令列上所指定值的情況下
+建立的。
 <a id="GUC-MD5-PASSWORD-WARNINGS"></a>
 
 `md5_password_warnings` (`boolean`) <a id="id-1.6.6.6.4.2.4.1.3"></a> [#](#GUC-MD5-PASSWORD-WARNINGS)

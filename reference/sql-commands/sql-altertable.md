@@ -229,23 +229,24 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-ADD-TABLE-CONSTRAINT-USING-INDEX"></a>
 
 `ADD table_constraint_using_index` [#](#SQL-ALTERTABLE-DESC-ADD-TABLE-CONSTRAINT-USING-INDEX)
-:   此形式會根據現有的唯一值索引，在資料表中新增 `PRIMARY KEY` 或 `UNIQUE` 限制條件。該索引的所有欄位都會納入限制條件中。
 
-    該索引不能有運算式欄位，也不能是部分索引。此外，它必須是採用預設排序順序的 B-tree 索引。這些限制確保該索引等同於由一般的 `ADD PRIMARY KEY` 或 `ADD UNIQUE` 命令所建立的索引。
+此形式會根據現有的唯一值索引，在資料表中新增 `PRIMARY KEY` 或 `UNIQUE` 限制條件。該索引的所有欄位都會納入限制條件中。
 
-    若指定了 `PRIMARY KEY`，且索引的欄位尚未標記為 `NOT NULL`，則此命令會嘗試對每個這樣的欄位執行 `ALTER COLUMN SET NOT NULL`。這需要完整掃描資料表，以驗證這些欄位不含空值。在其他所有情況下，這都是快速的操作。
+該索引不能有運算式欄位，也不能是部分索引。此外，它必須是採用預設排序順序的 B-tree 索引。這些限制確保該索引等同於由一般的 `ADD PRIMARY KEY` 或 `ADD UNIQUE` 命令所建立的索引。
 
-    若有提供限制條件名稱，則索引會被重新命名以符合限制條件名稱。否則，限制條件的名稱會與索引相同。
+若指定了 `PRIMARY KEY`，且索引的欄位尚未標記為 `NOT NULL`，則此命令會嘗試對每個這樣的欄位執行 `ALTER COLUMN SET NOT NULL`。這需要完整掃描資料表，以驗證這些欄位不含空值。在其他所有情況下，這都是快速的操作。
 
-    執行此命令後，該索引就由限制條件「擁有」，就如同該索引是由一般的 `ADD PRIMARY KEY` 或 `ADD UNIQUE` 命令所建立的一樣。特別是，移除限制條件也會使索引一併消失。
+若有提供限制條件名稱，則索引會被重新命名以符合限制條件名稱。否則，限制條件的名稱會與索引相同。
 
-    此形式目前不支援分割資料表。
+執行此命令後，該索引就由限制條件「擁有」，就如同該索引是由一般的 `ADD PRIMARY KEY` 或 `ADD UNIQUE` 命令所建立的一樣。特別是，移除限制條件也會使索引一併消失。
 
-    <a id="id-1.9.3.35.5.2.3.15.2.7"></a>
+此形式目前不支援分割資料表。
 
-    ### 注意
+<a id="id-1.9.3.35.5.2.3.15.2.7"></a>
 
-    在需要新增限制條件、又不想長時間阻擋資料表更新的情況下，使用現有索引來新增限制條件可能會很有幫助。做法是使用 `CREATE UNIQUE INDEX CONCURRENTLY` 建立索引，然後使用此語法將它轉換為限制條件。請參閱下方的範例。
+### 注意 [#](#sql-altertable-restored-note-1) <a href="#sql-altertable-restored-note-1" id="sql-altertable-restored-note-1"></a>
+
+在需要新增限制條件、又不想長時間阻擋資料表更新的情況下，使用現有索引來新增限制條件可能會很有幫助。做法是使用 `CREATE UNIQUE INDEX CONCURRENTLY` 建立索引，然後使用此語法將它轉換為限制條件。請參閱下方的範例。
 <a id="SQL-ALTERTABLE-DESC-ALTER-CONSTRAINT"></a>
 
 `ALTER CONSTRAINT` [#](#SQL-ALTERTABLE-DESC-ALTER-CONSTRAINT)

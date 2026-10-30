@@ -324,24 +324,25 @@ PostgreSQL 在內部將 `origin` 與
 <a id="GUC-TRANSACTION-TIMEOUT"></a>
 
 `transaction_timeout` (`integer`) <a id="id-1.6.6.14.2.2.17.1.3"></a> [#](#GUC-TRANSACTION-TIMEOUT)
-:   終止在交易中持續時間超過指定時間量的任何
-    工作階段。此上限同時適用於明確的交易
-    （以 `BEGIN` 開始）以及對應單一陳述式
-    隱含開始的交易。
-    若此值指定時未帶單位，則以毫秒為單位。
-    值為零（預設值）代表停用此逾時。
 
-    若 `transaction_timeout` 短於或等於
-    `idle_in_transaction_session_timeout` 或 `statement_timeout`，
-    則較長的逾時會被忽略。
+終止在交易中持續時間超過指定時間量的任何
+工作階段。此上限同時適用於明確的交易
+（以 `BEGIN` 開始）以及對應單一陳述式
+隱含開始的交易。
+若此值指定時未帶單位，則以毫秒為單位。
+值為零（預設值）代表停用此逾時。
 
-    不建議在
-    `postgresql.conf` 中設定 `transaction_timeout`，
-    因為這會影響所有工作階段。
+若 `transaction_timeout` 短於或等於
+`idle_in_transaction_session_timeout` 或 `statement_timeout`，
+則較長的逾時會被忽略。
 
-    ### 注意
+不建議在
+`postgresql.conf` 中設定 `transaction_timeout`，
+因為這會影響所有工作階段。
 
-    已備妥交易不受此逾時限制。
+### 注意 [#](#runtime-config-client-restored-note-1) <a href="#runtime-config-client-restored-note-1" id="runtime-config-client-restored-note-1"></a>
+
+已備妥交易不受此逾時限制。
 <a id="GUC-LOCK-TIMEOUT"></a>
 
 `lock_timeout` (`integer`) <a id="id-1.6.6.14.2.2.18.1.3"></a> [#](#GUC-LOCK-TIMEOUT)
@@ -573,34 +574,35 @@ with designators）」的時間間隔輸出。
 <a id="GUC-EXTRA-FLOAT-DIGITS"></a>
 
 `extra_float_digits` (`integer`) <a id="id-1.6.6.14.3.2.5.1.3"></a> <a id="id-1.6.6.14.3.2.5.1.4"></a> <a id="id-1.6.6.14.3.2.5.1.5"></a> [#](#GUC-EXTRA-FLOAT-DIGITS)
-:   此參數調整浮點數值（包括 `float4`、`float8`，
-    以及幾何資料型別）文字輸出所使用的位數。
 
-    若此值為 1（預設值）或以上，浮點數值會以
-    最短精確格式輸出；參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
-    實際產生的位數，僅取決於被輸出的值，
-    而非此參數的值。`float8` 值最多需要
-    17 位數，`float4`
-    值則最多需要 9 位數。此格式既快速又精確，
-    正確讀取時能完全保留原始的二進位浮點值。
-    基於歷史相容性考量，允許設為最多 3 的值。
+此參數調整浮點數值（包括 `float4`、`float8`，
+以及幾何資料型別）文字輸出所使用的位數。
 
-    若此值為零或負值，則輸出會四捨五入到
-    給定的十進位精確度。所使用的精確度，是該型別的
-    標準位數（視情況為 `FLT_DIG`
-    或 `DBL_DIG`），並依此參數的值減少。
-    （舉例來說，指定 -1 會使
-    `float4` 值輸出時四捨五入到 5 個有效
-    位數，`float8` 值
-    則四捨五入到 14 位數。）此格式較慢，
-    且不會保留二進位浮點值的所有位元，
-    但可能較易於人類閱讀。
+若此值為 1（預設值）或以上，浮點數值會以
+最短精確格式輸出；參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
+實際產生的位數，僅取決於被輸出的值，
+而非此參數的值。`float8` 值最多需要
+17 位數，`float4`
+值則最多需要 9 位數。此格式既快速又精確，
+正確讀取時能完全保留原始的二進位浮點值。
+基於歷史相容性考量，允許設為最多 3 的值。
 
-    ### 注意
+若此值為零或負值，則輸出會四捨五入到
+給定的十進位精確度。所使用的精確度，是該型別的
+標準位數（視情況為 `FLT_DIG`
+或 `DBL_DIG`），並依此參數的值減少。
+（舉例來說，指定 -1 會使
+`float4` 值輸出時四捨五入到 5 個有效
+位數，`float8` 值
+則四捨五入到 14 位數。）此格式較慢，
+且不會保留二進位浮點值的所有位元，
+但可能較易於人類閱讀。
 
-    此參數的意義及其預設值，在
-    PostgreSQL 12 有所變更；
-    詳情請參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
+### 注意 [#](#runtime-config-client-restored-note-2) <a href="#runtime-config-client-restored-note-2" id="runtime-config-client-restored-note-2"></a>
+
+此參數的意義及其預設值，在
+PostgreSQL 12 有所變更；
+詳情請參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
 <a id="GUC-CLIENT-ENCODING"></a>
 
 `client_encoding` (`string`) <a id="id-1.6.6.14.3.2.6.1.3"></a> <a id="id-1.6.6.14.3.2.6.1.4"></a> [#](#GUC-CLIENT-ENCODING)
@@ -783,40 +785,41 @@ PostgreSQL 程序語言程式庫
 <a id="GUC-SHARED-PRELOAD-LIBRARIES"></a>
 
 `shared_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.3.1.3"></a> [#](#GUC-SHARED-PRELOAD-LIBRARIES)
-:   此變數指定一個或多個要在伺服器啟動時
-    預先載入的共享程式庫。
-    此值包含以逗號分隔的程式庫名稱清單，每個名稱
-    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
-    項目之間的空白字元會被忽略；如果程式庫名稱中
-    需要包含空白字元或逗號，請以雙引號括住該名稱。
-    此參數只能在伺服器啟動時設定。若找不到指定的
-    程式庫，伺服器將無法啟動。
 
-    有些程式庫需要執行只能在 postmaster 啟動時
-    進行的特定操作，例如配置共享記憶體、
-    保留輕量鎖，或啟動背景工作程序。這些
-    程式庫必須透過此參數在伺服器啟動時載入。詳情
-    請參閱各程式庫的文件。
+此變數指定一個或多個要在伺服器啟動時
+預先載入的共享程式庫。
+此值包含以逗號分隔的程式庫名稱清單，每個名稱
+的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
+項目之間的空白字元會被忽略；如果程式庫名稱中
+需要包含空白字元或逗號，請以雙引號括住該名稱。
+此參數只能在伺服器啟動時設定。若找不到指定的
+程式庫，伺服器將無法啟動。
 
-    其他程式庫也可以預先載入。透過預先載入共享
-    程式庫，可以在該程式庫第一次被使用時避免
-    程式庫啟動時間。不過，每個新伺服器程序的
-    啟動時間可能會稍微增加，即使該程序從未
-    使用該程式庫。因此，此參數建議只用於
-    大多數工作階段都會用到的程式庫。此外，變更
-    此參數需要重新啟動伺服器，因此這通常不適合
-    用於短期的除錯工作。請改用
-    [session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES)。
+有些程式庫需要執行只能在 postmaster 啟動時
+進行的特定操作，例如配置共享記憶體、
+保留輕量鎖，或啟動背景工作程序。這些
+程式庫必須透過此參數在伺服器啟動時載入。詳情
+請參閱各程式庫的文件。
 
-    ### 注意
+其他程式庫也可以預先載入。透過預先載入共享
+程式庫，可以在該程式庫第一次被使用時避免
+程式庫啟動時間。不過，每個新伺服器程序的
+啟動時間可能會稍微增加，即使該程序從未
+使用該程式庫。因此，此參數建議只用於
+大多數工作階段都會用到的程式庫。此外，變更
+此參數需要重新啟動伺服器，因此這通常不適合
+用於短期的除錯工作。請改用
+[session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES)。
 
-    在 Windows 主機上，於伺服器啟動時預先載入
-    程式庫，並不會縮短每個新伺服器程序的
-    啟動所需時間；每個伺服器程序都會重新載入
-    所有預先載入的程式庫。不過，對於需要在
-    postmaster 啟動時執行操作的程式庫而言，
-    `shared_preload_libraries` 在 Windows 主機上
-    仍然有用。
+### 注意 [#](#runtime-config-client-restored-note-3) <a href="#runtime-config-client-restored-note-3" id="runtime-config-client-restored-note-3"></a>
+
+在 Windows 主機上，於伺服器啟動時預先載入
+程式庫，並不會縮短每個新伺服器程序的
+啟動所需時間；每個伺服器程序都會重新載入
+所有預先載入的程式庫。不過，對於需要在
+postmaster 啟動時執行操作的程式庫而言，
+`shared_preload_libraries` 在 Windows 主機上
+仍然有用。
 <a id="GUC-JIT-PROVIDER"></a>
 
 `jit_provider` (`string`) <a id="id-1.6.6.14.4.6.4.1.3"></a> [#](#GUC-JIT-PROVIDER)

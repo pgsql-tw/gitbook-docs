@@ -136,13 +136,14 @@ vacuumdb 會開啟 *`njobs`* 個資料庫連線，因此請確認你的 [max_con
 :   略過無法立即鎖定以進行處理的關聯。
 
 `-t table [ (column [,...]) ]`<br>`--table=table [ (column [,...]) ]`
-:   只清理或分析 *`table`*。只有與 `--analyze` 或 `--analyze-only` 選項一起使用時，才能指定欄位名稱。寫多個 `-t` 參數即可清理多個資料表。
 
-    <a id="id-1.9.4.23.6.3.22.2.2"></a>
+只清理或分析 *`table`*。只有與 `--analyze` 或 `--analyze-only` 選項一起使用時，才能指定欄位名稱。寫多個 `-t` 參數即可清理多個資料表。
 
-    ### 提示
+<a id="id-1.9.4.23.6.3.22.2.2"></a>
 
-    如果你指定了欄位，你可能必須在 shell 中跳脫括號。（請參閱下方的範例。）
+### 提示 [#](#app-vacuumdb-restored-note-1) <a href="#app-vacuumdb-restored-note-1" id="app-vacuumdb-restored-note-1"></a>
+
+如果你指定了欄位，你可能必須在 shell 中跳脫括號。（請參閱下方的範例。）
 
 `-v`<br>`--verbose`
 :   在處理期間印出詳細資訊。

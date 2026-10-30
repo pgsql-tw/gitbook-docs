@@ -66,25 +66,26 @@ PostgreSQL 支援 bearer token（持有者權杖），定義於
 OAuth 支援下列組態選項：
 
 `issuer`
-:   一個 HTTPS URL，須為授權伺服器發現文件所定義的準確
-    [核發者識別碼](auth-oauth.md#AUTH-OAUTH-ISSUER)，或是直接指向該
-    發現文件的知名（well-known）URI。此
-    參數為必要參數。
 
-    當 OAuth 用戶端連線到伺服器時，會使用核發者識別碼建構出發現
-    文件的 URL。預設情況下，此 URL 採用 OpenID Connect Discovery 的慣例：
-    會將路徑
-    `/.well-known/openid-configuration` 附加到核發者識別碼的
-    結尾。或者，若
-    `issuer` 中包含 `/.well-known/`
-    路徑片段，則該 URL 會原封不動地提供給用戶端。
+一個 HTTPS URL，須為授權伺服器發現文件所定義的準確
+[核發者識別碼](auth-oauth.md#AUTH-OAUTH-ISSUER)，或是直接指向該
+發現文件的知名（well-known）URI。此
+參數為必要參數。
 
-    ### 警告
+當 OAuth 用戶端連線到伺服器時，會使用核發者識別碼建構出發現
+文件的 URL。預設情況下，此 URL 採用 OpenID Connect Discovery 的慣例：
+會將路徑
+`/.well-known/openid-configuration` 附加到核發者識別碼的
+結尾。或者，若
+`issuer` 中包含 `/.well-known/`
+路徑片段，則該 URL 會原封不動地提供給用戶端。
 
-    libpq 中的 OAuth 用戶端要求伺服器的 issuer 設定必須
-    與發現文件中所提供的核發者識別碼完全相符，而該識別碼又必須進一步與用戶端的
-    [oauth_issuer](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-oauth-issuer) 設定相符。大小寫或格式上
-    不允許有任何差異。
+### 警告 [#](#auth-oauth-restored-note-1) <a href="#auth-oauth-restored-note-1" id="auth-oauth-restored-note-1"></a>
+
+libpq 中的 OAuth 用戶端要求伺服器的 issuer 設定必須
+與發現文件中所提供的核發者識別碼完全相符，而該識別碼又必須進一步與用戶端的
+[oauth_issuer](../../client-interfaces/libpq/libpq-paramkeywords.md#libpq-connect-oauth-issuer) 設定相符。大小寫或格式上
+不允許有任何差異。
 
 `scope`
 :   以空格分隔的 OAuth scope（範圍）清單，是伺服器授權用戶端並驗證使用者所需的範圍。適當的值
@@ -104,25 +105,26 @@ OAuth 支援下列組態選項：
     OAuth 驗證器判定）必須與所請求的角色名稱完全相符。此參數為選用參數。
 
 <a id="AUTH-OAUTH-DELEGATE-IDENT-MAPPING"></a> `delegate_ident_mapping`
-:   一個進階選項，並非用於一般使用場合。
 
-    當設為 `1` 時，會略過以
-    `pg_ident.conf` 進行的標準使用者對應，改由 OAuth 驗證器
-    全權負責將終端使用者身分對應到資料庫
-    角色。若驗證器授權該權杖，伺服器便會信任
-    該使用者被允許以所請求的角色連線，且無論該使用者的認證狀態為何，
-    該連線都會被允許繼續進行。
+一個進階選項，並非用於一般使用場合。
 
-    此參數與 `map` 互不相容。
+當設為 `1` 時，會略過以
+`pg_ident.conf` 進行的標準使用者對應，改由 OAuth 驗證器
+全權負責將終端使用者身分對應到資料庫
+角色。若驗證器授權該權杖，伺服器便會信任
+該使用者被允許以所請求的角色連線，且無論該使用者的認證狀態為何，
+該連線都會被允許繼續進行。
 
-    ### 警告
+此參數與 `map` 互不相容。
 
-    `delegate_ident_mapping` 在認證系統的設計上
-    提供了額外的彈性，但也
-    要求 OAuth 驗證器必須經過謹慎的實作，除了所有驗證器都必須具備的
-    [標準
-    檢查](../../server-programming/oauth-validators/README.md)之外，還必須判定所提供的權杖是否
-    帶有足夠的終端使用者權限。請謹慎使用。
+### 警告 [#](#auth-oauth-restored-note-2) <a href="#auth-oauth-restored-note-2" id="auth-oauth-restored-note-2"></a>
+
+`delegate_ident_mapping` 在認證系統的設計上
+提供了額外的彈性，但也
+要求 OAuth 驗證器必須經過謹慎的實作，除了所有驗證器都必須具備的
+[標準
+檢查](../../server-programming/oauth-validators/README.md)之外，還必須判定所提供的權杖是否
+帶有足夠的終端使用者權限。請謹慎使用。
 
 ---
 

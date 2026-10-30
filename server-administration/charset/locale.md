@@ -231,32 +231,34 @@ initdb --locale-provider=icu --icu-locale=en
 語意為基礎，大小寫對應則採用「完整（full）」變體。
 
 `icu`
-:   `icu` 提供者使用外部的
-    ICU<a id="id-1.6.10.3.7.6.2.2.1.2"></a>
-    函式庫。建置 PostgreSQL 時
-    必須已設定支援。
 
-    ICU 提供的定序與字元分類行為與作業系統及資料庫編碼
-    無關，若你預期未來會轉換到其他平台且不想改變結果，這會是較理想的選擇。
-    `LC_COLLATE` 與
-    `LC_CTYPE` 可以獨立於 ICU
-    區域設定進行設定。
+`icu` 提供者使用外部的
+ICU<a id="id-1.6.10.3.7.6.2.2.1.2"></a>
+函式庫。建置 PostgreSQL 時
+必須已設定支援。
 
-    ### 注意
+ICU 提供的定序與字元分類行為與作業系統及資料庫編碼
+無關，若你預期未來會轉換到其他平台且不想改變結果，這會是較理想的選擇。
+`LC_COLLATE` 與
+`LC_CTYPE` 可以獨立於 ICU
+區域設定進行設定。
 
-    對於 ICU 提供者而言，結果可能取決於所使用的 ICU
-    函式庫版本，因為該函式庫會隨時間更新以反映自然語言的變化。
+### 注意 [#](#locale-restored-note-1) <a href="#locale-restored-note-1" id="locale-restored-note-1"></a>
+
+對於 ICU 提供者而言，結果可能取決於所使用的 ICU
+函式庫版本，因為該函式庫會隨時間更新以反映自然語言的變化。
 
 `libc`
-:   `libc` 提供者使用作業系統的 C
-    函式庫。定序與字元分類行為
-    由 `LC_COLLATE` 與 `LC_CTYPE`
-    設定所控制，因此兩者無法獨立設定。
 
-    ### 注意
+`libc` 提供者使用作業系統的 C
+函式庫。定序與字元分類行為
+由 `LC_COLLATE` 與 `LC_CTYPE`
+設定所控制，因此兩者無法獨立設定。
 
-    在使用 libc 提供者時，同一個區域設定名稱在不同平台上
-    可能會有不同的行為。
+### 注意 [#](#locale-restored-note-2) <a href="#locale-restored-note-2" id="locale-restored-note-2"></a>
+
+在使用 libc 提供者時，同一個區域設定名稱在不同平台上
+可能會有不同的行為。
 
 <a id="ICU-LOCALES"></a>
 

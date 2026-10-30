@@ -30,16 +30,17 @@ RADIUS 選項也可以用逗號分隔的清單形式提供，為每個伺服器
 :   要連線的 RADIUS 伺服器的 DNS 名稱或 IP 位址。這個參數為必填。
 
 `radiussecrets`
-:   與 RADIUS 伺服器進行安全通訊時所使用的共享密鑰。這個值在
-    PostgreSQL 與 RADIUS 伺服器上必須完全相同。建議使用長度至少 16 個字元
-    的字串。這個參數為必填。
 
-    ### 注意
+與 RADIUS 伺服器進行安全通訊時所使用的共享密鑰。這個值在
+PostgreSQL 與 RADIUS 伺服器上必須完全相同。建議使用長度至少 16 個字元
+的字串。這個參數為必填。
 
-    只有在 PostgreSQL 是以支援
-    OpenSSL 的方式建置時，所使用的加密向量才具有密碼學上的強度。在其他
-    情況下，傳送到 RADIUS 伺服器的內容應被視為只是經過混淆，而非真正安全，
-    若有需要，應另外採取外部安全措施。
+### 注意 [#](#auth-radius-restored-note-1) <a href="#auth-radius-restored-note-1" id="auth-radius-restored-note-1"></a>
+
+只有在 PostgreSQL 是以支援
+OpenSSL 的方式建置時，所使用的加密向量才具有密碼學上的強度。在其他
+情況下，傳送到 RADIUS 伺服器的內容應被視為只是經過混淆，而非真正安全，
+若有需要，應另外採取外部安全措施。
 
 `radiusports`
 :   要連線的 RADIUS 伺服器連接埠號碼。若未指定連接埠，

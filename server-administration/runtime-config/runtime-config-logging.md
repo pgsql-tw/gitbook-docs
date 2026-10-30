@@ -99,34 +99,35 @@ PostgreSQL 可以記錄到 syslog 的
 <a id="GUC-LOGGING-COLLECTOR"></a>
 
 `logging_collector` (`boolean`) <a id="id-1.6.6.11.3.4.2.1.3"></a> [#](#GUC-LOGGING-COLLECTOR)
-:   此參數會啟用*日誌收集器*，這是一個背景程序，
-    負責擷取傳送到 stderr 的日誌訊息，
-    並將其重新導向至日誌檔案。這種做法通常比
-    記錄到 syslog 更實用，因為有些類型的訊息
-    可能不會出現在 syslog 輸出中。
-    （常見的例子之一是動態連結器失敗訊息；
-    另一個例子則是由 `archive_command` 等
-    指令碼所產生的錯誤訊息。）
-    此參數只能在伺服器啟動時設定。
 
-    ### 注意
+此參數會啟用*日誌收集器*，這是一個背景程序，
+負責擷取傳送到 stderr 的日誌訊息，
+並將其重新導向至日誌檔案。這種做法通常比
+記錄到 syslog 更實用，因為有些類型的訊息
+可能不會出現在 syslog 輸出中。
+（常見的例子之一是動態連結器失敗訊息；
+另一個例子則是由 `archive_command` 等
+指令碼所產生的錯誤訊息。）
+此參數只能在伺服器啟動時設定。
 
-    你可以在不使用日誌收集器的情況下記錄到 stderr；
-    日誌訊息就只會送往伺服器 stderr 導向的目的地。
-    然而，此方法只適合日誌量較低的情況，
-    因為它沒有提供方便輪替日誌檔案的方式。此外，
-    在某些平台上，不使用日誌收集器可能會導致日誌輸出遺失或
-    內容混亂，因為多個程序同時寫入同一個日誌檔案時，
-    可能會互相覆寫彼此的輸出。
+### 注意 [#](#runtime-config-logging-restored-note-1) <a href="#runtime-config-logging-restored-note-1" id="runtime-config-logging-restored-note-1"></a>
 
-    ### 注意
+你可以在不使用日誌收集器的情況下記錄到 stderr；
+日誌訊息就只會送往伺服器 stderr 導向的目的地。
+然而，此方法只適合日誌量較低的情況，
+因為它沒有提供方便輪替日誌檔案的方式。此外，
+在某些平台上，不使用日誌收集器可能會導致日誌輸出遺失或
+內容混亂，因為多個程序同時寫入同一個日誌檔案時，
+可能會互相覆寫彼此的輸出。
 
-    日誌收集器的設計目標是絕不遺失訊息。這代表
-    在負載極高的情況下，當收集器的處理進度落後時，
-    伺服器程序在嘗試傳送更多日誌訊息時可能會被阻塞。
-    相較之下，syslog 在無法寫入訊息時
-    傾向於直接捨棄，這代表它在這類情況下
-    可能無法記錄部分訊息，但不會阻塞系統其他部分。
+### 注意 [#](#runtime-config-logging-restored-note-2) <a href="#runtime-config-logging-restored-note-2" id="runtime-config-logging-restored-note-2"></a>
+
+日誌收集器的設計目標是絕不遺失訊息。這代表
+在負載極高的情況下，當收集器的處理進度落後時，
+伺服器程序在嘗試傳送更多日誌訊息時可能會被阻塞。
+相較之下，syslog 在無法寫入訊息時
+傾向於直接捨棄，這代表它在這類情況下
+可能無法記錄部分訊息，但不會阻塞系統其他部分。
 <a id="GUC-LOG-DIRECTORY"></a>
 
 `log_directory` (`string`) <a id="id-1.6.6.11.3.4.3.1.3"></a> [#](#GUC-LOG-DIRECTORY)
@@ -362,37 +363,38 @@ syslog 的方式。當此設定為 on（預設值）時，
 <a id="GUC-LOG-MIN-DURATION-STATEMENT"></a>
 
 `log_min_duration_statement` (`integer`) <a id="id-1.6.6.11.4.2.3.1.3"></a> [#](#GUC-LOG-MIN-DURATION-STATEMENT)
-:   若某個已完成陳述式的執行時間達到指定的時間長度，
-    就會記錄其耗時。例如，若你將此值設為
-    `250ms`，則所有執行時間達 250 毫秒
-    或以上的 SQL 陳述式都會被記錄。啟用此參數，
-    有助於找出應用程式中未經最佳化的查詢。
-    若此值未指定單位，則以毫秒為單位。
-    將此值設為零會印出所有陳述式的耗時。
-    `-1`（預設值）會停用記錄陳述式耗時。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    此設定會覆寫 [log_min_duration_sample](runtime-config-logging.md#GUC-LOG-MIN-DURATION-SAMPLE)，
-    也就是說，耗時超過此設定的查詢，不受取樣限制，
-    一律都會被記錄。
+若某個已完成陳述式的執行時間達到指定的時間長度，
+就會記錄其耗時。例如，若你將此值設為
+`250ms`，則所有執行時間達 250 毫秒
+或以上的 SQL 陳述式都會被記錄。啟用此參數，
+有助於找出應用程式中未經最佳化的查詢。
+若此值未指定單位，則以毫秒為單位。
+將此值設為零會印出所有陳述式的耗時。
+`-1`（預設值）會停用記錄陳述式耗時。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
 
-    對於使用延伸查詢協定的用戶端，
-    剖析（Parse）、綁定（Bind）與執行（Execute）步驟的耗時，
-    會被各自獨立記錄。
+此設定會覆寫 [log_min_duration_sample](runtime-config-logging.md#GUC-LOG-MIN-DURATION-SAMPLE)，
+也就是說，耗時超過此設定的查詢，不受取樣限制，
+一律都會被記錄。
 
-    ### 注意
+對於使用延伸查詢協定的用戶端，
+剖析（Parse）、綁定（Bind）與執行（Execute）步驟的耗時，
+會被各自獨立記錄。
 
-    當此選項與
-    [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
-    搭配使用時，因 `log_statement`
-    而被記錄的陳述式文字，不會在耗時日誌訊息中重複出現。
-    若你並未使用 syslog，
-    建議你透過
-    [log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX)
-    記錄程序 ID 或工作階段 ID，
-    以便日後可利用程序 ID 或工作階段 ID，
-    將該陳述式訊息與稍後的耗時訊息連結起來。
+### 注意 [#](#runtime-config-logging-restored-note-3) <a href="#runtime-config-logging-restored-note-3" id="runtime-config-logging-restored-note-3"></a>
+
+當此選項與
+[log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
+搭配使用時，因 `log_statement`
+而被記錄的陳述式文字，不會在耗時日誌訊息中重複出現。
+若你並未使用 syslog，
+建議你透過
+[log_line_prefix](runtime-config-logging.md#GUC-LOG-LINE-PREFIX)
+記錄程序 ID 或工作階段 ID，
+以便日後可利用程序 ID 或工作階段 ID，
+將該陳述式訊息與稍後的耗時訊息連結起來。
 <a id="GUC-LOG-MIN-DURATION-SAMPLE"></a>
 
 `log_min_duration_sample` (`integer`) <a id="id-1.6.6.11.4.2.4.1.3"></a> [#](#GUC-LOG-MIN-DURATION-SAMPLE)
@@ -437,21 +439,22 @@ syslog 的方式。當此設定為 on（預設值）時，
 <a id="GUC-LOG-TRANSACTION-SAMPLE-RATE"></a>
 
 `log_transaction_sample_rate` (`floating point`) <a id="id-1.6.6.11.4.2.6.1.3"></a> [#](#GUC-LOG-TRANSACTION-SAMPLE-RATE)
-:   設定除了因其他原因而被記錄的陳述式之外，
-    其所有陳述式都會被記錄的交易比例。
-    這適用於每一筆新交易，不論其陳述式的耗時為何。
-    取樣是隨機性的，例如 `0.1` 代表
-    統計上任何給定交易，有十分之一的機率會被記錄。
-    `log_transaction_sample_rate` 有助於
-    建構交易樣本。
-    預設值為 `0`，代表不記錄任何額外交易的陳述式。
-    將此值設為 `1` 會記錄所有交易的所有陳述式。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    ### 注意
+設定除了因其他原因而被記錄的陳述式之外，
+其所有陳述式都會被記錄的交易比例。
+這適用於每一筆新交易，不論其陳述式的耗時為何。
+取樣是隨機性的，例如 `0.1` 代表
+統計上任何給定交易，有十分之一的機率會被記錄。
+`log_transaction_sample_rate` 有助於
+建構交易樣本。
+預設值為 `0`，代表不記錄任何額外交易的陳述式。
+將此值設為 `1` 會記錄所有交易的所有陳述式。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
 
-    如同所有陳述式記錄選項一樣，此選項可能會增加可觀的額外負擔。
+### 注意 [#](#runtime-config-logging-restored-note-4) <a href="#runtime-config-logging-restored-note-4" id="runtime-config-logging-restored-note-4"></a>
+
+如同所有陳述式記錄選項一樣，此選項可能會增加可觀的額外負擔。
 <a id="GUC-LOG-STARTUP-PROGRESS-INTERVAL"></a>
 
 `log_startup_progress_interval` (`integer`) <a id="id-1.6.6.11.4.2.7.1.3"></a> [#](#GUC-LOG-STARTUP-PROGRESS-INTERVAL)
@@ -633,27 +636,28 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 <a id="GUC-LOG-DURATION"></a>
 
 `log_duration` (`boolean`) <a id="id-1.6.6.11.5.3.8.1.3"></a> [#](#GUC-LOG-DURATION)
-:   使每個已完成陳述式的耗時都被記錄。
-    預設值為 `off`。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    對於使用延伸查詢協定的用戶端，
-    剖析（Parse）、綁定（Bind）與執行（Execute）步驟的耗時，
-    會被各自獨立記錄。
+使每個已完成陳述式的耗時都被記錄。
+預設值為 `off`。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
 
-    ### 注意
+對於使用延伸查詢協定的用戶端，
+剖析（Parse）、綁定（Bind）與執行（Execute）步驟的耗時，
+會被各自獨立記錄。
 
-    啟用 `log_duration` 與將
-    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) 設為零，
-    兩者之間的差異在於：超過
-    `log_min_duration_statement` 會強制記錄
-    查詢文字，但此選項不會。因此，
-    若 `log_duration` 為 `on`，
-    而 `log_min_duration_statement` 為正值，
-    則所有耗時都會被記錄，但查詢文字只會針對
-    超過門檻值的陳述式加入記錄。這種行為，
-    對於在高負載環境中蒐集統計資訊很有幫助。
+### 注意 [#](#runtime-config-logging-restored-note-5) <a href="#runtime-config-logging-restored-note-5" id="runtime-config-logging-restored-note-5"></a>
+
+啟用 `log_duration` 與將
+[log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) 設為零，
+兩者之間的差異在於：超過
+`log_min_duration_statement` 會強制記錄
+查詢文字，但此選項不會。因此，
+若 `log_duration` 為 `on`，
+而 `log_min_duration_statement` 為正值，
+則所有耗時都會被記錄，但查詢文字只會針對
+超過門檻值的陳述式加入記錄。這種行為，
+對於在高負載環境中蒐集統計資訊很有幫助。
 <a id="GUC-LOG-ERROR-VERBOSITY"></a>
 
 `log_error_verbosity` (`enum`) <a id="id-1.6.6.11.5.3.9.1.3"></a> [#](#GUC-LOG-ERROR-VERBOSITY)
@@ -833,41 +837,42 @@ Syslog 會產生自己的
 <a id="GUC-LOG-STATEMENT"></a>
 
 `log_statement` (`enum`) <a id="id-1.6.6.11.5.3.17.1.3"></a> [#](#GUC-LOG-STATEMENT)
-:   控制哪些 SQL 陳述式會被記錄。有效值為
-    `none`（關閉）、`ddl`、`mod`，
-    以及 `all`（所有陳述式）。`ddl`
-    會記錄所有資料定義陳述式，例如
-    `CREATE`、`ALTER`，以及
-    `DROP` 陳述式。`mod` 會記錄所有
-    `ddl` 陳述式，再加上資料異動陳述式，
-    例如 `INSERT`、
-    `UPDATE`、`DELETE`、`TRUNCATE`，
-    以及 `COPY FROM`。
-    `PREPARE`、`EXECUTE`，以及
-    `EXPLAIN ANALYZE` 陳述式，
-    若其內含命令屬於適當類型，也會被記錄。
-    對於使用延伸查詢協定的用戶端，
-    記錄動作會在收到 Execute 訊息時發生，
-    並會包含 Bind 參數的值
-    （其中任何內嵌的單引號會加倍）。
 
-    預設值為 `none`。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
+控制哪些 SQL 陳述式會被記錄。有效值為
+`none`（關閉）、`ddl`、`mod`，
+以及 `all`（所有陳述式）。`ddl`
+會記錄所有資料定義陳述式，例如
+`CREATE`、`ALTER`，以及
+`DROP` 陳述式。`mod` 會記錄所有
+`ddl` 陳述式，再加上資料異動陳述式，
+例如 `INSERT`、
+`UPDATE`、`DELETE`、`TRUNCATE`，
+以及 `COPY FROM`。
+`PREPARE`、`EXECUTE`，以及
+`EXPLAIN ANALYZE` 陳述式，
+若其內含命令屬於適當類型，也會被記錄。
+對於使用延伸查詢協定的用戶端，
+記錄動作會在收到 Execute 訊息時發生，
+並會包含 Bind 參數的值
+（其中任何內嵌的單引號會加倍）。
 
-    ### 注意
+預設值為 `none`。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
 
-    即使 `log_statement` 設為
-    `all`，含有單純語法錯誤的陳述式
-    仍不會被記錄，因為日誌訊息只有在完成基本剖析、
-    判斷出陳述式類型之後才會發出。在延伸查詢協定的
-    情況下，此設定同樣不會記錄在 Execute 階段之前
-    就失敗的陳述式（也就是在剖析分析或規劃階段失敗的情況）。
-    請將 `log_min_error_statement` 設為
-    `ERROR`（或更低），以記錄這類陳述式。
+### 注意 [#](#runtime-config-logging-restored-note-6) <a href="#runtime-config-logging-restored-note-6" id="runtime-config-logging-restored-note-6"></a>
 
-    被記錄的陳述式可能會洩漏敏感資料，
-    甚至包含明文密碼。
+即使 `log_statement` 設為
+`all`，含有單純語法錯誤的陳述式
+仍不會被記錄，因為日誌訊息只有在完成基本剖析、
+判斷出陳述式類型之後才會發出。在延伸查詢協定的
+情況下，此設定同樣不會記錄在 Execute 階段之前
+就失敗的陳述式（也就是在剖析分析或規劃階段失敗的情況）。
+請將 `log_min_error_statement` 設為
+`ERROR`（或更低），以記錄這類陳述式。
+
+被記錄的陳述式可能會洩漏敏感資料，
+甚至包含明文密碼。
 <a id="GUC-LOG-REPLICATION-COMMANDS"></a>
 
 `log_replication_commands` (`boolean`) <a id="id-1.6.6.11.5.3.18.1.3"></a> [#](#GUC-LOG-REPLICATION-COMMANDS)
