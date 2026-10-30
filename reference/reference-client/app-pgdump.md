@@ -91,19 +91,24 @@ pg_dump 只會傾印單一資料庫。若要匯出整個叢集，或匯出叢集
 :   將輸出送到指定的檔案。對於以檔案為基礎的輸出格式，可以省略此參數，此時會使用標準輸出。不過對於 directory 輸出格式則必須指定此參數，此時它指定的是目標目錄而不是檔案。在這種情況下，目錄由 `pg_dump` 建立，而且事先必須不存在。
 
 `-F format`<br>`--format=format`
-:   選擇輸出的格式。*`format`* 可以是下列其中之一：
 
-    `p`<br>`plain`
-    :   輸出純文字的 SQL 腳本檔案（預設）。
+選擇輸出的格式。*`format`* 可以是下列其中之一：
 
-    `c`<br>`custom`
-    :   輸出適合作為 pg_restore 輸入的 custom 格式封存檔。它與 directory 輸出格式同為最具彈性的輸出格式，因為它允許在還原期間手動選擇封存項目並重新排列其順序。此格式預設也會壓縮。
+- `p`<br>`plain`
 
-    `d`<br>`directory`
-    :   輸出適合作為 pg_restore 輸入的 directory 格式封存檔。這會建立一個目錄，其中每個被傾印的資料表與大型物件各有一個檔案，另外還有一個所謂的目錄（Table of Contents）檔案，以 pg_restore 可以讀取的機器可讀格式描述被傾印的物件。directory 格式的封存檔可以用標準的 Unix 工具處理；例如，未壓縮封存檔中的檔案可以用 gzip、lz4 或 zstd 工具壓縮。此格式預設使用 `gzip` 壓縮，而且也支援平行傾印。
+  輸出純文字的 SQL 腳本檔案（預設）。
 
-    `t`<br>`tar`
-    :   輸出適合作為 pg_restore 輸入的 `tar` 格式封存檔。tar 格式與 directory 格式相容：解開 tar 格式的封存檔會產生有效的 directory 格式封存檔。不過，tar 格式不支援壓縮。此外，使用 tar 格式時，還原期間無法變更資料表資料項目的相對順序。
+- `c`<br>`custom`
+
+  輸出適合作為 pg_restore 輸入的 custom 格式封存檔。它與 directory 輸出格式同為最具彈性的輸出格式，因為它允許在還原期間手動選擇封存項目並重新排列其順序。此格式預設也會壓縮。
+
+- `d`<br>`directory`
+
+  輸出適合作為 pg_restore 輸入的 directory 格式封存檔。這會建立一個目錄，其中每個被傾印的資料表與大型物件各有一個檔案，另外還有一個所謂的目錄（Table of Contents）檔案，以 pg_restore 可以讀取的機器可讀格式描述被傾印的物件。directory 格式的封存檔可以用標準的 Unix 工具處理；例如，未壓縮封存檔中的檔案可以用 gzip、lz4 或 zstd 工具壓縮。此格式預設使用 `gzip` 壓縮，而且也支援平行傾印。
+
+- `t`<br>`tar`
+
+  輸出適合作為 pg_restore 輸入的 `tar` 格式封存檔。tar 格式與 directory 格式相容：解開 tar 格式的封存檔會產生有效的 directory 格式封存檔。不過，tar 格式不支援壓縮。此外，使用 tar 格式時，還原期間無法變更資料表資料項目的相對順序。
 
 `-j njobs`<br>`--jobs=njobs`
 

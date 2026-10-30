@@ -64,16 +64,20 @@ pg_restore 接受下列命令列引數。
 :   指定所產生指令稿的輸出檔，或與 `-l` 一起使用時清單的輸出檔。使用 `-` 表示 stdout。
 
 `-F format`<br>`--format=format`
-:   指定封存檔的格式。不需要指定格式，因為 pg_restore 會自動判斷格式。若有指定，可以是下列其中之一：
 
-    `c`<br>`custom`
-    :   封存檔為 pg_dump 的自訂格式。
+指定封存檔的格式。不需要指定格式，因為 pg_restore 會自動判斷格式。若有指定，可以是下列其中之一：
 
-    `d`<br>`directory`
-    :   封存檔為目錄封存。
+- `c`<br>`custom`
 
-    `t`<br>`tar`
-    :   封存檔為 `tar` 封存。
+  封存檔為 pg_dump 的自訂格式。
+
+- `d`<br>`directory`
+
+  封存檔為目錄封存。
+
+- `t`<br>`tar`
+
+  封存檔為 `tar` 封存。
 
 `-I index`<br>`--index=index`
 :   只還原指定索引的定義。可以使用多個 `-I` 選項指定多個索引。
