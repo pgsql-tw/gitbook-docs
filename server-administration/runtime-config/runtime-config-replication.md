@@ -79,51 +79,52 @@ standby 伺服器中將不允許執行查詢。
 <a id="GUC-OUTPUT-PLUGIN-LIBRARIES"></a>
 
 `output_plugin_libraries` (`string`) <a id="id-1.6.6.9.5.3.3.1.3"></a> [#](#GUC-OUTPUT-PLUGIN-LIBRARIES)
-:   列出安裝於 [dynamic_library_path](runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) 中、
-    且同時受信任、可供複寫用戶端作為邏輯輸出外掛程式使用的
-    程式庫。任何針對其他程式庫的
-    [邏輯解碼](../../server-programming/logicaldecoding/logicaldecoding-example.md)
-    或[複寫](../../internals/protocol/protocol-replication.md)請求都會被拒絕。
-    所有使用者皆受此限制約束。預設值為
-    `'pgoutput, test_decoding'`，這是標準
-    PostgreSQL 發行版中所含的兩個邏輯輸出外掛程式。
 
-    格式為以逗號分隔的程式庫名稱清單，每個名稱
-    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md)
-    命令相同（但邏輯解碼用戶端必須指定與清單中某一項目
-    *完全*相符的外掛程式名稱，
-    不能有大小寫或路徑結構上的差異）。項目之間的空白字元
-    會被忽略；如果程式庫名稱中需要包含空白字元或
-    逗號，請以雙引號括住該名稱。
+列出安裝於 [dynamic_library_path](runtime-config-client.md#GUC-DYNAMIC-LIBRARY-PATH) 中、
+且同時受信任、可供複寫用戶端作為邏輯輸出外掛程式使用的
+程式庫。任何針對其他程式庫的
+[邏輯解碼](../../server-programming/logicaldecoding/logicaldecoding-example.md)
+或[複寫](../../internals/protocol/protocol-replication.md)請求都會被拒絕。
+所有使用者皆受此限制約束。預設值為
+`'pgoutput, test_decoding'`，這是標準
+PostgreSQL 發行版中所含的兩個邏輯輸出外掛程式。
 
-    確保加入此清單的程式庫在載入伺服器時，不會無意間
-    賦予非超級使用者額外的權限，是伺服器管理員的責任。
+格式為以逗號分隔的程式庫名稱清單，每個名稱
+的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md)
+命令相同（但邏輯解碼用戶端必須指定與清單中某一項目
+*完全*相符的外掛程式名稱，
+不能有大小寫或路徑結構上的差異）。項目之間的空白字元
+會被忽略；如果程式庫名稱中需要包含空白字元或
+逗號，請以雙引號括住該名稱。
 
-    ### 注意
+確保加入此清單的程式庫在載入伺服器時，不會無意間
+賦予非超級使用者額外的權限，是伺服器管理員的責任。
 
-    從尚未具備
-    `output_plugin_libraries` 參數的版本升級伺服器時，
-    以下查詢有助於建立所有永久性邏輯複寫插槽所需的
-    外掛程式清單：
+### 注意 [#](#output-plugin-libraries-note) <a href="#output-plugin-libraries-note" id="output-plugin-libraries-note"></a>
 
-    ```
+從尚未具備
+`output_plugin_libraries` 參數的版本升級伺服器時，
+以下查詢有助於建立所有永久性邏輯複寫插槽所需的
+外掛程式清單：
+
+```
 
     SELECT DISTINCT plugin FROM pg_replication_slots WHERE plugin IS NOT NULL;
-    ```
+```
 
-    在調整
-    `output_plugin_libraries` 之前，請仔細檢視此清單以確保安全。
+在調整
+`output_plugin_libraries` 之前，請仔細檢視此清單以確保安全。
 
-    上述查詢只能顯示過去某個時間點曾成功加入複寫插槽的
-    外掛程式。新被拒絕的請求會出現在日誌中，
-    訊息類似如下：
+上述查詢只能顯示過去某個時間點曾成功加入複寫插槽的
+外掛程式。新被拒絕的請求會出現在日誌中，
+訊息類似如下：
 
-    ```
+```
 
     ERROR:  library "..." may not be used as an output plugin
     DETAIL:  The configuration parameter "output_plugin_libraries" (currently 'pgoutput, test_decoding') does not name this library as a trusted output plugin.
     HINT:  If it is safe for all REPLICATION users to use this library as an output plugin, add it to "output_plugin_libraries" and reload the server configuration.
-    ```
+```
 <a id="GUC-WAL-KEEP-SIZE"></a>
 
 `wal_keep_size` (`integer`) <a id="id-1.6.6.9.5.3.4.1.3"></a> [#](#GUC-WAL-KEEP-SIZE)
@@ -237,114 +238,115 @@ primary 伺服器上也必須妥善設定
 <a id="GUC-SYNCHRONOUS-STANDBY-NAMES"></a>
 
 `synchronous_standby_names` (`string`) <a id="id-1.6.6.9.6.3.1.1.3"></a> [#](#GUC-SYNCHRONOUS-STANDBY-NAMES)
-:   指定一份可以支援*同步複寫（synchronous
-    replication）*的 standby 伺服器清單，如
-    [26.2.8 節](../high-availability/warm-standby.md#synchronous-replication)所述。
-    會有一個或多個作用中的同步 standby；
-    等待提交的交易，會在這些 standby 伺服器
-    確認收到其資料之後才被允許繼續進行。
-    同步 standby 將是那些名稱出現在
-    此清單中，且目前既已連線，又以即時方式串流資料的
-    伺服器（如
-    [`pg_stat_replication`](../monitoring/monitoring-stats.md#monitoring-pg-stat-replication-view) 檢視表中
-    狀態為 `streaming` 所示）。
-    指定多個同步 standby，可以達成非常高的可用性
-    並防止資料遺失。
 
-    此處 standby 伺服器的名稱，是 standby 連線資訊中
-    設定的 `application_name` 值。若是
-    實體複寫 standby，此值應在
-    `primary_conninfo` 設定中設定；預設值
-    為 [cluster_name](runtime-config-logging.md#GUC-CLUSTER-NAME) 的設定值
-    （若有設定），否則為 `walreceiver`。
-    對於邏輯複寫，此值可以在訂閱的連線
-    資訊中設定，預設為訂閱
-    名稱。對於其他複寫串流消費者，
-    請參閱其各自的文件。
+指定一份可以支援*同步複寫（synchronous
+replication）*的 standby 伺服器清單，如
+[26.2.8 節](../high-availability/warm-standby.md#synchronous-replication)所述。
+會有一個或多個作用中的同步 standby；
+等待提交的交易，會在這些 standby 伺服器
+確認收到其資料之後才被允許繼續進行。
+同步 standby 將是那些名稱出現在
+此清單中，且目前既已連線，又以即時方式串流資料的
+伺服器（如
+[`pg_stat_replication`](../monitoring/monitoring-stats.md#monitoring-pg-stat-replication-view) 檢視表中
+狀態為 `streaming` 所示）。
+指定多個同步 standby，可以達成非常高的可用性
+並防止資料遺失。
 
-    此參數使用以下任一語法指定一份 standby
-    伺服器清單：
+此處 standby 伺服器的名稱，是 standby 連線資訊中
+設定的 `application_name` 值。若是
+實體複寫 standby，此值應在
+`primary_conninfo` 設定中設定；預設值
+為 [cluster_name](runtime-config-logging.md#GUC-CLUSTER-NAME) 的設定值
+（若有設定），否則為 `walreceiver`。
+對於邏輯複寫，此值可以在訂閱的連線
+資訊中設定，預設為訂閱
+名稱。對於其他複寫串流消費者，
+請參閱其各自的文件。
 
-    ```
+此參數使用以下任一語法指定一份 standby
+伺服器清單：
+
+```
 
     [FIRST] num_sync ( standby_name [, ...] )
     ANY num_sync ( standby_name [, ...] )
     standby_name [, ...]
-    ```
+```
 
-    其中 *`num_sync`* 是
-    交易需要等待回覆的同步 standby
-    數量，
-    *`standby_name`*
-    則是 standby 伺服器的名稱。
-    *`num_sync`*
-    必須是大於零的整數值。
-    `FIRST` 與 `ANY` 指定從所列伺服器中
-    選擇同步 standby 的方式。
+其中 *`num_sync`* 是
+交易需要等待回覆的同步 standby
+數量，
+*`standby_name`*
+則是 standby 伺服器的名稱。
+*`num_sync`*
+必須是大於零的整數值。
+`FIRST` 與 `ANY` 指定從所列伺服器中
+選擇同步 standby 的方式。
 
-    關鍵字 `FIRST` 搭配
-    *`num_sync`*，指定一種基於優先順序的
-    同步複寫，會讓交易提交等待，直到其 WAL 記錄
-    被複寫到根據優先順序選出的
-    *`num_sync`* 個同步
-    standby 為止。舉例來說，設為
-    `FIRST 3 (s1, s2, s3, s4)` 會使每次提交都
-    等待從 `s1`、`s2`、`s3` 與 `s4`
-    中選出的三個優先順序較高的 standby 回覆。
-    在清單中名稱較早出現的 standby，會被賦予較高的
-    優先順序，並被視為同步 standby。此清單中稍後
-    出現的其他 standby 伺服器，則代表潛在的同步 standby。
-    如果目前任何一個同步 standby 因任何原因斷線，
-    會立即由下一個優先順序最高的 standby 取代。
-    關鍵字 `FIRST` 是選擇性的。
+關鍵字 `FIRST` 搭配
+*`num_sync`*，指定一種基於優先順序的
+同步複寫，會讓交易提交等待，直到其 WAL 記錄
+被複寫到根據優先順序選出的
+*`num_sync`* 個同步
+standby 為止。舉例來說，設為
+`FIRST 3 (s1, s2, s3, s4)` 會使每次提交都
+等待從 `s1`、`s2`、`s3` 與 `s4`
+中選出的三個優先順序較高的 standby 回覆。
+在清單中名稱較早出現的 standby，會被賦予較高的
+優先順序，並被視為同步 standby。此清單中稍後
+出現的其他 standby 伺服器，則代表潛在的同步 standby。
+如果目前任何一個同步 standby 因任何原因斷線，
+會立即由下一個優先順序最高的 standby 取代。
+關鍵字 `FIRST` 是選擇性的。
 
-    關鍵字 `ANY` 搭配
-    *`num_sync`*，指定一種基於法定人數（quorum）的
-    同步複寫，會讓交易提交等待，直到其 WAL 記錄
-    被複寫到*至少*
-    *`num_sync`* 個列出的 standby
-    為止。舉例來說，設為
-    `ANY 3 (s1, s2, s3, s4)` 會使每次提交
-    在 `s1`、`s2`、`s3` 與 `s4`
-    中，只要任意三個 standby 回覆，就繼續進行。
+關鍵字 `ANY` 搭配
+*`num_sync`*，指定一種基於法定人數（quorum）的
+同步複寫，會讓交易提交等待，直到其 WAL 記錄
+被複寫到*至少*
+*`num_sync`* 個列出的 standby
+為止。舉例來說，設為
+`ANY 3 (s1, s2, s3, s4)` 會使每次提交
+在 `s1`、`s2`、`s3` 與 `s4`
+中，只要任意三個 standby 回覆，就繼續進行。
 
-    `FIRST` 與 `ANY` 不區分大小寫。若這些
-    關鍵字被用作 standby 伺服器的名稱，
-    則其 *`standby_name`* 必須
-    以雙引號括住。
+`FIRST` 與 `ANY` 不區分大小寫。若這些
+關鍵字被用作 standby 伺服器的名稱，
+則其 *`standby_name`* 必須
+以雙引號括住。
 
-    第三種語法是在 PostgreSQL
-    9.6 版之前使用的，目前仍受支援。此語法
-    等同於第一種語法，並將 `FIRST` 與
-    *`num_sync`* 設為 1。
-    舉例來說，`FIRST 1 (s1, s2)` 與 `s1, s2`
-    意義相同：無論選擇 `s1` 或 `s2`，
-    都會作為同步 standby。
+第三種語法是在 PostgreSQL
+9.6 版之前使用的，目前仍受支援。此語法
+等同於第一種語法，並將 `FIRST` 與
+*`num_sync`* 設為 1。
+舉例來說，`FIRST 1 (s1, s2)` 與 `s1, s2`
+意義相同：無論選擇 `s1` 或 `s2`，
+都會作為同步 standby。
 
-    特殊項目 `*` 可以比對任何 standby 名稱。
+特殊項目 `*` 可以比對任何 standby 名稱。
 
-    目前沒有任何機制可以強制 standby 名稱唯一。若有
-    重複的情況，其中一個符合的 standby 會被視為較高
-    優先順序，但具體是哪一個則不確定。
+目前沒有任何機制可以強制 standby 名稱唯一。若有
+重複的情況，其中一個符合的 standby 會被視為較高
+優先順序，但具體是哪一個則不確定。
 
-    ### 注意
+### 注意 [#](#synchronous-standby-names-note) <a href="#synchronous-standby-names-note" id="synchronous-standby-names-note"></a>
 
-    每個 *`standby_name`*
-    都應具有合法 SQL 識別字的形式，除非
-    它是 `*`。如有需要，你可以使用雙引號。不過請注意，
-    *`standby_name`* 在與 standby
-    的 application name 比對時，無論是否加上雙引號，
-    都是不區分大小寫的。
+每個 *`standby_name`*
+都應具有合法 SQL 識別字的形式，除非
+它是 `*`。如有需要，你可以使用雙引號。不過請注意，
+*`standby_name`* 在與 standby
+的 application name 比對時，無論是否加上雙引號，
+都是不區分大小寫的。
 
-    如果此處未指定任何同步 standby 名稱，則不會啟用
-    同步複寫，交易提交也不會等待複寫。這是
-    預設組態設定。即使啟用了同步複寫，
-    個別交易仍然可以透過將
-    [synchronous_commit](runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT) 參數設為
-    `local` 或 `off`，設定為不等待複寫。
+如果此處未指定任何同步 standby 名稱，則不會啟用
+同步複寫，交易提交也不會等待複寫。這是
+預設組態設定。即使啟用了同步複寫，
+個別交易仍然可以透過將
+[synchronous_commit](runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT) 參數設為
+`local` 或 `off`，設定為不等待複寫。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-SYNCHRONIZED-STANDBY-SLOTS"></a>
 
 `synchronized_standby_slots` (`string`) <a id="id-1.6.6.9.6.3.2.1.3"></a> [#](#GUC-SYNCHRONIZED-STANDBY-SLOTS)

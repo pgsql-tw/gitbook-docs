@@ -91,12 +91,13 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-BLOCK-INFO"></a>
 
 `pg_get_wal_block_info(start_lsn pg_lsn, end_lsn pg_lsn, show_data boolean DEFAULT true) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-BLOCK-INFO)
-:   從 *`start_lsn`* 與
-    *`end_lsn`* 之間所有具有一個或多個區塊參照的有效 WAL
-    紀錄中，取得每個區塊參照的資訊。每筆 WAL 紀錄的每個區塊參照各傳回一個資料列。
-    例如：
 
-    ```
+從 *`start_lsn`* 與
+*`end_lsn`* 之間所有具有一個或多個區塊參照的有效 WAL
+紀錄中，取得每個區塊參照的資訊。每筆 WAL 紀錄的每個區塊參照各傳回一個資料列。
+例如：
+
+```
 
     postgres=# SELECT * FROM pg_get_wal_block_info('0/1230278', '0/12302B8');
     -[ RECORD 1 ]-----+-----------------------------------
@@ -120,45 +121,45 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
     description       | off: 46
     block_data        | \x00002a00070010402630000070696400
     block_fpi_data    |
-    ```
+```
 
-    此範例涉及的 WAL 紀錄只包含一個區塊參照，但許多 WAL
-    紀錄包含多個區塊參照。保證
-    `pg_get_wal_block_info` 輸出的資料列中，
-    *`start_lsn`* 與
-    *`block_id`* 值的組合都是唯一的。
+此範例涉及的 WAL 紀錄只包含一個區塊參照，但許多 WAL
+紀錄包含多個區塊參照。保證
+`pg_get_wal_block_info` 輸出的資料列中，
+*`start_lsn`* 與
+*`block_id`* 值的組合都是唯一的。
 
-    此處顯示的大部分資訊，與給定相同引數時
-    `pg_get_wal_records_info` 會顯示的輸出相符。然而，
-    `pg_get_wal_block_info` 會將每筆 WAL
-    紀錄的資訊展開，對每個區塊參照輸出一個資料列，因此某些細節是在區塊參照層級、而不是整筆紀錄層級追蹤。這種結構適用於追蹤個別區塊如何隨時間變化的查詢。請注意，沒有區塊參照的紀錄（例如
-    `COMMIT` WAL 紀錄）不會傳回任何資料列，因此 `pg_get_wal_block_info`
-    實際傳回的資料列可能比
-    `pg_get_wal_records_info` *更少*。
+此處顯示的大部分資訊，與給定相同引數時
+`pg_get_wal_records_info` 會顯示的輸出相符。然而，
+`pg_get_wal_block_info` 會將每筆 WAL
+紀錄的資訊展開，對每個區塊參照輸出一個資料列，因此某些細節是在區塊參照層級、而不是整筆紀錄層級追蹤。這種結構適用於追蹤個別區塊如何隨時間變化的查詢。請注意，沒有區塊參照的紀錄（例如
+`COMMIT` WAL 紀錄）不會傳回任何資料列，因此 `pg_get_wal_block_info`
+實際傳回的資料列可能比
+`pg_get_wal_records_info` *更少*。
 
-    `reltablespace`、
-    `reldatabase` 與
-    `relfilenode` 參數分別參照
-    [`pg_tablespace`](../../internals/catalogs/catalog-pg-tablespace.md).`oid`、
-    [`pg_database`](../../internals/catalogs/catalog-pg-database.md).`oid` 與
-    [`pg_class`](../../internals/catalogs/catalog-pg-class.md).`relfilenode`。
-    `relforknumber`
-    欄位是該區塊參照在關聯內的分支（fork）編號；詳細資訊請參閱 `common/relpath.h`。
+`reltablespace`、
+`reldatabase` 與
+`relfilenode` 參數分別參照
+[`pg_tablespace`](../../internals/catalogs/catalog-pg-tablespace.md).`oid`、
+[`pg_database`](../../internals/catalogs/catalog-pg-database.md).`oid` 與
+[`pg_class`](../../internals/catalogs/catalog-pg-class.md).`relfilenode`。
+`relforknumber`
+欄位是該區塊參照在關聯內的分支（fork）編號；詳細資訊請參閱 `common/relpath.h`。
 
-    ### 提示
+### 提示 [#](#pgwalinspect-pg-get-wal-block-info-tip) <a href="#pgwalinspect-pg-get-wal-block-info-tip" id="pgwalinspect-pg-get-wal-block-info-tip"></a>
 
-    `pg_filenode_relation` 函式（請參閱
-    [表 9.103](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-DBLOCATION)）可以協助你判斷原本執行期間修改的是哪個關聯。
+`pg_filenode_relation` 函式（請參閱
+[表 9.103](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-DBLOCATION)）可以協助你判斷原本執行期間修改的是哪個關聯。
 
-    用戶端可以避免具體化區塊資料的額外負擔，這可能使函式執行明顯加快。當
-    *`show_data`* 設為 `false` 時，會省略 `block_data`
-    與 `block_fpi_data` 值（也就是說，對所有傳回的資料列，
-    `block_data` 與
-    `block_fpi_data` 這兩個 `OUT`
-    引數都是 `NULL`）。
-    顯然，此最佳化只適用於並非真正需要區塊資料的查詢。
+用戶端可以避免具體化區塊資料的額外負擔，這可能使函式執行明顯加快。當
+*`show_data`* 設為 `false` 時，會省略 `block_data`
+與 `block_fpi_data` 值（也就是說，對所有傳回的資料列，
+`block_data` 與
+`block_fpi_data` 這兩個 `OUT`
+引數都是 `NULL`）。
+顯然，此最佳化只適用於並非真正需要區塊資料的查詢。
 
-    若 *`start_lsn`* 無法使用，此函式會引發錯誤。
+若 *`start_lsn`* 無法使用，此函式會引發錯誤。
 <a id="PGWALINSPECT-FUNCS-PG-GET-WAL-STATS"></a>
 
 `pg_get_wal_stats(start_lsn pg_lsn, end_lsn pg_lsn, per_record boolean DEFAULT false) returns setof record` [#](#PGWALINSPECT-FUNCS-PG-GET-WAL-STATS)

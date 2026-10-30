@@ -25,76 +25,77 @@
 <a id="GUC-LOG-DESTINATION"></a>
 
 `log_destination` (`string`) <a id="id-1.6.6.11.3.4.1.1.3"></a> [#](#GUC-LOG-DESTINATION)
-:   PostgreSQL 支援多種
-    記錄伺服器訊息的方法，包括
-    stderr、csvlog、
-    jsonlog，以及
-    syslog。在 Windows 上，
-    也支援 eventlog。請將此
-    參數設為以逗號分隔的所需記錄目的地清單。
-    預設只會記錄到 stderr。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
 
-    若 `log_destination` 中包含 csvlog，
-    日誌項目會以「逗號分隔值」（CSV）格式輸出，
-    方便匯入其他程式使用。
-    詳情請參閱 [第 19.8.4 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)。
-    必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
-    才能產生 CSV 格式的日誌輸出。
+PostgreSQL 支援多種
+記錄伺服器訊息的方法，包括
+stderr、csvlog、
+jsonlog，以及
+syslog。在 Windows 上，
+也支援 eventlog。請將此
+參數設為以逗號分隔的所需記錄目的地清單。
+預設只會記錄到 stderr。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 
-    若 `log_destination` 中包含
-    jsonlog，日誌項目會以
-    JSON 格式輸出，方便匯入其他程式使用。
-    詳情請參閱 [第 19.8.5 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG)。
-    必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
-    才能產生 JSON 格式的日誌輸出。
+若 `log_destination` 中包含 csvlog，
+日誌項目會以「逗號分隔值」（CSV）格式輸出，
+方便匯入其他程式使用。
+詳情請參閱 [第 19.8.4 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)。
+必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
+才能產生 CSV 格式的日誌輸出。
 
-    當 stderr、
-    csvlog 或 jsonlog
-    其中之一被包含在內時，就會建立 `current_logfiles`
-    檔案，用來記錄日誌收集器目前使用中的日誌檔案位置，
-    以及對應的記錄目的地。這提供了一個方便的方式，
-    可用來找出此執行個體目前正在使用的日誌檔。以下是
-    此檔案內容的範例：
+若 `log_destination` 中包含
+jsonlog，日誌項目會以
+JSON 格式輸出，方便匯入其他程式使用。
+詳情請參閱 [第 19.8.5 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-JSONLOG)。
+必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
+才能產生 JSON 格式的日誌輸出。
 
-    ```
+當 stderr、
+csvlog 或 jsonlog
+其中之一被包含在內時，就會建立 `current_logfiles`
+檔案，用來記錄日誌收集器目前使用中的日誌檔案位置，
+以及對應的記錄目的地。這提供了一個方便的方式，
+可用來找出此執行個體目前正在使用的日誌檔。以下是
+此檔案內容的範例：
+
+```
 
     stderr log/postgresql.log
     csvlog log/postgresql.csv
     jsonlog log/postgresql.json
-    ```
+```
 
-    `current_logfiles` 會在因輪替而建立新日誌檔案時，
-    以及 `log_destination` 被重新載入時重新建立。
-    當 `log_destination` 中不再包含
-    stderr、csvlog
-    或 jsonlog 任何一項，
-    或日誌收集器被停用時，此檔案就會被移除。
+`current_logfiles` 會在因輪替而建立新日誌檔案時，
+以及 `log_destination` 被重新載入時重新建立。
+當 `log_destination` 中不再包含
+stderr、csvlog
+或 jsonlog 任何一項，
+或日誌收集器被停用時，此檔案就會被移除。
 
-    ### 注意
+### 注意 [#](#log-destination-note) <a href="#log-destination-note" id="log-destination-note"></a>
 
-    在大多數 Unix 系統上，你需要變更系統 syslog
-    守護程序的組態，才能使用
-    `log_destination` 的 syslog 選項。
-    PostgreSQL 可以記錄到 syslog 的
-    `LOCAL0` 到 `LOCAL7` 設施
-    （請參閱 [syslog_facility](runtime-config-logging.md#GUC-SYSLOG-FACILITY)），
-    但大多數平台上 syslog 的預設組態，
-    會捨棄所有這類訊息。你需要加入類似下列的內容：
+在大多數 Unix 系統上，你需要變更系統 syslog
+守護程序的組態，才能使用
+`log_destination` 的 syslog 選項。
+PostgreSQL 可以記錄到 syslog 的
+`LOCAL0` 到 `LOCAL7` 設施
+（請參閱 [syslog_facility](runtime-config-logging.md#GUC-SYSLOG-FACILITY)），
+但大多數平台上 syslog 的預設組態，
+會捨棄所有這類訊息。你需要加入類似下列的內容：
 
-    ```
+```
 
     local0.*    /var/log/postgresql
-    ```
+```
 
-    到 syslog 守護程序的組態檔中，才能使其運作。
+到 syslog 守護程序的組態檔中，才能使其運作。
 
-    在 Windows 上，當你為 `log_destination` 使用
-    `eventlog` 選項時，你應該向作業系統
-    註冊事件來源及其程式庫，讓 Windows 事件檢視器
-    能夠正確地顯示事件日誌訊息。
-    詳情請參閱 [第 18.12 節](../runtime/event-log-registration.md)。
+在 Windows 上，當你為 `log_destination` 使用
+`eventlog` 選項時，你應該向作業系統
+註冊事件來源及其程式庫，讓 Windows 事件檢視器
+能夠正確地顯示事件日誌訊息。
+詳情請參閱 [第 18.12 節](../runtime/event-log-registration.md)。
 <a id="GUC-LOGGING-COLLECTOR"></a>
 
 `logging_collector` (`boolean`) <a id="id-1.6.6.11.3.4.2.1.3"></a> [#](#GUC-LOGGING-COLLECTOR)
@@ -492,7 +493,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 
 ### 19.8.3. 記錄內容 [#](#runtime-config-logging-what) <a href="#runtime-config-logging-what" id="runtime-config-logging-what"></a>
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 你選擇記錄的內容可能涉及安全性議題；請參閱
 [第 24.3 節](../maintenance/logfile-maintenance.md)。
@@ -613,7 +614,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
 權限的使用者，才能在工作階段開始時變更此參數，
 且在工作階段內完全無法變更。
 
-### 注意
+### 注意 [#](#zhu-yi-1) <a href="#zhu-yi-1" id="zhu-yi-1"></a>
 
 某些用戶端程式（例如 psql）在判斷
 是否需要密碼時，會嘗試連線兩次，
@@ -756,7 +757,7 @@ Syslog 會產生自己的
     log_line_prefix = '%m [%p] %q%u@%d/%a '
 ```
 
-### 注意
+### 注意 [#](#zhu-yi-2) <a href="#zhu-yi-2" id="zhu-yi-2"></a>
 
 對於因 [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)
 而輸出的行，`%Q` 逸出序列一律會回報零識別碼，

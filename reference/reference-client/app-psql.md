@@ -1023,22 +1023,23 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-ECHO"></a>
 
 `\echo text [ ... ]` [#](#APP-PSQL-META-COMMAND-ECHO)
-:   將求值後的引數印到標準輸出，引數之間以空格分隔，最後接著換行字元。這可用於在腳本的輸出中穿插資訊。例如：
 
-    ```
+將求值後的引數印到標準輸出，引數之間以空格分隔，最後接著換行字元。這可用於在腳本的輸出中穿插資訊。例如：
+
+```
 
     => \echo `date`
     Tue Oct 26 21:40:57 CEST 1999
-    ```
+```
 
-    若第一個引數是未加引號的 `-n`，則不會寫出結尾的換行字元（也不會寫出第一個引數）。
+若第一個引數是未加引號的 `-n`，則不會寫出結尾的換行字元（也不會寫出第一個引數）。
 
-    <a id="APP-PSQL-META-COMMAND-ECHO-TIP"></a>
+<a id="APP-PSQL-META-COMMAND-ECHO-TIP"></a>
 
-    ### 提示
+### 提示 [#](#psql-echo-tip) <a href="#psql-echo-tip" id="psql-echo-tip"></a>
 
-    若你使用 `\o` 命令重新導向查詢輸出，你可能會想改用 `\qecho`
-    而不是此命令。另請參閱 `\warn`。
+若你使用 `\o` 命令重新導向查詢輸出，你可能會想改用 `\qecho`
+而不是此命令。另請參閱 `\warn`。
 <a id="APP-PSQL-META-COMMAND-EF"></a>
 
 `\ef [ function_description [ line_number ] ]` [#](#APP-PSQL-META-COMMAND-EF)
@@ -1830,25 +1831,26 @@ bar
 <a id="APP-PSQL-VARIABLES-HISTFILE"></a>
 
 `HISTFILE` [#](#APP-PSQL-VARIABLES-HISTFILE)
-:   用來儲存歷史清單的檔案名稱。若未設定，檔案名稱會取自 `PSQL_HISTORY`
-    環境變數。若該變數也未設定，預設值為 `~/.psql_history`，
-    在 Windows 上則為 `%APPDATA%\postgresql\psql_history`。
-    例如，將：
 
-    ```
+用來儲存歷史清單的檔案名稱。若未設定，檔案名稱會取自 `PSQL_HISTORY`
+環境變數。若該變數也未設定，預設值為 `~/.psql_history`，
+在 Windows 上則為 `%APPDATA%\postgresql\psql_history`。
+例如，將：
+
+```
 
     \set HISTFILE ~/.psql_history-:DBNAME
-    ```
+```
 
-    放在 `~/.psqlrc` 中，會讓
-    psql 為每個資料庫分別維護一份歷史記錄。
+放在 `~/.psqlrc` 中，會讓
+psql 為每個資料庫分別維護一份歷史記錄。
 
-    <a id="id-1.9.4.21.8.5.2.9.12.2.2"></a>
+<a id="id-1.9.4.21.8.5.2.9.12.2.2"></a>
 
-    ### 注意
+### 注意 [#](#psql-histfile-note) <a href="#psql-histfile-note" id="psql-histfile-note"></a>
 
-    此功能是毫不客氣地從
-    Bash 抄來的。
+此功能是毫不客氣地從
+Bash 抄來的。
 <a id="APP-PSQL-VARIABLES-HISTSIZE"></a>
 
 `HISTSIZE` [#](#APP-PSQL-VARIABLES-HISTSIZE)
@@ -2191,7 +2193,7 @@ psql 要求輸入新命令時發出的一般提示字串。提示字串 2 會在
 
 <a id="APP-PSQL-PROMPTING-NOTE"></a>
 
-### 注意
+### 注意 [#](#zhu-yi-1) <a href="#zhu-yi-1" id="zhu-yi-1"></a>
 
 此功能是毫不客氣地從
 tcsh 抄來的。
