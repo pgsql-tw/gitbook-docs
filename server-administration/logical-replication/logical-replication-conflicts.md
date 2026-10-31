@@ -114,7 +114,7 @@ where detail_values is one of:
     * `replica identity` 區段包含用來搜尋
       待更新或待刪除之既有本機資料列時所使用的複本識別
       （replica identity）鍵值。若本機關聯標記為
-      [`REPLICA IDENTITY FULL`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY-FULL)，
+      [`REPLICA IDENTITY FULL`](../../reference/sql-commands/sql-altertable-replica-identity.md#sql-altertable-replica-identity-full)，
       這裡可能會包含完整的資料列值。
     * *`column_name`* 是欄位名稱。
       對於 `existing local row`、`remote row`

@@ -42,7 +42,7 @@
   [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
   參數）。
 * 在已發布的資料表上使用
-  [`REPLICA IDENTITY FULL`](../../reference/sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY-FULL)
+  [`REPLICA IDENTITY FULL`](../../reference/sql-commands/sql-altertable-replica-identity.md#sql-altertable-replica-identity-full)
   時，必須注意一點：如果資料表中含有沒有 B-tree 或 Hash
   預設運算子類別的資料型別（例如 point 或 box）的屬性，
   則 `UPDATE` 與 `DELETE` 操作將無法套用到

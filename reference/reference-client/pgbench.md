@@ -54,9 +54,11 @@ pgbench -i [ other-options ] dbname
 
 <a id="id-1.9.4.11.5.9"></a>
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 `pgbench -i` 會建立四個資料表 `pgbench_accounts`、`pgbench_branches`、`pgbench_history` 與 `pgbench_tellers`，並摧毀任何同名的現有資料表。如果你有資料表使用這些名稱，務必非常小心地改用另一個資料庫！
+{% endhint %}
 
 在預設的「縮放因子」（scale factor）1 之下，這些資料表一開始包含的資料列數如下：
 
@@ -108,35 +110,7 @@ pgbench 接受下列命令列初始化引數：
 只執行一般初始化步驟中所選定的一組步驟。*`init_steps`* 指定要執行的初始化步驟，每個步驟使用一個字元。各步驟會依指定的順序執行。預設值為 `dtgvp`。可用的步驟如下：
 
 
-- <a id="PGBENCH-OPTION-INIT-STEPS-D"></a> `d` (Drop) [#](#PGBENCH-OPTION-INIT-STEPS-D)
-
-  移除任何現有的 pgbench 資料表。
-
-- <a id="PGBENCH-OPTION-INIT-STEPS-T"></a> `t` (create Tables) [#](#PGBENCH-OPTION-INIT-STEPS-T)
-
-  建立標準 pgbench 情境所使用的資料表，也就是 `pgbench_accounts`、`pgbench_branches`、`pgbench_history` 與 `pgbench_tellers`。
-
-- <a id="PGBENCH-OPTION-INIT-STEPS-G"></a> `g` 或 `G`（Generate data，用戶端或伺服器端） [#](#PGBENCH-OPTION-INIT-STEPS-G)
-
-  產生資料並載入標準資料表，取代任何已存在的資料。
-
-  使用 `g`（用戶端資料產生）時，資料會在 `pgbench` 用戶端中產生，然後傳送到伺服器。這會透過 `COPY` 大量使用用戶端／伺服器之間的頻寬。對於 PostgreSQL 14 或更新版本，`pgbench` 會使用 `FREEZE` 選項將資料載入一般（非分割區）資料表，以加快後續的 `VACUUM`。使用 `g` 時，在為所有資料表產生資料的期間，日誌每 100,000 個資料列會印出一則訊息。
-
-  使用 `G`（伺服器端資料產生）時，`pgbench` 用戶端只會送出小型查詢，而資料實際上是在伺服器中產生。這種方式不需要可觀的頻寬，但伺服器會做更多工作。使用 `G` 時，日誌在產生資料期間不會印出任何進度訊息。
-
-  預設的初始化行為使用用戶端資料產生（等同於 `g`）。
-
-- <a id="PGBENCH-OPTION-INIT-STEPS-V"></a> `v` (Vacuum) [#](#PGBENCH-OPTION-INIT-STEPS-V)
-
-  對標準資料表執行 `VACUUM`。
-
-- <a id="PGBENCH-OPTION-INIT-STEPS-P"></a> `p` (create Primary keys) [#](#PGBENCH-OPTION-INIT-STEPS-P)
-
-  在標準資料表上建立主鍵索引。
-
-- <a id="PGBENCH-OPTION-INIT-STEPS-F"></a> `f` (create Foreign keys) [#](#PGBENCH-OPTION-INIT-STEPS-F)
-
-  在標準資料表之間建立外部鍵限制條件。（請注意，預設不會執行此步驟。）
+[初始化步驟的完整說明](pgbench-init-steps.md)
 
 <a id="PGBENCH-OPTION-FILLFACTOR"></a>
 
@@ -431,7 +405,7 @@ pgbench 支援執行自訂的效能基準情境，方法是以從檔案讀取的
 
 <a id="id-1.9.4.11.9.3.4"></a>
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 在 PostgreSQL 9.6 之前，腳本檔中的 SQL 命令以換行字元結尾，因此無法跨行延續。現在則*必須*使用分號來分隔連續的 SQL 命令（不過，若 SQL 命令後面接著中繼命令，該 SQL 命令就不需要分號）。若你需要建立一個能同時用於新舊版本 pgbench 的腳本檔，請務必將每個 SQL 命令寫在單獨一行，並以分號結尾。
 
@@ -1065,7 +1039,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 
 <a id="PGBENCH-BUILTIN-FUNCTIONS-NOTE"></a>
 
-### 注意
+### 注意 [#](#zhu-yi-1) <a href="#zhu-yi-1" id="zhu-yi-1"></a>
 
 設計以非均勻方式選取資料列的效能基準時，請注意所選取的資料列可能與其他資料相關，例如來自序列的 ID 或資料列的實體順序，這可能使效能測量產生偏差。
 
@@ -1382,7 +1356,7 @@ statement latencies in milliseconds, failures and retries:
 
 <a id="FAILURES-AND-RETRIES-NOTE"></a>
 
-### 注意
+### 注意 [#](#zhu-yi-2) <a href="#zhu-yi-2" id="zhu-yi-2"></a>
 
 若未指定 `--max-tries` 選項，交易在發生序列化錯誤或死結錯誤後永遠不會重試，因為其預設值為 1。若只要限制嘗試的最長時間，請使用無限次的嘗試（`--max-tries=0`）並搭配 `--latency-limit` 選項。在無限次嘗試之下，你也可以使用 `--time` 選項來限制效能基準測試的持續時間。
 

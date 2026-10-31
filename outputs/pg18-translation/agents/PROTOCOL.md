@@ -152,6 +152,12 @@ Source: <url> (<版本>, <日期>)
 
 ## 12. 衝突處理
 
+### Caution 提示的使用者裁決（2026-10-31）
+
+- 原手冊的 `Caution` 譯為「注意」，不使用「小心」作為該類提示的標題。套用到其他頁面前，先核對官方來源的提示類型，不對所有「小心」或所有提示標題做全站替換。
+- GitBook 以提示區塊呈現；本輪已核對 PostgreSQL 18 pgbench 的官方 HTML 使用 `<div class="caution">`，先試用 `warning` hint。實際外觀與原有標題定位仍須公開驗證，不能只憑 Markdown 語法認定完成。
+- 保留提示正文與原始程式碼；此裁決不代表將 `Note`、`Warning` 等其他來源類型一律改為 Caution。
+
 ### 統計描述與編碼表的使用者裁決（2026-10-23）
 
 - `monitoring-stats.md` 的 `pg_stat_wal_receiver` 描述採「WAL 接收程序從其所連線伺服器接收 WAL 的相關統計資訊」，不得再次要求改成從伺服器取得統計資訊而非接收 WAL 活動。

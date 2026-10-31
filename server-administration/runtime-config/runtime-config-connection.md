@@ -502,30 +502,7 @@ ciphers
 預設值的說明：
 
 
-- <a id="GUC-SSL-CIPHERS-HIGH"></a> `HIGH` [#](#GUC-SSL-CIPHERS-HIGH)
-
-  使用 `HIGH` 群組密碼（例如
-  AES、Camellia、3DES）的密碼套件
-
-- <a id="GUC-SSL-CIPHERS-MEDIUM"></a> `MEDIUM` [#](#GUC-SSL-CIPHERS-MEDIUM)
-
-  使用 `MEDIUM` 群組密碼（例如 RC4、SEED）
-  的密碼套件
-
-- <a id="GUC-SSL-CIPHERS-PLUS-3DES"></a> `+3DES` [#](#GUC-SSL-CIPHERS-PLUS-3DES)
-
-  OpenSSL 對 `HIGH` 的預設排序
-  有問題，因為它將 3DES 排在
-  AES128 之前。這是錯誤的，因為 3DES 提供的
-  安全性低於 AES128，而且速度也慢得多。
-  `+3DES` 會將其重新排序到所有其他
-  `HIGH` 與 `MEDIUM` 密碼之後。
-
-- <a id="GUC-SSL-CIPHERS-NOT-ANULL"></a> `!aNULL` [#](#GUC-SSL-CIPHERS-NOT-ANULL)
-
-  停用不進行驗證的匿名密碼套件。這類
-  密碼套件容易受到中間人（MITM）攻擊，
-  因此不應使用。
+[預設值各部分的說明](runtime-config-connection-ssl-ciphers.md)
 
 可用密碼套件的詳細內容，會因
 OpenSSL 版本而異。可以使用命令

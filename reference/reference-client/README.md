@@ -30,6 +30,8 @@
 
 [pgbench](pgbench.md) — 在 PostgreSQL 上執行效能基準測試
 
+相關子頁：[pgbench 初始化步驟](pgbench-init-steps.md)。
+
 [pg_combinebackup](app-pgcombinebackup.md) — 從增量備份及其相依的備份重建完整備份
 
 [pg_config](app-pgconfig.md) — 取得已安裝之 PostgreSQL 版本的相關資訊

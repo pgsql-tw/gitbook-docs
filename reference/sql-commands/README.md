@@ -76,6 +76,8 @@
 
 [ALTER TABLE](sql-altertable.md) — 變更資料表的定義
 
+相關子頁：[複寫識別模式](sql-altertable-replica-identity.md)。
+
 [ALTER TABLESPACE](sql-altertablespace.md) — 變更資料表空間的定義
 
 [ALTER TEXT SEARCH CONFIGURATION](sql-altertsconfig.md) — 變更文字搜尋設定的定義

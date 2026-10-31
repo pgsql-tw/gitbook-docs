@@ -25,6 +25,7 @@
   - [19.3.3. 驗證](runtime-config-connection.md#runtime-config-connection-authentication)
 
   - [19.3.4. SSL](runtime-config-connection.md#runtime-config-connection-ssl)
+    - [SSL 密碼套件預設值](runtime-config-connection-ssl-ciphers.md)
 
 - [19.4. 資源消耗](runtime-config-resource.md)
   - [19.4.1. 記憶體](runtime-config-resource.md#runtime-config-resource-memory)
