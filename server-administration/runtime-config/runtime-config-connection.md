@@ -66,77 +66,80 @@ standby 伺服器中將不允許執行查詢。
 <a id="GUC-RESERVED-CONNECTIONS"></a>
 
 `reserved_connections` (`integer`) <a id="id-1.6.6.6.2.2.4.1.3"></a> [#](#GUC-RESERVED-CONNECTIONS)
-:   決定為具備
-    [pg_use_reserved_connections](../user-manag/predefined-roles.md#PREDEFINED-ROLE-PG-USE-RESERVED-CONNECTIONS)
-    角色權限的角色所連線保留的連線「插槽」數量。
-    每當可用連線插槽的數量大於
-    [superuser_reserved_connections](runtime-config-connection.md#GUC-SUPERUSER-RESERVED-CONNECTIONS)，
-    但小於或等於 `superuser_reserved_connections`
-    與 `reserved_connections` 兩者總和時，
-    新連線只會接受超級使用者，以及具備
-    `pg_use_reserved_connections` 權限的角色。若可用連線
-    插槽數量已等於或小於
-    `superuser_reserved_connections`，新連線就只會
-    接受超級使用者。
 
-    預設值為零個連線。此值必須小於
-    `max_connections` 減去
-    `superuser_reserved_connections`。此參數只能
-    在伺服器啟動時設定。
+決定為具備
+[pg_use_reserved_connections](../user-manag/predefined-roles.md#PREDEFINED-ROLE-PG-USE-RESERVED-CONNECTIONS)
+角色權限的角色所連線保留的連線「插槽」數量。
+每當可用連線插槽的數量大於
+[superuser_reserved_connections](runtime-config-connection.md#GUC-SUPERUSER-RESERVED-CONNECTIONS)，
+但小於或等於 `superuser_reserved_connections`
+與 `reserved_connections` 兩者總和時，
+新連線只會接受超級使用者，以及具備
+`pg_use_reserved_connections` 權限的角色。若可用連線
+插槽數量已等於或小於
+`superuser_reserved_connections`，新連線就只會
+接受超級使用者。
+
+預設值為零個連線。此值必須小於
+`max_connections` 減去
+`superuser_reserved_connections`。此參數只能
+在伺服器啟動時設定。
 <a id="GUC-SUPERUSER-RESERVED-CONNECTIONS"></a>
 
 `superuser_reserved_connections` (`integer`) <a id="id-1.6.6.6.2.2.5.1.3"></a> [#](#GUC-SUPERUSER-RESERVED-CONNECTIONS)
-:   決定為 PostgreSQL 超級使用者所連線
-    保留的連線「插槽」數量。同一時間
-    最多只能有 [max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)
-    個連線處於作用中狀態。每當作用中並行連線的
-    數量達到 `max_connections` 減去
-    `superuser_reserved_connections` 時，新
-    連線就只會接受超級使用者。由此參數保留的連線插槽，
-    是設計用於在
-    [reserved_connections](runtime-config-connection.md#GUC-RESERVED-CONNECTIONS) 保留的插槽
-    耗盡後，作為緊急情況使用的最後保留額度。
 
-    預設值為三個連線。此值必須小於
-    `max_connections` 減去
-    `reserved_connections`。
-    此參數只能在伺服器啟動時設定。
+決定為 PostgreSQL 超級使用者所連線
+保留的連線「插槽」數量。同一時間
+最多只能有 [max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)
+個連線處於作用中狀態。每當作用中並行連線的
+數量達到 `max_connections` 減去
+`superuser_reserved_connections` 時，新
+連線就只會接受超級使用者。由此參數保留的連線插槽，
+是設計用於在
+[reserved_connections](runtime-config-connection.md#GUC-RESERVED-CONNECTIONS) 保留的插槽
+耗盡後，作為緊急情況使用的最後保留額度。
+
+預設值為三個連線。此值必須小於
+`max_connections` 減去
+`reserved_connections`。
+此參數只能在伺服器啟動時設定。
 <a id="GUC-UNIX-SOCKET-DIRECTORIES"></a>
 
 `unix_socket_directories` (`string`) <a id="id-1.6.6.6.2.2.6.1.3"></a> [#](#GUC-UNIX-SOCKET-DIRECTORIES)
-:   指定伺服器要監聽來自用戶端應用程式連線的
-    Unix 網域通訊端所在目錄。
-    可以透過以逗號分隔列出多個目錄，來建立多個通訊端。
-    項目之間的空白字元會被忽略；如果目錄名稱中
-    需要包含空白字元或逗號，請以雙引號括住該名稱。
-    若此值為空，
-    則代表不監聽任何 Unix 網域通訊端，此時
-    只能使用 TCP/IP 通訊端連線至伺服器。
 
-    以 `@` 開頭的值代表應建立一個
-    位於抽象命名空間（abstract namespace）中的 Unix 網域通訊端
-    （目前僅支援 Linux）。在這種情況下，此值
-    並非指定「目錄」，而是一個前綴，實際的通訊端
-    名稱會以與檔案系統命名空間相同的方式，根據
-    此前綴計算得出。雖然由於這不是檔案系統位置，
-    抽象通訊端名稱前綴可以自由選擇，但慣例上
-    仍會使用類似檔案系統路徑的值，例如
-    `@/tmp`。
+指定伺服器要監聽來自用戶端應用程式連線的
+Unix 網域通訊端所在目錄。
+可以透過以逗號分隔列出多個目錄，來建立多個通訊端。
+項目之間的空白字元會被忽略；如果目錄名稱中
+需要包含空白字元或逗號，請以雙引號括住該名稱。
+若此值為空，
+則代表不監聽任何 Unix 網域通訊端，此時
+只能使用 TCP/IP 通訊端連線至伺服器。
 
-    預設值通常為
-    `/tmp`，但可以在建置時變更。
-    在 Windows 上，預設值為空，代表預設不會
-    建立任何 Unix 網域通訊端。
-    此參數只能在伺服器啟動時設定。
+以 `@` 開頭的值代表應建立一個
+位於抽象命名空間（abstract namespace）中的 Unix 網域通訊端
+（目前僅支援 Linux）。在這種情況下，此值
+並非指定「目錄」，而是一個前綴，實際的通訊端
+名稱會以與檔案系統命名空間相同的方式，根據
+此前綴計算得出。雖然由於這不是檔案系統位置，
+抽象通訊端名稱前綴可以自由選擇，但慣例上
+仍會使用類似檔案系統路徑的值，例如
+`@/tmp`。
 
-    除了通訊端檔案本身（命名為
-    `.s.PGSQL.nnnn`，其中
-    *`nnnn`* 為伺服器的埠號）之外，還會在
-    每一個 `unix_socket_directories` 目錄中，
-    建立一個名為 `.s.PGSQL.nnnn.lock`
-    的一般檔案。
-    這兩個檔案都不應該手動移除。
-    對於位於抽象命名空間中的通訊端，則不會建立鎖定檔案。
+預設值通常為
+`/tmp`，但可以在建置時變更。
+在 Windows 上，預設值為空，代表預設不會
+建立任何 Unix 網域通訊端。
+此參數只能在伺服器啟動時設定。
+
+除了通訊端檔案本身（命名為
+`.s.PGSQL.nnnn`，其中
+*`nnnn`* 為伺服器的埠號）之外，還會在
+每一個 `unix_socket_directories` 目錄中，
+建立一個名為 `.s.PGSQL.nnnn.lock`
+的一般檔案。
+這兩個檔案都不應該手動移除。
+對於位於抽象命名空間中的通訊端，則不會建立鎖定檔案。
 <a id="GUC-UNIX-SOCKET-GROUP"></a>
 
 `unix_socket_group` (`string`) <a id="id-1.6.6.6.2.2.7.1.3"></a> [#](#GUC-UNIX-SOCKET-GROUP)
@@ -257,28 +260,29 @@ Solaris 10 以後的 Solaris），此參數並無意義。在這類系統上，
 <a id="GUC-CLIENT-CONNECTION-CHECK-INTERVAL"></a>
 
 `client_connection_check_interval` (`integer`) <a id="id-1.6.6.6.3.2.5.1.3"></a> [#](#GUC-CLIENT-CONNECTION-CHECK-INTERVAL)
-:   設定在執行查詢期間，選擇性檢查用戶端是否仍保持連線的
-    時間間隔。此檢查是透過輪詢通訊端執行，
-    若核心回報連線已關閉，則可以讓執行時間過長的查詢
-    更快被中止。
 
-    此選項依賴 Linux、macOS、illumos，
-    以及 BSD 家族作業系統所提供的核心事件，
-    目前在其他系統上無法使用。
+設定在執行查詢期間，選擇性檢查用戶端是否仍保持連線的
+時間間隔。此檢查是透過輪詢通訊端執行，
+若核心回報連線已關閉，則可以讓執行時間過長的查詢
+更快被中止。
 
-    若此值指定時未帶單位，則以毫秒為單位。
-    預設值為 `0`，代表停用連線
-    檢查。若不進行連線檢查，伺服器只會在
-    下一次與通訊端互動時（例如等待、接收或傳送資料時），
-    才會偵測到連線已中斷。
+此選項依賴 Linux、macOS、illumos，
+以及 BSD 家族作業系統所提供的核心事件，
+目前在其他系統上無法使用。
 
-    若要讓核心本身在所有情境（包括網路故障）下，
-    都能在已知的時間範圍內可靠地偵測到 TCP 連線遺失，
-    可能也需要調整作業系統的 TCP keepalive 設定，
-    或是 PostgreSQL 的
-    [tcp_keepalives_idle](runtime-config-connection.md#GUC-TCP-KEEPALIVES-IDLE)、
-    [tcp_keepalives_interval](runtime-config-connection.md#GUC-TCP-KEEPALIVES-INTERVAL) 與
-    [tcp_keepalives_count](runtime-config-connection.md#GUC-TCP-KEEPALIVES-COUNT) 設定。
+若此值指定時未帶單位，則以毫秒為單位。
+預設值為 `0`，代表停用連線
+檢查。若不進行連線檢查，伺服器只會在
+下一次與通訊端互動時（例如等待、接收或傳送資料時），
+才會偵測到連線已中斷。
+
+若要讓核心本身在所有情境（包括網路故障）下，
+都能在已知的時間範圍內可靠地偵測到 TCP 連線遺失，
+可能也需要調整作業系統的 TCP keepalive 設定，
+或是 PostgreSQL 的
+[tcp_keepalives_idle](runtime-config-connection.md#GUC-TCP-KEEPALIVES-IDLE)、
+[tcp_keepalives_interval](runtime-config-connection.md#GUC-TCP-KEEPALIVES-INTERVAL) 與
+[tcp_keepalives_count](runtime-config-connection.md#GUC-TCP-KEEPALIVES-COUNT) 設定。
 
 <a id="RUNTIME-CONFIG-CONNECTION-AUTHENTICATION"></a>
 
@@ -529,27 +533,28 @@ OpenSSL 版本的實際詳細內容。請注意，
 <a id="GUC-SSL-GROUPS"></a>
 
 `ssl_groups` (`string`) <a id="id-1.6.6.6.5.3.10.1.3"></a> [#](#GUC-SSL-GROUPS)
-:   指定用於 TLS 金鑰交換的具名群組。
-    所有連線的用戶端都必須支援此群組。
-    可以使用以冒號分隔的清單指定多個群組。
-    此值不需要與伺服器憑證所使用的金鑰類型相符。
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令列上設定。
-    預設值為 `X25519:prime256v1`。
 
-    最常見群組的
-    OpenSSL 名稱為：
-    `prime256v1`（NIST P-256）、
-    `secp384r1`（NIST P-384）、
-    `secp521r1`（NIST P-521）。
-    可以使用命令
-    `openssl ecparam -list_curves` 顯示不完整的可用群組清單。
-    不過並非所有群組都能搭配 TLS 使用，
-    也省略了許多受支援的群組名稱與別名。
+指定用於 TLS 金鑰交換的具名群組。
+所有連線的用戶端都必須支援此群組。
+可以使用以冒號分隔的清單指定多個群組。
+此值不需要與伺服器憑證所使用的金鑰類型相符。
+此參數只能在
+`postgresql.conf` 檔案中或伺服器命令列上設定。
+預設值為 `X25519:prime256v1`。
 
-    在 18.0 之前的 PostgreSQL 版本中，
-    此設定名為 `ssl_ecdh_curve`，且只接受
-    單一值。
+最常見群組的
+OpenSSL 名稱為：
+`prime256v1`（NIST P-256）、
+`secp384r1`（NIST P-384）、
+`secp521r1`（NIST P-521）。
+可以使用命令
+`openssl ecparam -list_curves` 顯示不完整的可用群組清單。
+不過並非所有群組都能搭配 TLS 使用，
+也省略了許多受支援的群組名稱與別名。
+
+在 18.0 之前的 PostgreSQL 版本中，
+此設定名為 `ssl_ecdh_curve`，且只接受
+單一值。
 <a id="GUC-SSL-MIN-PROTOCOL-VERSION"></a>
 
 `ssl_min_protocol_version` (`enum`) <a id="id-1.6.6.6.5.3.11.1.3"></a> [#](#GUC-SSL-MIN-PROTOCOL-VERSION)
@@ -583,16 +588,17 @@ TLS 1.0 之前的協定版本，也就是 SSL 2 版與
 <a id="GUC-SSL-DH-PARAMS-FILE"></a>
 
 `ssl_dh_params_file` (`string`) <a id="id-1.6.6.6.5.3.13.1.3"></a> [#](#GUC-SSL-DH-PARAMS-FILE)
-:   指定包含 Diffie-Hellman 參數的檔案名稱，
-    用於所謂的暫時性 DH（ephemeral DH）系列 SSL 密碼。預設值為
-    空，此時會使用編譯時內建的預設 DH 參數。使用
-    自訂 DH 參數，可以在攻擊者成功破解眾所周知的
-    內建 DH 參數時，降低曝險程度。你可以使用命令
-    `openssl dhparam -out dhparams.pem 2048`
-    建立自己的 DH 參數檔案。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+指定包含 Diffie-Hellman 參數的檔案名稱，
+用於所謂的暫時性 DH（ephemeral DH）系列 SSL 密碼。預設值為
+空，此時會使用編譯時內建的預設 DH 參數。使用
+自訂 DH 參數，可以在攻擊者成功破解眾所周知的
+內建 DH 參數時，降低曝險程度。你可以使用命令
+`openssl dhparam -out dhparams.pem 2048`
+建立自己的 DH 參數檔案。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-SSL-PASSPHRASE-COMMAND"></a>
 
 `ssl_passphrase_command` (`string`) <a id="id-1.6.6.6.5.3.14.1.3"></a> [#](#GUC-SSL-PASSPHRASE-COMMAND)

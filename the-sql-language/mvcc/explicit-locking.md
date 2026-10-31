@@ -53,9 +53,10 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
 由 `VACUUM`（不含 `FULL`）、`ANALYZE`、`CREATE INDEX CONCURRENTLY`、`CREATE STATISTICS`、`COMMENT ON`、`REINDEX CONCURRENTLY`，以及某些 [`ALTER INDEX`](../../reference/sql-commands/sql-alterindex.md) 與 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 的變化形式取得（完整細節請參閱這些命令的說明文件）。
 
 `SHARE` (`ShareLock`)
-:   與 `ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的資料變更。
 
-    由 `CREATE INDEX`（不含 `CONCURRENTLY`）取得。
+與 `ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式可以保護資料表，避免並行的資料變更。
+
+由 `CREATE INDEX`（不含 `CONCURRENTLY`）取得。
 
 `SHARE ROW EXCLUSIVE` (`ShareRowExclusiveLock`)
 
@@ -64,9 +65,10 @@ PostgreSQL 提供了多種鎖定模式，用來控制對資料表中資料的並
 由 `CREATE TRIGGER` 以及某些形式的 [`ALTER TABLE`](../../reference/sql-commands/sql-altertable.md) 取得。
 
 `EXCLUSIVE` (`ExclusiveLock`)
-:   與 `ROW SHARE`、`ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式只允許並行的 `ACCESS SHARE` 鎖定，也就是說，在交易持有這種鎖定模式時，只有對該資料表的讀取可以同時進行。
 
-    由 `REFRESH MATERIALIZED VIEW CONCURRENTLY` 取得。
+與 `ROW SHARE`、`ROW EXCLUSIVE`、`SHARE UPDATE EXCLUSIVE`、`SHARE`、`SHARE ROW EXCLUSIVE`、`EXCLUSIVE` 及 `ACCESS EXCLUSIVE` 鎖定模式衝突。這種模式只允許並行的 `ACCESS SHARE` 鎖定，也就是說，在交易持有這種鎖定模式時，只有對該資料表的讀取可以同時進行。
+
+由 `REFRESH MATERIALIZED VIEW CONCURRENTLY` 取得。
 
 `ACCESS EXCLUSIVE` (`AccessExclusiveLock`)
 

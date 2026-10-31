@@ -99,19 +99,20 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 <a id="APP-PSQL-OPTION-FILE"></a>
 
 `-f filename`<br>`--file=filename` [#](#APP-PSQL-OPTION-FILE)
-:   從檔案 *`filename`* 讀取命令，而不是從標準輸入讀取。
-    此選項可以重複使用，並可與 `-c` 選項以任意順序組合。指定了 `-c`
-    或 `-f` 其中之一時，psql
-    不會從標準輸入讀取命令；而是依序處理完所有 `-c` 與 `-f`
-    選項後結束。
-    除此之外，此選項大致等同於中繼命令 `\i`。
 
-    若 *`filename`* 為 `-`
-    （連字號），則會讀取標準輸入，直到遇到 EOF 標示或 `\q` 中繼命令為止。這可以用來將互動式輸入與來自檔案的輸入穿插使用。不過請注意，這種情況下不會使用 Readline（就如同指定了 `-n` 一樣）。
+從檔案 *`filename`* 讀取命令，而不是從標準輸入讀取。
+此選項可以重複使用，並可與 `-c` 選項以任意順序組合。指定了 `-c`
+或 `-f` 其中之一時，psql
+不會從標準輸入讀取命令；而是依序處理完所有 `-c` 與 `-f`
+選項後結束。
+除此之外，此選項大致等同於中繼命令 `\i`。
 
-    使用此選項與寫成 `psql
-    < filename` 有些微妙的差異。一般來說，兩者都會如你預期般運作，但使用 `-f`
-    可以啟用一些好用的功能，例如附有行號的錯誤訊息。使用此選項也有些微可能降低啟動的負擔。另一方面，使用 shell 輸入重新導向的寫法（理論上）保證產生的輸出會與你全部以手動輸入時得到的輸出完全相同。
+若 *`filename`* 為 `-`
+（連字號），則會讀取標準輸入，直到遇到 EOF 標示或 `\q` 中繼命令為止。這可以用來將互動式輸入與來自檔案的輸入穿插使用。不過請注意，這種情況下不會使用 Readline（就如同指定了 `-n` 一樣）。
+
+使用此選項與寫成 `psql
+< filename` 有些微妙的差異。一般來說，兩者都會如你預期般運作，但使用 `-f`
+可以啟用一些好用的功能，例如附有行號的錯誤訊息。使用此選項也有些微可能降低啟動的負擔。另一方面，使用 shell 輸入重新導向的寫法（理論上）保證產生的輸出會與你全部以手動輸入時得到的輸出完全相同。
 <a id="APP-PSQL-OPTION-FIELD-SEPARATOR"></a>
 
 `-F separator`<br>`--field-separator=separator` [#](#APP-PSQL-OPTION-FIELD-SEPARATOR)
@@ -129,10 +130,11 @@ psql 是 PostgreSQL 的終端機式前端程式。它讓你能以互動方式輸
 <a id="APP-PSQL-OPTION-LIST"></a>
 
 `-l`<br>`--list` [#](#APP-PSQL-OPTION-LIST)
-:   列出所有可用的資料庫，然後結束。其他非連線相關的選項會被忽略。這類似於中繼命令
-    `\list`。
 
-    使用此選項時，psql 會連線到資料庫 `postgres`，除非在命令列上指定了其他資料庫（以選項 `-d` 或非選項引數指定，也可以透過服務項目指定，但不能透過環境變數指定）。
+列出所有可用的資料庫，然後結束。其他非連線相關的選項會被忽略。這類似於中繼命令
+`\list`。
+
+使用此選項時，psql 會連線到資料庫 `postgres`，除非在命令列上指定了其他資料庫（以選項 `-d` 或非選項引數指定，也可以透過服務項目指定，但不能透過環境變數指定）。
 <a id="APP-PSQL-OPTION-LOG-FILE"></a>
 
 `-L filename`<br>`--log-file=filename` [#](#APP-PSQL-OPTION-LOG-FILE)
@@ -542,33 +544,34 @@ psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMANDS-CROSSTABVIEW"></a>
 
 `\crosstabview [ colV [ colH [ colD [ sortcolH ] ] ] ]` [#](#APP-PSQL-META-COMMANDS-CROSSTABVIEW)
-:   執行目前的查詢緩衝區（如同 `\g`），並以交叉表格格線顯示結果。
-    查詢必須傳回至少三個欄位。
-    由 *`colV`* 識別的輸出欄位會成為垂直標頭，而由
-    *`colH`*
-    識別的輸出欄位會成為水平標頭。
-    *`colD`* 識別要在格線中顯示的輸出欄位。
-    *`sortcolH`* 識別水平標頭的選擇性排序欄位。
 
-    每個欄位規格可以是欄位編號（從 1 開始）或欄位名稱。欄位名稱適用一般的 SQL 大小寫轉換與引號規則。若省略，
-    *`colV`* 視為第 1 欄，
-    而 *`colH`* 視為第 2 欄。
-    *`colH`* 必須與
-    *`colV`* 不同。
-    若未指定 *`colD`*，則查詢結果中必須恰好有三個欄位，而既不是
-    *`colV`* 也不是
-    *`colH`*
-    的那個欄位會被視為 *`colD`*。
+執行目前的查詢緩衝區（如同 `\g`），並以交叉表格格線顯示結果。
+查詢必須傳回至少三個欄位。
+由 *`colV`* 識別的輸出欄位會成為垂直標頭，而由
+*`colH`*
+識別的輸出欄位會成為水平標頭。
+*`colD`* 識別要在格線中顯示的輸出欄位。
+*`sortcolH`* 識別水平標頭的選擇性排序欄位。
 
-    垂直標頭顯示為最左邊的欄位，包含在欄位 *`colV`* 中找到的值，順序與查詢結果中的順序相同，但會移除重複值。
+每個欄位規格可以是欄位編號（從 1 開始）或欄位名稱。欄位名稱適用一般的 SQL 大小寫轉換與引號規則。若省略，
+*`colV`* 視為第 1 欄，
+而 *`colH`* 視為第 2 欄。
+*`colH`* 必須與
+*`colV`* 不同。
+若未指定 *`colD`*，則查詢結果中必須恰好有三個欄位，而既不是
+*`colV`* 也不是
+*`colH`*
+的那個欄位會被視為 *`colD`*。
 
-    水平標頭顯示為第一個資料列，包含在欄位 *`colH`* 中找到的值，並移除重複值。預設情況下，這些值的出現順序與查詢結果中的順序相同。但若提供了選擇性的 *`sortcolH`* 引數，它會識別一個值必須為整數的欄位，而來自 *`colH`* 的值會依照對應的 *`sortcolH`* 值排序後顯示在水平標頭中。
+垂直標頭顯示為最左邊的欄位，包含在欄位 *`colV`* 中找到的值，順序與查詢結果中的順序相同，但會移除重複值。
 
-    在交叉表格格線中，對於 *`colH`* 的每個相異值 `x`
-    以及 *`colV`* 的每個相異值 `y`，位於交點 `(x,y)` 的儲存格包含查詢結果中，*`colH`*
-    的值為 `x` 且
-    *`colV`*
-    的值為 `y` 的那個資料列的 `colD` 欄位值。若沒有這樣的資料列，該儲存格為空。若有多個這樣的資料列，則會回報錯誤。
+水平標頭顯示為第一個資料列，包含在欄位 *`colH`* 中找到的值，並移除重複值。預設情況下，這些值的出現順序與查詢結果中的順序相同。但若提供了選擇性的 *`sortcolH`* 引數，它會識別一個值必須為整數的欄位，而來自 *`colH`* 的值會依照對應的 *`sortcolH`* 值排序後顯示在水平標頭中。
+
+在交叉表格格線中，對於 *`colH`* 的每個相異值 `x`
+以及 *`colV`* 的每個相異值 `y`，位於交點 `(x,y)` 的儲存格包含查詢結果中，*`colH`*
+的值為 `x` 且
+*`colV`*
+的值為 `y` 的那個資料列的 `colD` 欄位值。若沒有這樣的資料列，該儲存格為空。若有多個這樣的資料列，則會回報錯誤。
 <a id="APP-PSQL-META-COMMAND-D"></a>
 
 `\d[Sx+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-D)
@@ -695,17 +698,18 @@ identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設
 <a id="APP-PSQL-META-COMMAND-DD-LC"></a>
 
 `\dd[Sx] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DD-LC)
-:   顯示型別為 `constraint`、
-    `operator class`、`operator family`、
-    `rule` 與 `trigger` 之物件的描述。所有其他註解可以透過這些物件型別各自的反斜線命令查看。
 
-    `\dd` 會顯示符合
-    *`pattern`* 之物件的描述；若未提供引數，則顯示適當型別之可見物件的描述。但無論哪種情況，都只會列出有描述的物件。
-    預設情況下，只會顯示使用者建立的物件；若要包含系統物件，請提供模式或 `S` 修飾字。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
+顯示型別為 `constraint`、
+`operator class`、`operator family`、
+`rule` 與 `trigger` 之物件的描述。所有其他註解可以透過這些物件型別各自的反斜線命令查看。
 
-    物件的描述可以用 [`COMMENT`](../sql-commands/sql-comment.md)
-    SQL 命令建立。
+`\dd` 會顯示符合
+*`pattern`* 之物件的描述；若未提供引數，則顯示適當型別之可見物件的描述。但無論哪種情況，都只會列出有描述的物件。
+預設情況下，只會顯示使用者建立的物件；若要包含系統物件，請提供模式或 `S` 修飾字。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+
+物件的描述可以用 [`COMMENT`](../sql-commands/sql-comment.md)
+SQL 命令建立。
 <a id="APP-PSQL-META-COMMAND-DD-UC"></a>
 
 `\dD[Sx+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DD-UC)
@@ -717,14 +721,15 @@ identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設
 <a id="APP-PSQL-META-COMMAND-DDP"></a>
 
 `\ddp[x] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DDP)
-:   列出預設存取權限設定。對於每個預設權限設定已從內建預設值變更過的角色（以及綱要，若適用的話），都會顯示一個項目。
-    若指定了 *`pattern`*，
-    則只列出角色名稱或綱要名稱符合該模式的項目。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
 
-    [`ALTER DEFAULT
-    PRIVILEGES`](../sql-commands/sql-alterdefaultprivileges.md) 命令用來設定預設存取權限。權限顯示的意義說明於
-    [第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)。
+列出預設存取權限設定。對於每個預設權限設定已從內建預設值變更過的角色（以及綱要，若適用的話），都會顯示一個項目。
+若指定了 *`pattern`*，
+則只列出角色名稱或綱要名稱符合該模式的項目。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+
+[`ALTER DEFAULT
+PRIVILEGES`](../sql-commands/sql-alterdefaultprivileges.md) 命令用來設定預設存取權限。權限顯示的意義說明於
+[第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)。
 <a id="APP-PSQL-META-COMMAND-DE"></a>
 
 `\dE[Sx+] [ pattern ]`<br>`\di[Sx+] [ pattern ]`<br>`\dm[Sx+] [ pattern ]`<br>`\ds[Sx+] [ pattern ]`<br>`\dt[Sx+] [ pattern ]`<br>`\dv[Sx+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DE)
@@ -886,15 +891,16 @@ users」）。
 <a id="APP-PSQL-META-COMMAND-DP-LC"></a>
 
 `\dp[Sx] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DP-LC)
-:   列出資料表、檢視表與序列，以及它們相關聯的存取權限。
-    若指定了 *`pattern`*，
-    則只列出名稱符合該模式的資料表、檢視表與序列。預設情況下，只會顯示使用者建立的物件；若要包含系統物件，請提供模式或 `S` 修飾字。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
 
-    [`GRANT`](../sql-commands/sql-grant.md) 與
-    [`REVOKE`](../sql-commands/sql-revoke.md)
-    命令用來設定存取權限。權限顯示的意義說明於
-    [第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)。
+列出資料表、檢視表與序列，以及它們相關聯的存取權限。
+若指定了 *`pattern`*，
+則只列出名稱符合該模式的資料表、檢視表與序列。預設情況下，只會顯示使用者建立的物件；若要包含系統物件，請提供模式或 `S` 修飾字。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+
+[`GRANT`](../sql-commands/sql-grant.md) 與
+[`REVOKE`](../sql-commands/sql-revoke.md)
+命令用來設定存取權限。權限顯示的意義說明於
+[第 5.8 節](../../the-sql-language/ddl/ddl-priv.md)。
 <a id="APP-PSQL-META-COMMAND-DP-UC"></a>
 
 `\dP[itnx+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DP-UC)
@@ -913,15 +919,16 @@ users」）。
 <a id="APP-PSQL-META-COMMAND-DRDS"></a>
 
 `\drds[x] [ role-pattern [ database-pattern ] ]` [#](#APP-PSQL-META-COMMAND-DRDS)
-:   列出已定義的組態設定。這些設定可以是角色專屬、資料庫專屬，或兩者皆是。
-    *`role-pattern`* 與
-    *`database-pattern`* 分別用來選擇要列出的特定角色與資料庫。若省略，或指定了
-    `*`，則會列出所有設定，包括分別不屬於特定角色或特定資料庫的設定。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
 
-    [`ALTER ROLE`](../sql-commands/sql-alterrole.md) 與
-    [`ALTER DATABASE`](../sql-commands/sql-alterdatabase.md)
-    命令用來定義各角色與各資料庫的組態設定。
+列出已定義的組態設定。這些設定可以是角色專屬、資料庫專屬，或兩者皆是。
+*`role-pattern`* 與
+*`database-pattern`* 分別用來選擇要列出的特定角色與資料庫。若省略，或指定了
+`*`，則會列出所有設定，包括分別不屬於特定角色或特定資料庫的設定。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+
+[`ALTER ROLE`](../sql-commands/sql-alterrole.md) 與
+[`ALTER DATABASE`](../sql-commands/sql-alterdatabase.md)
+命令用來定義各角色與各資料庫的組態設定。
 
 <a id="APP-PSQL-META-COMMAND-DRG"></a>
 
@@ -2346,35 +2353,36 @@ vi 等編輯器，這是一個加號。如果選項名稱與行號之間需要�
 <a id="APP-PSQL-FILES-PSQLRC"></a>
 
 `psqlrc` 與 `~/.psqlrc` [#](#APP-PSQL-FILES-PSQLRC)
-:   除非傳入 `-X` 選項，否則
-    psql 會在連線到資料庫之後、接受一般命令之前，嘗試讀取並執行系統層級啟動檔案（`psqlrc`）中的命令，接著是使用者個人啟動檔案（`~/.psqlrc`）中的命令。
-    這些檔案可以用來依個人喜好設定用戶端和／或伺服器，
-    通常是使用 `\set` 與 `SET`
-    命令。
 
-    系統層級啟動檔案的名稱為 `psqlrc`。
-    預設情況下，會在安裝環境的「系統設定」目錄中尋找它，
-    而最可靠的確認方式是執行 `pg_config
-    --sysconfdir`。
-    此目錄通常是相對於
-    PostgreSQL 執行檔所在目錄的 `../etc/`。
-    要尋找的目錄可以透過
-    `PGSYSCONFDIR` 環境變數明確設定。
+除非傳入 `-X` 選項，否則
+psql 會在連線到資料庫之後、接受一般命令之前，嘗試讀取並執行系統層級啟動檔案（`psqlrc`）中的命令，接著是使用者個人啟動檔案（`~/.psqlrc`）中的命令。
+這些檔案可以用來依個人喜好設定用戶端和／或伺服器，
+通常是使用 `\set` 與 `SET`
+命令。
 
-    使用者個人啟動檔案的名稱為 `.psqlrc`，
-    會在叫用者的家目錄中尋找。
-    在 Windows 上，個人啟動檔案則改名為
-    `%APPDATA%\postgresql\psqlrc.conf`。
-    無論哪種情況，都可以藉由設定
-    `PSQLRC` 環境變數來覆寫此預設檔案路徑。
+系統層級啟動檔案的名稱為 `psqlrc`。
+預設情況下，會在安裝環境的「系統設定」目錄中尋找它，
+而最可靠的確認方式是執行 `pg_config
+--sysconfdir`。
+此目錄通常是相對於
+PostgreSQL 執行檔所在目錄的 `../etc/`。
+要尋找的目錄可以透過
+`PGSYSCONFDIR` 環境變數明確設定。
 
-    系統層級啟動檔案與使用者個人啟動檔案，
-    都可以藉由在檔案名稱後加上一個連字號與 PostgreSQL
-    主要或次要版本識別碼，使其專屬於特定 psql 版本，
-    例如 `~/.psqlrc-18` 或
-    `~/.psqlrc-18.6`。
-    版本最相符的檔案會優先於不分版本的檔案被讀取。
-    這些版本後綴是在依上述方式決定檔案路徑之後才加上的。
+使用者個人啟動檔案的名稱為 `.psqlrc`，
+會在叫用者的家目錄中尋找。
+在 Windows 上，個人啟動檔案則改名為
+`%APPDATA%\postgresql\psqlrc.conf`。
+無論哪種情況，都可以藉由設定
+`PSQLRC` 環境變數來覆寫此預設檔案路徑。
+
+系統層級啟動檔案與使用者個人啟動檔案，
+都可以藉由在檔案名稱後加上一個連字號與 PostgreSQL
+主要或次要版本識別碼，使其專屬於特定 psql 版本，
+例如 `~/.psqlrc-18` 或
+`~/.psqlrc-18.6`。
+版本最相符的檔案會優先於不分版本的檔案被讀取。
+這些版本後綴是在依上述方式決定檔案路徑之後才加上的。
 <a id="APP-PSQL-FILES-PSQL-HISTORY"></a>
 
 `.psql_history` [#](#APP-PSQL-FILES-PSQL-HISTORY)

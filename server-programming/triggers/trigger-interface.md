@@ -180,18 +180,19 @@ TRIGGER` 陳述式中所指定引數的指標。其餘成員僅供
     `NEW TABLE` 轉換關聯，則為 `NULL` 指標。
 
 `tg_updatedcols`
-:   對於 `UPDATE` 觸發程序，這是一個位元映射集合，指出
-    觸發此命令所更新的欄位。通用的觸發程序函式可利用此資訊來最佳化動作，不必處理
-    未變更的欄位。
 
-    舉例來說，若要判斷屬性編號（1 起始）為
-    `attnum` 的欄位是否為此位元映射集合的成員，
-    可呼叫 `bms_is_member(attnum -
-    FirstLowInvalidHeapAttributeNumber,
-    trigdata->tg_updatedcols))`。
+對於 `UPDATE` 觸發程序，這是一個位元映射集合，指出
+觸發此命令所更新的欄位。通用的觸發程序函式可利用此資訊來最佳化動作，不必處理
+未變更的欄位。
 
-    對於非 `UPDATE` 觸發程序而言，此值將
-    為 `NULL`。
+舉例來說，若要判斷屬性編號（1 起始）為
+`attnum` 的欄位是否為此位元映射集合的成員，
+可呼叫 `bms_is_member(attnum -
+FirstLowInvalidHeapAttributeNumber,
+trigdata->tg_updatedcols))`。
+
+對於非 `UPDATE` 觸發程序而言，此值將
+為 `NULL`。
 
 若要讓透過 SPI 發出的查詢能夠參照轉換資料表，請見
 [SPI_register_trigger_data](../spi/spi-spi-register-trigger-data.md)。

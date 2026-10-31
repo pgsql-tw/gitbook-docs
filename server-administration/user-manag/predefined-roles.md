@@ -63,29 +63,30 @@ GRANT pg_signal_backend TO admin_user;
 <a id="PREDEFINED-ROLE-PG-MONITOR"></a>
 
 `pg_monitor`<br>`pg_read_all_settings`<br>`pg_read_all_stats`<br>`pg_stat_scan_tables` [#](#PREDEFINED-ROLE-PG-MONITOR)
-:   這些角色的目的，是讓管理者能夠輕鬆地設定一個角色，
-    用於監控資料庫伺服器。它們會授予一組常見的權限，
-    讓該角色能夠讀取各種實用的組態設定、統計資訊，
-    以及通常僅限超級使用者存取的其他系統資訊。
 
-    `pg_monitor` 允許讀取／執行各種
-    監控用的檢視表與函式。此角色是
-    `pg_read_all_settings`、
-    `pg_read_all_stats` 與
-    `pg_stat_scan_tables` 的成員。
+這些角色的目的，是讓管理者能夠輕鬆地設定一個角色，
+用於監控資料庫伺服器。它們會授予一組常見的權限，
+讓該角色能夠讀取各種實用的組態設定、統計資訊，
+以及通常僅限超級使用者存取的其他系統資訊。
 
-    `pg_read_all_settings` 允許讀取所有組態變數，
-    即使是通常僅超級使用者可見的變數也不例外。
+`pg_monitor` 允許讀取／執行各種
+監控用的檢視表與函式。此角色是
+`pg_read_all_settings`、
+`pg_read_all_stats` 與
+`pg_stat_scan_tables` 的成員。
 
-    `pg_read_all_stats` 允許讀取所有 pg_stat_\* 檢視表，
-    並使用各種與統計資訊相關的擴充功能，
-    即使是通常僅超級使用者可見的項目也不例外。
+`pg_read_all_settings` 允許讀取所有組態變數，
+即使是通常僅超級使用者可見的變數也不例外。
 
-    `pg_stat_scan_tables` 允許執行可能會對資料表
-    取得 `ACCESS SHARE` 鎖定的監控函式，
-    這類鎖定有時可能會持續相當長的時間
-    （例如 [pgrowlocks](../../appendixes/contrib/pgrowlocks.md)
-    擴充功能中的 `pgrowlocks(text)`）。
+`pg_read_all_stats` 允許讀取所有 pg_stat_\* 檢視表，
+並使用各種與統計資訊相關的擴充功能，
+即使是通常僅超級使用者可見的項目也不例外。
+
+`pg_stat_scan_tables` 允許執行可能會對資料表
+取得 `ACCESS SHARE` 鎖定的監控函式，
+這類鎖定有時可能會持續相當長的時間
+（例如 [pgrowlocks](../../appendixes/contrib/pgrowlocks.md)
+擴充功能中的 `pgrowlocks(text)`）。
 <a id="PREDEFINED-ROLE-PG-READ-ALL-DATA"></a>
 
 `pg_read_all_data`<br>`pg_write_all_data` [#](#PREDEFINED-ROLE-PG-READ-ALL-DATA)

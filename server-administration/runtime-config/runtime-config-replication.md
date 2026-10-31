@@ -128,29 +128,30 @@ PostgreSQL 發行版中所含的兩個邏輯輸出外掛程式。
 <a id="GUC-WAL-KEEP-SIZE"></a>
 
 `wal_keep_size` (`integer`) <a id="id-1.6.6.9.5.3.4.1.3"></a> [#](#GUC-WAL-KEEP-SIZE)
-:   指定
-    `pg_wal`
-    目錄中保留的過往 WAL 檔案最小大小，
-    以備 standby 伺服器需要擷取這些檔案以進行串流
-    複寫。如果連線到傳送端伺服器的 standby
-    伺服器落後超過
-    `wal_keep_size` 百萬位元組，傳送端伺服器可能會
-    移除該 standby 仍然需要的 WAL 區段，此時
-    複寫連線就會被終止。下游連線
-    最終也會因此失敗。（不過，如果有使用 WAL
-    歸檔，standby 伺服器可以透過從歸檔中擷取該區段來復原。）
 
-    此參數僅設定
-    `pg_wal` 中保留區段的最小大小；系統可能需要為 WAL
-    歸檔或從檢查點復原而保留更多區段。若
-    `wal_keep_size` 為零（預設值），系統
-    不會為 standby 保留任何額外區段，因此
-    standby 伺服器可用的舊 WAL 區段數量，取決於
-    先前檢查點的位置以及 WAL 歸檔的
-    狀態。
-    若此值指定時未帶單位，則以百萬位元組為單位。
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令列上設定。
+指定
+`pg_wal`
+目錄中保留的過往 WAL 檔案最小大小，
+以備 standby 伺服器需要擷取這些檔案以進行串流
+複寫。如果連線到傳送端伺服器的 standby
+伺服器落後超過
+`wal_keep_size` 百萬位元組，傳送端伺服器可能會
+移除該 standby 仍然需要的 WAL 區段，此時
+複寫連線就會被終止。下游連線
+最終也會因此失敗。（不過，如果有使用 WAL
+歸檔，standby 伺服器可以透過從歸檔中擷取該區段來復原。）
+
+此參數僅設定
+`pg_wal` 中保留區段的最小大小；系統可能需要為 WAL
+歸檔或從檢查點復原而保留更多區段。若
+`wal_keep_size` 為零（預設值），系統
+不會為 standby 保留任何額外區段，因此
+standby 伺服器可用的舊 WAL 區段數量，取決於
+先前檢查點的位置以及 WAL 歸檔的
+狀態。
+若此值指定時未帶單位，則以百萬位元組為單位。
+此參數只能在
+`postgresql.conf` 檔案中或伺服器命令列上設定。
 <a id="GUC-MAX-SLOT-WAL-KEEP-SIZE"></a>
 
 `max_slot_wal_keep_size` (`integer`) <a id="id-1.6.6.9.5.3.5.1.3"></a> [#](#GUC-MAX-SLOT-WAL-KEEP-SIZE)
@@ -170,33 +171,34 @@ PostgreSQL 發行版中所含的兩個邏輯輸出外掛程式。
 <a id="GUC-IDLE-REPLICATION-SLOT-TIMEOUT"></a>
 
 `idle_replication_slot_timeout` (`integer`) <a id="id-1.6.6.9.5.3.6.1.3"></a> [#](#GUC-IDLE-REPLICATION-SLOT-TIMEOUT)
-:   將閒置超過此時間長度（未被
-    [複寫連線](../../internals/protocol/protocol-replication.md)使用）的複寫插槽
-    設為無效。
-    若此值指定時未帶單位，則以秒為單位。
-    值為零（預設值）代表停用閒置逾時
-    失效機制。此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定。
 
-    因閒置逾時而失效的插槽，是在檢查點期間發生的。
-    由於檢查點是以
-    `checkpoint_timeout` 間隔發生的，
-    `idle_replication_slot_timeout` 被超過的時間點，
-    與插槽在下一次檢查點被觸發失效的時間點之間，
-    可能存在一些延遲。
-    為避免這類延遲，使用者可以強制執行檢查點，
-    以立即使閒置的插槽失效。插槽閒置時間長度的計算，
-    是使用插槽的 [pg_replication_slots](../../internals/views/view-pg-replication-slots.md).`inactive_since`
-    值。
+將閒置超過此時間長度（未被
+[複寫連線](../../internals/protocol/protocol-replication.md)使用）的複寫插槽
+設為無效。
+若此值指定時未帶單位，則以秒為單位。
+值為零（預設值）代表停用閒置逾時
+失效機制。此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定。
 
-    請注意，閒置逾時失效機制不適用於未保留 WAL 的
-    插槽，也不適用於 standby 伺服器上正從 primary
-    伺服器同步的插槽（也就是
-    [pg_replication_slots](../../internals/views/view-pg-replication-slots.md).`synced`
-    值為 `true` 的 standby 插槽）。已同步的插槽
-    永遠被視為閒置，因為它們並不執行邏輯解碼
-    以產生變更。
+因閒置逾時而失效的插槽，是在檢查點期間發生的。
+由於檢查點是以
+`checkpoint_timeout` 間隔發生的，
+`idle_replication_slot_timeout` 被超過的時間點，
+與插槽在下一次檢查點被觸發失效的時間點之間，
+可能存在一些延遲。
+為避免這類延遲，使用者可以強制執行檢查點，
+以立即使閒置的插槽失效。插槽閒置時間長度的計算，
+是使用插槽的 [pg_replication_slots](../../internals/views/view-pg-replication-slots.md).`inactive_since`
+值。
+
+請注意，閒置逾時失效機制不適用於未保留 WAL 的
+插槽，也不適用於 standby 伺服器上正從 primary
+伺服器同步的插槽（也就是
+[pg_replication_slots](../../internals/views/view-pg-replication-slots.md).`synced`
+值為 `true` 的 standby 插槽）。已同步的插槽
+永遠被視為閒置，因為它們並不執行邏輯解碼
+以產生變更。
 <a id="GUC-WAL-SENDER-TIMEOUT"></a>
 
 `wal_sender_timeout` (`integer`) <a id="id-1.6.6.9.5.3.7.1.3"></a> [#](#GUC-WAL-SENDER-TIMEOUT)
@@ -350,29 +352,30 @@ standby 為止。舉例來說，設為
 <a id="GUC-SYNCHRONIZED-STANDBY-SLOTS"></a>
 
 `synchronized_standby_slots` (`string`) <a id="id-1.6.6.9.6.3.2.1.3"></a> [#](#GUC-SYNCHRONIZED-STANDBY-SLOTS)
-:   一份以逗號分隔的串流複寫 standby 伺服器插槽名稱清單，
-    邏輯 WAL 傳送程序會等待這些插槽。只有在指定的
-    複寫插槽確認收到 WAL 之後，邏輯 WAL 傳送程序才會將
-    解碼後的變更傳送給外掛程式。這可確保邏輯複寫
-    容錯移轉（failover）插槽，不會在對應實體 standby
-    收到並刷寫這些變更之前，就先消耗這些變更。如果
-    邏輯複寫連線預定在 standby 被提升後，切換到
-    該實體 standby，則應在此處列出該 standby 的
-    實體複寫插槽。請注意，若
-    `synchronized_standby_slots` 中指定的插槽
-    不存在或已失效，邏輯複寫將無法繼續進行。
-    此外，複寫管理函式
-    [`pg_replication_slot_advance`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-SLOT-ADVANCE)、
-    [`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-CHANGES) 與
-    [`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-PEEK-CHANGES)，
-    在搭配邏輯容錯移轉插槽使用時，會阻塞，
-    直到 `synchronized_standby_slots` 中指定的所有
-    實體插槽都確認收到 WAL 為止。
 
-    對應 `synchronized_standby_slots` 中實體複寫插槽的
-    standby，必須設定
-    `sync_replication_slots = true`，才能從
-    primary 接收邏輯容錯移轉插槽的變更。
+一份以逗號分隔的串流複寫 standby 伺服器插槽名稱清單，
+邏輯 WAL 傳送程序會等待這些插槽。只有在指定的
+複寫插槽確認收到 WAL 之後，邏輯 WAL 傳送程序才會將
+解碼後的變更傳送給外掛程式。這可確保邏輯複寫
+容錯移轉（failover）插槽，不會在對應實體 standby
+收到並刷寫這些變更之前，就先消耗這些變更。如果
+邏輯複寫連線預定在 standby 被提升後，切換到
+該實體 standby，則應在此處列出該 standby 的
+實體複寫插槽。請注意，若
+`synchronized_standby_slots` 中指定的插槽
+不存在或已失效，邏輯複寫將無法繼續進行。
+此外，複寫管理函式
+[`pg_replication_slot_advance`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-SLOT-ADVANCE)、
+[`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-CHANGES) 與
+[`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-PEEK-CHANGES)，
+在搭配邏輯容錯移轉插槽使用時，會阻塞，
+直到 `synchronized_standby_slots` 中指定的所有
+實體插槽都確認收到 WAL 為止。
+
+對應 `synchronized_standby_slots` 中實體複寫插槽的
+standby，必須設定
+`sync_replication_slots = true`，才能從
+primary 接收邏輯容錯移轉插槽的變更。
 
 <a id="RUNTIME-CONFIG-REPLICATION-STANDBY"></a>
 
@@ -385,40 +388,41 @@ standby 為止。舉例來說，設為
 <a id="GUC-PRIMARY-CONNINFO"></a>
 
 `primary_conninfo` (`string`) <a id="id-1.6.6.9.7.3.1.1.3"></a> [#](#GUC-PRIMARY-CONNINFO)
-:   指定 standby 伺服器用來連線到傳送端伺服器的
-    連線字串。此字串的格式如
-    [32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)所述。若此字串中
-    未指定某個選項，則會檢查對應的環境
-    變數（參閱[32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。如果
-    也未設定該環境變數，則會使用
-    預設值。
 
-    此連線字串應指定傳送端伺服器的主機名稱
-    （或位址），以及埠號（若與 standby 伺服器的
-    預設值不同）。
-    也應指定傳送端伺服器上一個具備適當權限的角色所對應的
-    使用者名稱（參閱
-    [26.2.5.1 節](../high-availability/warm-standby.md#STREAMING-REPLICATION-AUTHENTICATION)）。
-    如果傳送端要求密碼驗證，也需要提供密碼。
-    密碼可以寫在
-    `primary_conninfo` 字串中，或寫在 standby 伺服器上
-    一個獨立的
-    `~/.pgpass` 檔案中（資料庫名稱請使用
-    `replication`）。
+指定 standby 伺服器用來連線到傳送端伺服器的
+連線字串。此字串的格式如
+[32.1.1 節](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)所述。若此字串中
+未指定某個選項，則會檢查對應的環境
+變數（參閱[32.15 節](../../client-interfaces/libpq/libpq-envars.md)）。如果
+也未設定該環境變數，則會使用
+預設值。
 
-    對於複寫插槽同步（參閱
-    [47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)），
-    也需要在 `primary_conninfo` 字串中指定
-    合法的 `dbname`。此值僅用於
-    插槽同步，串流時會被忽略。
+此連線字串應指定傳送端伺服器的主機名稱
+（或位址），以及埠號（若與 standby 伺服器的
+預設值不同）。
+也應指定傳送端伺服器上一個具備適當權限的角色所對應的
+使用者名稱（參閱
+[26.2.5.1 節](../high-availability/warm-standby.md#STREAMING-REPLICATION-AUTHENTICATION)）。
+如果傳送端要求密碼驗證，也需要提供密碼。
+密碼可以寫在
+`primary_conninfo` 字串中，或寫在 standby 伺服器上
+一個獨立的
+`~/.pgpass` 檔案中（資料庫名稱請使用
+`replication`）。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
-    如果 WAL 接收程序正在執行時變更了此參數，
-    該程序會收到訊號並關閉，預期會以新設定
-    重新啟動（除非
-    `primary_conninfo` 為空字串）。
-    如果伺服器不在 standby 模式，此設定沒有效果。
+對於複寫插槽同步（參閱
+[47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)），
+也需要在 `primary_conninfo` 字串中指定
+合法的 `dbname`。此值僅用於
+插槽同步，串流時會被忽略。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+如果 WAL 接收程序正在執行時變更了此參數，
+該程序會收到訊號並關閉，預期會以新設定
+重新啟動（除非
+`primary_conninfo` 為空字串）。
+如果伺服器不在 standby 模式，此設定沒有效果。
 <a id="GUC-PRIMARY-SLOT-NAME"></a>
 
 `primary_slot_name` (`string`) <a id="id-1.6.6.9.7.3.2.1.3"></a> [#](#GUC-PRIMARY-SLOT-NAME)

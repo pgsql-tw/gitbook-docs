@@ -41,13 +41,14 @@ autovacuum 程序，以防止交易 ID 回捲。詳情請參閱[24.1.5 節](../m
 <a id="GUC-AUTOVACUUM-WORKER-SLOTS"></a>
 
 `autovacuum_worker_slots` (`integer`) <a id="id-1.6.6.13.4.3.2.1.3"></a> [#](#GUC-AUTOVACUUM-WORKER-SLOTS)
-:   指定要保留給 autovacuum 工作程序的 backend 插槽（slot）數量。
-    預設值通常為 16 個插槽，但若你的核心設定無法支援
-    （由 initdb 期間判斷），則可能較少。
-    此參數只能在伺服器啟動時設定。
 
-    變更此值時，也請一併考慮調整
-    [autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS)。
+指定要保留給 autovacuum 工作程序的 backend 插槽（slot）數量。
+預設值通常為 16 個插槽，但若你的核心設定無法支援
+（由 initdb 期間判斷），則可能較少。
+此參數只能在伺服器啟動時設定。
+
+變更此值時，也請一併考慮調整
+[autovacuum_max_workers](runtime-config-vacuum.md#GUC-AUTOVACUUM-MAX-WORKERS)。
 <a id="GUC-AUTOVACUUM-MAX-WORKERS"></a>
 
 `autovacuum_max_workers` (`integer`) <a id="id-1.6.6.13.4.3.3.1.3"></a> [#](#GUC-AUTOVACUUM-MAX-WORKERS)
@@ -360,28 +361,29 @@ PostgreSQL 會將足夠舊的資料列標記為
 <a id="GUC-VACUUM-FAILSAFE-AGE"></a>
 
 `vacuum_failsafe_age` (`integer`) <a id="id-1.6.6.13.7.3.3.1.3"></a> [#](#GUC-VACUUM-FAILSAFE-AGE)
-:   指定資料表的
-    `pg_class`.`relfrozenxid`
-    欄位在 `VACUUM` 採取非常手段
-    以避免系統全域交易 ID 回捲失敗之前，
-    所能達到的最大年齡（以交易數計）。這是
-    `VACUUM` 的最後手段策略。當防止交易 ID 回捲的
-    autovacuum 已經執行了一段時間時，通常就會觸發
-    此故障保護機制，不過任何 `VACUUM` 期間
-    都有可能觸發此機制。
 
-    觸發故障保護機制時，任何原本生效中的
-    以成本為基礎的延遲都將不再套用，其他非必要的
-    維護作業（例如索引 vacuum）會被略過，任何正在使用的
-    [*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
-    都會被停用，使 `VACUUM` 可以
-    自由使用所有的
-    [*[共享緩衝區](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)*](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)。
+指定資料表的
+`pg_class`.`relfrozenxid`
+欄位在 `VACUUM` 採取非常手段
+以避免系統全域交易 ID 回捲失敗之前，
+所能達到的最大年齡（以交易數計）。這是
+`VACUUM` 的最後手段策略。當防止交易 ID 回捲的
+autovacuum 已經執行了一段時間時，通常就會觸發
+此故障保護機制，不過任何 `VACUUM` 期間
+都有可能觸發此機制。
 
-    預設值為十六億筆交易。雖然使用者可以
-    將此值設為零到二十一億之間的任何值，
-    `VACUUM` 會默默地將有效值調整為不低於
-    [autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE) 的 105%。
+觸發故障保護機制時，任何原本生效中的
+以成本為基礎的延遲都將不再套用，其他非必要的
+維護作業（例如索引 vacuum）會被略過，任何正在使用的
+[*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+都會被停用，使 `VACUUM` 可以
+自由使用所有的
+[*[共享緩衝區](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)*](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)。
+
+預設值為十六億筆交易。雖然使用者可以
+將此值設為零到二十一億之間的任何值，
+`VACUUM` 會默默地將有效值調整為不低於
+[autovacuum_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-FREEZE-MAX-AGE) 的 105%。
 <a id="GUC-VACUUM-MULTIXACT-FREEZE-TABLE-AGE"></a>
 
 `vacuum_multixact_freeze_table_age` (`integer`) <a id="id-1.6.6.13.7.3.4.1.3"></a> [#](#GUC-VACUUM-MULTIXACT-FREEZE-TABLE-AGE)
@@ -412,49 +414,51 @@ PostgreSQL 會將足夠舊的資料列標記為
 <a id="GUC-VACUUM-MULTIXACT-FAILSAFE-AGE"></a>
 
 `vacuum_multixact_failsafe_age` (`integer`) <a id="id-1.6.6.13.7.3.6.1.3"></a> [#](#GUC-VACUUM-MULTIXACT-FAILSAFE-AGE)
-:   指定資料表的
-    `pg_class`.`relminmxid`
-    欄位在 `VACUUM` 採取非常手段
-    以避免系統全域 multixact ID 回捲失敗之前，
-    所能達到的最大年齡（以 multixact 數計）。這是
-    `VACUUM` 的最後手段策略。當防止交易 ID 回捲的
-    autovacuum 已經執行了一段時間時，通常就會觸發
-    此故障保護機制，不過任何 `VACUUM` 期間
-    都有可能觸發此機制。
 
-    觸發故障保護機制時，任何原本生效中的
-    以成本為基礎的延遲都將不再套用，其他非必要的
-    維護作業（例如索引 vacuum）會被略過。
+指定資料表的
+`pg_class`.`relminmxid`
+欄位在 `VACUUM` 採取非常手段
+以避免系統全域 multixact ID 回捲失敗之前，
+所能達到的最大年齡（以 multixact 數計）。這是
+`VACUUM` 的最後手段策略。當防止交易 ID 回捲的
+autovacuum 已經執行了一段時間時，通常就會觸發
+此故障保護機制，不過任何 `VACUUM` 期間
+都有可能觸發此機制。
 
-    預設值為十六億個 multixact。雖然使用者可以
-    將此值設為零到二十一億之間的任何值，
-    `VACUUM` 會默默地將有效值調整為不低於
-    [autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) 的 105%。
+觸發故障保護機制時，任何原本生效中的
+以成本為基礎的延遲都將不再套用，其他非必要的
+維護作業（例如索引 vacuum）會被略過。
+
+預設值為十六億個 multixact。雖然使用者可以
+將此值設為零到二十一億之間的任何值，
+`VACUUM` 會默默地將有效值調整為不低於
+[autovacuum_multixact_freeze_max_age](runtime-config-vacuum.md#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE) 的 105%。
 <a id="GUC-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE"></a>
 
 `vacuum_max_eager_freeze_failure_rate` (`floating point`) <a id="id-1.6.6.13.7.3.7.1.3"></a> [#](#GUC-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE)
-:   指定在停用主動掃描（eager scanning）之前，
-    `VACUUM` 可以掃描並*未能*在可見度映射（visibility map）
-    中將頁面標記為全部凍結（all-frozen）的頁面數量上限
-    （以該關聯總頁面數的比例表示）。值為
-    `0` 會完全停用主動掃描。預設值為
-    `0.03`（3%）。
 
-    請注意，啟用主動掃描時，只有凍結失敗的次數
-    會計入此上限，成功凍結的次數則不計入。成功的頁面
-    凍結內部上限為該關聯中全部可見但尚未
-    全部凍結頁面的 20%。為成功的頁面凍結設定上限，
-    有助於將額外負擔分攤到多次一般 vacuum 上，
-    並限制對已在下次積極 vacuum 之前又再次被修改的頁面
-    進行無謂積極凍結所可能帶來的潛在缺點。
+指定在停用主動掃描（eager scanning）之前，
+`VACUUM` 可以掃描並*未能*在可見度映射（visibility map）
+中將頁面標記為全部凍結（all-frozen）的頁面數量上限
+（以該關聯總頁面數的比例表示）。值為
+`0` 會完全停用主動掃描。預設值為
+`0.03`（3%）。
 
-    此參數只能在
-    `postgresql.conf` 檔案中或伺服器命令
-    列上設定；但可以透過變更
-    [對應的資料表儲存參數](../../reference/sql-commands/sql-createtable.md#RELOPTION-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE)，
-    針對個別資料表覆寫此設定。
-    有關調校 vacuum 凍結行為的更多資訊，
-    請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+請注意，啟用主動掃描時，只有凍結失敗的次數
+會計入此上限，成功凍結的次數則不計入。成功的頁面
+凍結內部上限為該關聯中全部可見但尚未
+全部凍結頁面的 20%。為成功的頁面凍結設定上限，
+有助於將額外負擔分攤到多次一般 vacuum 上，
+並限制對已在下次積極 vacuum 之前又再次被修改的頁面
+進行無謂積極凍結所可能帶來的潛在缺點。
+
+此參數只能在
+`postgresql.conf` 檔案中或伺服器命令
+列上設定；但可以透過變更
+[對應的資料表儲存參數](../../reference/sql-commands/sql-createtable.md#RELOPTION-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE)，
+針對個別資料表覆寫此設定。
+有關調校 vacuum 凍結行為的更多資訊，
+請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
 
 ---
 

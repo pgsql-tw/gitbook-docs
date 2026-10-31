@@ -64,38 +64,39 @@
 <a id="GUC-FSYNC"></a>
 
 `fsync` (`boolean`) <a id="id-1.6.6.8.3.2.2.1.3"></a> [#](#GUC-FSYNC)
-:   若此參數為 on，PostgreSQL 伺服器會嘗試確保更新確實實際寫入磁碟，
-    方式是發出 `fsync()` 系統呼叫，或其他等效的方法
-    （請參閱 [wal_sync_method](runtime-config-wal.md#GUC-WAL-SYNC-METHOD)）。
-    這能確保資料庫叢集在作業系統或硬體當機後，
-    仍可復原至一致的狀態。
 
-    雖然關閉 `fsync` 通常能帶來效能上的好處，
-    但這可能在電源故障或系統當機時，導致無法復原的資料損毀。
-    因此，只有在你能輕易從外部資料重新建立整個資料庫時，
-    才建議關閉 `fsync`。
+若此參數為 on，PostgreSQL 伺服器會嘗試確保更新確實實際寫入磁碟，
+方式是發出 `fsync()` 系統呼叫，或其他等效的方法
+（請參閱 [wal_sync_method](runtime-config-wal.md#GUC-WAL-SYNC-METHOD)）。
+這能確保資料庫叢集在作業系統或硬體當機後，
+仍可復原至一致的狀態。
 
-    適合關閉 `fsync` 的安全情境範例包括：從備份檔案
-    初次載入新的資料庫叢集、使用資料庫叢集處理一批資料，
-    處理完後該資料庫將被捨棄並重新建立，或是用於
-    經常重新建立、且不會用於容錯移轉的唯讀資料庫複本。
-    僅憑高品質硬體並不足以作為關閉 `fsync` 的正當理由。
+雖然關閉 `fsync` 通常能帶來效能上的好處，
+但這可能在電源故障或系統當機時，導致無法復原的資料損毀。
+因此，只有在你能輕易從外部資料重新建立整個資料庫時，
+才建議關閉 `fsync`。
 
-    若要在將 `fsync` 從關閉改為開啟後仍能可靠地復原，
-    就必須強制將核心中所有已修改的緩衝區寫入永久性儲存體。
-    這可以在叢集關機時完成，也可以在 `fsync`
-    為開啟狀態時，透過執行 `initdb --sync-only`、
-    執行 `sync`、卸載檔案系統，或重新開機伺服器來完成。
+適合關閉 `fsync` 的安全情境範例包括：從備份檔案
+初次載入新的資料庫叢集、使用資料庫叢集處理一批資料，
+處理完後該資料庫將被捨棄並重新建立，或是用於
+經常重新建立、且不會用於容錯移轉的唯讀資料庫複本。
+僅憑高品質硬體並不足以作為關閉 `fsync` 的正當理由。
 
-    在許多情況下，針對非關鍵性交易關閉
-    [synchronous_commit](runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT)，
-    就能取得關閉 `fsync` 所能帶來的大部分潛在效能優勢，
-    卻不必承擔資料損毀的相應風險。
+若要在將 `fsync` 從關閉改為開啟後仍能可靠地復原，
+就必須強制將核心中所有已修改的緩衝區寫入永久性儲存體。
+這可以在叢集關機時完成，也可以在 `fsync`
+為開啟狀態時，透過執行 `initdb --sync-only`、
+執行 `sync`、卸載檔案系統，或重新開機伺服器來完成。
 
-    `fsync` 只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
-    若你關閉此參數，也應考慮一併關閉
-    [full_page_writes](runtime-config-wal.md#GUC-FULL-PAGE-WRITES)。
+在許多情況下，針對非關鍵性交易關閉
+[synchronous_commit](runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT)，
+就能取得關閉 `fsync` 所能帶來的大部分潛在效能優勢，
+卻不必承擔資料損毀的相應風險。
+
+`fsync` 只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
+若你關閉此參數，也應考慮一併關閉
+[full_page_writes](runtime-config-wal.md#GUC-FULL-PAGE-WRITES)。
 <a id="GUC-SYNCHRONOUS-COMMIT"></a>
 
 `synchronous_commit` (`enum`) <a id="id-1.6.6.8.3.2.3.1.3"></a> [#](#GUC-SYNCHRONOUS-COMMIT)
@@ -452,27 +453,28 @@ WAL 緩衝區的內容會在每次交易提交時寫出至磁碟，
 <a id="GUC-ARCHIVE-MODE"></a>
 
 `archive_mode` (`enum`) <a id="id-1.6.6.8.5.2.1.1.3"></a> [#](#GUC-ARCHIVE-MODE)
-:   當 `archive_mode` 啟用時，
-    已完成的 WAL 區段會透過設定
-    [archive_command](runtime-config-wal.md#GUC-ARCHIVE-COMMAND) 或
-    [archive_library](runtime-config-wal.md#GUC-ARCHIVE-LIBRARY) 傳送至歸檔儲存體。
-    除了用來停用的 `off` 之外，還有兩種模式：
-    `on` 與 `always`。
-    在正常運作期間，這兩種模式並無差異，但設為 `always`
-    時，WAL 歸檔器在歸檔復原或待命模式期間也會啟用。
-    在 `always` 模式下，所有從歸檔還原，
-    或透過串流複寫傳輸的檔案，都會（再次）被歸檔。詳情請參閱
-    [26.2.9 節](../high-availability/warm-standby.md#continuous-archiving-in-standby)。
 
-    `archive_mode` 是與
-    `archive_command` 及
-    `archive_library` 分開的設定，
-    如此一來便可在不離開歸檔模式的情況下，
-    變更 `archive_command` 與
-    `archive_library`。
-    此參數只能在伺服器啟動時設定。
-    當 `wal_level` 設為 `minimal` 時，
-    無法啟用 `archive_mode`。
+當 `archive_mode` 啟用時，
+已完成的 WAL 區段會透過設定
+[archive_command](runtime-config-wal.md#GUC-ARCHIVE-COMMAND) 或
+[archive_library](runtime-config-wal.md#GUC-ARCHIVE-LIBRARY) 傳送至歸檔儲存體。
+除了用來停用的 `off` 之外，還有兩種模式：
+`on` 與 `always`。
+在正常運作期間，這兩種模式並無差異，但設為 `always`
+時，WAL 歸檔器在歸檔復原或待命模式期間也會啟用。
+在 `always` 模式下，所有從歸檔還原，
+或透過串流複寫傳輸的檔案，都會（再次）被歸檔。詳情請參閱
+[26.2.9 節](../high-availability/warm-standby.md#continuous-archiving-in-standby)。
+
+`archive_mode` 是與
+`archive_command` 及
+`archive_library` 分開的設定，
+如此一來便可在不離開歸檔模式的情況下，
+變更 `archive_command` 與
+`archive_library`。
+此參數只能在伺服器啟動時設定。
+當 `wal_level` 設為 `minimal` 時，
+無法啟用 `archive_mode`。
 <a id="GUC-ARCHIVE-COMMAND"></a>
 
 `archive_command` (`string`) <a id="id-1.6.6.8.5.2.2.1.3"></a> [#](#GUC-ARCHIVE-COMMAND)
@@ -732,18 +734,19 @@ postmaster 會重新啟動 WAL 歸檔程序。更多資訊請參閱
 <a id="GUC-RECOVERY-TARGET-TIME"></a>
 
 `recovery_target_time` (`timestamp`) <a id="id-1.6.6.8.8.3.3.1.3"></a> [#](#GUC-RECOVERY-TARGET-TIME)
-:   此參數指定復原要進行到的時間戳記。
-    確切的停止點也會受
-    [recovery_target_inclusive](runtime-config-wal.md#GUC-RECOVERY-TARGET-INCLUSIVE)
-    影響。
 
-    此參數的值，是以 `timestamp with time zone`
-    資料型別所接受的格式表示的時間戳記，
-    但不能使用時區縮寫（除非在組態檔中較早處已設定
-    [timezone_abbreviations](runtime-config-client.md#GUC-TIMEZONE-ABBREVIATIONS) 變數）。
-    建議的寫法是使用相對於 UTC 的數字偏移量，
-    或者也可以寫出完整的時區名稱，
-    例如 `Europe/Helsinki`，而非 `EEST`。
+此參數指定復原要進行到的時間戳記。
+確切的停止點也會受
+[recovery_target_inclusive](runtime-config-wal.md#GUC-RECOVERY-TARGET-INCLUSIVE)
+影響。
+
+此參數的值，是以 `timestamp with time zone`
+資料型別所接受的格式表示的時間戳記，
+但不能使用時區縮寫（除非在組態檔中較早處已設定
+[timezone_abbreviations](runtime-config-client.md#GUC-TIMEZONE-ABBREVIATIONS) 變數）。
+建議的寫法是使用相對於 UTC 的數字偏移量，
+或者也可以寫出完整的時區名稱，
+例如 `Europe/Helsinki`，而非 `EEST`。
 <a id="GUC-RECOVERY-TARGET-XID"></a>
 
 `recovery_target_xid` (`string`) <a id="id-1.6.6.8.8.3.4.1.3"></a> [#](#GUC-RECOVERY-TARGET-XID)
@@ -782,26 +785,27 @@ postmaster 會重新啟動 WAL 歸檔程序。更多資訊請參閱
 <a id="GUC-RECOVERY-TARGET-TIMELINE"></a>
 
 `recovery_target_timeline` (`string`) <a id="id-1.6.6.8.8.5.2.1.3"></a> [#](#GUC-RECOVERY-TARGET-TIMELINE)
-:   指定要復原到某個特定的時間線。此值可以是
-    數字時間線 ID，或一個特殊值。值
-    `current` 會沿著基礎備份建立當時
-    正生效的同一條時間線進行復原。值
-    `latest` 則會復原到歸檔中所找到的
-    最新時間線，這在待命伺服器上很實用。
-    `latest` 為預設值。
 
-    若要以十六進位表示時間線 ID（例如，若是從
-    WAL 檔案名稱或歷史檔案中擷取而來），
-    請在前面加上 `0x`。舉例來說，
-    若 WAL 檔案名稱為
-    `00000011000000A10000004F`，
-    則時間線 ID 為 `0x11`（十進位為 17）。
+指定要復原到某個特定的時間線。此值可以是
+數字時間線 ID，或一個特殊值。值
+`current` 會沿著基礎備份建立當時
+正生效的同一條時間線進行復原。值
+`latest` 則會復原到歸檔中所找到的
+最新時間線，這在待命伺服器上很實用。
+`latest` 為預設值。
 
-    你通常只有在複雜的重複復原情境中，
-    才需要設定此參數——也就是當你需要回到某個
-    自身也是透過時間點復原才抵達的狀態時。
-    請參閱 [25.3.6 節](../backup/continuous-archiving.md#BACKUP-TIMELINES)
-    進行討論。
+若要以十六進位表示時間線 ID（例如，若是從
+WAL 檔案名稱或歷史檔案中擷取而來），
+請在前面加上 `0x`。舉例來說，
+若 WAL 檔案名稱為
+`00000011000000A10000004F`，
+則時間線 ID 為 `0x11`（十進位為 17）。
+
+你通常只有在複雜的重複復原情境中，
+才需要設定此參數——也就是當你需要回到某個
+自身也是透過時間點復原才抵達的狀態時。
+請參閱 [25.3.6 節](../backup/continuous-archiving.md#BACKUP-TIMELINES)
+進行討論。
 <a id="GUC-RECOVERY-TARGET-ACTION"></a>
 
 `recovery_target_action` (`enum`) <a id="id-1.6.6.8.8.5.3.1.3"></a> [#](#GUC-RECOVERY-TARGET-ACTION)

@@ -17,82 +17,84 @@
 <a id="GUC-CLIENT-MIN-MESSAGES"></a>
 
 `client_min_messages` (`enum`) <a id="id-1.6.6.14.2.2.1.1.3"></a> [#](#GUC-CLIENT-MIN-MESSAGES)
-:   控制哪些
-    [訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
-    會被傳送到用戶端。
-    合法的值有 `DEBUG5`、
-    `DEBUG4`、`DEBUG3`、`DEBUG2`、
-    `DEBUG1`、`LOG`、`NOTICE`、
-    `WARNING`，以及 `ERROR`。
-    每個等級都包含其之後的所有等級。等級越後面，
-    傳送的訊息就越少。預設值為
-    `NOTICE`。請注意，`LOG` 在此處的
-    順位，與在 [log_min_messages](runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 中不同。
 
-    `INFO` 等級的訊息永遠會被傳送給用戶端。
+控制哪些
+[訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+會被傳送到用戶端。
+合法的值有 `DEBUG5`、
+`DEBUG4`、`DEBUG3`、`DEBUG2`、
+`DEBUG1`、`LOG`、`NOTICE`、
+`WARNING`，以及 `ERROR`。
+每個等級都包含其之後的所有等級。等級越後面，
+傳送的訊息就越少。預設值為
+`NOTICE`。請注意，`LOG` 在此處的
+順位，與在 [log_min_messages](runtime-config-logging.md#GUC-LOG-MIN-MESSAGES) 中不同。
+
+`INFO` 等級的訊息永遠會被傳送給用戶端。
 <a id="GUC-SEARCH-PATH"></a>
 
 `search_path` (`string`) <a id="id-1.6.6.14.2.2.2.1.3"></a> <a id="id-1.6.6.14.2.2.2.1.4"></a> [#](#GUC-SEARCH-PATH)
-:   此變數指定當一個物件（資料表、資料型別、函式等）
-    以未指定綱要的簡單名稱被參照時，
-    要搜尋綱要的順序。當不同綱要中存在
-    名稱相同的物件時，會使用在搜尋路徑中最先
-    找到的那一個。若某個物件不在搜尋路徑中任何一個
-    綱要內，就只能透過指定其所屬綱要的限定
-    （加點）名稱來參照它。
 
-    `search_path` 的值必須是以逗號分隔的
-    綱要名稱清單。任何不是既有綱要、
-    或使用者對其沒有 `USAGE` 權限的名稱，
-    都會被默默忽略。
+此變數指定當一個物件（資料表、資料型別、函式等）
+以未指定綱要的簡單名稱被參照時，
+要搜尋綱要的順序。當不同綱要中存在
+名稱相同的物件時，會使用在搜尋路徑中最先
+找到的那一個。若某個物件不在搜尋路徑中任何一個
+綱要內，就只能透過指定其所屬綱要的限定
+（加點）名稱來參照它。
 
-    如果清單項目之一是特殊名稱
-    `$user`，且存在一個名稱為
-    `CURRENT_USER` 傳回值的綱要，且使用者對其
-    具備 `USAGE` 權限，則會替換為該綱要。
-    （若否，`$user` 會被忽略。）
+`search_path` 的值必須是以逗號分隔的
+綱要名稱清單。任何不是既有綱要、
+或使用者對其沒有 `USAGE` 權限的名稱，
+都會被默默忽略。
 
-    無論是否在路徑中提及，系統目錄綱要
-    `pg_catalog` 永遠都會被搜尋。若有在路徑中
-    提及，則會依指定的順序搜尋。如果
-    `pg_catalog` 不在路徑中，則會在搜尋任何
-    路徑項目*之前*先搜尋它。
+如果清單項目之一是特殊名稱
+`$user`，且存在一個名稱為
+`CURRENT_USER` 傳回值的綱要，且使用者對其
+具備 `USAGE` 權限，則會替換為該綱要。
+（若否，`$user` 會被忽略。）
 
-    同樣地，目前工作階段的暫存資料表綱要
-    `pg_temp_nnn`，只要存在，永遠都會被搜尋。
-    可以使用別名 `pg_temp`<a id="id-1.6.6.14.2.2.2.2.5.3"></a> 在路徑中明確列出它。
-    如果未在路徑中列出，則會第一個被搜尋
-    （甚至在 `pg_catalog` 之前）。不過，
-    暫存綱要只會針對關聯（資料表、檢視表、
-    序列等）與資料型別名稱進行搜尋，
-    不會用於搜尋函式或運算子名稱。
+無論是否在路徑中提及，系統目錄綱要
+`pg_catalog` 永遠都會被搜尋。若有在路徑中
+提及，則會依指定的順序搜尋。如果
+`pg_catalog` 不在路徑中，則會在搜尋任何
+路徑項目*之前*先搜尋它。
 
-    當建立物件時未指定特定目標綱要，
-    這些物件會被放入
-    `search_path` 中列出的第一個合法綱要。
-    若搜尋路徑為空，則會回報錯誤。
+同樣地，目前工作階段的暫存資料表綱要
+`pg_temp_nnn`，只要存在，永遠都會被搜尋。
+可以使用別名 `pg_temp`<a id="id-1.6.6.14.2.2.2.2.5.3"></a> 在路徑中明確列出它。
+如果未在路徑中列出，則會第一個被搜尋
+（甚至在 `pg_catalog` 之前）。不過，
+暫存綱要只會針對關聯（資料表、檢視表、
+序列等）與資料型別名稱進行搜尋，
+不會用於搜尋函式或運算子名稱。
 
-    此參數的預設值為
-    `"$user", public`。
-    此設定支援共享使用資料庫（沒有任何使用者
-    擁有私有綱要，所有人共用 `public`）、
-    每個使用者專屬的私有綱要，以及兩者的組合。
-    可以透過全域或逐使用者變更預設的搜尋
-    路徑設定，達成其他效果。
+當建立物件時未指定特定目標綱要，
+這些物件會被放入
+`search_path` 中列出的第一個合法綱要。
+若搜尋路徑為空，則會回報錯誤。
 
-    有關綱要處理的更多資訊，請參閱
-    [5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。特別要注意，預設
-    組態設定僅適用於資料庫只有單一使用者，
-    或少數彼此互信使用者的情況。
+此參數的預設值為
+`"$user", public`。
+此設定支援共享使用資料庫（沒有任何使用者
+擁有私有綱要，所有人共用 `public`）、
+每個使用者專屬的私有綱要，以及兩者的組合。
+可以透過全域或逐使用者變更預設的搜尋
+路徑設定，達成其他效果。
 
-    可以透過 SQL 函式
-    `current_schemas`
-    （參閱[9.27 節](../../the-sql-language/functions/functions-info.md)），檢視搜尋路徑目前的
-    有效值。這與檢視
-    `search_path` 的值並不完全相同，因為
-    `current_schemas` 會顯示
-    `search_path` 中出現的項目
-    實際上是如何被解析的。
+有關綱要處理的更多資訊，請參閱
+[5.10 節](../../the-sql-language/ddl/ddl-schemas.md)。特別要注意，預設
+組態設定僅適用於資料庫只有單一使用者，
+或少數彼此互信使用者的情況。
+
+可以透過 SQL 函式
+`current_schemas`
+（參閱[9.27 節](../../the-sql-language/functions/functions-info.md)），檢視搜尋路徑目前的
+有效值。這與檢視
+`search_path` 的值並不完全相同，因為
+`current_schemas` 會顯示
+`search_path` 中出現的項目
+實際上是如何被解析的。
 <a id="GUC-ROW-SECURITY"></a>
 
 `row_security` (`boolean`) <a id="id-1.6.6.14.2.2.3.1.3"></a> [#](#GUC-ROW-SECURITY)
@@ -658,19 +660,20 @@ PostgreSQL 12 有所變更；
 <a id="GUC-ICU-VALIDATION-LEVEL"></a>
 
 `icu_validation_level` (`enum`) <a id="id-1.6.6.14.3.2.11.1.3"></a> [#](#GUC-ICU-VALIDATION-LEVEL)
-:   當遇到 ICU 地區設定驗證問題時，控制用來
-    回報此問題的[訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)。
-    合法的值有
-    `DISABLED`、`DEBUG5`、
-    `DEBUG4`、`DEBUG3`、
-    `DEBUG2`、`DEBUG1`、
-    `INFO`、`NOTICE`、
-    `WARNING`、`ERROR`，以及
-    `LOG`。
 
-    若設為 `DISABLED`，則完全不會回報
-    驗證問題。否則，會以給定的訊息等級
-    回報問題。預設值為 `WARNING`。
+當遇到 ICU 地區設定驗證問題時，控制用來
+回報此問題的[訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)。
+合法的值有
+`DISABLED`、`DEBUG5`、
+`DEBUG4`、`DEBUG3`、
+`DEBUG2`、`DEBUG1`、
+`INFO`、`NOTICE`、
+`WARNING`、`ERROR`，以及
+`LOG`。
+
+若設為 `DISABLED`，則完全不會回報
+驗證問題。否則，會以給定的訊息等級
+回報問題。預設值為 `WARNING`。
 <a id="GUC-DEFAULT-TEXT-SEARCH-CONFIG"></a>
 
 `default_text_search_config` (`string`) <a id="id-1.6.6.14.3.2.12.1.3"></a> [#](#GUC-DEFAULT-TEXT-SEARCH-CONFIG)
@@ -715,40 +718,41 @@ PostgreSQL 程序語言程式庫
 <a id="GUC-LOCAL-PRELOAD-LIBRARIES"></a>
 
 `local_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.1.1.3"></a> <a id="id-1.6.6.14.4.6.1.1.4"></a> [#](#GUC-LOCAL-PRELOAD-LIBRARIES)
-:   此變數指定一個或多個要在連線開始時
-    預先載入的共享程式庫。
-    此值包含以逗號分隔的程式庫名稱清單，每個名稱
-    的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
-    項目之間的空白字元會被忽略；如果程式庫名稱中
-    需要包含空白字元或逗號，請以雙引號括住該名稱。
-    此參數的值只會在連線開始時生效。
-    後續的變更沒有效果。若找不到指定的
-    程式庫，連線嘗試就會失敗。
 
-    此選項可以由任何使用者設定。因此，
-    可以被載入的程式庫，僅限於安裝環境的
-    標準程式庫目錄中
-    `plugins` 子目錄下的程式庫。
-    （確保只有「安全」的程式庫被安裝在該處，
-    是資料庫管理員的責任。）
-    `local_preload_libraries` 中的項目
-    可以明確指定此目錄，例如
-    `$libdir/plugins/mylib`，或直接指定
-    程式庫名稱——`mylib` 的效果
-    與 `$libdir/plugins/mylib` 相同。
+此變數指定一個或多個要在連線開始時
+預先載入的共享程式庫。
+此值包含以逗號分隔的程式庫名稱清單，每個名稱
+的解讀方式與 [`LOAD`](../../reference/sql-commands/sql-load.md) 命令相同。
+項目之間的空白字元會被忽略；如果程式庫名稱中
+需要包含空白字元或逗號，請以雙引號括住該名稱。
+此參數的值只會在連線開始時生效。
+後續的變更沒有效果。若找不到指定的
+程式庫，連線嘗試就會失敗。
 
-    此功能的目的，是讓沒有特殊權限的使用者，
-    能夠在不需要明確 `LOAD` 命令的情況下，
-    將除錯或效能量測程式庫載入特定的
-    工作階段。為此，通常會透過用戶端的
-    `PGOPTIONS` 環境變數，或使用
-    `ALTER ROLE SET`
-    來設定此參數。
+此選項可以由任何使用者設定。因此，
+可以被載入的程式庫，僅限於安裝環境的
+標準程式庫目錄中
+`plugins` 子目錄下的程式庫。
+（確保只有「安全」的程式庫被安裝在該處，
+是資料庫管理員的責任。）
+`local_preload_libraries` 中的項目
+可以明確指定此目錄，例如
+`$libdir/plugins/mylib`，或直接指定
+程式庫名稱——`mylib` 的效果
+與 `$libdir/plugins/mylib` 相同。
 
-    不過，除非某個模組是特別設計供
-    非超級使用者以這種方式使用，否則這通常
-    不是正確的設定方式。請改用
-    [session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES)。
+此功能的目的，是讓沒有特殊權限的使用者，
+能夠在不需要明確 `LOAD` 命令的情況下，
+將除錯或效能量測程式庫載入特定的
+工作階段。為此，通常會透過用戶端的
+`PGOPTIONS` 環境變數，或使用
+`ALTER ROLE SET`
+來設定此參數。
+
+不過，除非某個模組是特別設計供
+非超級使用者以這種方式使用，否則這通常
+不是正確的設定方式。請改用
+[session_preload_libraries](runtime-config-client.md#GUC-SESSION-PRELOAD-LIBRARIES)。
 <a id="GUC-SESSION-PRELOAD-LIBRARIES"></a>
 
 `session_preload_libraries` (`string`) <a id="id-1.6.6.14.4.6.2.1.3"></a> [#](#GUC-SESSION-PRELOAD-LIBRARIES)

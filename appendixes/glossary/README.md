@@ -38,17 +38,18 @@ PostgreSQL 用來存取資料表與索引中資料的介面。
 <a id="GLOSSARY-ANALYZE"></a>
 
 分析（操作）（Analyze）
-:   從[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
-    及其他[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)的資料中收集統計資訊的動作，
-    用以協助[*[查詢規劃器](README.md#GLOSSARY-PLANNER)*](README.md#GLOSSARY-PLANNER)
-    決定如何執行
-    [*[查詢](README.md#GLOSSARY-QUERY)*](README.md#GLOSSARY-QUERY)。
 
-    （不要將此術語與 [EXPLAIN](../../reference/sql-commands/sql-explain.md) 命令的
-    `ANALYZE` 選項混淆。）
+從[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
+及其他[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)的資料中收集統計資訊的動作，
+用以協助[*[查詢規劃器](README.md#GLOSSARY-PLANNER)*](README.md#GLOSSARY-PLANNER)
+決定如何執行
+[*[查詢](README.md#GLOSSARY-QUERY)*](README.md#GLOSSARY-QUERY)。
 
-    更多資訊請參閱
-    [ANALYZE](../../reference/sql-commands/sql-analyze.md)。
+（不要將此術語與 [EXPLAIN](../../reference/sql-commands/sql-explain.md) 命令的
+`ANALYZE` 選項混淆。）
+
+更多資訊請參閱
+[ANALYZE](../../reference/sql-commands/sql-analyze.md)。
 <a id="GLOSSARY-AIO"></a>
 
 非同步 I/O（Asynchronous I/O，AIO）<a id="id-1.11.14.3.6.3"></a>
@@ -178,32 +179,34 @@ PostgreSQL 用來存取資料表與索引中資料的介面。
 <a id="GLOSSARY-BUFFER-ACCESS-STRATEGY"></a>
 
 緩衝區存取策略（Buffer Access Strategy）
-:   有些操作會存取大量的
-    [*[頁面](README.md#GLOSSARY-DATA-PAGE)*](README.md#GLOSSARY-DATA-PAGE)。
-    *緩衝區存取策略*（Buffer Access Strategy）有助於防止這些
-    操作從[*[共享緩衝區](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)
-    逐出過多的頁面。
 
-    緩衝區存取策略會建立對有限數量
-    [*[共享緩衝區](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)的參照，
-    並循環重複使用它們。當操作需要新的頁面時，會從策略環中的緩衝區
-    選出一個犧牲緩衝區，這可能需要將該頁面的髒資料，
-    以及可能還有尚未刷寫的
-    [*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL)，刷寫到永久儲存裝置。
+有些操作會存取大量的
+[*[頁面](README.md#GLOSSARY-DATA-PAGE)*](README.md#GLOSSARY-DATA-PAGE)。
+*緩衝區存取策略*（Buffer Access Strategy）有助於防止這些
+操作從[*[共享緩衝區](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)
+逐出過多的頁面。
 
-    緩衝區存取策略用於各種操作，例如
-    大型資料表的循序掃描、`VACUUM`、
-    `COPY`、`CREATE TABLE AS SELECT`、
-    `ALTER TABLE`、`CREATE DATABASE`、
-    `CREATE INDEX` 與 `CLUSTER`。
+緩衝區存取策略會建立對有限數量
+[*[共享緩衝區](README.md#GLOSSARY-SHARED-MEMORY)*](README.md#GLOSSARY-SHARED-MEMORY)的參照，
+並循環重複使用它們。當操作需要新的頁面時，會從策略環中的緩衝區
+選出一個犧牲緩衝區，這可能需要將該頁面的髒資料，
+以及可能還有尚未刷寫的
+[*[WAL](README.md#GLOSSARY-WAL)*](README.md#GLOSSARY-WAL)，刷寫到永久儲存裝置。
+
+緩衝區存取策略用於各種操作，例如
+大型資料表的循序掃描、`VACUUM`、
+`COPY`、`CREATE TABLE AS SELECT`、
+`ALTER TABLE`、`CREATE DATABASE`、
+`CREATE INDEX` 與 `CLUSTER`。
 <a id="GLOSSARY-CAST"></a>
 
 型別轉換（Cast）
-:   將一個[*[資料項](README.md#GLOSSARY-DATUM)*](README.md#GLOSSARY-DATUM)
-    從其目前的資料型別轉換為另一種資料型別。
 
-    更多資訊請參閱
-    [CREATE CAST](../../reference/sql-commands/sql-createcast.md)。
+將一個[*[資料項](README.md#GLOSSARY-DATUM)*](README.md#GLOSSARY-DATUM)
+從其目前的資料型別轉換為另一種資料型別。
+
+更多資訊請參閱
+[CREATE CAST](../../reference/sql-commands/sql-createcast.md)。
 <a id="GLOSSARY-CATALOG"></a>
 
 目錄（Catalog）
@@ -286,13 +289,14 @@ PostgreSQL 術語中稱為
 <a id="GLOSSARY-COMMIT"></a>
 
 提交（Commit）
-:   在[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中完成一筆
-    [*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)的動作，
-    它使該交易對其他交易可見，並確保其
-    [*[持久性](README.md#GLOSSARY-DURABILITY)*](README.md#GLOSSARY-DURABILITY)。
 
-    更多資訊請參閱
-    [COMMIT](../../reference/sql-commands/sql-commit.md)。
+在[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中完成一筆
+[*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)的動作，
+它使該交易對其他交易可見，並確保其
+[*[持久性](README.md#GLOSSARY-DURABILITY)*](README.md#GLOSSARY-DURABILITY)。
+
+更多資訊請參閱
+[COMMIT](../../reference/sql-commands/sql-commit.md)。
 <a id="GLOSSARY-CONCURRENCY"></a>
 
 並行（Concurrency）
@@ -422,13 +426,14 @@ PostgreSQL 術語中稱為
 <a id="GLOSSARY-DELETE"></a>
 
 刪除（Delete）
-:   從指定的
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
-    或[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)中移除
-    [*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)的 SQL 命令。
 
-    更多資訊請參閱
-    [DELETE](../../reference/sql-commands/sql-delete.md)。
+從指定的
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
+或[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)中移除
+[*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)的 SQL 命令。
+
+更多資訊請參閱
+[DELETE](../../reference/sql-commands/sql-delete.md)。
 <a id="GLOSSARY-DOMAIN"></a>
 
 網域（Domain）
@@ -477,14 +482,15 @@ PostgreSQL 術語中稱為
 <a id="GLOSSARY-FOREIGN-DATA-WRAPPER"></a>
 
 外部資料包裝器（Foreign data wrapper）
-:   一種表示資料的方式，讓不在本地
-    [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中的資料，看起來就像位於本地的
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中一樣。透過外部資料包裝器，
-    可以定義[*[外部伺服器](README.md#GLOSSARY-FOREIGN-SERVER)*](README.md#GLOSSARY-FOREIGN-SERVER)與
-    [*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)。
 
-    更多資訊請參閱
-    [CREATE FOREIGN DATA WRAPPER](../../reference/sql-commands/sql-createforeigndatawrapper.md)。
+一種表示資料的方式，讓不在本地
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中的資料，看起來就像位於本地的
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中一樣。透過外部資料包裝器，
+可以定義[*[外部伺服器](README.md#GLOSSARY-FOREIGN-SERVER)*](README.md#GLOSSARY-FOREIGN-SERVER)與
+[*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)。
+
+更多資訊請參閱
+[CREATE FOREIGN DATA WRAPPER](../../reference/sql-commands/sql-createforeigndatawrapper.md)。
 <a id="GLOSSARY-FOREIGN-KEY"></a>
 
 外鍵（Foreign key）
@@ -498,29 +504,31 @@ PostgreSQL 術語中稱為
 <a id="GLOSSARY-FOREIGN-SERVER"></a>
 
 外部伺服器（Foreign server）
-:   具名的
-    [*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)集合，
-    這些外部資料表都使用同一個
-    [*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)，
-    並具有其他共同的設定值。
 
-    更多資訊請參閱
-    [CREATE SERVER](../../reference/sql-commands/sql-createserver.md)。
+具名的
+[*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)集合，
+這些外部資料表都使用同一個
+[*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)，
+並具有其他共同的設定值。
+
+更多資訊請參閱
+[CREATE SERVER](../../reference/sql-commands/sql-createserver.md)。
 <a id="GLOSSARY-FOREIGN-TABLE"></a>
 
 外部資料表（關聯）（Foreign table）
-:   一種[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)，它看起來和一般的
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)一樣具有
-    [*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)與
-    [*[欄位](README.md#GLOSSARY-COLUMN)*](README.md#GLOSSARY-COLUMN)，但會將
-    資料請求透過其
-    [*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)轉送出去，
-    而外部資料包裝器會傳回依照
-    [*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)定義
-    所組織的[*[結果集](README.md#GLOSSARY-RESULT-SET)*](README.md#GLOSSARY-RESULT-SET)。
 
-    更多資訊請參閱
-    [CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md)。
+一種[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)，它看起來和一般的
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)一樣具有
+[*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)與
+[*[欄位](README.md#GLOSSARY-COLUMN)*](README.md#GLOSSARY-COLUMN)，但會將
+資料請求透過其
+[*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)轉送出去，
+而外部資料包裝器會傳回依照
+[*[外部資料表](README.md#GLOSSARY-FOREIGN-TABLE)*](README.md#GLOSSARY-FOREIGN-TABLE)定義
+所組織的[*[結果集](README.md#GLOSSARY-RESULT-SET)*](README.md#GLOSSARY-RESULT-SET)。
+
+更多資訊請參閱
+[CREATE FOREIGN TABLE](../../reference/sql-commands/sql-createforeigntable.md)。
 <a id="GLOSSARY-FORK"></a>
 
 分支（Fork）
@@ -545,32 +553,34 @@ PostgreSQL 術語中稱為
 <a id="GLOSSARY-FUNCTION"></a>
 
 函式（常式）（Function）
-:   一種常式，接收零個或多個引數、傳回零個或多個
-    輸出值，並且限制只能在一個交易內執行。
-    函式是作為查詢的一部分被呼叫的，例如透過
-    `SELECT`。
-    某些函式可以傳回
-    [*[集合](README.md#GLOSSARY-RESULT-SET)*](README.md#GLOSSARY-RESULT-SET)；這類函式
-    稱為*集合回傳函式*（set-returning functions）。
 
-    函式也可以供
-    [*[觸發程序](README.md#GLOSSARY-TRIGGER)*](README.md#GLOSSARY-TRIGGER)呼叫。
+一種常式，接收零個或多個引數、傳回零個或多個
+輸出值，並且限制只能在一個交易內執行。
+函式是作為查詢的一部分被呼叫的，例如透過
+`SELECT`。
+某些函式可以傳回
+[*[集合](README.md#GLOSSARY-RESULT-SET)*](README.md#GLOSSARY-RESULT-SET)；這類函式
+稱為*集合回傳函式*（set-returning functions）。
 
-    更多資訊請參閱
-    [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)。
+函式也可以供
+[*[觸發程序](README.md#GLOSSARY-TRIGGER)*](README.md#GLOSSARY-TRIGGER)呼叫。
+
+更多資訊請參閱
+[CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)。
 
 GMT
 :   請參閱[UTC](README.md#GLOSSARY-UTC)。
 <a id="GLOSSARY-GRANT"></a>
 
 授予（Grant）
-:   一個 SQL 命令，用來允許
-    [*[使用者](README.md#GLOSSARY-USER)*](README.md#GLOSSARY-USER)或
-    [*[角色](README.md#GLOSSARY-ROLE)*](README.md#GLOSSARY-ROLE)存取
-    [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中的特定物件。
 
-    更多資訊請參閱
-    [GRANT](../../reference/sql-commands/sql-grant.md)。
+一個 SQL 命令，用來允許
+[*[使用者](README.md#GLOSSARY-USER)*](README.md#GLOSSARY-USER)或
+[*[角色](README.md#GLOSSARY-ROLE)*](README.md#GLOSSARY-ROLE)存取
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中的特定物件。
+
+更多資訊請參閱
+[GRANT](../../reference/sql-commands/sql-grant.md)。
 <a id="GLOSSARY-HEAP"></a>
 
 堆積（Heap）
@@ -590,13 +600,14 @@ GMT
 <a id="GLOSSARY-INDEX"></a>
 
 索引（關聯）（Index）
-:   一種[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)，其中包含
-    從[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
-    或[*[具體化檢視表](README.md#GLOSSARY-MATERIALIZED-VIEW)*](README.md#GLOSSARY-MATERIALIZED-VIEW)衍生的資料。
-    其內部結構支援對原始資料的快速檢索與存取。
 
-    更多資訊請參閱
-    [CREATE INDEX](../../reference/sql-commands/sql-createindex.md)。
+一種[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)，其中包含
+從[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
+或[*[具體化檢視表](README.md#GLOSSARY-MATERIALIZED-VIEW)*](README.md#GLOSSARY-MATERIALIZED-VIEW)衍生的資料。
+其內部結構支援對原始資料的快速檢索與存取。
+
+更多資訊請參閱
+[CREATE INDEX](../../reference/sql-commands/sql-createindex.md)。
 <a id="GLOSSARY-INCREMENTAL-BACKUP"></a>
 
 增量備份（Incremental backup）
@@ -626,11 +637,12 @@ GMT
 <a id="GLOSSARY-INSERT"></a>
 
 插入（Insert）
-:   用來將新資料加入
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)的 SQL 命令。
 
-    更多資訊請參閱
-    [INSERT](../../reference/sql-commands/sql-insert.md)。
+用來將新資料加入
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)的 SQL 命令。
+
+更多資訊請參閱
+[INSERT](../../reference/sql-commands/sql-insert.md)。
 <a id="GLOSSARY-INSTANCE"></a>
 
 執行個體（Instance）
@@ -752,26 +764,28 @@ LSN
 <a id="GLOSSARY-MATERIALIZED-VIEW"></a>
 
 具體化檢視表（關聯）（Materialized view）
-:   一種[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)，
-    它由 `SELECT` 陳述式定義
-    （就像[*[檢視表](README.md#GLOSSARY-VIEW)*](README.md#GLOSSARY-VIEW)一樣），
-    但以與[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
-    相同的方式儲存資料。它不能
-    透過 `INSERT`、`UPDATE`、
-    `DELETE` 或 `MERGE` 操作來修改。
 
-    更多資訊請參閱
-    [CREATE MATERIALIZED VIEW](../../reference/sql-commands/sql-creatematerializedview.md)。
+一種[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)，
+它由 `SELECT` 陳述式定義
+（就像[*[檢視表](README.md#GLOSSARY-VIEW)*](README.md#GLOSSARY-VIEW)一樣），
+但以與[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)
+相同的方式儲存資料。它不能
+透過 `INSERT`、`UPDATE`、
+`DELETE` 或 `MERGE` 操作來修改。
+
+更多資訊請參閱
+[CREATE MATERIALIZED VIEW](../../reference/sql-commands/sql-creatematerializedview.md)。
 <a id="GLOSSARY-MERGE"></a>
 
 合併（Merge）
-:   一個 SQL 命令，使用來源
-    [*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)的資料，
-    有條件地在指定的[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中新增、修改
-    或移除[*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)。
 
-    更多資訊請參閱
-    [MERGE](../../reference/sql-commands/sql-merge.md)。
+一個 SQL 命令，使用來源
+[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)的資料，
+有條件地在指定的[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中新增、修改
+或移除[*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)。
+
+更多資訊請參閱
+[MERGE](../../reference/sql-commands/sql-merge.md)。
 <a id="GLOSSARY-MVCC"></a>
 
 多版本並行控制（Multi-version concurrency control，MVCC）
@@ -853,16 +867,17 @@ Postmaster（程序）
 <a id="GLOSSARY-PROCEDURE"></a>
 
 程序（常式）（Procedure）
-:   一種常式。
-    其獨特之處在於不傳回值，
-    而且允許執行交易相關的陳述式，例如
-    `COMMIT` 與 `ROLLBACK`。
-    程序是透過 `CALL` 命令呼叫的。
 
-    更多資訊請參閱
-    [CREATE PROCEDURE](../../reference/sql-commands/sql-createprocedure.md)。
+一種常式。
+其獨特之處在於不傳回值，
+而且允許執行交易相關的陳述式，例如
+`COMMIT` 與 `ROLLBACK`。
+程序是透過 `CALL` 命令呼叫的。
 
-    譯註：「不傳回值」是相對於函式的概括說法。PostgreSQL 18 的程序仍可透過 OUT 或 INOUT 參數輸出值，CALL 會傳回一筆包含這些輸出參數的結果列（請參閱 CALL 命令的說明）。
+更多資訊請參閱
+[CREATE PROCEDURE](../../reference/sql-commands/sql-createprocedure.md)。
+
+譯註：「不傳回值」是相對於函式的概括說法。PostgreSQL 18 的程序仍可透過 OUT 或 INOUT 參數輸出值，CALL 會傳回一筆包含這些輸出參數的結果列（請參閱 CALL 命令的說明）。
 <a id="GLOSSARY-QUERY"></a>
 
 查詢（Query）
@@ -939,45 +954,49 @@ Postmaster（程序）
 <a id="GLOSSARY-RESULT-SET"></a>
 
 結果集（Result set）
-:   SQL 命令完成時，從[*[後端程序](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)
-    傳送給[*[用戶端](README.md#GLOSSARY-CLIENT)*](README.md#GLOSSARY-CLIENT)的
-    [*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)；該命令通常是
-    `SELECT`，但若指定了
-    `RETURNING` 子句，也可以是
-    `INSERT`、`UPDATE`、
-    `DELETE` 或 `MERGE` 命令。
 
-    結果集是一個關聯，這意味著一個查詢可以用於
-    另一個查詢的定義中，成為
-    *子查詢*（subquery）。
+SQL 命令完成時，從[*[後端程序](README.md#GLOSSARY-BACKEND)*](README.md#GLOSSARY-BACKEND)
+傳送給[*[用戶端](README.md#GLOSSARY-CLIENT)*](README.md#GLOSSARY-CLIENT)的
+[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)；該命令通常是
+`SELECT`，但若指定了
+`RETURNING` 子句，也可以是
+`INSERT`、`UPDATE`、
+`DELETE` 或 `MERGE` 命令。
+
+結果集是一個關聯，這意味著一個查詢可以用於
+另一個查詢的定義中，成為
+*子查詢*（subquery）。
 <a id="GLOSSARY-REVOKE"></a>
 
 撤銷（Revoke）
-:   一個命令，用來阻止一份具名的
-    [*[角色](README.md#GLOSSARY-ROLE)*](README.md#GLOSSARY-ROLE)清單存取一組具名的
-    [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)物件。
 
-    更多資訊請參閱
-    [REVOKE](../../reference/sql-commands/sql-revoke.md)。
+一個命令，用來阻止一份具名的
+[*[角色](README.md#GLOSSARY-ROLE)*](README.md#GLOSSARY-ROLE)清單存取一組具名的
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)物件。
+
+更多資訊請參閱
+[REVOKE](../../reference/sql-commands/sql-revoke.md)。
 <a id="GLOSSARY-ROLE"></a>
 
 角色（Role）
-:   對[*[執行個體](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)的存取權限集合
-    （原文此處的連結文字寫作 instance，但連結目標是「資料庫」詞條）。
-    角色本身就是一種可以授予其他角色的權限。
-    當多個[*[使用者](README.md#GLOSSARY-USER)*](README.md#GLOSSARY-USER)需要
-    相同的權限時，通常為了方便或確保完整性而這麼做。
 
-    更多資訊請參閱
-    [CREATE ROLE](../../reference/sql-commands/sql-createrole.md)。
+對[*[執行個體](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)的存取權限集合
+（原文此處的連結文字寫作 instance，但連結目標是「資料庫」詞條）。
+角色本身就是一種可以授予其他角色的權限。
+當多個[*[使用者](README.md#GLOSSARY-USER)*](README.md#GLOSSARY-USER)需要
+相同的權限時，通常為了方便或確保完整性而這麼做。
+
+更多資訊請參閱
+[CREATE ROLE](../../reference/sql-commands/sql-createrole.md)。
 <a id="GLOSSARY-ROLLBACK"></a>
 
 回復（Rollback）
-:   一個命令，用來撤銷自
-    [*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)開始以來所執行的所有操作。
 
-    更多資訊請參閱
-    [ROLLBACK](../../reference/sql-commands/sql-rollback.md)。
+一個命令，用來撤銷自
+[*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)開始以來所執行的所有操作。
+
+更多資訊請參閱
+[ROLLBACK](../../reference/sql-commands/sql-rollback.md)。
 <a id="GLOSSARY-ROUTINE"></a>
 
 常式（Routine）
@@ -999,12 +1018,13 @@ Postmaster（程序）
 <a id="GLOSSARY-SAVEPOINT"></a>
 
 儲存點（Savepoint）
-:   在[*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)的步驟序列中的一個特殊標記。
-    在此時間點之後的資料修改，
-    可以還原到儲存點當時的狀態。
 
-    更多資訊請參閱
-    [SAVEPOINT](../../reference/sql-commands/sql-savepoint.md)。
+在[*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)的步驟序列中的一個特殊標記。
+在此時間點之後的資料修改，
+可以還原到儲存點當時的狀態。
+
+更多資訊請參閱
+[SAVEPOINT](../../reference/sql-commands/sql-savepoint.md)。
 <a id="GLOSSARY-SCHEMA"></a>
 
 綱要（Schema）
@@ -1030,15 +1050,16 @@ Postmaster（程序）
 <a id="GLOSSARY-SELECT"></a>
 
 選取（Select）
-:   用來向[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)
-    請求資料的 SQL 命令。
-    一般而言，`SELECT` 命令預期不會以任何方式修改
-    [*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)，
-    但在查詢中呼叫的[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)
-    有可能產生確實會修改資料的副作用。
 
-    更多資訊請參閱
-    [SELECT](../../reference/sql-commands/sql-select.md)。
+用來向[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)
+請求資料的 SQL 命令。
+一般而言，`SELECT` 命令預期不會以任何方式修改
+[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)，
+但在查詢中呼叫的[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)
+有可能產生確實會修改資料的副作用。
+
+更多資訊請參閱
+[SELECT](../../reference/sql-commands/sql-select.md)。
 <a id="GLOSSARY-SEQUENCE"></a>
 
 序列（關聯）（Sequence）
@@ -1163,15 +1184,16 @@ SQL 標準（SQL standard）
 <a id="GLOSSARY-TABLE"></a>
 
 資料表（Table）
-:   具有共同資料結構的[*[元組](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)集合
-    （相同數量的
-    [*[屬性](README.md#GLOSSARY-ATTRIBUTE)*](README.md#GLOSSARY-ATTRIBUTE)、相同的
-    順序，且每個位置具有相同的名稱與型別）。
-    資料表是 PostgreSQL 中最常見的
-    [*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)形式。
 
-    更多資訊請參閱
-    [CREATE TABLE](../../reference/sql-commands/sql-createtable.md)。
+具有共同資料結構的[*[元組](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)集合
+（相同數量的
+[*[屬性](README.md#GLOSSARY-ATTRIBUTE)*](README.md#GLOSSARY-ATTRIBUTE)、相同的
+順序，且每個位置具有相同的名稱與型別）。
+資料表是 PostgreSQL 中最常見的
+[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)形式。
+
+更多資訊請參閱
+[CREATE TABLE](../../reference/sql-commands/sql-createtable.md)。
 <a id="GLOSSARY-TABLESPACE"></a>
 
 資料表空間（Tablespace）
@@ -1188,17 +1210,18 @@ SQL 標準（SQL standard）
 <a id="GLOSSARY-TEMPORARY-TABLE"></a>
 
 暫存資料表（Temporary table）
-:   存在期間為一個
-    [*[工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)或一筆
-    [*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)之生命週期的
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)，
-    具體是哪一種於建立時指定。
-    其中的資料對其他工作階段不可見，也不會
-    [*[記錄到日誌](README.md#GLOSSARY-LOGGED)*](README.md#GLOSSARY-LOGGED)。
-    暫存資料表常用來存放多步驟操作的中間資料。
 
-    更多資訊請參閱
-    [CREATE TABLE](../../reference/sql-commands/sql-createtable.md)。
+存在期間為一個
+[*[工作階段](README.md#GLOSSARY-SESSION)*](README.md#GLOSSARY-SESSION)或一筆
+[*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)之生命週期的
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)，
+具體是哪一種於建立時指定。
+其中的資料對其他工作階段不可見，也不會
+[*[記錄到日誌](README.md#GLOSSARY-LOGGED)*](README.md#GLOSSARY-LOGGED)。
+暫存資料表常用來存放多步驟操作的中間資料。
+
+更多資訊請參閱
+[CREATE TABLE](../../reference/sql-commands/sql-createtable.md)。
 <a id="GLOSSARY-TOAST"></a>
 
 TOAST
@@ -1250,17 +1273,18 @@ TOAST
 <a id="GLOSSARY-TRIGGER"></a>
 
 觸發程序（Trigger）
-:   一種[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)，可以
-    定義為每當某項操作（`INSERT`、
-    `UPDATE`、`DELETE`、
-    `TRUNCATE`）套用到
-    [*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)時執行。
-    觸發程序會在與呼叫它的陳述式相同的
-    [*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)中執行，
-    而如果該函式失敗，呼叫它的陳述式也會失敗。
 
-    更多資訊請參閱
-    [CREATE TRIGGER](../../reference/sql-commands/sql-createtrigger.md)。
+一種[*[函式](README.md#GLOSSARY-FUNCTION)*](README.md#GLOSSARY-FUNCTION)，可以
+定義為每當某項操作（`INSERT`、
+`UPDATE`、`DELETE`、
+`TRUNCATE`）套用到
+[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)時執行。
+觸發程序會在與呼叫它的陳述式相同的
+[*[交易](README.md#GLOSSARY-TRANSACTION)*](README.md#GLOSSARY-TRANSACTION)中執行，
+而如果該函式失敗，呼叫它的陳述式也會失敗。
+
+更多資訊請參閱
+[CREATE TRIGGER](../../reference/sql-commands/sql-createtrigger.md)。
 <a id="GLOSSARY-TUPLE"></a>
 
 元組（Tuple）
@@ -1303,13 +1327,14 @@ TOAST
 <a id="GLOSSARY-UPDATE"></a>
 
 更新（Update）
-:   一個 SQL 命令，用來修改指定
-    [*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中可能已經存在的
-    [*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)。
-    它不能建立或移除資料列。
 
-    更多資訊請參閱
-    [UPDATE](../../reference/sql-commands/sql-update.md)。
+一個 SQL 命令，用來修改指定
+[*[資料表](README.md#GLOSSARY-TABLE)*](README.md#GLOSSARY-TABLE)中可能已經存在的
+[*[資料列](README.md#GLOSSARY-TUPLE)*](README.md#GLOSSARY-TUPLE)。
+它不能建立或移除資料列。
+
+更多資訊請參閱
+[UPDATE](../../reference/sql-commands/sql-update.md)。
 <a id="GLOSSARY-USER"></a>
 
 使用者（User）
@@ -1318,12 +1343,13 @@ TOAST
 <a id="GLOSSARY-USER-MAPPING"></a>
 
 使用者對應（User mapping）
-:   將本地[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中的登入憑證，
-    轉換為由[*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)
-    所定義之遠端資料系統中的憑證。
 
-    更多資訊請參閱
-    [CREATE USER MAPPING](../../reference/sql-commands/sql-createusermapping.md)。
+將本地[*[資料庫](README.md#GLOSSARY-DATABASE)*](README.md#GLOSSARY-DATABASE)中的登入憑證，
+轉換為由[*[外部資料包裝器](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)*](README.md#GLOSSARY-FOREIGN-DATA-WRAPPER)
+所定義之遠端資料系統中的憑證。
+
+更多資訊請參閱
+[CREATE USER MAPPING](../../reference/sql-commands/sql-createusermapping.md)。
 <a id="GLOSSARY-UTC"></a>
 
 UTC
@@ -1347,14 +1373,15 @@ UTC
 <a id="GLOSSARY-VIEW"></a>
 
 檢視表（View）
-:   一種由
-    `SELECT` 陳述式定義、但本身沒有儲存空間的[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)。
-    每當查詢參照某個檢視表時，該檢視表的定義
-    就會被代入查詢中，就像使用者是以子查詢的形式
-    輸入它，而不是輸入檢視表的名稱一樣。
 
-    更多資訊請參閱
-    [CREATE VIEW](../../reference/sql-commands/sql-createview.md)。
+一種由
+`SELECT` 陳述式定義、但本身沒有儲存空間的[*[關聯](README.md#GLOSSARY-RELATION)*](README.md#GLOSSARY-RELATION)。
+每當查詢參照某個檢視表時，該檢視表的定義
+就會被代入查詢中，就像使用者是以子查詢的形式
+輸入它，而不是輸入檢視表的名稱一樣。
+
+更多資訊請參閱
+[CREATE VIEW](../../reference/sql-commands/sql-createview.md)。
 <a id="GLOSSARY-VM"></a>
 
 可見性對應表（分支）（Visibility map）

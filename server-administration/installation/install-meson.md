@@ -298,18 +298,19 @@ setup` 時使用。
 <a id="CONFIGURE-WITH-LLVM-MESON"></a>
 
 `-Dllvm={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LLVM-MESON)
-:   建置時支援以 LLVM 為基礎的
-    JIT 編譯（參見 [第 30 章](../jit/README.md)）。
-    這需要安裝 LLVM 函式庫。
-    目前所需的 LLVM 最低版本為 14。預設為
-    停用。
 
-    系統會使用 `llvm-config`<a id="id-1.6.4.7.4.4.4.7.2.2.2"></a>
-    來尋找所需的編譯選項。系統會在你的 `PATH` 中搜尋
-    `llvm-config`，接著再搜尋各個受支援版本對應的
-    `llvm-config-$version`。
-    若這樣仍找不到你要的程式，可以用 `LLVM_CONFIG` 來指定
-    正確 `llvm-config` 的路徑。
+建置時支援以 LLVM 為基礎的
+JIT 編譯（參見 [第 30 章](../jit/README.md)）。
+這需要安裝 LLVM 函式庫。
+目前所需的 LLVM 最低版本為 14。預設為
+停用。
+
+系統會使用 `llvm-config`<a id="id-1.6.4.7.4.4.4.7.2.2.2"></a>
+來尋找所需的編譯選項。系統會在你的 `PATH` 中搜尋
+`llvm-config`，接著再搜尋各個受支援版本對應的
+`llvm-config-$version`。
+若這樣仍找不到你要的程式，可以用 `LLVM_CONFIG` 來指定
+正確 `llvm-config` 的路徑。
 <a id="CONFIGURE-WITH-LZ4-MESON"></a>
 
 `-Dlz4={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LZ4-MESON)
@@ -499,46 +500,49 @@ auto。此功能需要 libxml2 2.6.23 或更新版本。
 <a id="CONFIGURE-EXTRA-INCLUDE-DIRS-MESON"></a>
 
 `-Dextra_include_dirs=DIRECTORIES` [#](#CONFIGURE-EXTRA-INCLUDE-DIRS-MESON)
-:   *`DIRECTORIES`* 是一份以逗號分隔的目錄清單，
-    會被加入編譯器搜尋標頭檔的路徑清單中。若你有選用套件
-    （例如 GNU
-    Readline）安裝在非標準位置，就必須使用此選項，
-    通常也需要一併使用對應的
-    `-Dextra_lib_dirs` 選項。
 
-    範例：`-Dextra_include_dirs=/opt/gnu/include,/usr/sup/include`。
+*`DIRECTORIES`* 是一份以逗號分隔的目錄清單，
+會被加入編譯器搜尋標頭檔的路徑清單中。若你有選用套件
+（例如 GNU
+Readline）安裝在非標準位置，就必須使用此選項，
+通常也需要一併使用對應的
+`-Dextra_lib_dirs` 選項。
+
+範例：`-Dextra_include_dirs=/opt/gnu/include,/usr/sup/include`。
 <a id="CONFIGURE-EXTRA-LIB-DIRS-MESON"></a>
 
 `-Dextra_lib_dirs=DIRECTORIES` [#](#CONFIGURE-EXTRA-LIB-DIRS-MESON)
-:   *`DIRECTORIES`* 是一份以逗號分隔的目錄清單，
-    用於搜尋函式庫。如果你有套件安裝在非標準位置，
-    你很可能需要使用這個選項（以及對應的
-    `-Dextra_include_dirs` 選項）。
 
-    範例：`-Dextra_lib_dirs=/opt/gnu/lib,/usr/sup/lib`。
+*`DIRECTORIES`* 是一份以逗號分隔的目錄清單，
+用於搜尋函式庫。如果你有套件安裝在非標準位置，
+你很可能需要使用這個選項（以及對應的
+`-Dextra_include_dirs` 選項）。
+
+範例：`-Dextra_lib_dirs=/opt/gnu/lib,/usr/sup/lib`。
 <a id="CONFIGURE-SYSTEM-TZDATA-MESON"></a>
 
 `-Dsystem_tzdata=DIRECTORY` <a id="id-1.6.4.7.4.6.2.7.1.2"></a> [#](#CONFIGURE-SYSTEM-TZDATA-MESON)
-:   PostgreSQL 內含自己的時區
-    資料庫，這是日期與時間運算所需要的。這個時區資料庫實際上
-    與許多作業系統（如 FreeBSD、Linux、
-    Solaris）所提供的 IANA 時區資料庫相容，因此再安裝一份
-    其實是多餘的。使用此選項時，系統中
-    *`DIRECTORY`* 提供的時區資料庫，
-    會取代 PostgreSQL 原始碼套件中內含的那一份。
-    *`DIRECTORY`* 必須指定為絕對路徑。
-    在某些作業系統上，`/usr/share/zoneinfo` 是可能適用的目錄。
-    請注意，安裝程序不會偵測時區資料是否不符或有誤。若你使用此
-    選項，建議執行迴歸測試，以驗證你所指向的時區資料
-    能夠與 PostgreSQL 正確搭配運作。
 
-    <a id="id-1.6.4.7.4.6.2.7.2.2"></a>
+PostgreSQL 內含自己的時區
+資料庫，這是日期與時間運算所需要的。這個時區資料庫實際上
+與許多作業系統（如 FreeBSD、Linux、
+Solaris）所提供的 IANA 時區資料庫相容，因此再安裝一份
+其實是多餘的。使用此選項時，系統中
+*`DIRECTORY`* 提供的時區資料庫，
+會取代 PostgreSQL 原始碼套件中內含的那一份。
+*`DIRECTORY`* 必須指定為絕對路徑。
+在某些作業系統上，`/usr/share/zoneinfo` 是可能適用的目錄。
+請注意，安裝程序不會偵測時區資料是否不符或有誤。若你使用此
+選項，建議執行迴歸測試，以驗證你所指向的時區資料
+能夠與 PostgreSQL 正確搭配運作。
 
-    此選項主要是設計給熟悉目標作業系統的二進位套件發行者使用。
-    使用此選項的主要好處是，每當眾多本地日光節約時間規則變動時，
-    PostgreSQL 套件都不需要跟著升級。另一項好處是，
-    若安裝過程不需要建置時區資料庫檔案，PostgreSQL 的交叉編譯
-    也能更加直接順利。
+<a id="id-1.6.4.7.4.6.2.7.2.2"></a>
+
+此選項主要是設計給熟悉目標作業系統的二進位套件發行者使用。
+使用此選項的主要好處是，每當眾多本地日光節約時間規則變動時，
+PostgreSQL 套件都不需要跟著升級。另一項好處是，
+若安裝過程不需要建置時區資料庫檔案，PostgreSQL 的交叉編譯
+也能更加直接順利。
 <a id="CONFIGURE-EXTRA-VERSION-MESON"></a>
 
 `-Dextra_version=STRING` [#](#CONFIGURE-EXTRA-VERSION-MESON)
@@ -666,17 +670,18 @@ PostgreSQL 時才有意義。這些選項並不建議用於正式環境的建置
 <a id="CONFIGURE-BUILDTYPE-MESON"></a>
 
 `--buildtype=BUILDTYPE` [#](#CONFIGURE-BUILDTYPE-MESON)
-:   此選項可用來指定要使用的 buildtype；預設為
-    `debugoptimized`。若你想比此選項提供的更精細地
-    控制除錯符號與最佳化等級，可以參考
-    `--debug` 與
-    `--optimization` 旗標。
 
-    一般常用的建置類型有：`plain`、
-    `debug`、`debugoptimized` 與
-    `release`。關於這些類型的更多資訊，可參見
-    [Meson
-    文件](https://mesonbuild.com/Running-Meson.html#configuring-the-build-directory)。
+此選項可用來指定要使用的 buildtype；預設為
+`debugoptimized`。若你想比此選項提供的更精細地
+控制除錯符號與最佳化等級，可以參考
+`--debug` 與
+`--optimization` 旗標。
+
+一般常用的建置類型有：`plain`、
+`debug`、`debugoptimized` 與
+`release`。關於這些類型的更多資訊，可參見
+[Meson
+文件](https://mesonbuild.com/Running-Meson.html#configuring-the-build-directory)。
 <a id="CONFIGURE-DEBUG-MESON"></a>
 
 `--debug` [#](#CONFIGURE-DEBUG-MESON)
@@ -734,16 +739,17 @@ PostgreSQL 時才有意義。這些選項並不建議用於正式環境的建置
 <a id="CONFIGURE-DTRACE-MESON"></a>
 
 `-Ddtrace={ auto | enabled | disabled }` [#](#CONFIGURE-DTRACE-MESON)
-:   <a id="id-1.6.4.7.4.9.4.9.2.1.1"></a>
-    啟用此選項會編譯出支援動態追蹤工具
-    DTrace 的 PostgreSQL。
-    詳見 [第 27.5 節](../monitoring/dynamic-trace.md)。
 
-    你可以設定 `DTRACE` 選項，
-    來指向 `dtrace` 程式。這通常是必要的，
-    因為 `dtrace` 一般安裝在
-    `/usr/sbin` 底下，而這個位置可能不在你的
-    `PATH` 中。
+<a id="id-1.6.4.7.4.9.4.9.2.1.1"></a>
+啟用此選項會編譯出支援動態追蹤工具
+DTrace 的 PostgreSQL。
+詳見 [第 27.5 節](../monitoring/dynamic-trace.md)。
+
+你可以設定 `DTRACE` 選項，
+來指向 `dtrace` 程式。這通常是必要的，
+因為 `dtrace` 一般安裝在
+`/usr/sbin` 底下，而這個位置可能不在你的
+`PATH` 中。
 <a id="CONFIGURE-INJECTION-POINTS-MESON"></a>
 
 `-Dinjection_points={ true | false }` [#](#CONFIGURE-INJECTION-POINTS-MESON)

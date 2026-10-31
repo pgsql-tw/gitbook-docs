@@ -36,34 +36,35 @@ login 權限<a id="id-1.6.8.6.2.1.1.1.1"></a>
     `CREATE ROLE name CREATEDB`。
 
 <a id="ROLE-CREATION"></a>建立角色<a id="id-1.6.8.6.2.1.4.1.1"></a>
-:   角色必須被明確授予建立其他角色的權限
-    （超級使用者除外，因為超級使用者會略過所有權限檢查）。
-    若要建立這樣的角色，請使用
-    `CREATE ROLE name CREATEROLE`。
-    具有 `CREATEROLE` 權限的角色，可以變更與刪除
-    那些已以 `ADMIN` 選項授予該 `CREATEROLE`
-    使用者的角色。當非超級使用者的 `CREATEROLE`
-    使用者建立新角色時，就會自動發生這樣的授予，因此
-    依預設，`CREATEROLE` 使用者可以變更與刪除
-    自己所建立的角色。變更角色，涵蓋了大多數可透過
-    `ALTER ROLE` 進行的變更，例如變更密碼。
-    這也包括可透過 `COMMENT` 與
-    `SECURITY LABEL` 指令，對角色所做的修改。
 
-    不過，`CREATEROLE` 並不賦予建立
-    `SUPERUSER` 角色的能力，對於既有的
-    `SUPERUSER` 角色，也不賦予任何權力。
-    此外，`CREATEROLE` 也不賦予建立
-    `REPLICATION` 使用者的能力，也不能授予或撤銷
-    `REPLICATION` 權限，更不能修改這類使用者的
-    角色屬性。不過，它確實允許在 `REPLICATION`
-    角色上使用 `ALTER ROLE ... SET` 與
-    `ALTER ROLE ... RENAME`，也允許使用
-    `COMMENT ON ROLE`、
-    `SECURITY LABEL ON ROLE`
-    以及 `DROP ROLE`。最後，
-    `CREATEROLE` 也不賦予授予或撤銷
-    `BYPASSRLS` 權限的能力。
+角色必須被明確授予建立其他角色的權限
+（超級使用者除外，因為超級使用者會略過所有權限檢查）。
+若要建立這樣的角色，請使用
+`CREATE ROLE name CREATEROLE`。
+具有 `CREATEROLE` 權限的角色，可以變更與刪除
+那些已以 `ADMIN` 選項授予該 `CREATEROLE`
+使用者的角色。當非超級使用者的 `CREATEROLE`
+使用者建立新角色時，就會自動發生這樣的授予，因此
+依預設，`CREATEROLE` 使用者可以變更與刪除
+自己所建立的角色。變更角色，涵蓋了大多數可透過
+`ALTER ROLE` 進行的變更，例如變更密碼。
+這也包括可透過 `COMMENT` 與
+`SECURITY LABEL` 指令，對角色所做的修改。
+
+不過，`CREATEROLE` 並不賦予建立
+`SUPERUSER` 角色的能力，對於既有的
+`SUPERUSER` 角色，也不賦予任何權力。
+此外，`CREATEROLE` 也不賦予建立
+`REPLICATION` 使用者的能力，也不能授予或撤銷
+`REPLICATION` 權限，更不能修改這類使用者的
+角色屬性。不過，它確實允許在 `REPLICATION`
+角色上使用 `ALTER ROLE ... SET` 與
+`ALTER ROLE ... RENAME`，也允許使用
+`COMMENT ON ROLE`、
+`SECURITY LABEL ON ROLE`
+以及 `DROP ROLE`。最後，
+`CREATEROLE` 也不賦予授予或撤銷
+`BYPASSRLS` 權限的能力。
 
 發起複寫<a id="id-1.6.8.6.2.1.5.1.1"></a>
 :   角色必須被明確授予發起串流複寫的權限

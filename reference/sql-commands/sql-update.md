@@ -118,16 +118,17 @@ UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
     請參閱 [DECLARE](sql-declare.md)。
 
 *`output_alias`*
-:   在 `RETURNING` 清單中，`OLD` 或
-    `NEW` 資料列的選擇性替代名稱。
 
-    預設情況下，目標資料表的舊值可以透過寫
-    `OLD.column_name` 或 `OLD.*`
-    來傳回，新值則可以透過寫
-    `NEW.column_name` 或 `NEW.*`
-    來傳回。當提供別名時，這些名稱會被隱藏，舊資料列或新資料列
-    必須改用該別名來參照。舉例來說：
-    `RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
+在 `RETURNING` 清單中，`OLD` 或
+`NEW` 資料列的選擇性替代名稱。
+
+預設情況下，目標資料表的舊值可以透過寫
+`OLD.column_name` 或 `OLD.*`
+來傳回，新值則可以透過寫
+`NEW.column_name` 或 `NEW.*`
+來傳回。當提供別名時，這些名稱會被隱藏，舊資料列或新資料列
+必須改用該別名來參照。舉例來說：
+`RETURNING WITH (OLD AS o, NEW AS n) o.*, n.*`。
 
 *`output_expression`*
 

@@ -178,26 +178,27 @@ epoch 值，但現在已不再如此。
 <a id="GUC-LOG-FILE-MODE"></a>
 
 `log_file_mode` (`integer`) <a id="id-1.6.6.11.3.4.5.1.3"></a> [#](#GUC-LOG-FILE-MODE)
-:   在 Unix 系統上，此參數會在 `logging_collector`
-    啟用時，設定日誌檔案的權限。（在 Microsoft
-    Windows 上此參數會被忽略。）
-    此參數值應為一個數值模式，
-    格式須符合
-    `chmod` 與 `umask`
-    系統呼叫所接受的格式。（若要使用慣用的八進位格式，
-    數字必須以 `0`（零）開頭。）
 
-    預設權限為 `0600`，代表只有
-    伺服器擁有者能讀寫日誌檔案。另一個常見且實用的設定是
-    `0640`，允許擁有者所屬群組的成員讀取這些檔案。
-    然而請注意，若要使用這類設定，你需要變更
-    [log_directory](runtime-config-logging.md#GUC-LOG-DIRECTORY)，
-    將檔案儲存在叢集資料目錄之外的位置。無論如何，
-    將日誌檔案設為所有人皆可讀取並不明智，
-    因為其中可能含有敏感資料。
+在 Unix 系統上，此參數會在 `logging_collector`
+啟用時，設定日誌檔案的權限。（在 Microsoft
+Windows 上此參數會被忽略。）
+此參數值應為一個數值模式，
+格式須符合
+`chmod` 與 `umask`
+系統呼叫所接受的格式。（若要使用慣用的八進位格式，
+數字必須以 `0`（零）開頭。）
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+預設權限為 `0600`，代表只有
+伺服器擁有者能讀寫日誌檔案。另一個常見且實用的設定是
+`0640`，允許擁有者所屬群組的成員讀取這些檔案。
+然而請注意，若要使用這類設定，你需要變更
+[log_directory](runtime-config-logging.md#GUC-LOG-DIRECTORY)，
+將檔案儲存在叢集資料目錄之外的位置。無論如何，
+將日誌檔案設為所有人皆可讀取並不明智，
+因為其中可能含有敏感資料。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-LOG-ROTATION-AGE"></a>
 
 `log_rotation_age` (`integer`) <a id="id-1.6.6.11.3.4.6.1.3"></a> [#](#GUC-LOG-ROTATION-AGE)
@@ -277,19 +278,20 @@ epoch 值，但現在已不再如此。
 <a id="GUC-SYSLOG-SEQUENCE-NUMBERS"></a>
 
 `syslog_sequence_numbers` (`boolean`) <a id="id-1.6.6.11.3.4.11.1.3"></a> [#](#GUC-SYSLOG-SEQUENCE-NUMBERS)
-:   當記錄到 syslog 且此設定為 on（預設值）時，
-    每則訊息前面都會加上遞增的序號
-    （例如 `[2]`）。這能避免許多
-    syslog 實作預設會執行的
-    「--- last message repeated N times ---」抑制行為。
-    在較新版的 syslog 實作中，重複訊息的抑制是可設定的
-    （例如 rsyslog 中的
-    `$RepeatedMsgReduction`），
-    因此可能不需要這麼做。此外，
-    若你確實想要抑制重複訊息，也可以將此設定關閉。
 
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+當記錄到 syslog 且此設定為 on（預設值）時，
+每則訊息前面都會加上遞增的序號
+（例如 `[2]`）。這能避免許多
+syslog 實作預設會執行的
+「--- last message repeated N times ---」抑制行為。
+在較新版的 syslog 實作中，重複訊息的抑制是可設定的
+（例如 rsyslog 中的
+`$RepeatedMsgReduction`），
+因此可能不需要這麼做。此外，
+若你確實想要抑制重複訊息，也可以將此設定關閉。
+
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-SYSLOG-SPLIT-MESSAGES"></a>
 
 `syslog_split_messages` (`boolean`) <a id="id-1.6.6.11.3.4.12.1.3"></a> [#](#GUC-SYSLOG-SPLIT-MESSAGES)
@@ -398,29 +400,30 @@ syslog 的方式。當此設定為 on（預設值）時，
 <a id="GUC-LOG-MIN-DURATION-SAMPLE"></a>
 
 `log_min_duration_sample` (`integer`) <a id="id-1.6.6.11.4.2.4.1.3"></a> [#](#GUC-LOG-MIN-DURATION-SAMPLE)
-:   允許對執行時間達到指定時間長度的已完成陳述式進行耗時取樣。
-    這會產生與
-    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) 相同種類的日誌項目，
-    但僅針對已執行陳述式的一部分子集合，
-    取樣率由
-    [log_statement_sample_rate](runtime-config-logging.md#GUC-LOG-STATEMENT-SAMPLE-RATE)
-    控制。例如，若你將此值設為 `100ms`，
-    則所有執行時間達 100 毫秒或以上的
-    SQL 陳述式都會被納入取樣考量。當流量過高、
-    無法記錄所有查詢時，啟用此參數會很有幫助。
-    若此值未指定單位，則以毫秒為單位。
-    將此值設為零會對所有陳述式耗時進行取樣。
-    `-1`（預設值）會停用陳述式耗時取樣。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    此設定的優先順序低於
-    `log_min_duration_statement`，
-    也就是說，耗時超過 `log_min_duration_statement`
-    的陳述式，不受取樣限制，一律都會被記錄。
+允許對執行時間達到指定時間長度的已完成陳述式進行耗時取樣。
+這會產生與
+[log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT) 相同種類的日誌項目，
+但僅針對已執行陳述式的一部分子集合，
+取樣率由
+[log_statement_sample_rate](runtime-config-logging.md#GUC-LOG-STATEMENT-SAMPLE-RATE)
+控制。例如，若你將此值設為 `100ms`，
+則所有執行時間達 100 毫秒或以上的
+SQL 陳述式都會被納入取樣考量。當流量過高、
+無法記錄所有查詢時，啟用此參數會很有幫助。
+若此值未指定單位，則以毫秒為單位。
+將此值設為零會對所有陳述式耗時進行取樣。
+`-1`（預設值）會停用陳述式耗時取樣。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
 
-    適用於 `log_min_duration_statement`
-    的其他注意事項，同樣適用於此設定。
+此設定的優先順序低於
+`log_min_duration_statement`，
+也就是說，耗時超過 `log_min_duration_statement`
+的陳述式，不受取樣限制，一律都會被記錄。
+
+適用於 `log_min_duration_statement`
+的其他注意事項，同樣適用於此設定。
 <a id="GUC-LOG-STATEMENT-SAMPLE-RATE"></a>
 
 `log_statement_sample_rate` (`floating point`) <a id="id-1.6.6.11.4.2.5.1.3"></a> [#](#GUC-LOG-STATEMENT-SAMPLE-RATE)
@@ -802,21 +805,22 @@ Syslog 會產生自己的
 <a id="GUC-LOG-PARAMETER-MAX-LENGTH"></a>
 
 `log_parameter_max_length` (`integer`) <a id="id-1.6.6.11.5.3.15.1.3"></a> [#](#GUC-LOG-PARAMETER-MAX-LENGTH)
-:   若大於零，每個隨非錯誤陳述式記錄訊息一併記錄的
-    綁定參數值，都會被裁剪至此位元組數。
-    零會停用非錯誤陳述式日誌中的綁定參數記錄。
-    `-1`（預設值）允許完整記錄綁定參數。
-    若此值未指定單位，則以位元組為單位。
-    只有超級使用者，以及具備適當 `SET`
-    權限的使用者，才能變更此設定。
 
-    此設定僅影響因
-    [log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)、
-    [log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT)
-    及相關設定而印出的日誌訊息。
-    此設定的非零值會增加一些額外負擔，
-    尤其是當參數以二進位形式傳送時，
-    因為此時需要進行轉換為文字的動作。
+若大於零，每個隨非錯誤陳述式記錄訊息一併記錄的
+綁定參數值，都會被裁剪至此位元組數。
+零會停用非錯誤陳述式日誌中的綁定參數記錄。
+`-1`（預設值）允許完整記錄綁定參數。
+若此值未指定單位，則以位元組為單位。
+只有超級使用者，以及具備適當 `SET`
+權限的使用者，才能變更此設定。
+
+此設定僅影響因
+[log_statement](runtime-config-logging.md#GUC-LOG-STATEMENT)、
+[log_min_duration_statement](runtime-config-logging.md#GUC-LOG-MIN-DURATION-STATEMENT)
+及相關設定而印出的日誌訊息。
+此設定的非零值會增加一些額外負擔，
+尤其是當參數以二進位形式傳送時，
+因為此時需要進行轉換為文字的動作。
 <a id="GUC-LOG-PARAMETER-MAX-LENGTH-ON-ERROR"></a>
 
 `log_parameter_max_length_on_error` (`integer`) <a id="id-1.6.6.11.5.3.16.1.3"></a> [#](#GUC-LOG-PARAMETER-MAX-LENGTH-ON-ERROR)
@@ -1054,21 +1058,22 @@ JSON 格式輸出日誌行。
 <a id="GUC-CLUSTER-NAME"></a>
 
 `cluster_name` (`string`) <a id="id-1.6.6.11.8.3.1.1.3"></a> [#](#GUC-CLUSTER-NAME)
-:   設定一個用於各種用途、識別此資料庫叢集（執行個體）
-    的名稱。叢集名稱會出現在此叢集所有伺服器程序的
-    程序標題中。此外，它也是待命連線的
-    預設應用程式名稱（請參閱
-    [synchronous_standby_names](runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES)）。
 
-    此名稱可以是任何長度小於
-    `NAMEDATALEN` 個字元（標準組建中為 64 個字元）的字串。
-    `cluster_name` 值只能使用
-    可列印的 ASCII 字元。
-    其他字元會被替換為
-    [C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
-    若此參數設為空字串
-    `''`（此為預設值），則不會顯示任何名稱。
-    此參數只能在伺服器啟動時設定。
+設定一個用於各種用途、識別此資料庫叢集（執行個體）
+的名稱。叢集名稱會出現在此叢集所有伺服器程序的
+程序標題中。此外，它也是待命連線的
+預設應用程式名稱（請參閱
+[synchronous_standby_names](runtime-config-replication.md#GUC-SYNCHRONOUS-STANDBY-NAMES)）。
+
+此名稱可以是任何長度小於
+`NAMEDATALEN` 個字元（標準組建中為 64 個字元）的字串。
+`cluster_name` 值只能使用
+可列印的 ASCII 字元。
+其他字元會被替換為
+[C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
+若此參數設為空字串
+`''`（此為預設值），則不會顯示任何名稱。
+此參數只能在伺服器啟動時設定。
 <a id="GUC-UPDATE-PROCESS-TITLE"></a>
 
 `update_process_title` (`boolean`) <a id="id-1.6.6.11.8.3.2.1.3"></a> [#](#GUC-UPDATE-PROCESS-TITLE)

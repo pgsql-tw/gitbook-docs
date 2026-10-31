@@ -29,19 +29,20 @@ CALL name ( [ argument ] [, ...] )
 :   程序的名稱（可選擇以綱要限定）。
 
 *`argument`*
-:   程序呼叫的引數運算式。
 
-    引數可以包含參數名稱，使用語法
-    `name => value`。
-    這與一般函式呼叫的運作方式相同；詳情請參閱
-    [第 4.3 節](../../the-sql-language/sql-syntax/sql-syntax-calling-funcs.md)。
+程序呼叫的引數運算式。
 
-    所有沒有預設值的程序參數都必須提供引數，包括 `OUT` 參數。不過，
-    對應 `OUT` 參數的引數不會被求值，
-    所以慣例上只要為它們寫 `NULL` 即可。
-    （為 `OUT` 參數寫入其他內容，
-    可能會造成與
-    未來 PostgreSQL 版本的相容性問題。）
+引數可以包含參數名稱，使用語法
+`name => value`。
+這與一般函式呼叫的運作方式相同；詳情請參閱
+[第 4.3 節](../../the-sql-language/sql-syntax/sql-syntax-calling-funcs.md)。
+
+所有沒有預設值的程序參數都必須提供引數，包括 `OUT` 參數。不過，
+對應 `OUT` 參數的引數不會被求值，
+所以慣例上只要為它們寫 `NULL` 即可。
+（為 `OUT` 參數寫入其他內容，
+可能會造成與
+未來 PostgreSQL 版本的相容性問題。）
 
 <a id="id-1.9.3.48.7"></a>
 

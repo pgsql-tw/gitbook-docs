@@ -512,14 +512,15 @@ LLVM 支援需要相容的
 <a id="CONFIGURE-OPTION-WITH-LIBURING"></a>
 
 `--with-liburing` [#](#CONFIGURE-OPTION-WITH-LIBURING)
-:   建置時支援 liburing，啟用 io_uring 非同步 I/O 支援。
 
-    為偵測所需的編譯器與連結器選項，PostgreSQL 會查詢
-    `pkg-config`。
+建置時支援 liburing，啟用 io_uring 非同步 I/O 支援。
 
-    若要使用位於非一般位置的 liburing 安裝，
-    你可以設定與 `pkg-config` 相關的環境變數
-    （詳見其文件）。
+為偵測所需的編譯器與連結器選項，PostgreSQL 會查詢
+`pkg-config`。
+
+若要使用位於非一般位置的 liburing 安裝，
+你可以設定與 `pkg-config` 相關的環境變數
+（詳見其文件）。
 <a id="CONFIGURE-OPTION-WITH-LIBXML"></a>
 
 `--with-libxml` [#](#CONFIGURE-OPTION-WITH-LIBXML)
@@ -599,48 +600,51 @@ Libxml2 2.6.23 以上版本。
 <a id="CONFIGURE-OPTION-WITH-INCLUDES"></a>
 
 `--with-includes=DIRECTORIES` [#](#CONFIGURE-OPTION-WITH-INCLUDES)
-:   *`DIRECTORIES`* 是一份以冒號分隔的目錄清單，
-    會被加入編譯器搜尋標頭檔的目錄清單中。
-    如果你有選用套件（例如 GNU Readline）
-    安裝在非標準位置，
-    就必須使用這個選項，通常也需要搭配對應的
-    `--with-libraries` 選項。
 
-    範例：`--with-includes=/opt/gnu/include:/usr/sup/include`。
+*`DIRECTORIES`* 是一份以冒號分隔的目錄清單，
+會被加入編譯器搜尋標頭檔的目錄清單中。
+如果你有選用套件（例如 GNU Readline）
+安裝在非標準位置，
+就必須使用這個選項，通常也需要搭配對應的
+`--with-libraries` 選項。
+
+範例：`--with-includes=/opt/gnu/include:/usr/sup/include`。
 <a id="CONFIGURE-OPTION-WITH-LIBRARIES"></a>
 
 `--with-libraries=DIRECTORIES` [#](#CONFIGURE-OPTION-WITH-LIBRARIES)
-:   *`DIRECTORIES`* 是一份以冒號分隔的目錄清單，
-    用來搜尋函式庫。如果你的套件安裝在非標準位置，
-    你很可能需要使用這個選項（以及對應的
-    `--with-includes` 選項）。
 
-    範例：`--with-libraries=/opt/gnu/lib:/usr/sup/lib`。
+*`DIRECTORIES`* 是一份以冒號分隔的目錄清單，
+用來搜尋函式庫。如果你的套件安裝在非標準位置，
+你很可能需要使用這個選項（以及對應的
+`--with-includes` 選項）。
+
+範例：`--with-libraries=/opt/gnu/lib:/usr/sup/lib`。
 <a id="CONFIGURE-OPTION-WITH-SYSTEM-TZDATA"></a>
 
 `--with-system-tzdata=DIRECTORY` <a id="id-1.6.4.6.4.7.2.3.1.2"></a> [#](#CONFIGURE-OPTION-WITH-SYSTEM-TZDATA)
-:   PostgreSQL 內含自己的時區資料庫，
-    這是日期與時間運算所需要的。這個時區資料庫
-    事實上與許多作業系統（例如 FreeBSD、Linux 與 Solaris）
-    所提供的 IANA 時區資料庫相容，因此再安裝一次會顯得多餘。
-    使用這個選項時，會改用位於 *`DIRECTORY`*
-    的系統提供的時區資料庫，而不使用
-    PostgreSQL 原始碼發行版中內含的資料庫。
-    *`DIRECTORY`* 必須以絕對路徑指定。
-    在部分作業系統上，`/usr/share/zoneinfo`
-    是可能的目錄位置。請注意，安裝程序並不會偵測
-    時區資料是否有不符或錯誤。如果你使用這個選項，
-    建議執行回歸測試，以確認你所指向的時區資料
-    能與 PostgreSQL 正確搭配運作。
 
-    <a id="id-1.6.4.6.4.7.2.3.2.2"></a>
+PostgreSQL 內含自己的時區資料庫，
+這是日期與時間運算所需要的。這個時區資料庫
+事實上與許多作業系統（例如 FreeBSD、Linux 與 Solaris）
+所提供的 IANA 時區資料庫相容，因此再安裝一次會顯得多餘。
+使用這個選項時，會改用位於 *`DIRECTORY`*
+的系統提供的時區資料庫，而不使用
+PostgreSQL 原始碼發行版中內含的資料庫。
+*`DIRECTORY`* 必須以絕對路徑指定。
+在部分作業系統上，`/usr/share/zoneinfo`
+是可能的目錄位置。請注意，安裝程序並不會偵測
+時區資料是否有不符或錯誤。如果你使用這個選項，
+建議執行回歸測試，以確認你所指向的時區資料
+能與 PostgreSQL 正確搭配運作。
 
-    這個選項主要是為熟悉目標作業系統的二進位套件
-    發行者所設計。使用這個選項的主要好處，是每當
-    許多地方性日光節約時間規則有所變動時，
-    PostgreSQL 套件都不需要重新升級。另一項好處是，
-    如果不需要在安裝期間建置時區資料庫檔案，
-    PostgreSQL 就可以更直接地進行交叉編譯。
+<a id="id-1.6.4.6.4.7.2.3.2.2"></a>
+
+這個選項主要是為熟悉目標作業系統的二進位套件
+發行者所設計。使用這個選項的主要好處，是每當
+許多地方性日光節約時間規則有所變動時，
+PostgreSQL 套件都不需要重新升級。另一項好處是，
+如果不需要在安裝期間建置時區資料庫檔案，
+PostgreSQL 就可以更直接地進行交叉編譯。
 <a id="CONFIGURE-OPTION-WITH-EXTRA-VERSION"></a>
 
 `--with-extra-version=STRING` [#](#CONFIGURE-OPTION-WITH-EXTRA-VERSION)

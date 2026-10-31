@@ -71,11 +71,12 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
 :   執行[增量備份](../../server-administration/backup/continuous-archiving.md#backup-incremental-backup)。必須提供參考備份的備份清單（backup manifest），它會被上傳到伺服器，伺服器則會傳送所要求的增量備份作為回應。
 
 `-R`<br>`--write-recovery-conf`
-:   在目標目錄中（或使用 tar 格式時，在基礎封存檔中）建立 [`standby.signal`](../../server-administration/high-availability/warm-standby.md#FILE-STANDBY-SIGNAL)
-    <a id="id-1.9.4.10.6.2.1.4.3.1.2"></a>
-    檔案，並將連線設定附加到 `postgresql.auto.conf` 檔案。這讓使用備份結果來設置待命伺服器變得更容易。
 
-    `postgresql.auto.conf` 檔案會記錄連線設定，以及（若有指定）pg_basebackup 正在使用的複寫插槽，讓串流複寫與[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)之後會使用相同的設定。只有在連線字串或[環境變數](../../client-interfaces/libpq/libpq-envars.md)中明確指定了 dbname 時，才會記錄 dbname。
+在目標目錄中（或使用 tar 格式時，在基礎封存檔中）建立 [`standby.signal`](../../server-administration/high-availability/warm-standby.md#FILE-STANDBY-SIGNAL)
+<a id="id-1.9.4.10.6.2.1.4.3.1.2"></a>
+檔案，並將連線設定附加到 `postgresql.auto.conf` 檔案。這讓使用備份結果來設置待命伺服器變得更容易。
+
+`postgresql.auto.conf` 檔案會記錄連線設定，以及（若有指定）pg_basebackup 正在使用的複寫插槽，讓串流複寫與[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)之後會使用相同的設定。只有在連線字串或[環境變數](../../client-interfaces/libpq/libpq-envars.md)中明確指定了 dbname 時，才會記錄 dbname。
 
 `-t target`<br>`--target=target`
 

@@ -125,46 +125,47 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SET"></a>
 
 `SET ( subscription_parameter [= value] [, ... ] )` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SET)
-:   此子句會變更原先由
-    [CREATE SUBSCRIPTION](sql-createsubscription.md) 設定的參數。更多資訊請參閱該處。可以變更的參數有
-    [`slot_name`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)、
-    [`synchronous_commit`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-synchronous-commit)、
-    [`binary`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-binary)、
-    [`streaming`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-streaming)、
-    [`disable_on_error`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-disable-on-error)、
-    [`password_required`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-password-required)、
-    [`run_as_owner`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-run-as-owner)、
-    [`origin`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-origin)、
-    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover) 與
-    [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)。
-    只有超級使用者可以設定 `password_required = false`。
 
-    變更
-    [`slot_name`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)
-    時，所指定插槽的 `failover` 與 `two_phase` 屬性值，可能與訂閱中所指定之對應的
-    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
-    與 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
-    參數不同。建立插槽時，請確保插槽屬性 `failover` 與 `two_phase`
-    符合訂閱中對應的參數。
-    否則，發佈者上的插槽的行為可能與這些訂閱選項所述的不同：例如，即使訂閱的
-    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
-    選項已停用，發佈者上的插槽仍可能被同步到待命伺服器；或者即使訂閱的
-    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
-    選項已啟用，該插槽仍可能被停用同步。
+此子句會變更原先由
+[CREATE SUBSCRIPTION](sql-createsubscription.md) 設定的參數。更多資訊請參閱該處。可以變更的參數有
+[`slot_name`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)、
+[`synchronous_commit`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-synchronous-commit)、
+[`binary`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-binary)、
+[`streaming`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-streaming)、
+[`disable_on_error`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-disable-on-error)、
+[`password_required`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-password-required)、
+[`run_as_owner`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-run-as-owner)、
+[`origin`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-origin)、
+[`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover) 與
+[`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)。
+只有超級使用者可以設定 `password_required = false`。
 
-    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
-    與 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
-    參數只能在訂閱停用時變更。
+變更
+[`slot_name`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)
+時，所指定插槽的 `failover` 與 `two_phase` 屬性值，可能與訂閱中所指定之對應的
+[`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
+與 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
+參數不同。建立插槽時，請確保插槽屬性 `failover` 與 `two_phase`
+符合訂閱中對應的參數。
+否則，發佈者上的插槽的行為可能與這些訂閱選項所述的不同：例如，即使訂閱的
+[`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
+選項已停用，發佈者上的插槽仍可能被同步到待命伺服器；或者即使訂閱的
+[`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
+選項已啟用，該插槽仍可能被停用同步。
 
-    將 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
-    從 `true` 變更為 `false` 時，若發現任何由邏輯複寫工作程序完成的預備交易（來自 `two_phase`
-    參數仍為 `true` 的期間），後端程序會回報錯誤。你可以在發佈者節點上解決這些預備交易，或在訂閱者手動將它們回滾，然後再試一次。對應於特定訂閱的邏輯複寫工作程序所預備的交易，具有下列模式：「`pg_gid_%u_%u`」
-    （參數：訂閱 *`oid`*、遠端交易 ID *`xid`*）。
-    要手動解決這類交易，你需要回滾名稱中含有對應訂閱 ID 的所有預備交易。應用程式可以查看
-    [`pg_prepared_xacts`](../../internals/views/view-pg-prepared-xacts.md)
-    來找出所需的預備交易。將 `two_phase`
-    選項從 `true` 變更為 `false` 之後，
-    發佈者會在這些交易提交時再次複寫它們。
+[`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
+與 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
+參數只能在訂閱停用時變更。
+
+將 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
+從 `true` 變更為 `false` 時，若發現任何由邏輯複寫工作程序完成的預備交易（來自 `two_phase`
+參數仍為 `true` 的期間），後端程序會回報錯誤。你可以在發佈者節點上解決這些預備交易，或在訂閱者手動將它們回滾，然後再試一次。對應於特定訂閱的邏輯複寫工作程序所預備的交易，具有下列模式：「`pg_gid_%u_%u`」
+（參數：訂閱 *`oid`*、遠端交易 ID *`xid`*）。
+要手動解決這類交易，你需要回滾名稱中含有對應訂閱 ID 的所有預備交易。應用程式可以查看
+[`pg_prepared_xacts`](../../internals/views/view-pg-prepared-xacts.md)
+來找出所需的預備交易。將 `two_phase`
+選項從 `true` 變更為 `false` 之後，
+發佈者會在這些交易提交時再次複寫它們。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-SKIP"></a>
 
 `SKIP ( skip_option = value )` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SKIP)

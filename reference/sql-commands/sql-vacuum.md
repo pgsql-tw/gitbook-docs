@@ -119,37 +119,38 @@ vacuum）*。若要停用這項功能，可以使用 `PARALLEL`
     這個選項會使 `VACUUM` 略過所有分割區。
 
 `INDEX_CLEANUP`
-:   一般而言，當資料表中的死亡資料列非常少時，
-    `VACUUM` 會略過索引清理。在這種情況下，
-    處理資料表所有索引的成本，預期會遠遠超過移除死亡索引項目
-    所帶來的效益。這個選項可用來強制 `VACUUM`
-    在死亡資料列數超過零時處理索引。預設值為
-    `AUTO`，會讓 `VACUUM` 在適當時
-    略過索引清理。若 `INDEX_CLEANUP` 設為
-    `ON`，`VACUUM` 就會保守地
-    移除索引中所有的死亡資料列。這對於要與較早版本的
-    PostgreSQL（其標準行為即是如此）維持向後相容性
-    可能會很有用。
 
-    `INDEX_CLEANUP` 也可以設為
-    `OFF`，強制 `VACUUM`
-    *一律*略過索引清理，即使資料表中有許多死亡資料列
-    也一樣。當有必要讓 `VACUUM` 盡可能快速執行，
-    以避免即將發生的交易 ID 回捲時，這可能會很有用
-    （參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。
-    不過，由
-    [vacuum_failsafe_age](../../server-administration/runtime-config/runtime-config-vacuum.md#GUC-VACUUM-FAILSAFE-AGE)
-    所控制的回捲失效保護機制，一般會自動觸發，以避免交易 ID
-    回捲失敗，因此通常應優先採用該機制。若未定期執行索引清理，
-    效能可能會受影響，因為隨著資料表被修改，索引會累積
-    死亡項目，而資料表本身也會累積死亡的行指標，這些行指標
-    要等到索引清理完成才能被移除。
+一般而言，當資料表中的死亡資料列非常少時，
+`VACUUM` 會略過索引清理。在這種情況下，
+處理資料表所有索引的成本，預期會遠遠超過移除死亡索引項目
+所帶來的效益。這個選項可用來強制 `VACUUM`
+在死亡資料列數超過零時處理索引。預設值為
+`AUTO`，會讓 `VACUUM` 在適當時
+略過索引清理。若 `INDEX_CLEANUP` 設為
+`ON`，`VACUUM` 就會保守地
+移除索引中所有的死亡資料列。這對於要與較早版本的
+PostgreSQL（其標準行為即是如此）維持向後相容性
+可能會很有用。
 
-    這個選項對沒有索引的資料表沒有作用，且若使用了
-    `FULL` 選項，這個選項就會被忽略。它對交易 ID
-    回捲失效保護機制也沒有作用。當該機制被觸發時，
-    即使 `INDEX_CLEANUP` 設為 `ON`，
-    它仍會略過索引清理。
+`INDEX_CLEANUP` 也可以設為
+`OFF`，強制 `VACUUM`
+*一律*略過索引清理，即使資料表中有許多死亡資料列
+也一樣。當有必要讓 `VACUUM` 盡可能快速執行，
+以避免即將發生的交易 ID 回捲時，這可能會很有用
+（參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。
+不過，由
+[vacuum_failsafe_age](../../server-administration/runtime-config/runtime-config-vacuum.md#GUC-VACUUM-FAILSAFE-AGE)
+所控制的回捲失效保護機制，一般會自動觸發，以避免交易 ID
+回捲失敗，因此通常應優先採用該機制。若未定期執行索引清理，
+效能可能會受影響，因為隨著資料表被修改，索引會累積
+死亡項目，而資料表本身也會累積死亡的行指標，這些行指標
+要等到索引清理完成才能被移除。
+
+這個選項對沒有索引的資料表沒有作用，且若使用了
+`FULL` 選項，這個選項就會被忽略。它對交易 ID
+回捲失效保護機制也沒有作用。當該機制被觸發時，
+即使 `INDEX_CLEANUP` 設為 `ON`，
+它仍會略過索引清理。
 
 `PROCESS_MAIN`
 :   指定 `VACUUM` 應嘗試處理主要關聯。

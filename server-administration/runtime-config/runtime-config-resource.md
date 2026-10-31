@@ -160,30 +160,31 @@ PostgreSQL 造成效能下降，因此目前不建議
 <a id="GUC-WORK-MEM"></a>
 
 `work_mem` (`integer`) <a id="id-1.6.6.7.2.2.6.1.3"></a> [#](#GUC-WORK-MEM)
-:   設定查詢操作（例如排序或雜湊表）在寫入暫存磁碟檔案
-    之前，所能使用的基本最大記憶體量。
-    若此值指定時未帶單位，則以千位元組為單位。
-    預設值為 4 百萬位元組（`4MB`）。
-    請注意，一個複雜的查詢可能會同時執行多個排序
-    與雜湊操作，一般而言，每個操作在開始
-    寫入暫存檔案之前，都可以使用最多此值所指定的
-    記憶體量。此外，也可能有多個工作階段
-    正在並行執行這類操作。
-    因此，實際使用的總記憶體量，可能是
-    `work_mem` 值的許多倍；選擇此值時
-    必須將此事實納入考量。排序操作用於
-    `ORDER BY`、`DISTINCT`，
-    以及合併聯結。
-    雜湊表則用於雜湊聯結、以雜湊為基礎的聚合、memoize
-    節點，以及以雜湊為基礎處理 `IN` 子查詢。
 
-    以雜湊為基礎的操作，通常對可用記憶體比等效的
-    以排序為基礎的操作更為敏感。雜湊表的
-    記憶體上限，是以
-    `work_mem` 乘以
-    `hash_mem_multiplier` 計算得出的。這使得
-    以雜湊為基礎的操作，可以使用超過一般
-    `work_mem` 基本量的記憶體。
+設定查詢操作（例如排序或雜湊表）在寫入暫存磁碟檔案
+之前，所能使用的基本最大記憶體量。
+若此值指定時未帶單位，則以千位元組為單位。
+預設值為 4 百萬位元組（`4MB`）。
+請注意，一個複雜的查詢可能會同時執行多個排序
+與雜湊操作，一般而言，每個操作在開始
+寫入暫存檔案之前，都可以使用最多此值所指定的
+記憶體量。此外，也可能有多個工作階段
+正在並行執行這類操作。
+因此，實際使用的總記憶體量，可能是
+`work_mem` 值的許多倍；選擇此值時
+必須將此事實納入考量。排序操作用於
+`ORDER BY`、`DISTINCT`，
+以及合併聯結。
+雜湊表則用於雜湊聯結、以雜湊為基礎的聚合、memoize
+節點，以及以雜湊為基礎處理 `IN` 子查詢。
+
+以雜湊為基礎的操作，通常對可用記憶體比等效的
+以排序為基礎的操作更為敏感。雜湊表的
+記憶體上限，是以
+`work_mem` 乘以
+`hash_mem_multiplier` 計算得出的。這使得
+以雜湊為基礎的操作，可以使用超過一般
+`work_mem` 基本量的記憶體。
 <a id="GUC-HASH-MEM-MULTIPLIER"></a>
 
 `hash_mem_multiplier` (`floating point`) <a id="id-1.6.6.7.2.2.7.1.3"></a> [#](#GUC-HASH-MEM-MULTIPLIER)
@@ -631,27 +632,28 @@ postmaster 中已經開啟的檔案不計入此上限。
 <a id="GUC-EFFECTIVE-IO-CONCURRENCY"></a>
 
 `effective_io_concurrency` (`integer`) <a id="id-1.6.6.7.6.2.2.1.3"></a> [#](#GUC-EFFECTIVE-IO-CONCURRENCY)
-:   設定 PostgreSQL 預期可以同時執行的
-    並行儲存 I/O 操作數量。提高此值，
-    會增加任一個個別 PostgreSQL
-    工作階段嘗試平行發起的 I/O 操作數量。
-    允許的範圍為
-    `1` 到 `1000`，或
-    `0`（代表停用非同步 I/O 請求的發出）。
-    預設值為 `16`。
 
-    較高的值，對於原本會經歷明顯 I/O 停頓的高延遲
-    儲存裝置，以及具有高 IOPS 的裝置，會有最大的影響。
-    不必要的高值，可能會增加系統上所有查詢的
-    I/O 延遲。
+設定 PostgreSQL 預期可以同時執行的
+並行儲存 I/O 操作數量。提高此值，
+會增加任一個個別 PostgreSQL
+工作階段嘗試平行發起的 I/O 操作數量。
+允許的範圍為
+`1` 到 `1000`，或
+`0`（代表停用非同步 I/O 請求的發出）。
+預設值為 `16`。
 
-    在支援預先擷取建議（prefetch advice）的系統上，
-    `effective_io_concurrency` 也控制
-    預先擷取的距離。
+較高的值，對於原本會經歷明顯 I/O 停頓的高延遲
+儲存裝置，以及具有高 IOPS 的裝置，會有最大的影響。
+不必要的高值，可能會增加系統上所有查詢的
+I/O 延遲。
 
-    可以透過設定同名的表空間參數，
-    針對特定表空間中的資料表覆寫此值（參閱
-    [ALTER TABLESPACE](../../reference/sql-commands/sql-altertablespace.md)）。
+在支援預先擷取建議（prefetch advice）的系統上，
+`effective_io_concurrency` 也控制
+預先擷取的距離。
+
+可以透過設定同名的表空間參數，
+針對特定表空間中的資料表覆寫此值（參閱
+[ALTER TABLESPACE](../../reference/sql-commands/sql-altertablespace.md)）。
 <a id="GUC-MAINTENANCE-IO-CONCURRENCY"></a>
 
 `maintenance_io_concurrency` (`integer`) <a id="id-1.6.6.7.6.2.3.1.3"></a> [#](#GUC-MAINTENANCE-IO-CONCURRENCY)
@@ -688,15 +690,16 @@ postmaster 中已經開啟的檔案不計入此上限。
 <a id="GUC-IO-MAX-CONCURRENCY"></a>
 
 `io_max_concurrency` (`integer`) <a id="id-1.6.6.7.6.2.6.1.3"></a> [#](#GUC-IO-MAX-CONCURRENCY)
-:   控制單一程序可以同時執行的最大 I/O 操作數量。
 
-    預設設定 `-1` 會根據
-    [shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS) 與最大程序數
-    （[max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)、[autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)、[max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 與 [max_wal_senders](runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）
-    選擇一個數值，但不會超過
-    `64`。
+控制單一程序可以同時執行的最大 I/O 操作數量。
 
-    此參數只能在伺服器啟動時設定。
+預設設定 `-1` 會根據
+[shared_buffers](runtime-config-resource.md#GUC-SHARED-BUFFERS) 與最大程序數
+（[max_connections](runtime-config-connection.md#GUC-MAX-CONNECTIONS)、[autovacuum_worker_slots](runtime-config-vacuum.md#GUC-AUTOVACUUM-WORKER-SLOTS)、[max_worker_processes](runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 與 [max_wal_senders](runtime-config-replication.md#GUC-MAX-WAL-SENDERS)）
+選擇一個數值，但不會超過
+`64`。
+
+此參數只能在伺服器啟動時設定。
 <a id="GUC-IO-METHOD"></a>
 
 `io_method` (`enum`) <a id="id-1.6.6.7.6.2.7.1.3"></a> [#](#GUC-IO-METHOD)
@@ -732,18 +735,19 @@ postmaster 中已經開啟的檔案不計入此上限。
 <a id="GUC-MAX-WORKER-PROCESSES"></a>
 
 `max_worker_processes` (`integer`) <a id="id-1.6.6.7.7.2.1.1.3"></a> [#](#GUC-MAX-WORKER-PROCESSES)
-:   設定叢集所能支援的最大背景程序數量。
-    此參數只能在伺服器啟動時設定。
-    預設值為 8。
 
-    在執行待命伺服器時，你必須將此參數設為與
-    主要伺服器相同或更高的值，否則
-    待命伺服器中將不允許執行查詢。
+設定叢集所能支援的最大背景程序數量。
+此參數只能在伺服器啟動時設定。
+預設值為 8。
 
-    變更此值時，也請一併考慮調整
-    [max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS)、
-    [max_parallel_maintenance_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS) 與
-    [max_parallel_workers_per_gather](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER)。
+在執行待命伺服器時，你必須將此參數設為與
+主要伺服器相同或更高的值，否則
+待命伺服器中將不允許執行查詢。
+
+變更此值時，也請一併考慮調整
+[max_parallel_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS)、
+[max_parallel_maintenance_workers](runtime-config-resource.md#GUC-MAX-PARALLEL-MAINTENANCE-WORKERS) 與
+[max_parallel_workers_per_gather](runtime-config-resource.md#GUC-MAX-PARALLEL-WORKERS-PER-GATHER)。
 <a id="GUC-MAX-PARALLEL-WORKERS-PER-GATHER"></a>
 
 `max_parallel_workers_per_gather` (`integer`) <a id="id-1.6.6.7.7.2.2.1.3"></a> [#](#GUC-MAX-PARALLEL-WORKERS-PER-GATHER)

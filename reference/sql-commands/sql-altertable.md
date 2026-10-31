@@ -197,9 +197,10 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 <a id="SQL-ALTERTABLE-DESC-SET-STATISTICS"></a>
 
 `SET STATISTICS` [#](#SQL-ALTERTABLE-DESC-SET-STATISTICS)
-:   此形式會為後續的 [`ANALYZE`](sql-analyze.md) 操作設定各欄位的統計資訊收集目標。目標可設定的範圍為 0 到 10000。將它設為 `DEFAULT` 可恢復使用系統預設的統計目標（[default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET)）。（將值設為 -1 是達成相同結果的過時寫法。）關於 PostgreSQL 查詢規劃器如何使用統計資訊的詳細資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/planner-stats.md)。
 
-    `SET STATISTICS` 會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
+此形式會為後續的 [`ANALYZE`](sql-analyze.md) 操作設定各欄位的統計資訊收集目標。目標可設定的範圍為 0 到 10000。將它設為 `DEFAULT` 可恢復使用系統預設的統計目標（[default_statistics_target](../../server-administration/runtime-config/runtime-config-query.md#GUC-DEFAULT-STATISTICS-TARGET)）。（將值設為 -1 是達成相同結果的過時寫法。）關於 PostgreSQL 查詢規劃器如何使用統計資訊的詳細資訊，請參閱[第 14.2 節](../../the-sql-language/performance-tips/planner-stats.md)。
+
+`SET STATISTICS` 會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-SET-ATTRIBUTE-OPTION"></a>
 
 `SET ( attribute_option = value [, ... ] )`<br>`RESET ( attribute_option [, ... ] )` [#](#SQL-ALTERTABLE-DESC-SET-ATTRIBUTE-OPTION)

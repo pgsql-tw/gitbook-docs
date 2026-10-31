@@ -95,10 +95,11 @@ where action is one of:
 :   變更傳回集合之函式的估計傳回資料列數。更多資訊請參閱 [CREATE FUNCTION](sql-createfunction.md)。
 
 `SUPPORT` *`support_function`*
-:   設定或變更此函式要使用的規劃器支援函式。細節請參閱[第 36.11 節](../../server-programming/extend/xfunc-optimization.md)。你必須是超級使用者才能使用此選項。
 
-    此選項無法用來完全移除支援函式，因為它必須指名一個新的支援函式。若需要移除，請使用 `CREATE OR
-    REPLACE FUNCTION`。
+設定或變更此函式要使用的規劃器支援函式。細節請參閱[第 36.11 節](../../server-programming/extend/xfunc-optimization.md)。你必須是超級使用者才能使用此選項。
+
+此選項無法用來完全移除支援函式，因為它必須指名一個新的支援函式。若需要移除，請使用 `CREATE OR
+REPLACE FUNCTION`。
 
 *`configuration_parameter`*<br>*`value`*
 

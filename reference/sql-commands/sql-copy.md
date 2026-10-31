@@ -90,21 +90,22 @@ PostgreSQL 使用者執行。指定
     欄位清單，則會複製資料表中除了產生欄位以外的所有欄位。
 
 *`query`*
-:   一個 [`SELECT`](sql-select.md)、
-    [`VALUES`](sql-values.md)、
-    [`INSERT`](sql-insert.md)、
-    [`UPDATE`](sql-update.md)、
-    [`DELETE`](sql-delete.md) 或
-    [`MERGE`](sql-merge.md) 命令，
-    其結果將被複製。請注意，查詢的前後必須
-    加上括號。
 
-    對於 `INSERT`、`UPDATE`、
-    `DELETE` 與 `MERGE` 查詢，必須提供
-    `RETURNING` 子句，而且目標
-    關聯不得有條件式規則，也不得有
-    `ALSO` 規則，也不得有會展開成多個陳述式的
-    `INSTEAD` 規則。
+一個 [`SELECT`](sql-select.md)、
+[`VALUES`](sql-values.md)、
+[`INSERT`](sql-insert.md)、
+[`UPDATE`](sql-update.md)、
+[`DELETE`](sql-delete.md) 或
+[`MERGE`](sql-merge.md) 命令，
+其結果將被複製。請注意，查詢的前後必須
+加上括號。
+
+對於 `INSERT`、`UPDATE`、
+`DELETE` 與 `MERGE` 查詢，必須提供
+`RETURNING` 子句，而且目標
+關聯不得有條件式規則，也不得有
+`ALSO` 規則，也不得有會展開成多個陳述式的
+`INSTEAD` 規則。
 
 *`filename`*
 :   輸入或輸出檔案的路徑名稱。輸入檔案名稱可以是
@@ -283,15 +284,16 @@ PostgreSQL 使用者執行。指定
     注意事項。
 
 `LOG_VERBOSITY`
-:   指定 `COPY`
-    命令發出的訊息量：`default`、`verbose` 或
-    `silent`。
-    若指定了 `verbose`，則會在處理過程中發出
-    額外的訊息。
-    `silent` 會同時抑制詳細訊息與預設訊息。
 
-    目前這用於 `COPY FROM` 命令中
-    `ON_ERROR` 選項設為 `ignore` 的情況。
+指定 `COPY`
+命令發出的訊息量：`default`、`verbose` 或
+`silent`。
+若指定了 `verbose`，則會在處理過程中發出
+額外的訊息。
+`silent` 會同時抑制詳細訊息與預設訊息。
+
+目前這用於 `COPY FROM` 命令中
+`ON_ERROR` 選項設為 `ignore` 的情況。
 
 `WHERE`
 
