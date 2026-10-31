@@ -26,6 +26,10 @@
 
 - 「程序」同時用於 procedure 與 trigger（如「觸發程序」「Tcl 程序名稱」），這是已知的同形詞；需要區分時可於初次出現加註原文，例如「伺服器程序（server process）」。`appendixes/acronyms/README.md` 的「行程間通訊」「行程識別碼」尚未納入本次裁決，暫不更動。
 
+## 提示標題的使用者裁決
+
+- **Caution →「注意」**（2026-10-31）：以官方來源的提示類型為準；PostgreSQL HTML 可由 `div class="caution"` 確認。不用「小心」作為該類提示的標題，但不替換正文中的一般用詞，也不把 Note、Warning 等其他類型一律當成 Caution。維護既有頁面時保留原正文與原碼；GitBook 呈現與定位保護依 [GitBook 維護規則](gitbook-maintenance.md#render-confirmed-caution-callouts)。裁決來源為專案 `outputs/pg18-translation/agents/PROTOCOL.md`。
+
 ## 尚未統一的詞
 
 - function 同時有「函式」及「函數」：第 9 章目錄兩者並存。修改既有小節時先保持該小節一致；新內容建議採「函式」。這是編輯建議，不是已確認的全專案規定。
