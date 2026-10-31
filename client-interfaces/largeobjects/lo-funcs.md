@@ -101,8 +101,9 @@ SELECT lo_export(image.raster, '/tmp/motd') FROM image
 讀寫用戶端檔案系統中的檔案。用戶端函式不需要任何資料庫
 權限，只需要讀取或寫入相關大型物件的權限。
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 可以將伺服器端 `lo_import`
 與 `lo_export` 函式的使用權限 [GRANT](../../reference/sql-commands/sql-grant.md) 給
 非超級使用者，但必須審慎考量其安全性影響。
@@ -116,6 +117,7 @@ SELECT lo_export(image.raster, '/tmp/motd') FROM image
 或 `lo_export`，使用擁有這類權限的角色，
 會比使用擁有完整超級使用者權限的角色更安全，因為這有助於降低
 意外錯誤所造成損害的風險。
+{% endhint %}
 
 `lo_read` 與
 `lo_write` 的功能也可以透過伺服器端呼叫取得，

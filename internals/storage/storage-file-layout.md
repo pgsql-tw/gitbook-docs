@@ -26,9 +26,11 @@
 
 每個資料表與索引都存放在個別的檔案中。對於一般關聯，這些檔案是以資料表或索引的 *filenode*（檔案節點）編號命名，這個編號可以在 `pg_class`.`relfilenode` 中找到。但對於暫存關聯，檔名的形式為 `tBBB_FFF`，其中 *`BBB`* 是建立該檔案之後端的程序編號，*`FFF`* 則是 filenode 編號。無論哪一種情況，除了主檔案（又稱為主分支（main fork））之外，每個資料表與索引都有一個*可用空間對應表*（請參閱[第 66.3 節](storage-fsm.md)），用來儲存關聯中可用空間的資訊。可用空間對應表存放在一個以 filenode 編號加上後綴 `_fsm` 命名的檔案中。資料表還有一個*可見性對應表*，存放在後綴為 `_vm` 的分支中，用來追蹤哪些頁面已知不含死亡資料列。可見性對應表在[第 66.4 節](storage-vm.md)中有進一步說明。不記錄 WAL 的資料表（unlogged table）與索引有第三個分支，稱為初始化分支（initialization fork），存放在後綴為 `_init` 的分支中（請參閱[第 66.5 節](storage-init.md)）。
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 請注意，雖然資料表的 filenode 經常與其 OID 相同，但*不一定*如此；某些操作，例如 `TRUNCATE`、`REINDEX`、`CLUSTER` 以及某些形式的 `ALTER TABLE`，可能會在保留 OID 的同時變更 filenode。請避免假設 filenode 與資料表 OID 相同。此外，對於某些系統目錄（包括 `pg_class` 本身），`pg_class`.`relfilenode` 的內容為零。這些系統目錄實際的 filenode 編號存放在較低層級的資料結構中，可以使用 `pg_relation_filenode()` 函式取得。
+{% endhint %}
 
 當資料表或索引超過 1 GB 時，會被分割成以 GB 為大小的*區段*。第一個區段的檔名與 filenode 相同；後續的區段則命名為 filenode.1、filenode.2 等。這種安排可以避免在有檔案大小限制的平台上發生問題。（實際上，1 GB 只是預設的區段大小。區段大小可以在建置 PostgreSQL 時使用設定選項 `--with-segsize` 調整。）原則上，可用空間對應表與可見性對應表的分支也可能需要多個區段，不過這在實務上不太可能發生。
 

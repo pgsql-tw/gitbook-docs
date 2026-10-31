@@ -30,7 +30,7 @@ SQL 日期與時間型別。這些資料型別上可用的運算，
 
 <br>
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 SQL 標準要求單獨寫
 `timestamp`，須等同於 `timestamp without time
@@ -319,8 +319,9 @@ zone` 值時，永遠會從 UTC 轉換為
 `LOCALTIMESTAMP`。（請參閱[9.9.5 節](../functions/functions-datetime.md#functions-datetime-current)。）請注意，這些是
 SQL 函式，在資料輸入字串中，*不會*被識別。
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 雖然輸入字串 `now`、
 `today`、`tomorrow`
 與 `yesterday`，很適合用於互動式 SQL
@@ -332,6 +333,7 @@ SQL 函式，在資料輸入字串中，*不會*被識別。
 其中一種 SQL 函式。舉例來說，
 `CURRENT_DATE + 1` 就比
 `'tomorrow'::date` 更安全。
+{% endhint %}
 
 <a id="DATATYPE-DATETIME-OUTPUT"></a>
 
@@ -361,7 +363,7 @@ POSTGRES 風格會以 ISO 格式輸出僅含日期的值。
 
 <br>
 
-### 注意
+### 注意 [#](#zhu-yi-1) <a href="#zhu-yi-1" id="zhu-yi-1"></a>
 
 ISO 8601 規定使用大寫字母 `T`，
 來分隔日期與時刻。PostgreSQL 在輸入時
@@ -519,7 +521,7 @@ PostgreSQL 讓您能以三種
 
 <a id="id-1.5.7.13.20.3"></a>
 
-### 注意
+### 注意 [#](#zhu-yi-2) <a href="#zhu-yi-2" id="zhu-yi-2"></a>
 
 POSIX 風格時區規格中的正負號，
 與 ISO-8601 日期時間值中的正負號，意義相反。舉例來說，

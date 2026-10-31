@@ -108,26 +108,30 @@ IANA 時區資料庫中定義的時區名稱。系統會查閱該時區的定義
 作為 `timezone_abbreviations` 的設定值來參照，因為
 其名稱中含有句點。
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 若讀取時區縮寫集合時發生錯誤，則不會套用新的
 值，並保留舊的集合。若錯誤發生在
 啟動資料庫時，則啟動會失敗。
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 設定檔中定義的時區縮寫會覆寫
 PostgreSQL 內建的非時區意義。
 例如，`Australia` 設定檔定義了
 `SAT`（表示南澳標準時間）。當此
 檔案生效時，`SAT` 將不會被辨識為
 星期六的縮寫。
+{% endhint %}
 
-### 小心
+### 注意 [#](#xiao-xin-1) <a href="#xiao-xin-1" id="xiao-xin-1"></a>
 
+{% hint style="warning" %}
 若你修改 `.../share/timezonesets/` 中的檔案，
 必須自行負責備份——一般的資料庫傾印
 不會包含此目錄。
+{% endhint %}
 
 ---
 

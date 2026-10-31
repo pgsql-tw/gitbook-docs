@@ -174,7 +174,7 @@ Development Group）的政策是不在次要版本升級時
 
 <a id="STANDBY-SERVER-SETUP-NOTE"></a>
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 如果檔案不存在，[restore_command](../runtime-config/runtime-config-wal.md#GUC-RESTORE-COMMAND) 應該立即返回；
 必要時，伺服器會再次重試該命令。
@@ -375,13 +375,15 @@ WAL 接收程序的程序狀態中，可以使用
 
 <a id="STREAMING-REPLICATION-SLOTS-CAUTION"></a>
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 請留意，複寫插槽可能會使伺服器保留
 大量 WAL 區段，以致於填滿配置給
 `pg_wal` 的空間。
 可以使用 [max_slot_wal_keep_size](../runtime-config/runtime-config-replication.md#GUC-MAX-SLOT-WAL-KEEP-SIZE) 來限制
 複寫插槽所保留之 WAL 檔案的大小。
+{% endhint %}
 
 <a id="STREAMING-REPLICATION-SLOTS-MANIPULATION"></a>
 

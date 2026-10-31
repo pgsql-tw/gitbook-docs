@@ -20,7 +20,7 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 
 `DECLARE` 讓使用者建立游標，游標可以用來從一個較大的查詢中，每次擷取少量的資料列。游標建立之後，使用 [`FETCH`](sql-fetch.md) 從中擷取資料列。
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 本頁說明的是在 SQL 命令層級使用游標的方式。如果您要在 PL/pgSQL 函式中使用游標，規則有所不同——請參閱[第 41.7 節](../../server-programming/plpgsql/plpgsql-cursors.md)。
 
@@ -59,7 +59,7 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 
 二進位游標應謹慎使用。許多應用程式（包括 psql）並未準備好處理二進位游標，而是預期資料以文字格式傳回。
 
-### 注意
+### 注意 [#](#zhu-yi-1) <a href="#zhu-yi-1" id="zhu-yi-1"></a>
 
 當用戶端應用程式使用「延伸查詢」協定發出 `FETCH` 命令時，Bind 協定訊息會指定以文字或二進位格式擷取資料。這項選擇會覆寫游標原本的定義方式。因此，在使用延伸查詢協定時，二進位游標這個概念本身已經過時——任何游標都可以被視為文字或二進位格式。
 
@@ -73,19 +73,23 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 
 當查詢包含 `FOR UPDATE` 或 `FOR SHARE` 時，同樣不允許向後擷取；因此在這種情況下不可指定 `SCROLL`。
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 可捲動的游標若呼叫任何揮發性函式（請參閱[第 36.7 節](../../server-programming/extend/xfunc-volatility.md)），可能會產生非預期的結果。當先前擷取過的資料列被重新擷取時，這些函式可能會被重新執行，或許會導致與第一次不同的結果。對於涉及揮發性函式的查詢，最好指定 `NO SCROLL`。若這樣做並不實際，一種變通方法是將游標宣告為 `SCROLL WITH HOLD`，並在從中讀取任何資料列之前提交交易。這會強制將游標的完整輸出實體化到暫存儲存空間中，使揮發性函式對每個資料列都恰好只執行一次。
+{% endhint %}
 
 若游標的查詢包含 `FOR UPDATE` 或 `FOR SHARE`，則傳回的資料列會在第一次被擷取時鎖定，方式與帶有這些選項的一般 [`SELECT`](sql-select.md) 命令相同。此外，傳回的資料列會是最新的版本。
 
-### 小心
+### 注意 [#](#xiao-xin-1) <a href="#xiao-xin-1" id="xiao-xin-1"></a>
 
+{% hint style="warning" %}
 若游標打算與 `UPDATE ... WHERE CURRENT OF` 或 `DELETE ... WHERE CURRENT OF` 搭配使用，一般建議使用 `FOR UPDATE`。使用 `FOR UPDATE` 可以防止其他工作階段在資料列被擷取之後、被更新之前變更這些資料列。若沒有 `FOR UPDATE`，當資料列在游標建立之後已被變更時，後續的 `WHERE CURRENT OF` 命令將不會有任何作用。
 
 使用 `FOR UPDATE` 的另一個理由是：若沒有它，當游標查詢不符合 SQL 標準對「可簡單更新」（simply updatable）的規則時（特別是，游標必須只參照一個資料表，且不使用分組或 `ORDER BY`），後續的 `WHERE CURRENT OF` 可能會失敗。不是可簡單更新的游標可能可以運作，也可能無法運作，取決於計畫選擇的細節；因此在最糟的情況下，應用程式可能在測試時正常運作，到了正式環境卻失敗。若指定了 `FOR UPDATE`，就能保證游標是可更新的。
 
 不將 `FOR UPDATE` 與 `WHERE CURRENT OF` 搭配使用的主要理由，是您需要游標可以捲動，或需要游標與並行更新隔離（也就是持續顯示舊資料）的情況。若這是必要條件，請特別留意上述的注意事項。
+{% endhint %}
 
 SQL 標準只在嵌入式 SQL 中為游標做了規定。PostgreSQL 伺服器並未實作游標的 `OPEN` 陳述式；游標在宣告時即被視為已開啟。不過，ECPG（PostgreSQL 的嵌入式 SQL 前置處理器）支援標準 SQL 的游標慣例，包括涉及 `DECLARE` 與 `OPEN` 陳述式的慣例。
 

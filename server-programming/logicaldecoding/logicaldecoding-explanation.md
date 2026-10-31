@@ -30,7 +30,7 @@
 
 在邏輯複寫的語境中，插槽代表一串變更串流，可依照這些變更在來源伺服器上發生的順序，重播給用戶端。每個插槽都會從單一資料庫串流出一連串的變更。
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 PostgreSQL 也有串流複寫插槽
 （見[26.2.5 節](../../server-administration/high-availability/warm-standby.md#streaming-replication)），但其用法略有不同。
@@ -61,11 +61,13 @@ PostgreSQL 也有串流複寫插槽
 備援伺服器上建立邏輯插槽可能會耗費相當長的時間。可以透過在主要伺服器上呼叫
 `pg_log_standby_snapshot` 函式來加快此過程。
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+{% hint style="warning" %}
 複寫插槽的存續會跨越當機，且對其消費者的狀態一無所知。即使沒有任何連線在使用它們，它們仍會阻止所需資源被移除。這會消耗儲存空間，因為只要仍被某個複寫
 插槽所需要，`VACUUM` 就無法移除所需的 WAL 或系統目錄中所需的資料列。在極端情況下，這可能導致資料庫為防止交易 ID 回捲而關閉（見[24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。
 因此，若某個插槽已不再需要，就應將其刪除。
+{% endhint %}
 
 <a id="LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION"></a>
 
@@ -100,7 +102,7 @@ PostgreSQL 也有串流複寫插槽
 備援伺服器，確認已接收到直到主要伺服器上最新
 排清（flush）位置為止的 WAL。
 
-### 注意
+### 注意 [#](#zhu-yi-1) <a href="#zhu-yi-1" id="zhu-yi-1"></a>
 
 雖然啟用
 [`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS) 可讓
@@ -153,12 +155,14 @@ DETAIL:  Synchronization could lead to data loss, because the remote slot needs 
 建議在將備援伺服器提升為主要伺服器之前，先停用相關訂閱，
 並在變更連線字串之後再重新啟用。
 
-### 小心
+### 注意 [#](#xiao-xin-1) <a href="#xiao-xin-1" id="xiao-xin-1"></a>
 
+{% hint style="warning" %}
 在提升過程中，舊的主要伺服器有可能重新上線，若訂閱未被停用，
 邏輯訂閱端可能會在提升完成後，仍持續從舊的主要伺服器接收資料，
 直到連線字串被變更為止。這可能導致資料不一致的問題，
 使邏輯訂閱端無法從新的主要伺服器繼續複寫。
+{% endhint %}
 
 <a id="LOGICALDECODING-EXPLANATION-OUTPUT-PLUGINS"></a>
 

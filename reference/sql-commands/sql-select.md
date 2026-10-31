@@ -826,7 +826,7 @@ f(x) FROM tab ORDER BY 1` 顯然必須在排序之前
 
 <a id="SQL-SELECT-LIST-NOTE"></a>
 
-### 注意
+### 注意 [#](#zhu-yi) <a href="#zhu-yi" id="zhu-yi"></a>
 
 9.6 版之前的 PostgreSQL，並未對輸出運算式的
 求值時機相對於排序與限制之先後順序提供任何保證；
@@ -1249,9 +1249,10 @@ ROLLBACK TO s;
 
 <a id="SQL-FOR-UPDATE-SHARE-CAUTION"></a>
 
-### 小心
+### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
 
+{% hint style="warning" %}
 在 `READ
 COMMITTED` 交易隔離等級下執行、同時使用 `ORDER
 BY` 與鎖定子句的 `SELECT` 命令，
@@ -1279,6 +1280,7 @@ SELECT * FROM (SELECT * FROM mytable FOR UPDATE) ss ORDER BY column1;
 交易隔離等級下，這會導致序列化失敗（`SQLSTATE`
 為 `'40001'`），因此在這些隔離等級下，
 不可能收到順序錯亂的資料列。
+{% endhint %}
 
 <a id="SQL-TABLE"></a>
 
