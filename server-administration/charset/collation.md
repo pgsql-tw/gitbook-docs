@@ -24,7 +24,7 @@
 定序。（內建的可定序資料型別為
 `text`、`varchar` 與 `char`。
 使用者自訂的基礎型別也可以被標記為可定序，當然，
-建立在可定序資料型別之上的[*[網域](../../appendixes/glossary/README.md#GLOSSARY-DOMAIN)*](../../appendixes/glossary/README.md#GLOSSARY-DOMAIN)也是可定序的。）若該
+建立在可定序資料型別之上的[*網域*](../../appendixes/glossary/README.md#glossary-domain)也是可定序的。）若該
 運算式是欄位參照，則該運算式的定序即為
 該欄位所定義的定序。若該運算式是常數，則
 定序為該常數之資料型別的預設定序。較複雜運算式的定序則

@@ -43,7 +43,7 @@ and table_and_columns is:
 
 `BUFFER_USAGE_LIMIT`
 :   指定 `ANALYZE` 所使用的
-    [*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+    [*緩衝區存取策略*](../../appendixes/glossary/README.md#glossary-buffer-access-strategy)
     環狀緩衝區大小。這個大小用來計算此策略中將重複使用的共享緩衝區數量。`0` 會停用 `Buffer Access Strategy` 的使用。若未指定這個選項，`ANALYZE` 會使用 [vacuum_buffer_usage_limit](../../server-administration/runtime-config/runtime-config-resource.md#GUC-VACUUM-BUFFER-USAGE-LIMIT) 的值。設定較高的值可以讓 `ANALYZE` 執行得更快，但設定過大的值，可能會導致其他太多有用的頁面被逐出共享緩衝區。最小值為 `128 kB`，最大值為 `16 GB`。
 
 *`boolean`*

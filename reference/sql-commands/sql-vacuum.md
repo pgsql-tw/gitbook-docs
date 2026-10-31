@@ -219,7 +219,7 @@ PostgreSQL（其標準行為即是如此）維持向後相容性
 
 `BUFFER_USAGE_LIMIT`
 :   指定 `VACUUM` 所使用的
-    [*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+    [*緩衝區存取策略*](../../appendixes/glossary/README.md#glossary-buffer-access-strategy)
     環狀緩衝區大小。這個大小用來計算此策略中將重複使用的
     共享緩衝區數量。`0` 會停用
     `Buffer Access Strategy` 的使用。若同時指定了

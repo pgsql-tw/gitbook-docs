@@ -3,13 +3,13 @@
 這是 PostgreSQL 文件及 PostgreSQL 相關討論中常用縮寫的清單。
 
 AIO
-:   [非同步 I/O](../glossary/README.md#GLOSSARY-AIO)
+:   [非同步 I/O](../glossary/README.md#glossary-aio)
 
 ACL
 :   [存取控制清單](https://en.wikipedia.org/wiki/Access-control_list)
 
 AM
-:   [存取方法](../glossary/README.md#GLOSSARY-AM)
+:   [存取方法](../glossary/README.md#glossary-am)
 
 ANSI
 :   [美國國家標準協會](https://en.wikipedia.org/wiki/American_National_Standards_Institute)
@@ -111,7 +111,7 @@ IPC
 :   [行程間通訊](https://en.wikipedia.org/wiki/Inter-process_communication)
 
 I/O
-:   [輸入／輸出](../glossary/README.md#GLOSSARY-IO)
+:   [輸入／輸出](../glossary/README.md#glossary-io)
 
 ISO
 :   [國際標準化組織](https://www.iso.org/home.html)
@@ -132,7 +132,7 @@ LDAP
 :   [輕量目錄存取協定](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
 
 LSN
-:   [*[日誌序號](../glossary/README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)*](../glossary/README.md#GLOSSARY-LOG-SEQUENCE-NUMBER)
+:   [*日誌序號*](../glossary/README.md#glossary-log-sequence-number)
 
 MCF
 :   最常見頻率，也就是與某個最常見值相關的頻率

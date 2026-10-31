@@ -46,7 +46,7 @@ where role_specification can be:
 
 `ALTER ROLE` 會變更 PostgreSQL 角色的屬性。
 
-語法中列出的此命令第一種變體，可以變更許多可在 [`CREATE ROLE`](sql-createrole.md) 中指定的角色屬性。（所有可能的屬性都涵蓋在內，只是沒有新增或移除成員資格的選項；這方面請使用 [`GRANT`](sql-grant.md) 與 [`REVOKE`](sql-revoke.md)。）命令中未提及的屬性會保留先前的設定。資料庫超級使用者可以為任何角色變更這些設定中的任何一項，但不能變更[*[引導超級使用者（bootstrap superuser）](../../appendixes/glossary/README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)*](../../appendixes/glossary/README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)的 `SUPERUSER` 屬性。具有 `CREATEROLE` 權限的非超級使用者角色可以變更這些屬性中的大部分，但只限於其已被授予 `ADMIN OPTION` 的非超級使用者且非複寫角色。非超級使用者不能變更 `SUPERUSER` 屬性；而只有在自己擁有對應的屬性時，才能變更 `CREATEDB`、`REPLICATION` 與 `BYPASSRLS` 屬性。一般角色只能變更自己的密碼。
+語法中列出的此命令第一種變體，可以變更許多可在 [`CREATE ROLE`](sql-createrole.md) 中指定的角色屬性。（所有可能的屬性都涵蓋在內，只是沒有新增或移除成員資格的選項；這方面請使用 [`GRANT`](sql-grant.md) 與 [`REVOKE`](sql-revoke.md)。）命令中未提及的屬性會保留先前的設定。資料庫超級使用者可以為任何角色變更這些設定中的任何一項，但不能變更[*引導超級使用者（bootstrap superuser）*](../../appendixes/glossary/README.md#glossary-bootstrap-superuser)的 `SUPERUSER` 屬性。具有 `CREATEROLE` 權限的非超級使用者角色可以變更這些屬性中的大部分，但只限於其已被授予 `ADMIN OPTION` 的非超級使用者且非複寫角色。非超級使用者不能變更 `SUPERUSER` 屬性；而只有在自己擁有對應的屬性時，才能變更 `CREATEDB`、`REPLICATION` 與 `BYPASSRLS` 屬性。一般角色只能變更自己的密碼。
 
 第二種變體會變更角色的名稱。資料庫超級使用者可以重新命名任何角色。具有 `CREATEROLE` 權限的角色，可以重新命名其已被授予 `ADMIN OPTION` 的非超級使用者角色。目前的工作階段使用者無法被重新命名。（若需要這麼做，請以另一個使用者身分連線。）由於以 `MD5` 加密的密碼使用角色名稱作為加密用的 salt，若密碼是以 `MD5` 加密的，重新命名角色會清除其密碼。
 

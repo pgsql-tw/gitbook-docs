@@ -259,9 +259,9 @@ zone` 的值，PostgreSQL
 對於 `timestamp with time zone` 的值，
 若輸入字串包含明確的時區，
 會使用該時區適當的偏移量，
-被轉換為 UTC（[*[協調世界時
+被轉換為 UTC（[*協調世界時
 （Universal Coordinated
-Time）](../../appendixes/glossary/README.md#GLOSSARY-UTC)*](../../appendixes/glossary/README.md#GLOSSARY-UTC)）。
+Time）*](../../appendixes/glossary/README.md#glossary-utc)）。
 若輸入字串中未指定時區，
 則會假設它是採用系統
 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 參數所指示的時區，

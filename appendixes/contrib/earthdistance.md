@@ -30,7 +30,7 @@
 ### F.14.1. 以 Cube 為基礎的地球距離 [#](#earthdistance-cube-based) <a href="#earthdistance-cube-based" id="earthdistance-cube-based"></a>
 
 資料會以 point cube（兩個角點相同）儲存，使用三個座標表示與地球中心的 x、y、z
-距離。模組提供建置於 `cube` 型別上的 [*[domain](../glossary/README.md#GLOSSARY-DOMAIN)*](../glossary/README.md#GLOSSARY-DOMAIN)
+距離。模組提供建置於 `cube` 型別上的 [*domain*](../glossary/README.md#glossary-domain)
 `earth`，其中包含限制條件檢查，以確保值符合這些限制且合理接近地球的實際表面。
 
 地球半徑由 `earth()` 函式取得，單位為公尺。但只要變更這一個函式，即可讓模組

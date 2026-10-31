@@ -1,7 +1,7 @@
 <a id="INFOSCHEMA-DOMAINS"></a>
 ## 35.23. `domains` [#](#infoschema-domains) <a href="#infoschema-domains" id="infoschema-domains"></a>
 
-檢視表 `domains` 包含目前資料庫中定義的所有[*網域*](../../appendixes/glossary/README.md#GLOSSARY-DOMAIN)。只會顯示目前使用者有權存取（身為擁有者或具有某種權限）的網域。
+檢視表 `domains` 包含目前資料庫中定義的所有[*網域*](../../appendixes/glossary/README.md#glossary-domain)。只會顯示目前使用者有權存取（身為擁有者或具有某種權限）的網域。
 
 <a id="id-1.7.6.27.3"></a>
 

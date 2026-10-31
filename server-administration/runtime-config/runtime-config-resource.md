@@ -245,7 +245,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `vacuum_buffer_usage_limit` (`integer`) <a id="id-1.6.6.7.2.2.10.1.3"></a> [#](#GUC-VACUUM-BUFFER-USAGE-LIMIT)
 :   指定 `VACUUM` 與 `ANALYZE`
     命令所使用的
-    [*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+    [*緩衝區存取策略*](../../appendixes/glossary/README.md#glossary-buffer-access-strategy)
     大小。設為 `0` 會允許此操作使用
     任意數量的 `shared_buffers`。否則，
     合法的大小範圍是從 `128 kB` 到

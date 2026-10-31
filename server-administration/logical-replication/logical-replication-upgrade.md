@@ -9,7 +9,7 @@
 [29.13.3. 升級邏輯複寫叢集](logical-replication-upgrade.md#upgrading-logical-replication-clusters)
 
 只有當舊邏輯複寫叢集的所有成員版本都是 17.0 或更新版本時，才能遷移
-[*[邏輯複寫叢集](../../appendixes/glossary/README.md#GLOSSARY-LOGICAL-REPLICATION-CLUSTER)*](../../appendixes/glossary/README.md#GLOSSARY-LOGICAL-REPLICATION-CLUSTER)。
+[*邏輯複寫叢集*](../../appendixes/glossary/README.md#glossary-logical-replication-cluster)。
 
 <a id="PREPARE-PUBLISHER-UPGRADES"></a>
 

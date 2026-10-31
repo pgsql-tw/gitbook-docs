@@ -375,10 +375,10 @@ autovacuum 已經執行了一段時間時，通常就會觸發
 觸發故障保護機制時，任何原本生效中的
 以成本為基礎的延遲都將不再套用，其他非必要的
 維護作業（例如索引 vacuum）會被略過，任何正在使用的
-[*[緩衝區存取策略](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)
+[*緩衝區存取策略*](../../appendixes/glossary/README.md#glossary-buffer-access-strategy)
 都會被停用，使 `VACUUM` 可以
 自由使用所有的
-[*[共享緩衝區](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)*](../../appendixes/glossary/README.md#GLOSSARY-SHARED-MEMORY)。
+[*共享緩衝區*](../../appendixes/glossary/README.md#glossary-shared-memory)。
 
 預設值為十六億筆交易。雖然使用者可以
 將此值設為零到二十一億之間的任何值，

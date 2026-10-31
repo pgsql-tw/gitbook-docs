@@ -60,7 +60,7 @@ vacuumdb 接受下列命令列引數：
 :   清理所有資料庫。
 
 `--buffer-usage-limit size`
-:   指定此次呼叫 vacuumdb 所用的緩衝區存取策略（[*[Buffer Access Strategy](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)*](../../appendixes/glossary/README.md#GLOSSARY-BUFFER-ACCESS-STRATEGY)）環狀緩衝區大小。此大小用來計算此策略中會被重複使用的共享緩衝區數量。請參閱 [VACUUM](../sql-commands/sql-vacuum.md)。
+:   指定此次呼叫 vacuumdb 所用的緩衝區存取策略（[*Buffer Access Strategy*](../../appendixes/glossary/README.md#glossary-buffer-access-strategy)）環狀緩衝區大小。此大小用來計算此策略中會被重複使用的共享緩衝區數量。請參閱 [VACUUM](../sql-commands/sql-vacuum.md)。
 
 `[-d] dbname`<br>`[--dbname=]dbname`
 :   在未使用 `-a`/`--all` 時，指定要清理或分析的資料庫名稱。若未指定，則從環境變數 `PGDATABASE` 讀取資料庫名稱。若該變數也未設定，則使用連線時指定的使用者名稱。*`dbname`* 可以是[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)。若是如此，連線字串參數會覆寫任何相衝突的命令列選項。

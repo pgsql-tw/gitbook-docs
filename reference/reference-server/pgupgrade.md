@@ -141,7 +141,7 @@ pg_upgrade 接受下列命令列引數：
 
 ### 注意
 
-升級[*[邏輯複寫叢集](../../appendixes/glossary/README.md#GLOSSARY-LOGICAL-REPLICATION-CLUSTER)*](../../appendixes/glossary/README.md#GLOSSARY-LOGICAL-REPLICATION-CLUSTER)的步驟不在此說明；詳情請參閱[第 29.13 節](../../server-administration/logical-replication/logical-replication-upgrade.md)。
+升級[*邏輯複寫叢集*](../../appendixes/glossary/README.md#glossary-logical-replication-cluster)的步驟不在此說明；詳情請參閱[第 29.13 節](../../server-administration/logical-replication/logical-replication-upgrade.md)。
 
 1. **（選擇性）移動舊叢集**
 

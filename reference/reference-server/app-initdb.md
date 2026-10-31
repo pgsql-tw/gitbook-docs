@@ -14,9 +14,9 @@ initdb — 建立新的 PostgreSQL 資料庫叢集
 
 ## 說明
 
-`initdb` 會建立新的 PostgreSQL [*[資料庫叢集](../../appendixes/glossary/README.md#GLOSSARY-DB-CLUSTER)*](../../appendixes/glossary/README.md#GLOSSARY-DB-CLUSTER)。
+`initdb` 會建立新的 PostgreSQL [*資料庫叢集*](../../appendixes/glossary/README.md#glossary-db-cluster)。
 
-建立資料庫叢集包括：建立存放叢集資料的[*[目錄](../../appendixes/glossary/README.md#GLOSSARY-DATA-DIRECTORY)*](../../appendixes/glossary/README.md#GLOSSARY-DATA-DIRECTORY)、產生共用的系統目錄資料表（屬於整個叢集、而非任何特定資料庫的資料表），以及建立 `postgres`、`template1` 與 `template0` 資料庫。`postgres` 資料庫是供使用者、工具程式與第三方應用程式使用的預設資料庫。`template1` 與 `template0` 是作為來源資料庫，供之後的 `CREATE
+建立資料庫叢集包括：建立存放叢集資料的[*目錄*](../../appendixes/glossary/README.md#glossary-data-directory)、產生共用的系統目錄資料表（屬於整個叢集、而非任何特定資料庫的資料表），以及建立 `postgres`、`template1` 與 `template0` 資料庫。`postgres` 資料庫是供使用者、工具程式與第三方應用程式使用的預設資料庫。`template1` 與 `template0` 是作為來源資料庫，供之後的 `CREATE
 DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將物件加入 `template1`，這些物件預設會被複製到之後建立的資料庫中。詳細資訊請參閱[第 22.3 節](../../server-administration/managing-databases/manage-ag-templatedbs.md)。
 
 雖然 `initdb` 會嘗試建立指定的資料目錄，但若預期資料目錄的上層目錄由 root 擁有，它可能沒有權限這麼做。若要在這種環境中進行初始化，請以 root 身分建立一個空的資料目錄，接著使用 `chown` 將該目錄的擁有權指派給資料庫使用者帳號，然後使用 `su` 切換為資料庫使用者來執行 `initdb`。
@@ -129,7 +129,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 <a id="APP-INITDB-OPTION-USERNAME"></a>
 
 `-U username`<br>`--username=username` [#](#APP-INITDB-OPTION-USERNAME)
-:   設定[*[啟動用超級使用者](../../appendixes/glossary/README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)*](../../appendixes/glossary/README.md#GLOSSARY-BOOTSTRAP-SUPERUSER)的使用者名稱。預設為執行 `initdb` 之作業系統使用者的名稱。
+:   設定[*啟動用超級使用者*](../../appendixes/glossary/README.md#glossary-bootstrap-superuser)的使用者名稱。預設為執行 `initdb` 之作業系統使用者的名稱。
 <a id="APP-INITDB-OPTION-PWPROMPT"></a>
 
 `-W`<br>`--pwprompt` [#](#APP-INITDB-OPTION-PWPROMPT)

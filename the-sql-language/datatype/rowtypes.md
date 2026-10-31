@@ -73,7 +73,7 @@ CREATE TABLE inventory_item (
 );
 ```
 
-那麼上面所示的同一個 `inventory_item` 複合型別就會被附帶建立出來，而且可以像上面那樣使用。不過請注意目前實作上的一項重要限制：由於複合型別並不會關聯任何限制條件，資料表定義中所顯示的那些限制條件*並不會套用*到資料表之外的複合型別值。（要解決這個問題，可以在該複合型別之上建立一個 [*[網域](../../appendixes/glossary/README.md#GLOSSARY-DOMAIN)*](../../appendixes/glossary/README.md#GLOSSARY-DOMAIN)，並把想要的限制條件寫成該網域的 `CHECK` 限制條件。）
+那麼上面所示的同一個 `inventory_item` 複合型別就會被附帶建立出來，而且可以像上面那樣使用。不過請注意目前實作上的一項重要限制：由於複合型別並不會關聯任何限制條件，資料表定義中所顯示的那些限制條件*並不會套用*到資料表之外的複合型別值。（要解決這個問題，可以在該複合型別之上建立一個 [*網域*](../../appendixes/glossary/README.md#glossary-domain)，並把想要的限制條件寫成該網域的 `CHECK` 限制條件。）
 
 <a id="ROWTYPES-CONSTRUCTING"></a>
 

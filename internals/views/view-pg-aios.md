@@ -4,7 +4,7 @@
 
 <a id="id-1.10.5.6.2"></a>
 
-檢視表 `pg_aios` 列出目前使用中的所有[非同步 I/O](../../appendixes/glossary/README.md#GLOSSARY-AIO) 控制代碼。I/O 控制代碼用來參照一個正在準備、正在執行或正在完成中的 I/O 操作。`pg_aios` 中，每個 I/O 控制代碼各占一筆資料列。
+檢視表 `pg_aios` 列出目前使用中的所有[非同步 I/O](../../appendixes/glossary/README.md#glossary-aio) 控制代碼。I/O 控制代碼用來參照一個正在準備、正在執行或正在完成中的 I/O 操作。`pg_aios` 中，每個 I/O 控制代碼各占一筆資料列。
 
 此檢視表主要對 PostgreSQL 的開發者有用，但在調校 PostgreSQL 時也可能有幫助。
 
