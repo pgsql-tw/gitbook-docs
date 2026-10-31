@@ -410,31 +410,32 @@ configure 選項
 <a id="GUC-DEBUG-LOGICAL-REPLICATION-STREAMING"></a>
 
 `debug_logical_replication_streaming` (`enum`) <a id="id-1.6.6.20.3.35.1.3"></a> [#](#GUC-DEBUG-LOGICAL-REPLICATION-STREAMING)
-:   允許的值有 `buffered` 與
-    `immediate`。預設值為 `buffered`。
-    此參數旨在用於測試大型交易的邏輯解碼與複寫。
-    `debug_logical_replication_streaming` 對於
-    發布端與訂閱端的效果不同：
 
-    在發布端，`debug_logical_replication_streaming`
-    允許在邏輯解碼中立即串流或序列化變更。
-    當設為 `immediate` 時，若
-    [`CREATE SUBSCRIPTION`](../../reference/sql-commands/sql-createsubscription.md)
-    的
-    [`streaming`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING)
-    選項已啟用，則會串流每項變更，否則會序列化每項變更。
-    當設為 `buffered` 時，
-    解碼會在達到 `logical_decoding_work_mem` 時
-    才串流或序列化變更。
+允許的值有 `buffered` 與
+`immediate`。預設值為 `buffered`。
+此參數旨在用於測試大型交易的邏輯解碼與複寫。
+`debug_logical_replication_streaming` 對於
+發布端與訂閱端的效果不同：
 
-    在訂閱端，如果 `streaming` 選項設為
-    `parallel`，則 `debug_logical_replication_streaming`
-    可用於指示領導者（leader）套用工作程序將變更傳送到
-    共享記憶體佇列，或是將所有變更序列化到檔案。當設為
-    `buffered` 時，領導者會透過共享記憶體佇列
-    將變更傳送給平行套用工作程序。當設為
-    `immediate` 時，領導者會將所有變更序列化到檔案，
-    並通知平行套用工作程序在交易結束時讀取並套用這些變更。
+在發布端，`debug_logical_replication_streaming`
+允許在邏輯解碼中立即串流或序列化變更。
+當設為 `immediate` 時，若
+[`CREATE SUBSCRIPTION`](../../reference/sql-commands/sql-createsubscription.md)
+的
+[`streaming`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-streaming)
+選項已啟用，則會串流每項變更，否則會序列化每項變更。
+當設為 `buffered` 時，
+解碼會在達到 `logical_decoding_work_mem` 時
+才串流或序列化變更。
+
+在訂閱端，如果 `streaming` 選項設為
+`parallel`，則 `debug_logical_replication_streaming`
+可用於指示領導者（leader）套用工作程序將變更傳送到
+共享記憶體佇列，或是將所有變更序列化到檔案。當設為
+`buffered` 時，領導者會透過共享記憶體佇列
+將變更傳送給平行套用工作程序。當設為
+`immediate` 時，領導者會將所有變更序列化到檔案，
+並通知平行套用工作程序在交易結束時讀取並套用這些變更。
 
 ---
 

@@ -77,7 +77,7 @@ PostgreSQL 也有串流複寫插槽
 [`pg_create_logical_replication_slot`](../../the-sql-language/functions/functions-admin.md#PG-CREATE-LOGICAL-REPLICATION-SLOT) 的
 `failover` 參數，或透過
 `CREATE SUBSCRIPTION` 的
-[`failover`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER) 選項，
+[`failover`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover) 選項，
 將主要伺服器上的邏輯複寫插槽同步至熱備援伺服器。
 此外，還必須在備援伺服器上啟用
 [`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS)。在備援伺服器上啟用

@@ -67,15 +67,17 @@ and table_and_columns is:
 :   現有綱要的名稱。
 
 `SET ( publication_parameter [= value] [, ... ] )`
-:   此子句會變更原本由 [CREATE PUBLICATION](sql-createpublication.md) 設定的發佈參數。更多資訊請參閱該處。
+此子句會變更原本由 [CREATE PUBLICATION](sql-createpublication.md) 設定的發佈參數。更多資訊請參閱該處。
 
-    <a id="id-1.9.3.25.6.2.4.2.2"></a>
+<a id="id-1.9.3.25.6.2.4.2.2"></a>
 
-    ### 小心
+### 注意 [#](#sql-alterpublication-set-caution) <a href="#sql-alterpublication-set-caution" id="sql-alterpublication-set-caution"></a>
 
-    變更 `publish_via_partition_root` 參數可能會導致訂閱端的資料遺失或重複，因為它會改變已發佈資料表的識別與結構。請注意，這只會在將分割根資料表指定為複寫目標時發生。
+{% hint style="warning" %}
+變更 `publish_via_partition_root` 參數可能會導致訂閱端的資料遺失或重複，因為它會改變已發佈資料表的識別與結構。請注意，這只會在將分割根資料表指定為複寫目標時發生。
 
-    要避免這個問題，可以在執行 `ALTER PUBLICATION ... SET` 之後、執行 [`ALTER SUBSCRIPTION ... REFRESH PUBLICATION`](sql-altersubscription.md) 之前，不修改分割區的葉資料表，並且只使用 `copy_data = off` 選項進行重新整理。
+要避免這個問題，可以在執行 `ALTER PUBLICATION ... SET` 之後、執行 [`ALTER SUBSCRIPTION ... REFRESH PUBLICATION`](sql-altersubscription.md) 之前，不修改分割區的葉資料表，並且只使用 `copy_data = off` 選項進行重新整理。
+{% endhint %}
 
 *`new_owner`*
 :   發佈新擁有者的使用者名稱。

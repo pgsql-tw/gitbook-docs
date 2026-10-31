@@ -165,7 +165,7 @@ CONTEXT:  processing remote data for replication origin "pg_16395" during "INSER
 函式來略過該交易。在使用這個函式之前，需要先透過
 [`ALTER SUBSCRIPTION ... DISABLE`](../../reference/sql-commands/sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-DISABLE)
 暫時停用該訂閱，或者該訂閱也可以搭配使用
-[`disable_on_error`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-DISABLE-ON-ERROR)
+[`disable_on_error`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-disable-on-error)
 選項。接著，你就可以使用 *`node_name`*（即
 `pg_16395`）與結束 LSN 的下一個 LSN（即 0/14C0379），
 來呼叫 `pg_replication_origin_advance()`
@@ -183,7 +183,7 @@ CONTEXT:  processing remote data for replication origin "pg_16395" during "INSER
 使用者可以手動選擇讓遠端變更生效。
 
 當
-[`streaming`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING)
+[`streaming`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-streaming)
 模式為 `parallel` 時，失敗交易的結束 LSN 可能不會被
 記錄下來。在這種情況下，可能需要將串流模式改為
 `on` 或 `off`，並重新觸發相同的

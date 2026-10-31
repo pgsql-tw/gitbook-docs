@@ -47,11 +47,11 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 都不能在交易區塊內執行。
 
 當訂閱啟用了
-[`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+[`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
 提交時，`ALTER SUBSCRIPTION ... REFRESH PUBLICATION` 命令以及
 `refresh` 選項為 `true` 的
 `ALTER SUBSCRIPTION ... {SET|ADD|DROP} PUBLICATION ...` 命令也同樣不能執行，除非
-[`copy_data`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-COPY-DATA)
+[`copy_data`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-copy-data)
 為 `false`。請參閱
 [`pg_subscription`](../../internals/catalogs/catalog-pg-subscription.md) 的 `subtwophasestate` 欄位，
 以得知實際的兩階段狀態。
@@ -107,12 +107,12 @@ ALTER SUBSCRIPTION name RENAME TO new_name
   `WHERE` 子句在那之後已被修改。
 
   關於 `copy_data = true` 如何與
-  [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN)
+  [`origin`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-origin)
   參數互動的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
 
   關於以二進位格式複製既有資料的細節，請參閱
   `CREATE SUBSCRIPTION` 的
-  [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)
+  [`binary`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-binary)
   參數。
 <a id="SQL-ALTERSUBSCRIPTION-PARAMS-ENABLE"></a>
 
@@ -127,36 +127,36 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 `SET ( subscription_parameter [= value] [, ... ] )` [#](#SQL-ALTERSUBSCRIPTION-PARAMS-SET)
 :   此子句會變更原先由
     [CREATE SUBSCRIPTION](sql-createsubscription.md) 設定的參數。更多資訊請參閱該處。可以變更的參數有
-    [`slot_name`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME)、
-    [`synchronous_commit`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SYNCHRONOUS-COMMIT)、
-    [`binary`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)、
-    [`streaming`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING)、
-    [`disable_on_error`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-DISABLE-ON-ERROR)、
-    [`password_required`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-PASSWORD-REQUIRED)、
-    [`run_as_owner`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-RUN-AS-OWNER)、
-    [`origin`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-ORIGIN)、
-    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER) 與
-    [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)。
+    [`slot_name`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)、
+    [`synchronous_commit`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-synchronous-commit)、
+    [`binary`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-binary)、
+    [`streaming`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-streaming)、
+    [`disable_on_error`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-disable-on-error)、
+    [`password_required`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-password-required)、
+    [`run_as_owner`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-run-as-owner)、
+    [`origin`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-origin)、
+    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover) 與
+    [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)。
     只有超級使用者可以設定 `password_required = false`。
 
     變更
-    [`slot_name`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME)
+    [`slot_name`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)
     時，所指定插槽的 `failover` 與 `two_phase` 屬性值，可能與訂閱中所指定之對應的
-    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
-    與 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
+    與 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
     參數不同。建立插槽時，請確保插槽屬性 `failover` 與 `two_phase`
     符合訂閱中對應的參數。
     否則，發佈者上的插槽的行為可能與這些訂閱選項所述的不同：例如，即使訂閱的
-    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
+    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
     選項已停用，發佈者上的插槽仍可能被同步到待命伺服器；或者即使訂閱的
-    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
+    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
     選項已啟用，該插槽仍可能被停用同步。
 
-    [`failover`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
-    與 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+    [`failover`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
+    與 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
     參數只能在訂閱停用時變更。
 
-    將 [`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+    將 [`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
     從 `true` 變更為 `false` 時，若發現任何由邏輯複寫工作程序完成的預備交易（來自 `two_phase`
     參數仍為 `true` 的期間），後端程序會回報錯誤。你可以在發佈者節點上解決這些預備交易，或在訂閱者手動將它們回滾，然後再試一次。對應於特定訂閱的邏輯複寫工作程序所預備的交易，具有下列模式：「`pg_gid_%u_%u`」
     （參數：訂閱 *`oid`*、遠端交易 ID *`xid`*）。
@@ -171,7 +171,7 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 
 略過套用遠端交易的所有變更。若傳入的資料違反任何限制條件，邏輯複寫會停止，直到問題解決為止。使用 `ALTER SUBSCRIPTION ... SKIP` 命令，
 邏輯複寫工作程序會略過該交易中所有的資料修改變更。對於已在訂閱者啟用
-[`two_phase`](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE)
+[`two_phase`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase)
 而已預備的交易，此選項沒有作用。
 在邏輯複寫工作程序成功略過該交易或完成某個交易之後，LSN（儲存於
 `pg_subscription`.`subskiplsn`）

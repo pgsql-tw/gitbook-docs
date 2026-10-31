@@ -761,6 +761,7 @@
     * [CREATE SERVER](reference/sql-commands/sql-createserver.md)
     * [CREATE STATISTICS](reference/sql-commands/sql-createstatistics.md)
     * [CREATE SUBSCRIPTION](reference/sql-commands/sql-createsubscription.md)
+      * [CREATE SUBSCRIPTION 訂閱參數](reference/sql-commands/sql-createsubscription-parameters.md)
     * [CREATE TABLE](reference/sql-commands/sql-createtable.md)
     * [CREATE TABLE AS](reference/sql-commands/sql-createtableas.md)
     * [CREATE TABLESPACE](reference/sql-commands/sql-createtablespace.md)

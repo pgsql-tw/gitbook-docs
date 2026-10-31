@@ -6,7 +6,7 @@
 
 訂閱的監控資訊可在 [`pg_stat_subscription`](../monitoring/monitoring-stats.md#monitoring-pg-stat-subscription)中查看。此檢視表會為每個訂閱工作者包含一個資料列。訂閱可依其狀態有零個或多個作用中的訂閱工作者。
 
-一般而言，已啟用的訂閱會有一個套用程序執行。已停用或當機的訂閱在此檢視表中沒有資料列。若任何資料表正在進行初始資料同步，則會有額外工作者處理同步中的資料表。此外，若[`streaming`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING)交易以平行方式套用，可能還會有額外的平行套用工作者。
+一般而言，已啟用的訂閱會有一個套用程序執行。已停用或當機的訂閱在此檢視表中沒有資料列。若任何資料表正在進行初始資料同步，則會有額外工作者處理同步中的資料表。此外，若[`streaming`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-streaming)交易以平行方式套用，可能還會有額外的平行套用工作者。
 
 ---
 

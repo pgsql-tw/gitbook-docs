@@ -758,18 +758,20 @@ identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設
 <a id="APP-PSQL-META-COMMAND-DEU"></a>
 
 `\deu[x+] [ pattern ]` [#](#APP-PSQL-META-COMMAND-DEU)
-:   列出使用者對應（助記：「external
-    users」）。
-    若指定了 *`pattern`*，
-    則只列出使用者名稱符合該模式的對應。
-    若在命令名稱後附加 `x`，結果會以展開模式顯示。
-    若在命令名稱後附加 `+`，則會顯示每個對應的額外資訊。
+列出使用者對應（助記：「external
+users」）。
+若指定了 *`pattern`*，
+則只列出使用者名稱符合該模式的對應。
+若在命令名稱後附加 `x`，結果會以展開模式顯示。
+若在命令名稱後附加 `+`，則會顯示每個對應的額外資訊。
 
-    <a id="APP-PSQL-META-COMMAND-DEU-CAUTION"></a>
+<a id="APP-PSQL-META-COMMAND-DEU-CAUTION"></a>
 
-    ### 小心
+### 注意 [#](#app-psql-meta-command-deu-caution) <a href="#app-psql-meta-command-deu-caution" id="app-psql-meta-command-deu-caution"></a>
 
-    `\deu+` 也可能會顯示遠端使用者的使用者名稱與密碼，因此應小心不要洩露它們。
+{% hint style="warning" %}
+`\deu+` 也可能會顯示遠端使用者的使用者名稱與密碼，因此應小心不要洩露它們。
+{% endhint %}
 
 <a id="APP-PSQL-META-COMMAND-DEW"></a>
 

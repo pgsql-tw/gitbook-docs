@@ -65,7 +65,7 @@
 欄位都會依目標資料表定義中指定的預設值填入。
 不過，以二進位格式進行的邏輯複寫限制較多。詳情請見
 `CREATE SUBSCRIPTION` 的
-[`binary`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-BINARY)
+[`binary`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-binary)
 選項。
 
 <a id="LOGICAL-REPLICATION-SUBSCRIPTION-SLOT"></a>
@@ -357,7 +357,7 @@
 
 範例 2：訂閱指定 `connect = false`，
 但同時也指定了
-[`slot_name`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-SLOT-NAME)
+[`slot_name`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-slot-name)
 選項的情況。
 
 * 建立訂閱。

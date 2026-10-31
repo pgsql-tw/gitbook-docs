@@ -20,7 +20,7 @@ pg_createsubscriber 會從實體待命伺服器建立新的邏輯複本。指定
 
 成功執行後，目標伺服器的狀態相當於全新的邏輯複寫設定。邏輯複寫設定與 pg_createsubscriber 的主要差異在於資料同步的方式。pg_createsubscriber 不會複製初始的資料表資料。它只執行同步階段，確保每個資料表都達到同步狀態。
 
-pg_createsubscriber 的目標是大型資料庫系統，因為在邏輯複寫設定中，大部分時間都花在初始資料複製上。此外，花費這麼長時間同步資料的副作用，通常是有大量待套用的變更（在初始資料複製期間產生），這會進一步拉長邏輯複本可供使用前的時間。對於較小的資料庫，建議以初始資料同步的方式設定邏輯複寫。詳情請參閱 `CREATE SUBSCRIPTION` 的 [`copy_data`](../sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-COPY-DATA) 選項。
+pg_createsubscriber 的目標是大型資料庫系統，因為在邏輯複寫設定中，大部分時間都花在初始資料複製上。此外，花費這麼長時間同步資料的副作用，通常是有大量待套用的變更（在初始資料複製期間產生），這會進一步拉長邏輯複本可供使用前的時間。對於較小的資料庫，建議以初始資料同步的方式設定邏輯複寫。詳情請參閱 `CREATE SUBSCRIPTION` 的 [`copy_data`](../sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-copy-data) 選項。
 
 <a id="id-1.9.5.7.6"></a>
 
@@ -53,7 +53,7 @@ pg_createsubscriber 接受下列命令列引數：
 :   等待復原結束的最長秒數。設為 0 表示停用。預設值為 0。
 
 `-T`<br>`--enable-two-phase`
-:   為訂閱啟用 [`two_phase`](../sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE) 提交。指定多個資料庫時，此選項會一致地套用到在這些資料庫上建立的所有訂閱。預設值為 `false`。
+:   為訂閱啟用 [`two_phase`](../sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase) 提交。指定多個資料庫時，此選項會一致地套用到在這些資料庫上建立的所有訂閱。預設值為 `false`。
 
 `-U username`<br>`--subscriber-username=username`
 :   在目標伺服器上用來連線的使用者名稱。預設為目前的作業系統使用者名稱。
@@ -117,7 +117,7 @@ pg_createsubscriber 在轉換期間通常會以不同的連線設定啟動目標
 
 若目標伺服器是同步複本，在執行 pg_createsubscriber 期間，主要伺服器上的交易提交可能會等待複寫。
 
-除非指定了 `--enable-two-phase` 選項，否則 pg_createsubscriber 會以停用兩階段提交的方式設定邏輯複寫。這表示任何預備交易都會在 `COMMIT PREPARED` 時才被複寫，而不會事先準備。設定完成後，你可以手動移除訂閱，並以啟用 [`two_phase`](../sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE) 選項的方式重新建立。
+除非指定了 `--enable-two-phase` 選項，否則 pg_createsubscriber 會以停用兩階段提交的方式設定邏輯複寫。這表示任何預備交易都會在 `COMMIT PREPARED` 時才被複寫，而不會事先準備。設定完成後，你可以手動移除訂閱，並以啟用 [`two_phase`](../sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase) 選項的方式重新建立。
 
 pg_createsubscriber 會使用 pg_resetwal 變更系統識別碼。這可以避免目標伺服器可能使用來源伺服器之 WAL 檔案的情況。若目標伺服器有待命伺服器，複寫將會中斷，應該建立新的待命伺服器。
 

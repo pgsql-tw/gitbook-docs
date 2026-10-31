@@ -483,7 +483,7 @@ CREATE DATABASE foo WITH TEMPLATE template0;
 由於 pg_dump 被用來將資料轉移到較新版本的 PostgreSQL，可以預期 pg_dump 的輸出能載入比 pg_dump 版本更新的 PostgreSQL 伺服器版本。pg_dump 也可以從比它自身版本更舊的 PostgreSQL 伺服器傾印。（目前支援回溯到 9.2 版的伺服器。）不過，pg_dump 無法從比它自身主要版本更新的 PostgreSQL 伺服器傾印；它甚至會拒絕嘗試，而不是冒著產生無效傾印的風險。此外，並不保證 pg_dump 的輸出能載入到較舊主要版本的伺服器中——即使傾印是從該版本的伺服器取得的也一樣。將傾印檔案載入較舊的伺服器，可能需要手動編輯傾印檔案，移除較舊伺服器無法理解的語法。在跨版本的情況下，建議使用 `--quote-all-identifiers` 選項，因為它可以避免因不同 PostgreSQL 版本的保留字清單不同而產生的問題。
 
 傾印邏輯複寫訂閱時，pg_dump 會產生使用 `connect = false` 選項的 `CREATE
-SUBSCRIPTION` 命令，如此還原訂閱時就不會為了建立複寫槽或進行初始資料表複製而建立遠端連線。這樣一來，還原傾印時就不需要存取遠端伺服器的網路。接著由使用者以合適的方式重新啟用訂閱。若相關的主機已經變更，連線資訊可能必須跟著變更。在啟動新的完整資料表複製之前，截斷目標資料表也可能是合適的做法。若使用者打算在重新整理（refresh）期間複製初始資料，就必須以 `two_phase = false` 建立複寫槽。初始同步之後，若訂閱原本是以 `two_phase = true` 選項建立的，訂閱端會自動啟用 [`two_phase`](../sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-TWO-PHASE) 選項。
+SUBSCRIPTION` 命令，如此還原訂閱時就不會為了建立複寫槽或進行初始資料表複製而建立遠端連線。這樣一來，還原傾印時就不需要存取遠端伺服器的網路。接著由使用者以合適的方式重新啟用訂閱。若相關的主機已經變更，連線資訊可能必須跟著變更。在啟動新的完整資料表複製之前，截斷目標資料表也可能是合適的做法。若使用者打算在重新整理（refresh）期間複製初始資料，就必須以 `two_phase = false` 建立複寫槽。初始同步之後，若訂閱原本是以 `two_phase = true` 選項建立的，訂閱端會自動啟用 [`two_phase`](../sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-two-phase) 選項。
 
 從純文字的 pg_dump 腳本還原資料庫時，一般建議使用 `-X`（`--no-psqlrc`）選項，以確保還原過程乾淨，並避免與非預設的 psql 設定發生潛在衝突。
 

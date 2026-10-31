@@ -302,9 +302,11 @@ pg_upgrade 接受下列命令列引數：
 
     <a id="id-1.9.5.13.7.4.14.5"></a>
 
-    ### 小心
+    ### 注意 [#](#xiao-xin) <a href="#xiao-xin" id="xiao-xin"></a>
 
+    {% hint style="warning" %}
     一般而言，在重建腳本執行完成之前，存取重建腳本中所參照的資料表是不安全的；這樣做可能會產生不正確的結果或不佳的效能。重建腳本中未參照的資料表則可以立即存取。
+    {% endhint %}
 15. **統計資訊**
 
     除非指定了 `--no-statistics` 選項，否則 `pg_upgrade` 會將大部分最佳化器統計資訊從舊叢集轉移到新叢集。這不會轉移所有的統計資訊，例如以 [CREATE STATISTICS](../sql-commands/sql-createstatistics.md) 明確建立的統計資訊、擴充功能所加入的自訂統計資訊，或累積統計系統所收集的統計資訊。

@@ -7,7 +7,7 @@
 同步到待命伺服器。詳情請參閱
 [第 47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)。
 啟用
-[`failover`](../../reference/sql-commands/sql-createsubscription.md#SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER)
+[`failover`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover)
 參數，可確保待命伺服器被提升之後，這些訂閱能夠順利轉換；
 它們可以繼續訂閱新主要伺服器上的發布。
 

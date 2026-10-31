@@ -175,6 +175,7 @@
 [CREATE STATISTICS](sql-createstatistics.md) — 定義擴充統計資訊
 
 [CREATE SUBSCRIPTION](sql-createsubscription.md) — 定義新的訂閱
+  - [CREATE SUBSCRIPTION 訂閱參數](sql-createsubscription-parameters.md)
 
 [CREATE TABLE](sql-createtable.md) — 定義新的資料表
 
