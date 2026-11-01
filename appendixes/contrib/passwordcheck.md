@@ -32,12 +32,13 @@
 ### F.24.1. 設定參數 [#](#passwordcheck-configuration-parameters) <a href="#passwordcheck-configuration-parameters" id="passwordcheck-configuration-parameters"></a>
 
 `passwordcheck.min_password_length` (`integer`) <a id="id-1.11.7.34.7.2.1.1.3"></a>
-:   可接受的最小密碼長度，以位元組為單位。預設值為 8。只有
-    超級使用者可以變更此設定。
 
-    ### 註
+可接受的最小密碼長度，以位元組為單位。預設值為 8。只有
+超級使用者可以變更此設定。
 
-    如果使用者提供預先加密的密碼，此參數不會產生任何作用。
+#### 註
+
+如果使用者提供預先加密的密碼，此參數不會產生任何作用。
 
 一般會在 `postgresql.conf` 中設定此參數，但超級使用者可以在自己的工作階段中即時變更它。典型的用法如下：
 
