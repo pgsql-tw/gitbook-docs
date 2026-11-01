@@ -658,6 +658,7 @@
     * [pg\_restore](reference/reference-client/app-pgrestore.md)
     * [pg\_verifybackup](reference/reference-client/app-pgverifybackup.md)
     * [psql](reference/reference-client/app-psql.md)
+      * [psql：\pset 列印選項](reference/reference-client/app-psql-print-options.md)
     * [reindexdb](reference/reference-client/app-reindexdb.md)
     * [vacuumdb](reference/reference-client/app-vacuumdb.md)
     * [pgbench](reference/reference-client/pgbench.md)

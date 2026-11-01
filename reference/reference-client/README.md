@@ -52,6 +52,8 @@
 
 [psql](app-psql.md) — PostgreSQL 互動式終端機
 
+相關子頁：[psql：\pset 列印選項](app-psql-print-options.md)。
+
 [reindexdb](app-reindexdb.md) — 重建 PostgreSQL 資料庫的索引
 
 [vacuumdb](app-vacuumdb.md) — 對 PostgreSQL 資料庫進行垃圾回收與分析
