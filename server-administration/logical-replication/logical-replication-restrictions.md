@@ -39,7 +39,7 @@
   被再分區，甚至可以是獨立的資料表。）發布也可以指定改為
   依照分區根資料表的識別與綱要來複寫異動，而不是依照實際
   發生異動的個別葉分區（詳見 `CREATE PUBLICATION` 的
-  [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
+  [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-via-partition-root)
   參數）。
 * 在已發布的資料表上使用
   [`REPLICA IDENTITY FULL`](../../reference/sql-commands/sql-altertable-replica-identity.md#sql-altertable-replica-identity-full)

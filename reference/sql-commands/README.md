@@ -162,6 +162,8 @@
 
 [CREATE PUBLICATION](sql-createpublication.md) — 定義新的發佈
 
+  - [CREATE PUBLICATION 發佈參數](sql-createpublication-parameters.md)
+
 [CREATE ROLE](sql-createrole.md) — 定義新的資料庫角色
 
 [CREATE RULE](sql-createrule.md) — 定義新的重寫規則

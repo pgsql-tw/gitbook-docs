@@ -56,7 +56,7 @@
 
 ### 29.4.4. 分區表 [#](#logical-replication-row-filter-partitioned-table) <a href="#logical-replication-row-filter-partitioned-table" id="logical-replication-row-filter-partitioned-table"></a>
 
-若發布項目包含分區表，則發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT) 決定要使用哪一個資料列篩選器。若 `publish_via_partition_root` 為 `true`，則使用*根分區表*的資料列篩選器。否則，若 `publish_via_partition_root` 為 `false`（預設值），則使用各*分區*自己的資料列篩選器。
+若發布項目包含分區表，則發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-via-partition-root) 決定要使用哪一個資料列篩選器。若 `publish_via_partition_root` 為 `true`，則使用*根分區表*的資料列篩選器。否則，若 `publish_via_partition_root` 為 `false`（預設值），則使用各*分區*自己的資料列篩選器。
 
 <a id="LOGICAL-REPLICATION-ROW-FILTER-INITIAL-DATA-SYNC"></a>
 
@@ -68,7 +68,7 @@
 
 ### 警告
 
-由於初始資料同步在複製既有資料表的資料時，並不會考量 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 參數，因此可能會複製到一些原本不會透過 DML 複寫的資料列。請參閱 [第 29.9.1 節](logical-replication-architecture.md#logical-replication-snapshot)，範例請見 [第 29.2.2 節](logical-replication-subscription.md#logical-replication-subscription-examples)。
+由於初始資料同步在複製既有資料表的資料時，並不會考量 [`publish`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish) 參數，因此可能會複製到一些原本不會透過 DML 複寫的資料列。請參閱 [第 29.9.1 節](logical-replication-architecture.md#logical-replication-snapshot)，範例請見 [第 29.2.2 節](logical-replication-subscription.md#logical-replication-subscription-examples)。
 
 ### 注意
 
@@ -78,7 +78,7 @@
 
 ### 29.4.6. 合併多個資料列篩選 [#](#logical-replication-row-filter-combining) <a href="#logical-replication-row-filter-combining" id="logical-replication-row-filter-combining"></a>
 
-若訂閱訂閱了多個發布項目，而同一個資料表在這些發布項目中（針對同一種 [`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH) 操作）以不同的資料列篩選器被發布，這些運算式會以 OR 邏輯組合，因此滿足*任一*運算式的資料列都會被複寫。這代表在下列情況下，同一資料表的其他資料列篩選器都會變得多餘：
+若訂閱訂閱了多個發布項目，而同一個資料表在這些發布項目中（針對同一種 [`publish`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish) 操作）以不同的資料列篩選器被發布，這些運算式會以 OR 邏輯組合，因此滿足*任一*運算式的資料列都會被複寫。這代表在下列情況下，同一資料表的其他資料列篩選器都會變得多餘：
 
 * 其中一個發布項目沒有資料列篩選器。
 * 其中一個發布項目是使用 [`FOR ALL TABLES`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-FOR-ALL-TABLES) 建立的。此子句不允許使用資料列篩選器。
@@ -316,7 +316,7 @@ Publications:
 (2 rows)
 ```
 
-以下範例說明發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT) 在分區表的情況下，如何決定要使用父資料表還是子資料表的資料列篩選器。
+以下範例說明發布參數 [`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-via-partition-root) 在分區表的情況下，如何決定要使用父資料表還是子資料表的資料列篩選器。
 
 在發布者上建立一個分區表。
 

@@ -149,7 +149,7 @@
 
 為這些資料表建立發布。發布 `pub2`
 與 `pub3a` 停用了部分
-[`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH)
+[`publish`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish)
 操作。發布 `pub3b` 則有一個資料列篩選條件（見
 [第 29.4 節](logical-replication-row-filter.md)）。
 

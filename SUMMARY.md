@@ -755,6 +755,7 @@
     * [CREATE POLICY](reference/sql-commands/sql-createpolicy.md)
     * [CREATE PROCEDURE](reference/sql-commands/sql-createprocedure.md)
     * [CREATE PUBLICATION](reference/sql-commands/sql-createpublication.md)
+      * [CREATE PUBLICATION 發佈參數](reference/sql-commands/sql-createpublication-parameters.md)
     * [CREATE ROLE](reference/sql-commands/sql-createrole.md)
     * [CREATE RULE](reference/sql-commands/sql-createrule.md)
     * [CREATE SCHEMA](reference/sql-commands/sql-createschema.md)

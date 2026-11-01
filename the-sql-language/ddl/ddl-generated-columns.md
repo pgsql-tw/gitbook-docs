@@ -49,7 +49,7 @@ CREATE TABLE people (
   對虛擬產生欄位而言，只有當產生運算式僅使用 leakproof 函式時（請參閱 [CREATE FUNCTION](../../reference/sql-commands/sql-createfunction.md)），這種安排才算完全安全，但系統並不會強制檢查這一點。
 * 產生運算式中所使用函式的權限，是在該運算式實際執行時（分別在寫入或讀取時）才檢查，就好像產生運算式是由使用該產生欄位的查詢直接呼叫的一樣。使用產生欄位的使用者必須擁有呼叫產生運算式所使用之所有函式的權限。產生運算式中的函式會以執行查詢之使用者的權限、或是函式擁有者的權限來執行，取決於這些函式定義為 `SECURITY INVOKER` 或 `SECURITY DEFINER`。
 * 就概念上而言，產生欄位是在 `BEFORE` 觸發程序執行完畢之後才更新。因此，在 `BEFORE` 觸發程序中對基礎欄位所做的變更會反映到產生欄位上。但反過來說，在 `BEFORE` 觸發程序中不允許存取產生欄位。
-* 在邏輯複寫期間，產生欄位可以依據 `CREATE PUBLICATION` 的參數 [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) 被複寫，或是將它們納入 `CREATE PUBLICATION` 指令的欄位清單中而被複寫。目前這只支援儲存式產生欄位。細節請參閱[第 29.6 節](../../server-administration/logical-replication/logical-replication-gencols.md)。
+* 在邏輯複寫期間，產生欄位可以依據 `CREATE PUBLICATION` 的參數 [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-generated-columns) 被複寫，或是將它們納入 `CREATE PUBLICATION` 指令的欄位清單中而被複寫。目前這只支援儲存式產生欄位。細節請參閱[第 29.6 節](../../server-administration/logical-replication/logical-replication-gencols.md)。
 
 ---
 

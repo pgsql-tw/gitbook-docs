@@ -25,7 +25,7 @@
 
 產生欄位也可以在欄位清單中指定。這使得
 產生欄位可以被發佈，不論發佈參數
-[`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) 的設定為何。詳細資訊請參閱
+[`publish_generated_columns`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-generated-columns) 的設定為何。詳細資訊請參閱
 [第 29.6 節](logical-replication-gencols.md)。
 
 當發佈同時也發佈
@@ -33,7 +33,7 @@
 時，不支援指定欄位清單。
 
 對於分割資料表，由發佈參數
-[`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-VIA-PARTITION-ROOT)
+[`publish_via_partition_root`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-via-partition-root)
 決定使用哪一個欄位清單。如果 `publish_via_partition_root`
 為 `true`，則使用根分割資料表的欄位清單。
 否則，如果 `publish_via_partition_root` 為

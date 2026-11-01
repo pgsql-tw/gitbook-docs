@@ -53,7 +53,7 @@
 有兩種方式可以做到這點：
 
 * 將 `PUBLICATION` 參數
-  [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS) 設為 `stored`。
+  [`publish_generated_columns`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish-generated-columns) 設為 `stored`。
   這會指示 PostgreSQL 邏輯複寫發佈該發佈之資料表中
   目前與未來的儲存式產生欄位。
 * 指定資料表的[欄位清單](logical-replication-col-lists.md)，

@@ -46,7 +46,7 @@
 ### 注意
 
 發布的
-[`publish`](../../reference/sql-commands/sql-createpublication.md#SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH)
+[`publish`](../../reference/sql-commands/sql-createpublication-parameters.md#sql-createpublication-params-with-publish)
 參數，只會影響哪些 DML 操作會被複寫。在複製現有資料表資料時，
 初始資料同步並不會考慮這個參數。
 
