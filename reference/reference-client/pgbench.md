@@ -208,15 +208,16 @@ pgbench 接受下列命令列效能基準測試引數：
 <a id="PGBENCH-OPTION-PROTOCOL"></a>
 
 `-M` *`querymode`*<br>`--protocol=`*`querymode`* [#](#PGBENCH-OPTION-PROTOCOL)
-:   向伺服器提交查詢時所使用的協定：
 
-    * `simple`：使用簡單查詢協定。
-    * `extended`：使用延伸查詢協定。
-    * `prepared`：使用延伸查詢協定並搭配預備陳述式。
+向伺服器提交查詢時所使用的協定：
 
-    在 `prepared` 模式下，pgbench 從第二次查詢迭代開始會重複使用剖析分析的結果，因此 pgbench 執行得比其他模式快。
+* `simple`：使用簡單查詢協定。
+* `extended`：使用延伸查詢協定。
+* `prepared`：使用延伸查詢協定並搭配預備陳述式。
 
-    預設為簡單查詢協定。（詳細資訊請參閱[第 54 章](../../internals/protocol/README.md)。）
+在 `prepared` 模式下，pgbench 從第二次查詢迭代開始會重複使用剖析分析的結果，因此 pgbench 執行得比其他模式快。
+
+預設為簡單查詢協定。（詳細資訊請參閱[第 54 章](../../internals/protocol/README.md)。）
 <a id="PGBENCH-OPTION-NO-VACUUM-RUN"></a>
 
 `-n`<br>`--no-vacuum` [#](#PGBENCH-OPTION-NO-VACUUM-RUN)
@@ -280,12 +281,13 @@ pgbench 接受下列命令列效能基準測試引數：
 <a id="PGBENCH-OPTION-FAILURES-DETAILED"></a>
 
 `--failures-detailed` [#](#PGBENCH-OPTION-FAILURES-DETAILED)
-:   在每筆交易日誌與彙總日誌中，以及在主要報告與每個腳本的報告中，依下列類型分組回報失敗：
 
-    * 序列化失敗；
-    * 死結失敗；
+在每筆交易日誌與彙總日誌中，以及在主要報告與每個腳本的報告中，依下列類型分組回報失敗：
 
-    詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+* 序列化失敗；
+* 死結失敗；
+
+詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
 <a id="PGBENCH-OPTION-LOG-PREFIX"></a>
 
 `--log-prefix=prefix` [#](#PGBENCH-OPTION-LOG-PREFIX)

@@ -447,40 +447,42 @@ PostgreSQL 能夠判斷核心上限的平台上，
 <a id="GUC-FILE-COPY-METHOD"></a>
 
 `file_copy_method` (`enum`) <a id="id-1.6.6.7.3.2.2.1.3"></a> [#](#GUC-FILE-COPY-METHOD)
-:   指定用於複製檔案的方法。
-    可能的值有 `COPY`（預設值）與
-    `CLONE`（若作業系統支援）。
 
-    此參數會影響：
+指定用於複製檔案的方法。
+可能的值有 `COPY`（預設值）與
+`CLONE`（若作業系統支援）。
 
-    * `CREATE DATABASE ... STRATEGY=FILE_COPY`
-    * `ALTER DATABASE ... SET TABLESPACE ...`
+此參數會影響：
 
-    `CLONE` 會使用
-    `copy_file_range()`（Linux、FreeBSD）或
-    `copyfile`（macOS）系統呼叫，
-    讓核心有機會在某些檔案系統上共享磁碟區塊，
-    或將工作下推到較低層。
+* `CREATE DATABASE ... STRATEGY=FILE_COPY`
+* `ALTER DATABASE ... SET TABLESPACE ...`
+
+`CLONE` 會使用
+`copy_file_range()`（Linux、FreeBSD）或
+`copyfile`（macOS）系統呼叫，
+讓核心有機會在某些檔案系統上共享磁碟區塊，
+或將工作下推到較低層。
 <a id="GUC-FILE-EXTEND-METHOD"></a>
 
 `file_extend_method` (`enum`) <a id="id-1.6.6.7.3.2.3.1.3"></a> [#](#GUC-FILE-EXTEND-METHOD)
-:   指定在批次操作（例如 `COPY`）期間，
-    用於擴充資料檔案的方法。根據作業系統，
-    會使用第一個可用的選項作為預設值：
 
-    * `posix_fallocate`（Unix）使用標準的
-      POSIX 介面配置磁碟空間，但在某些系統上不存在。
-      若此功能存在，但底層檔案系統不支援，
-      此選項會默默退回 `write_zeros`。
-      已知目前版本的 BTRFS 在使用此選項時
-      會停用壓縮功能。
-      在具備此函式的系統上，這是預設值。
-    * `write_zeros` 透過寫出全零位元組的區塊
-      來擴充檔案。在不具備
-      `posix_fallocate` 函式的系統上，這是預設值。
+指定在批次操作（例如 `COPY`）期間，
+用於擴充資料檔案的方法。根據作業系統，
+會使用第一個可用的選項作為預設值：
 
-    當資料檔案擴充 8 個區塊或以下時，
-    永遠會使用 `write_zeros` 方法。
+* `posix_fallocate`（Unix）使用標準的
+  POSIX 介面配置磁碟空間，但在某些系統上不存在。
+  若此功能存在，但底層檔案系統不支援，
+  此選項會默默退回 `write_zeros`。
+  已知目前版本的 BTRFS 在使用此選項時
+  會停用壓縮功能。
+  在具備此函式的系統上，這是預設值。
+* `write_zeros` 透過寫出全零位元組的區塊
+  來擴充檔案。在不具備
+  `posix_fallocate` 函式的系統上，這是預設值。
+
+當資料檔案擴充 8 個區塊或以下時，
+永遠會使用 `write_zeros` 方法。
 <a id="GUC-MAX-NOTIFY-QUEUE-PAGES"></a>
 
 `max_notify_queue_pages` (`integer`) <a id="id-1.6.6.7.3.2.4.1.3"></a> [#](#GUC-MAX-NOTIFY-QUEUE-PAGES)
@@ -703,19 +705,20 @@ I/O 延遲。
 <a id="GUC-IO-METHOD"></a>
 
 `io_method` (`enum`) <a id="id-1.6.6.7.6.2.7.1.3"></a> [#](#GUC-IO-METHOD)
-:   選擇執行非同步 I/O 的方法。
-    可能的值有：
 
-    * `worker`（使用工作程序執行非同步 I/O）
-    * `io_uring`（使用
-      io_uring 執行非同步 I/O，需要以
-      [`--with-liburing`](../installation/install-make.md#CONFIGURE-OPTION-WITH-LIBURING) /
-      [`-Dliburing`](../installation/install-meson.md#CONFIGURE-WITH-LIBURING-MESON) 建置）
-    * `sync`（以同步方式執行可非同步處理的 I/O）
+選擇執行非同步 I/O 的方法。
+可能的值有：
 
-    預設值為 `worker`。
+* `worker`（使用工作程序執行非同步 I/O）
+* `io_uring`（使用
+  io_uring 執行非同步 I/O，需要以
+  [`--with-liburing`](../installation/install-make.md#CONFIGURE-OPTION-WITH-LIBURING) /
+  [`-Dliburing`](../installation/install-meson.md#CONFIGURE-WITH-LIBURING-MESON) 建置）
+* `sync`（以同步方式執行可非同步處理的 I/O）
 
-    此參數只能在伺服器啟動時設定。
+預設值為 `worker`。
+
+此參數只能在伺服器啟動時設定。
 <a id="GUC-IO-WORKERS"></a>
 
 `io_workers` (`integer`) <a id="id-1.6.6.7.6.2.8.1.3"></a> [#](#GUC-IO-WORKERS)

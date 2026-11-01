@@ -482,17 +482,18 @@ LLVM 支援需要相容的
 <a id="CONFIGURE-OPTION-WITH-UUID"></a>
 
 `--with-uuid=LIBRARY` [#](#CONFIGURE-OPTION-WITH-UUID)
-:   使用指定的 UUID 函式庫，建置
-    [uuid-ossp](../../appendixes/contrib/uuid-ossp.md) 模組
-    （提供產生 UUID 的函式）。<a id="id-1.6.4.6.4.5.3.17.2.1.2"></a>
-    *`LIBRARY`* 必須是下列其中之一：
 
-    * `bsd`：使用 FreeBSD 及其他部分 BSD 衍生系統中的
-      UUID 函式
-    * `e2fs`：使用由 `e2fsprogs` 專案建立的
-      UUID 函式庫；這個函式庫存在於多數 Linux 系統及
-      macOS 中，其他平台也可以取得
-    * `ossp`：使用 [OSSP UUID 函式庫](http://www.ossp.org/pkg/lib/uuid/)
+使用指定的 UUID 函式庫，建置
+[uuid-ossp](../../appendixes/contrib/uuid-ossp.md) 模組
+（提供產生 UUID 的函式）。<a id="id-1.6.4.6.4.5.3.17.2.1.2"></a>
+*`LIBRARY`* 必須是下列其中之一：
+
+* `bsd`：使用 FreeBSD 及其他部分 BSD 衍生系統中的
+  UUID 函式
+* `e2fs`：使用由 `e2fsprogs` 專案建立的
+  UUID 函式庫；這個函式庫存在於多數 Linux 系統及
+  macOS 中，其他平台也可以取得
+* `ossp`：使用 [OSSP UUID 函式庫](http://www.ossp.org/pkg/lib/uuid/)
 <a id="CONFIGURE-OPTION-WITH-OSSP-UUID"></a>
 
 `--with-ossp-uuid` [#](#CONFIGURE-OPTION-WITH-OSSP-UUID)

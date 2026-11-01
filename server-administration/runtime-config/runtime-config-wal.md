@@ -166,26 +166,27 @@ WAL 紀錄在待命伺服器上處理完成。
 <a id="GUC-WAL-SYNC-METHOD"></a>
 
 `wal_sync_method` (`enum`) <a id="id-1.6.6.8.3.2.4.1.3"></a> [#](#GUC-WAL-SYNC-METHOD)
-:   強制將 WAL 更新寫出至磁碟時所使用的方法。
-    若 `fsync` 為關閉，則此設定無關緊要，
-    因為 WAL 檔案更新完全不會被強制寫出。
-    可用的值有：
 
-    * `open_datasync`（以 `open()` 選項 `O_DSYNC` 寫入 WAL 檔案）
-    * `fdatasync`（每次提交時呼叫 `fdatasync()`）
-    * `fsync`（每次提交時呼叫 `fsync()`）
-    * `fsync_writethrough`（每次提交時呼叫 `fsync()`，並強制透寫任何磁碟寫入快取）
-    * `open_sync`（以 `open()` 選項 `O_SYNC` 寫入 WAL 檔案）
+強制將 WAL 更新寫出至磁碟時所使用的方法。
+若 `fsync` 為關閉，則此設定無關緊要，
+因為 WAL 檔案更新完全不會被強制寫出。
+可用的值有：
 
-    並非所有平台都支援上述所有選項。
-    預設值為上述清單中該平台所支援的第一個方法，
-    但 `fdatasync` 在 Linux 與 FreeBSD 上為預設值。
-    預設值未必是理想的；為了建立當機安全的組態，
-    或達到最佳效能，可能有必要變更此設定，
-    或系統其他組態面向。這些面向在
-    [28.1 節](../wal/wal-reliability.md)中討論。
-    此參數只能在 `postgresql.conf`
-    檔案中或伺服器命令列上設定。
+* `open_datasync`（以 `open()` 選項 `O_DSYNC` 寫入 WAL 檔案）
+* `fdatasync`（每次提交時呼叫 `fdatasync()`）
+* `fsync`（每次提交時呼叫 `fsync()`）
+* `fsync_writethrough`（每次提交時呼叫 `fsync()`，並強制透寫任何磁碟寫入快取）
+* `open_sync`（以 `open()` 選項 `O_SYNC` 寫入 WAL 檔案）
+
+並非所有平台都支援上述所有選項。
+預設值為上述清單中該平台所支援的第一個方法，
+但 `fdatasync` 在 Linux 與 FreeBSD 上為預設值。
+預設值未必是理想的；為了建立當機安全的組態，
+或達到最佳效能，可能有必要變更此設定，
+或系統其他組態面向。這些面向在
+[28.1 節](../wal/wal-reliability.md)中討論。
+此參數只能在 `postgresql.conf`
+檔案中或伺服器命令列上設定。
 <a id="GUC-FULL-PAGE-WRITES"></a>
 
 `full_page_writes` (`boolean`) <a id="id-1.6.6.8.3.2.5.1.3"></a> [#](#GUC-FULL-PAGE-WRITES)

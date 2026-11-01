@@ -384,17 +384,18 @@ JIT 編譯（參見 [第 30 章](../jit/README.md)）。
 <a id="CONFIGURE-WITH-UUID-MESON"></a>
 
 `-Duuid=LIBRARY` [#](#CONFIGURE-WITH-UUID-MESON)
-:   使用指定的 UUID 函式庫，建置 [uuid-ossp](../../appendixes/contrib/uuid-ossp.md) 模組
-    （提供產生 UUID 的函式）。<a id="id-1.6.4.7.4.4.4.17.2.1.2"></a>
-    *`LIBRARY`* 必須是下列其中之一：
 
-    * `none`：不建置 uuid 模組。此為預設值。
-    * `bsd`：使用 FreeBSD 及部分其他 BSD 衍生系統中內建的
-      UUID 函式
-    * `e2fs`：使用由
-      `e2fsprogs` 專案所建立的 UUID 函式庫；此函式庫存在於多數
-      Linux 系統與 macOS 中，其他平台上也可另行取得
-    * `ossp`：使用 [OSSP UUID 函式庫](http://www.ossp.org/pkg/lib/uuid/)
+使用指定的 UUID 函式庫，建置 [uuid-ossp](../../appendixes/contrib/uuid-ossp.md) 模組
+（提供產生 UUID 的函式）。<a id="id-1.6.4.7.4.4.4.17.2.1.2"></a>
+*`LIBRARY`* 必須是下列其中之一：
+
+* `none`：不建置 uuid 模組。此為預設值。
+* `bsd`：使用 FreeBSD 及部分其他 BSD 衍生系統中內建的
+  UUID 函式
+* `e2fs`：使用由
+  `e2fsprogs` 專案所建立的 UUID 函式庫；此函式庫存在於多數
+  Linux 系統與 macOS 中，其他平台上也可另行取得
+* `ossp`：使用 [OSSP UUID 函式庫](http://www.ossp.org/pkg/lib/uuid/)
 <a id="CONFIGURE-WITH-LIBCURL-MESON"></a>
 
 `-Dlibcurl={ auto | enabled | disabled }` [#](#CONFIGURE-WITH-LIBCURL-MESON)

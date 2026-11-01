@@ -337,23 +337,24 @@ CVE-2007-3278 與 CVE-2007-6601）。不要在 `public` 角色上設定
 <a id="POSTGRES-FDW-OPTION-USE-SCRAM-PASSTHROUGH"></a>
 
 `use_scram_passthrough` (`boolean`) [#](#POSTGRES-FDW-OPTION-USE-SCRAM-PASSTHROUGH)
-:   此選項控制 `postgres_fdw` 是否使用 SCRAM 傳遞（pass-through）驗證連線到外部伺服器。它可以為外部伺服器或使用者對應指定。
-    使用者對應的設定會覆寫外部伺服器的設定。
-    使用 SCRAM 傳遞驗證時，
-    `postgres_fdw` 會使用 SCRAM 雜湊後的祕密資料，而不是明文的使用者密碼，連線到遠端伺服器。這可以避免將明文的使用者密碼儲存在 PostgreSQL 系統目錄中。
 
-    要使用 SCRAM 傳遞驗證：
+此選項控制 `postgres_fdw` 是否使用 SCRAM 傳遞（pass-through）驗證連線到外部伺服器。它可以為外部伺服器或使用者對應指定。
+使用者對應的設定會覆寫外部伺服器的設定。
+使用 SCRAM 傳遞驗證時，
+`postgres_fdw` 會使用 SCRAM 雜湊後的祕密資料，而不是明文的使用者密碼，連線到遠端伺服器。這可以避免將明文的使用者密碼儲存在 PostgreSQL 系統目錄中。
 
-    * 遠端伺服器必須要求 `scram-sha-256`
-      驗證方法；否則連線會失敗。
-    * 遠端伺服器可以是任何支援 SCRAM 的 PostgreSQL 版本。只有用戶端（FDW 端）需要支援 `use_scram_passthrough`。
-    * 不會使用使用者對應的密碼。
-    * 執行 `postgres_fdw` 的伺服器與遠端伺服器，對於在
-      `postgres_fdw` 上用來向外部伺服器進行驗證的使用者，必須具有完全相同的 SCRAM 祕密資料（加密後的密碼）（相同的 salt 與迭代次數，而不僅僅是相同的密碼）。
+要使用 SCRAM 傳遞驗證：
 
-      因此，若要建立連到多個主機的 FDW 連線（例如用於分割的外部資料表／分片），則所有主機對於所涉及的使用者都必須具有完全相同的 SCRAM 祕密資料。
-    * 在發出對外 FDW 連線的 PostgreSQL 執行個體上，目前的工作階段對其傳入的用戶端連線也必須使用 SCRAM 驗證。（因此稱為「傳遞」：進出都必須使用 SCRAM。）
-      這是 SCRAM 協定的技術要求。
+* 遠端伺服器必須要求 `scram-sha-256`
+  驗證方法；否則連線會失敗。
+* 遠端伺服器可以是任何支援 SCRAM 的 PostgreSQL 版本。只有用戶端（FDW 端）需要支援 `use_scram_passthrough`。
+* 不會使用使用者對應的密碼。
+* 執行 `postgres_fdw` 的伺服器與遠端伺服器，對於在
+  `postgres_fdw` 上用來向外部伺服器進行驗證的使用者，必須具有完全相同的 SCRAM 祕密資料（加密後的密碼）（相同的 salt 與迭代次數，而不僅僅是相同的密碼）。
+
+  因此，若要建立連到多個主機的 FDW 連線（例如用於分割的外部資料表／分片），則所有主機對於所涉及的使用者都必須具有完全相同的 SCRAM 祕密資料。
+* 在發出對外 FDW 連線的 PostgreSQL 執行個體上，目前的工作階段對其傳入的用戶端連線也必須使用 SCRAM 驗證。（因此稱為「傳遞」：進出都必須使用 SCRAM。）
+  這是 SCRAM 協定的技術要求。
 
 <a id="POSTGRES-FDW-FUNCTIONS"></a>
 
