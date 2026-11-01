@@ -54,7 +54,8 @@
 :   回傳給定查詢的否定（NOT）。
 
 `tsquery <-> tsquery`
-:   回傳一個查詢，使用 `<->`（FOLLOWED BY）`tsquery` 運算子，搜尋第一個給定查詢的相符項目後面緊接著第二個給定查詢的相符項目。例如：
+
+回傳一個查詢，使用 `<->`（FOLLOWED BY）`tsquery` 運算子，搜尋第一個給定查詢的相符項目後面緊接著第二個給定查詢的相符項目。例如：
 
 ```
 
@@ -62,10 +63,11 @@
               ?column?
     ----------------------------
      'fat' <-> ( 'cat' | 'rat' )
-    ```
+```
 
 <a id="id-1.5.11.7.4.3.5.1.1"></a> `tsquery_phrase(query1 tsquery, query2 tsquery [, distance integer ]) returns tsquery`
-:   回傳一個查詢，使用 `<N>` `tsquery` 運算子，搜尋第一個給定查詢的相符項目後面、恰好相距 *`distance`* 個詞素處出現第二個給定查詢的相符項目。例如：
+
+回傳一個查詢，使用 `<N>` `tsquery` 運算子，搜尋第一個給定查詢的相符項目後面、恰好相距 *`distance`* 個詞素處出現第二個給定查詢的相符項目。例如：
 
 ```
 
@@ -73,10 +75,11 @@
       tsquery_phrase
     ------------------
      'fat' <10> 'cat'
-    ```
+```
 
 <a id="id-1.5.11.7.4.3.6.1.1"></a> `numnode(query tsquery) returns integer`
-:   回傳 `tsquery` 中的節點數量（詞素加上運算子）。這個函式可用來判斷 *`query`* 是否有意義（回傳值 > 0），或是只包含停用詞（回傳 0）。範例：
+
+回傳 `tsquery` 中的節點數量（詞素加上運算子）。這個函式可用來判斷 *`query`* 是否有意義（回傳值 > 0），或是只包含停用詞（回傳 0）。範例：
 
 ```
 
@@ -90,10 +93,11 @@
      numnode
     ---------
            3
-    ```
+```
 
 <a id="id-1.5.11.7.4.3.7.1.1"></a> `querytree(query tsquery) returns text`
-:   回傳 `tsquery` 中可用於搜尋索引的部分。這個函式可用來偵測無法使用索引的查詢，例如只包含停用詞或只包含否定詞的查詢。例如：
+
+回傳 `tsquery` 中可用於搜尋索引的部分。這個函式可用來偵測無法使用索引的查詢，例如只包含停用詞或只包含否定詞的查詢。例如：
 
 ```
 
@@ -106,7 +110,7 @@
      querytree
     -----------
      T
-    ```
+```
 
 <a id="TEXTSEARCH-QUERY-REWRITING"></a>
 
@@ -117,7 +121,8 @@
 `ts_rewrite` 系列函式會在給定的 `tsquery` 中搜尋目標子查詢出現的位置，並將每次出現的位置替換為替代子查詢。本質上，這項運算就是 `tsquery` 專用的子字串替換。目標與替代的組合可以視為一條*查詢改寫規則*（query rewrite rule）。這類改寫規則的集合可以成為強大的搜尋輔助工具。例如，你可以使用同義詞擴大搜尋範圍（例如 `new york`、`big apple`、`nyc`、`gotham`），或縮小搜尋範圍，將使用者引導到某個熱門主題。這項功能與同義詞庫字典（[第 12.6.4 節](textsearch-dictionaries.md#textsearch-thesaurus)）在功能上有些重疊。不過，你可以隨時修改一組改寫規則而不需要重建索引，而更新同義詞庫則需要重建索引才會生效。
 
 `ts_rewrite (query tsquery, target tsquery, substitute tsquery) returns tsquery`
-:   這種形式的 `ts_rewrite` 只會套用單一條改寫規則：只要 *`query`* 中出現 *`target`*，就將它替換為 *`substitute`*。例如：
+
+這種形式的 `ts_rewrite` 只會套用單一條改寫規則：只要 *`query`* 中出現 *`target`*，就將它替換為 *`substitute`*。例如：
 
 ```
 
@@ -125,10 +130,11 @@
      ts_rewrite
     ------------
      'b' & 'c'
-    ```
+```
 
 `ts_rewrite (query tsquery, select text) returns tsquery`
-:   這種形式的 `ts_rewrite` 接受一個起始的 *`query`*，以及一個以文字字串給定的 SQL *`select`* 指令。*`select`* 必須產生兩個 `tsquery` 型別的欄位。對於 *`select`* 結果的每一筆資料列，會在目前的 *`query`* 值中，將第一個欄位的值（目標）替換為第二個欄位的值（替代）。例如：
+
+這種形式的 `ts_rewrite` 接受一個起始的 *`query`*，以及一個以文字字串給定的 SQL *`select`* 指令。*`select`* 必須產生兩個 `tsquery` 型別的欄位。對於 *`select`* 結果的每一筆資料列，會在目前的 *`query`* 值中，將第一個欄位的值（目標）替換為第二個欄位的值（替代）。例如：
 
 ```
 
@@ -139,9 +145,9 @@
      ts_rewrite
     ------------
      'b' & 'c'
-    ```
+```
 
-    請注意，以這種方式套用多條改寫規則時，套用的順序可能很重要；因此實務上你會希望來源查詢依某個排序鍵進行 `ORDER BY`。
+請注意，以這種方式套用多條改寫規則時，套用的順序可能很重要；因此實務上你會希望來源查詢依某個排序鍵進行 `ORDER BY`。
 
 我們來看一個真實的天文學範例。我們將使用由資料表驅動的改寫規則來擴充查詢 `supernovae`：
 

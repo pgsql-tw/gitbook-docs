@@ -35,7 +35,8 @@
 可用的指令有：
 
 `\dF[+] [PATTERN]`
-:   列出文字搜尋設定（加上 `+` 可顯示更多細節）。
+
+列出文字搜尋設定（加上 `+` 可顯示更多細節）。
 
 ```
 
@@ -69,10 +70,11 @@
      url_path        | simple
      version         | simple
      word            | russian_stem
-    ```
+```
 
 `\dFd[+] [PATTERN]`
-:   列出文字搜尋字典（加上 `+` 可顯示更多細節）。
+
+列出文字搜尋字典（加上 `+` 可顯示更多細節）。
 
 ```
 
@@ -110,10 +112,11 @@
      pg_catalog | tamil_stem      | snowball stemmer for tamil language
      pg_catalog | turkish_stem    | snowball stemmer for turkish language
      pg_catalog | yiddish_stem    | snowball stemmer for yiddish language
-    ```
+```
 
 `\dFp[+] [PATTERN]`
-:   列出文字搜尋剖析器（加上 `+` 可顯示更多細節）。
+
+列出文字搜尋剖析器（加上 `+` 可顯示更多細節）。
 
 ```
 
@@ -159,10 +162,11 @@
      version         | Version number
      word            | Word, all letters
     (23 rows)
-    ```
+```
 
 `\dFt[+] [PATTERN]`
-:   列出文字搜尋範本（加上 `+` 可顯示更多細節）。
+
+列出文字搜尋範本（加上 `+` 可顯示更多細節）。
 
 ```
 
@@ -175,7 +179,7 @@
      pg_catalog | snowball  | snowball stemmer
      pg_catalog | synonym   | synonym dictionary: replace word by its synonym
      pg_catalog | thesaurus | thesaurus dictionary: phrase by phrase substitution
-    ```
+```
 
 ---
 
