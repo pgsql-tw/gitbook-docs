@@ -181,6 +181,9 @@
 
 [CREATE TABLE](sql-createtable.md) — 定義新的資料表
 
+  - [CREATE TABLE：LIKE 複製選項](sql-createtable-like-options.md)
+  - [CREATE TABLE：ON COMMIT 選項](sql-createtable-on-commit-options.md)
+
 [CREATE TABLE AS](sql-createtableas.md) — 以查詢的結果定義新的資料表
 
 [CREATE TABLESPACE](sql-createtablespace.md) — 定義新的資料表空間

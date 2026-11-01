@@ -239,56 +239,19 @@ TABLE ATTACH/DETACH PARTITION`](sql-altertable.md) 以較弱的鎖定來執行�
 <a id="SQL-CREATETABLE-PARMS-LIKE"></a>
 
 `LIKE source_table [ like_option ... ]` [#](#SQL-CREATETABLE-PARMS-LIKE)
-:   `LIKE` 子句指定一個資料表，新資料表會自動從中複製所有欄位名稱、其資料型別以及其非 null 限制條件。
 
-    與 `INHERITS` 不同，新資料表與原始資料表在建立完成後就完全脫鉤。對原始資料表的變更不會套用到新資料表，而且無法在對原始資料表的掃描中包含新資料表的資料。
+`LIKE` 子句指定一個資料表，新資料表會自動從中複製所有欄位名稱、其資料型別以及其非 null 限制條件。
 
-    同樣與 `INHERITS` 不同的是，由 `LIKE` 複製的欄位與限制條件不會與名稱相似的欄位與限制條件合併。若明確指定了相同的名稱，或在另一個 `LIKE` 子句中指定了相同的名稱，就會發出錯誤。
+與 `INHERITS` 不同，新資料表與原始資料表在建立完成後就完全脫鉤。對原始資料表的變更不會套用到新資料表，而且無法在對原始資料表的掃描中包含新資料表的資料。
 
-    選用的 *`like_option`* 子句指定要複製原始資料表的哪些額外屬性。指定 `INCLUDING` 會複製該屬性，指定 `EXCLUDING` 則會省略該屬性。`EXCLUDING` 是預設值。若對同一類物件做了多次指定，則使用最後一個。可用的選項有：
+同樣與 `INHERITS` 不同的是，由 `LIKE` 複製的欄位與限制條件不會與名稱相似的欄位與限制條件合併。若明確指定了相同的名稱，或在另一個 `LIKE` 子句中指定了相同的名稱，就會發出錯誤。
 
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-COMMENTS"></a>
+選用的 *`like_option`* 子句指定要複製原始資料表的哪些額外屬性。指定 `INCLUDING` 會複製該屬性，指定 `EXCLUDING` 則會省略該屬性。`EXCLUDING` 是預設值。若對同一類物件做了多次指定，則使用最後一個。可用的選項有：
 
-    `INCLUDING COMMENTS` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-COMMENTS)
-    :   會複製所複製欄位、檢查限制條件、非 null 限制條件、索引與擴充統計資訊的註解。預設行為是排除註解，使新資料表中對應的物件沒有註解。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-COMPRESSION"></a>
+[CREATE TABLE：LIKE 複製選項](sql-createtable-like-options.md)。
 
-    `INCLUDING COMPRESSION` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-COMPRESSION)
-    :   會複製欄位的壓縮方法。預設行為是排除壓縮方法，使欄位具有預設的壓縮方法。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-CONSTRAINTS"></a>
+`LIKE` 子句也可以用來從檢視表、外部資料表或複合型別複製欄位定義。不適用的選項（例如對檢視表使用 `INCLUDING INDEXES`）會被忽略。
 
-    `INCLUDING CONSTRAINTS` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-CONSTRAINTS)
-    :   會複製 `CHECK` 限制條件。欄位限制條件與資料表限制條件之間不做區分。非 null 限制條件一律會複製到新資料表。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-DEFAULTS"></a>
-
-    `INCLUDING DEFAULTS` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-DEFAULTS)
-    :   會複製所複製欄位定義的預設值運算式。否則不會複製預設值運算式，使新資料表中所複製的欄位具有 null 預設值。請注意，複製呼叫了修改資料庫之函式（例如 `nextval`）的預設值，可能會在原始資料表與新資料表之間建立功能上的連結。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-GENERATED"></a>
-
-    `INCLUDING GENERATED` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-GENERATED)
-    :   會複製所複製欄位定義的任何產生運算式，以及 stored／virtual 的選擇。預設情況下，新欄位會是一般的基本欄位。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-IDENTITY"></a>
-
-    `INCLUDING IDENTITY` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-IDENTITY)
-    :   會複製所複製欄位定義的任何識別規格。新資料表的每個識別欄位都會建立一個新的序列，與舊資料表所關聯的序列分開。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-INDEXES"></a>
-
-    `INCLUDING INDEXES` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-INDEXES)
-    :   原始資料表上的索引、`PRIMARY KEY`、`UNIQUE` 與 `EXCLUDE` 限制條件會建立在新資料表上。新索引與限制條件的名稱會依照預設規則選擇，不論原本的名稱為何。（此行為可避免新索引可能發生的名稱重複失敗。）
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-STATISTICS"></a>
-
-    `INCLUDING STATISTICS` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-STATISTICS)
-    :   擴充統計資訊會複製到新資料表。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-STORAGE"></a>
-
-    `INCLUDING STORAGE` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-STORAGE)
-    :   會複製所複製欄位定義的 `STORAGE` 設定。預設行為是排除 `STORAGE` 設定，使新資料表中所複製的欄位具有型別特定的預設設定。關於 `STORAGE` 設定的更多資訊，請參閱[第 66.2 節](../../internals/storage/storage-toast.md)。
-    <a id="SQL-CREATETABLE-PARMS-LIKE-OPT-ALL"></a>
-
-    `INCLUDING ALL` [#](#SQL-CREATETABLE-PARMS-LIKE-OPT-ALL)
-    :   `INCLUDING ALL` 是選取所有可用個別選項的縮寫形式。（在 `INCLUDING ALL` 之後寫上個別的 `EXCLUDING` 子句，以選取除了某些特定選項以外的所有選項，可能會很有用。）
-
-    `LIKE` 子句也可以用來從檢視表、外部資料表或複合型別複製欄位定義。不適用的選項（例如對檢視表使用 `INCLUDING INDEXES`）會被忽略。
 <a id="SQL-CREATETABLE-PARMS-CONSTRAINT"></a>
 
 `CONSTRAINT constraint_name` [#](#SQL-CREATETABLE-PARMS-CONSTRAINT)
@@ -483,20 +446,11 @@ NULL` 的組合相同。不過，將一組欄位識別為主鍵，也提供了�
 <a id="SQL-CREATETABLE-PARMS-ON-COMMIT"></a>
 
 `ON COMMIT` [#](#SQL-CREATETABLE-PARMS-ON-COMMIT)
-:   暫存資料表在交易區塊結束時的行為可以使用 `ON COMMIT` 控制。三個選項為：
 
-    <a id="SQL-CREATETABLE-PARMS-ON-COMMIT-PRESERVE-ROWS"></a>
+暫存資料表在交易區塊結束時的行為可以使用 `ON COMMIT` 控制。三個選項為：
 
-    `PRESERVE ROWS` [#](#SQL-CREATETABLE-PARMS-ON-COMMIT-PRESERVE-ROWS)
-    :   在交易結束時不採取任何特殊動作。這是預設行為。
-    <a id="SQL-CREATETABLE-PARMS-ON-COMMIT-DELETE-ROWS"></a>
+[CREATE TABLE：ON COMMIT 選項](sql-createtable-on-commit-options.md)。
 
-    `DELETE ROWS` [#](#SQL-CREATETABLE-PARMS-ON-COMMIT-DELETE-ROWS)
-    :   暫存資料表中的所有資料列會在每個交易區塊結束時被刪除。基本上，每次提交時都會自動執行一次 [`TRUNCATE`](sql-truncate.md)。用在分割資料表上時，此動作不會串聯到其分割區。
-    <a id="SQL-CREATETABLE-PARMS-ON-COMMIT-DROP"></a>
-
-    `DROP` [#](#SQL-CREATETABLE-PARMS-ON-COMMIT-DROP)
-    :   暫存資料表會在目前交易區塊結束時被移除。用在分割資料表上時，此動作會移除其分割區；用在具有繼承子資料表的資料表上時，則會移除相依的子資料表。
 <a id="SQL-CREATETABLE-TABLESPACE"></a>
 
 `TABLESPACE tablespace_name` [#](#SQL-CREATETABLE-TABLESPACE)
