@@ -9,7 +9,7 @@
 
 <a id="id-1.10.4.49.4"></a>
 
-**表 52.47. `pg_sequence` 欄位**
+### 表 52.47. `pg_sequence` 欄位 [#](#catalog-pg-sequence-columns) <a href="#catalog-pg-sequence-columns" id="catalog-pg-sequence-columns"></a>
 
 <table border="1" class="table" summary="pg_sequence Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位型別

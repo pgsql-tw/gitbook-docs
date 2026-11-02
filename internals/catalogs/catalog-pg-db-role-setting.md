@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.18.5"></a>
 
-**表 52.16. `pg_db_role_setting` 欄位**
+### 表 52.16. `pg_db_role_setting` 欄位 [#](#catalog-pg-db-role-setting-columns) <a href="#catalog-pg-db-role-setting-columns" id="catalog-pg-db-role-setting-columns"></a>
 
 <table border="1" class="table" summary="表 52.16. pg_db_role_setting 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

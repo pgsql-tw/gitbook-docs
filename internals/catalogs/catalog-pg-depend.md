@@ -11,7 +11,7 @@ RESTRICT` 的情況下阻止刪除。
 
 <a id="id-1.10.4.20.5"></a>
 
-**表 52.18. `pg_depend` 欄位**
+### 表 52.18. `pg_depend` 欄位 [#](#catalog-pg-depend-columns) <a href="#catalog-pg-depend-columns" id="catalog-pg-depend-columns"></a>
 
 <table border="1" class="table" summary="表 52.18. pg_depend 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.38.5"></a>
 
-**表 52.36. `pg_parameter_acl` 欄位**
+### 表 52.36. `pg_parameter_acl` 欄位 [#](#catalog-pg-parameter-acl-columns) <a href="#catalog-pg-parameter-acl-columns" id="catalog-pg-parameter-acl-columns"></a>
 
 <table border="1" class="table" summary="表 52.36. pg_parameter_acl 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

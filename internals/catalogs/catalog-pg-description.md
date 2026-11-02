@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.21.5"></a>
 
-**表 52.19. `pg_description` 欄位**
+### 表 52.19. `pg_description` 欄位 [#](#catalog-pg-description-columns) <a href="#catalog-pg-description-columns" id="catalog-pg-description-columns"></a>
 
 <table border="1" class="table" summary="表 52.19. pg_description 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

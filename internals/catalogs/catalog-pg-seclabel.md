@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.48.5"></a>
 
-**表 52.46. `pg_seclabel` 欄位**
+### 表 52.46. `pg_seclabel` 欄位 [#](#catalog-pg-seclabel-columns) <a href="#catalog-pg-seclabel-columns" id="catalog-pg-seclabel-columns"></a>
 
 <table border="1" class="table" summary="表 52.46. pg_seclabel 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.39.4"></a>
 
-**表 52.37. `pg_partitioned_table` 欄位**
+### 表 52.37. `pg_partitioned_table` 欄位 [#](#catalog-pg-partitioned-table-columns) <a href="#catalog-pg-partitioned-table-columns" id="catalog-pg-partitioned-table-columns"></a>
 
 <table border="1" class="table" summary="表 52.37. pg_partitioned_table 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

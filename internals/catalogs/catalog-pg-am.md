@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.5.4"></a>
 
-**表 52.3. `pg_am` 欄位**
+### 表 52.3. `pg_am` 欄位 [#](#catalog-pg-am-columns) <a href="#catalog-pg-am-columns" id="catalog-pg-am-columns"></a>
 
 <table border="1" class="table" summary="表 52.3. pg_am 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

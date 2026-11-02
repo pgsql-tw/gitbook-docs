@@ -14,7 +14,7 @@
 
 <a id="id-1.10.4.11.5"></a>
 
-**表 52.9. `pg_auth_members` 欄位**
+### 表 52.9. `pg_auth_members` 欄位 [#](#catalog-pg-auth-members-columns) <a href="#catalog-pg-auth-members-columns" id="catalog-pg-auth-members-columns"></a>
 
 <table border="1" class="table" summary="表 52.9. pg_auth_members 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

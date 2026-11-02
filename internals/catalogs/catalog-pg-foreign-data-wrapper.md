@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.25.4"></a>
 
-**表 52.23. `pg_foreign_data_wrapper` 欄位**
+### 表 52.23. `pg_foreign_data_wrapper` 欄位 [#](#catalog-pg-foreign-data-wrapper-columns) <a href="#catalog-pg-foreign-data-wrapper-columns" id="catalog-pg-foreign-data-wrapper-columns"></a>
 
 <table border="1" class="table" summary="表 52.23. pg_foreign_data_wrapper 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

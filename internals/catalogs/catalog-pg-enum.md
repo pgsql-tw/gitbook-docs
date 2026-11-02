@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.22.4"></a>
 
-**表 52.20. `pg_enum` 欄位**
+### 表 52.20. `pg_enum` 欄位 [#](#catalog-pg-enum-columns) <a href="#catalog-pg-enum-columns" id="catalog-pg-enum-columns"></a>
 
 <table border="1" class="table" summary="表 52.20. pg_enum 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

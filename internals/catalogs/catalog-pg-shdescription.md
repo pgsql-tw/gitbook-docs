@@ -12,7 +12,7 @@
 
 <a id="id-1.10.4.51.6"></a>
 
-**表 52.49. `pg_shdescription` 欄位**
+### 表 52.49. `pg_shdescription` 欄位 [#](#catalog-pg-shdescription-columns) <a href="#catalog-pg-shdescription-columns" id="catalog-pg-shdescription-columns"></a>
 
 <table border="1" class="table" summary="表 52.49. pg_shdescription 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

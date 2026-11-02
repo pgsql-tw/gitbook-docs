@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.8.4"></a>
 
-**表 52.6. `pg_attrdef` 欄位**
+### 表 52.6. `pg_attrdef` 欄位 [#](#catalog-pg-attrdef-columns) <a href="#catalog-pg-attrdef-columns" id="catalog-pg-attrdef-columns"></a>
 
 <table border="1" class="table" summary="表 52.6. pg_attrdef 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

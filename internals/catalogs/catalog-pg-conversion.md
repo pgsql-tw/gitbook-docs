@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.16.4"></a>
 
-**表 52.14. `pg_conversion` 欄位**
+### 表 52.14. `pg_conversion` 欄位 [#](#catalog-pg-conversion-columns) <a href="#catalog-pg-conversion-columns" id="catalog-pg-conversion-columns"></a>
 
 <table border="1" class="table" summary="表 52.14. pg_conversion 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

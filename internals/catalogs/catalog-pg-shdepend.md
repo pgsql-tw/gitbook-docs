@@ -12,7 +12,7 @@
 
 <a id="id-1.10.4.50.6"></a>
 
-**表 52.48. `pg_shdepend` 欄位**
+### 表 52.48. `pg_shdepend` 欄位 [#](#catalog-pg-shdepend-columns) <a href="#catalog-pg-shdepend-columns" id="catalog-pg-shdepend-columns"></a>
 
 <table border="1" class="table" summary="表 52.48. pg_shdepend 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

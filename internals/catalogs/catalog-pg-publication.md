@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.42.4"></a>
 
-**表 52.40. `pg_publication` 欄位**
+### 表 52.40. `pg_publication` 欄位 [#](#catalog-pg-publication-columns) <a href="#catalog-pg-publication-columns" id="catalog-pg-publication-columns"></a>
 
 <table border="1" class="table" summary="表 52.40. pg_publication 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.32.5"></a>
 
-**表 52.30. `pg_largeobject` 欄位**
+### 表 52.30. `pg_largeobject` 欄位 [#](#catalog-pg-largeobject-columns) <a href="#catalog-pg-largeobject-columns" id="catalog-pg-largeobject-columns"></a>
 
 <table border="1" class="table" summary="表 52.30. pg_largeobject 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -15,7 +15,7 @@
 
 <a id="id-1.10.4.4.4"></a>
 
-**表 52.2. `pg_aggregate` 欄位**
+### 表 52.2. `pg_aggregate` 欄位 [#](#catalog-pg-aggregate-columns) <a href="#catalog-pg-aggregate-columns" id="catalog-pg-aggregate-columns"></a>
 
 <table border="1" class="table" summary="pg_aggregate 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

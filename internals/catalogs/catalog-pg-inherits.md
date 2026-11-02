@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.29.4"></a>
 
-**表 52.27. `pg_inherits` 欄位**
+### 表 52.27. `pg_inherits` 欄位 [#](#catalog-pg-inherits-columns) <a href="#catalog-pg-inherits-columns" id="catalog-pg-inherits-columns"></a>
 
 <table border="1" class="table" summary="表 52.27. pg_inherits 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型
