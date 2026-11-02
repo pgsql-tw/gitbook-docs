@@ -767,6 +767,7 @@
     * [CREATE TABLE](reference/sql-commands/sql-createtable.md)
       * [CREATE TABLE：LIKE 複製選項](reference/sql-commands/sql-createtable-like-options.md)
       * [CREATE TABLE：ON COMMIT 選項](reference/sql-commands/sql-createtable-on-commit-options.md)
+      * [CREATE TABLE：外鍵參照動作](reference/sql-commands/sql-createtable-referential-actions.md)
     * [CREATE TABLE AS](reference/sql-commands/sql-createtableas.md)
     * [CREATE TABLESPACE](reference/sql-commands/sql-createtablespace.md)
     * [CREATE TRANSFORM](reference/sql-commands/sql-createtransform.md)

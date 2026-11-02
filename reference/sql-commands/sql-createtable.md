@@ -364,52 +364,27 @@ NULL` 的組合相同。不過，將一組欄位識別為主鍵，也提供了�
 <a id="SQL-CREATETABLE-PARMS-REFERENCES"></a>
 
 `REFERENCES reftable [ ( refcolumn ) ] [ MATCH matchtype ] [ ON DELETE referential_action ] [ ON UPDATE referential_action ]`（欄位限制條件）<br>`FOREIGN KEY ( column_name [, ... ] [, PERIOD column_name ] ) REFERENCES reftable [ ( refcolumn [, ... ] [, PERIOD refcolumn ] ) ] [ MATCH matchtype ] [ ON DELETE referential_action ] [ ON UPDATE referential_action ]`（資料表限制條件） [#](#SQL-CREATETABLE-PARMS-REFERENCES)
-:   這些子句指定外鍵限制條件，它要求新資料表中由一個或多個欄位組成的一組欄位，只能包含與被參照資料表某個資料列中被參照欄位的值相符的值。若省略 *`refcolumn`* 清單，則使用 *`reftable`* 的主鍵。否則，*`refcolumn`* 清單必須參照某個不可延遲的唯一限制條件或主鍵限制條件的欄位，或者是某個非部分唯一值索引的欄位。
 
-    若最後一個欄位標記了 `PERIOD`，它會以特殊方式處理。非 `PERIOD` 欄位會比較相等性（而且這類欄位必須至少有一個），但 `PERIOD` 欄位則不會。取而代之的是，若被參照資料表具有相符的紀錄（依據鍵的非 `PERIOD` 部分），而這些紀錄合併後的 `PERIOD` 值完全涵蓋參照紀錄的值，就視為滿足該限制條件。換句話說，參照在其整個期間內都必須有一個被參照對象。此欄位必須是範圍或多重範圍型別。此外，被參照資料表必須具有以 `WITHOUT
-    OVERLAPS` 宣告的主鍵或唯一限制條件。最後，若外鍵具有 PERIOD *`column_name`* 規格，則對應的 *`refcolumn`*（若有的話）也必須標記為 `PERIOD`。若省略 *`refcolumn`* 子句，因而選用 reftable 的主鍵限制條件，則該主鍵的最後一個欄位必須標記為 `WITHOUT OVERLAPS`。
+這些子句指定外鍵限制條件，它要求新資料表中由一個或多個欄位組成的一組欄位，只能包含與被參照資料表某個資料列中被參照欄位的值相符的值。若省略 *`refcolumn`* 清單，則使用 *`reftable`* 的主鍵。否則，*`refcolumn`* 清單必須參照某個不可延遲的唯一限制條件或主鍵限制條件的欄位，或者是某個非部分唯一值索引的欄位。
 
-    對於每一對參照欄位與被參照欄位，若它們屬於可定序的資料型別，則其定序必須要嘛都是確定性的（deterministic），要嘛彼此相同。這確保兩個欄位對相等性有一致的概念。
+若最後一個欄位標記了 `PERIOD`，它會以特殊方式處理。非 `PERIOD` 欄位會比較相等性（而且這類欄位必須至少有一個），但 `PERIOD` 欄位則不會。取而代之的是，若被參照資料表具有相符的紀錄（依據鍵的非 `PERIOD` 部分），而這些紀錄合併後的 `PERIOD` 值完全涵蓋參照紀錄的值，就視為滿足該限制條件。換句話說，參照在其整個期間內都必須有一個被參照對象。此欄位必須是範圍或多重範圍型別。此外，被參照資料表必須具有以 `WITHOUT
+OVERLAPS` 宣告的主鍵或唯一限制條件。最後，若外鍵具有 PERIOD *`column_name`* 規格，則對應的 *`refcolumn`*（若有的話）也必須標記為 `PERIOD`。若省略 *`refcolumn`* 子句，因而選用 reftable 的主鍵限制條件，則該主鍵的最後一個欄位必須標記為 `WITHOUT OVERLAPS`。
 
-    使用者必須擁有被參照資料表（整個資料表，或特定的被參照欄位）上的 `REFERENCES` 權限。加入外鍵限制條件需要被參照資料表上的 `SHARE ROW EXCLUSIVE` 鎖定。請注意，不能在暫存資料表與永久資料表之間定義外鍵限制條件。
+對於每一對參照欄位與被參照欄位，若它們屬於可定序的資料型別，則其定序必須要嘛都是確定性的（deterministic），要嘛彼此相同。這確保兩個欄位對相等性有一致的概念。
 
-    插入參照欄位的值，會使用給定的比對類型，與被參照資料表及被參照欄位的值進行比對。比對類型有三種：`MATCH
-    FULL`、`MATCH PARTIAL` 與 `MATCH
-    SIMPLE`（這是預設值）。`MATCH
-    FULL` 不允許多欄位外鍵的其中一個欄位為 null，除非所有外鍵欄位都是 null；若它們全部都是 null，則該資料列不需要在被參照資料表中有相符的資料列。`MATCH SIMPLE` 允許任何外鍵欄位為 null；若其中任何一個為 null，則該資料列不需要在被參照資料表中有相符的資料列。`MATCH PARTIAL` 尚未實作。（當然，可以在參照欄位上套用 `NOT NULL` 限制條件，以避免發生這些情況。）
+使用者必須擁有被參照資料表（整個資料表，或特定的被參照欄位）上的 `REFERENCES` 權限。加入外鍵限制條件需要被參照資料表上的 `SHARE ROW EXCLUSIVE` 鎖定。請注意，不能在暫存資料表與永久資料表之間定義外鍵限制條件。
 
-    此外，當被參照欄位中的資料變更時，會對此資料表欄位中的資料執行特定的動作。`ON DELETE` 子句指定當被參照資料表中被參照的資料列正在被刪除時要執行的動作。同樣地，`ON UPDATE` 子句指定當被參照資料表中被參照的欄位正被更新為新值時要執行的動作。若資料列被更新，但被參照的欄位實際上並未變更，則不會執行任何動作。參照動作會作為資料變更命令的一部分執行，即使限制條件已延遲也是如此。每個子句可能的動作如下：
+插入參照欄位的值，會使用給定的比對類型，與被參照資料表及被參照欄位的值進行比對。比對類型有三種：`MATCH
+FULL`、`MATCH PARTIAL` 與 `MATCH
+SIMPLE`（這是預設值）。`MATCH
+FULL` 不允許多欄位外鍵的其中一個欄位為 null，除非所有外鍵欄位都是 null；若它們全部都是 null，則該資料列不需要在被參照資料表中有相符的資料列。`MATCH SIMPLE` 允許任何外鍵欄位為 null；若其中任何一個為 null，則該資料列不需要在被參照資料表中有相符的資料列。`MATCH PARTIAL` 尚未實作。（當然，可以在參照欄位上套用 `NOT NULL` 限制條件，以避免發生這些情況。）
 
-    <a id="SQL-CREATETABLE-PARMS-REFERENCES-REFACT-NO-ACTION"></a>
+此外，當被參照欄位中的資料變更時，會對此資料表欄位中的資料執行特定的動作。`ON DELETE` 子句指定當被參照資料表中被參照的資料列正在被刪除時要執行的動作。同樣地，`ON UPDATE` 子句指定當被參照資料表中被參照的欄位正被更新為新值時要執行的動作。若資料列被更新，但被參照的欄位實際上並未變更，則不會執行任何動作。參照動作會作為資料變更命令的一部分執行，即使限制條件已延遲也是如此。每個子句可能的動作如下：
 
-    `NO ACTION` [#](#SQL-CREATETABLE-PARMS-REFERENCES-REFACT-NO-ACTION)
-    :   若刪除或更新會造成違反外鍵限制條件，就產生錯誤。若限制條件已延遲，而在檢查限制條件時仍存在任何參照的資料列，就會在那時產生此錯誤。這是預設動作。
-    <a id="SQL-CREATETABLE-PARMS-REFERENCES-REFACT-RESTRICT"></a>
+[CREATE TABLE：外鍵參照動作](sql-createtable-referential-actions.md)。
 
-    `RESTRICT` [#](#SQL-CREATETABLE-PARMS-REFERENCES-REFACT-RESTRICT)
-    :   若要刪除或更新的資料列與參照資料表中的某個資料列相符，就產生錯誤。即使動作之後的狀態不會違反外鍵限制條件，這也會阻止該動作。特別是，它會阻止將被參照的資料列更新為不同但比較結果相等的值。（但它不會阻止將欄位更新為相同值的「無操作」更新。）
+若被參照的欄位經常變更，明智的做法可能是在參照欄位上加入索引，以便更有效率地執行與外鍵限制條件相關的參照動作。
 
-        在時態外鍵中不支援此選項。
-    <a id="SQL-CREATETABLE-PARMS-REFERENCES-REFACT-CASCADE"></a>
-
-    `CASCADE` [#](#SQL-CREATETABLE-PARMS-REFERENCES-REFACT-CASCADE)
-    :   分別為：刪除參照了被刪除資料列的任何資料列，或將參照欄位的值更新為被參照欄位的新值。
-
-        在時態外鍵中不支援此選項。
-    <a id="SQL-CREATETABLE-PARMS-REFERENCES-REFACT-SET-NULL"></a>
-
-    `SET NULL [ ( column_name [, ... ] ) ]` [#](#SQL-CREATETABLE-PARMS-REFERENCES-REFACT-SET-NULL)
-    :   將所有參照欄位，或參照欄位中指定的子集合，設為 null。只有 `ON DELETE` 動作才能指定欄位的子集合。
-
-        在時態外鍵中不支援此選項。
-    <a id="SQL-CREATETABLE-PARMS-REFERENCES-REFACT-SET-DEFAULT"></a>
-
-    `SET DEFAULT [ ( column_name [, ... ] ) ]` [#](#SQL-CREATETABLE-PARMS-REFERENCES-REFACT-SET-DEFAULT)
-    :   將所有參照欄位，或參照欄位中指定的子集合，設為其預設值。只有 `ON DELETE` 動作才能指定欄位的子集合。（若預設值不是 null，被參照資料表中必須存在與預設值相符的資料列，否則操作會失敗。）
-
-        在時態外鍵中不支援此選項。
-
-    若被參照的欄位經常變更，明智的做法可能是在參照欄位上加入索引，以便更有效率地執行與外鍵限制條件相關的參照動作。
 <a id="SQL-CREATETABLE-PARMS-DEFERRABLE"></a>
 
 `DEFERRABLE`<br>`NOT DEFERRABLE` [#](#SQL-CREATETABLE-PARMS-DEFERRABLE)

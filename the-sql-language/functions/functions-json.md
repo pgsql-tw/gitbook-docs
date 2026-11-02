@@ -2179,45 +2179,50 @@ where json_table_column is:
 :   *`context_item`* 指定要查詢的輸入文件，*`path_expression`* 是定義查詢的 SQL/JSON 路徑運算式，而 *`json_path_name`* 則是 *`path_expression`* 的選用名稱。選用的 `PASSING` 子句為 *`path_expression`* 中提到的變數提供資料值。使用上述元素對輸入資料求值的結果稱為*資料列模式*，用來作為所建構之檢視表中資料列值的來源。
 
 `COLUMNS` ( *`json_table_column`* [, ...] )
-:   `COLUMNS` 子句定義所建構之檢視表的綱要。在這個子句中，你可以指定每個欄位要填入的 SQL/JSON 值，該值是透過針對資料列模式套用 JSON 路徑運算式所取得。*`json_table_column`* 有下列幾種變形：
 
-    *`name`* `FOR ORDINALITY`
-    :   加入一個序數欄位，提供從 1 開始的循序資料列編號。每個 `NESTED PATH`（見下文）對於其中任何巢狀的序數欄位，都有自己的計數器。
+`COLUMNS` 子句定義所建構之檢視表的綱要。在這個子句中，你可以指定每個欄位要填入的 SQL/JSON 值，該值是透過針對資料列模式套用 JSON 路徑運算式所取得。*`json_table_column`* 有下列幾種變形：
 
-    `name type [FORMAT JSON [ENCODING UTF8]] [ PATH path_expression ]`
-    :   將針對資料列模式套用 *`path_expression`* 所取得的 SQL/JSON 值，強制轉換為指定的 *`type`* 之後，插入檢視表的輸出資料列中。
+- *`name`* `FOR ORDINALITY`
 
-        指定 `FORMAT JSON` 可明確表示你預期該值是有效的 `json` 物件。只有當 *`type`* 是 `bpchar`、`bytea`、`character varying`、`name`、`json`、`jsonb`、`text` 之一，或是以這些型別為基礎的領域（domain）時，指定 `FORMAT JSON` 才有意義。
+  加入一個序數欄位，提供從 1 開始的循序資料列編號。每個 `NESTED PATH`（見下文）對於其中任何巢狀的序數欄位，都有自己的計數器。
 
-        你可以選擇性地指定 `WRAPPER` 與 `QUOTES` 子句來格式化輸出。請注意，如果同時指定了 `OMIT QUOTES` 與 `FORMAT JSON`，前者會覆寫後者，因為沒有加引號的字面值並不構成有效的 `json` 值。
+- `name type [FORMAT JSON [ENCODING UTF8]] [ PATH path_expression ]`
 
-        你可以選擇性地使用 `ON EMPTY` 與 `ON ERROR` 子句，分別指定當 JSON 路徑求值的結果為空時，以及當 JSON 路徑求值期間或將 SQL/JSON 值強制轉換為指定型別時發生錯誤時，要拋出錯誤還是回傳指定的值。兩者的預設都是回傳 `NULL` 值。
+  將針對資料列模式套用 *`path_expression`* 所取得的 SQL/JSON 值，強制轉換為指定的 *`type`* 之後，插入檢視表的輸出資料列中。
 
-        ### 注意
+  指定 `FORMAT JSON` 可明確表示你預期該值是有效的 `json` 物件。只有當 *`type`* 是 `bpchar`、`bytea`、`character varying`、`name`、`json`、`jsonb`、`text` 之一，或是以這些型別為基礎的領域（domain）時，指定 `FORMAT JSON` 才有意義。
 
-        這個子句在內部會被轉換為 `JSON_VALUE` 或 `JSON_QUERY`，並具有與其相同的語意。如果指定的型別不是純量型別，或是出現了 `FORMAT JSON`、`WRAPPER` 或 `QUOTES` 子句中的任何一個，就會轉換為後者。
+  你可以選擇性地指定 `WRAPPER` 與 `QUOTES` 子句來格式化輸出。請注意，如果同時指定了 `OMIT QUOTES` 與 `FORMAT JSON`，前者會覆寫後者，因為沒有加引號的字面值並不構成有效的 `json` 值。
 
-    *`name`* *`type`* `EXISTS` [ `PATH` *`path_expression`* ]
-    :   將針對資料列模式套用 *`path_expression`* 所取得的布林值，強制轉換為指定的 *`type`* 之後，插入檢視表的輸出資料列中。
+  你可以選擇性地使用 `ON EMPTY` 與 `ON ERROR` 子句，分別指定當 JSON 路徑求值的結果為空時，以及當 JSON 路徑求值期間或將 SQL/JSON 值強制轉換為指定型別時發生錯誤時，要拋出錯誤還是回傳指定的值。兩者的預設都是回傳 `NULL` 值。
 
-        該值對應於將 `PATH` 運算式套用到資料列模式後，是否產生任何值。
+  **注意**
 
-        指定的 *`type`* 應該要有從 `boolean` 型別轉換過來的型別轉換。
+  這個子句在內部會被轉換為 `JSON_VALUE` 或 `JSON_QUERY`，並具有與其相同的語意。如果指定的型別不是純量型別，或是出現了 `FORMAT JSON`、`WRAPPER` 或 `QUOTES` 子句中的任何一個，就會轉換為後者。
 
-        你可以選擇性地使用 `ON ERROR`，指定當 JSON 路徑求值期間或將 SQL/JSON 值強制轉換為指定型別時發生錯誤時，要拋出錯誤還是回傳指定的值。預設是回傳布林值 `FALSE`。
+- *`name`* *`type`* `EXISTS` [ `PATH` *`path_expression`* ]
 
-        ### 注意
+  將針對資料列模式套用 *`path_expression`* 所取得的布林值，強制轉換為指定的 *`type`* 之後，插入檢視表的輸出資料列中。
 
-        這個子句在內部會被轉換為 `JSON_EXISTS`，並具有與其相同的語意。
+  該值對應於將 `PATH` 運算式套用到資料列模式後，是否產生任何值。
 
-    `NESTED [ PATH ]` *`path_expression`* [ `AS` *`json_path_name`* ] `COLUMNS` ( *`json_table_column`* [, ...] )
-    :   從資料列模式的巢狀層級中擷取 SQL/JSON 值，依照 `COLUMNS` 子子句的定義產生一個或多個欄位，並將擷取出的 SQL/JSON 值插入這些欄位中。`COLUMNS` 子子句中的 *`json_table_column`* 運算式，使用與上層 `COLUMNS` 子句相同的語法。
+  指定的 *`type`* 應該要有從 `boolean` 型別轉換過來的型別轉換。
 
-        `NESTED PATH` 語法是遞迴的，因此你可以透過將數個 `NESTED PATH` 子子句彼此巢狀指定，向下深入多個巢狀層級。它讓你能夠在單一的函式呼叫中，將 JSON 物件與陣列的階層結構展開，而不必在 SQL 陳述句中串接多個 `JSON_TABLE` 運算式。
+  你可以選擇性地使用 `ON ERROR`，指定當 JSON 路徑求值期間或將 SQL/JSON 值強制轉換為指定型別時發生錯誤時，要拋出錯誤還是回傳指定的值。預設是回傳布林值 `FALSE`。
 
-    ### 注意
+  **注意**
 
-    在上述 *`json_table_column`* 的每一種變形中，如果省略了 `PATH` 子句，就會使用路徑運算式 `$.name`，其中 *`name`* 是所提供的欄位名稱。
+  這個子句在內部會被轉換為 `JSON_EXISTS`，並具有與其相同的語意。
+
+- `NESTED [ PATH ]` *`path_expression`* [ `AS` *`json_path_name`* ] `COLUMNS` ( *`json_table_column`* [, ...] )
+
+  從資料列模式的巢狀層級中擷取 SQL/JSON 值，依照 `COLUMNS` 子子句的定義產生一個或多個欄位，並將擷取出的 SQL/JSON 值插入這些欄位中。`COLUMNS` 子子句中的 *`json_table_column`* 運算式，使用與上層 `COLUMNS` 子句相同的語法。
+
+  `NESTED PATH` 語法是遞迴的，因此你可以透過將數個 `NESTED PATH` 子子句彼此巢狀指定，向下深入多個巢狀層級。它讓你能夠在單一的函式呼叫中，將 JSON 物件與陣列的階層結構展開，而不必在 SQL 陳述句中串接多個 `JSON_TABLE` 運算式。
+
+**注意**
+
+在上述 *`json_table_column`* 的每一種變形中，如果省略了 `PATH` 子句，就會使用路徑運算式 `$.name`，其中 *`name`* 是所提供的欄位名稱。
 
 `AS` *`json_path_name`*
 :   選用的 *`json_path_name`* 作為所提供之 *`path_expression`* 的識別符號。這個名稱必須是唯一的，且不得與欄位名稱相同。
