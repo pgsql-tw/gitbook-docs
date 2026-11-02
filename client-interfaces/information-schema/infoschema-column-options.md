@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.18.3"></a>
 
-**表 35.12. `column_options` 欄位**
+### 表 35.12. `column_options` 欄位 [#](#infoschema-column-options-columns) <a href="#infoschema-column-options-columns" id="infoschema-column-options-columns"></a>
 
 <table border="1" class="table" summary="column_options 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

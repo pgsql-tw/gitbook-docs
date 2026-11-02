@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.30.3"></a>
 
-**表 35.24. `foreign_data_wrapper_options` 欄位**
+### 表 35.24. `foreign_data_wrapper_options` 欄位 [#](#infoschema-foreign-data-wrapper-options-columns) <a href="#infoschema-foreign-data-wrapper-options-columns" id="infoschema-foreign-data-wrapper-options-columns"></a>
 
 <table border="1" class="table" summary="foreign_data_wrapper_options 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

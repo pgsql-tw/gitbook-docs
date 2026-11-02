@@ -10,7 +10,7 @@ PostgreSQL 的文字搜尋功能在[第 12 章](../../the-sql-language/textsearc
 
 <a id="id-1.10.4.63.5"></a>
 
-**表 52.61. `pg_ts_dict` 欄位**
+### 表 52.61. `pg_ts_dict` 欄位 [#](#catalog-pg-ts-dict-columns) <a href="#catalog-pg-ts-dict-columns" id="catalog-pg-ts-dict-columns"></a>
 
 <table border="1" class="table" summary="表 52.61. pg_ts_dict 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -7,7 +7,7 @@
 
 <a id="id-1.7.6.19.4"></a>
 
-**表 35.13. `column_privileges` 欄位**
+### 表 35.13. `column_privileges` 欄位 [#](#infoschema-column-privileges-columns) <a href="#infoschema-column-privileges-columns" id="infoschema-column-privileges-columns"></a>
 
 <table border="1" class="table" summary="column_privileges 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -9,7 +9,7 @@ NULL)` 表示式的檢查限制條件。因此，非空值限制條件也包含�
 
 <a id="id-1.7.6.13.4"></a>
 
-**表 35.7. `check_constraints` 欄位**
+### 表 35.7. `check_constraints` 欄位 [#](#infoschema-check-constraints-columns) <a href="#infoschema-check-constraints-columns" id="infoschema-check-constraints-columns"></a>
 
 <table border="1" class="table" summary="check_constraints 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -6,7 +6,7 @@
 
 <a id="id-1.7.6.8.3"></a>
 
-**表 35.2. `administrable_role_authorizations` 欄位**
+### 表 35.2. `administrable_role_authorizations` 欄位 [#](#infoschema-administrable-role-authorizations-columns) <a href="#infoschema-administrable-role-authorizations-columns" id="infoschema-administrable-role-authorizations-columns"></a>
 
 <table border="1" class="table" summary="administrable_role_authorizations 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

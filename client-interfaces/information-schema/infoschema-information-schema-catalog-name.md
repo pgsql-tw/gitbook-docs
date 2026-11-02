@@ -7,7 +7,7 @@
 
 <a id="id-1.7.6.7.3"></a>
 
-**表 35.1. `information_schema_catalog_name` 欄位**
+### 表 35.1. `information_schema_catalog_name` 欄位 [#](#infoschema-information-schema-catalog-name-columns) <a href="#infoschema-information-schema-catalog-name-columns" id="infoschema-information-schema-catalog-name-columns"></a>
 
 <table border="1" class="table" summary="information_schema_catalog_name 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.32.3"></a>
 
-**表 35.26. `foreign_server_options` 欄位**
+### 表 35.26. `foreign_server_options` 欄位 [#](#infoschema-foreign-server-options-columns) <a href="#infoschema-foreign-server-options-columns" id="infoschema-foreign-server-options-columns"></a>
 
 <table border="1" class="table" summary="foreign_server_options 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

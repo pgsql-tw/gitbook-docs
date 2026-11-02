@@ -17,7 +17,7 @@ ORDER BY c.ordinal_position;
 
 <a id="id-1.7.6.28.3"></a>
 
-**表 35.22. `element_types` 欄位**
+### 表 35.22. `element_types` 欄位 [#](#infoschema-element-types-columns) <a href="#infoschema-element-types-columns" id="infoschema-element-types-columns"></a>
 
 <table border="1" class="table" summary="element_types 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

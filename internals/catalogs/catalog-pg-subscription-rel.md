@@ -12,7 +12,7 @@ PUBLICATION`](../../reference/sql-commands/sql-altersubscription.md) 之後，�
 
 <a id="id-1.10.4.57.5"></a>
 
-**表 52.55. `pg_subscription_rel` 欄位**
+### 表 52.55. `pg_subscription_rel` 欄位 [#](#catalog-pg-subscription-rel-columns) <a href="#catalog-pg-subscription-rel-columns" id="catalog-pg-subscription-rel-columns"></a>
 
 <table border="1" class="table" summary="表 52.55. pg_subscription_rel 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

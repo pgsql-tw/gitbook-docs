@@ -11,7 +11,7 @@
 
 <a id="id-1.10.4.66.4"></a>
 
-**表 52.64. `pg_type` 欄位**
+### 表 52.64. `pg_type` 欄位 [#](#catalog-pg-type-columns) <a href="#catalog-pg-type-columns" id="catalog-pg-type-columns"></a>
 
 <table border="1" class="table" summary="表 52.64. pg_type 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

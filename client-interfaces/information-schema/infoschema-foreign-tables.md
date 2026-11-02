@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.35.3"></a>
 
-**表 35.29. `foreign_tables` 欄位**
+### 表 35.29. `foreign_tables` 欄位 [#](#infoschema-foreign-tables-columns) <a href="#infoschema-foreign-tables-columns" id="infoschema-foreign-tables-columns"></a>
 
 <table border="1" class="table" summary="foreign_tables 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

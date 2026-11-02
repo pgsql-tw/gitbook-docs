@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.24.3"></a>
 
-**表 35.18. `data_type_privileges` 欄位**
+### 表 35.18. `data_type_privileges` 欄位 [#](#infoschema-data-type-privileges-columns) <a href="#infoschema-data-type-privileges-columns" id="infoschema-data-type-privileges-columns"></a>
 
 <table border="1" class="table" summary="data_type_privileges 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

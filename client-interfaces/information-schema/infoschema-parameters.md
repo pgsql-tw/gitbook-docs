@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.37.3"></a>
 
-**表 35.31. `parameters` 欄位**
+### 表 35.31. `parameters` 欄位 [#](#infoschema-parameters-columns) <a href="#infoschema-parameters-columns" id="infoschema-parameters-columns"></a>
 
 <table border="1" class="table" summary="parameters 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

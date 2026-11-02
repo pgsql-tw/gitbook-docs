@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.54.4"></a>
 
-**表 52.52. `pg_statistic_ext` 欄位**
+### 表 52.52. `pg_statistic_ext` 欄位 [#](#catalog-pg-statistic-ext-columns) <a href="#catalog-pg-statistic-ext-columns" id="catalog-pg-statistic-ext-columns"></a>
 
 <table border="1" class="table" summary="表 52.52. pg_statistic_ext 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

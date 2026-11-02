@@ -9,7 +9,7 @@
 
 <a id="id-1.7.6.9.3"></a>
 
-**表 35.3. `applicable_roles` 欄位**
+### 表 35.3. `applicable_roles` 欄位 [#](#infoschema-applicable-roles-columns) <a href="#infoschema-applicable-roles-columns" id="infoschema-applicable-roles-columns"></a>
 
 <table border="1" class="table" summary="applicable_roles 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

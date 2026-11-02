@@ -14,7 +14,7 @@
 
 <a id="id-1.7.6.29.4"></a>
 
-**表 35.23. `enabled_roles` 欄位**
+### 表 35.23. `enabled_roles` 欄位 [#](#infoschema-enabled-roles-columns) <a href="#infoschema-enabled-roles-columns" id="infoschema-enabled-roles-columns"></a>
 
 <table border="1" class="table" summary="enabled_roles 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.14.3"></a>
 
-**表 35.8. `collations` 欄位**
+### 表 35.8. `collations` 欄位 [#](#infoschema-collations-columns) <a href="#infoschema-collations-columns" id="infoschema-collations-columns"></a>
 
 <table border="1" class="table" summary="collations 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

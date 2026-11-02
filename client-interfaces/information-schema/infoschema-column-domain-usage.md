@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.17.3"></a>
 
-**表 35.11. `column_domain_usage` 欄位**
+### 表 35.11. `column_domain_usage` 欄位 [#](#infoschema-column-domain-usage-columns) <a href="#infoschema-column-domain-usage-columns" id="infoschema-column-domain-usage-columns"></a>
 
 <table border="1" class="table" summary="column_domain_usage 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

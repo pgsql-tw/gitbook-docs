@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.41.3"></a>
 
-**表 35.35. `role_table_grants` 欄位**
+### 表 35.35. `role_table_grants` 欄位 [#](#infoschema-role-table-grants-columns) <a href="#infoschema-role-table-grants-columns" id="infoschema-role-table-grants-columns"></a>
 
 <table border="1" class="table" summary="role_table_grants 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

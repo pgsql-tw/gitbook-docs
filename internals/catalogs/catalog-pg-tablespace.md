@@ -10,7 +10,7 @@
 
 <a id="id-1.10.4.58.5"></a>
 
-**表 52.56. `pg_tablespace` 欄位**
+### 表 52.56. `pg_tablespace` 欄位 [#](#catalog-pg-tablespace-columns) <a href="#catalog-pg-tablespace-columns" id="catalog-pg-tablespace-columns"></a>
 
 <table border="1" class="table" summary="表 52.56. pg_tablespace 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

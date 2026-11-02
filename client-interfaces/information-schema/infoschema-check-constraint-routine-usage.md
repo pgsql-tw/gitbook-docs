@@ -6,7 +6,7 @@
 
 <a id="id-1.7.6.12.3"></a>
 
-**表 35.6. `check_constraint_routine_usage` 欄位**
+### 表 35.6. `check_constraint_routine_usage` 欄位 [#](#infoschema-check-constraint-routine-usage-columns) <a href="#infoschema-check-constraint-routine-usage-columns" id="infoschema-check-constraint-routine-usage-columns"></a>
 
 <table border="1" class="table" summary="check_constraint_routine_usage 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

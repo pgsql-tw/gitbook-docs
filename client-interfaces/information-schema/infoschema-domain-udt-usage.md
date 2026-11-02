@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.26.3"></a>
 
-**表 35.20. `domain_udt_usage` 欄位**
+### 表 35.20. `domain_udt_usage` 欄位 [#](#infoschema-domain-udt-usage-columns) <a href="#infoschema-domain-udt-usage-columns" id="infoschema-domain-udt-usage-columns"></a>
 
 <table border="1" class="table" summary="domain_udt_usage 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

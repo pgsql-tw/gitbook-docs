@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.25.3"></a>
 
-**表 35.19. `domain_constraints` 欄位**
+### 表 35.19. `domain_constraints` 欄位 [#](#infoschema-domain-constraints-columns) <a href="#infoschema-domain-constraints-columns" id="infoschema-domain-constraints-columns"></a>
 
 <table border="1" class="table" summary="domain_constraints 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

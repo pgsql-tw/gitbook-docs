@@ -27,7 +27,7 @@
 
 <a id="id-1.7.6.11.4"></a>
 
-**表 35.5. `character_sets` 欄位**
+### 表 35.5. `character_sets` 欄位 [#](#infoschema-character-sets-columns) <a href="#infoschema-character-sets-columns" id="infoschema-character-sets-columns"></a>
 
 <table border="1" class="table" summary="character_sets 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

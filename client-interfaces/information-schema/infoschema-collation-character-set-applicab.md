@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.15.3"></a>
 
-**表 35.9. `collation_character_set_applicability` 欄位**
+### 表 35.9. `collation_character_set_applicability` 欄位 [#](#infoschema-collation-character-set-applicab-columns) <a href="#infoschema-collation-character-set-applicab-columns" id="infoschema-collation-character-set-applicab-columns"></a>
 
 <table border="1" class="table" summary="collation_character_set_applicability 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

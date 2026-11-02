@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.21.3"></a>
 
-**表 35.15. `columns` 欄位**
+### 表 35.15. `columns` 欄位 [#](#infoschema-columns-columns) <a href="#infoschema-columns-columns" id="infoschema-columns-columns"></a>
 
 <table border="1" class="table" summary="columns 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

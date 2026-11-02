@@ -8,7 +8,7 @@
 
 <a id="id-1.10.4.59.4"></a>
 
-**表 52.57. `pg_transform` 欄位**
+### 表 52.57. `pg_transform` 欄位 [#](#catalog-pg-transform-columns) <a href="#catalog-pg-transform-columns" id="catalog-pg-transform-columns"></a>
 
 <table border="1" class="table" summary="表 52.57. pg_transform 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

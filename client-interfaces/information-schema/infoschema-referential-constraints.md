@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.38.3"></a>
 
-**表 35.32. `referential_constraints` 欄位**
+### 表 35.32. `referential_constraints` 欄位 [#](#infoschema-referential-constraints-columns) <a href="#infoschema-referential-constraints-columns" id="infoschema-referential-constraints-columns"></a>
 
 <table border="1" class="table" summary="referential_constraints 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

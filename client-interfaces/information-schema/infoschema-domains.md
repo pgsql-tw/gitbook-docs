@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.27.3"></a>
 
-**表 35.21. `domains` 欄位**
+### 表 35.21. `domains` 欄位 [#](#infoschema-domains-columns) <a href="#infoschema-domains-columns" id="infoschema-domains-columns"></a>
 
 <table border="1" class="table" summary="domains 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型
