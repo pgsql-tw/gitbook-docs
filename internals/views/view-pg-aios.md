@@ -10,7 +10,7 @@
 
 <a id="id-1.10.5.6.5"></a>
 
-**表 53.2. `pg_aios` 欄位**
+### 表 53.2. `pg_aios` 欄位 [#](#view-pg-aios-columns) <a href="#view-pg-aios-columns" id="view-pg-aios-columns"></a>
 
 <table border="1" class="table" summary="表 53.2. pg_aios 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

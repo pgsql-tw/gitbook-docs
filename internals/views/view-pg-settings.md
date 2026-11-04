@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.29.4"></a>
 
-**表 53.25. `pg_settings` 欄位**
+### 表 53.25. `pg_settings` 欄位 [#](#view-pg-settings-columns) <a href="#view-pg-settings-columns" id="view-pg-settings-columns"></a>
 
 <table border="1" class="table" summary="表 53.25. pg_settings 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

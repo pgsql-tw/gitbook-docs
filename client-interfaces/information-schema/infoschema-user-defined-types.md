@@ -12,7 +12,7 @@ SQL 定義了兩種使用者自訂型別：結構化型別（structured type，�
 
 <a id="id-1.7.6.64.4"></a>
 
-**表 35.58. `user_defined_types` 欄位**
+### 表 35.58. `user_defined_types` 欄位 [#](#infoschema-user-defined-types-columns) <a href="#infoschema-user-defined-types-columns" id="infoschema-user-defined-types-columns"></a>
 
 <table border="1" class="table" summary="user_defined_types 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

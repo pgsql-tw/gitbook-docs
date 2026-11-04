@@ -6,7 +6,7 @@
 
 <a id="id-1.7.6.59.3"></a>
 
-**表 35.53. `transforms` 欄位**
+### 表 35.53. `transforms` 欄位 [#](#infoschema-transforms-columns) <a href="#infoschema-transforms-columns" id="infoschema-transforms-columns"></a>
 
 <table border="1" class="table" summary="transforms 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

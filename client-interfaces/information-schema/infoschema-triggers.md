@@ -6,7 +6,7 @@
 
 <a id="id-1.7.6.61.3"></a>
 
-**表 35.55. `triggers` 欄位**
+### 表 35.55. `triggers` 欄位 [#](#infoschema-triggers-columns) <a href="#infoschema-triggers-columns" id="infoschema-triggers-columns"></a>
 
 <table border="1" class="table" summary="triggers 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

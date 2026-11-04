@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.54.3"></a>
 
-**表 35.48. `sql_parts` 欄位**
+### 表 35.48. `sql_parts` 欄位 [#](#infoschema-sql-parts-columns) <a href="#infoschema-sql-parts-columns" id="infoschema-sql-parts-columns"></a>
 
 <table border="1" class="table" summary="sql_parts 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

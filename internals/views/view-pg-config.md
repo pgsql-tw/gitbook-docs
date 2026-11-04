@@ -10,7 +10,7 @@
 
 <a id="id-1.10.5.10.5"></a>
 
-**表 53.6. `pg_config` 欄位**
+### 表 53.6. `pg_config` 欄位 [#](#view-pg-config-columns) <a href="#view-pg-config-columns" id="view-pg-config-columns"></a>
 
 <table border="1" class="table" summary="pg_config Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

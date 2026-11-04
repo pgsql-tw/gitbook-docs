@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.13.4"></a>
 
-**表 53.9. `pg_group` 欄位**
+### 表 53.9. `pg_group` 欄位 [#](#view-pg-group-columns) <a href="#view-pg-group-columns" id="view-pg-group-columns"></a>
 
 <table border="1" class="table" summary="pg_group Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位型別

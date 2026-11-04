@@ -6,7 +6,7 @@
 
 <a id="id-1.7.6.56.3"></a>
 
-**表 35.50. `table_constraints` 欄位**
+### 表 35.50. `table_constraints` 欄位 [#](#infoschema-table-constraints-columns) <a href="#infoschema-table-constraints-columns" id="infoschema-table-constraints-columns"></a>
 
 <table border="1" class="table" summary="table_constraints 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

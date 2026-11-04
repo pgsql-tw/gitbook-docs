@@ -10,7 +10,7 @@
 
 <a id="id-1.10.5.21.5"></a>
 
-**表 53.17. `pg_prepared_xacts` 欄位**
+### 表 53.17. `pg_prepared_xacts` 欄位 [#](#view-pg-prepared-xacts-columns) <a href="#view-pg-prepared-xacts-columns" id="view-pg-prepared-xacts-columns"></a>
 
 <table border="1" class="table" summary="表 53.17. pg_prepared_xacts 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -7,7 +7,7 @@
 
 <a id="id-1.7.6.52.3"></a>
 
-**表 35.46. `sql_features` 欄位**
+### 表 35.46. `sql_features` 欄位 [#](#infoschema-sql-features-columns) <a href="#infoschema-sql-features-columns" id="infoschema-sql-features-columns"></a>
 
 <table border="1" class="table" summary="sql_features 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

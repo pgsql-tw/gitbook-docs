@@ -6,7 +6,7 @@
 
 <a id="id-1.7.6.70.3"></a>
 
-**表 35.64. `views` 欄位**
+### 表 35.64. `views` 欄位 [#](#infoschema-views-columns) <a href="#infoschema-views-columns" id="infoschema-views-columns"></a>
 
 <table border="1" class="table" summary="views 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

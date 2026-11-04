@@ -12,7 +12,7 @@
 
 <a id="id-1.10.5.14.6"></a>
 
-**表 53.10. `pg_hba_file_rules` 欄位**
+### 表 53.10. `pg_hba_file_rules` 欄位 [#](#view-pg-hba-file-rules-columns) <a href="#view-pg-hba-file-rules-columns" id="view-pg-hba-file-rules-columns"></a>
 
 <table border="1" class="table" summary="表 53.10. pg_hba_file_rules 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

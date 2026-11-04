@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.45.3"></a>
 
-**表 35.39. `routine_privileges` 欄位**
+### 表 35.39. `routine_privileges` 欄位 [#](#infoschema-routine-privileges-columns) <a href="#infoschema-routine-privileges-columns" id="infoschema-routine-privileges-columns"></a>
 
 <table border="1" class="table" summary="routine_privileges 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

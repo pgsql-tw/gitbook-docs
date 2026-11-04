@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.16.4"></a>
 
-**表 53.12. `pg_indexes` 欄位**
+### 表 53.12. `pg_indexes` 欄位 [#](#view-pg-indexes-columns) <a href="#view-pg-indexes-columns" id="view-pg-indexes-columns"></a>
 
 <table border="1" class="table" summary="表 53.12. pg_indexes 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

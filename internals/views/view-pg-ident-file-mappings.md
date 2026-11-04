@@ -12,7 +12,7 @@
 
 <a id="id-1.10.5.15.6"></a>
 
-**表 53.11. `pg_ident_file_mappings` 欄位**
+### 表 53.11. `pg_ident_file_mappings` 欄位 [#](#view-pg-ident-file-mappings-columns) <a href="#view-pg-ident-file-mappings-columns" id="view-pg-ident-file-mappings-columns"></a>
 
 <table border="1" class="table" summary="表 53.11. pg_ident_file_mappings 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

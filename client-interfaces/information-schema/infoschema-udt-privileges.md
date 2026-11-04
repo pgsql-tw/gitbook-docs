@@ -8,7 +8,7 @@
 
 <a id="id-1.7.6.62.3"></a>
 
-**表 35.56. `udt_privileges` 欄位**
+### 表 35.56. `udt_privileges` 欄位 [#](#infoschema-udt-privileges-columns) <a href="#infoschema-udt-privileges-columns" id="infoschema-udt-privileges-columns"></a>
 
 <table border="1" class="table" summary="udt_privileges 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

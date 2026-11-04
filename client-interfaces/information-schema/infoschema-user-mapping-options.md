@@ -7,7 +7,7 @@
 
 <a id="id-1.7.6.65.3"></a>
 
-**表 35.59. `user_mapping_options` 欄位**
+### 表 35.59. `user_mapping_options` 欄位 [#](#infoschema-user-mapping-options-columns) <a href="#infoschema-user-mapping-options-columns" id="infoschema-user-mapping-options-columns"></a>
 
 <table border="1" class="table" summary="user_mapping_options 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -7,7 +7,7 @@
 
 <a id="id-1.7.6.53.3"></a>
 
-**表 35.47. `sql_implementation_info` 欄位**
+### 表 35.47. `sql_implementation_info` 欄位 [#](#infoschema-sql-implementation-info-columns) <a href="#infoschema-sql-implementation-info-columns" id="infoschema-sql-implementation-info-columns"></a>
 
 <table border="1" class="table" summary="sql_implementation_info 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

@@ -12,7 +12,7 @@
 
 <a id="id-1.10.5.12.6"></a>
 
-**表 53.8. `pg_file_settings` 欄位**
+### 表 53.8. `pg_file_settings` 欄位 [#](#view-pg-file-settings-columns) <a href="#view-pg-file-settings-columns" id="view-pg-file-settings-columns"></a>
 
 <table border="1" class="table" summary="表 53.8. pg_file_settings 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

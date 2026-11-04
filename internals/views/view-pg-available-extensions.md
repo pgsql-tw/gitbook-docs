@@ -10,7 +10,7 @@
 
 <a id="id-1.10.5.7.4"></a>
 
-**表 53.3. `pg_available_extensions` 欄位**
+### 表 53.3. `pg_available_extensions` 欄位 [#](#view-pg-available-extensions-columns) <a href="#view-pg-available-extensions-columns" id="view-pg-available-extensions-columns"></a>
 
 <table border="1" class="table" summary="表 53.3. pg_available_extensions 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

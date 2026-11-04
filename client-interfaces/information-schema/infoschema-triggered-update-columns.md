@@ -8,7 +8,7 @@
 
 <a id="id-1.7.6.60.3"></a>
 
-**表 35.54. `triggered_update_columns` 欄位**
+### 表 35.54. `triggered_update_columns` 欄位 [#](#infoschema-triggered-update-columns-columns) <a href="#infoschema-triggered-update-columns-columns" id="infoschema-triggered-update-columns-columns"></a>
 
 <table border="1" class="table" summary="triggered_update_columns 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

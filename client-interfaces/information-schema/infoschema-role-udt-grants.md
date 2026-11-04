@@ -5,7 +5,7 @@
 
 <a id="id-1.7.6.42.3"></a>
 
-**表 35.36. `role_udt_grants` 欄位**
+### 表 35.36. `role_udt_grants` 欄位 [#](#infoschema-role-udt-grants-columns) <a href="#infoschema-role-udt-grants-columns" id="infoschema-role-udt-grants-columns"></a>
 
 <table border="1" class="table" summary="role_udt_grants 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型
