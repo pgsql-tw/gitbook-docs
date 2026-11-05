@@ -2,13 +2,13 @@
 
 ## 9.12. 網路位址函式與運算子 [#](#functions-net) <a href="#functions-net" id="functions-net"></a>
 
-IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.39](functions-net.md#CIDR-INET-OPERATORS-TABLE) 與[表 9.40](functions-net.md#CIDR-INET-FUNCTIONS-TABLE) 所列的特殊運算子與函式。
+IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.39](functions-net.md#cidr-inet-operators-table) 與[表 9.40](functions-net.md#cidr-inet-functions-table) 所列的特殊運算子與函式。
 
 任何 `cidr` 值都可以隱含地轉換為 `inet`；因此，下面所列作用在 `inet` 上的運算子與函式，也適用於 `cidr` 值。（對 `inet` 與 `cidr` 分別有不同函式的地方，是因為這兩種情況的行為應該有所不同。）此外，也允許將 `inet` 值轉換為 `cidr`。這麼做時，網路遮罩右邊的所有位元都會被默默地清為零，以建立有效的 `cidr` 值。
 
 <a id="CIDR-INET-OPERATORS-TABLE"></a>
 
-**表 9.39. IP 位址運算子**
+### 表 9.39. IP 位址運算子 [#](#cidr-inet-operators-table) <a href="#cidr-inet-operators-table" id="cidr-inet-operators-table"></a>
 
 <table border="1" class="table" summary="IP Address Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -158,7 +158,7 @@ IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.m
 
 <br><a id="CIDR-INET-FUNCTIONS-TABLE"></a>
 
-**表 9.40. IP 位址函式**
+### 表 9.40. IP 位址函式 [#](#cidr-inet-functions-table) <a href="#cidr-inet-functions-table" id="cidr-inet-functions-table"></a>
 
 <table border="1" class="table" summary="IP Address Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

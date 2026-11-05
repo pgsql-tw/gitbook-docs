@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.19.2"></a><a id="id-1.5.8.19.3"></a>
 
-[表 9.42](functions-textsearch.md#TEXTSEARCH-OPERATORS-TABLE)、[表 9.43](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-TABLE) 與[表 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE) 彙整了為全文檢索所提供的函式與運算子。關於 PostgreSQL 文字搜尋功能的詳細說明，請參閱[第 12 章](../textsearch/README.md)。
+[表 9.42](functions-textsearch.md#textsearch-operators-table)、[表 9.43](functions-textsearch.md#textsearch-functions-table) 與[表 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE) 彙整了為全文檢索所提供的函式與運算子。關於 PostgreSQL 文字搜尋功能的詳細說明，請參閱[第 12 章](../textsearch/README.md)。
 
 <a id="TEXTSEARCH-OPERATORS-TABLE"></a>
 
-**表 9.42. 文字搜尋運算子**
+### 表 9.42. 文字搜尋運算子 [#](#textsearch-operators-table) <a href="#textsearch-operators-table" id="textsearch-operators-table"></a>
 
 <table border="1" class="table" summary="Text Search Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -124,7 +124,7 @@
 
 <a id="TEXTSEARCH-FUNCTIONS-TABLE"></a>
 
-**表 9.43. 文字搜尋函式**
+### 表 9.43. 文字搜尋函式 [#](#textsearch-functions-table) <a href="#textsearch-functions-table" id="textsearch-functions-table"></a>
 
 <table border="1" class="table" summary="Text Search Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

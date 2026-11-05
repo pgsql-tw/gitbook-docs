@@ -6,11 +6,11 @@
 
 本節說明用於檢查與操作二進位字串（也就是 `bytea` 型別的值）的函式與運算子。其中許多函式在用途與語法上，都等同於前一節所說明的文字字串函式。
 
-SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。詳情請見[表 9.11](functions-binarystring.md#FUNCTIONS-BINARYSTRING-SQL)。PostgreSQL 也提供了這些函式使用一般函式呼叫語法的版本（請參閱[表 9.12](functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)）。
+SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。詳情請見[表 9.11](functions-binarystring.md#functions-binarystring-sql)。PostgreSQL 也提供了這些函式使用一般函式呼叫語法的版本（請參閱[表 9.12](functions-binarystring.md#functions-binarystring-other)）。
 
 <a id="FUNCTIONS-BINARYSTRING-SQL"></a>
 
-**表 9.11. SQL 二進位字串函式與運算子**
+### 表 9.11. SQL 二進位字串函式與運算子 [#](#functions-binarystring-sql) <a href="#functions-binarystring-sql" id="functions-binarystring-sql"></a>
 
 <table border="1" class="table" summary="SQL Binary String Functions and Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式／運算子
@@ -151,11 +151,11 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
 
 <br>
 
-另外還有其他二進位字串操作函式可用，列於[表 9.12](functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)。其中有些在內部用來實作[表 9.11](functions-binarystring.md#FUNCTIONS-BINARYSTRING-SQL) 所列的 SQL 標準字串函式。
+另外還有其他二進位字串操作函式可用，列於[表 9.12](functions-binarystring.md#functions-binarystring-other)。其中有些在內部用來實作[表 9.11](functions-binarystring.md#functions-binarystring-sql) 所列的 SQL 標準字串函式。
 
 <a id="FUNCTIONS-BINARYSTRING-OTHER"></a>
 
-**表 9.12. 其他二進位字串函式**
+### 表 9.12. 其他二進位字串函式 [#](#functions-binarystring-other) <a href="#functions-binarystring-other" id="functions-binarystring-other"></a>
 
 <table border="1" class="table" summary="Other Binary String Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -362,11 +362,11 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
 
 <a id="id-1.5.8.11.10.1"></a>
 <a id="id-1.5.8.11.10.2"></a>
-用於在不同字元集（編碼）之間轉換字串，以及以文字形式表示任意二進位資料的函式，列於[表 9.13](functions-binarystring.md#FUNCTIONS-BINARYSTRING-CONVERSIONS)。對於這些函式，`text` 型別的引數或結果是以資料庫的預設編碼表示，而 `bytea` 型別的引數或結果則是以另一個引數所指定的編碼表示。
+用於在不同字元集（編碼）之間轉換字串，以及以文字形式表示任意二進位資料的函式，列於[表 9.13](functions-binarystring.md#functions-binarystring-conversions)。對於這些函式，`text` 型別的引數或結果是以資料庫的預設編碼表示，而 `bytea` 型別的引數或結果則是以另一個引數所指定的編碼表示。
 
 <a id="FUNCTIONS-BINARYSTRING-CONVERSIONS"></a>
 
-**表 9.13. 文字／二進位字串轉換函式**
+### 表 9.13. 文字／二進位字串轉換函式 [#](#functions-binarystring-conversions) <a href="#functions-binarystring-conversions" id="functions-binarystring-conversions"></a>
 
 <table border="1" class="table" summary="Text/Binary String Conversion Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
        函式

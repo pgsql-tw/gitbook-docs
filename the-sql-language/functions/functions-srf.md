@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.32.2"></a>
 
-本節說明可能回傳不只一筆資料列的函式。這類函式中使用最廣泛的是序列產生函式，詳見[表 9.69](functions-srf.md#FUNCTIONS-SRF-SERIES) 與[表 9.70](functions-srf.md#FUNCTIONS-SRF-SUBSCRIPTS)。其他更專門的集合回傳函式，則在本手冊的其他地方說明。關於組合多個集合回傳函式的方法，請參閱[第 7.2.1.4 節](../queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS)。
+本節說明可能回傳不只一筆資料列的函式。這類函式中使用最廣泛的是序列產生函式，詳見[表 9.69](functions-srf.md#functions-srf-series) 與[表 9.70](functions-srf.md#functions-srf-subscripts)。其他更專門的集合回傳函式，則在本手冊的其他地方說明。關於組合多個集合回傳函式的方法，請參閱[第 7.2.1.4 節](../queries/queries-table-expressions.md#QUERIES-TABLEFUNCTIONS)。
 
 <a id="FUNCTIONS-SRF-SERIES"></a>
 
-**表 9.69. 序列產生函式**
+### 表 9.69. 序列產生函式 [#](#functions-srf-series) <a href="#functions-srf-series" id="functions-srf-series"></a>
 
 <table border="1" class="table" summary="Series Generating Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -123,7 +123,7 @@ SELECT * FROM generate_series('2001-10-22 00:00 -04:00'::timestamptz,
 
 <a id="FUNCTIONS-SRF-SUBSCRIPTS"></a>
 
-**表 9.70. 下標產生函式**
+### 表 9.70. 下標產生函式 [#](#functions-srf-subscripts) <a href="#functions-srf-subscripts" id="functions-srf-subscripts"></a>
 
 <table border="1" class="table" summary="Subscript Generating Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

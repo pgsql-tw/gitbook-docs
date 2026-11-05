@@ -3,12 +3,12 @@
 ## 19.18. 簡短選項 [#](#runtime-config-short) <a href="#runtime-config-short" id="runtime-config-short"></a>
 
 為方便起見，部分參數也提供單一字母的命令列選項開關，
-詳情請參閱[表 19.5](runtime-config-short.md#RUNTIME-CONFIG-SHORT-TABLE)。其中有些選項是基於歷史因素而存在，其以單一字母選項的形式出現，
+詳情請參閱[表 19.5](runtime-config-short.md#runtime-config-short-table)。其中有些選項是基於歷史因素而存在，其以單一字母選項的形式出現，
 並不代表認可大量使用該選項。
 
 <a id="RUNTIME-CONFIG-SHORT-TABLE"></a>
 
-**表 19.5. 簡短選項對照表**
+### 表 19.5. 簡短選項對照表 [#](#runtime-config-short-table) <a href="#runtime-config-short-table" id="runtime-config-short-table"></a>
 
 <table border="1" class="table" summary="Short Option Key"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>簡短選項</th><th>等效設定</th></tr></thead><tbody><tr><td><code class="option">-B <em class="replaceable"><code>x</code></em></code></td><td><code class="literal">shared_buffers = <em class="replaceable"><code>x</code></em></code></td></tr><tr><td><code class="option">-d <em class="replaceable"><code>x</code></em></code></td><td><code class="literal">log_min_messages = DEBUG<em class="replaceable"><code>x</code></em></code></td></tr><tr><td><code class="option">-e</code></td><td><code class="literal">datestyle = euro</code></td></tr><tr><td>
 <code class="option">-fb</code>, <code class="option">-fh</code>, <code class="option">-fi</code>,

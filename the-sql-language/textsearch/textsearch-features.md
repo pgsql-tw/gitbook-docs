@@ -36,7 +36,7 @@
 <a id="id-1.5.11.7.3.3.4.1.1"></a> `strip(vector tsvector) returns tsvector`
 :   回傳一個向量，列出與給定向量相同的詞素，但不含任何位置或權重資訊。結果通常比未移除位置資訊的向量小很多，但用處也比較少。對已移除位置資訊的向量進行相關性排名，效果不如未移除的向量。此外，`<->`（FOLLOWED BY）`tsquery` 運算子永遠不會比對已移除位置資訊的輸入，因為它無法判定詞素出現位置之間的距離。
 
-`tsvector` 相關函式的完整清單請參閱[表 9.43](../functions/functions-textsearch.md#TEXTSEARCH-FUNCTIONS-TABLE)。
+`tsvector` 相關函式的完整清單請參閱[表 9.43](../functions/functions-textsearch.md#textsearch-functions-table)。
 
 <a id="TEXTSEARCH-MANIPULATE-TSQUERY"></a>
 

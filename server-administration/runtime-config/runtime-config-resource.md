@@ -277,7 +277,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `commit_timestamp_buffers` (`integer`) <a id="id-1.6.6.7.2.2.12.1.3"></a> [#](#GUC-COMMIT-TIMESTAMP-BUFFERS)
 :   指定用於快取
     `pg_commit_ts` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `0`，此時會請求
@@ -289,7 +289,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `multixact_member_buffers` (`integer`) <a id="id-1.6.6.7.2.2.13.1.3"></a> [#](#GUC-MULTIXACT-MEMBER-BUFFERS)
 :   指定用於快取
     `pg_multixact/members` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的共享記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `32`。
@@ -299,7 +299,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `multixact_offset_buffers` (`integer`) <a id="id-1.6.6.7.2.2.14.1.3"></a> [#](#GUC-MULTIXACT-OFFSET-BUFFERS)
 :   指定用於快取
     `pg_multixact/offsets` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的共享記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `16`。
@@ -309,7 +309,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `notify_buffers` (`integer`) <a id="id-1.6.6.7.2.2.15.1.3"></a> [#](#GUC-NOTIFY-BUFFERS)
 :   指定用於快取
     `pg_notify` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的共享記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `16`。
@@ -319,7 +319,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `serializable_buffers` (`integer`) <a id="id-1.6.6.7.2.2.16.1.3"></a> [#](#GUC-SERIALIZABLE-BUFFERS)
 :   指定用於快取
     `pg_serial` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的共享記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `32`。
@@ -329,7 +329,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `subtransaction_buffers` (`integer`) <a id="id-1.6.6.7.2.2.17.1.3"></a> [#](#GUC-SUBTRANSACTION-BUFFERS)
 :   指定用於快取
     `pg_subtrans` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的共享記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `0`，此時會請求
@@ -341,7 +341,7 @@ INDEX` 與 `ALTER TABLE ADD FOREIGN KEY`）
 `transaction_buffers` (`integer`) <a id="id-1.6.6.7.2.2.18.1.3"></a> [#](#GUC-TRANSACTION-BUFFERS)
 :   指定用於快取
     `pg_xact` 內容（參閱
-    [表 66.1](../../internals/storage/storage-file-layout.md#PGDATA-CONTENTS-TABLE)）的共享記憶體量。
+    [表 66.1](../../internals/storage/storage-file-layout.md#pgdata-contents-table)）的共享記憶體量。
     若此值指定時未帶單位，則以區塊為單位，
     也就是 `BLCKSZ` 位元組，通常為 8kB。
     預設值為 `0`，此時會請求

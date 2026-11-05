@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.12.2"></a>
 
-本節說明用於檢查與操作位元字串的函式與運算子，也就是 `bit` 與 `bit varying` 型別的值。（雖然這些表格中只提到 `bit` 型別，但 `bit varying` 型別的值也可以互換使用。）位元字串支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-TABLE) 所列的運算子。
+本節說明用於檢查與操作位元字串的函式與運算子，也就是 `bit` 與 `bit varying` 型別的值。（雖然這些表格中只提到 `bit` 型別，但 `bit varying` 型別的值也可以互換使用。）位元字串支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.14](functions-bitstring.md#functions-bit-string-op-table) 所列的運算子。
 
 <a id="FUNCTIONS-BIT-STRING-OP-TABLE"></a>
 
-**表 9.14. 位元字串運算子**
+### 表 9.14. 位元字串運算子 [#](#functions-bit-string-op-table) <a href="#functions-bit-string-op-table" id="functions-bit-string-op-table"></a>
 
 <table border="1" class="table" summary="Bit String Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -92,11 +92,11 @@
 
 <br>
 
-有些可用於二進位字串的函式，也可以用於位元字串，如[表 9.15](functions-bitstring.md#FUNCTIONS-BIT-STRING-TABLE) 所示。
+有些可用於二進位字串的函式，也可以用於位元字串，如[表 9.15](functions-bitstring.md#functions-bit-string-table) 所示。
 
 <a id="FUNCTIONS-BIT-STRING-TABLE"></a>
 
-**表 9.15. 位元字串函式**
+### 表 9.15. 位元字串函式 [#](#functions-bit-string-table) <a href="#functions-bit-string-table" id="functions-bit-string-table"></a>
 
 <table border="1" class="table" summary="Bit String Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

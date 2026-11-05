@@ -77,7 +77,7 @@ SELECT int4range(10, 20) * int4range(15, 25);
 SELECT isempty(numrange(1, 5));
 ```
 
-範圍型別上的運算子與函式完整清單，請參閱[表 9.58](../functions/functions-range.md#RANGE-OPERATORS-TABLE)與[表 9.60](../functions/functions-range.md#RANGE-FUNCTIONS-TABLE)。
+範圍型別上的運算子與函式完整清單，請參閱[表 9.58](../functions/functions-range.md#range-operators-table)與[表 9.60](../functions/functions-range.md#range-functions-table)。
 
 <a id="RANGETYPES-INCLUSIVITY"></a>
 
@@ -255,7 +255,7 @@ SELECT '[11:10, 23:00]'::timerange;
 CREATE INDEX reservation_idx ON reservation USING GIST (during);
 ```
 
-範圍上的 GiST 或 SP-GiST 索引可以加速涉及下列範圍運算子的查詢：`=`、`&&`、`<@`、`@>`、`<<`、`>>`、`-|-`、`&<` 與 `&>`。多重範圍上的 GiST 索引可以加速涉及同一組多重範圍運算子的查詢。範圍上的 GiST 索引與多重範圍上的 GiST 索引，也可以分別加速涉及下列跨型別之範圍對多重範圍、以及多重範圍對範圍運算子的查詢：`&&`、`<@`、`@>`、`<<`、`>>`、`-|-`、`&<` 與 `&>`。更多資訊請參閱[表 9.58](../functions/functions-range.md#RANGE-OPERATORS-TABLE)。
+範圍上的 GiST 或 SP-GiST 索引可以加速涉及下列範圍運算子的查詢：`=`、`&&`、`<@`、`@>`、`<<`、`>>`、`-|-`、`&<` 與 `&>`。多重範圍上的 GiST 索引可以加速涉及同一組多重範圍運算子的查詢。範圍上的 GiST 索引與多重範圍上的 GiST 索引，也可以分別加速涉及下列跨型別之範圍對多重範圍、以及多重範圍對範圍運算子的查詢：`&&`、`<@`、`@>`、`<<`、`>>`、`-|-`、`&<` 與 `&>`。更多資訊請參閱[表 9.58](../functions/functions-range.md#range-operators-table)。
 
 此外，也可以為範圍型別的資料表欄位建立 B-tree 與 hash 索引。對於這些索引型別而言，基本上唯一有用的範圍運算就是等值比較。範圍值有定義 B-tree 排序方式以及對應的 `<` 與 `>` 運算子，但這個排序相當武斷，在實務上通常沒有什麼用。範圍型別的 B-tree 與 hash 支援，主要是為了讓查詢內部能夠進行排序與雜湊運算，而不是為了建立實際的索引。
 

@@ -2,11 +2,11 @@
 
 ## 9.19. 陣列函式與運算子 [#](#functions-array) <a href="#functions-array" id="functions-array"></a>
 
-[表 9.56](functions-array.md#ARRAY-OPERATORS-TABLE) 列出了可用於陣列型別的特殊運算子。除此之外，陣列也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。比較運算子會使用元素資料型別的預設 B-tree 比較函式逐一比較陣列的內容，並依據第一個差異進行排序。在多維陣列中，元素是依列主序（row-major order）走訪的（最後一個下標變化最快）。如果兩個陣列的內容相等但維度不同，則由維度資訊中的第一個差異決定排序順序。
+[表 9.56](functions-array.md#array-operators-table) 列出了可用於陣列型別的特殊運算子。除此之外，陣列也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。比較運算子會使用元素資料型別的預設 B-tree 比較函式逐一比較陣列的內容，並依據第一個差異進行排序。在多維陣列中，元素是依列主序（row-major order）走訪的（最後一個下標變化最快）。如果兩個陣列的內容相等但維度不同，則由維度資訊中的第一個差異決定排序順序。
 
 <a id="ARRAY-OPERATORS-TABLE"></a>
 
-**表 9.56. 陣列運算子**
+### 表 9.56. 陣列運算子 [#](#array-operators-table) <a href="#array-operators-table" id="array-operators-table"></a>
 
 <table border="1" class="table" summary="Array Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -86,11 +86,11 @@
 
 關於陣列運算子行為的更多細節，請參閱[第 8.15 節](../datatype/arrays.md)。關於哪些運算子支援索引操作的更多細節，請參閱[第 11.2 節](../indexes/indexes-types.md)。
 
-[表 9.57](functions-array.md#ARRAY-FUNCTIONS-TABLE) 列出了可用於陣列型別的函式。關於這些函式的更多資訊與使用範例，請參閱[第 8.15 節](../datatype/arrays.md)。
+[表 9.57](functions-array.md#array-functions-table) 列出了可用於陣列型別的函式。關於這些函式的更多資訊與使用範例，請參閱[第 8.15 節](../datatype/arrays.md)。
 
 <a id="ARRAY-FUNCTIONS-TABLE"></a>
 
-**表 9.57. 陣列函式**
+### 表 9.57. 陣列函式 [#](#array-functions-table) <a href="#array-functions-table" id="array-functions-table"></a>
 
 <table border="1" class="table" summary="Array Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

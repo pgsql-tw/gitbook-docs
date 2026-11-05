@@ -4,11 +4,11 @@
 
 許多 PostgreSQL 型別都提供了數學運算子。對於沒有標準數學慣例的型別（例如日期／時間型別），我們會在後續各節中說明實際的行為。
 
-[表 9.4](functions-math.md#FUNCTIONS-MATH-OP-TABLE) 列出了可用於標準數值型別的數學運算子。除非另有註明，顯示為接受 *`numeric_type`* 的運算子，適用於 `smallint`、`integer`、`bigint`、`numeric`、`real` 與 `double precision` 等所有型別。顯示為接受 *`integral_type`* 的運算子，適用於 `smallint`、`integer` 與 `bigint` 型別。除非另有註明，運算子的每種形式都回傳與其引數相同的資料型別。涉及多種引數資料型別的呼叫，例如 `integer` `+` `numeric`，會使用在這些清單中排在較後面的型別來解析。
+[表 9.4](functions-math.md#functions-math-op-table) 列出了可用於標準數值型別的數學運算子。除非另有註明，顯示為接受 *`numeric_type`* 的運算子，適用於 `smallint`、`integer`、`bigint`、`numeric`、`real` 與 `double precision` 等所有型別。顯示為接受 *`integral_type`* 的運算子，適用於 `smallint`、`integer` 與 `bigint` 型別。除非另有註明，運算子的每種形式都回傳與其引數相同的資料型別。涉及多種引數資料型別的呼叫，例如 `integer` `+` `numeric`，會使用在這些清單中排在較後面的型別來解析。
 
 <a id="FUNCTIONS-MATH-OP-TABLE"></a>
 
-**表 9.4. 數學運算子**
+### 表 9.4. 數學運算子 [#](#functions-math-op-table) <a href="#functions-math-op-table" id="functions-math-op-table"></a>
 
 <table border="1" class="table" summary="Mathematical Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -215,11 +215,11 @@
 
 <br>
 
-[表 9.5](functions-math.md#FUNCTIONS-MATH-FUNC-TABLE) 列出了可用的數學函式。這些函式中有許多都以具有不同引數型別的多種形式提供。除非另有註明，函式的任何一種形式都回傳與其引數相同的資料型別；跨型別的情況，會以與上面運算子相同的方式解析。處理 `double precision` 資料的函式，大多是以主機系統的 C 函式庫為基礎實作的；因此，精確度以及在邊界情況下的行為，可能會依主機系統而有所不同。
+[表 9.5](functions-math.md#functions-math-func-table) 列出了可用的數學函式。這些函式中有許多都以具有不同引數型別的多種形式提供。除非另有註明，函式的任何一種形式都回傳與其引數相同的資料型別；跨型別的情況，會以與上面運算子相同的方式解析。處理 `double precision` 資料的函式，大多是以主機系統的 C 函式庫為基礎實作的；因此，精確度以及在邊界情況下的行為，可能會依主機系統而有所不同。
 
 <a id="FUNCTIONS-MATH-FUNC-TABLE"></a>
 
-**表 9.5. 數學函式**
+### 表 9.5. 數學函式 [#](#functions-math-func-table) <a href="#functions-math-func-table" id="functions-math-func-table"></a>
 
 <table border="1" class="table" summary="Mathematical Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -684,11 +684,11 @@
 
 <br>
 
-[表 9.6](functions-math.md#FUNCTIONS-MATH-RANDOM-TABLE) 列出了用於產生隨機數的函式。
+[表 9.6](functions-math.md#functions-math-random-table) 列出了用於產生隨機數的函式。
 
 <a id="FUNCTIONS-MATH-RANDOM-TABLE"></a>
 
-**表 9.6. 隨機函式**
+### 表 9.6. 隨機函式 [#](#functions-math-random-table) <a href="#functions-math-random-table" id="functions-math-random-table"></a>
 
 <table border="1" class="table" summary="Random Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -759,13 +759,13 @@
 
 <br>
 
-[表 9.6](functions-math.md#FUNCTIONS-MATH-RANDOM-TABLE) 所列的 `random()` 與 `random_normal()` 函式，使用的是確定性的虛擬隨機數產生器。它的速度很快，但不適合用於密碼學應用；更安全的替代方案請參閱 [pgcrypto](../../appendixes/contrib/pgcrypto.md) 模組。如果呼叫了 `setseed()`，那麼只要以相同的引數再次執行 `setseed()`，就可以重現目前工作階段中後續呼叫這些函式所得到的結果序列。如果在同一個工作階段中事先沒有呼叫過 `setseed()`，第一次呼叫這些函式中的任何一個時，會從與平台相關的隨機位元來源取得種子。
+[表 9.6](functions-math.md#functions-math-random-table) 所列的 `random()` 與 `random_normal()` 函式，使用的是確定性的虛擬隨機數產生器。它的速度很快，但不適合用於密碼學應用；更安全的替代方案請參閱 [pgcrypto](../../appendixes/contrib/pgcrypto.md) 模組。如果呼叫了 `setseed()`，那麼只要以相同的引數再次執行 `setseed()`，就可以重現目前工作階段中後續呼叫這些函式所得到的結果序列。如果在同一個工作階段中事先沒有呼叫過 `setseed()`，第一次呼叫這些函式中的任何一個時，會從與平台相關的隨機位元來源取得種子。
 
-[表 9.7](functions-math.md#FUNCTIONS-MATH-TRIG-TABLE) 列出了可用的三角函數。每個函式都有兩種變化形式，一種以弧度量測角度，另一種以度數量測角度。
+[表 9.7](functions-math.md#functions-math-trig-table) 列出了可用的三角函數。每個函式都有兩種變化形式，一種以弧度量測角度，另一種以度數量測角度。
 
 <a id="FUNCTIONS-MATH-TRIG-TABLE"></a>
 
-**表 9.7. 三角函數**
+### 表 9.7. 三角函數 [#](#functions-math-trig-table) <a href="#functions-math-trig-table" id="functions-math-trig-table"></a>
 
 <table border="1" class="table" summary="Trigonometric Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

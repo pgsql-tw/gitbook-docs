@@ -639,7 +639,7 @@ SELECT * FROM
  WHERE pay_by_quarter[s] = 10000;
 ```
 
-這個函式，說明於[表 9.70](../functions/functions-srf.md#FUNCTIONS-SRF-SUBSCRIPTS)中。
+這個函式，說明於[表 9.70](../functions/functions-srf.md#functions-srf-subscripts)中。
 
 您也可以使用 `&&` 運算子來搜尋陣列，
 該運算子會檢查左運算元，

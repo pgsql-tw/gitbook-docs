@@ -4,11 +4,11 @@
 
 範圍型別的概觀請參閱[第 8.17 節](../datatype/rangetypes.md)。
 
-[表 9.58](functions-range.md#RANGE-OPERATORS-TABLE) 列出了可用於範圍型別的特殊運算子。[表 9.59](functions-range.md#MULTIRANGE-OPERATORS-TABLE) 列出了可用於多重範圍型別的特殊運算子。除此之外，範圍與多重範圍型別也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。比較運算子會先依範圍的下界排序，只有在下界相等時才比較上界。多重範圍運算子會逐一比較每個範圍，直到遇到不相等的範圍為止。這通常不會產生有用的整體排序，但提供這些運算子是為了能在範圍上建立唯一索引。
+[表 9.58](functions-range.md#range-operators-table) 列出了可用於範圍型別的特殊運算子。[表 9.59](functions-range.md#multirange-operators-table) 列出了可用於多重範圍型別的特殊運算子。除此之外，範圍與多重範圍型別也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。比較運算子會先依範圍的下界排序，只有在下界相等時才比較上界。多重範圍運算子會逐一比較每個範圍，直到遇到不相等的範圍為止。這通常不會產生有用的整體排序，但提供這些運算子是為了能在範圍上建立唯一索引。
 
 <a id="RANGE-OPERATORS-TABLE"></a>
 
-**表 9.58. 範圍運算子**
+### 表 9.58. 範圍運算子 [#](#range-operators-table) <a href="#range-operators-table" id="range-operators-table"></a>
 
 <table border="1" class="table" summary="Range Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -152,7 +152,7 @@
 
 <br><a id="MULTIRANGE-OPERATORS-TABLE"></a>
 
-**表 9.59. 多重範圍運算子**
+### 表 9.59. 多重範圍運算子 [#](#multirange-operators-table) <a href="#multirange-operators-table" id="multirange-operators-table"></a>
 
 <table border="1" class="table" summary="Multirange Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -462,11 +462,11 @@
 
 如果結果範圍需要包含兩個不相交的子範圍，範圍的聯集與差集運算子就會失敗，因為這樣的範圍無法表示。另外有一組接受多重範圍參數並回傳多重範圍的聯集與差集運算子，即使它們的引數不相交也不會失敗。所以，如果你需要對可能不相交的範圍進行聯集或差集運算，可以先將範圍轉換為多重範圍來避免錯誤。
 
-[表 9.60](functions-range.md#RANGE-FUNCTIONS-TABLE) 列出了可用於範圍型別的函式。[表 9.61](functions-range.md#MULTIRANGE-FUNCTIONS-TABLE) 列出了可用於多重範圍型別的函式。
+[表 9.60](functions-range.md#range-functions-table) 列出了可用於範圍型別的函式。[表 9.61](functions-range.md#multirange-functions-table) 列出了可用於多重範圍型別的函式。
 
 <a id="RANGE-FUNCTIONS-TABLE"></a>
 
-**表 9.60. 範圍函式**
+### 表 9.60. 範圍函式 [#](#range-functions-table) <a href="#range-functions-table" id="range-functions-table"></a>
 
 <table border="1" class="table" summary="Range Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -568,7 +568,7 @@
 
 <br><a id="MULTIRANGE-FUNCTIONS-TABLE"></a>
 
-**表 9.61. 多重範圍函式**
+### 表 9.61. 多重範圍函式 [#](#multirange-functions-table) <a href="#multirange-functions-table" id="multirange-functions-table"></a>
 
 <table border="1" class="table" summary="Multirange Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

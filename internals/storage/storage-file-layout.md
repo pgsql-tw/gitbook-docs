@@ -6,11 +6,11 @@
 
 傳統上，資料庫叢集所使用的設定檔與資料檔會一起存放在叢集的資料目錄中，這個目錄通常稱為 `PGDATA`（取自可用來定義它的環境變數名稱）。`PGDATA` 的常見位置是 `/var/lib/pgsql/data`。同一部機器上可以存在多個由不同伺服器執行個體所管理的叢集。
 
-`PGDATA` 目錄包含數個子目錄與控制檔，如[表 66.1](storage-file-layout.md#PGDATA-CONTENTS-TABLE) 所示。除了這些必要項目之外，叢集設定檔 `postgresql.conf`、`pg_hba.conf` 與 `pg_ident.conf` 傳統上也存放在 `PGDATA` 中，不過也可以將它們放在其他地方。
+`PGDATA` 目錄包含數個子目錄與控制檔，如[表 66.1](storage-file-layout.md#pgdata-contents-table) 所示。除了這些必要項目之外，叢集設定檔 `postgresql.conf`、`pg_hba.conf` 與 `pg_ident.conf` 傳統上也存放在 `PGDATA` 中，不過也可以將它們放在其他地方。
 
 <a id="PGDATA-CONTENTS-TABLE"></a>
 
-**表 66.1. `PGDATA` 的內容**
+### 表 66.1. `PGDATA` 的內容 [#](#pgdata-contents-table) <a href="#pgdata-contents-table" id="pgdata-contents-table"></a>
 
 <table border="1" class="table" summary="PGDATA 的內容"><colgroup><col/><col/></colgroup><thead><tr><th>
 項目

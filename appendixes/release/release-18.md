@@ -179,7 +179,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   `GROUPING SETS` 查詢。
 * 改進對使用 [`numeric`](../../the-sql-language/datatype/datatype-numeric.md)
   與 [`timestamp`](../../the-sql-language/datatype/datatype-datetime.md)
-  值的 [`generate_series()`](../../the-sql-language/functions/functions-srf.md#FUNCTIONS-SRF-SERIES) 的資料列數估計 (David Rowley, Song Jinzhou)
+  值的 [`generate_series()`](../../the-sql-language/functions/functions-srf.md#functions-srf-series) 的資料列數估計 (David Rowley, Song Jinzhou)
   [§](https://postgr.es/c/036bdcec9)
   [§](https://postgr.es/c/97173536e)
 * 允許最佳化器使用 `Right Semi Join` 計畫
@@ -710,10 +710,10 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 * 為 [`json{b}_strip_nulls`](../../the-sql-language/functions/functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE) 新增選用參數，
   允許移除值為 null 的陣列元素 (Florents Tselai)
   [§](https://postgr.es/c/4603903d2)
-* 新增函式 [`array_sort()`](../../the-sql-language/functions/functions-array.md#ARRAY-FUNCTIONS-TABLE)，
+* 新增函式 [`array_sort()`](../../the-sql-language/functions/functions-array.md#array-functions-table)，
   用於排序陣列的第一個維度 (Junwang Zhao, Jian He)
   [§](https://postgr.es/c/6c12ae09f)
-* 新增函式 [`array_reverse()`](../../the-sql-language/functions/functions-array.md#ARRAY-FUNCTIONS-TABLE)，
+* 新增函式 [`array_reverse()`](../../the-sql-language/functions/functions-array.md#array-functions-table)，
   用於反轉陣列的第一個維度 (Aleksander Alekseev)
   [§](https://postgr.es/c/49d6c7d8d)
 * 新增函式 [`reverse()`](../../the-sql-language/functions/functions-string.md#FUNCTIONS-STRING-OTHER)，
@@ -767,12 +767,12 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   這種 `UUID` 值可以依時間排序。另新增函式別名 [`uuidv4()`](../../the-sql-language/functions/functions-uuid.md#functions-uuid-table)，
   用於明確產生第 4 版 UUID。
-* 新增函式 [`crc32()`](../../the-sql-language/functions/functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)
-  與 [`crc32c()`](../../the-sql-language/functions/functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)，
+* 新增函式 [`crc32()`](../../the-sql-language/functions/functions-binarystring.md#functions-binarystring-other)
+  與 [`crc32c()`](../../the-sql-language/functions/functions-binarystring.md#functions-binarystring-other)，
   用於計算 CRC 值 (Aleksander Alekseev)
   [§](https://postgr.es/c/760162fed)
-* 新增數學函式 [`gamma()`](../../the-sql-language/functions/functions-math.md#FUNCTIONS-MATH-FUNC-TABLE)
-  與 [`lgamma()`](../../the-sql-language/functions/functions-math.md#FUNCTIONS-MATH-FUNC-TABLE)
+* 新增數學函式 [`gamma()`](../../the-sql-language/functions/functions-math.md#functions-math-func-table)
+  與 [`lgamma()`](../../the-sql-language/functions/functions-math.md#functions-math-func-table)
   (Dean Rasheed)
   [§](https://postgr.es/c/a3b6dfd41)
 * 在 [PL/pgSQL](../../server-programming/plpgsql/README.md) 中，允許以 `=>` 語法指定具名游標引數 (Pavel Stehule)

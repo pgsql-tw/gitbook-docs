@@ -10,11 +10,11 @@
 
 每個資料表與索引都儲存為一個由固定大小之*頁面*組成的陣列（通常為 8 kB，不過在編譯伺服器時可以選擇不同的頁面大小）。在資料表中，所有頁面在邏輯上都是相等的，因此特定的項目（資料列）可以儲存在任何頁面中。在索引中，第一個頁面通常保留作為存放控制資訊的*中繼頁面（metapage）*，而索引內可能會有不同類型的頁面，視索引存取方法而定。
 
-[表 66.2](storage-page-layout.md#PAGE-TABLE) 顯示頁面的整體配置。每個頁面都有五個部分。
+[表 66.2](storage-page-layout.md#page-table) 顯示頁面的整體配置。每個頁面都有五個部分。
 
 <a id="PAGE-TABLE"></a>
 
-**表 66.2. 頁面整體配置**
+### 表 66.2. 頁面整體配置 [#](#page-table) <a href="#page-table" id="page-table"></a>
 
 <table border="1" class="table" summary="頁面整體配置"><colgroup><col/><col/></colgroup><thead><tr><th>
 項目
@@ -22,11 +22,11 @@
 
 <br>
 
-每個頁面的前 24 個位元組是頁面標頭（`PageHeaderData`）。其格式詳見[表 66.3](storage-page-layout.md#PAGEHEADERDATA-TABLE)。第一個欄位追蹤與此頁面相關的最近一筆 WAL 項目。若啟用了[資料檢查碼](../../server-administration/wal/checksums.md)，第二個欄位會包含頁面檢查碼。接下來是一個包含旗標位元的 2 位元組欄位。之後是三個 2 位元組的整數欄位（`pd_lower`、`pd_upper` 與 `pd_special`）。它們分別包含從頁面開頭到未配置空間開頭、到未配置空間結尾，以及到特殊空間開頭的位元組位移。頁面標頭接下來的 2 個位元組 `pd_pagesize_version`，同時儲存頁面大小與版本標示。從 PostgreSQL 8.3 開始，版本號碼為 4；PostgreSQL 8.1 與 8.2 使用版本號碼 3；PostgreSQL 8.0 使用版本號碼 2；PostgreSQL 7.3 與 7.4 使用版本號碼 1；更早的版本使用版本號碼 0。（在這些版本中，大多數版本的基本頁面配置與標頭格式都沒有改變，但堆積資料列標頭的配置有所改變。）頁面大小基本上只是用來交叉核對；一個安裝中不支援使用超過一種頁面大小。最後一個欄位是一個提示，顯示修剪（prune）該頁面是否可能有益：它追蹤頁面上最舊的未修剪 XMAX。
+每個頁面的前 24 個位元組是頁面標頭（`PageHeaderData`）。其格式詳見[表 66.3](storage-page-layout.md#pageheaderdata-table)。第一個欄位追蹤與此頁面相關的最近一筆 WAL 項目。若啟用了[資料檢查碼](../../server-administration/wal/checksums.md)，第二個欄位會包含頁面檢查碼。接下來是一個包含旗標位元的 2 位元組欄位。之後是三個 2 位元組的整數欄位（`pd_lower`、`pd_upper` 與 `pd_special`）。它們分別包含從頁面開頭到未配置空間開頭、到未配置空間結尾，以及到特殊空間開頭的位元組位移。頁面標頭接下來的 2 個位元組 `pd_pagesize_version`，同時儲存頁面大小與版本標示。從 PostgreSQL 8.3 開始，版本號碼為 4；PostgreSQL 8.1 與 8.2 使用版本號碼 3；PostgreSQL 8.0 使用版本號碼 2；PostgreSQL 7.3 與 7.4 使用版本號碼 1；更早的版本使用版本號碼 0。（在這些版本中，大多數版本的基本頁面配置與標頭格式都沒有改變，但堆積資料列標頭的配置有所改變。）頁面大小基本上只是用來交叉核對；一個安裝中不支援使用超過一種頁面大小。最後一個欄位是一個提示，顯示修剪（prune）該頁面是否可能有益：它追蹤頁面上最舊的未修剪 XMAX。
 
 <a id="PAGEHEADERDATA-TABLE"></a>
 
-**表 66.3. PageHeaderData 配置**
+### 表 66.3. PageHeaderData 配置 [#](#pageheaderdata-table) <a href="#pageheaderdata-table" id="pageheaderdata-table"></a>
 
 <table border="1" class="table" summary="PageHeaderData 配置"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>欄位</th><th>型別</th><th>長度</th><th>說明</th></tr></thead><tbody><tr><td>pd_lsn</td><td>PageXLogRecPtr</td><td>8 位元組</td><td>LSN：此頁面最後一次變更之 WAL 紀錄最後一個位元組的下一個位元組</td></tr><tr><td>pd_checksum</td><td>uint16</td><td>2 位元組</td><td>頁面檢查碼</td></tr><tr><td>pd_flags</td><td>uint16</td><td>2 位元組</td><td>旗標位元</td></tr><tr><td>pd_lower</td><td>LocationIndex</td><td>2 位元組</td><td>到可用空間開頭的位移</td></tr><tr><td>pd_upper</td><td>LocationIndex</td><td>2 位元組</td><td>到可用空間結尾的位移</td></tr><tr><td>pd_special</td><td>LocationIndex</td><td>2 位元組</td><td>到特殊空間開頭的位移</td></tr><tr><td>pd_pagesize_version</td><td>uint16</td><td>2 位元組</td><td>頁面大小與配置版本號碼資訊</td></tr><tr><td>pd_prune_xid</td><td>TransactionId</td><td>4 位元組</td><td>頁面上最舊的未修剪 XMAX，若沒有則為零</td></tr></tbody></table>
 
