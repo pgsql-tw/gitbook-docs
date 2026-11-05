@@ -534,7 +534,7 @@ SELECT has_function_privilege('joeuser', 'myfunc(int, text)', 'execute');
         <em class="parameter"><code>is_grantable</code></em> <code class="type">boolean</code> )
        </p>
 <p>
-        將 <code class="type">aclitem</code> 陣列以一組資料列的形式回傳。如果被授權者是虛擬角色 PUBLIC，則在 <em class="parameter"><code>grantee</code></em> 欄位中以零表示。每一項授予的權限都以 <code class="literal">SELECT</code>、<code class="literal">INSERT</code> 等表示（完整清單請參閱<a class="xref" href="../ddl/ddl-priv.md#PRIVILEGE-ABBREVS-TABLE">表 5.1</a>）。請注意，每一項權限都會拆成獨立的一筆資料列，因此 <em class="parameter"><code>privilege_type</code></em> 欄位中只會出現一個關鍵字。
+        將 <code class="type">aclitem</code> 陣列以一組資料列的形式回傳。如果被授權者是虛擬角色 PUBLIC，則在 <em class="parameter"><code>grantee</code></em> 欄位中以零表示。每一項授予的權限都以 <code class="literal">SELECT</code>、<code class="literal">INSERT</code> 等表示（完整清單請參閱<a class="xref" href="../ddl/ddl-priv.md#privilege-abbrevs-table">表 5.1</a>）。請注意，每一項權限都會拆成獨立的一筆資料列，因此 <em class="parameter"><code>privilege_type</code></em> 欄位中只會出現一個關鍵字。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <a class="indexterm" id="id-1.5.8.33.4.8.2.2.3.1.1.1"></a>
 <code class="function">makeaclitem</code> (

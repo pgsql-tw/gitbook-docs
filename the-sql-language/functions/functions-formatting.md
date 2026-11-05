@@ -89,7 +89,7 @@ PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資
         → <code class="returnvalue">timestamp with time zone</code>
 </p>
 <p>
-        依照給定的格式將字串轉換為時間戳記。（另請參閱<a class="xref" href="functions-datetime.md#FUNCTIONS-DATETIME-TABLE">表 9.33</a> 中的 <code class="function">to_timestamp(double precision)</code>。）
+        依照給定的格式將字串轉換為時間戳記。（另請參閱<a class="xref" href="functions-datetime.md#functions-datetime-table">表 9.33</a> 中的 <code class="function">to_timestamp(double precision)</code>。）
        </p>
 <p>
 <code class="literal">to_timestamp('05 Dec 2000', 'DD Mon YYYY')</code>

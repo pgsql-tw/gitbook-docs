@@ -14,7 +14,7 @@
 
 [9.9.6. 延遲執行](functions-datetime.md#functions-datetime-delay)
 
-[表 9.33](functions-datetime.md#FUNCTIONS-DATETIME-TABLE) 列出了可用於處理日期／時間值的函式，細節則在後續各小節中說明。[表 9.32](functions-datetime.md#OPERATORS-DATETIME-TABLE) 說明了基本算術運算子（`+`、`*` 等）的行為。關於格式化函式，請參閱[第 9.8 節](functions-formatting.md)。你應該熟悉[第 8.5 節](../datatype/datatype-datetime.md)中關於日期／時間資料型別的背景資訊。
+[表 9.33](functions-datetime.md#functions-datetime-table) 列出了可用於處理日期／時間值的函式，細節則在後續各小節中說明。[表 9.32](functions-datetime.md#operators-datetime-table) 說明了基本算術運算子（`+`、`*` 等）的行為。關於格式化函式，請參閱[第 9.8 節](functions-formatting.md)。你應該熟悉[第 8.5 節](../datatype/datatype-datetime.md)中關於日期／時間資料型別的背景資訊。
 
 此外，日期／時間型別也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。日期與時間戳記（無論是否帶時區）彼此之間都可以比較，而時間（無論是否帶時區）與時間間隔則只能與相同資料型別的其他值比較。比較不帶時區的時間戳記與帶時區的時間戳記時，前者的值會被假設為以 [TimeZone](../../server-administration/runtime-config/runtime-config-client.md#GUC-TIMEZONE) 組態參數所指定的時區表示，並被轉換為 UTC，以便與後者的值（它在內部已經是 UTC）比較。同樣地，將日期值與時間戳記比較時，日期值會被假設為代表 `TimeZone` 時區中的午夜。
 
@@ -22,7 +22,7 @@
 
 <a id="OPERATORS-DATETIME-TABLE"></a>
 
-**表 9.32. 日期／時間運算子**
+### 表 9.32. 日期／時間運算子 [#](#operators-datetime-table) <a href="#operators-datetime-table" id="operators-datetime-table"></a>
 
 <table border="1" class="table" summary="Date/Time Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
          運算子
@@ -214,7 +214,7 @@
 
 <br><a id="FUNCTIONS-DATETIME-TABLE"></a>
 
-**表 9.33. 日期／時間函式**
+### 表 9.33. 日期／時間函式 [#](#functions-datetime-table) <a href="#functions-datetime-table" id="functions-datetime-table"></a>
 
 <table border="1" class="table" summary="Date/Time Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
          函式

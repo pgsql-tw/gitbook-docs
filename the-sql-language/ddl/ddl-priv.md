@@ -128,11 +128,11 @@ REVOKE ALL ON accounts FROM PUBLIC;
 
 PostgreSQL 在建立某些類型的物件時，預設會將這些物件上的權限授予 `PUBLIC`。對於資料表、資料表欄位、序列、外部資料包裝器、外部伺服器、大型物件、綱要、資料表空間或組態參數，預設不會將任何權限授予 `PUBLIC`。對於其他類型的物件，預設授予 `PUBLIC` 的權限如下：資料庫的 `CONNECT` 與 `TEMPORARY`（建立暫存資料表）權限；函式與程序的 `EXECUTE` 權限；以及語言與資料型別（包括網域）的 `USAGE` 權限。物件擁有者當然可以 `REVOKE` 預設授予的權限與明確授予的權限。（為了獲得最高的安全性，請在建立物件的同一個交易中執行 `REVOKE`；這樣就不會有其他使用者可以使用該物件的時間窗口。）此外，這些預設權限設定可以使用 [ALTER DEFAULT PRIVILEGES](../../reference/sql-commands/sql-alterdefaultprivileges.md) 命令覆寫。
 
-[表 5.1](ddl-priv.md#PRIVILEGE-ABBREVS-TABLE) 列出了在 *ACL* 值中用於這些權限類型的單一字母縮寫。你會在下面所列的 [psql](../../reference/reference-client/app-psql.md) 命令的輸出中，或在查看系統目錄的 ACL 欄位時看到這些字母。
+[表 5.1](ddl-priv.md#privilege-abbrevs-table) 列出了在 *ACL* 值中用於這些權限類型的單一字母縮寫。你會在下面所列的 [psql](../../reference/reference-client/app-psql.md) 命令的輸出中，或在查看系統目錄的 ACL 欄位時看到這些字母。
 
 <a id="PRIVILEGE-ABBREVS-TABLE"></a>
 
-**表 5.1. ACL 權限縮寫**
+### 表 5.1. ACL 權限縮寫 [#](#privilege-abbrevs-table) <a href="#privilege-abbrevs-table" id="privilege-abbrevs-table"></a>
 
 <table border="1" class="table" summary="ACL Privilege Abbreviations"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>權限</th><th>縮寫</th><th>適用的物件類型</th></tr></thead><tbody><tr><td><code class="literal">SELECT</code></td><td><code class="literal">r</code> (<span class="quote">“<span class="quote">read</span>”</span>)</td><td>
 <code class="literal">LARGE OBJECT</code>,
@@ -160,11 +160,11 @@ PostgreSQL 在建立某些類型的物件時，預設會將這些物件上的權
 
 <br>
 
-[表 5.2](ddl-priv.md#PRIVILEGES-SUMMARY-TABLE) 使用上面所示的縮寫，彙整了每種 SQL 物件可用的權限。它也列出了可用來檢查每種物件類型之權限設定的 psql 命令。
+[表 5.2](ddl-priv.md#privileges-summary-table) 使用上面所示的縮寫，彙整了每種 SQL 物件可用的權限。它也列出了可用來檢查每種物件類型之權限設定的 psql 命令。
 
 <a id="PRIVILEGES-SUMMARY-TABLE"></a>
 
-**表 5.2. 存取權限摘要**
+### 表 5.2. 存取權限摘要 [#](#privileges-summary-table) <a href="#privileges-summary-table" id="privileges-summary-table"></a>
 
 <table border="1" class="table" summary="Summary of Access Privileges"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>物件類型</th><th>所有權限</th><th>預設的 <code class="literal">PUBLIC</code> 權限</th><th><span class="application">psql</span> 命令</th></tr></thead><tbody><tr><td><code class="literal">DATABASE</code></td><td><code class="literal">CTc</code></td><td><code class="literal">Tc</code></td><td><code class="literal">\l</code></td></tr><tr><td><code class="literal">DOMAIN</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dD+</code></td></tr><tr><td><code class="literal">FUNCTION</code> 或 <code class="literal">PROCEDURE</code></td><td><code class="literal">X</code></td><td><code class="literal">X</code></td><td><code class="literal">\df+</code></td></tr><tr><td><code class="literal">FOREIGN DATA WRAPPER</code></td><td><code class="literal">U</code></td><td>無</td><td><code class="literal">\dew+</code></td></tr><tr><td><code class="literal">FOREIGN SERVER</code></td><td><code class="literal">U</code></td><td>無</td><td><code class="literal">\des+</code></td></tr><tr><td><code class="literal">LANGUAGE</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dL+</code></td></tr><tr><td><code class="literal">LARGE OBJECT</code></td><td><code class="literal">rw</code></td><td>無</td><td><code class="literal">\dl+</code></td></tr><tr><td><code class="literal">PARAMETER</code></td><td><code class="literal">sA</code></td><td>無</td><td><code class="literal">\dconfig+</code></td></tr><tr><td><code class="literal">SCHEMA</code></td><td><code class="literal">UC</code></td><td>無</td><td><code class="literal">\dn+</code></td></tr><tr><td><code class="literal">SEQUENCE</code></td><td><code class="literal">rwU</code></td><td>無</td><td><code class="literal">\dp</code></td></tr><tr><td><code class="literal">TABLE</code>（以及類似資料表的物件）</td><td><code class="literal">arwdDxtm</code></td><td>無</td><td><code class="literal">\dp</code></td></tr><tr><td>資料表欄位</td><td><code class="literal">arwx</code></td><td>無</td><td><code class="literal">\dp</code></td></tr><tr><td><code class="literal">TABLESPACE</code></td><td><code class="literal">C</code></td><td>無</td><td><code class="literal">\db+</code></td></tr><tr><td><code class="literal">TYPE</code></td><td><code class="literal">U</code></td><td><code class="literal">U</code></td><td><code class="literal">\dT+</code></td></tr></tbody></table>
 
@@ -178,7 +178,7 @@ PostgreSQL 在建立某些類型的物件時，預設會將這些物件上的權
 grantee=privilege-abbreviation[*].../grantor
 ```
 
-每個 `aclitem` 列出由某個特定授權者授予某一位被授權者的所有權限。個別權限以[表 5.1](ddl-priv.md#PRIVILEGE-ABBREVS-TABLE) 中的單一字母縮寫表示；如果該權限是附帶授權選項授予的，後面就會加上 `*`。例如，`calvin=r*w/hobbes` 表示角色 `calvin` 擁有附帶授權選項（`*`）的 `SELECT`（`r`）權限，以及不可再授予的 `UPDATE`（`w`）權限，兩者都是由角色 `hobbes` 授予的。如果 `calvin` 在同一個物件上還有由另一位授權者授予的某些權限，這些權限會顯示為另一個獨立的 `aclitem` 項目。`aclitem` 中空白的被授權者欄位代表 `PUBLIC`。
+每個 `aclitem` 列出由某個特定授權者授予某一位被授權者的所有權限。個別權限以[表 5.1](ddl-priv.md#privilege-abbrevs-table) 中的單一字母縮寫表示；如果該權限是附帶授權選項授予的，後面就會加上 `*`。例如，`calvin=r*w/hobbes` 表示角色 `calvin` 擁有附帶授權選項（`*`）的 `SELECT`（`r`）權限，以及不可再授予的 `UPDATE`（`w`）權限，兩者都是由角色 `hobbes` 授予的。如果 `calvin` 在同一個物件上還有由另一位授權者授予的某些權限，這些權限會顯示為另一個獨立的 `aclitem` 項目。`aclitem` 中空白的被授權者欄位代表 `PUBLIC`。
 
 舉例來說，假設使用者 `miriam` 建立了資料表 `mytable`，並執行：
 
