@@ -126,7 +126,6 @@
        與 <code class="structfield">relallvisible</code> 搭配使用，
        用於排程手動清理，以及調校 <a class="link" href="../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-vacuum-freezing">VACUUM 的凍結
        行為</a>。
-
        它由
        <a class="link" href="../../reference/sql-commands/sql-vacuum.md"><code class="command">VACUUM</code></a>、
        <a class="link" href="../../reference/sql-commands/sql-analyze.md"><code class="command">ANALYZE</code></a>

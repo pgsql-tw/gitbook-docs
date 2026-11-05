@@ -745,7 +745,6 @@ SQL/JSON 路徑運算式通常會以 SQL 字元字串字面量的形式
         具名變數。其值可透過多個 JSON 處理函式的
         <em class="parameter"><code>vars</code></em> 參數設定；
         詳情請參閱<a class="xref" href="../functions/functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE">表 9.51</a>。
-        
       </td></tr><tr><td><code class="literal">@</code></td><td>代表篩選運算式中路徑求值結果的
       變數。
       </td></tr></tbody></table>

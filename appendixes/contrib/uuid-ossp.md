@@ -53,11 +53,9 @@
        </p>
 <p>
         例如：
-
 </p><pre class="programlisting">
 SELECT uuid_generate_v3(uuid_ns_url(), 'http://www.postgresql.org');
 </pre><p>
-
         名稱參數會經過 MD5 雜湊，因此無法從產生的 UUID 推導出明文。以此方法產生 UUID 不含任何隨機或與環境相關的成分，因此是可重現的。
        </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
 <code class="function">uuid_generate_v4</code> ()
