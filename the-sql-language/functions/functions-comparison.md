@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.8.2"></a>
 
-可用的是一般的比較運算子，如[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所示。
+可用的是一般的比較運算子，如[表 9.1](functions-comparison.md#functions-comparison-table) 所示。
 
 <a id="FUNCTIONS-COMPARISON-OP-TABLE"></a>
 
-**表 9.1. 比較運算子**
+### 表 9.1. 比較運算子 [#](#functions-comparison-table) <a href="#functions-comparison-table" id="functions-comparison-table"></a>
 
 <table border="1" class="table" summary="Comparison Operators"><colgroup><col/><col/></colgroup><thead><tr><th>運算子</th><th>說明</th></tr></thead><tbody><tr><td>
 <em class="replaceable"><code>datatype</code></em> <code class="literal">&lt;</code> <em class="replaceable"><code>datatype</code></em>

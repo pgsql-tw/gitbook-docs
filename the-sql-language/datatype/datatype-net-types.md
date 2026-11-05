@@ -14,11 +14,11 @@
 
 <a id="id-1.5.7.17.2"></a>
 
-PostgreSQL 提供了用來儲存 IPv4、IPv6 與 MAC 位址的資料型別，如[表 8.21](datatype-net-types.md#DATATYPE-NET-TYPES-TABLE) 所示。儲存網路位址時，使用這些型別會比使用單純的文字型別更好，因為這些型別提供了輸入的錯誤檢查，以及專門的運算子與函式（請參閱[第 9.12 節](../functions/functions-net.md)）。
+PostgreSQL 提供了用來儲存 IPv4、IPv6 與 MAC 位址的資料型別，如[表 8.21](datatype-net-types.md#datatype-net-types-table) 所示。儲存網路位址時，使用這些型別會比使用單純的文字型別更好，因為這些型別提供了輸入的錯誤檢查，以及專門的運算子與函式（請參閱[第 9.12 節](../functions/functions-net.md)）。
 
 <a id="DATATYPE-NET-TYPES-TABLE"></a>
 
-**表 8.21. 網路位址型別**
+### 表 8.21. 網路位址型別 [#](#datatype-net-types-table) <a href="#datatype-net-types-table" id="datatype-net-types-table"></a>
 
 <table border="1" class="table" summary="網路位址型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>儲存空間大小</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">cidr</code></td><td>7 或 19 個位元組</td><td>IPv4 與 IPv6 網路</td></tr><tr><td><code class="type">inet</code></td><td>7 或 19 個位元組</td><td>IPv4 與 IPv6 主機與網路</td></tr><tr><td><code class="type">macaddr</code></td><td>6 個位元組</td><td>MAC 位址</td></tr><tr><td><code class="type">macaddr8</code></td><td>8 個位元組</td><td>MAC 位址（EUI-64 格式）</td></tr></tbody></table>
 

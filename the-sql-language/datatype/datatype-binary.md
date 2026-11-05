@@ -8,11 +8,11 @@
 
 <a id="id-1.5.7.12.2"></a><a id="id-1.5.7.12.3"></a>
 
-`bytea` 資料型別可以用來儲存二進位字串；請參閱[表 8.6](datatype-binary.md#DATATYPE-BINARY-TABLE)。
+`bytea` 資料型別可以用來儲存二進位字串；請參閱[表 8.6](datatype-binary.md#datatype-binary-table)。
 
 <a id="DATATYPE-BINARY-TABLE"></a>
 
-**表 8.6. 二進位資料型別**
+### 表 8.6. 二進位資料型別 [#](#datatype-binary-table) <a href="#datatype-binary-table" id="datatype-binary-table"></a>
 
 <table border="1" class="table" summary="二進位資料型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>儲存空間大小</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">bytea</code></td><td>1 或 4 個位元組加上實際的二進位字串</td><td>可變長度的二進位字串</td></tr></tbody></table>
 

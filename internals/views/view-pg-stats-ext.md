@@ -10,7 +10,7 @@
 
 <a id="id-1.10.5.34.5"></a>
 
-**表 53.30. `pg_stats_ext` 欄位**
+### 表 53.30. `pg_stats_ext` 欄位 [#](#view-pg-stats-ext-columns) <a href="#view-pg-stats-ext-columns" id="view-pg-stats-ext-columns"></a>
 
 <table border="1" class="table" summary="表 53.30. pg_stats_ext 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

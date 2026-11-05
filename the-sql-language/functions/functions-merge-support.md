@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.29.2"></a>
 
-PostgreSQL 包含一個合併支援函式，可以在 [MERGE](../../reference/sql-commands/sql-merge.md) 命令的 `RETURNING` 清單中使用，用來識別對每一筆資料列所採取的動作；請參閱[表 9.68](functions-merge-support.md#FUNCTIONS-MERGE-SUPPORT-TABLE)。
+PostgreSQL 包含一個合併支援函式，可以在 [MERGE](../../reference/sql-commands/sql-merge.md) 命令的 `RETURNING` 清單中使用，用來識別對每一筆資料列所採取的動作；請參閱[表 9.68](functions-merge-support.md#functions-merge-support-table)。
 
 <a id="FUNCTIONS-MERGE-SUPPORT-TABLE"></a>
 
-**表 9.68. 合併支援函式**
+### 表 9.68. 合併支援函式 [#](#functions-merge-support-table) <a href="#functions-merge-support-table" id="functions-merge-support-table"></a>
 
 <table border="1" class="table" summary="Merge Support Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
        函式

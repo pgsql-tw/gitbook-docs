@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.23.2"></a>
 
-本節說明用於操作*序列物件*（sequence object）的函式；序列物件也稱為序列產生器，或簡稱序列。序列物件是以 [CREATE SEQUENCE](../../reference/sql-commands/sql-createsequence.md) 建立的特殊單列資料表。序列物件通常用來為資料表的資料列產生唯一識別碼。[表 9.55](functions-sequence.md#FUNCTIONS-SEQUENCE-TABLE) 所列的序列函式，提供了從序列物件取得連續序列值的簡單、多使用者安全的方法。
+本節說明用於操作*序列物件*（sequence object）的函式；序列物件也稱為序列產生器，或簡稱序列。序列物件是以 [CREATE SEQUENCE](../../reference/sql-commands/sql-createsequence.md) 建立的特殊單列資料表。序列物件通常用來為資料表的資料列產生唯一識別碼。[表 9.55](functions-sequence.md#functions-sequence-table) 所列的序列函式，提供了從序列物件取得連續序列值的簡單、多使用者安全的方法。
 
 <a id="FUNCTIONS-SEQUENCE-TABLE"></a>
 
-**表 9.55. 序列函式**
+### 表 9.55. 序列函式 [#](#functions-sequence-table) <a href="#functions-sequence-table" id="functions-sequence-table"></a>
 
 <table border="1" class="table" summary="Sequence Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

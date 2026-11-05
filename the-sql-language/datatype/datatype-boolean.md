@@ -4,11 +4,11 @@
 
 <a id="id-1.5.7.14.2"></a><a id="id-1.5.7.14.3"></a><a id="id-1.5.7.14.4"></a>
 
-PostgreSQL 提供標準 SQL 的 `boolean` 型別；請參閱[表 8.19](datatype-boolean.md#DATATYPE-BOOLEAN-TABLE)。`boolean` 型別可以有數種狀態：「true」、「false」，以及第三種狀態「unknown」，後者是以 SQL 的空值（null）來表示。
+PostgreSQL 提供標準 SQL 的 `boolean` 型別；請參閱[表 8.19](datatype-boolean.md#datatype-boolean-table)。`boolean` 型別可以有數種狀態：「true」、「false」，以及第三種狀態「unknown」，後者是以 SQL 的空值（null）來表示。
 
 <a id="DATATYPE-BOOLEAN-TABLE"></a>
 
-**表 8.19. 布林資料型別**
+### 表 8.19. 布林資料型別 [#](#datatype-boolean-table) <a href="#datatype-boolean-table" id="datatype-boolean-table"></a>
 
 <table border="1" class="table" summary="Boolean Data Type"><colgroup><col/><col/><col/></colgroup><thead><tr><th>名稱</th><th>儲存空間大小</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">boolean</code></td><td>1 個位元組</td><td>true 或 false 的狀態</td></tr></tbody></table>
 

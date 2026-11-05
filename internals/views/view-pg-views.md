@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.41.4"></a>
 
-**表 53.37. `pg_views` 欄位**
+### 表 53.37. `pg_views` 欄位 [#](#view-pg-views-columns) <a href="#view-pg-views-columns" id="view-pg-views-columns"></a>
 
 <table border="1" class="table" summary="表 53.37. pg_views 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

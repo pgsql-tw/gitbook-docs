@@ -120,7 +120,7 @@
 
 <br>
 
-除了這些特殊運算子之外，`tsvector` 與 `tsquery` 型別也可以使用[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。這些運算子對文字搜尋不是很有用，但它們讓你可以在這些型別的欄位上建立唯一索引等等。
+除了這些特殊運算子之外，`tsvector` 與 `tsquery` 型別也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。這些運算子對文字搜尋不是很有用，但它們讓你可以在這些型別的欄位上建立唯一索引等等。
 
 <a id="TEXTSEARCH-FUNCTIONS-TABLE"></a>
 

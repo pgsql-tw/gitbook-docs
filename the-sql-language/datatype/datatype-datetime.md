@@ -14,7 +14,7 @@
 <a id="id-1.5.7.13.2"></a><a id="id-1.5.7.13.3"></a><a id="id-1.5.7.13.4"></a><a id="id-1.5.7.13.5"></a><a id="id-1.5.7.13.6"></a><a id="id-1.5.7.13.7"></a><a id="id-1.5.7.13.8"></a><a id="id-1.5.7.13.9"></a><a id="id-1.5.7.13.10"></a><a id="id-1.5.7.13.11"></a>
 
 PostgreSQL 支援
-[表 8.9](datatype-datetime.md#DATATYPE-DATETIME-TABLE) 中所示的完整一組
+[表 8.9](datatype-datetime.md#datatype-datetime-table) 中所示的完整一組
 SQL 日期與時間型別。這些資料型別上可用的運算，
 說明於
 [9.9 節](../functions/functions-datetime.md)。
@@ -24,7 +24,7 @@ SQL 日期與時間型別。這些資料型別上可用的運算，
 
 <a id="DATATYPE-DATETIME-TABLE"></a>
 
-**表 8.9. 日期／時間型別**
+### 表 8.9. 日期／時間型別 [#](#datatype-datetime-table) <a href="#datatype-datetime-table" id="datatype-datetime-table"></a>
 
 <table border="1" class="table" summary="日期/時間型別"><colgroup><col/><col/><col/><col/><col/><col/></colgroup><thead><tr><th>名稱</th><th>儲存大小</th><th>說明</th><th>最小值</th><th>最大值</th><th>解析度</th></tr></thead><tbody><tr><td><code class="type">timestamp [ (<em class="replaceable"><code>p</code></em>) ] [ without time zone ]</code></td><td>8 位元組</td><td>日期與時間（無時區）</td><td>4713 BC</td><td>294276 AD</td><td>1 微秒</td></tr><tr><td><code class="type">timestamp [ (<em class="replaceable"><code>p</code></em>) ] with time zone</code></td><td>8 位元組</td><td>日期與時間，含時區</td><td>4713 BC</td><td>294276 AD</td><td>1 微秒</td></tr><tr><td><code class="type">date</code></td><td>4 位元組</td><td>日期（無時刻）</td><td>4713 BC</td><td>5874897 AD</td><td>1 天</td></tr><tr><td><code class="type">time [ (<em class="replaceable"><code>p</code></em>) ] [ without time zone ]</code></td><td>8 位元組</td><td>時刻（無日期）</td><td>00:00:00</td><td>24:00:00</td><td>1 微秒</td></tr><tr><td><code class="type">time [ (<em class="replaceable"><code>p</code></em>) ] with time zone</code></td><td>12 位元組</td><td>時刻（無日期），含時區</td><td>00:00:00+1559</td><td>24:00:00-1559</td><td>1 微秒</td></tr><tr><td><code class="type">interval [ <em class="replaceable"><code>fields</code></em> ] [ (<em class="replaceable"><code>p</code></em>) ]</code></td><td>16 位元組</td><td>時間區間</td><td>-178000000 年</td><td>178000000 年</td><td>1 微秒</td></tr></tbody></table>
 

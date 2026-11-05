@@ -6,13 +6,13 @@
 
 *Window 函式*（window function）提供了對與目前查詢資料列相關的資料列集合進行計算的能力。關於這項功能的介紹，請參閱[第 3.5 節](../../tutorial/tutorial-advanced/tutorial-window.md)；語法細節則請參閱[第 4.2.8 節](../sql-syntax/sql-expressions.md#syntax-window-functions)。
 
-內建的 window 函式列於[表 9.67](functions-window.md#FUNCTIONS-WINDOW-TABLE)。請注意，這些函式*必須*使用 window 函式語法呼叫，也就是必須有 `OVER` 子句。
+內建的 window 函式列於[表 9.67](functions-window.md#functions-window-table)。請注意，這些函式*必須*使用 window 函式語法呼叫，也就是必須有 `OVER` 子句。
 
 除了這些函式之外，任何內建或使用者定義的一般彙總函式（也就是非有序集合或假設集合彙總函式）都可以用作 window 函式；內建彙總函式的清單請參閱[第 9.21 節](functions-aggregate.md)。只有當呼叫後面接著 `OVER` 子句時，彙總函式才會作為 window 函式運作；否則它們會作為一般的彙總函式運作，並為整個集合回傳單一資料列。
 
 <a id="FUNCTIONS-WINDOW-TABLE"></a>
 
-**表 9.67. 通用 Window 函式**
+### 表 9.67. 通用 Window 函式 [#](#functions-window-table) <a href="#functions-window-table" id="functions-window-table"></a>
 
 <table border="1" class="table" summary="General-Purpose Window Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -104,7 +104,7 @@
 
 <br>
 
-[表 9.67](functions-window.md#FUNCTIONS-WINDOW-TABLE) 所列的所有函式，都取決於相關聯之 window 定義中 `ORDER BY` 子句所指定的排序順序。只考慮 `ORDER BY` 欄位時彼此沒有區別的資料列，稱為*同儕*（peer）。四個排名函式（包括 `cume_dist`）的定義，使它們對同一個同儕群組中的所有資料列都給出相同的答案。
+[表 9.67](functions-window.md#functions-window-table) 所列的所有函式，都取決於相關聯之 window 定義中 `ORDER BY` 子句所指定的排序順序。只考慮 `ORDER BY` 欄位時彼此沒有區別的資料列，稱為*同儕*（peer）。四個排名函式（包括 `cume_dist`）的定義，使它們對同一個同儕群組中的所有資料列都給出相同的答案。
 
 請注意，`first_value`、`last_value` 與 `nth_value` 只考慮「視窗框架」（window frame）內的資料列，而預設的視窗框架包含從分割區開頭到目前資料列之最後一個同儕為止的資料列。這很可能讓 `last_value`（有時也包括 `nth_value`）給出沒有幫助的結果。你可以在 `OVER` 子句中加上合適的框架規格（`RANGE`、`ROWS` 或 `GROUPS`）來重新定義框架。關於框架規格的更多資訊，請參閱[第 4.2.8 節](../sql-syntax/sql-expressions.md#syntax-window-functions)。
 

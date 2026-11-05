@@ -4,11 +4,11 @@
 
 文字搜尋剖析器負責將原始文件文字切分為*語彙單元*（token），並識別每個語彙單元的類型，而可能的類型集合是由剖析器本身定義的。請注意，剖析器完全不會修改文字，它只是找出可能的單字邊界。由於職責範圍有限，針對特定應用自訂剖析器的需求，比自訂字典的需求要少。目前 PostgreSQL 只提供一個內建剖析器，而它已被證明適用於各式各樣的應用。
 
-內建剖析器的名稱是 `pg_catalog.default`。它可以辨識 23 種語彙單元類型，如[表 12.1](textsearch-parsers.md#TEXTSEARCH-DEFAULT-PARSER) 所示。
+內建剖析器的名稱是 `pg_catalog.default`。它可以辨識 23 種語彙單元類型，如[表 12.1](textsearch-parsers.md#textsearch-parsers-table) 所示。
 
 <a id="TEXTSEARCH-DEFAULT-PARSER"></a>
 
-**表 12.1. 預設剖析器的語彙單元類型**
+### 表 12.1. 預設剖析器的語彙單元類型 [#](#textsearch-parsers-table) <a href="#textsearch-parsers-table" id="textsearch-parsers-table"></a>
 
 <table border="1" class="table" summary="Default Parser's Token Types"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>別名</th><th>說明</th><th>範例</th></tr></thead><tbody><tr><td><code class="literal">asciiword</code></td><td>單字，全為 ASCII 字母</td><td><code class="literal">elephant</code></td></tr><tr><td><code class="literal">word</code></td><td>單字，全為字母</td><td><code class="literal">mañana</code></td></tr><tr><td><code class="literal">numword</code></td><td>單字，包含字母與數字</td><td><code class="literal">beta1</code></td></tr><tr><td><code class="literal">asciihword</code></td><td>連字號複合詞，全為 ASCII</td><td><code class="literal">up-to-date</code></td></tr><tr><td><code class="literal">hword</code></td><td>連字號複合詞，全為字母</td><td><code class="literal">lógico-matemática</code></td></tr><tr><td><code class="literal">numhword</code></td><td>連字號複合詞，包含字母與數字</td><td><code class="literal">postgresql-beta1</code></td></tr><tr><td><code class="literal">hword_asciipart</code></td><td>連字號複合詞的組成部分，全為 ASCII</td><td><code class="literal">postgresql</code> 於 <code class="literal">postgresql-beta1</code> 中的情境</td></tr><tr><td><code class="literal">hword_part</code></td><td>連字號複合詞的組成部分，全為字母</td><td><code class="literal">lógico</code> 或 <code class="literal">matemática</code>
        於 <code class="literal">lógico-matemática</code> 中的情境</td></tr><tr><td><code class="literal">hword_numpart</code></td><td>連字號複合詞的組成部分，包含字母與數字</td><td><code class="literal">beta1</code> 於

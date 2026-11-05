@@ -128,7 +128,7 @@
 
 <br>
 
-除了上述運算子外，`cube` 型別也可使用[表 9.1](../../the-sql-language/functions/functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE)
+除了上述運算子外，`cube` 型別也可使用[表 9.1](../../the-sql-language/functions/functions-comparison.md#functions-comparison-table)
 所示的一般比較運算子。這些運算子會先比較第一個座標，若相等再比較第二個
 座標，依此類推。它們主要用於支援 `cube` 的 B-tree 索引運算子類別；例如，
 你想要在 `cube` 欄位上建立 UNIQUE 限制條件時可能有用。除此之外，此排序沒有

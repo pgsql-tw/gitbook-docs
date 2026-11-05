@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.14.2"></a>
 
-PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資料型別（日期／時間、整數、浮點數、numeric）轉換為格式化的字串，也可以將格式化的字串轉換為特定的資料型別。[表 9.26](functions-formatting.md#FUNCTIONS-FORMATTING-TABLE) 列出了這些函式。這些函式都遵循一個共同的呼叫慣例：第一個引數是要格式化的值，第二個引數是定義輸出或輸入格式的範本。
+PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資料型別（日期／時間、整數、浮點數、numeric）轉換為格式化的字串，也可以將格式化的字串轉換為特定的資料型別。[表 9.26](functions-formatting.md#functions-formatting-table) 列出了這些函式。這些函式都遵循一個共同的呼叫慣例：第一個引數是要格式化的值，第二個引數是定義輸出或輸入格式的範本。
 
 <a id="FUNCTIONS-FORMATTING-TABLE"></a>
 
-**表 9.26. 格式化函式**
+### 表 9.26. 格式化函式 [#](#functions-formatting-table) <a href="#functions-formatting-table" id="functions-formatting-table"></a>
 
 <table border="1" class="table" summary="Formatting Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

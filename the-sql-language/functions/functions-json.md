@@ -32,7 +32,7 @@ SQL/JSON 讓你能夠在交易支援之下，將 JSON 資料與一般的 SQL 資
 
 ### 9.16.1. 處理與建立 JSON 資料 [#](#functions-json-processing) <a href="#functions-json-processing" id="functions-json-processing"></a>
 
-[表 9.47](functions-json.md#FUNCTIONS-JSON-OP-TABLE) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../datatype/datatype-json.md)）。此外，[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子也可用於 `jsonb`，但不能用於 `json`。這些比較運算子遵循[第 8.14.4 節](../datatype/datatype-json.md#json-indexing)所述之 B-tree 操作的排序規則。另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `json_agg`（將記錄值彙總為 JSON）、彙總函式 `json_object_agg`（將成對的值彙總為 JSON 物件），以及它們對應的 `jsonb` 版本 `jsonb_agg` 與 `jsonb_object_agg`。
+[表 9.47](functions-json.md#FUNCTIONS-JSON-OP-TABLE) 列出了可用於 JSON 資料型別的運算子（請參閱[第 8.14 節](../datatype/datatype-json.md)）。此外，[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子也可用於 `jsonb`，但不能用於 `json`。這些比較運算子遵循[第 8.14.4 節](../datatype/datatype-json.md#json-indexing)所述之 B-tree 操作的排序規則。另請參閱[第 9.21 節](functions-aggregate.md)中的彙總函式 `json_agg`（將記錄值彙總為 JSON）、彙總函式 `json_object_agg`（將成對的值彙總為 JSON 物件），以及它們對應的 `jsonb` 版本 `jsonb_agg` 與 `jsonb_object_agg`。
 
 <a id="FUNCTIONS-JSON-OP-TABLE"></a>
 

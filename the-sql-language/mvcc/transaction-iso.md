@@ -27,11 +27,11 @@ serialization anomaly（序列化異常） <a id="id-1.5.12.5.4.1.4.1.1"></a>
 :   成功提交一組交易的結果，與逐一執行這些交易的所有可能順序都不一致。
 
 <a id="id-1.5.12.5.5.1"></a>
-SQL 標準與 PostgreSQL 所實作的交易隔離等級，說明於[表 13.1](transaction-iso.md#MVCC-ISOLEVEL-TABLE)。
+SQL 標準與 PostgreSQL 所實作的交易隔離等級，說明於[表 13.1](transaction-iso.md#transaction-iso-table)。
 
 <a id="MVCC-ISOLEVEL-TABLE"></a>
 
-**表 13.1. 交易隔離等級**
+### 表 13.1. 交易隔離等級 [#](#transaction-iso-table) <a href="#transaction-iso-table" id="transaction-iso-table"></a>
 
 <table border="1" class="table" summary="Transaction Isolation Levels"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>
          隔離等級
@@ -147,7 +147,7 @@ Read Committed 模式所提供的部分交易隔離，對許多應用程式來�
 
 <a id="id-1.5.12.5.12.2"></a><a id="id-1.5.12.5.12.3"></a>
 
-*Repeatable Read* 隔離等級只會看到在交易開始之前已提交的資料；它永遠不會看到未提交的資料，也不會看到並行交易在該交易執行期間所提交的變更。（不過，每個查詢確實會看到在它自己的交易中先前執行之更新的效果，即使這些更新尚未提交。）這是比 SQL 標準對這個隔離等級所要求的更強的保證，而且可以防止[表 13.1](transaction-iso.md#MVCC-ISOLEVEL-TABLE) 中所描述的所有現象，唯獨序列化異常除外。如前所述，這是標準明確允許的，因為標準只描述了每個隔離等級必須提供的*最低*保護。
+*Repeatable Read* 隔離等級只會看到在交易開始之前已提交的資料；它永遠不會看到未提交的資料，也不會看到並行交易在該交易執行期間所提交的變更。（不過，每個查詢確實會看到在它自己的交易中先前執行之更新的效果，即使這些更新尚未提交。）這是比 SQL 標準對這個隔離等級所要求的更強的保證，而且可以防止[表 13.1](transaction-iso.md#transaction-iso-table) 中所描述的所有現象，唯獨序列化異常除外。如前所述，這是標準明確允許的，因為標準只描述了每個隔離等級必須提供的*最低*保護。
 
 這個等級與 Read Committed 的不同之處在於，Repeatable Read 交易中的查詢所看到的快照，是*交易*中第一個非交易控制陳述式開始時的快照，而不是交易中目前這個陳述式開始時的快照。因此，*單一*交易中相繼的 `SELECT` 命令會看到相同的資料，也就是說，它們不會看到其他交易在自己的交易開始之後所提交的變更。
 

@@ -2,7 +2,7 @@
 
 ## 9.12. 網路位址函式與運算子 [#](#functions-net) <a href="#functions-net" id="functions-net"></a>
 
-IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子，以及[表 9.39](functions-net.md#CIDR-INET-OPERATORS-TABLE) 與[表 9.40](functions-net.md#CIDR-INET-FUNCTIONS-TABLE) 所列的特殊運算子與函式。
+IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.39](functions-net.md#CIDR-INET-OPERATORS-TABLE) 與[表 9.40](functions-net.md#CIDR-INET-FUNCTIONS-TABLE) 所列的特殊運算子與函式。
 
 任何 `cidr` 值都可以隱含地轉換為 `inet`；因此，下面所列作用在 `inet` 上的運算子與函式，也適用於 `cidr` 值。（對 `inet` 與 `cidr` 分別有不同函式的地方，是因為這兩種情況的行為應該有所不同。）此外，也允許將 `inet` 值轉換為 `cidr`。這麼做時，網路遮罩右邊的所有位元都會被默默地清為零，以建立有效的 `cidr` 值。
 
@@ -328,7 +328,7 @@ IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.m
 
 `abbrev`、`host` 與 `text` 函式的主要用途，是為 IP 位址提供其他的顯示格式。
 
-MAC 位址型別 `macaddr` 與 `macaddr8`，支援[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子，以及[表 9.41](functions-net.md#MACADDR-FUNCTIONS-TABLE) 所列的特殊函式。此外，就像上面 IP 位址所示範的一樣，它們也支援位元邏輯運算子 `~`、`&` 與 `|`（NOT、AND 與 OR）。
+MAC 位址型別 `macaddr` 與 `macaddr8`，支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.41](functions-net.md#MACADDR-FUNCTIONS-TABLE) 所列的特殊函式。此外，就像上面 IP 位址所示範的一樣，它們也支援位元邏輯運算子 `~`、`&` 與 `|`（NOT、AND 與 OR）。
 
 <a id="MACADDR-FUNCTIONS-TABLE"></a>
 

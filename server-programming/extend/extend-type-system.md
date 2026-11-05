@@ -68,7 +68,7 @@ SQL 命令 [CREATE DOMAIN](../../reference/sql-commands/sql-createdomain.md) 建
 有少數幾種特殊用途的「虛擬型別」。
 虛擬型別不能作為資料表的欄位，或容器型別的組成部分，但可以用來宣告函式的
 引數與結果型別。這在型別系統中提供了一種機制，用以識別特殊
-類別的函式。[表 8.27](../../the-sql-language/datatype/datatype-pseudo.md#DATATYPE-PSEUDOTYPES-TABLE) 列出了現有的
+類別的函式。[表 8.27](../../the-sql-language/datatype/datatype-pseudo.md#datatype-pseudo-table) 列出了現有的
 虛擬型別。
 
 <a id="EXTEND-TYPES-POLYMORPHIC"></a>

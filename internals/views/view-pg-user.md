@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.39.4"></a>
 
-**表 53.35. `pg_user` 欄位**
+### 表 53.35. `pg_user` 欄位 [#](#view-pg-user-columns) <a href="#view-pg-user-columns" id="view-pg-user-columns"></a>
 
 <table border="1" class="table" summary="表 53.35. pg_user 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

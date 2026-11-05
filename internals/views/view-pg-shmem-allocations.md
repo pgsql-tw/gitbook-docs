@@ -10,7 +10,7 @@
 
 <a id="id-1.10.5.31.5"></a>
 
-**表 53.27. `pg_shmem_allocations` 欄位**
+### 表 53.27. `pg_shmem_allocations` 欄位 [#](#view-pg-shmem-allocations-columns) <a href="#view-pg-shmem-allocations-columns" id="view-pg-shmem-allocations-columns"></a>
 
 <table border="1" class="table" summary="表 53.27. pg_shmem_allocations 欄位"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

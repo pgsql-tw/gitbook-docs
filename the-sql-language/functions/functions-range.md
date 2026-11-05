@@ -4,7 +4,7 @@
 
 範圍型別的概觀請參閱[第 8.17 節](../datatype/rangetypes.md)。
 
-[表 9.58](functions-range.md#RANGE-OPERATORS-TABLE) 列出了可用於範圍型別的特殊運算子。[表 9.59](functions-range.md#MULTIRANGE-OPERATORS-TABLE) 列出了可用於多重範圍型別的特殊運算子。除此之外，範圍與多重範圍型別也可以使用[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。比較運算子會先依範圍的下界排序，只有在下界相等時才比較上界。多重範圍運算子會逐一比較每個範圍，直到遇到不相等的範圍為止。這通常不會產生有用的整體排序，但提供這些運算子是為了能在範圍上建立唯一索引。
+[表 9.58](functions-range.md#RANGE-OPERATORS-TABLE) 列出了可用於範圍型別的特殊運算子。[表 9.59](functions-range.md#MULTIRANGE-OPERATORS-TABLE) 列出了可用於多重範圍型別的特殊運算子。除此之外，範圍與多重範圍型別也可以使用[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。比較運算子會先依範圍的下界排序，只有在下界相等時才比較上界。多重範圍運算子會逐一比較每個範圍，直到遇到不相等的範圍為止。這通常不會產生有用的整體排序，但提供這些運算子是為了能在範圍上建立唯一索引。
 
 <a id="RANGE-OPERATORS-TABLE"></a>
 

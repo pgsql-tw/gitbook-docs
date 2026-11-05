@@ -4,7 +4,7 @@
 
 <a id="id-1.5.8.12.2"></a>
 
-本節說明用於檢查與操作位元字串的函式與運算子，也就是 `bit` 與 `bit varying` 型別的值。（雖然這些表格中只提到 `bit` 型別，但 `bit varying` 型別的值也可以互換使用。）位元字串支援[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子，以及[表 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-TABLE) 所列的運算子。
+本節說明用於檢查與操作位元字串的函式與運算子，也就是 `bit` 與 `bit varying` 型別的值。（雖然這些表格中只提到 `bit` 型別，但 `bit varying` 型別的值也可以互換使用。）位元字串支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.14](functions-bitstring.md#FUNCTIONS-BIT-STRING-OP-TABLE) 所列的運算子。
 
 <a id="FUNCTIONS-BIT-STRING-OP-TABLE"></a>
 

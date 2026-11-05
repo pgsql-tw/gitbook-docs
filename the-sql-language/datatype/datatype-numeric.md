@@ -12,11 +12,11 @@
 
 <a id="id-1.5.7.9.2"></a>
 
-數值型別包含 2 個位元組、4 個位元組與 8 個位元組的整數，4 個位元組與 8 個位元組的浮點數，以及可選精度的十進位數。[表 8.2](datatype-numeric.md#DATATYPE-NUMERIC-TABLE) 列出了可用的型別。
+數值型別包含 2 個位元組、4 個位元組與 8 個位元組的整數，4 個位元組與 8 個位元組的浮點數，以及可選精度的十進位數。[表 8.2](datatype-numeric.md#datatype-numeric-table) 列出了可用的型別。
 
 <a id="DATATYPE-NUMERIC-TABLE"></a>
 
-**表 8.2. 數值型別**
+### 表 8.2. 數值型別 [#](#datatype-numeric-table) <a href="#datatype-numeric-table" id="datatype-numeric-table"></a>
 
 <table border="1" class="table" summary="數值型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>名稱</th><th>儲存空間大小</th><th>說明</th><th>範圍</th></tr></thead><tbody><tr><td><code class="type">smallint</code></td><td>2 個位元組</td><td>小範圍整數</td><td>-32768 至 +32767</td></tr><tr><td><code class="type">integer</code></td><td>4 個位元組</td><td>整數的典型選擇</td><td>-2147483648 至 +2147483647</td></tr><tr><td><code class="type">bigint</code></td><td>8 個位元組</td><td>大範圍整數</td><td>-9223372036854775808 至 +9223372036854775807</td></tr><tr><td><code class="type">decimal</code></td><td>可變動</td><td>使用者指定精度，精確</td><td>小數點前最多 131072 位數；小數點後最多 16383 位數</td></tr><tr><td><code class="type">numeric</code></td><td>可變動</td><td>使用者指定精度，精確</td><td>小數點前最多 131072 位數；小數點後最多 16383 位數</td></tr><tr><td><code class="type">real</code></td><td>4 個位元組</td><td>可變精度，不精確</td><td>6 位十進位數字的精度</td></tr><tr><td><code class="type">double precision</code></td><td>8 個位元組</td><td>可變精度，不精確</td><td>15 位十進位數字的精度</td></tr><tr><td><code class="type">smallserial</code></td><td>2 個位元組</td><td>小範圍自動遞增整數</td><td>1 至 32767</td></tr><tr><td><code class="type">serial</code></td><td>4 個位元組</td><td>自動遞增整數</td><td>1 至 2147483647</td></tr><tr><td><code class="type">bigserial</code></td><td>8 個位元組</td><td>大範圍自動遞增整數</td><td>1 至 9223372036854775807</td></tr></tbody></table>
 
@@ -71,7 +71,7 @@ NUMERIC
 
 ### 注意
 
-在 `numeric` 型別宣告中可以明確指定的最大精度為 1000。不受限的 `numeric` 欄位則受到[表 8.2](datatype-numeric.md#DATATYPE-NUMERIC-TABLE) 所述限制的規範。
+在 `numeric` 型別宣告中可以明確指定的最大精度為 1000。不受限的 `numeric` 欄位則受到[表 8.2](datatype-numeric.md#datatype-numeric-table) 所述限制的規範。
 
 如果要儲存的值其小數位數大於欄位所宣告的小數位數，系統會把該值四捨五入到指定的小數位數。接著，如果小數點左側的位數超過所宣告的精度減去所宣告的小數位數，就會引發錯誤。例如，宣告為
 

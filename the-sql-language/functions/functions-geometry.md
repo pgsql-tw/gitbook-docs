@@ -2,11 +2,11 @@
 
 ## 9.11. 幾何函式與運算子 [#](#functions-geometry) <a href="#functions-geometry" id="functions-geometry"></a>
 
-幾何型別 `point`、`box`、`lseg`、`line`、`path`、`polygon` 與 `circle`，擁有一大組原生支援的函式與運算子，列於[表 9.36](functions-geometry.md#FUNCTIONS-GEOMETRY-OP-TABLE)、[表 9.37](functions-geometry.md#FUNCTIONS-GEOMETRY-FUNC-TABLE) 與[表 9.38](functions-geometry.md#FUNCTIONS-GEOMETRY-CONV-TABLE)。
+幾何型別 `point`、`box`、`lseg`、`line`、`path`、`polygon` 與 `circle`，擁有一大組原生支援的函式與運算子，列於[表 9.36](functions-geometry.md#functions-geometry-table)、[表 9.37](functions-geometry.md#FUNCTIONS-GEOMETRY-FUNC-TABLE) 與[表 9.38](functions-geometry.md#FUNCTIONS-GEOMETRY-CONV-TABLE)。
 
 <a id="FUNCTIONS-GEOMETRY-OP-TABLE"></a>
 
-**表 9.36. 幾何運算子**
+### 表 9.36. 幾何運算子 [#](#functions-geometry-table) <a href="#functions-geometry-table" id="functions-geometry-table"></a>
 
 <table border="1" class="table" summary="Geometric Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子

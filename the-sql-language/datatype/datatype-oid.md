@@ -4,7 +4,7 @@
 
 <a id="id-1.5.7.27.2"></a><a id="id-1.5.7.27.3"></a><a id="id-1.5.7.27.4"></a><a id="id-1.5.7.27.5"></a><a id="id-1.5.7.27.6"></a><a id="id-1.5.7.27.7"></a><a id="id-1.5.7.27.8"></a><a id="id-1.5.7.27.9"></a><a id="id-1.5.7.27.10"></a><a id="id-1.5.7.27.11"></a><a id="id-1.5.7.27.12"></a><a id="id-1.5.7.27.13"></a><a id="id-1.5.7.27.14"></a><a id="id-1.5.7.27.15"></a><a id="id-1.5.7.27.16"></a><a id="id-1.5.7.27.17"></a><a id="id-1.5.7.27.18"></a>
 
-物件識別碼（OID）是 PostgreSQL 內部用來作為各種系統資料表主鍵的識別碼。型別 `oid` 代表一個物件識別碼。`oid` 還有數種別名型別，每一種都命名為 `regsomething` 的形式。[表 8.26](datatype-oid.md#DATATYPE-OID-TABLE) 列出了它們的概觀。
+物件識別碼（OID）是 PostgreSQL 內部用來作為各種系統資料表主鍵的識別碼。型別 `oid` 代表一個物件識別碼。`oid` 還有數種別名型別，每一種都命名為 `regsomething` 的形式。[表 8.26](datatype-oid.md#datatype-oid-table) 列出了它們的概觀。
 
 `oid` 型別目前是以無號的四位元組整數實作。因此，它不足以在大型資料庫中、甚至在單一的大型資料表中，提供整個資料庫範圍的唯一性。
 
@@ -29,7 +29,7 @@ SELECT * FROM pg_attribute
 
 <a id="DATATYPE-OID-TABLE"></a>
 
-**表 8.26. 物件識別碼型別**
+### 表 8.26. 物件識別碼型別 [#](#datatype-oid-table) <a href="#datatype-oid-table" id="datatype-oid-table"></a>
 
 <table border="1" class="table" summary="物件識別碼型別"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>名稱</th><th>參照</th><th>說明</th><th>值範例</th></tr></thead><tbody><tr><td><code class="type">oid</code></td><td>任意</td><td>數值物件識別碼</td><td><code class="literal">564182</code></td></tr><tr><td><code class="type">regclass</code></td><td><code class="structname">pg_class</code></td><td>關聯名稱</td><td><code class="literal">pg_type</code></td></tr><tr><td><code class="type">regcollation</code></td><td><code class="structname">pg_collation</code></td><td>定序名稱</td><td><code class="literal">"POSIX"</code></td></tr><tr><td><code class="type">regconfig</code></td><td><code class="structname">pg_ts_config</code></td><td>全文檢索設定</td><td><code class="literal">english</code></td></tr><tr><td><code class="type">regdictionary</code></td><td><code class="structname">pg_ts_dict</code></td><td>全文檢索字典</td><td><code class="literal">simple</code></td></tr><tr><td><code class="type">regnamespace</code></td><td><code class="structname">pg_namespace</code></td><td>命名空間名稱</td><td><code class="literal">pg_catalog</code></td></tr><tr><td><code class="type">regoper</code></td><td><code class="structname">pg_operator</code></td><td>運算子名稱</td><td><code class="literal">+</code></td></tr><tr><td><code class="type">regoperator</code></td><td><code class="structname">pg_operator</code></td><td>含引數型別的運算子</td><td><code class="literal">*(integer,​integer)</code>
          或 <code class="literal">-(NONE,​integer)</code></td></tr><tr><td><code class="type">regproc</code></td><td><code class="structname">pg_proc</code></td><td>函式名稱</td><td><code class="literal">sum</code></td></tr><tr><td><code class="type">regprocedure</code></td><td><code class="structname">pg_proc</code></td><td>含引數型別的函式</td><td><code class="literal">sum(int4)</code></td></tr><tr><td><code class="type">regrole</code></td><td><code class="structname">pg_authid</code></td><td>角色名稱</td><td><code class="literal">smithee</code></td></tr><tr><td><code class="type">regtype</code></td><td><code class="structname">pg_type</code></td><td>資料型別名稱</td><td><code class="literal">integer</code></td></tr></tbody></table>

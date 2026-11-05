@@ -4,7 +4,7 @@
 
 <a id="id-1.5.8.27.2"></a>
 
-*彙總函式*（aggregate function）會從一組輸入值計算出單一結果。內建的通用彙總函式列於[表 9.62](functions-aggregate.md#FUNCTIONS-AGGREGATE-TABLE)，統計用的彙總函式則列於[表 9.63](functions-aggregate.md#FUNCTIONS-AGGREGATE-STATISTICS-TABLE)。內建的組內有序集合彙總函式列於[表 9.64](functions-aggregate.md#FUNCTIONS-ORDEREDSET-TABLE)，而內建的組內假設集合彙總函式則列於[表 9.65](functions-aggregate.md#FUNCTIONS-HYPOTHETICAL-TABLE)。與彙總函式密切相關的分組操作，列於[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE)。彙總函式在語法上的特殊考量，說明於[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)。其他入門資訊請參閱[第 2.7 節](../../tutorial/tutorial-sql/tutorial-agg.md)。
+*彙總函式*（aggregate function）會從一組輸入值計算出單一結果。內建的通用彙總函式列於[表 9.62](functions-aggregate.md#functions-aggregate-table)，統計用的彙總函式則列於[表 9.63](functions-aggregate.md#FUNCTIONS-AGGREGATE-STATISTICS-TABLE)。內建的組內有序集合彙總函式列於[表 9.64](functions-aggregate.md#FUNCTIONS-ORDEREDSET-TABLE)，而內建的組內假設集合彙總函式則列於[表 9.65](functions-aggregate.md#FUNCTIONS-HYPOTHETICAL-TABLE)。與彙總函式密切相關的分組操作，列於[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE)。彙總函式在語法上的特殊考量，說明於[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)。其他入門資訊請參閱[第 2.7 節](../../tutorial/tutorial-sql/tutorial-agg.md)。
 
 支援*部分模式*（Partial Mode）的彙總函式，可以參與各種最佳化，例如平行彙總。
 
@@ -12,7 +12,7 @@
 
 <a id="FUNCTIONS-AGGREGATE-TABLE"></a>
 
-**表 9.62. 通用彙總函式**
+### 表 9.62. 通用彙總函式 [#](#functions-aggregate-table) <a href="#functions-aggregate-table" id="functions-aggregate-table"></a>
 
 <table border="1" class="table" summary="General-Purpose Aggregate Functions"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

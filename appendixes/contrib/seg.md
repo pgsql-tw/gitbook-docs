@@ -196,7 +196,7 @@ test=> select '6.25 .. 6.50'::seg as "pH";
 
 <br>
 
-除了上述運算子之外，[表 9.1](../../the-sql-language/functions/functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子也可用於型別
+除了上述運算子之外，[表 9.1](../../the-sql-language/functions/functions-comparison.md#functions-comparison-table) 所列的一般比較運算子也可用於型別
 `seg`。這些運算子會先比較 (a) 與 (c)，若兩者相等，再比較 (b) 與 (d)。在大多數情況下，這會產生相當合理的排序，若你想對此型別使用
 ORDER BY，這會很有用。
 

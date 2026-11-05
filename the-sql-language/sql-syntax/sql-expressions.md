@@ -419,7 +419,7 @@ PRECEDING` 則是允許的，即使它永遠不會選取任何資料列。
 
 如果指定了 `FILTER`，那麼只有 *`filter_clause`* 求值為真的輸入資料列才會傳給 window 函式；其他資料列則會被捨棄。只有屬於彙總函式的 window 函式才接受 `FILTER` 子句。
 
-內建的 window 函式說明請參閱[表 9.67](../functions/functions-window.md#FUNCTIONS-WINDOW-TABLE)。使用者也可以加入其他 window 函式。此外，任何內建或使用者自訂的通用或統計彙總函式，都可以作為 window 函式使用。（有序集合與假設集合彙總函式目前無法作為 window 函式使用。）
+內建的 window 函式說明請參閱[表 9.67](../functions/functions-window.md#functions-window-table)。使用者也可以加入其他 window 函式。此外，任何內建或使用者自訂的通用或統計彙總函式，都可以作為 window 函式使用。（有序集合與假設集合彙總函式目前無法作為 window 函式使用。）
 
 使用 `*` 的語法用於將無參數的彙總函式當作 window 函式呼叫，例如 `count(*) OVER (PARTITION BY x ORDER BY y)`。星號（`*`）通常不用於 window 專用函式。window 專用函式不允許在函式引數清單中使用 `DISTINCT` 或 `ORDER BY`。
 

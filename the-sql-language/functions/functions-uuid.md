@@ -4,11 +4,11 @@
 
 <a id="id-1.5.8.20.2"></a><a id="id-1.5.8.20.3"></a><a id="id-1.5.8.20.4"></a><a id="id-1.5.8.20.5"></a><a id="id-1.5.8.20.6"></a><a id="id-1.5.8.20.7"></a>
 
-[表 9.45](functions-uuid.md#FUNC_UUID_GEN_TABLE) 列出了可用來產生 UUID 的 PostgreSQL 函式。
+[表 9.45](functions-uuid.md#functions-uuid-table) 列出了可用來產生 UUID 的 PostgreSQL 函式。
 
 <a id="FUNC_UUID_GEN_TABLE"></a>
 
-**表 9.45. UUID 產生函式**
+### 表 9.45. UUID 產生函式 [#](#functions-uuid-table) <a href="#functions-uuid-table" id="functions-uuid-table"></a>
 
 <table border="1" class="table" summary="UUID Generation Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -99,7 +99,7 @@
 
 <br>
 
-PostgreSQL 也為 UUID 提供了[表 9.1](functions-comparison.md#FUNCTIONS-COMPARISON-OP-TABLE) 所列的一般比較運算子。
+PostgreSQL 也為 UUID 提供了[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子。
 
 關於 PostgreSQL 中 `uuid` 資料型別的細節，請參閱[第 8.12 節](../datatype/datatype-uuid.md)。
 

@@ -16,12 +16,12 @@
 [8.8.7. 圓形](datatype-geometric.md#datatype-circle)
 
 幾何資料型別用來表示二維空間
-物件。[表 8.20](datatype-geometric.md#DATATYPE-GEO-TABLE) 顯示了 PostgreSQL 中可用的幾何
+物件。[表 8.20](datatype-geometric.md#datatype-geometric-table) 顯示了 PostgreSQL 中可用的幾何
 型別。
 
 <a id="DATATYPE-GEO-TABLE"></a>
 
-**表 8.20. 幾何型別**
+### 表 8.20. 幾何型別 [#](#datatype-geometric-table) <a href="#datatype-geometric-table" id="datatype-geometric-table"></a>
 
 <table border="1" class="table" summary="Geometric Types"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>名稱</th><th>儲存大小</th><th>說明</th><th>表示法</th></tr></thead><tbody><tr><td><code class="type">point</code></td><td>16 位元組</td><td>平面上的點</td><td>(x,y)</td></tr><tr><td><code class="type">line</code></td><td>24 位元組</td><td>無限長直線</td><td>{A,B,C}</td></tr><tr><td><code class="type">lseg</code></td><td>32 位元組</td><td>有限長線段</td><td>[(x1,y1),(x2,y2)]</td></tr><tr><td><code class="type">box</code></td><td>32 位元組</td><td>矩形方框</td><td>(x1,y1),(x2,y2)</td></tr><tr><td><code class="type">path</code></td><td>16+16n 位元組</td><td>封閉路徑（類似多邊形）</td><td>((x1,y1),...)</td></tr><tr><td><code class="type">path</code></td><td>16+16n 位元組</td><td>開放路徑</td><td>[(x1,y1),...]</td></tr><tr><td><code class="type">polygon</code></td><td>40+16n 位元組</td><td>多邊形（類似封閉路徑）</td><td>((x1,y1),...)</td></tr><tr><td><code class="type">circle</code></td><td>24 位元組</td><td>圓形</td><td>&lt;(x,y),r&gt;（圓心與半徑）</td></tr></tbody></table>
 

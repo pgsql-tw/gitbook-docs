@@ -2,11 +2,11 @@
 
 ## 8.2. 貨幣型別 [#](#datatype-money) <a href="#datatype-money" id="datatype-money"></a>
 
-`money` 型別以固定的小數精度儲存貨幣金額；請參閱[表 8.3](datatype-money.md#DATATYPE-MONEY-TABLE)。小數精度由資料庫的 [lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY) 設定決定。表中所列的範圍假設有兩位小數。輸入時可接受多種格式，包括整數與浮點數常數，以及典型的貨幣格式，例如 `'$1,000.00'`。輸出通常採用後者的形式，但取決於語系。
+`money` 型別以固定的小數精度儲存貨幣金額；請參閱[表 8.3](datatype-money.md#datatype-money-table)。小數精度由資料庫的 [lc_monetary](../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-MONETARY) 設定決定。表中所列的範圍假設有兩位小數。輸入時可接受多種格式，包括整數與浮點數常數，以及典型的貨幣格式，例如 `'$1,000.00'`。輸出通常採用後者的形式，但取決於語系。
 
 <a id="DATATYPE-MONEY-TABLE"></a>
 
-**表 8.3. 貨幣型別**
+### 表 8.3. 貨幣型別 [#](#datatype-money-table) <a href="#datatype-money-table" id="datatype-money-table"></a>
 
 <table border="1" class="table" summary="貨幣型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>名稱</th><th>儲存空間大小</th><th>說明</th><th>範圍</th></tr></thead><tbody><tr><td><code class="type">money</code></td><td>8 個位元組</td><td>貨幣金額</td><td>-92233720368547758.08 至 +92233720368547758.07</td></tr></tbody></table>
 

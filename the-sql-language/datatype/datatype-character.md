@@ -3,13 +3,13 @@
 
 <a id="id-1.5.7.11.2"></a><a id="id-1.5.7.11.3"></a><a id="id-1.5.7.11.4"></a><a id="id-1.5.7.11.5"></a><a id="id-1.5.7.11.6"></a><a id="id-1.5.7.11.7"></a><a id="id-1.5.7.11.8"></a><a id="id-1.5.7.11.9"></a><a id="DATATYPE-CHARACTER-TABLE"></a>
 
-**表 8.4. 字元型別**
+### 表 8.4. 字元型別 [#](#datatype-character-table) <a href="#datatype-character-table" id="datatype-character-table"></a>
 
 <table border="1" class="table" summary="Character Types"><colgroup><col/><col/></colgroup><thead><tr><th>名稱</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">character varying(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">varchar(<em class="replaceable"><code>n</code></em>)</code></td><td>可變長度，有長度限制</td></tr><tr><td><code class="type">character(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">char(<em class="replaceable"><code>n</code></em>)</code>, <code class="type">bpchar(<em class="replaceable"><code>n</code></em>)</code></td><td>固定長度，以空白填補</td></tr><tr><td><code class="type">bpchar</code></td><td>可變長度且無上限，會修剪尾端空白</td></tr><tr><td><code class="type">text</code></td><td>可變長度且無上限</td></tr></tbody></table>
 
 <br>
 
-[表 8.4](datatype-character.md#DATATYPE-CHARACTER-TABLE) 顯示了 PostgreSQL 中可用的通用字元型別。
+[表 8.4](datatype-character.md#datatype-character-table) 顯示了 PostgreSQL 中可用的通用字元型別。
 
 SQL 定義了兩種主要的字元型別：`character varying(n)` 與 `character(n)`，其中 *`n`* 是一個正整數。這兩種型別都可以儲存長度最多達
 *`n`* 個字元（而非位元組）的字串。若試圖將更長的字串儲存到這些型別的欄位中，將會導致錯誤，除非超出長度的部分全部都是空白，此時字串會被截斷至最大長度。（這個有點奇特的例外情況是

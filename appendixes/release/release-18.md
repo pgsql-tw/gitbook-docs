@@ -23,7 +23,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   現在會保留最佳化器統計資訊。
 * 支援「跳躍掃描」（skip scan）查找，讓
   [多欄位 B-tree 索引](../../the-sql-language/indexes/indexes-multicolumn.md)能在更多情況下使用。
-* 新增 [`uuidv7()`](../../the-sql-language/functions/functions-uuid.md#FUNC_UUID_GEN_TABLE)
+* 新增 [`uuidv7()`](../../the-sql-language/functions/functions-uuid.md#functions-uuid-table)
   函式，用於產生依時間戳記排序的
   [UUID](../../the-sql-language/datatype/datatype-uuid.md)。
 * 虛擬
@@ -745,7 +745,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/bfc599206)
 
   這能進行更準確的比較，也就是說，某個字元可能有多個大寫或小寫的對應字元，或者大小寫轉換會改變字元數量。
-* 允許對陣列與複合型別使用 [`MIN()`](../../the-sql-language/functions/functions-aggregate.md#FUNCTIONS-AGGREGATE-TABLE)/[`MAX()`](../../the-sql-language/functions/functions-aggregate.md#FUNCTIONS-AGGREGATE-TABLE)
+* 允許對陣列與複合型別使用 [`MIN()`](../../the-sql-language/functions/functions-aggregate.md#functions-aggregate-table)/[`MAX()`](../../the-sql-language/functions/functions-aggregate.md#functions-aggregate-table)
   彙總函式 (Aleksander Alekseev,
   Marat Buharov)
   [§](https://postgr.es/c/a0f1fce80)
@@ -755,17 +755,17 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/6be39d77a)
 * 改進 `EXTRACT(QUARTER ...)` 對負值的輸出 (Tom Lane)
   [§](https://postgr.es/c/6be39d77a)
-* 為 [`to_number()`](../../the-sql-language/functions/functions-formatting.md#FUNCTIONS-FORMATTING-TABLE) 新增羅馬數字支援
+* 為 [`to_number()`](../../the-sql-language/functions/functions-formatting.md#functions-formatting-table) 新增羅馬數字支援
   (Hunaid Sohail)
   [§](https://postgr.es/c/172e6b3ad)
 
   可透過 `RN` 樣式使用此功能。
 * 新增 [`UUID`](../../the-sql-language/datatype/datatype-uuid.md)
-  第 7 版產生函式 [`uuidv7()`](../../the-sql-language/functions/functions-uuid.md#FUNC_UUID_GEN_TABLE)
+  第 7 版產生函式 [`uuidv7()`](../../the-sql-language/functions/functions-uuid.md#functions-uuid-table)
   (Andrey Borodin)
   [§](https://postgr.es/c/78c5e141e)
 
-  這種 `UUID` 值可以依時間排序。另新增函式別名 [`uuidv4()`](../../the-sql-language/functions/functions-uuid.md#FUNC_UUID_GEN_TABLE)，
+  這種 `UUID` 值可以依時間排序。另新增函式別名 [`uuidv4()`](../../the-sql-language/functions/functions-uuid.md#functions-uuid-table)，
   用於明確產生第 4 版 UUID。
 * 新增函式 [`crc32()`](../../the-sql-language/functions/functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)
   與 [`crc32c()`](../../the-sql-language/functions/functions-binarystring.md#FUNCTIONS-BINARYSTRING-OTHER)，

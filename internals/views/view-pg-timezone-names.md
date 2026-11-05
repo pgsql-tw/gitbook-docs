@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.38.4"></a>
 
-**表 53.34. `pg_timezone_names` 欄位**
+### 表 53.34. `pg_timezone_names` 欄位 [#](#view-pg-timezone-names-columns) <a href="#view-pg-timezone-names-columns" id="view-pg-timezone-names-columns"></a>
 
 <table border="1" class="table" summary="pg_timezone_names Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位型別

@@ -3,11 +3,11 @@
 ## 33.4. 伺服器端函式 [#](#lo-funcs) <a href="#lo-funcs" id="lo-funcs"></a>
 
 專為從 SQL 操作大型物件而設計的伺服器端函式，
-列於[表 33.1](lo-funcs.md#LO-FUNCS-TABLE)。
+列於[表 33.1](lo-funcs.md#lo-funcs-table)。
 
 <a id="LO-FUNCS-TABLE"></a>
 
-**表 33.1. 以 SQL 操作的大型物件函式**
+### 表 33.1. 以 SQL 操作的大型物件函式 [#](#lo-funcs-table) <a href="#lo-funcs-table" id="lo-funcs-table"></a>
 
 <table border="1" class="table" summary="SQL-Oriented Large Object Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

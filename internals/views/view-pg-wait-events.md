@@ -8,7 +8,7 @@
 
 <a id="id-1.10.5.42.4"></a>
 
-**表 53.38. `pg_wait_events` 欄位**
+### 表 53.38. `pg_wait_events` 欄位 [#](#view-pg-wait-events-columns) <a href="#view-pg-wait-events-columns" id="view-pg-wait-events-columns"></a>
 
 <table border="1" class="table" summary="pg_wait_events Columns"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry"><p class="column_definition">
        欄位類型

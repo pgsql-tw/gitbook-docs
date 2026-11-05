@@ -2,7 +2,7 @@
 
 ## 9.10. 列舉支援函式 [#](#functions-enum) <a href="#functions-enum" id="functions-enum"></a>
 
-對於列舉型別（說明於[第 8.7 節](../datatype/datatype-enum.md)），有幾個函式可以讓程式寫得更簡潔，而不必把列舉型別的特定值寫死在程式中。這些函式列於[表 9.35](functions-enum.md#FUNCTIONS-ENUM-TABLE)。範例假設有一個如下建立的列舉型別：
+對於列舉型別（說明於[第 8.7 節](../datatype/datatype-enum.md)），有幾個函式可以讓程式寫得更簡潔，而不必把列舉型別的特定值寫死在程式中。這些函式列於[表 9.35](functions-enum.md#functions-enum-table)。範例假設有一個如下建立的列舉型別：
 
 ```
 
@@ -11,7 +11,7 @@ CREATE TYPE rainbow AS ENUM ('red', 'orange', 'yellow', 'green', 'blue', 'purple
 
 <a id="FUNCTIONS-ENUM-TABLE"></a>
 
-**表 9.35. 列舉支援函式**
+### 表 9.35. 列舉支援函式 [#](#functions-enum-table) <a href="#functions-enum-table" id="functions-enum-table"></a>
 
 <table border="1" class="table" summary="Enum Support Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
