@@ -765,7 +765,7 @@ SELECT merge_db(1, 'dennis');
 
 例外處理常式經常需要識別發生的特定錯誤。在 PL/pgSQL 中有兩種方式可以取得目前例外的相關資訊：特殊變數，以及 `GET STACKED DIAGNOSTICS` 指令。
 
-在例外處理常式之內，特殊變數 `SQLSTATE` 含有對應於所拋出之例外的錯誤碼（可能的錯誤碼清單請參閱 [表 A.1](../../appendixes/errcodes-appendix/README.md#ERRCODES-TABLE)）。特殊變數 `SQLERRM` 則含有與該例外相關聯的錯誤訊息。這些變數在例外處理常式之外是未定義的。
+在例外處理常式之內，特殊變數 `SQLSTATE` 含有對應於所拋出之例外的錯誤碼（可能的錯誤碼清單請參閱 [表 A.1](../../appendixes/errcodes-appendix/README.md#errcodes-table)）。特殊變數 `SQLERRM` 則含有與該例外相關聯的錯誤訊息。這些變數在例外處理常式之外是未定義的。
 
 在例外處理常式之內，也可以使用 `GET STACKED DIAGNOSTICS` 指令取得目前例外的相關資訊，其形式為：
 

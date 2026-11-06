@@ -1,6 +1,6 @@
 <a id="DATATYPE"></a>
 
-## 第 8 章 資料型別
+## 第 8 章 資料型別 [#](#di-8-zhang-zi-liao-xing-bie) <a href="#di-8-zhang-zi-liao-xing-bie" id="di-8-zhang-zi-liao-xing-bie"></a>
 
 **目錄**
 
@@ -160,11 +160,11 @@
 
 PostgreSQL 為使用者提供了一組豐富的原生資料型別。使用者也可以使用 [CREATE TYPE](../../reference/sql-commands/sql-createtype.md) 指令將新的型別加入 PostgreSQL。
 
-[表 8.1](README.md#DATATYPE-TABLE) 列出所有內建的通用資料型別。「別名」欄位中所列的替代名稱，大多是 PostgreSQL 基於歷史因素在內部使用的名稱。此外，還有一些內部使用或已棄用的型別可以使用，但這裡並未列出。
+[表 8.1](README.md#datatype-table) 列出所有內建的通用資料型別。「別名」欄位中所列的替代名稱，大多是 PostgreSQL 基於歷史因素在內部使用的名稱。此外，還有一些內部使用或已棄用的型別可以使用，但這裡並未列出。
 
 <a id="DATATYPE-TABLE"></a>
 
-**表 8.1. 資料型別**
+### 表 8.1. 資料型別 [#](#datatype-table) <a href="#datatype-table" id="datatype-table"></a>
 
 <table border="1" class="table" summary="資料型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>名稱</th><th>別名</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">bigint</code></td><td><code class="type">int8</code></td><td>有號八位元組整數</td></tr><tr><td><code class="type">bigserial</code></td><td><code class="type">serial8</code></td><td>自動遞增的八位元組整數</td></tr><tr><td><code class="type">bit [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td> </td><td>固定長度的位元字串</td></tr><tr><td><code class="type">bit varying [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td><code class="type">varbit [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td>可變長度的位元字串</td></tr><tr><td><code class="type">boolean</code></td><td><code class="type">bool</code></td><td>邏輯布林值（true/false）</td></tr><tr><td><code class="type">box</code></td><td> </td><td>平面上的矩形</td></tr><tr><td><code class="type">bytea</code></td><td> </td><td>二進位資料（<span class="quote">「<span class="quote">位元組陣列</span>」</span>）</td></tr><tr><td><code class="type">character [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td><code class="type">char [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td>固定長度的字元字串</td></tr><tr><td><code class="type">character varying [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td><code class="type">varchar [ (<em class="replaceable"><code>n</code></em>) ]</code></td><td>可變長度的字元字串</td></tr><tr><td><code class="type">cidr</code></td><td> </td><td>IPv4 或 IPv6 網路位址</td></tr><tr><td><code class="type">circle</code></td><td> </td><td>平面上的圓</td></tr><tr><td><code class="type">date</code></td><td> </td><td>日曆日期（年、月、日）</td></tr><tr><td><code class="type">double precision</code></td><td><code class="type">float</code>, <code class="type">float8</code></td><td>倍精度浮點數（8 個位元組）</td></tr><tr><td><code class="type">inet</code></td><td> </td><td>IPv4 或 IPv6 主機位址</td></tr><tr><td><code class="type">integer</code></td><td><code class="type">int</code>, <code class="type">int4</code></td><td>有號四位元組整數</td></tr><tr><td><code class="type">interval [ <em class="replaceable"><code>fields</code></em> ] [ (<em class="replaceable"><code>p</code></em>) ]</code></td><td> </td><td>時間長度</td></tr><tr><td><code class="type">json</code></td><td> </td><td>文字形式的 JSON 資料</td></tr><tr><td><code class="type">jsonb</code></td><td> </td><td>二進位形式的 JSON 資料，已分解</td></tr><tr><td><code class="type">line</code></td><td> </td><td>平面上無限延伸的直線</td></tr><tr><td><code class="type">lseg</code></td><td> </td><td>平面上的線段</td></tr><tr><td><code class="type">macaddr</code></td><td> </td><td>MAC（Media Access Control）位址</td></tr><tr><td><code class="type">macaddr8</code></td><td> </td><td>MAC（Media Access Control）位址（EUI-64 格式）</td></tr><tr><td><code class="type">money</code></td><td> </td><td>貨幣金額</td></tr><tr><td><code class="type">numeric [ (<em class="replaceable"><code>p</code></em>,
          <em class="replaceable"><code>s</code></em>) ]</code></td><td><code class="type">decimal [ (<em class="replaceable"><code>p</code></em>,

@@ -168,7 +168,7 @@ CREATE FUNCTION try_adding_joe() RETURNS text AS $$
 $$ LANGUAGE plpython3u;
 ```
 
-實際被拋出之例外的類別，對應到造成該錯誤的特定條件。可能的條件清單請參閱[表 A.1](../../appendixes/errcodes-appendix/README.md#ERRCODES-TABLE)。模組 `plpy.spiexceptions` 為每一個 PostgreSQL 條件定義了一個例外類別，其名稱衍生自條件名稱。例如，`division_by_zero` 會變成 `DivisionByZero`、`unique_violation` 變成 `UniqueViolation`、`fdw_error` 變成 `FdwError`，依此類推。這些例外類別每一個都繼承自 `SPIError`。這樣的區分使得處理特定錯誤更為容易，例如：
+實際被拋出之例外的類別，對應到造成該錯誤的特定條件。可能的條件清單請參閱[表 A.1](../../appendixes/errcodes-appendix/README.md#errcodes-table)。模組 `plpy.spiexceptions` 為每一個 PostgreSQL 條件定義了一個例外類別，其名稱衍生自條件名稱。例如，`division_by_zero` 會變成 `DivisionByZero`、`unique_violation` 變成 `UniqueViolation`、`fdw_error` 變成 `FdwError`，依此類推。這些例外類別每一個都繼承自 `SPIError`。這樣的區分使得處理特定錯誤更為容易，例如：
 
 ```
 

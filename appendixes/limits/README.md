@@ -1,12 +1,12 @@
 <a id="LIMITS"></a>
 
-## 附錄 K. PostgreSQL 限制
+## 附錄 K. PostgreSQL 限制 [#](#fu-lu-k.-postgresql-xian-zhi) <a href="#fu-lu-k.-postgresql-xian-zhi" id="fu-lu-k.-postgresql-xian-zhi"></a>
 
-[表 K.1](README.md#LIMITS-TABLE) 說明 PostgreSQL 的各種硬性限制。不過，在達到絕對的硬性限制之前，可能就會先遇到實務上的限制，例如效能限制或可用磁碟空間。
+[表 K.1](README.md#limits-table) 說明 PostgreSQL 的各種硬性限制。不過，在達到絕對的硬性限制之前，可能就會先遇到實務上的限制，例如效能限制或可用磁碟空間。
 
 <a id="LIMITS-TABLE"></a>
 
-**表 K.1. PostgreSQL 限制**
+### 表 K.1. PostgreSQL 限制 [#](#limits-table) <a href="#limits-table" id="limits-table"></a>
 
 <table border="1" class="table" summary="PostgreSQL 限制"><colgroup><col/><col/><col/></colgroup><thead><tr><th>項目</th><th>上限</th><th>備註</th></tr></thead><tbody><tr><td>資料庫大小</td><td>無限制</td><td> </td></tr><tr><td>資料庫數量</td><td>4,294,950,911</td><td> </td></tr><tr><td>每個資料庫的關聯數</td><td>1,431,650,303</td><td> </td></tr><tr><td>關聯大小</td><td>32 TB</td><td><code class="symbol">BLCKSZ</code> 為預設值 8192 位元組時</td></tr><tr><td>每個資料表的資料列數</td><td>受限於 4,294,967,295 個頁面所能容納的元組數</td><td> </td></tr><tr><td>每個資料表的欄位數</td><td>1,600</td><td>還會進一步受限於元組大小必須能放入單一頁面；請參閱下方說明</td></tr><tr><td>結果集的欄位數</td><td>1,664</td><td> </td></tr><tr><td>欄位大小</td><td>1 GB</td><td> </td></tr><tr><td>每個資料表的索引數</td><td>無限制</td><td>受每個資料庫的最大關聯數限制</td></tr><tr><td>每個索引的欄位數</td><td>32</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>分割鍵數</td><td>32</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>識別字長度</td><td>63 位元組</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>函式參數數</td><td>100</td><td>可藉由重新編譯 <span class="productname">PostgreSQL</span> 提高</td></tr><tr><td>查詢參數數</td><td>65,535</td><td> </td></tr></tbody></table>
 
