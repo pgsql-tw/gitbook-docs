@@ -16,7 +16,7 @@
 - [66.5. 初始化分支檔案](storage-init.md)
 
 - [66.6. 資料庫頁面配置](storage-page-layout.md)
-  - [66.6.1. 資料表資料列配置](storage-page-layout.md#storage-tuple-layout)
+  - [66.6.1. 資料表資料列配置](storage-page-layout/storage-tuple-layout.md#storage-tuple-layout)
 
 - [66.7. 僅存於堆積的資料列（HOT）](storage-hot.md)
 
