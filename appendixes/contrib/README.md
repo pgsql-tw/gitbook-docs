@@ -332,7 +332,7 @@
 - [F.35. pg_trgm — 支援以三元組比對文字相似度](pgtrgm.md)
   - [F.35.1. 三元組（或三字圖）概念](pgtrgm.md#pgtrgm-concepts)
 
-  - [F.35.2. 函式與運算子](pgtrgm.md#pgtrgm-funcs-ops)
+  - [F.35.2. 函式與運算子](pgtrgm/pgtrgm-funcs-ops.md#pgtrgm-funcs-ops)
 
   - [F.35.3. GUC 參數](pgtrgm.md#pgtrgm-guc)
 

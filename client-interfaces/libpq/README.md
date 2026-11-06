@@ -75,9 +75,9 @@
 
   - [32.19.2. 用戶端憑證](libpq-ssl.md#libpq-ssl-clientcert)
 
-  - [32.19.3. 不同模式所提供的保護](libpq-ssl.md#libpq-ssl-protection)
+  - [32.19.3. 不同模式所提供的保護](libpq-ssl/libpq-ssl-protection.md#libpq-ssl-protection)
 
-  - [32.19.4. SSL 用戶端檔案用途](libpq-ssl.md#libpq-ssl-fileusage)
+  - [32.19.4. SSL 用戶端檔案用途](libpq-ssl/libpq-ssl-fileusage.md#libpq-ssl-fileusage)
 
   - [32.19.5. SSL 函式庫初始化](libpq-ssl.md#libpq-ssl-initialize)
 
