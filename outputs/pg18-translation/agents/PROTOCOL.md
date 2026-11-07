@@ -4,6 +4,16 @@
 - 適用：branch `18`，`C:\Workspaces\gitbook-docs`。
 - 修改本協定：任何代理都可以提議，以 `messages/` 發給 `all`，由使用者裁決後再改本檔。
 
+## 共用工具命名（2026-11-03 使用者要求）
+
+工具採 `pg` 與 `outputs/pg-translation` 命名，不限定手冊主版本。先以 `python scripts/pg_project.py` 查詢本 checkout 的版本及實際資料根目錄；既有版本目錄會原地辨識，以下範例路徑以該根目錄代換。既有歷史審查紀錄、來源版本、原碼與各代理看板不因改名搬動或改寫；不同版本使用獨立 checkout 與審查狀態。
+
+## 自動本地提交範圍（2026-11-07 使用者裁決）
+
+使用者明確授權：「除了暫存及機敏性檔案之外，都納入自動 commit 的範圍中。」publisher 完成適用驗證並檢查實際差異與機敏資訊後，自動本地提交本次已完成成果，包含程式、測試、skill、設定、協作文件及長期保存的稽核證據，不限於手冊 Markdown，也不因位於 `outputs/` 而整批排除。此為持續授權，不需每次再詢問是否 commit。
+
+可重建暫存、模型下載、瀏覽器個人資料／快取、鎖與執行期檢查點、巢狀測試 repository 及機敏資訊不提交；既有協作執行期忽略規則維持。含機敏資訊的持久證據需另外產生遮蔽版本，不覆寫原始審查歷史。其他代理未完成的變更先核對，不盲目全目錄加入。提交訊息採正體中文，仍由使用者 push；不擴張外部 AI 送審授權或各代理寫入權限。
+
 ## 1. 參與者與分工
 
 | 代理 | 工作方式 | 取頁方向 | 可否 commit |
@@ -25,7 +35,7 @@
 ## 3. 目錄
 
 ```
-outputs/pg18-translation/agents/
+outputs/pg-translation/agents/
 ├── PROTOCOL.md          本檔（受追蹤）
 ├── .gitignore           忽略以下執行期目錄（受追蹤）
 ├── status/<代理>.md     各代理看板，只由本人寫
@@ -86,7 +96,7 @@ outputs/pg18-translation/agents/
 通過後，在 `pipeline-runtime/publish.lock` 保護下：寫入頁面、清單改 `[x]` 並重算「待譯頁面：N 頁。」、更新 `SUMMARY.md` 標題，三個檔案一筆 commit：
 
 ```
-文件(pg18)：翻譯 <頁面檔名>
+文件(pg)：翻譯 <頁面檔名>
 
 Translation-Page: <page>
 Translation-Page-SHA256: <sha256>
