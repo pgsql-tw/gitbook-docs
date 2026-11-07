@@ -34,6 +34,7 @@
 
 經度／緯度表示法的一項缺點是，必須留意接近極點與經度 +/- 180 度時的邊界
 條件。以 `cube` 為基礎的表示法可避免這些不連續性。
+
 [返回 F.14. earthdistance — 計算大圓距離](../earthdistance.md#earthdistance)
 
 ---

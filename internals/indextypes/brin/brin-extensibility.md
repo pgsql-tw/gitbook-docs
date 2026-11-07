@@ -108,6 +108,7 @@ minmax-multi 運算子類別同樣適用於實作全序集合的資料型別，�
 <br>
 
 minmax 與 inclusion 運算子類別都支援跨資料型別的運算子，不過如此一來相依關係會變得更複雜。minmax 運算子類別要求定義一整組兩個引數資料型別相同的運算子。它允許藉由定義額外幾組運算子來支援其他資料型別。inclusion 運算子類別的運算子策略相依於另一個運算子策略（如[表 65.6](#brin-extensibility-inclusion-table) 所示），或相依於與自身相同的運算子策略。它們要求相依的運算子以 `STORAGE` 資料型別作為左側引數，並以另一個受支援的資料型別作為受支援運算子的右側引數。minmax 的範例請參閱 `float4_minmax_ops`，inclusion 的範例請參閱 `box_inclusion_ops`。
+
 [返回 65.5. BRIN 索引](../brin.md#brin)
 
 ---
