@@ -265,7 +265,7 @@ PostgreSQL 可以在建立索引時利用多個 CPU，以更快處理資料表�
 
 PostgreSQL 先前的版本也有 R-tree 索引方法。此方法已被移除，因為它相較於 GiST 方法沒有顯著的優勢。若指定了 `USING rtree`，`CREATE INDEX` 會將它解讀為 `USING gist`，以簡化舊資料庫轉換到 GiST 的過程。
 
-每個執行 `CREATE INDEX` 的後端都會在 `pg_stat_progress_create_index` 檢視表中回報其進度。詳情請參閱[第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#create-index-progress-reporting)。
+每個執行 `CREATE INDEX` 的後端都會在 `pg_stat_progress_create_index` 檢視表中回報其進度。詳情請參閱[第 27.4.4 節](../../server-administration/monitoring/progress-reporting/create-index-progress-reporting.md#create-index-progress-reporting)。
 
 <a id="id-1.9.3.69.8"></a>
 
@@ -363,7 +363,7 @@ CREATE INDEX CONCURRENTLY sales_quantity_index ON sales_table (quantity);
 
 ## 另請參閱
 
-[ALTER INDEX](sql-alterindex.md), [DROP INDEX](sql-dropindex.md), [REINDEX](sql-reindex.md), [第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#create-index-progress-reporting)
+[ALTER INDEX](sql-alterindex.md), [DROP INDEX](sql-dropindex.md), [REINDEX](sql-reindex.md), [第 27.4.4 節](../../server-administration/monitoring/progress-reporting/create-index-progress-reporting.md#create-index-progress-reporting)
 
 ---
 

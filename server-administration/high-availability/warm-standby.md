@@ -343,7 +343,7 @@ WAL 接收程序的程序狀態中，可以使用
 網路延遲，或是待命伺服器的負載很重。
 
 在熱備援伺服器上，可以透過
-[`pg_stat_wal_receiver`](../monitoring/monitoring-stats.md#monitoring-pg-stat-wal-receiver-view) 檢視表取得 WAL 接收程序的狀態。
+[`pg_stat_wal_receiver`](../monitoring/monitoring-stats/monitoring-pg-stat-wal-receiver-view.md#monitoring-pg-stat-wal-receiver-view) 檢視表取得 WAL 接收程序的狀態。
 `pg_last_wal_replay_lsn` 與該
 檢視表的 `flushed_lsn` 之間的差異很大時，表示接收 WAL
 的速度比重放它的速度還快。

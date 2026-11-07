@@ -181,7 +181,7 @@ PostgreSQL（其標準行為即是如此）維持向後相容性
 :   使用 *`integer`* 個背景工作程序，
     以平行方式執行 `VACUUM` 的索引清理與索引清潔
     階段（關於各個清理階段的細節，請參閱
-    [表 27.46](../../server-administration/monitoring/progress-reporting.md#VACUUM-PHASES)）。
+    [表 27.46](../../server-administration/monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-phases)）。
     用來執行此操作的工作程序數量，等於該關聯上支援平行清理
     的索引數量，並受限於（若有指定）`PARALLEL`
     選項所指定的工作程序數，而該數量又進一步受限於
@@ -318,9 +318,9 @@ PostgreSQL 提供了「autovacuum」設施，
 檢視表中回報其進度。執行 `VACUUM FULL`
 的後端程序，則會改在 `pg_stat_progress_cluster`
 檢視表中回報進度。詳情請參閱
-[第 27.4.5 節](../../server-administration/monitoring/progress-reporting.md#vacuum-progress-reporting)
+[第 27.4.5 節](../../server-administration/monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)
 與
-[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#cluster-progress-reporting)。
+[第 27.4.2 節](../../server-administration/monitoring/progress-reporting/cluster-progress-reporting.md#cluster-progress-reporting)。
 
 <a id="id-1.9.3.184.9"></a>
 
@@ -354,7 +354,7 @@ VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] [ ANALYZE ] [ table_and_columns [, ...] ]
 
 ## 參見
 
-[vacuumdb](../reference-client/app-vacuumdb.md)、[第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)、[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)、[第 27.4.5 節](../../server-administration/monitoring/progress-reporting.md#vacuum-progress-reporting)、[第 27.4.2 節](../../server-administration/monitoring/progress-reporting.md#cluster-progress-reporting)
+[vacuumdb](../reference-client/app-vacuumdb.md)、[第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost)、[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)、[第 27.4.5 節](../../server-administration/monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)、[第 27.4.2 節](../../server-administration/monitoring/progress-reporting/cluster-progress-reporting.md#cluster-progress-reporting)
 
 ---
 

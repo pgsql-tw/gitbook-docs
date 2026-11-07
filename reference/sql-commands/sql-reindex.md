@@ -230,7 +230,7 @@ CONCURRENTLY` 則不行。
 
 每個執行 `REINDEX` 的後端都會在
 `pg_stat_progress_create_index` 檢視表中回報其進度。詳情請參閱
-[第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#create-index-progress-reporting)。
+[第 27.4.4 節](../../server-administration/monitoring/progress-reporting/create-index-progress-reporting.md#create-index-progress-reporting)。
 
 <a id="id-1.9.3.163.8"></a>
 
@@ -278,7 +278,7 @@ SQL 標準中並沒有 `REINDEX` 指令。
 
 ## 另請參閱
 
-[CREATE INDEX](sql-createindex.md), [DROP INDEX](sql-dropindex.md), [reindexdb](../reference-client/app-reindexdb.md), [第 27.4.4 節](../../server-administration/monitoring/progress-reporting.md#create-index-progress-reporting)
+[CREATE INDEX](sql-createindex.md), [DROP INDEX](sql-dropindex.md), [reindexdb](../reference-client/app-reindexdb.md), [第 27.4.4 節](../../server-administration/monitoring/progress-reporting/create-index-progress-reporting.md#create-index-progress-reporting)
 
 ---
 

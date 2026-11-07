@@ -35,7 +35,7 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
 * 若待命伺服器在備份期間被提升為主要伺服器，備份會失敗。
 * 備份所需的所有 WAL 紀錄都必須包含足夠的全頁寫入（full-page write），這需要你在主要伺服器上啟用 `full_page_writes`。
 
-每當 pg_basebackup 正在製作基礎備份時，伺服器的 `pg_stat_progress_basebackup` 檢視表會回報備份的進度。詳細資訊請參閱[第 27.4.6 節](../../server-administration/monitoring/progress-reporting.md#basebackup-progress-reporting)。
+每當 pg_basebackup 正在製作基礎備份時，伺服器的 `pg_stat_progress_basebackup` 檢視表會回報備份的進度。詳細資訊請參閱[第 27.4.6 節](../../server-administration/monitoring/progress-reporting/basebackup-progress-reporting.md#basebackup-progress-reporting)。
 
 <a id="id-1.9.4.10.6"></a>
 
@@ -219,7 +219,7 @@ stream` 一起使用。它使 WAL 串流使用指定的複寫插槽。若基礎�
 
 停用檢查碼驗證（若製作基礎備份的來源伺服器有啟用檢查碼）。
 
-預設情況下會驗證檢查碼，而檢查碼驗證失敗會導致非零的結束狀態。不過，在這種情況下基礎備份不會被移除，如同使用了 `--no-clean` 選項一樣。檢查碼驗證失敗也會回報在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW) 檢視表中。
+預設情況下會驗證檢查碼，而檢查碼驗證失敗會導致非零的結束狀態。不過，在這種情況下基礎備份不會被移除，如同使用了 `--no-clean` 選項一樣。檢查碼驗證失敗也會回報在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-database-view.md#monitoring-pg-stat-database-view) 檢視表中。
 
 下列命令列選項控制與來源伺服器的連線：
 
@@ -328,7 +328,7 @@ $ pg_basebackup -D backup -Ft --compress=gzip:9
 
 ## 另請參閱
 
-[pg_dump](app-pgdump.md), [第 27.4.6 節](../../server-administration/monitoring/progress-reporting.md#basebackup-progress-reporting)
+[pg_dump](app-pgdump.md), [第 27.4.6 節](../../server-administration/monitoring/progress-reporting/basebackup-progress-reporting.md#basebackup-progress-reporting)
 
 ---
 

@@ -9,53 +9,53 @@
 - [27.2. 累積統計資訊系統](monitoring-stats.md)
   - [27.2.1. 統計資訊收集設定](monitoring-stats.md#monitoring-stats-setup)
 
-  - [27.2.2. 檢視統計資訊](monitoring-stats.md#monitoring-stats-views)
+  - [27.2.2. 檢視統計資訊](monitoring-stats/monitoring-stats-views.md#monitoring-stats-views)
 
   - [27.2.3. `pg_stat_activity`](monitoring-stats.md#monitoring-pg-stat-activity-view)
 
   - [27.2.4. `pg_stat_replication`](monitoring-stats.md#monitoring-pg-stat-replication-view)
 
-  - [27.2.5. `pg_stat_replication_slots`](monitoring-stats.md#monitoring-pg-stat-replication-slots-view)
+  - [27.2.5. `pg_stat_replication_slots`](monitoring-stats/monitoring-pg-stat-replication-slots-view.md#monitoring-pg-stat-replication-slots-view)
 
-  - [27.2.6. `pg_stat_wal_receiver`](monitoring-stats.md#monitoring-pg-stat-wal-receiver-view)
+  - [27.2.6. `pg_stat_wal_receiver`](monitoring-stats/monitoring-pg-stat-wal-receiver-view.md#monitoring-pg-stat-wal-receiver-view)
 
-  - [27.2.7. `pg_stat_recovery_prefetch`](monitoring-stats.md#monitoring-pg-stat-recovery-prefetch)
+  - [27.2.7. `pg_stat_recovery_prefetch`](monitoring-stats/monitoring-pg-stat-recovery-prefetch.md#monitoring-pg-stat-recovery-prefetch)
 
-  - [27.2.8. `pg_stat_subscription`](monitoring-stats.md#monitoring-pg-stat-subscription)
+  - [27.2.8. `pg_stat_subscription`](monitoring-stats/monitoring-pg-stat-subscription.md#monitoring-pg-stat-subscription)
 
-  - [27.2.9. `pg_stat_subscription_stats`](monitoring-stats.md#monitoring-pg-stat-subscription-stats)
+  - [27.2.9. `pg_stat_subscription_stats`](monitoring-stats/monitoring-pg-stat-subscription-stats.md#monitoring-pg-stat-subscription-stats)
 
-  - [27.2.10. `pg_stat_ssl`](monitoring-stats.md#monitoring-pg-stat-ssl-view)
+  - [27.2.10. `pg_stat_ssl`](monitoring-stats/monitoring-pg-stat-ssl-view.md#monitoring-pg-stat-ssl-view)
 
-  - [27.2.11. `pg_stat_gssapi`](monitoring-stats.md#monitoring-pg-stat-gssapi-view)
+  - [27.2.11. `pg_stat_gssapi`](monitoring-stats/monitoring-pg-stat-gssapi-view.md#monitoring-pg-stat-gssapi-view)
 
-  - [27.2.12. `pg_stat_archiver`](monitoring-stats.md#monitoring-pg-stat-archiver-view)
+  - [27.2.12. `pg_stat_archiver`](monitoring-stats/monitoring-pg-stat-archiver-view.md#monitoring-pg-stat-archiver-view)
 
   - [27.2.13. `pg_stat_io`](monitoring-stats.md#monitoring-pg-stat-io-view)
 
-  - [27.2.14. `pg_stat_bgwriter`](monitoring-stats.md#monitoring-pg-stat-bgwriter-view)
+  - [27.2.14. `pg_stat_bgwriter`](monitoring-stats/monitoring-pg-stat-bgwriter-view.md#monitoring-pg-stat-bgwriter-view)
 
-  - [27.2.15. `pg_stat_checkpointer`](monitoring-stats.md#monitoring-pg-stat-checkpointer-view)
+  - [27.2.15. `pg_stat_checkpointer`](monitoring-stats/monitoring-pg-stat-checkpointer-view.md#monitoring-pg-stat-checkpointer-view)
 
-  - [27.2.16. `pg_stat_wal`](monitoring-stats.md#monitoring-pg-stat-wal-view)
+  - [27.2.16. `pg_stat_wal`](monitoring-stats/monitoring-pg-stat-wal-view.md#monitoring-pg-stat-wal-view)
 
-  - [27.2.17. `pg_stat_database`](monitoring-stats.md#monitoring-pg-stat-database-view)
+  - [27.2.17. `pg_stat_database`](monitoring-stats/monitoring-pg-stat-database-view.md#monitoring-pg-stat-database-view)
 
-  - [27.2.18. `pg_stat_database_conflicts`](monitoring-stats.md#monitoring-pg-stat-database-conflicts-view)
+  - [27.2.18. `pg_stat_database_conflicts`](monitoring-stats/monitoring-pg-stat-database-conflicts-view.md#monitoring-pg-stat-database-conflicts-view)
 
-  - [27.2.19. `pg_stat_all_tables`](monitoring-stats.md#monitoring-pg-stat-all-tables-view)
+  - [27.2.19. `pg_stat_all_tables`](monitoring-stats/monitoring-pg-stat-all-tables-view.md#monitoring-pg-stat-all-tables-view)
 
   - [27.2.20. `pg_stat_all_indexes`](monitoring-stats.md#monitoring-pg-stat-all-indexes-view)
 
-  - [27.2.21. `pg_statio_all_tables`](monitoring-stats.md#monitoring-pg-statio-all-tables-view)
+  - [27.2.21. `pg_statio_all_tables`](monitoring-stats/monitoring-pg-statio-all-tables-view.md#monitoring-pg-statio-all-tables-view)
 
-  - [27.2.22. `pg_statio_all_indexes`](monitoring-stats.md#monitoring-pg-statio-all-indexes-view)
+  - [27.2.22. `pg_statio_all_indexes`](monitoring-stats/monitoring-pg-statio-all-indexes-view.md#monitoring-pg-statio-all-indexes-view)
 
-  - [27.2.23. `pg_statio_all_sequences`](monitoring-stats.md#monitoring-pg-statio-all-sequences-view)
+  - [27.2.23. `pg_statio_all_sequences`](monitoring-stats/monitoring-pg-statio-all-sequences-view.md#monitoring-pg-statio-all-sequences-view)
 
-  - [27.2.24. `pg_stat_user_functions`](monitoring-stats.md#monitoring-pg-stat-user-functions-view)
+  - [27.2.24. `pg_stat_user_functions`](monitoring-stats/monitoring-pg-stat-user-functions-view.md#monitoring-pg-stat-user-functions-view)
 
-  - [27.2.25. `pg_stat_slru`](monitoring-stats.md#monitoring-pg-stat-slru-view)
+  - [27.2.25. `pg_stat_slru`](monitoring-stats/monitoring-pg-stat-slru-view.md#monitoring-pg-stat-slru-view)
 
   - [27.2.26. 統計資訊函式](monitoring-stats.md#monitoring-stats-functions)
 
@@ -64,15 +64,15 @@
 - [27.4. 進度回報](progress-reporting.md)
   - [27.4.1. ANALYZE 進度回報](progress-reporting.md#analyze-progress-reporting)
 
-  - [27.4.2. CLUSTER 進度回報](progress-reporting.md#cluster-progress-reporting)
+  - [27.4.2. CLUSTER 進度回報](progress-reporting/cluster-progress-reporting.md#cluster-progress-reporting)
 
-  - [27.4.3. COPY 進度回報](progress-reporting.md#copy-progress-reporting)
+  - [27.4.3. COPY 進度回報](progress-reporting/copy-progress-reporting.md#copy-progress-reporting)
 
-  - [27.4.4. CREATE INDEX 進度回報](progress-reporting.md#create-index-progress-reporting)
+  - [27.4.4. CREATE INDEX 進度回報](progress-reporting/create-index-progress-reporting.md#create-index-progress-reporting)
 
-  - [27.4.5. VACUUM 進度回報](progress-reporting.md#vacuum-progress-reporting)
+  - [27.4.5. VACUUM 進度回報](progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)
 
-  - [27.4.6. 基礎備份進度回報](progress-reporting.md#basebackup-progress-reporting)
+  - [27.4.6. 基礎備份進度回報](progress-reporting/basebackup-progress-reporting.md#basebackup-progress-reporting)
 
 - [27.5. 動態追蹤](dynamic-trace.md)
   - [27.5.1. 為動態追蹤編譯](dynamic-trace.md#compiling-for-trace)

@@ -53,7 +53,7 @@
     你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具
     來測量你的系統上計時功能的額外負擔。以成本為基礎的 vacuum 延遲
     計時資訊會顯示在
-    [`pg_stat_progress_vacuum`](../monitoring/progress-reporting.md#vacuum-progress-reporting)、
+    [`pg_stat_progress_vacuum`](../monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)、
     [`pg_stat_progress_analyze`](../monitoring/progress-reporting.md#analyze-progress-reporting)、
     在使用 `VERBOSE` 選項時 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與
     [ANALYZE](../../reference/sql-commands/sql-analyze.md) 的輸出中，
@@ -70,7 +70,7 @@
     你可以使用 [pg_test_timing](../../reference/reference-server/pgtesttiming.md) 工具
     來測量你的系統上計時功能的額外負擔。
     I/O 計時資訊會顯示在
-    [`pg_stat_database`](../monitoring/monitoring-stats.md#monitoring-pg-stat-database-view)、
+    [`pg_stat_database`](../monitoring/monitoring-stats/monitoring-pg-stat-database-view.md#monitoring-pg-stat-database-view)、
     [`pg_stat_io`](../monitoring/monitoring-stats.md#monitoring-pg-stat-io-view)（若 `object`
     不是 `wal`）、在使用
     [`pg_stat_get_backend_io()`](../monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 函式的輸出中（若

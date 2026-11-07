@@ -143,7 +143,7 @@ WAL 區段檔案。重新啟動點的執行頻率，
 不能高於主要伺服器上檢查點的頻率，因為重新啟動點
 只能在檢查點紀錄處執行。重新啟動點可以依排程執行，
 也可以依外部請求執行。
-[`pg_stat_checkpointer`](../monitoring/monitoring-stats.md#monitoring-pg-stat-checkpointer-view)
+[`pg_stat_checkpointer`](../monitoring/monitoring-stats/monitoring-pg-stat-checkpointer-view.md#monitoring-pg-stat-checkpointer-view)
 檢視表中的 `restartpoints_timed` 計數器，
 會計算前者的次數，而 `restartpoints_req`
 則會計算後者的次數。
@@ -161,7 +161,7 @@ WAL 區段檔案。重新啟動點的執行頻率，
 超出的量最多可達一個檢查點週期所產生的 WAL 量。
 （無論如何，`max_wal_size` 從來就不是硬性限制，
 因此您應該始終保留充裕的餘裕，以避免磁碟空間耗盡。）
-[`pg_stat_checkpointer`](../monitoring/monitoring-stats.md#monitoring-pg-stat-checkpointer-view)
+[`pg_stat_checkpointer`](../monitoring/monitoring-stats/monitoring-pg-stat-checkpointer-view.md#monitoring-pg-stat-checkpointer-view)
 檢視表中的 `restartpoints_done` 計數器，
 會計算實際真正執行過的重新啟動點次數。
 

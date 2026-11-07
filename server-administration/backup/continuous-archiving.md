@@ -177,7 +177,7 @@ PostgreSQL 就會假設該檔案已成功
 `ERROR` 或 `FATAL` 時，歸檔程序
 會中止，並由 postmaster 重新啟動。在這類情況下，此失敗
 不會回報於
-[pg_stat_archiver](../monitoring/monitoring-stats.md#PG-STAT-ARCHIVER-VIEW)中。
+[pg_stat_archiver](../monitoring/monitoring-stats/monitoring-pg-stat-archiver-view.md#pg-stat-archiver-view)中。
 
 歸檔指令與函式庫在設計上，通常應拒絕覆寫
 任何既有的歸檔檔案。這是一項重要的安全特性，

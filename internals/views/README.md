@@ -85,7 +85,7 @@
 資訊綱要（[第 35 章](../../client-interfaces/information-schema/README.md)）提供了另一組檢視表，其功能與系統檢視表有所重疊。由於資訊綱要屬於 SQL 標準，而此處描述的檢視表是 PostgreSQL 特有的，因此如果資訊綱要能提供你所需的全部資訊，通常最好使用資訊綱要。
 
 [表 53.1](views-overview.md#views-overview-table) 列出此處描述的系統檢視表。後文接著提供每個檢視表更詳細的說明。另外還有一些提供累積統計資訊存取的檢視表，它們描述於
-[表 27.2](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-VIEWS-TABLE)。
+[表 27.2](../../server-administration/monitoring/monitoring-stats/monitoring-stats-views.md#monitoring-stats-views-table)。
 
 ---
 

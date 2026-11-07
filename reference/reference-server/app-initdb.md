@@ -89,7 +89,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 
 在資料頁面上使用校驗和，以協助偵測 I/O 系統造成、否則不會被察覺的損毀。此功能預設為啟用；使用 [`--no-data-checksums`](app-initdb.md#APP-INITDB-NO-DATA-CHECKSUMS) 可停用校驗和。
 
-啟用校驗和可能會帶來些微的效能損失。若有設定，所有資料庫中的所有物件都會計算校驗和。所有校驗和失敗都會在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-PG-STAT-DATABASE-VIEW) 檢視表中回報。詳細資訊請參閱[第 28.2 節](../../server-administration/wal/checksums.md)。
+啟用校驗和可能會帶來些微的效能損失。若有設定，所有資料庫中的所有物件都會計算校驗和。所有校驗和失敗都會在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-database-view.md#monitoring-pg-stat-database-view) 檢視表中回報。詳細資訊請參閱[第 28.2 節](../../server-administration/wal/checksums.md)。
 <a id="APP-INITDB-OPTION-LOCALE"></a>
 
 `--locale=locale` [#](#APP-INITDB-OPTION-LOCALE)

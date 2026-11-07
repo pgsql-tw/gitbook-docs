@@ -301,7 +301,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   具體來說，它會回報 [`SELECT
   ... NOWAIT`](../../reference/sql-commands/sql-select.md#SQL-FOR-UPDATE-SHARE) 的鎖定失敗。
-* 修改 [`pg_stat_all_tables`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-all-tables-view)
+* 修改 [`pg_stat_all_tables`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-all-tables-view.md#monitoring-pg-stat-all-tables-view)
   及其變體，以回報花費在 [VACUUM](../../reference/sql-commands/sql-vacuum.md)、[ANALYZE](../../reference/sql-commands/sql-analyze.md) 及其
   [自動](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)版本上的時間 (Sami Imseih)
   [§](https://postgr.es/c/30a6ed0ce)
@@ -314,7 +314,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/bb8dff999)
   [§](https://postgr.es/c/7720082ae)
 
-  此資訊會出現在伺服器日誌、系統檢視表 [`pg_stat_progress_vacuum`](../../server-administration/monitoring/progress-reporting.md#vacuum-progress-reporting)
+  此資訊會出現在伺服器日誌、系統檢視表 [`pg_stat_progress_vacuum`](../../server-administration/monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)
   與 [`pg_stat_progress_analyze`](../../server-administration/monitoring/progress-reporting.md#PG-STAT-PROGRESS-ANALYZE-VIEW)，
   以及 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與 [ANALYZE](../../reference/sql-commands/sql-analyze.md) 在 `VERBOSE`
   模式下的輸出中；必須以伺服器變數 [track_cost_delay_timing](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-TRACK-COST-DELAY-TIMING) 啟用追蹤。
@@ -350,7 +350,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   這包括 WAL 接收程序的活動，以及這類寫入的等待事件。
 * 變更伺服器變數 [track_wal_io_timing](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-TRACK-WAL-IO-TIMING)，
-  改為控制在 `pg_stat_io` 中追蹤 WAL 時間，而不是在 [`pg_stat_wal`](../../server-administration/monitoring/monitoring-stats.md#PG-STAT-WAL-VIEW) 中
+  改為控制在 `pg_stat_io` 中追蹤 WAL 時間，而不是在 [`pg_stat_wal`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-wal-view.md#pg-stat-wal-view) 中
   (Bertrand Drouvot)
   [§](https://postgr.es/c/6c349d83b)
 * 從 `pg_stat_wal` 移除讀取／同步相關欄位
@@ -372,7 +372,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   專門用於列出 [`PGDATA`](../../internals/storage/storage-file-layout.md)/[`pg_wal/summaries`](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-SUMMARY-KEEP-TIME) 的內容
   (Yushi Ogiwara)
   [§](https://postgr.es/c/4e1fad378)
-* 新增欄位 [`pg_stat_checkpointer`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-checkpointer-view).`num_done`，
+* 新增欄位 [`pg_stat_checkpointer`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-checkpointer-view.md#monitoring-pg-stat-checkpointer-view).`num_done`，
   用於回報已完成的檢查點數量 (Anton A. Melnikov)
   [§](https://postgr.es/c/559efce1d)
 
@@ -384,7 +384,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/17cc5f666)
 
   此外，也修改檢查點的伺服器日誌訊息，分別回報共享緩衝區與 SLRU 緩衝區的值。
-* 在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-database-view) 中新增欄位，
+* 在 [`pg_stat_database`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-database-view.md#monitoring-pg-stat-database-view) 中新增欄位，
   用於回報平行工作程序的活動 (Benoit Lobréau)
   [§](https://postgr.es/c/e7a9496de)
 
@@ -520,7 +520,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/6c2b5edec)
   [§](https://postgr.es/c/73eba5004)
 
-  同時也在 [`pg_stat_subscription_stats`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-subscription-stats) 的新欄位中回報。
+  同時也在 [`pg_stat_subscription_stats`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-subscription-stats.md#monitoring-pg-stat-subscription-stats) 的新欄位中回報。
 
 <a id="RELEASE-18-UTILITY"></a>
 
