@@ -2,7 +2,7 @@
 /scripts/__pycache__/
 /outputs/pg*-translation/pipeline-runtime/
 
-# 可重建暫存與隔離瀏覽器個人資料；持久報告、截圖及清單仍納入提交範圍。
+# 可重建暫存與隔離瀏覽器個人資料；稽核證據另依下方本地保存規則排除。
 /.claude_tmp/
 **/chrome-isolated-*/
 **/cdp-isolated-*/
@@ -20,3 +20,17 @@ __pycache__/
 /outputs/pg-tools-hardening/clean-base/
 /outputs/pg-tools-hardening/rename-diagnostic
 /outputs/**/*.tmp
+
+# 2026-11-07 後續裁決：歷次及後續稽核／驗收證據僅在本地保存。
+/outputs/pg*-translation/final-audit/
+/outputs/pg*-translation/review-fixes/
+/outputs/pg*-translation/skill-drafts/
+/outputs/local-review-feasibility/
+/outputs/local-review-screening/
+/outputs/pg-maintenance*/
+/outputs/pg-refactor-*/
+/outputs/pg-skill-update-*/
+/outputs/pg-tools-hardening/
+/outputs/pg-commit-policy/
+/outputs/zh-lint/
+/Claude outputs/

@@ -1,0 +1,12 @@
+# 稽核證據與交接快照逐位元組保存，避免換行轉換破壞歷史 SHA。
+/outputs/pg*-translation/final-audit/** -text
+/outputs/pg*-translation/review-fixes/** -text
+/outputs/pg*-translation/skill-drafts/** -text
+/outputs/pg-maintenance*/** -text
+/outputs/pg-tools-hardening/** -text
+/outputs/pg-commit-policy/** -text
+/outputs/pg-refactor-*/** -text
+/outputs/pg-skill-update-*/** -text
+/outputs/local-review*/** -text
+/outputs/zh-lint/** -text
+"Claude outputs/**" -text
