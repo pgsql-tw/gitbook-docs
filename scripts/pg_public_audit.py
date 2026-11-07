@@ -9,7 +9,6 @@ import re
 from urllib.parse import unquote, urlsplit
 
 from markdown_it import MarkdownIt
-from pg_link_rewrite import protected_ranges
 from pg_maintenance import atomic_json, digest, read_json
 
 
@@ -32,25 +31,37 @@ def paragraphs(values, ignore_last_updated=False):
 
 def authored_links(text):
     """Count parsed reference uses/autolinks and HTML hrefs, excluding examples."""
-    masked = list(text)
-    for a, b in protected_ranges(text):
-        masked[a:b] = ['\n' if c == '\n' else ' ' for c in text[a:b]]
-    source = ''.join(masked)
     result = []
-    def visit(tokens):
-        for token in tokens:
-            if token.type == 'link_open':
-                result.append(token.attrGet('href'))
-            if token.children:
-                visit(token.children)
-    visit(MarkdownIt('commonmark', {'html': True}).parse(source))
     class Links(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.protected = []
+
         def handle_starttag(self, tag, attrs):
-            if tag.lower() == 'a':
+            tag = tag.lower()
+            if tag in {'pre', 'code', 'script', 'style', 'textarea'}:
+                self.protected.append(tag)
+            if tag == 'a' and not self.protected:
                 attrs = dict(attrs)
                 if 'href' in attrs:
                     result.append(attrs['href'])
-    Links().feed(source)
+
+        def handle_endtag(self, tag):
+            if self.protected and tag.lower() == self.protected[-1]:
+                self.protected.pop()
+
+    html = Links()
+    def visit(tokens):
+        for token in tokens:
+            if token.type == 'link_open' and not html.protected:
+                result.append(token.attrGet('href'))
+            if token.type in {'html_inline', 'html_block'}:
+                html.feed(token.content)
+            if token.children:
+                visit(token.children)
+    # Parse the original structure. Replacing an initial inline-code span with
+    # spaces can manufacture an indented code block and hide following links.
+    visit(MarkdownIt('commonmark', {'html': True}).parse(text))
     return result
 
 

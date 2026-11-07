@@ -84,6 +84,19 @@ export function validateBundle(bundle) {
       if (test.travel.kind) checkTarget(test.travel);
     }
     if (test.navTargets) { if (test.navTargets.length !== 2) throw Error('Two sidebar paths required'); test.navTargets.forEach(checkPath); }
+    if (test.sectionRanges) {
+      if (!Array.isArray(test.sectionRanges)) throw Error('Section ranges must be an array');
+      const sections = new Set();
+      for (const section of test.sectionRanges) {
+        if (typeof section.name !== 'string' || !section.name || sections.has(section.name) ||
+            typeof section.start !== 'string' || !section.start ||
+            (!!section.end === !!section.endParagraphPrefix) ||
+            (section.end && typeof section.end !== 'string') ||
+            (section.endParagraphPrefix && typeof section.endParagraphPrefix !== 'string'))
+          throw Error('Specify unique section names, start IDs and exactly one end boundary');
+        sections.add(section.name);
+      }
+    }
   }
   return bundle;
 }

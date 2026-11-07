@@ -5,6 +5,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { atomicJson, validateBundle, clickTarget } from './pg_public_probe_helpers.mjs';
+import { sectionSnapshots } from './pg_public_sections.mjs';
 
 const args = process.argv.slice(2);
 function argument(name) { const i = args.indexOf(name); if (i < 0 || !args[i + 1]) throw Error(`Missing ${name}`); return args[i + 1]; }
@@ -75,6 +76,7 @@ try {
     await cmd('Page.navigate', { url });
     await delay(bundle.settleMs ?? 6500);
     const state = await evaluate(`(${snapshot.toString()})(${JSON.stringify(test)})`);
+    if (test.sectionRanges) state.sections = await evaluate(`(${sectionSnapshots.toString()})(${JSON.stringify(test.sectionRanges)})`);
     if (test.inventoryAnchors) state.anchorInventory = await evaluate(`(${outline.toString()})(${JSON.stringify(test.inventoryAnchors)})`);
     state.batchJumps = [];
     const targets = test.batchTargets ?? (test.batchAnchors ?? []).map(anchor => ({ anchor, kind: test.allowHeadingLink ? 'any' : 'body' }));

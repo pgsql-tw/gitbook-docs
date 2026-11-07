@@ -22,6 +22,12 @@ test('bundle rejects mixed versions, path traversal and duplicate cases', () => 
   assert.throws(() => validateBundle(b), /duplicate/);
   const bad = structuredClone(bundleBase); bad.cases[0].narrow = 'false';
   assert.throws(() => validateBundle(bad), /boolean/);
+  for (const sectionRanges of [{}, [{ name: 'a', start: 'a' }],
+    [{ name: 'a', start: 'a', end: 'b', endParagraphPrefix: 'Footer' }],
+    [{ name: 'a', start: 'a', end: 'b' }, { name: 'a', start: 'b', end: 'c' }]]) {
+    const b = structuredClone(bundleBase); b.cases[0].sectionRanges = sectionRanges;
+    assert.throws(() => validateBundle(b), /[Ss]ection/);
+  }
 });
 
 test('atomic progress JSON is always complete while it changes', async () => {
@@ -77,6 +83,11 @@ test('real Chrome selects heading, body, table and compatibility links on major 
     </main>`;
   const server = http.createServer((request, response) => {
     response.setHeader('Content-Type', 'text/html; charset=utf-8');
+    if (request.url.startsWith('/19/ranges')) {
+      response.end('<main><p>Repeated</p><h2 id="first">First</h2><p>Repeated</p>' +
+        '<pre>  original\n</pre><table><tr><td>cell</td></tr></table><ul><li>parent<ul><li>child</li></ul></li></ul>' +
+        '<h2 id="second">Second</h2><p>Repeated</p><p>Footer: source</p></main>'); return;
+    }
     response.end(request.url.startsWith('/19/child') ? '<main><h2 id="dest">Child</h2><p>本文</p></main>' : start);
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
@@ -91,6 +102,11 @@ test('real Chrome selects heading, body, table and compatibility links on major 
       for (const kind of ['body', 'table', 'compatibility']) cases.push({ name: kind + suffix, path: '/19/start', narrow,
         expected: { allCodeTexts: ['  SELECT 19;\n'], tableRows: [['表內引用']] },
         travel: { path: '/19/child', anchor: 'dest', kind, ...(kind === 'compatibility' ? { paragraphPrefix: '完整內容請見' } : {}) } });
+      cases.push({ name: 'ranges' + suffix, path: '/19/ranges', narrow, sectionRanges: [
+        { name: 'first', start: 'first', end: 'second' },
+        { name: 'second', start: 'second', endParagraphPrefix: 'Footer:' },
+        { name: 'missing', start: 'first', end: 'absent' },
+        { name: 'reversed', start: 'second', end: 'first' }] });
     }
     const bundle = { origin, major: 19, source_commit: 'local-fixture', chromePath, settleMs: 250, clickSettleMs: 100, travelSettleMs: 250, cases };
     const config = path.join(work, 'bundle.json'), out = path.join(work, 'browser');
@@ -98,9 +114,18 @@ test('real Chrome selects heading, body, table and compatibility links on major 
     const result = await run(['--bundle', config, '--out', out, '--all']);
     assert.equal(result.code, 0, result.stderr);
     const records = JSON.parse(await fs.readFile(path.join(out, 'browser-checks.json'), 'utf8'));
-    assert.equal(records.status, 'complete'); assert.equal(records.results.length, 8);
+    assert.equal(records.status, 'complete'); assert.equal(records.results.length, 10);
     for (const record of records.results) {
       const name = record.screenshot;
+      if (name.startsWith('ranges')) {
+        const [first, second, missing, reversed] = record.sections;
+        assert.equal(first.valid, true); assert.equal(second.valid, true);
+        assert.deepEqual(first.indices.rootParagraphs, [1]); assert.deepEqual(second.indices.rootParagraphs, [2]);
+        assert.deepEqual(first.fields.allCodeTexts, ['  original\n']); assert.deepEqual(second.fields.allCodeTexts, []);
+        assert.deepEqual(first.fields.tableRows, [['cell']]); assert.equal(first.fields.listBlocks.length, 2);
+        assert.deepEqual(first.fields.listBlocks.map(l => l.depth), [1, 2]);
+        assert.equal(missing.valid, false); assert.equal(reversed.valid, false); continue;
+      }
       if (name.startsWith('heading')) { assert.equal(record.batchJumps[0].inHeading, true); assert.equal(record.batchJumps[0].clicked, true); }
       else { assert.equal(record.travel.clicked, true); assert.equal(record.travel.inHeading, false); assert.equal(record.travelArrival.count, 1); }
       if (name.startsWith('table')) assert.equal(record.travel.inTable, true);

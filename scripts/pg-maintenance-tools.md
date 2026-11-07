@@ -69,6 +69,8 @@ python scripts/pg_public_audit.py --bundle outputs/pg-audit/bundle.json --result
 
 `expected` 支援 `allCodeTexts`、`tableRows`、`listBlocks`、`headingIds`、`rootParagraphs`、`outsideCodeParagraphs`、`link_counts`。正文比較只合併空白並忽略空段；只有明確設定 `ignore_last_updated: true` 才排除已知時間格式，不任意丟棄其他文字。碼框按完整內容及順序比較，不合併其空白。驗收報告列出每案宣告的內容欄位，沒有宣告的檢查不代表已通過。
 
+完整小節搬移前，可在修前案例加入 `sectionRanges`，例如 `[{"name":"part","start":"section-id","end":"next-section-id"}]`；最後一節可改用 `endParagraphPrefix` 指定唯一來源段落。兩種結束條件只能擇一，工具不推測邊界。結果的 `sections` 保存各節的內容及其在全頁陣列中的索引，能區分不同小節中重複出現的段落；缺少、重複或反向邊界會標記 `valid: false`，準備器必須拒絕採用。此資料只提供 DOM 歸屬，不自動決定該搬移哪個小節，也不代表新頁已公開驗收。
+
 `pg_public_audit.expected_links()` 使用 Markdown 解析器辨識角括號網址與引用式連結，再加入每頁明確提供的 `interface_links`；不從父頁剩餘連結猜測子頁介面。`public_url()` 要求提供實測或明確計畫的路徑映射，不把檔案位置當公開路徑。批次準備程式負責提供正文歸屬、已知導覽及內容預期；共用工具不硬編碼某批表格數量、頁名或 `zhu-yi`。
 
 比對器要求結果為 `complete`，且 bundle 雜湊、來源提交、版本與來源網域均符合；缺案、重複案、尚在執行或失敗的程序不能算通過。多個 shard 可共同驗收，但案例不可重複。重驗與首讀應分別比對及保存各案判定，不能把重複輸出直接當成不同案例相加。

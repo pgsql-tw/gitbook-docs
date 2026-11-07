@@ -13,6 +13,16 @@ class PublicAuditTests(unittest.TestCase):
         text = '```md\n[x](bad.md)\n```\n\n<pre><a href="bad.md">x</a></pre>\n\n`[x](bad.md)`\n[x](ok.md)'
         self.assertEqual(authored_links(text), ['ok.md'])
 
+    def test_leading_inline_identifiers_do_not_hide_prose_links(self):
+        text = '`isn` prose [table](isn.md#ISN-FUNCTIONS). More `isn`.\n\n' \
+               '[`IMPORT FOREIGN SCHEMA`](command.md) and <a href="api.md"><code>api()</code></a>'
+        self.assertCountEqual(authored_links(text), ['isn.md#ISN-FUNCTIONS', 'command.md', 'api.md'])
+
+    def test_html_code_context_and_literal_html_in_inline_examples(self):
+        text = '<code>[example](hidden.md)</code> [visible](ok.md)\n\n' \
+               '`<a href="hidden.md">x</a>`\n\n<pre><code><a href="hidden.md">x</a></code></pre>'
+        self.assertEqual(authored_links(text), ['ok.md'])
+
     def test_version_and_interface_are_explicit_per_page(self):
         result = expected_links('child.md', '[x](child.md#root)', origin='https://example.org', major=19,
                                 routes={'child.md': '/19/manual/child'}, interface_links=['https://example.org/19/manual'])
