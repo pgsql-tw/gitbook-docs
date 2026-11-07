@@ -2,11 +2,11 @@
 
 ## F.20. isn — 國際標準號碼的資料型別（ISBN、EAN、UPC 等） [#](#isn) <a href="#isn" id="isn"></a>
 
-[F.20.1. 資料型別](isn.md#isn-data-types)
+[F.20.1. 資料型別](isn/isn-data-types.md#isn-data-types)
 
 [F.20.2. 型別轉換](isn.md#isn-casts)
 
-[F.20.3. 函式與運算子](isn.md#isn-funcs-ops)
+[F.20.3. 函式與運算子](isn/isn-funcs-ops.md#isn-funcs-ops)
 
 [F.20.4. 組態參數](isn.md#isn-configuration-parameters)
 
@@ -22,49 +22,9 @@
 
 此模組被視為「受信任」，亦即具有目前資料庫 `CREATE` 權限的非超級使用者可以安裝它。
 
-<a id="ISN-DATA-TYPES"></a>
-
 ### F.20.1. 資料型別 [#](#isn-data-types) <a href="#isn-data-types" id="isn-data-types"></a>
 
-[表 F.10](isn.md#ISN-DATATYPES) 顯示 `isn` 模組提供的資料型別。
-
-<a id="ISN-DATATYPES"></a>
-
-**表 F.10. `isn` 資料型別**
-
-<table border="1" class="table" summary="isn Data Types"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>資料型別</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">EAN13</code></td><td>
-       歐洲商品編碼，一律以 EAN13 顯示格式顯示
-      </td></tr><tr><td><code class="type">ISBN13</code></td><td>
-       國際標準書號，以新的 EAN13 顯示格式顯示
-      </td></tr><tr><td><code class="type">ISMN13</code></td><td>
-       國際標準音樂作品編號，以新的 EAN13 顯示格式顯示
-      </td></tr><tr><td><code class="type">ISSN13</code></td><td>
-       國際標準期刊號，以新的 EAN13 顯示格式顯示
-      </td></tr><tr><td><code class="type">ISBN</code></td><td>
-       國際標準書號，以舊的簡短顯示格式顯示
-      </td></tr><tr><td><code class="type">ISMN</code></td><td>
-       國際標準音樂作品編號，以舊的簡短顯示格式顯示
-      </td></tr><tr><td><code class="type">ISSN</code></td><td>
-       國際標準期刊號，以舊的簡短顯示格式顯示
-      </td></tr><tr><td><code class="type">UPC</code></td><td>
-       通用產品代碼
-      </td></tr></tbody></table>
-
-<br>
-
-注意事項：
-
-1. ISBN13、ISMN13、ISSN13 號碼都是 EAN13 號碼。
-2. EAN13 號碼不一定是 ISBN13、ISMN13 或 ISSN13（有些是）。
-3. 部分 ISBN13 號碼可顯示為 ISBN。
-4. 部分 ISMN13 號碼可顯示為 ISMN。
-5. 部分 ISSN13 號碼可顯示為 ISSN。
-6. UPC 號碼是 EAN13 號碼的子集（基本上是移除第一個 `0` 數字的 EAN13）。
-7. 所有 UPC、ISBN、ISMN 與 ISSN 號碼都可表示為 EAN13 號碼。
-
-在內部，所有這些型別使用相同表示法（64 位元整數），並可相互轉換。提供多種型別是為了控制顯示格式，以及對應該表示某個特定號碼型別的輸入進行更嚴格的有效性檢查。
-
-`ISBN`、`ISMN` 與 `ISSN` 型別會在可能時顯示號碼短版（ISxN 10），而不適用短版的號碼則顯示為 ISxN 13 格式。`EAN13`、`ISBN13`、`ISMN13` 與 `ISSN13` 型別一律顯示 ISxN 的長版（EAN13）。
+完整內容請見 [F.20.1. 資料型別](isn/isn-data-types.md#isn-data-types)。
 
 <a id="ISN-CASTS"></a>
 
@@ -85,51 +45,9 @@
 
 從 `EAN13` 轉換為另一型別時，執行期間會檢查值是否在另一型別的定義域內；若否，會引發錯誤。其他轉換只是重新標示，必定成功。
 
-<a id="ISN-FUNCS-OPS"></a>
-
 ### F.20.3. 函式與運算子 [#](#isn-funcs-ops) <a href="#isn-funcs-ops" id="isn-funcs-ops"></a>
 
-`isn` 模組提供標準比較運算子，以及所有這些資料型別的 B-tree 與雜湊索引支援。此外，還有數個專用函式，列於[表 F.11](isn.md#ISN-FUNCTIONS)。在此表中，`isn` 表示模組的任何一種資料型別。
-
-<a id="ISN-FUNCTIONS"></a>
-
-**表 F.11. `isn` 函式**
-
-<table border="1" class="table" summary="isn Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        函式
-       </p>
-<p>
-        說明
-       </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
-<a class="indexterm" id="id-1.11.7.30.7.3.2.2.1.1.1.1"></a>
-<code class="function">make_valid</code> ( <code class="type">isn</code> )
-        → <code class="returnvalue">isn</code>
-</p>
-<p>
-        清除值的無效檢查碼旗標。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<a class="indexterm" id="id-1.11.7.30.7.3.2.2.2.1.1.1"></a>
-<code class="function">is_valid</code> ( <code class="type">isn</code> )
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        檢查是否存在無效檢查碼旗標。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<a class="indexterm" id="id-1.11.7.30.7.3.2.2.3.1.1.1"></a>
-<code class="function">isn_weak</code> ( <code class="type">boolean</code> )
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        設定弱輸入模式，並傳回新設定。此函式是為了向後相容而保留。建議透過 <code class="varname">isn.weak</code> 組態參數設定弱模式。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="function">isn_weak</code> ()
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        傳回弱模式目前的狀態。此函式是為了向後相容而保留。建議透過 <code class="varname">isn.weak</code> 組態參數檢查弱模式。
-       </p></td></tr></tbody></table>
-
-<br>
+完整內容請見 [F.20.3. 函式與運算子](isn/isn-funcs-ops.md#isn-funcs-ops)。
 
 <a id="ISN-CONFIGURATION-PARAMETERS"></a>
 

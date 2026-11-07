@@ -4,11 +4,11 @@
 
 [F.39.1. 設計理由](seg.md#seg-rationale)
 
-[F.39.2. 語法](seg.md#seg-syntax)
+[F.39.2. 語法](seg/seg-syntax.md#seg-syntax)
 
 [F.39.3. 精確度](seg.md#seg-precision)
 
-[F.39.4. 用法](seg.md#seg-usage)
+[F.39.4. 用法](seg/seg-usage.md#seg-usage)
 
 [F.39.5. 注意事項](seg.md#seg-notes)
 
@@ -57,63 +57,9 @@ test=> select '6.25 .. 6.50'::seg as "pH";
 (1 row)
 ```
 
-<a id="SEG-SYNTAX"></a>
-
 ### F.39.2. 語法 [#](#seg-syntax) <a href="#seg-syntax" id="seg-syntax"></a>
 
-區間的外部表示法由一個或兩個浮點數組成，兩數之間以範圍運算子（`..`
-或 `...`）連接。另外，也可以指定為中心點加減一個偏差值。
-也可以一併儲存選用的確定性指示符（`<`、
-`>` 或 `~`）。
-（不過，所有內建運算子都會忽略確定性指示符。）
-[表 F.29](seg.md#SEG-REPR-TABLE) 概述允許的表示法；[表 F.30](seg.md#SEG-INPUT-EXAMPLES) 列出一些範例。
-
-在[表 F.29](seg.md#SEG-REPR-TABLE) 中，*`x`*、*`y`* 與
-*`delta`* 表示浮點數。*`x`* 與 *`y`* 前面可以加上確定性指示符，但
-*`delta`* 不可以。
-
-<a id="SEG-REPR-TABLE"></a>
-
-**表 F.29. `seg` 外部表示法**
-
-<table border="1" class="table" summary="seg 外部表示法"><colgroup><col/><col/></colgroup><tbody><tr><td><code class="literal"><em class="replaceable"><code>x</code></em></code></td><td>單一值（長度為零的區間）
-      </td></tr><tr><td><code class="literal"><em class="replaceable"><code>x</code></em> .. <em class="replaceable"><code>y</code></em></code></td><td>從 <em class="replaceable"><code>x</code></em> 到 <em class="replaceable"><code>y</code></em> 的區間
-</td></tr><tr><td><code class="literal"><em class="replaceable"><code>x</code></em> (+-) <em class="replaceable"><code>delta</code></em></code></td><td>從 <em class="replaceable"><code>x</code></em> - <em class="replaceable"><code>delta</code></em> 到
-      <em class="replaceable"><code>x</code></em> + <em class="replaceable"><code>delta</code></em> 的區間
-</td></tr><tr><td><code class="literal"><em class="replaceable"><code>x</code></em> ..</code></td><td>下界為 <em class="replaceable"><code>x</code></em> 的開放區間
-</td></tr><tr><td><code class="literal">.. <em class="replaceable"><code>x</code></em></code></td><td>上界為 <em class="replaceable"><code>x</code></em> 的開放區間
-</td></tr></tbody></table>
-
-<br><a id="SEG-INPUT-EXAMPLES"></a>
-
-**表 F.30. 有效的 `seg` 輸入範例**
-
-<table border="1" class="table" summary="有效的 seg 輸入範例"><colgroup><col class="col1"/><col class="col2"/></colgroup><tbody><tr><td><code class="literal">5.0</code></td><td>
-       建立長度為零的線段（也可以說是一個點）
-      </td></tr><tr><td><code class="literal">~5.0</code></td><td>
-       建立長度為零的線段，並在資料中記錄
-       <code class="literal">~</code>。<code class="literal">~</code> 會被
-       <code class="type">seg</code> 運算忽略，但會作為註記保留。
-      </td></tr><tr><td><code class="literal">&lt;5.0</code></td><td>
-       建立位於 5.0 的點。<code class="literal">&lt;</code> 會被忽略，但會作為註記保留。
-      </td></tr><tr><td><code class="literal">&gt;5.0</code></td><td>
-       建立位於 5.0 的點。<code class="literal">&gt;</code> 會被忽略，但會作為註記保留。
-      </td></tr><tr><td><code class="literal">5(+-)0.3</code></td><td>
-        建立區間 <code class="literal">4.7 .. 5.3</code>。
-        請注意，<code class="literal">(+-)</code> 表示法不會被保留。
-      </td></tr><tr><td><code class="literal">50 .. </code></td><td>所有大於或等於 50 的值</td></tr><tr><td><code class="literal">.. 0</code></td><td>所有小於或等於 0 的值</td></tr><tr><td><code class="literal">1.5e-2 .. 2E-2 </code></td><td>建立區間 <code class="literal">0.015 .. 0.02</code></td></tr><tr><td><code class="literal">1 ... 2</code></td><td>
-       與 <code class="literal">1...2</code>、<code class="literal">1 .. 2</code>
-       或 <code class="literal">1..2</code> 相同
-       （範圍運算子前後的空白會被忽略）
-      </td></tr></tbody></table>
-
-<br>
-
-由於 `...` 運算子在各種資料來源中廣泛使用，因此允許以它作為 `..` 運算子的另一種寫法。可惜的是，這會造成剖析上的歧義：無法確定
-`0...23` 中的上界是指 `23` 還是 `0.23`。
-解決方式是要求 `seg` 輸入中的所有數字，在小數點之前至少要有一位數字。
-
-作為合理性檢查，`seg` 會拒絕下界大於上界的區間，例如 `5 .. 2`。
+完整內容請見 [F.39.2. 語法](seg/seg-syntax.md#seg-syntax)。
 
 <a id="SEG-PRECISION"></a>
 
@@ -123,82 +69,9 @@ test=> select '6.25 .. 6.50'::seg as "pH";
 
 有效位數在 7 位以下的數字會保留原本的精確度。也就是說，若你的查詢傳回 0.00，你可以確定結尾的零並不是格式化造成的假象：它們反映的是原始資料的精確度。前導零的個數不影響精確度：值 0.0067 被視為只有 2 位有效數字。
 
-<a id="SEG-USAGE"></a>
-
 ### F.39.4. 用法 [#](#seg-usage) <a href="#seg-usage" id="seg-usage"></a>
 
-`seg` 模組包含一個用於
-`seg` 值的 GiST 索引運算子類別。
-該 GiST 運算子類別支援的運算子列於[表 F.31](seg.md#SEG-GIST-OPERATORS)。
-
-<a id="SEG-GIST-OPERATORS"></a>
-
-**表 F.31. Seg GiST 運算子**
-
-<table border="1" class="table" summary="Seg GiST 運算子"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
-        運算子
-       </p>
-<p>
-        說明
-       </p></th></tr></thead><tbody><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">&lt;&lt;</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        第一個 <code class="type">seg</code> 是否完全位於第二個的左側？
-        若 b &lt; c，則 [a, b] &lt;&lt; [c, d] 為真。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">&gt;&gt;</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        第一個 <code class="type">seg</code> 是否完全位於第二個的右側？
-        若 a &gt; d，則 [a, b] &gt;&gt; [c, d] 為真。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">&amp;&lt;</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        第一個 <code class="type">seg</code> 是否沒有延伸到第二個的右側？
-        若 b &lt;= d，則 [a, b] &amp;&lt; [c, d] 為真。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">&amp;&gt;</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        第一個 <code class="type">seg</code> 是否沒有延伸到第二個的左側？
-        若 a &gt;= c，則 [a, b] &amp;&gt; [c, d] 為真。
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">=</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        兩個 <code class="type">seg</code> 是否相等？
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">&amp;&amp;</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        兩個 <code class="type">seg</code> 是否重疊？
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">@&gt;</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        第一個 <code class="type">seg</code> 是否包含第二個？
-       </p></td></tr><tr><td class="func_table_entry"><p class="func_signature">
-<code class="type">seg</code> <code class="literal">&lt;@</code> <code class="type">seg</code>
-        → <code class="returnvalue">boolean</code>
-</p>
-<p>
-        第一個 <code class="type">seg</code> 是否包含於第二個？
-       </p></td></tr></tbody></table>
-
-<br>
-
-除了上述運算子之外，[表 9.1](../../the-sql-language/functions/functions-comparison.md#functions-comparison-table) 所列的一般比較運算子也可用於型別
-`seg`。這些運算子會先比較 (a) 與 (c)，若兩者相等，再比較 (b) 與 (d)。在大多數情況下，這會產生相當合理的排序，若你想對此型別使用
-ORDER BY，這會很有用。
+完整內容請見 [F.39.4. 用法](seg/seg-usage.md#seg-usage)。
 
 <a id="SEG-NOTES"></a>
 

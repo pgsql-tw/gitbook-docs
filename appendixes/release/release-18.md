@@ -1039,7 +1039,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
   函式 [`pg_numa_available()`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)
   會回報 NUMA 感知的狀態，系統檢視表 [`pg_shmem_allocations_numa`](../../internals/views/view-pg-shmem-allocations-numa.md)
-  與 [`pg_buffercache_numa`](../contrib/pgbuffercache.md#pgbuffercache-pg-buffercache-numa)
+  與 [`pg_buffercache_numa`](../contrib/pgbuffercache/pgbuffercache-pg-buffercache-numa.md#pgbuffercache-pg-buffercache-numa)
   則會回報共享記憶體在各 NUMA 節點間的分布。
 * 為 [`pg_index`](../../internals/catalogs/catalog-pg-index.md) 新增 [TOAST](../../internals/storage/storage-toast.md) 資料表，
   以支援非常大的運算式索引 (Nathan Bossart)
@@ -1108,7 +1108,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [`EXPLAIN`](../../reference/sql-commands/sql-explain.md)
   輸出中加入除錯細節 (Robert Haas)
   [§](https://postgr.es/c/8d5ceb113)
-* 為 [`postgres_fdw_get_connections()`](../contrib/postgres-fdw.md#postgres-fdw-functions) 新增輸出欄位
+* 為 [`postgres_fdw_get_connections()`](../contrib/postgres-fdw/postgres-fdw-functions.md#postgres-fdw-functions) 新增輸出欄位
   (Hayato Kuroda, Sagar Dilip Shedge)
   [§](https://postgr.es/c/c297a47c5)
   [§](https://postgr.es/c/857df3cef)
@@ -1149,7 +1149,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   用於控制是否接受無效的檢查位數（check digit） (Viktor Holmberg)
   [§](https://postgr.es/c/448904423)
 
-  先前只能透過函式 [`isn_weak()`](../contrib/isn.md#ISN-FUNCTIONS) 控制。
+  先前只能透過函式 [`isn_weak()`](../contrib/isn/isn-funcs-ops.md#isn-functions) 控制。
 * 允許先將值排序，以加快 [btree_gist](../contrib/btree-gist.md)
   索引的建立 (Bernd Helmle, Andrey Borodin)
   [§](https://postgr.es/c/e4309f73f)
@@ -1187,7 +1187,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/dc6851596)
 
   這可以減少常數不同的 `SET` 陳述式所造成的膨脹。
-* 新增 [`pg_stat_statements`](../contrib/pgstatstatements.md#pgstatstatements-pg-stat-statements)
+* 新增 [`pg_stat_statements`](../contrib/pgstatstatements/pgstatstatements-pg-stat-statements.md#pgstatstatements-pg-stat-statements)
   欄位，用於回報平行活動 (Guillaume Lelarge)
   [§](https://postgr.es/c/cf54a2c00)
 

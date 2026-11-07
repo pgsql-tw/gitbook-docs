@@ -4,7 +4,7 @@
 
 [65.3.1. 簡介](spgist.md#spgist-intro)
 
-[65.3.2. 內建運算子類別](spgist.md#spgist-builtin-opclasses)
+[65.3.2. 內建運算子類別](spgist/spgist-builtin-opclasses.md#spgist-builtin-opclasses)
 
 [65.3.3. 擴充性](spgist.md#spgist-extensibility)
 
@@ -25,23 +25,9 @@ SP-GiST 是 space-partitioned GiST（空間分割 GiST）的縮寫。SP-GiST 支
 
 這裡的部分資訊取自普渡大學（Purdue University）SP-GiST 索引專案的[網站](https://www.cs.purdue.edu/spgist/)。PostgreSQL 中的 SP-GiST 實作主要由 Teodor Sigaev 與 Oleg Bartunov 維護，在他們的[網站](http://www.sai.msu.su/~megera/wiki/spgist_dev)上有更多資訊。
 
-<a id="SPGIST-BUILTIN-OPCLASSES"></a>
-
 ### 65.3.2. 內建運算子類別 [#](#spgist-builtin-opclasses) <a href="#spgist-builtin-opclasses" id="spgist-builtin-opclasses"></a>
 
-PostgreSQL 核心發行版本包含[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 所列的 SP-GiST 運算子類別。
-
-<a id="SPGIST-BUILTIN-OPCLASSES-TABLE"></a>
-
-**表 65.2. 內建 SP-GiST 運算子類別**
-
-<table border="1" class="table" summary="內建 SP-GiST 運算子類別"><colgroup><col/><col/><col/></colgroup><thead><tr><th>名稱</th><th>可索引運算子</th><th>排序運算子</th></tr></thead><tbody><tr><td rowspan="12" valign="middle"><code class="literal">box_ops</code></td><td><code class="literal">&lt;&lt; (box,box)</code></td><td rowspan="12" valign="middle"><code class="literal">&lt;-&gt; (box,point)</code></td></tr><tr><td><code class="literal">&amp;&lt; (box,box)</code></td></tr><tr><td><code class="literal">&amp;&gt; (box,box)</code></td></tr><tr><td><code class="literal">&gt;&gt; (box,box)</code></td></tr><tr><td><code class="literal">&lt;@ (box,box)</code></td></tr><tr><td><code class="literal">@&gt; (box,box)</code></td></tr><tr><td><code class="literal">~= (box,box)</code></td></tr><tr><td><code class="literal">&amp;&amp; (box,box)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (box,box)</code></td></tr><tr><td><code class="literal">&amp;&lt;| (box,box)</code></td></tr><tr><td><code class="literal">|&amp;&gt; (box,box)</code></td></tr><tr><td><code class="literal">|&gt;&gt; (box,box)</code></td></tr><tr><td rowspan="11" valign="middle"><code class="literal">inet_ops</code></td><td><code class="literal">&lt;&lt; (inet,inet)</code></td><td rowspan="11" valign="middle"> </td></tr><tr><td><code class="literal">&lt;&lt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;&gt;= (inet,inet)</code></td></tr><tr><td><code class="literal">= (inet,inet)</code></td></tr><tr><td><code class="literal">&lt;&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&lt; (inet,inet)</code></td></tr><tr><td><code class="literal">&lt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&gt; (inet,inet)</code></td></tr><tr><td><code class="literal">&gt;= (inet,inet)</code></td></tr><tr><td><code class="literal">&amp;&amp; (inet,inet)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">kd_point_ops</code></td><td><code class="literal">|&gt;&gt; (point,point)</code></td><td rowspan="6" valign="middle"><code class="literal">&lt;-&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt; (point,point)</code></td></tr><tr><td><code class="literal">&gt;&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (point,point)</code></td></tr><tr><td><code class="literal">~= (point,point)</code></td></tr><tr><td><code class="literal">&lt;@ (point,box)</code></td></tr><tr><td rowspan="12" valign="middle"><code class="literal">poly_ops</code></td><td><code class="literal">&lt;&lt; (polygon,polygon)</code></td><td rowspan="12" valign="middle"><code class="literal">&lt;-&gt; (polygon,point)</code></td></tr><tr><td><code class="literal">&amp;&lt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&gt;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&lt;@ (polygon,polygon)</code></td></tr><tr><td><code class="literal">@&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">~= (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&amp; (polygon,polygon)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (polygon,polygon)</code></td></tr><tr><td><code class="literal">&amp;&lt;| (polygon,polygon)</code></td></tr><tr><td><code class="literal">|&gt;&gt; (polygon,polygon)</code></td></tr><tr><td><code class="literal">|&amp;&gt; (polygon,polygon)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">quad_point_ops</code></td><td><code class="literal">|&gt;&gt; (point,point)</code></td><td rowspan="6" valign="middle"><code class="literal">&lt;-&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt; (point,point)</code></td></tr><tr><td><code class="literal">&gt;&gt; (point,point)</code></td></tr><tr><td><code class="literal">&lt;&lt;| (point,point)</code></td></tr><tr><td><code class="literal">~= (point,point)</code></td></tr><tr><td><code class="literal">&lt;@ (point,box)</code></td></tr><tr><td rowspan="10" valign="middle"><code class="literal">range_ops</code></td><td><code class="literal">= (anyrange,anyrange)</code></td><td rowspan="10" valign="middle"> </td></tr><tr><td><code class="literal">&amp;&amp; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">@&gt; (anyrange,anyelement)</code></td></tr><tr><td><code class="literal">@&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&lt;@ (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&lt;&lt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&gt;&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&amp;&lt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">&amp;&gt; (anyrange,anyrange)</code></td></tr><tr><td><code class="literal">-|- (anyrange,anyrange)</code></td></tr><tr><td rowspan="10" valign="middle"><code class="literal">text_ops</code></td><td><code class="literal">= (text,text)</code></td><td rowspan="10" valign="middle"> </td></tr><tr><td><code class="literal">&lt; (text,text)</code></td></tr><tr><td><code class="literal">&lt;= (text,text)</code></td></tr><tr><td><code class="literal">&gt; (text,text)</code></td></tr><tr><td><code class="literal">&gt;= (text,text)</code></td></tr><tr><td><code class="literal">~&lt;~ (text,text)</code></td></tr><tr><td><code class="literal">~&lt;=~ (text,text)</code></td></tr><tr><td><code class="literal">~&gt;=~ (text,text)</code></td></tr><tr><td><code class="literal">~&gt;~ (text,text)</code></td></tr><tr><td><code class="literal">^@ (text,text)</code></td></tr></tbody></table>
-
-<br>
-
-在 `point` 型別的兩個運算子類別中，`quad_point_ops` 是預設的。`kd_point_ops` 支援相同的運算子，但使用不同的索引資料結構，在某些應用中可能提供較佳的效能。
-
-`quad_point_ops`、`kd_point_ops` 與 `poly_ops` 運算子類別支援 `<->` 排序運算子，可對被索引的點或多邊形資料集進行 k 最近鄰（`k-NN`）搜尋。
+完整內容請見 [65.3.2. 內建運算子類別](spgist/spgist-builtin-opclasses.md#spgist-builtin-opclasses)。
 
 <a id="SPGIST-EXTENSIBILITY"></a>
 
@@ -392,7 +378,7 @@ SP-GiST 的索引運算子類別必須提供五個使用者定義的方法，另
 
 ### 65.3.5. 範例 [#](#spgist-examples) <a href="#spgist-examples" id="spgist-examples"></a>
 
-PostgreSQL 原始碼發行版本包含數個 SP-GiST 索引運算子類別的範例，如[表 65.2](spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 所述。程式碼請參閱 `src/backend/access/spgist/` 與 `src/backend/utils/adt/`。
+PostgreSQL 原始碼發行版本包含數個 SP-GiST 索引運算子類別的範例，如[表 65.2](spgist/spgist-builtin-opclasses.md#spgist-builtin-opclasses-table) 所述。程式碼請參閱 `src/backend/access/spgist/` 與 `src/backend/utils/adt/`。
 
 ---
 

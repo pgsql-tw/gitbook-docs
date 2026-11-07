@@ -130,9 +130,9 @@
   - [F.13.2. 用法](dict-xsyn.md#dict-xsyn-usage)
 
 - [F.14. earthdistance — 計算大圓距離](earthdistance.md)
-  - [F.14.1. 以立方體為基礎的地球距離](earthdistance.md#earthdistance-cube-based)
+  - [F.14.1. 以立方體為基礎的地球距離](earthdistance/earthdistance-cube-based.md#earthdistance-cube-based)
 
-  - [F.14.2. 以點為基礎的地球距離](earthdistance.md#earthdistance-point-based)
+  - [F.14.2. 以點為基礎的地球距離](earthdistance/earthdistance-point-based.md#earthdistance-point-based)
 
 - [F.15. file_fdw — 存取伺服器檔案系統中的資料檔](file-fdw.md)
 
@@ -181,11 +181,11 @@
   - [F.19.5. 作者](intarray.md#intarray-authors)
 
 - [F.20. isn — 國際標準號碼（ISBN、EAN、UPC 等）的資料型別](isn.md)
-  - [F.20.1. 資料型別](isn.md#isn-data-types)
+  - [F.20.1. 資料型別](isn/isn-data-types.md#isn-data-types)
 
   - [F.20.2. 型別轉換](isn.md#isn-casts)
 
-  - [F.20.3. 函式與運算子](isn.md#isn-funcs-ops)
+  - [F.20.3. 函式與運算子](isn/isn-funcs-ops.md#isn-funcs-ops)
 
   - [F.20.4. 設定參數](isn.md#isn-configuration-parameters)
 
@@ -207,7 +207,7 @@
 - [F.22. ltree — 階層式樹狀資料型別](ltree.md)
   - [F.22.1. 定義](ltree.md#ltree-definitions)
 
-  - [F.22.2. 運算子與函式](ltree.md#ltree-ops-funcs)
+  - [F.22.2. 運算子與函式](ltree/ltree-ops-funcs.md#ltree-ops-funcs)
 
   - [F.22.3. 索引](ltree.md#ltree-indexes)
 
@@ -236,13 +236,13 @@
   - [F.24.1. 設定參數](passwordcheck.md#passwordcheck-configuration-parameters)
 
 - [F.25. pg_buffercache — 檢查 PostgreSQL 緩衝區快取狀態](pgbuffercache.md)
-  - [F.25.1. `pg_buffercache` 檢視表](pgbuffercache.md#pgbuffercache-pg-buffercache)
+  - [F.25.1. `pg_buffercache` 檢視表](pgbuffercache/pgbuffercache-pg-buffercache.md#pgbuffercache-pg-buffercache)
 
-  - [F.25.2. `pg_buffercache_numa` 檢視表](pgbuffercache.md#pgbuffercache-pg-buffercache-numa)
+  - [F.25.2. `pg_buffercache_numa` 檢視表](pgbuffercache/pgbuffercache-pg-buffercache-numa.md#pgbuffercache-pg-buffercache-numa)
 
-  - [F.25.3. `pg_buffercache_summary()` 函式](pgbuffercache.md#pgbuffercache-summary)
+  - [F.25.3. `pg_buffercache_summary()` 函式](pgbuffercache/pgbuffercache-summary.md#pgbuffercache-summary)
 
-  - [F.25.4. `pg_buffercache_usage_counts()` 函式](pgbuffercache.md#pgbuffercache-usage-counts)
+  - [F.25.4. `pg_buffercache_usage_counts()` 函式](pgbuffercache/pgbuffercache-usage-counts.md#pgbuffercache-usage-counts)
 
   - [F.25.5. `pg_buffercache_evict()` 函式](pgbuffercache.md#pgbuffercache-pg-buffercache-evict)
 
@@ -300,16 +300,16 @@
   - [F.30.3. 作者](pgprewarm.md#pgprewarm-author)
 
 - [F.31. pgrowlocks — 顯示資料表的資料列鎖定資訊](pgrowlocks.md)
-  - [F.31.1. 概觀](pgrowlocks.md#pgrowlocks-overview)
+  - [F.31.1. 概觀](pgrowlocks/pgrowlocks-overview.md#pgrowlocks-overview)
 
   - [F.31.2. 輸出範例](pgrowlocks.md#pgrowlocks-sample-output)
 
   - [F.31.3. 作者](pgrowlocks.md#pgrowlocks-author)
 
 - [F.32. pg_stat_statements — 追蹤 SQL 規劃與執行的統計資訊](pgstatstatements.md)
-  - [F.32.1. `pg_stat_statements` 檢視表](pgstatstatements.md#pgstatstatements-pg-stat-statements)
+  - [F.32.1. `pg_stat_statements` 檢視表](pgstatstatements/pgstatstatements-pg-stat-statements.md#pgstatstatements-pg-stat-statements)
 
-  - [F.32.2. `pg_stat_statements_info` 檢視表](pgstatstatements.md#pgstatstatements-pg-stat-statements-info)
+  - [F.32.2. `pg_stat_statements_info` 檢視表](pgstatstatements/pgstatstatements-pg-stat-statements-info.md#pgstatstatements-pg-stat-statements-info)
 
   - [F.32.3. 函式](pgstatstatements.md#pgstatstatements-funcs)
 
@@ -320,7 +320,7 @@
   - [F.32.6. 作者](pgstatstatements.md#pgstatstatements-authors)
 
 - [F.33. pgstattuple — 取得 tuple 層級的統計資訊](pgstattuple.md)
-  - [F.33.1. 函式](pgstattuple.md#pgstattuple-funcs)
+  - [F.33.1. 函式](pgstattuple/pgstattuple-funcs.md#pgstattuple-funcs)
 
   - [F.33.2. 作者](pgstattuple.md#pgstattuple-authors)
 
@@ -357,7 +357,7 @@
 - [F.38. postgres_fdw — 存取外部 PostgreSQL 伺服器中的資料](postgres-fdw.md)
   - [F.38.1. postgres_fdw 的 FDW 選項](postgres-fdw.md#postgres-fdw-options)
 
-  - [F.38.2. 函式](postgres-fdw.md#postgres-fdw-functions)
+  - [F.38.2. 函式](postgres-fdw/postgres-fdw-functions.md#postgres-fdw-functions)
 
   - [F.38.3. 連線管理](postgres-fdw.md#postgres-fdw-connection-management)
 
@@ -380,11 +380,11 @@
 - [F.39. seg — 線段或浮點數區間的資料型別](seg.md)
   - [F.39.1. 原理](seg.md#seg-rationale)
 
-  - [F.39.2. 語法](seg.md#seg-syntax)
+  - [F.39.2. 語法](seg/seg-syntax.md#seg-syntax)
 
   - [F.39.3. 精確度](seg.md#seg-precision)
 
-  - [F.39.4. 用法](seg.md#seg-usage)
+  - [F.39.4. 用法](seg/seg-usage.md#seg-usage)
 
   - [F.39.5. 注意事項](seg.md#seg-notes)
 
@@ -401,7 +401,7 @@
 
   - [F.40.5. 功能](sepgsql.md#sepgsql-features)
 
-  - [F.40.6. Sepgsql 函式](sepgsql.md#sepgsql-functions)
+  - [F.40.6. Sepgsql 函式](sepgsql/sepgsql-functions.md#sepgsql-functions)
 
   - [F.40.7. 限制](sepgsql.md#sepgsql-limitations)
 
@@ -446,7 +446,7 @@
   - [F.48.3. 函式](unaccent.md#unaccent-functions)
 
 - [F.49. uuid-ossp — UUID 產生器](uuid-ossp.md)
-  - [F.49.1. `uuid-ossp` 函式](uuid-ossp.md#uuid-ossp-functions-sect)
+  - [F.49.1. `uuid-ossp` 函式](uuid-ossp/uuid-ossp-functions-sect.md#uuid-ossp-functions-sect)
 
   - [F.49.2. 建置 `uuid-ossp`](uuid-ossp.md#uuid-ossp-building)
 
@@ -455,9 +455,9 @@
 - [F.50. xml2 — XPath 查詢與 XSLT 功能](xml2.md)
   - [F.50.1. 淘汰通知](xml2.md#xml2-deprecation)
 
-  - [F.50.2. 函式說明](xml2.md#xml2-functions)
+  - [F.50.2. 函式說明](xml2/xml2-functions.md#xml2-functions)
 
-  - [F.50.3. `xpath_table`](xml2.md#xml2-xpath-table)
+  - [F.50.3. `xpath_table`](xml2/xml2-xpath-table.md#xml2-xpath-table)
 
   - [F.50.4. XSLT 函式](xml2.md#xml2-xslt)
 

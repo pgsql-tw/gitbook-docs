@@ -4,7 +4,7 @@
 
 [65.4.1. 簡介](gin.md#gin-intro)
 
-[65.4.2. 內建運算子類別](gin.md#gin-builtin-opclasses)
+[65.4.2. 內建運算子類別](gin/gin-builtin-opclasses.md#gin-builtin-opclasses)
 
 [65.4.3. 擴充性](gin.md#gin-extensibility)
 
@@ -33,21 +33,9 @@ GIN 的優點之一，是它讓資料型別領域的專家（而非資料庫專�
 
 PostgreSQL 中的 GIN 實作主要由 Teodor Sigaev 與 Oleg Bartunov 維護。在他們的[網站](http://www.sai.msu.su/~megera/wiki/Gin)上有更多關於 GIN 的資訊。
 
-<a id="GIN-BUILTIN-OPCLASSES"></a>
-
 ### 65.4.2. 內建運算子類別 [#](#gin-builtin-opclasses) <a href="#gin-builtin-opclasses" id="gin-builtin-opclasses"></a>
 
-PostgreSQL 核心發行版本包含[表 65.3](gin.md#GIN-BUILTIN-OPCLASSES-TABLE) 所列的 GIN 運算子類別。（[附錄 F](../../appendixes/contrib/README.md) 中所述的部分選用模組提供了額外的 GIN 運算子類別。）
-
-<a id="GIN-BUILTIN-OPCLASSES-TABLE"></a>
-
-**表 65.3. 內建 GIN 運算子類別**
-
-<table border="1" class="table" summary="內建 GIN 運算子類別"><colgroup><col/><col/></colgroup><thead><tr><th>名稱</th><th>可索引運算子</th></tr></thead><tbody><tr><td rowspan="4" valign="middle"><code class="literal">array_ops</code></td><td><code class="literal">&amp;&amp; (anyarray,anyarray)</code></td></tr><tr><td><code class="literal">@&gt; (anyarray,anyarray)</code></td></tr><tr><td><code class="literal">&lt;@ (anyarray,anyarray)</code></td></tr><tr><td><code class="literal">= (anyarray,anyarray)</code></td></tr><tr><td rowspan="6" valign="middle"><code class="literal">jsonb_ops</code></td><td><code class="literal">@&gt; (jsonb,jsonb)</code></td></tr><tr><td><code class="literal">@? (jsonb,jsonpath)</code></td></tr><tr><td><code class="literal">@@ (jsonb,jsonpath)</code></td></tr><tr><td><code class="literal">? (jsonb,text)</code></td></tr><tr><td><code class="literal">?| (jsonb,text[])</code></td></tr><tr><td><code class="literal">?&amp; (jsonb,text[])</code></td></tr><tr><td rowspan="3" valign="middle"><code class="literal">jsonb_path_ops</code></td><td><code class="literal">@&gt; (jsonb,jsonb)</code></td></tr><tr><td><code class="literal">@? (jsonb,jsonpath)</code></td></tr><tr><td><code class="literal">@@ (jsonb,jsonpath)</code></td></tr><tr><td valign="middle"><code class="literal">tsvector_ops</code></td><td><code class="literal">@@ (tsvector,tsquery)</code></td></tr></tbody></table>
-
-<br>
-
-在 `jsonb` 型別的兩個運算子類別中，`jsonb_ops` 是預設的。`jsonb_path_ops` 支援的運算子較少，但對這些運算子提供較佳的效能。詳細資訊請參閱[第 8.14.4 節](../../the-sql-language/datatype/datatype-json.md#json-indexing)。
+完整內容請見 [65.4.2. 內建運算子類別](gin/gin-builtin-opclasses.md#gin-builtin-opclasses)。
 
 <a id="GIN-EXTENSIBILITY"></a>
 
@@ -190,7 +178,7 @@ GIN 假設可索引運算子是嚴格的（strict）。這表示對於 null 項�
 
 ### 65.4.7. 範例 [#](#gin-examples) <a href="#gin-examples" id="gin-examples"></a>
 
-PostgreSQL 核心發行版本包含先前[表 65.3](gin.md#GIN-BUILTIN-OPCLASSES-TABLE) 所列的 GIN 運算子類別。下列 `contrib` 模組也包含 GIN 運算子類別：
+PostgreSQL 核心發行版本包含先前[表 65.3](gin/gin-builtin-opclasses.md#gin-builtin-opclasses-table) 所列的 GIN 運算子類別。下列 `contrib` 模組也包含 GIN 運算子類別：
 
 `btree_gin`
 

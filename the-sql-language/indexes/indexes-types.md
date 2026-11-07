@@ -66,7 +66,7 @@ GiST 索引並不是單一種類的索引，而是一套基礎架構，可以在
 <<   &<   &>   >>   <<|   &<|   |&>   |>>   @>   <@   ~=   &&
 ```
 
-（這些運算子的意義請參閱[第 9.11 節](../functions/functions-geometry.md)。）標準發行版本中所包含的 GiST 運算子類別，記載於[表 65.1](../../internals/indextypes/gist.md#GIST-BUILTIN-OPCLASSES-TABLE)。還有許多其他的 GiST 運算子類別，可以在 `contrib` 集合中或以獨立專案的形式取得。更多資訊請參閱[第 65.2 節](../../internals/indextypes/gist.md)。
+（這些運算子的意義請參閱[第 9.11 節](../functions/functions-geometry.md)。）標準發行版本中所包含的 GiST 運算子類別，記載於[表 65.1](../../internals/indextypes/gist/gist-builtin-opclasses.md#gist-builtin-opclasses-table)。還有許多其他的 GiST 運算子類別，可以在 `contrib` 集合中或以獨立專案的形式取得。更多資訊請參閱[第 65.2 節](../../internals/indextypes/gist.md)。
 
 GiST 索引也能夠最佳化「最近鄰」（nearest-neighbor）搜尋，例如
 
@@ -75,7 +75,7 @@ GiST 索引也能夠最佳化「最近鄰」（nearest-neighbor）搜尋，例�
 SELECT * FROM places ORDER BY location <-> point '(101,456)' LIMIT 10;
 ```
 
-它會找出距離指定目標點最近的十個地點。能否做到這一點，同樣取決於所使用的運算子類別。在[表 65.1](../../internals/indextypes/gist.md#GIST-BUILTIN-OPCLASSES-TABLE) 中，可以用於這種方式的運算子列在「Ordering Operators」（排序運算子）欄位中。
+它會找出距離指定目標點最近的十個地點。能否做到這一點，同樣取決於所使用的運算子類別。在[表 65.1](../../internals/indextypes/gist/gist-builtin-opclasses.md#gist-builtin-opclasses-table) 中，可以用於這種方式的運算子列在「Ordering Operators」（排序運算子）欄位中。
 
 <a id="INDEXES-TYPE-SPGIST"></a>
 
@@ -90,9 +90,9 @@ SP-GiST 索引就像 GiST 索引一樣，提供了一套支援各種搜尋的基
 <<   >>   ~=   <@   <<|   |>>
 ```
 
-（這些運算子的意義請參閱[第 9.11 節](../functions/functions-geometry.md)。）標準發行版本中所包含的 SP-GiST 運算子類別，記載於[表 65.2](../../internals/indextypes/spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE)。更多資訊請參閱[第 65.3 節](../../internals/indextypes/spgist.md)。
+（這些運算子的意義請參閱[第 9.11 節](../functions/functions-geometry.md)。）標準發行版本中所包含的 SP-GiST 運算子類別，記載於[表 65.2](../../internals/indextypes/spgist/spgist-builtin-opclasses.md#spgist-builtin-opclasses-table)。更多資訊請參閱[第 65.3 節](../../internals/indextypes/spgist.md)。
 
-與 GiST 一樣，SP-GiST 也支援「最近鄰」搜尋。對於支援距離排序的 SP-GiST 運算子類別，對應的運算子列在[表 65.2](../../internals/indextypes/spgist.md#SPGIST-BUILTIN-OPCLASSES-TABLE) 的「Ordering Operators」欄位中。
+與 GiST 一樣，SP-GiST 也支援「最近鄰」搜尋。對於支援距離排序的 SP-GiST 運算子類別，對應的運算子列在[表 65.2](../../internals/indextypes/spgist/spgist-builtin-opclasses.md#spgist-builtin-opclasses-table) 的「Ordering Operators」欄位中。
 
 <a id="INDEXES-TYPES-GIN"></a>
 
@@ -109,7 +109,7 @@ GIN 索引是「反向索引」（inverted index），適用於包含多個組�
 <@   @>   =   &&
 ```
 
-（這些運算子的意義請參閱[第 9.19 節](../functions/functions-array.md)。）標準發行版本中所包含的 GIN 運算子類別，記載於[表 65.3](../../internals/indextypes/gin.md#GIN-BUILTIN-OPCLASSES-TABLE)。還有許多其他的 GIN 運算子類別，可以在 `contrib` 集合中或以獨立專案的形式取得。更多資訊請參閱[第 65.4 節](../../internals/indextypes/gin.md)。
+（這些運算子的意義請參閱[第 9.19 節](../functions/functions-array.md)。）標準發行版本中所包含的 GIN 運算子類別，記載於[表 65.3](../../internals/indextypes/gin/gin-builtin-opclasses.md#gin-builtin-opclasses-table)。還有許多其他的 GIN 運算子類別，可以在 `contrib` 集合中或以獨立專案的形式取得。更多資訊請參閱[第 65.4 節](../../internals/indextypes/gin.md)。
 
 <a id="INDEXES-TYPES-BRIN"></a>
 
@@ -124,7 +124,7 @@ BRIN 索引（Block Range INdexes，區塊範圍索引的簡稱）儲存的是�
 <   <=   =   >=   >
 ```
 
-標準發行版本中所包含的 BRIN 運算子類別，記載於[表 65.4](../../internals/indextypes/brin.md#BRIN-BUILTIN-OPCLASSES-TABLE)。更多資訊請參閱[第 65.5 節](../../internals/indextypes/brin.md)。
+標準發行版本中所包含的 BRIN 運算子類別，記載於[表 65.4](../../internals/indextypes/brin/brin-builtin-opclasses.md#brin-builtin-opclasses-table)。更多資訊請參閱[第 65.5 節](../../internals/indextypes/brin.md)。
 
 ---
 

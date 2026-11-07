@@ -16,7 +16,7 @@
 - [65.2. GiST 索引](gist.md)
   - [65.2.1. 簡介](gist.md#gist-intro)
 
-  - [65.2.2. 內建運算子類別](gist.md#gist-builtin-opclasses)
+  - [65.2.2. 內建運算子類別](gist/gist-builtin-opclasses.md#gist-builtin-opclasses)
 
   - [65.2.3. 擴充性](gist.md#gist-extensibility)
 
@@ -27,7 +27,7 @@
 - [65.3. SP-GiST 索引](spgist.md)
   - [65.3.1. 簡介](spgist.md#spgist-intro)
 
-  - [65.3.2. 內建運算子類別](spgist.md#spgist-builtin-opclasses)
+  - [65.3.2. 內建運算子類別](spgist/spgist-builtin-opclasses.md#spgist-builtin-opclasses)
 
   - [65.3.3. 擴充性](spgist.md#spgist-extensibility)
 
@@ -38,7 +38,7 @@
 - [65.4. GIN 索引](gin.md)
   - [65.4.1. 簡介](gin.md#gin-intro)
 
-  - [65.4.2. 內建運算子類別](gin.md#gin-builtin-opclasses)
+  - [65.4.2. 內建運算子類別](gin/gin-builtin-opclasses.md#gin-builtin-opclasses)
 
   - [65.4.3. 擴充性](gin.md#gin-extensibility)
 
@@ -53,9 +53,9 @@
 - [65.5. BRIN 索引](brin.md)
   - [65.5.1. 簡介](brin.md#brin-intro)
 
-  - [65.5.2. 內建運算子類別](brin.md#brin-builtin-opclasses)
+  - [65.5.2. 內建運算子類別](brin/brin-builtin-opclasses.md#brin-builtin-opclasses)
 
-  - [65.5.3. 擴充性](brin.md#brin-extensibility)
+  - [65.5.3. 擴充性](brin/brin-extensibility.md#brin-extensibility)
 
 - [65.6. 雜湊索引](hash-index.md)
   - [65.6.1. 概述](hash-index.md#hash-intro)
