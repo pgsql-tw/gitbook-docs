@@ -68,11 +68,11 @@
   - [F.9.5. 作者](citext.md#citext-author)
 
 - [F.10. cube — 多維立方體資料型別](cube.md)
-  - [F.10.1. 語法](cube.md#cube-syntax)
+  - [F.10.1. 語法](cube/cube-syntax.md#cube-syntax)
 
   - [F.10.2. 精確度](cube.md#cube-precision)
 
-  - [F.10.3. 用法](cube.md#cube-usage)
+  - [F.10.3. 用法](cube/cube-usage.md#cube-usage)
 
   - [F.10.4. 預設值](cube.md#cube-defaults)
 
@@ -150,7 +150,7 @@
 - [F.17. hstore — hstore 索引鍵／值資料型別](hstore.md)
   - [F.17.1. `hstore` 外部表示法](hstore.md#hstore-external-rep)
 
-  - [F.17.2. `hstore` 運算子與函式](hstore.md#hstore-ops-funcs)
+  - [F.17.2. `hstore` 運算子與函式](hstore/hstore-ops-funcs.md#hstore-ops-funcs)
 
   - [F.17.3. 索引](hstore.md#hstore-indexes)
 
@@ -170,7 +170,7 @@
   - [F.18.2. 使用範例](intagg.md#intagg-samples)
 
 - [F.19. intarray — 操作整數陣列](intarray.md)
-  - [F.19.1. `intarray` 函式與運算子](intarray.md#intarray-funcs-ops)
+  - [F.19.1. `intarray` 函式與運算子](intarray/intarray-funcs-ops.md#intarray-funcs-ops)
 
   - [F.19.2. 索引支援](intarray.md#intarray-index)
 
