@@ -32,7 +32,7 @@ class TestController(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix='translation-controller-test-')
         self.root = Path(self.temp.name)
         self.c = Controller(self.root)
-        self.c.git('init')
+        self.c.git('init', '-b', '18')
         self.c.git('config', 'user.name', 'Controller Test')
         self.c.git('config', 'user.email', 'controller-test@example.invalid')
         self.put(PAGE, SOURCE)
@@ -41,6 +41,8 @@ class TestController(unittest.TestCase):
         self.c.git('add', '--', PAGE, *TRACKERS)
         self.c.git('commit', '-m', 'fixture')
         self.c.init()
+        self.real_subprocess_run = subprocess.run
+        self.real_subprocess_popen = subprocess.Popen
 
     def tearDown(self):
         self.temp.cleanup()
@@ -165,11 +167,17 @@ class TestController(unittest.TestCase):
                     json.dumps(response), encoding='utf-8')
         return Process, calls
 
+    def cli_auth_run(self, command, **kwargs):
+        if command[:3] == ['codex', 'login', 'status']:
+            return subprocess.CompletedProcess(command, 0)
+        with patch('subprocess.Popen', self.real_subprocess_popen):
+            return self.real_subprocess_run(command, **kwargs)
+
     def test_cli_claim_done_without_change_retries_and_fails(self):
         response = {'status': 'candidate_complete', 'remaining': [], 'summary': 'done'}
         process, calls = self.fake_cli([(response, None), (response, None)])
         with patch('translation_controller.shutil.which', return_value='codex'), patch(
-                'translation_controller.subprocess.run', return_value=subprocess.CompletedProcess([], 0)), patch(
+                'translation_controller.subprocess.run', side_effect=self.cli_auth_run), patch(
                 'translation_controller.subprocess.Popen', side_effect=process):
             self.assertFalse(self.c.run_cli())
         self.assertEqual(len(calls), 2)
@@ -180,7 +188,7 @@ class TestController(unittest.TestCase):
         complete = {'status': 'candidate_complete', 'remaining': [], 'summary': 'candidate'}
         process, calls = self.fake_cli([(partial, SOURCE + '\n部分\n'), (complete, TRANSLATED)])
         with patch('translation_controller.shutil.which', return_value='codex'), patch(
-                'translation_controller.subprocess.run', return_value=subprocess.CompletedProcess([], 0)), patch(
+                'translation_controller.subprocess.run', side_effect=self.cli_auth_run), patch(
                 'translation_controller.subprocess.Popen', side_effect=process):
             self.assertTrue(self.c.run_cli())
         self.assertEqual(len(calls), 2)
@@ -190,7 +198,7 @@ class TestController(unittest.TestCase):
     def test_cli_invalid_result_is_failure(self):
         process, calls = self.fake_cli([({'summary': 'done'}, TRANSLATED)])
         with patch('translation_controller.shutil.which', return_value='codex'), patch(
-                'translation_controller.subprocess.run', return_value=subprocess.CompletedProcess([], 0)), patch(
+                'translation_controller.subprocess.run', side_effect=self.cli_auth_run), patch(
                 'translation_controller.subprocess.Popen', side_effect=process):
             self.assertFalse(self.c.run_cli())
         self.assertEqual(self.c.state()['phase'], 'invalid_worker_result')
@@ -200,7 +208,7 @@ class TestController(unittest.TestCase):
         process, calls = self.fake_cli([(response, TRANSLATED.replace('<a id="LTREE"></a>', '')),
                                        (response, TRANSLATED)])
         with patch('translation_controller.shutil.which', return_value='codex'), patch(
-                'translation_controller.subprocess.run', return_value=subprocess.CompletedProcess([], 0)), patch(
+                'translation_controller.subprocess.run', side_effect=self.cli_auth_run), patch(
                 'translation_controller.subprocess.Popen', side_effect=process):
             self.assertTrue(self.c.run_cli())
         self.assertEqual(len(calls), 2)

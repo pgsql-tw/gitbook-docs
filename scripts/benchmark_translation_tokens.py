@@ -1,6 +1,7 @@
 """Matched real reviewer A/B; isolated snapshots, no publication or translation."""
 import json
 from pathlib import Path
+from pg_project import translation_path
 import shutil
 import subprocess
 import sys
@@ -12,11 +13,11 @@ from translation_controller import atomic, read, digest
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = 'appendixes/contrib/passwordcheck.md'
-SNAPSHOT = ROOT / new.RUNTIME / 'pages' / digest(PAGE)[:20]
+SNAPSHOT = translation_path(ROOT, 'pipeline-runtime/pages') / digest(PAGE)[:20]
 
 
 def main():
-    run = ROOT / 'outputs/pg18-translation/token-flow-review' / ('ab-' + str(time.time_ns()))
+    run = translation_path(ROOT, 'token-flow-review') / ('ab-' + str(time.time_ns()))
     run.mkdir(parents=True)
     code = subprocess.check_output(['git', '-C', str(ROOT), 'show',
                                     '9a2b72b5:scripts/translation_pipeline.py'], encoding='utf-8')
@@ -28,6 +29,7 @@ def main():
                   cli=subprocess.check_output(['codex', '--version'], encoding='utf-8').strip(),
                   settings='same existing CLI defaults; read-only; no model/reasoning override', runs={})
     for label, module in [('old', old), ('new', new)]:
+        (run / label).mkdir()
         queue = module.Queue(run / label)
         folder = queue.workdir(PAGE)
         shutil.copytree(SNAPSHOT / 'draft', folder / 'draft')

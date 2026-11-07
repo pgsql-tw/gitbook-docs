@@ -1,10 +1,10 @@
 """多代理交接：認領（claims）、送件（inbox）、單一發佈者提交（publish）。
 
-PostgreSQL 18 翻譯由多個 AI 代理並行。只有 publisher 會修改真實 checkout 中的
+PostgreSQL 手冊翻譯由多個 AI 代理並行。只有 publisher 會修改真實 checkout 中的
 受追蹤檔案並 commit；其他代理把譯稿放進 inbox，由本程式檢查後代為提交。
 提交與 translation_pipeline.py 共用 pipeline-runtime/publish.lock，彼此序列化。
 
-協定全文：outputs/pg18-translation/agents/PROTOCOL.md
+協定全文：outputs/pg-translation/agents/PROTOCOL.md
 
   python scripts/agent_handoff.py status
   python scripts/agent_handoff.py claim --agent codex --page appendixes/contrib/ltree.md
@@ -30,13 +30,12 @@ import subprocess
 import sys
 import time
 
-BASE = 'outputs/pg18-translation'
+from pg_project import BASE, translation_path, translation_relative, major_version, source_prefix
 AGENTS = BASE + '/agents'
 PENDING = BASE + '/pending-pages.md'
 SUMMARY = 'SUMMARY.md'
 LOCK = BASE + '/pipeline-runtime/publish.lock'
 MARKER = '英文原文，待翻譯'
-SOURCE_PREFIX = 'https://www.postgresql.org/docs/18/'
 TZ = timezone(timedelta(hours=8))
 DEFAULT_TTL_HOURS = 12
 IDENTITIES = {
@@ -173,14 +172,14 @@ def pending_lines(text):
 
 
 def pending_state(root, page):
-    for mark, path in pending_lines(read(Path(root) / PENDING)):
+    for mark, path in pending_lines(read(translation_path(root, 'pending-pages.md'))):
         if path == page:
             return {' ': 'todo', 'x': 'done', '~': 'todo'}[mark]
     return None
 
 
 def todo_pages(root):
-    return [p for m, p in pending_lines(read(Path(root) / PENDING)) if m != 'x']
+    return [p for m, p in pending_lines(read(translation_path(root, 'pending-pages.md'))) if m != 'x']
 
 
 def page_title(text):
@@ -215,7 +214,7 @@ def retitle_summary(summary, page, title):
 # ---------- 認領 ----------
 
 def claims_dir(root):
-    return Path(root) / AGENTS / 'claims'
+    return translation_path(root, 'agents') / 'claims'
 
 
 def load_claim(root, page):
@@ -248,7 +247,7 @@ def is_claimed_by_other(root, page, me):
 
 
 def claim(root, page, agent, ttl_hours=DEFAULT_TTL_HOURS, note=''):
-    with exclusive(Path(root) / BASE / 'pipeline-runtime/claims.lock'):
+    with exclusive(translation_path(root, 'pipeline-runtime/claims.lock')):
         return _claim(root, page, agent, ttl_hours, note)
 
 
@@ -282,7 +281,7 @@ def _claim(root, page, agent, ttl_hours=DEFAULT_TTL_HOURS, note=''):
 
 
 def release(root, page, agent=None):
-    with exclusive(Path(root) / BASE / 'pipeline-runtime/claims.lock'):
+    with exclusive(translation_path(root, 'pipeline-runtime/claims.lock')):
         return _release(root, page, agent)
 
 
@@ -393,7 +392,7 @@ REQUIRED_META = ['page', 'agent', 'base_sha256', 'page_sha256', 'source_url', 's
 
 
 def inbox_dir(root, agent=None):
-    base = Path(root) / AGENTS / 'inbox'
+    base = translation_path(root, 'agents') / 'inbox'
     return base / agent if agent else base
 
 
@@ -438,8 +437,9 @@ def validate(root, item):
     candidate = read(item / 'page.md')
     if digest(candidate) != meta['page_sha256']:
         errors.append('page.md sha256 differs from meta.page_sha256')
-    if not meta['source_url'].startswith(SOURCE_PREFIX):
-        errors.append('source_url must be pinned to ' + SOURCE_PREFIX)
+    expected_source = source_prefix(root)
+    if not meta['source_url'].startswith(expected_source):
+        errors.append('source_url must be pinned to ' + expected_source)
     for trailer in meta.get('trailers', []):
         if not TRAILER_RE.match(trailer) or '\n' in trailer:
             errors.append('invalid trailer: %r' % trailer)
@@ -479,7 +479,7 @@ def message(root, sender, to, subject, body):
     check_agent(sender)
     if to != 'all':
         check_agent(to)
-    folder = Path(root) / AGENTS / 'messages'
+    folder = translation_path(root, 'agents') / 'messages'
     folder.mkdir(parents=True, exist_ok=True)
     safe = re.sub(r'[\\/:*?"<>|\s]+', '-', subject).strip('-')[:40] or 'note'
     name = f"{now().strftime('%Y%m%dT%H%M%S')}--{sender}--to-{to}--{safe}.md"
@@ -507,10 +507,10 @@ def publish(root, agent=None, dry_run=False, limit=None, publisher='codex', revi
     items = inbox_items(root, agent)
     if not items:
         return results
-    lock = root / LOCK
+    lock = translation_path(root, 'pipeline-runtime/publish.lock')
     with exclusive(lock):
-        if git(root, 'branch', '--show-current') != '18':
-            raise RuntimeError('expected branch 18')
+        if git(root, 'branch', '--show-current') != major_version(root):
+            raise RuntimeError('expected numeric target-version branch')
         if git(root, 'diff', '--cached', '--name-only'):
             raise RuntimeError('index is not empty; refusing to publish')
         for item in items[:limit] if limit else items:
@@ -538,7 +538,7 @@ def publish(root, agent=None, dry_run=False, limit=None, publisher='codex', revi
                                 f'`{page}` 未通過發佈檢查：\n\n' + '\n'.join('- ' + e for e in errors) +
                                 '\n\n原件已移至 `inbox/%s/_rejected/`。' % meta['agent'])
                 continue
-            targets = [page, PENDING, SUMMARY]
+            targets = [page, translation_relative(root, 'pending-pages.md'), SUMMARY]
             dirty = git(root, 'diff', '--name-only', '--', *targets)
             if dirty:
                 raise RuntimeError('uncommitted changes in publish targets: ' + dirty.replace('\n', ', '))
@@ -561,14 +561,14 @@ def publish(root, agent=None, dry_run=False, limit=None, publisher='codex', revi
             if git(root, 'diff', '--cached', '--name-only') or git(root, 'diff', '--name-only', '--', *targets):
                 raise RuntimeError('publish targets/index changed during review; preserving edits')
             title = page_title(candidate)
-            pending, style_p = read_styled(root / PENDING)
+            pending, style_p = read_styled(translation_path(root, 'pending-pages.md'))
             summary, style_s = read_styled(root / SUMMARY)
             _, style_page = read_styled(root / page)
             pending, remaining = mark_done(pending, page, title)
             summary = retitle_summary(summary, page, title)
             try:
                 write_styled(root / page, candidate, style_page)
-                write_styled(root / PENDING, pending, style_p)
+                write_styled(translation_path(root, 'pending-pages.md'), pending, style_p)
                 write_styled(root / SUMMARY, summary, style_s)
                 git(root, 'diff', '--check', '--', *targets)
                 git(root, 'add', '--', *targets)
@@ -580,7 +580,7 @@ def publish(root, agent=None, dry_run=False, limit=None, publisher='codex', revi
                             f'Translated-By: {meta["agent"]}',
                             f'Source: {meta["source_url"]} ({meta["source_version"]}, {meta["retrieved"]})',
                             *meta.get('trailers', [])]
-                args = ['commit', '-m', f'文件(pg18)：翻譯 {Path(page).stem}', '-m', '\n'.join(trailers)]
+                args = ['commit', '-m', f'文件(pg)：翻譯 {Path(page).stem}', '-m', '\n'.join(trailers)]
                 author = meta.get('author') or IDENTITIES.get(meta['agent'])
                 if author:
                     args.insert(1, '--author=' + author)
@@ -618,7 +618,7 @@ def status(root):
                 if d.exists():
                     buckets[f'{agent_dir.name}{bucket}'] = sum(1 for _ in d.iterdir())
     msgs = Counter()
-    mdir = root / AGENTS / 'messages'
+    mdir = translation_path(root, 'agents') / 'messages'
     if mdir.exists():
         for p in mdir.glob('*.md'):
             m = re.match(r'^\d{8}T\d{6}--[^-]+(?:-[^-]+)*?--to-([a-z0-9-]+)--', p.name)

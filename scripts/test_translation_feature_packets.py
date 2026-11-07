@@ -1,6 +1,7 @@
 import copy
 import json
 from pathlib import Path
+from pg_project import translation_path
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -38,8 +39,8 @@ class PacketTests(unittest.TestCase):
 
     def test_actual_459_rows(self):
         root=Path(__file__).resolve().parents[1]
-        archive=root/'outputs/pg18-translation/agents/inbox/claude/_rejected/appendixes__features__features-sql-standard.md--20261022T174526'
-        source=root/'outputs/pg18-translation/pipeline-runtime/pages/dc6427055204038674af/draft/source.html'
+        archive=translation_path(root)/'agents/inbox/claude/_rejected/appendixes__features__features-sql-standard.md--20261022T174526'
+        source=translation_path(root)/'pipeline-runtime/pages/dc6427055204038674af/draft/source.html'
         if not archive.exists() or not source.exists(): self.skipTest('local evidence unavailable')
         candidate=(archive/'page.md').read_text(encoding='utf-8-sig')
         html=source.read_text(encoding='utf-8-sig')

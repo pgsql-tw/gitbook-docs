@@ -17,10 +17,12 @@ import subprocess
 import sys
 import time
 
+from pg_project import translation_path, translation_relative, source_prefix, major_version
+
 PAGE = 'appendixes/contrib/ltree.md'
-TRACKERS = ['SUMMARY.md', 'outputs/pg18-translation/pending-pages.md',
-            'outputs/pg18-translation/continuation-state.md']
-RUNTIME = 'outputs/pg18-translation/controller-runtime'
+TRACKERS = ['SUMMARY.md', 'outputs/pg-translation/pending-pages.md',
+            'outputs/pg-translation/continuation-state.md']
+RUNTIME = 'outputs/pg-translation/controller-runtime'
 
 
 def digest(text):
@@ -101,7 +103,8 @@ def structural_errors(baseline, current):
 class Controller:
     def __init__(self, root):
         self.root = Path(root).resolve()
-        self.runtime = self.root / RUNTIME
+        self.trackers = ['SUMMARY.md', translation_relative(self.root, 'pending-pages.md'), translation_relative(self.root, 'continuation-state.md')]
+        self.runtime = translation_path(self.root, 'controller-runtime')
         self.runtime.mkdir(parents=True, exist_ok=True)
         self.statefile = self.runtime / 'state.json'
 
@@ -178,6 +181,8 @@ class Controller:
         self.emit('reviewed', sha256=expected_hash, note=note)
 
     def finalize(self):
+        if self.git('branch', '--show-current') != major_version(self.root):
+            raise RuntimeError('expected numeric target-version branch')
         state = self.state()
         approval = state.get('approval')
         if not approval:
@@ -200,7 +205,7 @@ class Controller:
             return commit
         if self.git('diff', '--cached', '--name-only'):
             raise RuntimeError('index is not empty; preserve existing staged work')
-        pending = read(self.root / TRACKERS[1])
+        pending = read(self.root / self.trackers[1])
         if f'- [x] `{PAGE}`' not in pending:
             raise RuntimeError('pending list has not been marked complete')
         remaining = len(re.findall(r'^- \[ \]', pending, re.M))
@@ -209,7 +214,7 @@ class Controller:
         errors = structural_errors(state['initial'], text)
         if errors:
             raise RuntimeError('; '.join(errors))
-        paths = [PAGE, *TRACKERS]
+        paths = [PAGE, *self.trackers]
         self.git('diff', '--check', '--', *paths)
         state['phase'] = 'committing'
         self.save(state)
@@ -217,7 +222,7 @@ class Controller:
         staged = set(self.git('diff', '--cached', '--name-only').splitlines())
         if not staged.issubset(set(paths)) or PAGE not in staged:
             raise RuntimeError('unexpected staged paths; inspect index before retry')
-        self.git('commit', '-m', '文件(pg18)：翻譯 ltree', '-m', marker)
+        self.git('commit', '-m', '文件(pg)：翻譯 ltree', '-m', marker)
         commit = self.git('rev-parse', 'HEAD')
         state.update(phase='completed', commit=commit)
         self.save(state)
@@ -240,9 +245,10 @@ class Controller:
         schema = Path(__file__).with_name('translation-result.schema.json')
         prompt = (
             f'Translate only {PAGE} completely into Traditional Chinese. Preserve existing work. '
-            'Read C:/Users/ycku/.codex/skills/postgresql-tw-translation/SKILL.md and references/style.md. '
+            f'Read {self.root / ".agents/skills/postgresql-tw-translation/SKILL.md"} and '
+            f'{self.root / ".agents/skills/postgresql-tw-translation/references/style.md"}. '
             'User explicitly chose existing 技術直述 style, do not ask style questions. '
-            'Verify against https://www.postgresql.org/docs/18/ltree.html. '
+            f'Verify against {source_prefix(self.root)}ltree.html. '
             'Preserve SQL, examples, HTML tables, anchors, links and identifiers. Translate explanatory '
             'prose in syntax examples too. Ensure every local # anchor link resolves; add missing '
             'page-level LTREE anchor if necessary. Use apply_patch. Do not edit any other file, commit, '

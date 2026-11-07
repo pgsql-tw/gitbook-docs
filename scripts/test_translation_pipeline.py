@@ -16,7 +16,7 @@ TARGET = '<a id="TEST"></a>\n\n## F.24. 測試 [#](#TEST)\n\n中文 `identifier`
 
 class Tests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix='pg18-pipeline-test-')
+        self.tmp = tempfile.TemporaryDirectory(prefix='pg-pipeline-test-')
         self.root = Path(self.tmp.name)
         git(self.root, 'init', '-b', '18')
         git(self.root, 'config', 'user.name', 'Test')

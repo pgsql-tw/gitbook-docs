@@ -28,7 +28,7 @@
 
 ## 提示標題的使用者裁決
 
-- **Caution →「注意」**（2026-10-31）：以官方來源的提示類型為準；PostgreSQL HTML 可由 `div class="caution"` 確認。不用「小心」作為該類提示的標題，但不替換正文中的一般用詞，也不把 Note、Warning 等其他類型一律當成 Caution。維護既有頁面時保留原正文與原碼；GitBook 呈現與定位保護依 [GitBook 維護規則](gitbook-maintenance.md#render-confirmed-caution-callouts)。裁決來源為專案 `outputs/pg18-translation/agents/PROTOCOL.md`。
+- **Caution →「注意」**（2026-10-31）：以官方來源的提示類型為準；PostgreSQL HTML 可由 `div class="caution"` 確認。不用「小心」作為該類提示的標題，但不替換正文中的一般用詞，也不把 Note、Warning 等其他類型一律當成 Caution。維護既有頁面時保留原正文與原碼；GitBook 呈現與定位保護依 [GitBook 維護規則](gitbook-maintenance.md#render-confirmed-caution-callouts)。裁決來源為專案 `<translation-root>/agents/PROTOCOL.md`。
 
 ## 尚未統一的詞
 

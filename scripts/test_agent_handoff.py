@@ -22,7 +22,7 @@ class Tests(unittest.TestCase):
         self.review_patch = patch('agent_handoff.semantic_review', return_value=[])
         self.review_patch.start()
         self.addCleanup(self.review_patch.stop)
-        self.tmp = tempfile.TemporaryDirectory(prefix='pg18-handoff-test-')
+        self.tmp = tempfile.TemporaryDirectory(prefix='pg-handoff-test-')
         self.root = Path(self.tmp.name)
         h.git(self.root, 'init', '-b', '18')
         h.git(self.root, 'config', 'user.name', 'Test')
@@ -137,7 +137,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(result[0]['outcome'], 'published', result)
         log = h.git(self.root, 'log', '-1', '--format=%an <%ae>%n%s%n%b')
         self.assertIn('Claude <noreply@anthropic.com>', log)
-        self.assertIn('文件(pg18)：翻譯 tutorial-install', log)
+        self.assertIn('文件(pg)：翻譯 tutorial-install', log)
         self.assertIn('Translation-Page-SHA256: ' + h.digest(TARGET), log)
         self.assertIn('Co-Authored-By: Claude', log)
         self.assertEqual(h.read(self.root / PAGE), TARGET)
@@ -249,7 +249,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(h.slug('tutorial/README.md'), 'tutorial__README.md')
 
     def test_invalid_paths_rejected(self):
-        for bad in ('../etc/passwd.md', 'outputs/pg18-translation/pending-pages.md', 'a b.md'):
+        for bad in ('../etc/passwd.md', 'outputs/pg-translation/pending-pages.md', 'a b.md'):
             with self.assertRaises(ValueError):
                 h.slug(bad)
 

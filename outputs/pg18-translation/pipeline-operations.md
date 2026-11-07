@@ -1,4 +1,6 @@
-# PostgreSQL 18 持續翻譯操作
+# PostgreSQL 手冊持續翻譯操作
+
+先執行 `python scripts/pg_project.py` 確認目標版本與實際資料目錄；新專案預設為 `outputs/pg-translation`，既有版本資料原地辨識，跨版本不可共用審查狀態。
 
 ## 執行與判讀
 

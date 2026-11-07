@@ -13,3 +13,10 @@
 .env.*
 !.env.example
 !.env.sample
+
+# Python 執行快取與工具驗證時產生的可重建副本。
+__pycache__/
+*.py[cod]
+/outputs/pg-tools-hardening/clean-base/
+/outputs/pg-tools-hardening/rename-diagnostic
+/outputs/**/*.tmp
