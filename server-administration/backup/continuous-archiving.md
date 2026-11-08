@@ -264,7 +264,7 @@ PostgreSQL 資料庫中資料所做的任何修改，
 能盡快被歸檔，也可以使用
 `pg_switch_wal` 手動強制切換區段。與
 WAL 管理相關的其他公用函式，列於
-[表格 9.97](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-BACKUP-TABLE) 中。
+[表格 9.97](../../the-sql-language/functions/functions-admin/functions-admin-backup.md#functions-admin-backup-table) 中。
 
 當 `wal_level` 為 `minimal` 時，
 部分 SQL 指令會經過最佳化以避免 WAL 記錄，詳見

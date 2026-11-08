@@ -383,7 +383,7 @@ data 區段包含實際的資料表資料、大型物件內容、序列值，以
 
 `--snapshot=snapshotname`
 
-對資料庫進行傾印時使用指定的同步快照（更多細節請參閱[表 9.100](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-SNAPSHOT-SYNCHRONIZATION-TABLE)）。
+對資料庫進行傾印時使用指定的同步快照（更多細節請參閱[表 9.100](../../the-sql-language/functions/functions-admin/functions-snapshot-synchronization.md#functions-snapshot-synchronization-table)）。
 
 當需要讓傾印與邏輯複寫槽（請參閱[第 47 章](../../server-programming/logicaldecoding/README.md)）或某個並行的工作階段同步時，此選項很有用。
 

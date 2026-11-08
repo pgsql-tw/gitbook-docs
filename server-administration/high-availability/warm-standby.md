@@ -328,8 +328,8 @@ primary_conninfo = 'host=192.168.1.50 port=5432 user=foo password=foopass'
 這些位置可以分別在主要伺服器上使用
 `pg_current_wal_lsn`，以及在待命伺服器上使用
 `pg_last_wal_receive_lsn` 來取得
-（詳情請參閱[表 9.97](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-BACKUP-TABLE) 與
-[表 9.98](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-INFO-TABLE)）。
+（詳情請參閱[表 9.97](../../the-sql-language/functions/functions-admin/functions-admin-backup.md#functions-admin-backup-table) 與
+[表 9.98](../../the-sql-language/functions/functions-admin/functions-recovery-control.md#functions-recovery-info-table)）。
 待命伺服器上最後的 WAL 接收位置，也會顯示在
 WAL 接收程序的程序狀態中，可以使用
 `ps` 命令顯示（詳情請參閱[第 27.1 節](../monitoring/monitoring-ps.md)）。

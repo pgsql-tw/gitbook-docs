@@ -119,48 +119,48 @@
 - [9.27. 系統資訊函式與運算子](functions-info.md)
   - [9.27.1. 工作階段資訊函式](functions-info.md#functions-info-session)
 
-  - [9.27.2. 存取權限查詢函式](functions-info.md#functions-info-access)
+  - [9.27.2. 存取權限查詢函式](functions-info/functions-info-access.md#functions-info-access)
 
-  - [9.27.3. 綱要可見性查詢函式](functions-info.md#functions-info-schema)
+  - [9.27.3. 綱要可見性查詢函式](functions-info/functions-info-schema.md#functions-info-schema)
 
   - [9.27.4. 系統目錄資訊函式](functions-info.md#functions-info-catalog)
 
-  - [9.27.5. 物件資訊與定址函式](functions-info.md#functions-info-object)
+  - [9.27.5. 物件資訊與定址函式](functions-info/functions-info-object.md#functions-info-object)
 
-  - [9.27.6. 註解資訊函式](functions-info.md#functions-info-comment)
+  - [9.27.6. 註解資訊函式](functions-info/functions-info-comment.md#functions-info-comment)
 
-  - [9.27.7. 資料有效性檢查函式](functions-info.md#functions-info-validity)
+  - [9.27.7. 資料有效性檢查函式](functions-info/functions-info-validity.md#functions-info-validity)
 
-  - [9.27.8. 交易 ID 與快照資訊函式](functions-info.md#functions-info-snapshot)
+  - [9.27.8. 交易 ID 與快照資訊函式](functions-info/functions-info-snapshot.md#functions-info-snapshot)
 
-  - [9.27.9. 已提交交易資訊函式](functions-info.md#functions-info-commit-timestamp)
+  - [9.27.9. 已提交交易資訊函式](functions-info/functions-info-commit-timestamp.md#functions-info-commit-timestamp)
 
-  - [9.27.10. 控制資料函式](functions-info.md#functions-info-controldata)
+  - [9.27.10. 控制資料函式](functions-info/functions-info-controldata.md#functions-info-controldata)
 
-  - [9.27.11. 版本資訊函式](functions-info.md#functions-info-version)
+  - [9.27.11. 版本資訊函式](functions-info/functions-info-version.md#functions-info-version)
 
-  - [9.27.12. WAL 摘要資訊函式](functions-info.md#functions-info-wal-summary)
+  - [9.27.12. WAL 摘要資訊函式](functions-info/functions-info-wal-summary.md#functions-info-wal-summary)
 
 - [9.28. 系統管理函式](functions-admin.md)
-  - [9.28.1. 組態設定函式](functions-admin.md#functions-admin-set)
+  - [9.28.1. 組態設定函式](functions-admin/functions-admin-set.md#functions-admin-set)
 
-  - [9.28.2. 伺服器訊號函式](functions-admin.md#functions-admin-signal)
+  - [9.28.2. 伺服器訊號函式](functions-admin/functions-admin-signal.md#functions-admin-signal)
 
-  - [9.28.3. 備份控制函式](functions-admin.md#functions-admin-backup)
+  - [9.28.3. 備份控制函式](functions-admin/functions-admin-backup.md#functions-admin-backup)
 
-  - [9.28.4. 復原控制函式](functions-admin.md#functions-recovery-control)
+  - [9.28.4. 復原控制函式](functions-admin/functions-recovery-control.md#functions-recovery-control)
 
-  - [9.28.5. 快照同步函式](functions-admin.md#functions-snapshot-synchronization)
+  - [9.28.5. 快照同步函式](functions-admin/functions-snapshot-synchronization.md#functions-snapshot-synchronization)
 
   - [9.28.6. 複寫管理函式](functions-admin.md#functions-replication)
 
   - [9.28.7. 資料庫物件管理函式](functions-admin.md#functions-admin-dbobject)
 
-  - [9.28.8. 索引維護函式](functions-admin.md#functions-admin-index)
+  - [9.28.8. 索引維護函式](functions-admin/functions-admin-index.md#functions-admin-index)
 
-  - [9.28.9. 通用檔案存取函式](functions-admin.md#functions-admin-genfile)
+  - [9.28.9. 通用檔案存取函式](functions-admin/functions-admin-genfile.md#functions-admin-genfile)
 
-  - [9.28.10. 諮詢鎖定函式](functions-admin.md#functions-advisory-locks)
+  - [9.28.10. 諮詢鎖定函式](functions-admin/functions-advisory-locks.md#functions-advisory-locks)
 
 - [9.29. 觸發程序函式](functions-trigger.md)
 

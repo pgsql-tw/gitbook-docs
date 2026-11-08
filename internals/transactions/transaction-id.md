@@ -22,7 +22,7 @@ PostgreSQL 叢集中的所有資料庫共用。此分配發生在交易第一次
 
 內部交易 ID 型別 `xid` 寬 32 位元，
 每 40 億個交易就會[回捲](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)一次。每次回捲時，一個 32 位元的 epoch 會遞增。另外還有一個 64 位元的型別 `xid8`，它包含此 epoch，因此在整個安裝的生命週期內都不會回捲；它可以透過型別轉換轉為 xid。
-[表 9.84](../../the-sql-language/functions/functions-info.md#FUNCTIONS-PG-SNAPSHOT) 中的函式
+[表 9.84](../../the-sql-language/functions/functions-info/functions-info-snapshot.md#functions-pg-snapshot) 中的函式
 會傳回 `xid8` 值。xid 是 PostgreSQL 的 [MVCC](../../the-sql-language/mvcc/README.md) 並行機制與串流複寫的基礎。
 
 當具有（非虛擬）xid 的最上層交易提交時，

@@ -114,7 +114,7 @@ Snapshot 的建立時機可能是在每個查詢開始時，或是在每個交�
 （在 14 版之前的伺服器中，並不存在 `in_hot_standby`
 參數；針對較舊的伺服器，可行的替代方法是
 `SHOW transaction_read_only`。）此外，還有一組函式
-（[表 9.98](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-INFO-TABLE)）
+（[表 9.98](../../the-sql-language/functions/functions-admin/functions-recovery-control.md#functions-recovery-info-table)）
 可讓使用者取得待命伺服器的相關資訊。這些函式可讓你撰寫
 能夠得知資料庫目前狀態的程式。它們可以用來監控復原的進度，
 或用來讓你撰寫複雜的程式，將資料庫還原到特定狀態。

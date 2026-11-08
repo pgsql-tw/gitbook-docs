@@ -55,7 +55,7 @@ SHOW ALL
 ## 注意事項
 
 函式 `current_setting` 會產生相同的輸出；請參閱
-[9.28.1 節](../../the-sql-language/functions/functions-admin.md#functions-admin-set)。
+[9.28.1 節](../../the-sql-language/functions/functions-admin/functions-admin-set.md#functions-admin-set)。
 此外，
 [`pg_settings`](../../internals/views/view-pg-settings.md)
 系統檢視表也會產生相同的資訊。

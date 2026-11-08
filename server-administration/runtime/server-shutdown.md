@@ -66,7 +66,7 @@ SIGKILL 會直接終止 `postgres`
 
 若要終止個別的工作階段，同時讓其他工作階段繼續執行，
 請使用 `pg_terminate_backend()`
-（請參閱[表 9.96](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL-TABLE)），
+（請參閱[表 9.96](../../the-sql-language/functions/functions-admin/functions-admin-signal.md#functions-admin-signal-table)），
 或者向與該工作階段關聯的子程序，
 發送 SIGTERM 信號。
 

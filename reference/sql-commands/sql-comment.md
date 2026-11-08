@@ -76,7 +76,7 @@ where aggregate_signature is:
 
 對於大多數種類的物件，只有物件的擁有者可以設定註解。角色沒有擁有者，因此 `COMMENT ON ROLE` 的規則是：你必須是超級使用者才能對超級使用者角色加上註解，或者必須具有 `CREATEROLE` 權限並在目標角色上被授予 `ADMIN OPTION`。同樣地，存取方法也沒有擁有者；你必須是超級使用者才能對存取方法加上註解。當然，超級使用者可以對任何東西加上註解。
 
-可以使用 psql 的 `\d` 系列命令檢視註解。其他用來擷取註解的使用者介面，可以建構在 psql 所使用的相同內建函式之上，也就是 `obj_description`、`col_description` 與 `shobj_description`（請參閱[表 9.82](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-COMMENT-TABLE)）。
+可以使用 psql 的 `\d` 系列命令檢視註解。其他用來擷取註解的使用者介面，可以建構在 psql 所使用的相同內建函式之上，也就是 `obj_description`、`col_description` 與 `shobj_description`（請參閱[表 9.82](../../the-sql-language/functions/functions-info/functions-info-comment.md#functions-info-comment-table)）。
 
 <a id="id-1.9.3.52.6"></a>
 

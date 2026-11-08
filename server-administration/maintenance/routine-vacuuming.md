@@ -527,7 +527,7 @@ HINT:  Execute a database-wide VACUUM in that database.
 儲存空間及處理回捲問題。
 另外還有一個獨立的儲存區域，用來保存每個 multixact
 中的成員清單，同樣使用 32 位元計數器，也必須
-加以管理。[表 9.84](../../the-sql-language/functions/functions-info.md#FUNCTIONS-PG-SNAPSHOT) 中所述的系統函式
+加以管理。[表 9.84](../../the-sql-language/functions/functions-info/functions-info-snapshot.md#functions-pg-snapshot) 中所述的系統函式
 `pg_get_multixact_members()`，可用來檢視與
 某個 multixact ID 相關聯的交易 ID。
 

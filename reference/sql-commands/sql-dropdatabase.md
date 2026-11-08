@@ -42,7 +42,7 @@ where option can be:
 
 這會終止背景工作程序的連線，以及目前使用者有權限以
 `pg_terminate_backend` 終止的連線；該函式說明於
-[第 9.28.2 節](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL)。若仍有連線殘留，
+[第 9.28.2 節](../../the-sql-language/functions/functions-admin/functions-admin-signal.md#functions-admin-signal)。若仍有連線殘留，
 此命令將會失敗。
 
 <a id="id-1.9.3.108.7"></a>

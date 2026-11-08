@@ -822,7 +822,7 @@ WAL 檔案名稱或歷史檔案中擷取而來），
 執行查詢，以檢查此復原目標是否是最理想的復原停止點。
 可以透過使用 `pg_wal_replay_resume()`
 （請參閱
-[表 9.99](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-RECOVERY-CONTROL-TABLE)）
+[表 9.99](../../the-sql-language/functions/functions-admin/functions-recovery-control.md#functions-recovery-control-table)）
 來繼續已暫停的狀態，如此便會使復原結束。
 若此復原目標並非所需的停止點，
 請關閉伺服器、將復原目標設定變更為更晚的目標，

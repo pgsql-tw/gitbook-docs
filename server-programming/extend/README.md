@@ -121,9 +121,9 @@
 - [36.16. 將擴充功能與索引介接](xindex.md)
   - [36.16.1. 索引方法與運算子類別](xindex.md#xindex-opclass)
 
-  - [36.16.2. 索引方法策略](xindex.md#xindex-strategies)
+  - [36.16.2. 索引方法策略](xindex/xindex-strategies.md#xindex-strategies)
 
-  - [36.16.3. 索引方法支援常式](xindex.md#xindex-support)
+  - [36.16.3. 索引方法支援常式](xindex/xindex-support.md#xindex-support)
 
   - [36.16.4. 範例](xindex.md#xindex-example)
 

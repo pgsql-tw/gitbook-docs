@@ -643,7 +643,7 @@ identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設
 
 `\dAo[x+] [access-method-pattern [operator-family-pattern]]` [#](#APP-PSQL-META-COMMAND-DAO)
 :   列出與運算子家族相關聯的運算子
-    （請參閱[第 36.16.2 節](../../server-programming/extend/xindex.md#xindex-strategies)）。
+    （請參閱[第 36.16.2 節](../../server-programming/extend/xindex/xindex-strategies.md#xindex-strategies)）。
     若指定了 *`access-method-pattern`*，
     則只列出與名稱符合該模式之存取方法相關聯的運算子家族成員。
     若指定了 *`operator-family-pattern`*，
@@ -654,7 +654,7 @@ identity](../sql-commands/sql-altertable.md#SQL-ALTERTABLE-REPLICA-IDENTITY) 設
 
 `\dAp[x+] [access-method-pattern [operator-family-pattern]]` [#](#APP-PSQL-META-COMMAND-DAP)
 :   列出與運算子家族相關聯的支援函式
-    （請參閱[第 36.16.3 節](../../server-programming/extend/xindex.md#xindex-support)）。
+    （請參閱[第 36.16.3 節](../../server-programming/extend/xindex/xindex-support.md#xindex-support)）。
     若指定了 *`access-method-pattern`*，
     則只列出與名稱符合該模式之存取方法相關聯的運算子家族的函式。
     若指定了 *`operator-family-pattern`*，

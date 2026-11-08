@@ -109,7 +109,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   不再需要此欄位。
 * 將
   `pg_backend_memory_contexts`.`level`
-  與 [`pg_log_backend_memory_contexts()`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL-TABLE)
+  與 [`pg_log_backend_memory_contexts()`](../../the-sql-language/functions/functions-admin/functions-admin-signal.md#functions-admin-signal-table)
   改為從 1 起算 (Melih Mutlu, Atsushi Torikoshi, David Rowley,
   Fujii Masao)
   [§](https://postgr.es/c/32d3ed816)
@@ -368,7 +368,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/76def4cdd)
 
   可以透過 [`pg_stat_reset_backend_stats()`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-FUNCS-TABLE) 清除個別後端的 WAL 統計資訊。
-* 新增函式 [`pg_ls_summariesdir()`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-GENFILE-TABLE)，
+* 新增函式 [`pg_ls_summariesdir()`](../../the-sql-language/functions/functions-admin/functions-admin-genfile.md#functions-admin-genfile-table)，
   專門用於列出 [`PGDATA`](../../internals/storage/storage-file-layout.md)/[`pg_wal/summaries`](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-SUMMARY-KEEP-TIME) 的內容
   (Yushi Ogiwara)
   [§](https://postgr.es/c/4e1fad378)
@@ -414,11 +414,11 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
 ##### E.6.3.1.5. 權限 [#](#RELEASE-18-PRIVILEGES)
 
-* 新增函式 [`pg_get_acl()`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-OBJECT-TABLE)，
+* 新增函式 [`pg_get_acl()`](../../the-sql-language/functions/functions-info/functions-info-object.md#functions-info-object-table)，
   用於取得資料庫存取控制的詳細資訊 (Joel Jacobson)
   [§](https://postgr.es/c/4564f1ceb)
   [§](https://postgr.es/c/d898665bf)
-* 新增函式 [`has_largeobject_privilege()`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-ACCESS-TABLE)，
+* 新增函式 [`has_largeobject_privilege()`](../../the-sql-language/functions/functions-info/functions-info-access.md#functions-info-access-table)，
   用於檢查大型物件權限 (Yugo Nagata)
   [§](https://postgr.es/c/4eada203a)
 * 允許 [ALTER DEFAULT PRIVILEGES](../../reference/sql-commands/sql-alterdefaultprivileges.md) 定義大型物件的預設權限 (Takatsuka Haruka, Yugo Nagata,
@@ -448,7 +448,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/3d1ef3a15)
 
   舊名稱仍然可用。
-* 將[取消請求金鑰](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-SIGNAL-TABLE)改為 256 位元 (Heikki Linnakangas, Jelte Fennema-Nio)
+* 將[取消請求金鑰](../../the-sql-language/functions/functions-admin/functions-admin-signal.md#functions-admin-signal-table)改為 256 位元 (Heikki Linnakangas, Jelte Fennema-Nio)
   [§](https://postgr.es/c/a460251f0)
   [§](https://postgr.es/c/9d9b9d46f)
 

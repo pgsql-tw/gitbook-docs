@@ -35,7 +35,7 @@ btree 存取方法（AM）相距甚遠的部分也會使用它們。
 
 ### 65.1.2. B-Tree 運算子類別的行為 [#](#btree-behavior) <a href="#btree-behavior" id="btree-behavior"></a>
 
-如[表 36.3](../../server-programming/extend/xindex.md#XINDEX-BTREE-STRAT-TABLE) 所示，btree 運算子
+如[表 36.3](../../server-programming/extend/xindex/xindex-strategies.md#xindex-btree-strat-table) 所示，btree 運算子
 類別必須提供五個比較運算子：
 `<`、
 `<=`、
@@ -143,7 +143,7 @@ btree 索引機制本身並未嚴格要求，但
 
 ### 65.1.3. B-Tree 支援函式 [#](#btree-support-funcs) <a href="#btree-support-funcs" id="btree-support-funcs"></a>
 
-如[表 36.9](../../server-programming/extend/xindex.md#XINDEX-BTREE-SUPPORT-TABLE) 所示，btree 定義了
+如[表 36.9](../../server-programming/extend/xindex/xindex-support.md#xindex-btree-support-table) 所示，btree 定義了
 一個必要的支援函式與五個選用的支援函式。這六個
 使用者定義的方法是：
 

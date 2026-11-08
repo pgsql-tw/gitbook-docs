@@ -193,7 +193,7 @@ SELECT pg_advisory_lock(q.id) FROM
 
 在上面的查詢中，第二種形式很危險，因為無法保證 `LIMIT` 會在鎖定函式執行之前套用。這可能導致取得一些應用程式沒有預期到的鎖定，因此也就無法釋放它們（直到結束工作階段為止）。從應用程式的角度來看，這樣的鎖定會是懸置的，儘管仍然可以在 `pg_locks` 中看到。
 
-用來操作諮詢鎖定的函式，說明於[第 9.28.10 節](../functions/functions-admin.md#functions-advisory-locks)。
+用來操作諮詢鎖定的函式，說明於[第 9.28.10 節](../functions/functions-admin/functions-advisory-locks.md#functions-advisory-locks)。
 
 ---
 
