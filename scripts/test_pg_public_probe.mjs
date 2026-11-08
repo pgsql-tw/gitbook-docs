@@ -83,6 +83,14 @@ test('real Chrome selects heading, body, table and compatibility links on major 
     </main>`;
   const server = http.createServer((request, response) => {
     response.setHeader('Content-Type', 'text/html; charset=utf-8');
+    if (request.url.startsWith('/19/sidebar')) {
+      const variant = request.url.split('/').pop();
+      response.end(`<style>body{margin:0}aside{position:fixed;top:100px;left:20px;width:260px;height:240px;overflow:auto}a{display:block;height:30px}section{margin-left:20px}</style>
+        <aside><a href="/19/parent" ${variant === 'hidden' ? 'style="display:none"' : ''}>Parent</a>
+        <div style="height:900px"></div><section ${variant === 'flat' ? 'style="margin-left:0"' : ''}>
+        ${variant === 'missing' ? '' : '<a href="/19/child">Child</a>'}</section><div style="height:300px"></div></aside>
+        <main style="margin-left:350px"><h1>Sidebar fixture</h1><a href="/19/child">Body link is not sidebar</a></main>`); return;
+    }
     if (request.url.startsWith('/19/ranges')) {
       response.end('<main><p>Repeated</p><h2 id="first">First</h2><p>Repeated</p>' +
         '<pre>  original\n</pre><table><tr><td>cell</td></tr></table><ul><li>parent<ul><li>child</li></ul></li></ul>' +
@@ -108,15 +116,32 @@ test('real Chrome selects heading, body, table and compatibility links on major 
         { name: 'missing', start: 'first', end: 'absent' },
         { name: 'reversed', start: 'second', end: 'first' }] });
     }
+    for (const variant of ['long', 'hidden', 'flat', 'missing']) cases.push({
+      name: 'sidebar-' + variant, path: '/19/sidebar/' + variant,
+      navTargets: ['/19/parent', '/19/child'] });
     const bundle = { origin, major: 19, source_commit: 'local-fixture', chromePath, settleMs: 250, clickSettleMs: 100, travelSettleMs: 250, cases };
     const config = path.join(work, 'bundle.json'), out = path.join(work, 'browser');
     await atomicJson(config, bundle);
     const result = await run(['--bundle', config, '--out', out, '--all']);
     assert.equal(result.code, 0, result.stderr);
     const records = JSON.parse(await fs.readFile(path.join(out, 'browser-checks.json'), 'utf8'));
-    assert.equal(records.status, 'complete'); assert.equal(records.results.length, 10);
+    assert.equal(records.status, 'complete'); assert.equal(records.results.length, 14);
     for (const record of records.results) {
       const name = record.screenshot;
+      if (name.startsWith('sidebar-')) {
+        const [parent, child] = record.sidebarProbe;
+        if (name === 'sidebar-missing.png') { assert.equal(record.sidebarProbe.length, 1); continue; }
+        assert.equal(child.visible, true); assert.equal(child.measurement, 'individually_revealed');
+        if (name === 'sidebar-hidden.png') assert.equal(parent.visible, false);
+        else {
+          assert.equal(parent.visible, true); assert.equal(parent.measurement, 'individually_revealed');
+          assert.ok(parent.top >= 100 && parent.bottom <= 340);
+          assert.ok(child.top >= 100 && child.bottom <= 340);
+          if (name === 'sidebar-flat.png') assert.equal(child.textX, parent.textX);
+          else assert.ok(child.textX > parent.textX);
+        }
+        continue;
+      }
       if (name.startsWith('ranges')) {
         const [first, second, missing, reversed] = record.sections;
         assert.equal(first.valid, true); assert.equal(second.valid, true);

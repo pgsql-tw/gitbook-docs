@@ -5,6 +5,24 @@ from pg_public_audit import authored_links, expected_links, public_url, compare_
 
 
 class PublicAuditTests(unittest.TestCase):
+    def test_separate_sidebar_reveals_still_require_visible_unique_indented_items(self):
+        case = {'path': '/19/child', 'navTargets': ['/19/parent', '/19/child']}
+        record = {'url': 'https://example.org/19/child', 'documentWidth': 1440, 'viewportWidth': 1440,
+                  'sidebarProbe': [
+                      {'path': '/19/parent', 'visible': True, 'x': 20, 'textX': 20,
+                       'measurement': 'individually_revealed'},
+                      {'path': '/19/child', 'visible': True, 'x': 40, 'textX': 40,
+                       'measurement': 'individually_revealed'}]}
+        self.assertEqual(compare_case(case, record, origin='https://example.org'), [])
+        for variant in ['hidden', 'missing', 'duplicate', 'flat', 'right_sidebar']:
+            bad = copy.deepcopy(record)
+            if variant == 'hidden': bad['sidebarProbe'][0]['visible'] = False
+            elif variant == 'missing': bad['sidebarProbe'].pop(0)
+            elif variant == 'duplicate': bad['sidebarProbe'].append(dict(bad['sidebarProbe'][0]))
+            elif variant == 'flat': bad['sidebarProbe'][1]['textX'] = 20
+            else: bad['sidebarProbe'][0]['x'] = 1180
+            self.assertIn('sidebar', compare_case(case, bad, origin='https://example.org'), variant)
+
     def test_authored_links_include_autolinks_reference_uses_and_html(self):
         text = '[a][ref] [b][ref]\n\n[ref]: target.md#T\n\n<https://example.org/>\n<a href="x.md">x</a>\n'
         self.assertCountEqual(authored_links(text), ['target.md#T', 'target.md#T', 'https://example.org/', 'x.md'])

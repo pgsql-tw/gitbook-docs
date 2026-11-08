@@ -6,6 +6,7 @@ import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { atomicJson, validateBundle, clickTarget } from './pg_public_probe_helpers.mjs';
 import { sectionSnapshots } from './pg_public_sections.mjs';
+import { sidebar } from './pg_public_sidebar.mjs';
 
 const args = process.argv.slice(2);
 function argument(name) { const i = args.indexOf(name); if (i < 0 || !args[i + 1]) throw Error(`Missing ${name}`); return args[i + 1]; }
@@ -95,7 +96,16 @@ try {
       await delay(bundle.travelSettleMs ?? 4000);
       state.travelArrival = await evaluate(`(${arrivalAt.toString()})(${JSON.stringify(target.anchor)})`);
     }
-    if (test.navTargets) state.sidebarProbe = await evaluate(`(${sidebar.toString()})(${JSON.stringify(test.navTargets)})`);
+    if (test.navTargets) {
+      state.sidebarProbe = []; state.sidebarScreenshots = [];
+      for (const [index, target] of test.navTargets.entries()) {
+        state.sidebarProbe.push(...await evaluate(`(${sidebar.toString()})(${JSON.stringify([target])})`));
+        const filename = `${test.name}-sidebar-${index}.png`;
+        const image = await cmd('Page.captureScreenshot', { format: 'png' });
+        await fs.writeFile(path.join(out, filename), Buffer.from(image.data, 'base64'));
+        state.sidebarScreenshots.push({ path: target, screenshot: filename });
+      }
+    }
     const shot = await cmd('Page.captureScreenshot', { format: 'png' });
     await fs.writeFile(path.join(out, test.name + '.png'), Buffer.from(shot.data, 'base64'));
     state.screenshot = test.name + '.png'; run.results.push(state);
@@ -120,11 +130,6 @@ function arrivalAt(anchor) {
 }
 function outline(ids) {
   return ids.map(id => { const all = [...document.querySelectorAll('[id]')].filter(e => e.id === id), e = all[0]; return { id, count: all.length, tag: e?.tagName ?? null, text: e?.innerText ?? null }; });
-}
-function sidebar(paths) {
-  const links = [...document.querySelectorAll('a[href]')].filter(a => !a.closest('main') && paths.includes(new URL(a.href).pathname));
-  links.find(a => new URL(a.href).pathname === paths[1] && a.getBoundingClientRect().left < 320)?.scrollIntoView({ block: 'center' });
-  return links.map(a => { const r = a.getBoundingClientRect(), walker = document.createTreeWalker(a, NodeFilter.SHOW_TEXT); let n; while ((n = walker.nextNode()) && !n.textContent.trim()) {} let textX = null; if (n) { const range = document.createRange(); range.selectNodeContents(n); textX = range.getBoundingClientRect().left; } return { path: new URL(a.href).pathname, text: a.innerText, x: r.left, textX, visible: r.width > 0 && r.height > 0 && r.top >= 0 && r.top < innerHeight }; });
 }
 function snapshot(test) {
   const heading = 'h1,h2,h3,h4,h5,h6', anchor = test.anchor, es = anchor ? [...document.querySelectorAll('[id]')].filter(e => e.id === anchor) : [], e = es[0];
