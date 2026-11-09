@@ -184,7 +184,7 @@ IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.m
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        以文字形式建立縮寫的顯示格式。（縮寫的方式是去除網路遮罩右邊全為零的八位元組；更多範例請見<a class="xref" href="../datatype/datatype-net-types.md#DATATYPE-NET-CIDR-TABLE">表 8.22</a>。）
+        以文字形式建立縮寫的顯示格式。（縮寫的方式是去除網路遮罩右邊全為零的八位元組；更多範例請見<a class="xref" href="../datatype/datatype-net-types/datatype-cidr.md#datatype-net-cidr-table">表 8.22</a>。）
        </p>
 <p>
 <code class="literal">abbrev(cidr '10.1.0.0/16')</code>

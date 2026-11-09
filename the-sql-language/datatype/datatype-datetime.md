@@ -7,9 +7,9 @@
 
 [8.5.3. 時區](datatype-datetime.md#datatype-timezones)
 
-[8.5.4. 時間區間輸入](datatype-datetime.md#datatype-interval-input)
+[8.5.4. 時間區間輸入](datatype-datetime/datatype-interval-input.md#datatype-interval-input)
 
-[8.5.5. 時間區間輸出](datatype-datetime.md#datatype-interval-output)
+[8.5.5. 時間區間輸出](datatype-datetime/datatype-interval-output.md#datatype-interval-output)
 
 <a id="id-1.5.7.13.2"></a><a id="id-1.5.7.13.3"></a><a id="id-1.5.7.13.4"></a><a id="id-1.5.7.13.5"></a><a id="id-1.5.7.13.6"></a><a id="id-1.5.7.13.7"></a><a id="id-1.5.7.13.8"></a><a id="id-1.5.7.13.9"></a><a id="id-1.5.7.13.10"></a><a id="id-1.5.7.13.11"></a>
 
@@ -277,7 +277,7 @@ zone` 值時，永遠會從 UTC 轉換為
 時區的當地時間顯示。若要以另一個時區來檢視時刻，
 可以變更
 `timezone`，或使用 `AT TIME ZONE` 結構
-（請參閱[9.9.4 節](../functions/functions-datetime.md#functions-datetime-zoneconvert)）。
+（請參閱[9.9.4 節](../functions/functions-datetime/functions-datetime-zoneconvert.md#functions-datetime-zoneconvert)）。
 
 在 `timestamp without time zone` 與
 `timestamp with time zone` 之間轉換時，
@@ -567,214 +567,14 @@ POSIX 風格時區規格中的正負號，
   `SET TIME ZONE`
   指令。
 
-<a id="DATATYPE-INTERVAL-INPUT"></a>
-
 ### 8.5.4. 時間區間輸入 [#](#datatype-interval-input) <a href="#datatype-interval-input" id="datatype-interval-input"></a>
 
-<a id="id-1.5.7.13.21.2"></a>
-
-`interval` 值可以使用以下的
-詳細語法來撰寫：
-
-```
-
-[@] quantity unit [quantity unit...] [direction]
-```
-
-其中 *`quantity`* 是一個數字（可以帶正負號）；
-*`unit`* 是 `microsecond`、
-`millisecond`、`second`、
-`minute`、`hour`、`day`、
-`week`、`month`、`year`、
-`decade`、`century`、`millennium`，
-或這些單位的縮寫或複數形式；
-*`direction`* 可以是 `ago` 或
-空白。at 符號（`@`）是選用的裝飾，不影響意義。
-不同單位的數量，會依照適當的正負號
-隱含地相加。`ago` 會將所有欄位取負。
-若 [IntervalStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-INTERVALSTYLE) 設為
-`postgres_verbose`，
-這種語法也會用於 interval 的輸出。
-
-天、時、分、秒的數量，可以在不明確標示
-單位的情況下指定。舉例來說，`'1 12:59:10'`，
-讀起來與 `'1 day 12 hours 59 min 10 sec'`
-相同。此外，
-年與月的組合，也可以用一個連字號來指定；
-舉例來說，`'200-10'`，讀起來與 `'200 years
-10 months'` 相同。（這些較短的形式，
-實際上是 SQL 標準唯一允許的形式，
-在 `IntervalStyle` 設為
-`sql_standard` 時，會用於輸出。）
-
-時間區間值，也可以寫成 ISO 8601 時間區間，
-使用標準第 4.4.3.2 節的「帶指示符格式」，
-或第 4.4.3.3 節的「替代格式」。帶指示符
-的格式看起來像這樣：
-
-```
-
-P quantity unit [ quantity unit ...] [ T [ quantity unit ...]]
-```
-
-該字串必須以 `P` 開頭，且可以包含一個
-`T`，用來引出時刻的單位。可用的
-單位縮寫，列於[表 8.16](datatype-datetime.md#DATATYPE-INTERVAL-ISO8601-UNITS)中。單位
-可以省略，也可以以任何順序指定，但小於
-一天的單位，必須出現在 `T` 之後。特別是，
-`M` 的意義，取決於它是出現在
-`T` 之前還是之後。
-
-<a id="DATATYPE-INTERVAL-ISO8601-UNITS"></a>
-
-**表 8.16. ISO 8601 時間區間單位縮寫**
-
-<table border="1" class="table" summary="ISO 8601 時間區間單位縮寫"><colgroup><col/><col/></colgroup><thead><tr><th>縮寫</th><th>意義</th></tr></thead><tbody><tr><td>Y</td><td>年</td></tr><tr><td>M</td><td>月（在日期部分）</td></tr><tr><td>W</td><td>週</td></tr><tr><td>D</td><td>日</td></tr><tr><td>H</td><td>時</td></tr><tr><td>M</td><td>分（在時刻部分）</td></tr><tr><td>S</td><td>秒</td></tr></tbody></table>
-
-<br>
-
-在替代格式中：
-
-```
-
-P [ years-months-days ] [ T hours:minutes:seconds ]
-```
-
-該字串必須以 `P` 開頭，且以
-`T` 分隔該 interval 的日期部分與時刻部分。
-這些值，是以類似 ISO 8601 日期的數字形式給出的。
-
-在撰寫帶有 *`fields`*
-規格的 interval 常值時，或將字串指定給
-以 *`fields`* 規格所定義的 interval 欄位時，
-未標記數量的解讀方式，取決於 *`fields`*。舉
-例來說，`INTERVAL '1' YEAR` 會被讀作 1 年，而
-`INTERVAL '1'` 則代表 1 秒。此外，
-`fields` 規格所允許的最小有效欄位
-「右側」的欄位值，會被悄悄捨棄。舉
-例來說，寫 `INTERVAL '1 day 2:03:04' HOUR TO MINUTE`
-會導致秒欄位被捨去，但日欄位不會。
-
-依照 SQL 標準，某個 interval
-值的所有欄位，都必須具有相同的正負號，因此開頭的負號，
-會套用到所有欄位；舉例來說，interval 常值
-`'-1 2:03:04'` 中的負號，
-會同時套用到天以及時／分／秒的部分。
-PostgreSQL 允許各欄位擁有不同的
-正負號，並依照傳統，將文字表示法中的每個欄位，
-視為各自帶有獨立正負號，因此在這個例子中，
-時／分／秒的部分，會被視為正值。若
-`IntervalStyle` 設為
-`sql_standard`，則開頭的正負號，會被視為
-套用到所有欄位（但僅限於沒有其他正負號出現的情況）。
-否則，就會使用 PostgreSQL 傳統的
-解讀方式。為避免歧義，建議在任何欄位為
-負值時，為每個欄位附上明確的正負號。
-
-在內部，`interval` 值是以三個
-整數欄位儲存的：月、日與微秒。這些欄位
-之所以分開保存，是因為一個月的天數會有所變化，
-而若牽涉到日光節約時間的轉換，一天可能會有
-23 或 25 個小時。使用其他單位的 interval
-輸入字串，會被正規化為這種格式，
-接著再以標準化的方式，重新建構為輸出，舉例來說：
-
-```
-
-SELECT '2 years 15 months 100 weeks 99 hours 123456789 milliseconds'::interval;
-               interval
----------------------------------------
- 3 years 3 mons 700 days 133:17:36.789
-```
-
-在這裡，被理解為「7 天」的週，
-會以天數的形式獨立呈現（而非併入其他欄位）；
-至於其他較大與較小的時間單位，則會被合併並正規化。
-
-輸入的欄位值，可以帶有小數部分，
-舉例來說 `'1.5
-weeks'` 或 `'01:02:03.45'`。不過，
-因為 `interval` 在內部只儲存整數欄位，
-小數值必須被轉換為較小的
-單位。大於月的單位，其小數部分，
-會被四捨五入為整數個月，
-舉例來說 `'1.5 years'`
-會變成 `'1 year 6 mons'`。週
-與日的小數部分，會被計算為整數個日
-與微秒，假設每月 30 天、每天 24 小時，
-舉例來說，
-`'1.75 months'` 會變成 `1 mon 22 days
-12:00:00`。在輸出中，只有秒才會
-顯示為小數。
-
-[表 8.17](datatype-datetime.md#DATATYPE-INTERVAL-INPUT-EXAMPLES) 展示了一些有效
-`interval` 輸入的範例。
-
-<a id="DATATYPE-INTERVAL-INPUT-EXAMPLES"></a>
-
-**表 8.17. 時間區間輸入**
-
-<table border="1" class="table" summary="時間區間輸入"><colgroup><col/><col/></colgroup><thead><tr><th>範例</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">1-2</code></td><td>SQL 標準格式：1 年 2 個月</td></tr><tr><td><code class="literal">3 4:05:06</code></td><td>SQL 標準格式：3 天 4 小時 5 分 6 秒</td></tr><tr><td><code class="literal">1 year 2 months 3 days 4 hours 5 minutes 6 seconds</code></td><td>傳統 Postgres 格式：1 年 2 個月 3 天 4 小時 5 分 6 秒</td></tr><tr><td><code class="literal">P1Y2M3DT4H5M6S</code></td><td>ISO 8601 <span class="quote">「<span class="quote">帶指示符格式</span>」</span>：意義與上面相同</td></tr><tr><td><code class="literal">P0001-02-03T04:05:06</code></td><td>ISO 8601 <span class="quote">「<span class="quote">替代格式</span>」</span>：意義與上面相同</td></tr></tbody></table>
-
-<br>
-
-<a id="DATATYPE-INTERVAL-OUTPUT"></a>
+完整內容請見 [8.5.4. 時間區間輸入](datatype-datetime/datatype-interval-input.md#datatype-interval-input)。
 
 ### 8.5.5. 時間區間輸出 [#](#datatype-interval-output) <a href="#datatype-interval-output" id="datatype-interval-output"></a>
 
-<a id="id-1.5.7.13.22.2"></a>
+完整內容請見 [8.5.5. 時間區間輸出](datatype-datetime/datatype-interval-output.md#datatype-interval-output)。
 
-如前所述，PostgreSQL
-以月、日與微秒，儲存 `interval` 值。
-對於輸出而言，月欄位會除以 12，轉換為
-年與月。日欄位則原樣顯示。
-微秒欄位，會被轉換為時、分、秒，以及
-秒的小數部分。因此，月、分、秒，永遠不會
-顯示超過 0–11、0–59 與 0–59
-的範圍，而所顯示的年、日與時欄位，
-則可能相當大。（若希望將較大的日或
-時值，轉移到下一個較高的欄位，
-可以使用 [`justify_days`](../functions/functions-datetime.md#FUNCTION-JUSTIFY-DAYS)
-與 [`justify_hours`](../functions/functions-datetime.md#FUNCTION-JUSTIFY-HOURS)
-函式。）
-
-interval 型別的輸出格式，可以使用指令
-`SET intervalstyle`，
-設定為 `sql_standard`、`postgres`、
-`postgres_verbose` 或 `iso_8601`
-這四種風格之一。
-預設為 `postgres` 格式。
-[表 8.18](datatype-datetime.md#INTERVAL-STYLE-OUTPUT-TABLE) 展示了每一種
-輸出風格的範例。
-
-若某個 interval 值符合標準的限制
-（僅有年-月，或僅有日-時，
-且正負分量不混用），
-`sql_standard` 風格，會產生符合
-SQL 標準對 interval 常值字串規格的輸出。
-否則，輸出看起來，就像是一個標準的
-年-月常值字串，後面接著一個日-時常值字串，
-並加上明確的正負號，以消除混合正負號 interval 的歧義。
-
-`postgres` 風格的輸出，
-與 [DateStyle](../../server-administration/runtime-config/runtime-config-client.md#GUC-DATESTYLE) 參數設為 `ISO` 時，
-8.4 之前的 PostgreSQL 發行版本的輸出相符。
-
-`postgres_verbose` 風格的輸出，
-與 `DateStyle` 參數設為非 `ISO`
-輸出時，8.4 之前的 PostgreSQL 發行版本的輸出相符。
-
-`iso_8601` 風格的輸出，
-與 ISO 8601 標準第 4.4.3.2 節中所描述的
-「帶指示符格式」相符。
-
-<a id="INTERVAL-STYLE-OUTPUT-TABLE"></a>
-
-**表 8.18. 時間區間輸出風格範例**
-
-<table border="1" class="table" summary="時間區間輸出樣式範例"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>風格規格</th><th>年-月時間區間</th><th>日-時時間區間</th><th>混合時間區間</th></tr></thead><tbody><tr><td><code class="literal">sql_standard</code></td><td>1-2</td><td>3 4:05:06</td><td>-1-2 +3 -4:05:06</td></tr><tr><td><code class="literal">postgres</code></td><td>1 year 2 mons</td><td>3 days 04:05:06</td><td>-1 year -2 mons +3 days -04:05:06</td></tr><tr><td><code class="literal">postgres_verbose</code></td><td>@ 1 year 2 mons</td><td>@ 3 days 4 hours 5 mins 6 secs</td><td>@ 1 year 2 mons -3 days 4 hours 5 mins 6 secs ago</td></tr><tr><td><code class="literal">iso_8601</code></td><td>P1Y2M</td><td>P3DT4H5M6S</td><td>P-1Y-2M3D​T-4H-5M-6S</td></tr></tbody></table>
-
-<br>
 
 ---
 

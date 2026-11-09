@@ -35,7 +35,7 @@
 
   - [41.5.4. 執行動態指令](plpgsql-statements.md#plpgsql-statements-executing-dyn)
 
-  - [41.5.5. 取得結果狀態](plpgsql-statements.md#plpgsql-statements-diagnostics)
+  - [41.5.5. 取得結果狀態](plpgsql-statements/plpgsql-statements-diagnostics.md#plpgsql-statements-diagnostics)
 
   - [41.5.6. 什麼都不做](plpgsql-statements.md#plpgsql-statements-null)
 

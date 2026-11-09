@@ -33,7 +33,7 @@
 
   - [9.9.3. `date_bin`](functions-datetime.md#functions-datetime-bin)
 
-  - [9.9.4. `AT TIME ZONE` 與 `AT LOCAL`](functions-datetime.md#functions-datetime-zoneconvert)
+  - [9.9.4. `AT TIME ZONE` 與 `AT LOCAL`](functions-datetime/functions-datetime-zoneconvert.md#functions-datetime-zoneconvert)
 
   - [9.9.5. 目前日期／時間](functions-datetime.md#functions-datetime-current)
 
@@ -169,7 +169,7 @@
 
   - [9.30.2. 處理被 DDL 命令刪除的物件](functions-event-triggers.md#pg-event-trigger-sql-drop-functions)
 
-  - [9.30.3. 處理資料表改寫事件](functions-event-triggers.md#pg-event-trigger-table-rewrite-functions)
+  - [9.30.3. 處理資料表改寫事件](functions-event-triggers/pg-event-trigger-table-rewrite-functions.md#pg-event-trigger-table-rewrite-functions)
 
 - [9.31. 統計資訊函式](functions-statistics.md)
   - [9.31.1. 檢視 MCV 清單](functions-statistics.md#functions-statistics-mcv)

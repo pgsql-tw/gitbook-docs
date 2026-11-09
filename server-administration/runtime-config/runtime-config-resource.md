@@ -387,7 +387,7 @@ PostgreSQL 能夠判斷核心上限的平台上，
     不建議使用 `sysv` 選項（此選項在任何平台上
     都不是預設值），因為它通常需要
     非預設的核心設定，才能允許大量配置
-    （參閱[18.4.1 節](../runtime/kernel-resources.md#sysvipc)）。
+    （參閱[18.4.1 節](../runtime/kernel-resources/sysvipc.md#sysvipc)）。
     此參數只能在伺服器啟動時設定。
 <a id="GUC-DYNAMIC-SHARED-MEMORY-TYPE"></a>
 

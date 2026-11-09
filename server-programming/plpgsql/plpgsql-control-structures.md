@@ -808,7 +808,7 @@ END;
 
 ### 41.6.9. 取得執行位置資訊 [#](#plpgsql-call-stack) <a href="#plpgsql-call-stack" id="plpgsql-call-stack"></a>
 
-先前在 [第 41.5.5 節](plpgsql-statements.md#plpgsql-statements-diagnostics) 中所述的 `GET DIAGNOSTICS` 指令，會取得目前執行狀態的相關資訊（而上面討論的 `GET STACKED
+先前在 [第 41.5.5 節](plpgsql-statements/plpgsql-statements-diagnostics.md#plpgsql-statements-diagnostics) 中所述的 `GET DIAGNOSTICS` 指令，會取得目前執行狀態的相關資訊（而上面討論的 `GET STACKED
 DIAGNOSTICS` 指令則是回報先前某個錯誤發生當時之執行狀態的資訊）。它的 `PG_CONTEXT` 狀態項目對於辨識目前的執行位置很有用。`PG_CONTEXT` 會回傳一個文字字串，其中含有描述呼叫堆疊的文字行。第一行指的是目前的函式以及目前正在執行的 `GET DIAGNOSTICS` 指令。第二行以及後續各行指的則是呼叫堆疊中更上層的呼叫端函式。例如：
 
 ```

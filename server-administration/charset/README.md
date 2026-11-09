@@ -25,13 +25,13 @@
   - [23.2.3. ICU 自訂定序](collation.md#icu-custom-collations)
 
 - [23.3. 字元集支援](multibyte.md)
-  - [23.3.1. 支援的字元集](multibyte.md#multibyte-charset-supported)
+  - [23.3.1. 支援的字元集](multibyte/multibyte-charset-supported.md#multibyte-charset-supported)
 
   - [23.3.2. 設定字元集](multibyte.md#multibyte-setting)
 
   - [23.3.3. 伺服器與用戶端間的自動字元集轉換](multibyte.md#multibyte-automatic-conversion)
 
-  - [23.3.4. 可用的字元集轉換](multibyte.md#multibyte-conversions-supported)
+  - [23.3.4. 可用的字元集轉換](multibyte/multibyte-conversions-supported.md#multibyte-conversions-supported)
 
   - [23.3.5. 延伸閱讀](multibyte.md#multibyte-further-reading)
 

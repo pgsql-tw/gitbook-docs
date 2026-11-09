@@ -71,7 +71,7 @@ $$ LANGUAGE plpgsql;
 ### 注意
 
 事實上，每一個 PL/pgSQL 函式主體外面都隱含包著一個「外層區塊」。這個區塊提供了函式參數（若有的話）的宣告，以及一些特殊變數，例如
-`FOUND`（見[41.5.5 節](plpgsql-statements.md#plpgsql-statements-diagnostics)）。這個外層區塊以函式名稱作為標籤，意味著參數與特殊變數都可以用函式名稱來限定。
+`FOUND`（見[41.5.5 節](plpgsql-statements/plpgsql-statements-diagnostics.md#plpgsql-statements-diagnostics)）。這個外層區塊以函式名稱作為標籤，意味著參數與特殊變數都可以用函式名稱來限定。
 
 請務必不要將 PL/pgSQL 中用於陳述式分組的
 `BEGIN`／`END`，與名稱相似、用於交易控制的 SQL 命令混淆。PL/pgSQL 的

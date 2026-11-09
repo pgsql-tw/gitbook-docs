@@ -17,7 +17,7 @@
   - [18.3.2. 用戶端連線問題](server-start.md#client-connection-problems)
 
 - [18.4. 管理核心資源](kernel-resources.md)
-  - [18.4.1. 共享記憶體與號誌（Semaphore）](kernel-resources.md#sysvipc)
+  - [18.4.1. 共享記憶體與號誌（Semaphore）](kernel-resources/sysvipc.md#sysvipc)
 
   - [18.4.2. systemd RemoveIPC](kernel-resources.md#systemd-removeipc)
 
@@ -47,7 +47,7 @@
 
   - [18.9.3. 使用用戶端憑證](ssl-tcp.md#ssl-client-certificates)
 
-  - [18.9.4. SSL 伺服器檔案的使用](ssl-tcp.md#ssl-server-files)
+  - [18.9.4. SSL 伺服器檔案的使用](ssl-tcp/ssl-server-files.md#ssl-server-files)
 
   - [18.9.5. 建立憑證](ssl-tcp.md#ssl-certificate-creation)
 

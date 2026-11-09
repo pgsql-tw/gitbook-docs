@@ -77,7 +77,7 @@
 - [27.5. 動態追蹤](dynamic-trace.md)
   - [27.5.1. 為動態追蹤編譯](dynamic-trace.md#compiling-for-trace)
 
-  - [27.5.2. 內建探針](dynamic-trace.md#trace-points)
+  - [27.5.2. 內建探針](dynamic-trace/trace-points.md#trace-points)
 
   - [27.5.3. 使用探針](dynamic-trace.md#using-trace-points)
 

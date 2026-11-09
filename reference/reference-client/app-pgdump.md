@@ -85,7 +85,7 @@ pg_dump 只會傾印單一資料庫。若要匯出整個叢集，或匯出叢集
 指定 `-e` 時，pg_dump 不會嘗試傾印所選擴充功能可能相依的任何其他資料庫物件。因此，無法保證特定擴充功能傾印的結果能單獨成功還原到乾淨的資料庫中。
 
 `-E encoding`<br>`--encoding=encoding`
-:   以指定的字元集編碼建立傾印。預設情況下，傾印會以資料庫編碼建立。（取得相同結果的另一種方式，是將環境變數 `PGCLIENTENCODING` 設為所要的傾印編碼。）支援的編碼說明於[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
+:   以指定的字元集編碼建立傾印。預設情況下，傾印會以資料庫編碼建立。（取得相同結果的另一種方式，是將環境變數 `PGCLIENTENCODING` 設為所要的傾印編碼。）支援的編碼說明於[第 23.3.1 節](../../server-administration/charset/multibyte/multibyte-charset-supported.md#multibyte-charset-supported)。
 
 `-f file`<br>`--file=file`
 :   將輸出送到指定的檔案。對於以檔案為基礎的輸出格式，可以省略此參數，此時會使用標準輸出。不過對於 directory 輸出格式則必須指定此參數，此時它指定的是目標目錄而不是檔案。在這種情況下，目錄由 `pg_dump` 建立，而且事先必須不存在。

@@ -240,7 +240,7 @@ DETAIL:  Failed system call was semget(5440126, 17, 03600).
 提高核心限制。
 
 關於設定 System V IPC 機制的詳細資訊，
-請參閱[18.4.1 節](kernel-resources.md#sysvipc)。
+請參閱[18.4.1 節](kernel-resources/sysvipc.md#sysvipc)。
 
 <a id="CLIENT-CONNECTION-PROBLEMS"></a>
 

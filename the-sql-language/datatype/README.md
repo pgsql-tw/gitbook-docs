@@ -20,7 +20,7 @@
 - [8.4. 二進位資料型別](datatype-binary.md)
   - [8.4.1. `bytea` 十六進位格式](datatype-binary.md#datatype-binary-bytea-hex-format)
 
-  - [8.4.2. `bytea` 跳脫格式](datatype-binary.md#datatype-binary-bytea-escape-format)
+  - [8.4.2. `bytea` 跳脫格式](datatype-binary/datatype-binary-bytea-escape-format.md#datatype-binary-bytea-escape-format)
 
 - [8.5. 日期／時間型別](datatype-datetime.md)
   - [8.5.1. 日期／時間輸入](datatype-datetime.md#datatype-datetime-input)
@@ -29,9 +29,9 @@
 
   - [8.5.3. 時區](datatype-datetime.md#datatype-timezones)
 
-  - [8.5.4. 時間間隔輸入](datatype-datetime.md#datatype-interval-input)
+  - [8.5.4. 時間間隔輸入](datatype-datetime/datatype-interval-input.md#datatype-interval-input)
 
-  - [8.5.5. 時間間隔輸出](datatype-datetime.md#datatype-interval-output)
+  - [8.5.5. 時間間隔輸出](datatype-datetime/datatype-interval-output.md#datatype-interval-output)
 
 - [8.6. 布林型別](datatype-boolean.md)
 
@@ -62,7 +62,7 @@
 - [8.9. 網路位址型別](datatype-net-types.md)
   - [8.9.1. `inet`](datatype-net-types.md#datatype-inet)
 
-  - [8.9.2. `cidr`](datatype-net-types.md#datatype-cidr)
+  - [8.9.2. `cidr`](datatype-net-types/datatype-cidr.md#datatype-cidr)
 
   - [8.9.3. `inet` 與 `cidr` 的比較](datatype-net-types.md#datatype-inet-vs-cidr)
 

@@ -553,7 +553,7 @@ with designators）」的時間間隔輸出。
 
 `IntervalStyle` 參數也會影響
 對模糊間隔輸入的解讀。詳情請參閱
-[8.5.4 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-INTERVAL-INPUT)。
+[8.5.4 節](../../the-sql-language/datatype/datatype-datetime/datatype-interval-input.md#datatype-interval-input)。
 <a id="GUC-TIMEZONE"></a>
 
 `TimeZone` (`string`) <a id="id-1.6.6.14.3.2.3.1.3"></a> <a id="id-1.6.6.14.3.2.3.1.4"></a> [#](#GUC-TIMEZONE)
@@ -611,7 +611,7 @@ PostgreSQL 12 有所變更；
 :   設定用戶端編碼（字元集）。
     預設會使用資料庫編碼。
     PostgreSQL 伺服器支援的字元集，
-    說明於[23.3.1 節](../charset/multibyte.md#multibyte-charset-supported)。
+    說明於[23.3.1 節](../charset/multibyte/multibyte-charset-supported.md#multibyte-charset-supported)。
 <a id="GUC-LC-MESSAGES"></a>
 
 `lc_messages` (`string`) <a id="id-1.6.6.14.3.2.7.1.3"></a> [#](#GUC-LC-MESSAGES)

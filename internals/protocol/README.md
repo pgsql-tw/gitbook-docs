@@ -11,7 +11,7 @@
 
   - [54.1.3. 格式與格式代碼](protocol-overview.md#protocol-format-codes)
 
-  - [54.1.4. 協定版本](protocol-overview.md#protocol-versions)
+  - [54.1.4. 協定版本](protocol-overview/protocol-versions.md#protocol-versions)
 
 - [54.2. 訊息流程](protocol-flow.md)
   - [54.2.1. 啟動](protocol-flow.md#protocol-flow-start-up)

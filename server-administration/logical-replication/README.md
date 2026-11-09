@@ -21,7 +21,7 @@
 
   - [29.4.2. 運算式限制](logical-replication-row-filter.md#logical-replication-row-filter-restrictions)
 
-  - [29.4.3. UPDATE 轉換](logical-replication-row-filter.md#logical-replication-row-filter-transformations)
+  - [29.4.3. UPDATE 轉換](logical-replication-row-filter/logical-replication-row-filter-transformations.md#logical-replication-row-filter-transformations)
 
   - [29.4.4. 分割資料表](logical-replication-row-filter.md#logical-replication-row-filter-partitioned-table)
 

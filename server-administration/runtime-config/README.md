@@ -82,7 +82,7 @@
 
   - [19.8.4. 使用 CSV 格式日誌輸出](runtime-config-logging.md#runtime-config-logging-csvlog)
 
-  - [19.8.5. 使用 JSON 格式日誌輸出](runtime-config-logging.md#runtime-config-logging-jsonlog)
+  - [19.8.5. 使用 JSON 格式日誌輸出](runtime-config-logging/runtime-config-logging-jsonlog.md#runtime-config-logging-jsonlog)
 
   - [19.8.6. 程序標題](runtime-config-logging.md#runtime-config-logging-proc-title)
 

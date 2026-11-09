@@ -68,7 +68,7 @@ DATABASE` 命令複製。`template0` 永遠不應該被修改，但你可以將�
 
 `-E encoding`<br>`--encoding=encoding` [#](#APP-INITDB-OPTION-ENCODING)
 
-選擇範本資料庫的編碼。除非你屆時另行覆寫，這也會是你之後建立之任何資料庫的預設編碼。PostgreSQL 伺服器所支援的字元集說明請見[第 23.3.1 節](../../server-administration/charset/multibyte.md#multibyte-charset-supported)。
+選擇範本資料庫的編碼。除非你屆時另行覆寫，這也會是你之後建立之任何資料庫的預設編碼。PostgreSQL 伺服器所支援的字元集說明請見[第 23.3.1 節](../../server-administration/charset/multibyte/multibyte-charset-supported.md#multibyte-charset-supported)。
 
 預設情況下，範本資料庫的編碼是由區域設定推導而來。若指定了 [`--no-locale`](app-initdb.md#APP-INITDB-OPTION-NO-LOCALE)（或等價地，若區域設定為 `C` 或 `POSIX`），則 ICU 提供者的預設編碼為 `UTF8`，`libc` 提供者的預設編碼為 `SQL_ASCII`。
 <a id="APP-INITDB-ALLOW-GROUP-ACCESS"></a>
