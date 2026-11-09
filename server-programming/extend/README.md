@@ -15,7 +15,7 @@
 
   - [36.2.4. 虛擬型別](extend-type-system.md#extend-type-system-pseudo)
 
-  - [36.2.5. 多型型別](extend-type-system.md#extend-types-polymorphic)
+  - [36.2.5. 多型型別](extend-type-system/extend-types-polymorphic.md#extend-types-polymorphic)
 
 - [36.3. 使用者定義函式](xfunc.md)
 

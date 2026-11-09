@@ -1116,7 +1116,7 @@ $$ LANGUAGE SQL;
 ### 36.5.11. 多型 SQL 函式 [#](#xfunc-sql-polymorphic-functions) <a href="#xfunc-sql-polymorphic-functions" id="xfunc-sql-polymorphic-functions"></a>
 
 SQL 函式可以被宣告為接受並
-傳回[36.2.5 節](extend-type-system.md#extend-types-polymorphic)中所述的多型（polymorphic）型別。以下是一個
+傳回[36.2.5 節](extend-type-system/extend-types-polymorphic.md#extend-types-polymorphic)中所述的多型（polymorphic）型別。以下是一個
 名為 `make_array` 的多型函式，它會從
 兩個任意資料型別的元素建構出一個陣列：
 

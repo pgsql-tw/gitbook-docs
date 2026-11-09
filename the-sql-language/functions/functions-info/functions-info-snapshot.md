@@ -94,7 +94,7 @@
         <em class="parameter"><code>mode</code></em> <code class="type">text</code> )
        </p>
 <p>
-        回傳指定 multixact ID 之每個成員的交易 ID 與鎖模式。鎖模式 <code class="literal">forupd</code>、<code class="literal">fornokeyupd</code>、<code class="literal">sh</code> 與 <code class="literal">keysh</code> 分別對應於資料列層級鎖 <code class="literal">FOR UPDATE</code>、<code class="literal">FOR NO KEY UPDATE</code>、<code class="literal">FOR SHARE</code> 與 <code class="literal">FOR KEY SHARE</code>，如<a class="xref" href="../../mvcc/explicit-locking.md#locking-rows">第 13.3.2 節</a>所述。另外還有兩種 multixact 專用的模式：<code class="literal">nokeyupd</code>，用於未修改鍵欄位的更新；以及 <code class="literal">upd</code>，用於會修改鍵欄位的更新或刪除。
+        回傳指定 multixact ID 之每個成員的交易 ID 與鎖模式。鎖模式 <code class="literal">forupd</code>、<code class="literal">fornokeyupd</code>、<code class="literal">sh</code> 與 <code class="literal">keysh</code> 分別對應於資料列層級鎖 <code class="literal">FOR UPDATE</code>、<code class="literal">FOR NO KEY UPDATE</code>、<code class="literal">FOR SHARE</code> 與 <code class="literal">FOR KEY SHARE</code>，如<a class="xref" href="../../mvcc/explicit-locking/locking-rows.md#locking-rows">第 13.3.2 節</a>所述。另外還有兩種 multixact 專用的模式：<code class="literal">nokeyupd</code>，用於未修改鍵欄位的更新；以及 <code class="literal">upd</code>，用於會修改鍵欄位的更新或刪除。
        </p></td></tr></tbody></table>
 
 <br>

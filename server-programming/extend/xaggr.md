@@ -251,7 +251,7 @@ PostgreSQL 的限制。
 狀態轉換函式或最終函式，如此一來，同一組函式
 就可以用來實作多個聚合。
 關於多型函式的說明，請參閱
-[36.2.5 節](extend-type-system.md#extend-types-polymorphic)。
+[36.2.5 節](extend-type-system/extend-types-polymorphic.md#extend-types-polymorphic)。
 更進一步，聚合函式本身也可以指定為
 多型的輸入型別與狀態型別，讓單一個
 聚合定義，能為多種輸入資料型別服務。

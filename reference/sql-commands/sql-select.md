@@ -1171,7 +1171,7 @@ KEY SHARE
 子句中所參照的資料表 *`alias`*，
 或未被隱藏的 *`table_name`*。
 關於各個資料列層級鎖定模式的更多資訊，請參閱
-[13.3.2 節](../../the-sql-language/mvcc/explicit-locking.md#locking-rows)。
+[13.3.2 節](../../the-sql-language/mvcc/explicit-locking/locking-rows.md#locking-rows)。
 
 若要避免此操作等待其他交易提交，可使用
 `NOWAIT` 或 `SKIP LOCKED` 選項。

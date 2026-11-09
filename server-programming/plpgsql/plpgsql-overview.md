@@ -45,7 +45,7 @@ SQL 是 PostgreSQL 以及大多數其他關聯式資料庫所使用的查詢語�
 
 PL/pgSQL 函式可以使用 `VARIADIC` 標記宣告成接受可變數量的引數。其運作方式與 SQL 函式完全相同，詳見[第 36.5.6 節](../extend/xfunc-sql.md#xfunc-sql-variadic-functions)。
 
-PL/pgSQL 函式也可以宣告成接受並回傳[第 36.2.5 節](../extend/extend-type-system.md#extend-types-polymorphic)所描述的多型型別，如此一來，函式實際處理的資料型別就可以隨每次呼叫而不同。範例請見[第 41.3.1 節](plpgsql-declarations.md#plpgsql-declaration-parameters)。
+PL/pgSQL 函式也可以宣告成接受並回傳[第 36.2.5 節](../extend/extend-type-system/extend-types-polymorphic.md#extend-types-polymorphic)所描述的多型型別，如此一來，函式實際處理的資料型別就可以隨每次呼叫而不同。範例請見[第 41.3.1 節](plpgsql-declarations.md#plpgsql-declaration-parameters)。
 
 PL/pgSQL 函式還可以宣告成回傳任何能以單一實例回傳之資料型別的「集合」（或資料表）。這樣的函式會針對結果集合中每個想要的元素執行 `RETURN NEXT`，或是使用 `RETURN QUERY` 輸出計算某個查詢所得的結果，藉此產生輸出。
 

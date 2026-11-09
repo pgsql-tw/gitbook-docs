@@ -1548,7 +1548,7 @@ CREATE OR REPLACE FUNCTION retcomposite(IN integer, IN integer,
 ### 36.10.10. 多型引數與傳回型別 [#](#xfunc-c-polymorphic) <a href="#xfunc-c-polymorphic" id="xfunc-c-polymorphic"></a>
 
 C 語言函式可以被宣告為接受並
-傳回[36.2.5 節](extend-type-system.md#extend-types-polymorphic)中所述的多型型別。
+傳回[36.2.5 節](extend-type-system/extend-types-polymorphic.md#extend-types-polymorphic)中所述的多型型別。
 當某個函式的引數或傳回型別
 被定義為多型型別時，函式的作者無法
 事先知道它會被以哪種資料型別呼叫，或

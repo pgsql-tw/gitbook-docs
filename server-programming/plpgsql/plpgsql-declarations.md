@@ -202,7 +202,7 @@ $$ LANGUAGE plpgsql;
 這完全等同於宣告一個或多個 `OUT` 參數並指定 `RETURNS SETOF
 sometype`。
 
-當 PL/pgSQL 函式的回傳型別被宣告為多型型別時（請參閱[第 36.2.5 節](../extend/extend-type-system.md#extend-types-polymorphic)），系統會建立一個特別的參數 `$0`。它的資料型別就是該函式實際的回傳型別，由實際的輸入型別推導而來。這讓函式能夠取得自己實際的回傳型別，用法如[第 41.3.3 節](plpgsql-declarations.md#plpgsql-declaration-type)所示。`$0` 會被初始化為空值，並且可以被函式修改，因此如果需要的話，它可以用來存放回傳值，不過這並非必要。`$0` 也可以被賦予別名。舉例來說，下面這個函式適用於任何具有 `+` 運算子的資料型別：
+當 PL/pgSQL 函式的回傳型別被宣告為多型型別時（請參閱[第 36.2.5 節](../extend/extend-type-system/extend-types-polymorphic.md#extend-types-polymorphic)），系統會建立一個特別的參數 `$0`。它的資料型別就是該函式實際的回傳型別，由實際的輸入型別推導而來。這讓函式能夠取得自己實際的回傳型別，用法如[第 41.3.3 節](plpgsql-declarations.md#plpgsql-declaration-type)所示。`$0` 會被初始化為空值，並且可以被函式修改，因此如果需要的話，它可以用來存放回傳值，不過這並非必要。`$0` 也可以被賦予別名。舉例來說，下面這個函式適用於任何具有 `+` 運算子的資料型別：
 
 ```
 
