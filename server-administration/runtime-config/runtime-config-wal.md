@@ -97,8 +97,10 @@
 檔案中或伺服器命令列上設定。
 若你關閉此參數，也應考慮一併關閉
 [full_page_writes](runtime-config-wal.md#GUC-FULL-PAGE-WRITES)。
+
 完整內容請見 [synchronous_commit (enum)](runtime-config-wal/synchronous-commit.md#guc-synchronous-commit)。
 
+<br>
 <a id="GUC-WAL-SYNC-METHOD"></a>
 
 `wal_sync_method` (`enum`) <a id="id-1.6.6.8.3.2.4.1.3"></a> [#](#GUC-WAL-SYNC-METHOD)
