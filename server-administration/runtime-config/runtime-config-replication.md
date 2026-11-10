@@ -344,7 +344,7 @@ standby 為止。舉例來說，設為
 同步複寫，交易提交也不會等待複寫。這是
 預設組態設定。即使啟用了同步複寫，
 個別交易仍然可以透過將
-[synchronous_commit](runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT) 參數設為
+[synchronous_commit](runtime-config-wal/synchronous-commit.md#guc-synchronous-commit) 參數設為
 `local` 或 `off`，設定為不等待複寫。
 
 此參數只能在 `postgresql.conf`

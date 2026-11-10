@@ -228,6 +228,7 @@
       * [SSL 密碼套件預設值](server-administration/runtime-config/runtime-config-connection-ssl-ciphers.md)
     * [19.4. 資源消耗 #](server-administration/runtime-config/runtime-config-resource.md)
     * [19.5. 預寫式日誌 (WAL) #](server-administration/runtime-config/runtime-config-wal.md)
+      * [synchronous_commit (enum)](server-administration/runtime-config/runtime-config-wal/synchronous-commit.md)
     * [19.6. 複寫 #](server-administration/runtime-config/runtime-config-replication.md)
     * [19.7. 查詢規劃 #](server-administration/runtime-config/runtime-config-query.md)
     * [19.8. 錯誤回報與日誌記錄 #](server-administration/runtime-config/runtime-config-logging.md)

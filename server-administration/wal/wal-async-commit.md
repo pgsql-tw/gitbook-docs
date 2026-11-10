@@ -40,7 +40,7 @@
 可以讓同步與非同步確認的交易同時並行執行。這讓
 效能與交易持久性保證之間，能夠有彈性地取捨。
 確認模式由使用者可設定的參數
-[synchronous_commit](../runtime-config/runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT) 控制，
+[synchronous_commit](../runtime-config/runtime-config-wal/synchronous-commit.md#guc-synchronous-commit) 控制，
 可以透過任何一種設定組態參數的方式來變更。任何一筆交易
 所使用的模式，取決於該交易開始確認時，
 `synchronous_commit` 的值。

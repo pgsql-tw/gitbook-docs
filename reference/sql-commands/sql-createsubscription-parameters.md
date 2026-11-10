@@ -80,7 +80,7 @@
 
 ## `synchronous_commit` (`enum`) [#](#sql-createsubscription-params-with-synchronous-commit) <a href="#sql-createsubscription-params-with-synchronous-commit" id="sql-createsubscription-params-with-synchronous-commit"></a>
 
-此參數的值會覆寫此訂閱之套用工作程序中的 [synchronous_commit](../../server-administration/runtime-config/runtime-config-wal.md#GUC-SYNCHRONOUS-COMMIT) 設定。預設值為 `off`。
+此參數的值會覆寫此訂閱之套用工作程序中的 [synchronous_commit](../../server-administration/runtime-config/runtime-config-wal/synchronous-commit.md#guc-synchronous-commit) 設定。預設值為 `off`。
 
 對邏輯複寫使用 `off` 是安全的：若訂閱者因為缺少同步而遺失交易，資料會由發佈者再次傳送。
 
