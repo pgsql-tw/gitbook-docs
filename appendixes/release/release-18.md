@@ -315,7 +315,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/7720082ae)
 
   此資訊會出現在伺服器日誌、系統檢視表 [`pg_stat_progress_vacuum`](../../server-administration/monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)
-  與 [`pg_stat_progress_analyze`](../../server-administration/monitoring/progress-reporting.md#PG-STAT-PROGRESS-ANALYZE-VIEW)，
+  與 [`pg_stat_progress_analyze`](../../server-administration/monitoring/progress-reporting/analyze-progress-reporting.md#pg-stat-progress-analyze-view)，
   以及 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與 [ANALYZE](../../reference/sql-commands/sql-analyze.md) 在 `VERBOSE`
   模式下的輸出中；必須以伺服器變數 [track_cost_delay_timing](../../server-administration/runtime-config/runtime-config-statistics.md#GUC-TRACK-COST-DELAY-TIMING) 啟用追蹤。
 * 在 `ANALYZE VERBOSE` 的輸出中新增 WAL、CPU 與平均讀取統計資訊

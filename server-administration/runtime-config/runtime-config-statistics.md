@@ -54,7 +54,7 @@
     來測量你的系統上計時功能的額外負擔。以成本為基礎的 vacuum 延遲
     計時資訊會顯示在
     [`pg_stat_progress_vacuum`](../monitoring/progress-reporting/vacuum-progress-reporting.md#vacuum-progress-reporting)、
-    [`pg_stat_progress_analyze`](../monitoring/progress-reporting.md#analyze-progress-reporting)、
+    [`pg_stat_progress_analyze`](../monitoring/progress-reporting/analyze-progress-reporting.md#analyze-progress-reporting)、
     在使用 `VERBOSE` 選項時 [VACUUM](../../reference/sql-commands/sql-vacuum.md) 與
     [ANALYZE](../../reference/sql-commands/sql-analyze.md) 的輸出中，
     以及在設定 [log_autovacuum_min_duration](runtime-config-logging.md#GUC-LOG-AUTOVACUUM-MIN-DURATION)

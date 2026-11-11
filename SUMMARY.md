@@ -318,6 +318,7 @@
       * [27.2.25. pg_stat_slru](server-administration/monitoring/monitoring-stats/monitoring-pg-stat-slru-view.md)
     * [27.3. 檢視鎖定](server-administration/monitoring/monitoring-locks.md)
     * [27.4. 進度回報 #](server-administration/monitoring/progress-reporting.md)
+      * [27.4.1. ANALYZE 進度回報](server-administration/monitoring/progress-reporting/analyze-progress-reporting.md)
       * [27.4.2. CLUSTER 進度回報](server-administration/monitoring/progress-reporting/cluster-progress-reporting.md)
       * [27.4.3. COPY 進度回報](server-administration/monitoring/progress-reporting/copy-progress-reporting.md)
       * [27.4.4. CREATE INDEX 進度回報](server-administration/monitoring/progress-reporting/create-index-progress-reporting.md)

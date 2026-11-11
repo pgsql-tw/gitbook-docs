@@ -44,7 +44,7 @@
        詳情請參閱<a class="link" href="monitoring-pg-stat-gssapi-view.md#monitoring-pg-stat-gssapi-view">
 <code class="structname">pg_stat_gssapi</code></a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_analyze</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.8.1.2"></a></td><td>每個正在執行 <code class="command">ANALYZE</code> 的後端（包括 autovacuum 工作程序）各一筆資料列，顯示目前進度。
-       請參閱<a class="xref" href="../progress-reporting.md#analyze-progress-reporting">第 27.4.1 節</a>。
+       請參閱<a class="xref" href="../progress-reporting/analyze-progress-reporting.md#analyze-progress-reporting">第 27.4.1 節</a>。
       </td></tr><tr><td><code class="structname">pg_stat_progress_create_index</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.9.1.2"></a></td><td>每個正在執行 <code class="command">CREATE INDEX</code> 或 <code class="command">REINDEX</code> 的後端各一筆資料列，顯示目前進度。
       請參閱<a class="xref" href="../progress-reporting/create-index-progress-reporting.md#create-index-progress-reporting">第 27.4.4 節</a>。
      </td></tr><tr><td><code class="structname">pg_stat_progress_vacuum</code><a class="indexterm" id="id-1.6.14.7.6.7.2.2.10.1.2"></a></td><td>每個正在執行 <code class="command">VACUUM</code> 的後端（包括 autovacuum 工作程序）各一筆資料列，顯示目前進度。

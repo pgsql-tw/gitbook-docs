@@ -100,7 +100,7 @@ autovacuum 常駐程式不會處理分割資料表；若始終只修改子系，
 
 若被分析的資料表完全為空，`ANALYZE` 不會為該資料表記錄新的統計資訊。任何既有的統計資訊都會保留。
 
-每個執行 `ANALYZE` 的後端都會在 `pg_stat_progress_analyze` 檢視表中回報其進度。詳情請參閱[第 27.4.1 節](../../server-administration/monitoring/progress-reporting.md#analyze-progress-reporting)。
+每個執行 `ANALYZE` 的後端都會在 `pg_stat_progress_analyze` 檢視表中回報其進度。詳情請參閱[第 27.4.1 節](../../server-administration/monitoring/progress-reporting/analyze-progress-reporting.md#analyze-progress-reporting)。
 
 <a id="id-1.9.3.46.9"></a>
 
@@ -119,7 +119,7 @@ ANALYZE [ VERBOSE ] [ table_and_columns [, ...] ]
 
 ## 另請參閱
 
-[VACUUM](sql-vacuum.md), [vacuumdb](../reference-client/app-vacuumdb.md), [第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost), [第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum), [第 27.4.1 節](../../server-administration/monitoring/progress-reporting.md#analyze-progress-reporting)
+[VACUUM](sql-vacuum.md), [vacuumdb](../reference-client/app-vacuumdb.md), [第 19.10.2 節](../../server-administration/runtime-config/runtime-config-vacuum.md#runtime-config-resource-vacuum-cost), [第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum), [第 27.4.1 節](../../server-administration/monitoring/progress-reporting/analyze-progress-reporting.md#analyze-progress-reporting)
 
 ---
 

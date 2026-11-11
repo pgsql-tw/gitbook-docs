@@ -62,7 +62,7 @@
 - [27.3. 檢視鎖定](monitoring-locks.md)
 
 - [27.4. 進度回報](progress-reporting.md)
-  - [27.4.1. ANALYZE 進度回報](progress-reporting.md#analyze-progress-reporting)
+  - [27.4.1. ANALYZE 進度回報](progress-reporting/analyze-progress-reporting.md#analyze-progress-reporting)
 
   - [27.4.2. CLUSTER 進度回報](progress-reporting/cluster-progress-reporting.md#cluster-progress-reporting)
 
