@@ -821,6 +821,7 @@
     * [CREATE OPERATOR](reference/sql-commands/sql-createoperator.md)
     * [CREATE OPERATOR FAMILY](reference/sql-commands/sql-createopfamily.md)
     * [CREATE POLICY](reference/sql-commands/sql-createpolicy.md)
+      * [各命令的政策](reference/sql-commands/sql-createpolicy/policy-by-command.md)
     * [CREATE PROCEDURE](reference/sql-commands/sql-createprocedure.md)
     * [CREATE PUBLICATION](reference/sql-commands/sql-createpublication.md)
       * [CREATE PUBLICATION 發佈參數](reference/sql-commands/sql-createpublication-parameters.md)
