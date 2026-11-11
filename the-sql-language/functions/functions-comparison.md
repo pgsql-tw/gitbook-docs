@@ -45,11 +45,11 @@
 
 如上所示，所有比較運算子都是回傳 `boolean` 型別值的二元運算子。因此，像 `1 < 2 < 3` 這樣的運算式是無效的（因為沒有將布林值與 `3` 比較的 `<` 運算子）。請使用下面所示的 `BETWEEN` 述詞來進行範圍測試。
 
-此外還有一些比較述詞，如[表 9.2](functions-comparison.md#FUNCTIONS-COMPARISON-PRED-TABLE) 所示。它們的行為很像運算子，但具有 SQL 標準所規定的特殊語法。
+此外還有一些比較述詞，如[表 9.2](#functions-comparison-pred-table) 所示。它們的行為很像運算子，但具有 SQL 標準所規定的特殊語法。
 
 <a id="FUNCTIONS-COMPARISON-PRED-TABLE"></a>
 
-**表 9.2. 比較述詞**
+### 表 9.2. 比較述詞 [#](#functions-comparison-pred-table) <a href="#functions-comparison-pred-table" id="functions-comparison-pred-table"></a>
 
 <table border="1" class="table" summary="Comparison Predicates"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         述詞
@@ -340,11 +340,11 @@ boolean_expression IS NOT UNKNOWN
 
 即使運算元為 null，這些述詞也一律會回傳 true 或 false，永遠不會回傳 null 值。null 輸入會被視為邏輯值「未知」。請注意，`IS UNKNOWN` 與 `IS NOT UNKNOWN` 實際上分別與 `IS NULL` 及 `IS NOT NULL` 相同，只是輸入運算式必須是布林型別。
 
-另外還有一些與比較相關的函式，如[表 9.3](functions-comparison.md#FUNCTIONS-COMPARISON-FUNC-TABLE) 所示。
+另外還有一些與比較相關的函式，如[表 9.3](#functions-comparison-func-table) 所示。
 
 <a id="FUNCTIONS-COMPARISON-FUNC-TABLE"></a>
 
-**表 9.3. 比較函式**
+### 表 9.3. 比較函式 [#](#functions-comparison-func-table) <a href="#functions-comparison-func-table" id="functions-comparison-func-table"></a>
 
 <table border="1" class="table" summary="Comparison Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

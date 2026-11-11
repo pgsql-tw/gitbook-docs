@@ -4,7 +4,7 @@
 
 <a id="id-1.5.8.27.2"></a>
 
-*彙總函式*（aggregate function）會從一組輸入值計算出單一結果。內建的通用彙總函式列於[表 9.62](functions-aggregate.md#functions-aggregate-table)，統計用的彙總函式則列於[表 9.63](functions-aggregate.md#FUNCTIONS-AGGREGATE-STATISTICS-TABLE)。內建的組內有序集合彙總函式列於[表 9.64](functions-aggregate.md#FUNCTIONS-ORDEREDSET-TABLE)，而內建的組內假設集合彙總函式則列於[表 9.65](functions-aggregate.md#FUNCTIONS-HYPOTHETICAL-TABLE)。與彙總函式密切相關的分組操作，列於[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE)。彙總函式在語法上的特殊考量，說明於[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)。其他入門資訊請參閱[第 2.7 節](../../tutorial/tutorial-sql/tutorial-agg.md)。
+*彙總函式*（aggregate function）會從一組輸入值計算出單一結果。內建的通用彙總函式列於[表 9.62](functions-aggregate.md#functions-aggregate-table)，統計用的彙總函式則列於[表 9.63](#functions-aggregate-statistics-table)。內建的組內有序集合彙總函式列於[表 9.64](#functions-orderedset-table)，而內建的組內假設集合彙總函式則列於[表 9.65](#functions-hypothetical-table)。與彙總函式密切相關的分組操作，列於[表 9.66](#functions-grouping-table)。彙總函式在語法上的特殊考量，說明於[第 4.2.7 節](../sql-syntax/sql-expressions.md#syntax-aggregates)。其他入門資訊請參閱[第 2.7 節](../../tutorial/tutorial-sql/tutorial-agg.md)。
 
 支援*部分模式*（Partial Mode）的彙總函式，可以參與各種最佳化，例如平行彙總。
 
@@ -415,11 +415,11 @@ SELECT count(*) FROM sometable;
 
 所需的工作量會與資料表的大小成正比：PostgreSQL 必須掃描整個資料表，或掃描一個包含資料表所有資料列的索引的全部內容。
 
-[表 9.63](functions-aggregate.md#FUNCTIONS-AGGREGATE-STATISTICS-TABLE) 列出了通常用於統計分析的彙總函式。（將它們分開列出，只是為了避免讓較常用彙總函式的清單顯得雜亂。）顯示為接受 *`numeric_type`* 的函式，適用於 `smallint`、`integer`、`bigint`、`numeric`、`real` 與 `double precision` 等所有型別。說明中提到 *`N`* 時，指的是所有輸入運算式都不為 null 的輸入資料列數。在所有情況下，如果計算沒有意義（例如當 *`N`* 為零時），就會回傳 null。
+[表 9.63](#functions-aggregate-statistics-table) 列出了通常用於統計分析的彙總函式。（將它們分開列出，只是為了避免讓較常用彙總函式的清單顯得雜亂。）顯示為接受 *`numeric_type`* 的函式，適用於 `smallint`、`integer`、`bigint`、`numeric`、`real` 與 `double precision` 等所有型別。說明中提到 *`N`* 時，指的是所有輸入運算式都不為 null 的輸入資料列數。在所有情況下，如果計算沒有意義（例如當 *`N`* 為零時），就會回傳 null。
 
 <a id="id-1.5.8.27.12"></a><a id="id-1.5.8.27.13"></a><a id="FUNCTIONS-AGGREGATE-STATISTICS-TABLE"></a>
 
-**表 9.63. 統計用彙總函式**
+### 表 9.63. 統計用彙總函式 [#](#functions-aggregate-statistics-table) <a href="#functions-aggregate-statistics-table" id="functions-aggregate-statistics-table"></a>
 
 <table border="1" class="table" summary="Aggregate Functions for Statistics"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -549,11 +549,11 @@ SELECT count(*) FROM sometable;
 
 <br>
 
-[表 9.64](functions-aggregate.md#FUNCTIONS-ORDEREDSET-TABLE) 列出了一些使用*有序集合彙總*（ordered-set aggregate）語法的彙總函式。這些函式有時稱為「逆分布」（inverse distribution）函式。它們的彙總輸入由 `ORDER BY` 引出，而且它們還可以接受一個不被彙總、只計算一次的*直接引數*（direct argument）。所有這些函式都會忽略彙總輸入中的 null 值。對於接受 *`fraction`* 參數的函式，比例值必須介於 0 與 1 之間；否則會引發錯誤。不過，null 的 *`fraction`* 值只會產生 null 結果。
+[表 9.64](#functions-orderedset-table) 列出了一些使用*有序集合彙總*（ordered-set aggregate）語法的彙總函式。這些函式有時稱為「逆分布」（inverse distribution）函式。它們的彙總輸入由 `ORDER BY` 引出，而且它們還可以接受一個不被彙總、只計算一次的*直接引數*（direct argument）。所有這些函式都會忽略彙總輸入中的 null 值。對於接受 *`fraction`* 參數的函式，比例值必須介於 0 與 1 之間；否則會引發錯誤。不過，null 的 *`fraction`* 值只會產生 null 結果。
 
 <a id="id-1.5.8.27.16"></a><a id="id-1.5.8.27.17"></a><a id="FUNCTIONS-ORDEREDSET-TABLE"></a>
 
-**表 9.64. 有序集合彙總函式**
+### 表 9.64. 有序集合彙總函式 [#](#functions-orderedset-table) <a href="#functions-orderedset-table" id="functions-orderedset-table"></a>
 
 <table border="1" class="table" summary="Ordered-Set Aggregate Functions"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -605,11 +605,11 @@ SELECT count(*) FROM sometable;
 
 <br><a id="id-1.5.8.27.19"></a>
 
-[表 9.65](functions-aggregate.md#FUNCTIONS-HYPOTHETICAL-TABLE) 所列的每一個「假設集合」（hypothetical-set）彙總函式，都與[第 9.22 節](functions-window.md)中定義的同名 window 函式相關聯。在每一種情況下，彙總函式的結果，就是假如將由 *`args`* 建構的「假設」資料列加入由 *`sorted_args`* 所代表的已排序資料列群組中，相關聯的 window 函式會回傳的值。對於這些函式中的每一個，*`args`* 中給定的直接引數清單，必須與 *`sorted_args`* 中給定之彙總引數的數量與型別相符。與大多數內建彙總函式不同，這些彙總函式不是嚴格的，也就是說，它們不會捨棄包含 null 的輸入資料列。null 值會依照 `ORDER BY` 子句所指定的規則排序。
+[表 9.65](#functions-hypothetical-table) 所列的每一個「假設集合」（hypothetical-set）彙總函式，都與[第 9.22 節](functions-window.md)中定義的同名 window 函式相關聯。在每一種情況下，彙總函式的結果，就是假如將由 *`args`* 建構的「假設」資料列加入由 *`sorted_args`* 所代表的已排序資料列群組中，相關聯的 window 函式會回傳的值。對於這些函式中的每一個，*`args`* 中給定的直接引數清單，必須與 *`sorted_args`* 中給定之彙總引數的數量與型別相符。與大多數內建彙總函式不同，這些彙總函式不是嚴格的，也就是說，它們不會捨棄包含 null 的輸入資料列。null 值會依照 `ORDER BY` 子句所指定的規則排序。
 
 <a id="FUNCTIONS-HYPOTHETICAL-TABLE"></a>
 
-**表 9.65. 假設集合彙總函式**
+### 表 9.65. 假設集合彙總函式 [#](#functions-hypothetical-table) <a href="#functions-hypothetical-table" id="functions-hypothetical-table"></a>
 
 <table border="1" class="table" summary="Hypothetical-Set Aggregate Functions"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -648,7 +648,7 @@ SELECT count(*) FROM sometable;
 
 <br><a id="FUNCTIONS-GROUPING-TABLE"></a>
 
-**表 9.66. 分組操作**
+### 表 9.66. 分組操作 [#](#functions-grouping-table) <a href="#functions-grouping-table" id="functions-grouping-table"></a>
 
 <table border="1" class="table" summary="Grouping Operations"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -666,7 +666,7 @@ SELECT count(*) FROM sometable;
 
 <br>
 
-[表 9.66](functions-aggregate.md#FUNCTIONS-GROUPING-TABLE) 所列的分組操作，會與分組集合（請參閱[第 7.2.4 節](../queries/queries-table-expressions.md#queries-grouping-sets)）搭配使用，以區分結果資料列。`GROUPING` 函式的引數實際上不會被評估，但它們必須與相關聯查詢層級之 `GROUP BY` 子句中所給定的運算式完全相符。例如：
+[表 9.66](#functions-grouping-table) 所列的分組操作，會與分組集合（請參閱[第 7.2.4 節](../queries/queries-table-expressions.md#queries-grouping-sets)）搭配使用，以區分結果資料列。`GROUPING` 函式的引數實際上不會被評估，但它們必須與相關聯查詢層級之 `GROUP BY` 子句中所給定的運算式完全相符。例如：
 
 ```
 

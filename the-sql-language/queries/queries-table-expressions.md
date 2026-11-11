@@ -712,7 +712,7 @@ SELECT product_id, p.name, (sum(s.units) * (p.price - p.cost)) AS profit
 
 `GROUPING SETS` 的每個子清單可以指定零個或多個欄位或運算式，其解讀方式就如同它們直接寫在 `GROUP BY` 子句中一樣。空的分組集合表示所有資料列都會彙總為單一群組（即使沒有任何輸入資料列也會輸出），如同前面所述沒有 `GROUP BY` 子句之彙總函式的情況。
 
-在未出現某些分組欄位或運算式的分組集合所產生的結果資料列中，對這些欄位或運算式的參照會被 null 值取代。要區分某筆輸出資料列是由哪一種分組產生的，請參閱[表 9.66](../functions/functions-aggregate.md#FUNCTIONS-GROUPING-TABLE)。
+在未出現某些分組欄位或運算式的分組集合所產生的結果資料列中，對這些欄位或運算式的參照會被 null 值取代。要區分某筆輸出資料列是由哪一種分組產生的，請參閱[表 9.66](../functions/functions-aggregate.md#functions-grouping-table)。
 
 系統提供了簡寫表示法，用來指定兩種常見的分組集合類型。下列形式的子句
 

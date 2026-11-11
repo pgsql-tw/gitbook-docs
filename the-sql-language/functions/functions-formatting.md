@@ -104,11 +104,11 @@ PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資
 
 在 `to_char` 的輸出範本字串中，有一些樣式會被辨識出來，並依據給定的值替換為適當格式化的資料。任何不是範本樣式的文字都會原封不動地複製。同樣地，在（其他函式的）輸入範本字串中，範本樣式用來識別輸入資料字串所要提供的值。如果範本字串中有不是範本樣式的字元，輸入資料字串中對應的字元就會直接被略過（無論它們是否與範本字串的字元相同）。
 
-[表 9.27](functions-formatting.md#FUNCTIONS-FORMATTING-DATETIME-TABLE) 列出了可用於格式化日期與時間值的範本樣式。
+[表 9.27](#functions-formatting-datetime-table) 列出了可用於格式化日期與時間值的範本樣式。
 
 <a id="FUNCTIONS-FORMATTING-DATETIME-TABLE"></a>
 
-**表 9.27. 日期／時間格式化的範本樣式**
+### 表 9.27. 日期／時間格式化的範本樣式 [#](#functions-formatting-datetime-table) <a href="#functions-formatting-datetime-table" id="functions-formatting-datetime-table"></a>
 
 <table border="1" class="table" summary="Template Patterns for Date/Time Formatting"><colgroup><col/><col/></colgroup><thead><tr><th>樣式</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">HH</code></td><td>一天中的小時（01–12）</td></tr><tr><td><code class="literal">HH12</code></td><td>一天中的小時（01–12）</td></tr><tr><td><code class="literal">HH24</code></td><td>一天中的小時（00–23）</td></tr><tr><td><code class="literal">MI</code></td><td>分（00–59）</td></tr><tr><td><code class="literal">SS</code></td><td>秒（00–59）</td></tr><tr><td><code class="literal">MS</code></td><td>毫秒（000–999）</td></tr><tr><td><code class="literal">US</code></td><td>微秒（000000–999999）</td></tr><tr><td><code class="literal">FF1</code></td><td>十分之一秒（0–9）</td></tr><tr><td><code class="literal">FF2</code></td><td>百分之一秒（00–99）</td></tr><tr><td><code class="literal">FF3</code></td><td>毫秒（000–999）</td></tr><tr><td><code class="literal">FF4</code></td><td>十分之一毫秒（0000–9999）</td></tr><tr><td><code class="literal">FF5</code></td><td>百分之一毫秒（00000–99999）</td></tr><tr><td><code class="literal">FF6</code></td><td>微秒（000000–999999）</td></tr><tr><td><code class="literal">SSSS</code>, <code class="literal">SSSSS</code></td><td>午夜之後經過的秒數（0–86399）</td></tr><tr><td><code class="literal">AM</code>, <code class="literal">am</code>,
         <code class="literal">PM</code> or <code class="literal">pm</code></td><td>上午／下午指示符（不含句點）</td></tr><tr><td><code class="literal">A.M.</code>, <code class="literal">a.m.</code>,
@@ -118,11 +118,11 @@ PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資
 
 <br>
 
-修飾詞可以套用到任何範本樣式上，以改變其行為。例如，`FMMonth` 就是加上 `FM` 修飾詞的 `Month` 樣式。[表 9.28](functions-formatting.md#FUNCTIONS-FORMATTING-DATETIMEMOD-TABLE) 列出了日期／時間格式化的修飾詞樣式。
+修飾詞可以套用到任何範本樣式上，以改變其行為。例如，`FMMonth` 就是加上 `FM` 修飾詞的 `Month` 樣式。[表 9.28](#functions-formatting-datetimemod-table) 列出了日期／時間格式化的修飾詞樣式。
 
 <a id="FUNCTIONS-FORMATTING-DATETIMEMOD-TABLE"></a>
 
-**表 9.28. 日期／時間格式化的範本樣式修飾詞**
+### 表 9.28. 日期／時間格式化的範本樣式修飾詞 [#](#functions-formatting-datetimemod-table) <a href="#functions-formatting-datetimemod-table" id="functions-formatting-datetimemod-table"></a>
 
 <table border="1" class="table" summary="Template Pattern Modifiers for Date/Time Formatting"><colgroup><col/><col/><col/></colgroup><thead><tr><th>修飾詞</th><th>說明</th><th>範例</th></tr></thead><tbody><tr><td><code class="literal">FM</code> 前綴</td><td>填補模式（抑制前導零與填補空白）</td><td><code class="literal">FMMonth</code></td></tr><tr><td><code class="literal">TH</code> 字尾</td><td>大寫的序數字尾</td><td><code class="literal">DDTH</code>, e.g., <code class="literal">12TH</code></td></tr><tr><td><code class="literal">th</code> 字尾</td><td>小寫的序數字尾</td><td><code class="literal">DDth</code>, e.g., <code class="literal">12th</code></td></tr><tr><td><code class="literal">FX</code> 前綴</td><td>固定格式的全域選項（請參閱使用注意事項）</td><td><code class="literal">FX Month DD Day</code></td></tr><tr><td><code class="literal">TM</code> 前綴</td><td>翻譯模式（依據 <a class="xref" href="../../server-administration/runtime-config/runtime-config-client.md#GUC-LC-TIME">lc_time</a> 使用本地化的星期與月份名稱）</td><td><code class="literal">TMMonth</code></td></tr><tr><td><code class="literal">SP</code> 字尾</td><td>拼寫模式（未實作）</td><td><code class="literal">DDSP</code></td></tr></tbody></table>
 
@@ -165,11 +165,11 @@ PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資
 * `to_char(..., 'ID')` 的星期編號與 `extract(isodow from ...)` 函式相符，但 `to_char(..., 'D')` 的星期編號與 `extract(dow from ...)` 的並不相符。
 * `to_char(interval)` 將 `HH` 與 `HH12` 格式化為 12 小時制時鐘上所顯示的值，例如零小時與 36 小時都會輸出為 `12`；而 `HH24` 會輸出完整的小時值，在 `interval` 值中可能超過 23。
 
-[表 9.29](functions-formatting.md#FUNCTIONS-FORMATTING-NUMERIC-TABLE) 列出了可用於格式化數值的範本樣式。
+[表 9.29](#functions-formatting-numeric-table) 列出了可用於格式化數值的範本樣式。
 
 <a id="FUNCTIONS-FORMATTING-NUMERIC-TABLE"></a>
 
-**表 9.29. 數值格式化的範本樣式**
+### 表 9.29. 數值格式化的範本樣式 [#](#functions-formatting-numeric-table) <a href="#functions-formatting-numeric-table" id="functions-formatting-numeric-table"></a>
 
 <table border="1" class="table" summary="Template Patterns for Numeric Formatting"><colgroup><col/><col/></colgroup><thead><tr><th>樣式</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">9</code></td><td>數字位置（若不重要可以省略）</td></tr><tr><td><code class="literal">0</code></td><td>數字位置（即使不重要也不會省略）</td></tr><tr><td><code class="literal">.</code>（句點）</td><td>小數點</td></tr><tr><td><code class="literal">,</code>（逗號）</td><td>群組（千位）分隔符號</td></tr><tr><td><code class="literal">PR</code></td><td>以角括號表示負值</td></tr><tr><td><code class="literal">S</code></td><td>固定在數字旁的正負號（使用語系設定）</td></tr><tr><td><code class="literal">L</code></td><td>貨幣符號（使用語系設定）</td></tr><tr><td><code class="literal">D</code></td><td>小數點（使用語系設定）</td></tr><tr><td><code class="literal">G</code></td><td>群組分隔符號（使用語系設定）</td></tr><tr><td><code class="literal">MI</code></td><td>在指定位置的減號（若數字 &lt; 0）</td></tr><tr><td><code class="literal">PL</code></td><td>在指定位置的加號（若數字 &gt; 0）</td></tr><tr><td><code class="literal">SG</code></td><td>在指定位置的正負號</td></tr><tr><td><code class="literal">RN</code> or <code class="literal">rn</code></td><td>羅馬數字（1 到 3999 之間的值）</td></tr><tr><td><code class="literal">TH</code> or <code class="literal">th</code></td><td>序數字尾</td></tr><tr><td><code class="literal">V</code></td><td>位移指定的位數（請參閱注意事項）</td></tr><tr><td><code class="literal">EEEE</code></td><td>科學記號的指數</td></tr></tbody></table>
 
@@ -189,21 +189,21 @@ PostgreSQL 的格式化函式提供了一套強大的工具，可以將各種資
 * `EEEE`（科學記號）不能與數字及小數點樣式以外的任何其他格式化樣式或修飾詞結合使用，而且必須位於格式字串的最後（例如，`9.99EEEE` 是有效的樣式）。
 * 在 `to_number()` 中，`RN` 樣式會將（標準形式的）羅馬數字轉換為數字。輸入不區分大小寫，因此 `RN` 與 `rn` 是等價的。`RN` 不能與任何其他格式化樣式或修飾詞結合使用，唯一的例外是 `FM`，但它只適用於 `to_char()`，在 `to_number()` 中會被忽略。
 
-某些修飾詞可以套用到任何範本樣式上，以改變其行為。例如，`FM99.99` 就是加上 `FM` 修飾詞的 `99.99` 樣式。[表 9.30](functions-formatting.md#FUNCTIONS-FORMATTING-NUMERICMOD-TABLE) 列出了數值格式化的修飾詞樣式。
+某些修飾詞可以套用到任何範本樣式上，以改變其行為。例如，`FM99.99` 就是加上 `FM` 修飾詞的 `99.99` 樣式。[表 9.30](#functions-formatting-numericmod-table) 列出了數值格式化的修飾詞樣式。
 
 <a id="FUNCTIONS-FORMATTING-NUMERICMOD-TABLE"></a>
 
-**表 9.30. 數值格式化的範本樣式修飾詞**
+### 表 9.30. 數值格式化的範本樣式修飾詞 [#](#functions-formatting-numericmod-table) <a href="#functions-formatting-numericmod-table" id="functions-formatting-numericmod-table"></a>
 
 <table border="1" class="table" summary="Template Pattern Modifiers for Numeric Formatting"><colgroup><col/><col/><col/></colgroup><thead><tr><th>修飾詞</th><th>說明</th><th>範例</th></tr></thead><tbody><tr><td><code class="literal">FM</code> 前綴</td><td>填補模式（抑制尾端零與填補空白）</td><td><code class="literal">FM99.99</code></td></tr><tr><td><code class="literal">TH</code> 字尾</td><td>大寫的序數字尾</td><td><code class="literal">999TH</code></td></tr><tr><td><code class="literal">th</code> 字尾</td><td>小寫的序數字尾</td><td><code class="literal">999th</code></td></tr></tbody></table>
 
 <br>
 
-[表 9.31](functions-formatting.md#FUNCTIONS-FORMATTING-EXAMPLES-TABLE) 列出了一些使用 `to_char` 函式的範例。
+[表 9.31](#functions-formatting-examples-table) 列出了一些使用 `to_char` 函式的範例。
 
 <a id="FUNCTIONS-FORMATTING-EXAMPLES-TABLE"></a>
 
-**表 9.31. `to_char` 範例**
+### 表 9.31. `to_char` 範例 [#](#functions-formatting-examples-table) <a href="#functions-formatting-examples-table" id="functions-formatting-examples-table"></a>
 
 <table border="1" class="table" summary="to_char Examples"><colgroup><col/><col/></colgroup><thead><tr><th>運算式</th><th>結果</th></tr></thead><tbody><tr><td><code class="literal">to_char(current_timestamp, 'Day, DD  HH12:MI:SS')</code></td><td><code class="literal">'Tuesday  , 06  05:39:18'</code></td></tr><tr><td><code class="literal">to_char(current_timestamp, 'FMDay, FMDD  HH12:MI:SS')</code></td><td><code class="literal">'Tuesday, 6  05:39:18'</code></td></tr><tr><td><code class="literal">to_char(current_timestamp AT TIME ZONE
         'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')</code></td><td><code class="literal">'2022-12-06T05:39:18Z'</code>，<acronym class="acronym">ISO</acronym> 8601 延伸格式</td></tr><tr><td><code class="literal">to_char(-0.1, '99.99')</code></td><td><code class="literal">'  -.10'</code></td></tr><tr><td><code class="literal">to_char(-0.1, 'FM9.99')</code></td><td><code class="literal">'-.1'</code></td></tr><tr><td><code class="literal">to_char(-0.1, 'FM90.99')</code></td><td><code class="literal">'-0.1'</code></td></tr><tr><td><code class="literal">to_char(0.1, '0.9')</code></td><td><code class="literal">' 0.1'</code></td></tr><tr><td><code class="literal">to_char(12, '9990999.9')</code></td><td><code class="literal">'    0012.0'</code></td></tr><tr><td><code class="literal">to_char(12, 'FM9990999.9')</code></td><td><code class="literal">'0012.'</code></td></tr><tr><td><code class="literal">to_char(485, '999')</code></td><td><code class="literal">' 485'</code></td></tr><tr><td><code class="literal">to_char(-485, '999')</code></td><td><code class="literal">'-485'</code></td></tr><tr><td><code class="literal">to_char(485, '9 9 9')</code></td><td><code class="literal">' 4 8 5'</code></td></tr><tr><td><code class="literal">to_char(1485, '9,999')</code></td><td><code class="literal">' 1,485'</code></td></tr><tr><td><code class="literal">to_char(1485, '9G999')</code></td><td><code class="literal">' 1 485'</code></td></tr><tr><td><code class="literal">to_char(148.5, '999.999')</code></td><td><code class="literal">' 148.500'</code></td></tr><tr><td><code class="literal">to_char(148.5, 'FM999.999')</code></td><td><code class="literal">'148.5'</code></td></tr><tr><td><code class="literal">to_char(148.5, 'FM999.990')</code></td><td><code class="literal">'148.500'</code></td></tr><tr><td><code class="literal">to_char(148.5, '999D999')</code></td><td><code class="literal">' 148,500'</code></td></tr><tr><td><code class="literal">to_char(3148.5, '9G999D999')</code></td><td><code class="literal">' 3 148,500'</code></td></tr><tr><td><code class="literal">to_char(-485, '999S')</code></td><td><code class="literal">'485-'</code></td></tr><tr><td><code class="literal">to_char(-485, '999MI')</code></td><td><code class="literal">'485-'</code></td></tr><tr><td><code class="literal">to_char(485, '999MI')</code></td><td><code class="literal">'485 '</code></td></tr><tr><td><code class="literal">to_char(485, 'FM999MI')</code></td><td><code class="literal">'485'</code></td></tr><tr><td><code class="literal">to_char(485, 'PL999')</code></td><td><code class="literal">'+485'</code></td></tr><tr><td><code class="literal">to_char(485, 'SG999')</code></td><td><code class="literal">'+485'</code></td></tr><tr><td><code class="literal">to_char(-485, 'SG999')</code></td><td><code class="literal">'-485'</code></td></tr><tr><td><code class="literal">to_char(-485, '9SG99')</code></td><td><code class="literal">'4-85'</code></td></tr><tr><td><code class="literal">to_char(-485, '999PR')</code></td><td><code class="literal">'&lt;485&gt;'</code></td></tr><tr><td><code class="literal">to_char(485, 'L999')</code></td><td><code class="literal">'DM 485'</code></td></tr><tr><td><code class="literal">to_char(485, 'RN')</code></td><td><code class="literal">'        CDLXXXV'</code></td></tr><tr><td><code class="literal">to_char(485, 'FMRN')</code></td><td><code class="literal">'CDLXXXV'</code></td></tr><tr><td><code class="literal">to_char(5.2, 'FMRN')</code></td><td><code class="literal">'V'</code></td></tr><tr><td><code class="literal">to_char(482, '999th')</code></td><td><code class="literal">' 482nd'</code></td></tr><tr><td><code class="literal">to_char(485, '"Good number:"999')</code></td><td><code class="literal">'Good number: 485'</code></td></tr><tr><td><code class="literal">to_char(485.8, '"Pre:"999" Post:" .999')</code></td><td><code class="literal">'Pre: 485 Post: .800'</code></td></tr><tr><td><code class="literal">to_char(12, '99V999')</code></td><td><code class="literal">' 12000'</code></td></tr><tr><td><code class="literal">to_char(12.4, '99V999')</code></td><td><code class="literal">' 12400'</code></td></tr><tr><td><code class="literal">to_char(12.45, '99V9')</code></td><td><code class="literal">' 125'</code></td></tr><tr><td><code class="literal">to_char(0.0004859, '9.99EEEE')</code></td><td><code class="literal">' 4.86e-04'</code></td></tr></tbody></table>

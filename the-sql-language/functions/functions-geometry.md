@@ -2,7 +2,7 @@
 
 ## 9.11. 幾何函式與運算子 [#](#functions-geometry) <a href="#functions-geometry" id="functions-geometry"></a>
 
-幾何型別 `point`、`box`、`lseg`、`line`、`path`、`polygon` 與 `circle`，擁有一大組原生支援的函式與運算子，列於[表 9.36](functions-geometry.md#functions-geometry-table)、[表 9.37](functions-geometry.md#FUNCTIONS-GEOMETRY-FUNC-TABLE) 與[表 9.38](functions-geometry.md#FUNCTIONS-GEOMETRY-CONV-TABLE)。
+幾何型別 `point`、`box`、`lseg`、`line`、`path`、`polygon` 與 `circle`，擁有一大組原生支援的函式與運算子，列於[表 9.36](functions-geometry.md#functions-geometry-table)、[表 9.37](#functions-geometry-func-table) 與[表 9.38](#functions-geometry-conv-table)。
 
 <a id="FUNCTIONS-GEOMETRY-OP-TABLE"></a>
 
@@ -384,7 +384,7 @@
 
 <a id="FUNCTIONS-GEOMETRY-FUNC-TABLE"></a>
 
-**表 9.37. 幾何函式**
+### 表 9.37. 幾何函式 [#](#functions-geometry-func-table) <a href="#functions-geometry-func-table" id="functions-geometry-func-table"></a>
 
 <table border="1" class="table" summary="Geometric Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -552,7 +552,7 @@
 
 <br><a id="FUNCTIONS-GEOMETRY-CONV-TABLE"></a>
 
-**表 9.38. 幾何型別轉換函式**
+### 表 9.38. 幾何型別轉換函式 [#](#functions-geometry-conv-table) <a href="#functions-geometry-conv-table" id="functions-geometry-conv-table"></a>
 
 <table border="1" class="table" summary="Geometric Type Conversion Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
