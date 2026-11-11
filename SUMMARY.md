@@ -73,6 +73,7 @@
     * [8.4. 二進位資料型別 #](the-sql-language/datatype/datatype-binary.md)
       * [8.4.2. bytea 跳脫格式](the-sql-language/datatype/datatype-binary/datatype-binary-bytea-escape-format.md)
     * [8.5. 日期／時間型別 #](the-sql-language/datatype/datatype-datetime.md)
+      * [8.5.2. 日期／時間輸出](the-sql-language/datatype/datatype-datetime/datatype-datetime-output.md)
       * [8.5.4. 時間區間輸入](the-sql-language/datatype/datatype-datetime/datatype-interval-input.md)
       * [8.5.5. 時間區間輸出](the-sql-language/datatype/datatype-datetime/datatype-interval-output.md)
     * [8.6. 布林型別 #](the-sql-language/datatype/datatype-boolean.md)
