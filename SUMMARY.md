@@ -1219,6 +1219,7 @@
       * [F.25.3. pg_buffercache_summary() 函式](appendixes/contrib/pgbuffercache/pgbuffercache-summary.md)
       * [F.25.4. pg_buffercache_usage_counts() 函式](appendixes/contrib/pgbuffercache/pgbuffercache-usage-counts.md)
     * [F.26. pgcrypto — 密碼學函式 #](appendixes/contrib/pgcrypto.md)
+      * [F.26.2. 密碼雜湊函式](appendixes/contrib/pgcrypto/pgcrypto-password-hashing-funcs.md)
     * [F.27. pg\_freespacemap — 檢視可用空間對應表 #](appendixes/contrib/pgfreespacemap.md)
     * [F.28. pg\_logicalinspect — 邏輯解碼元件檢查 #](appendixes/contrib/pglogicalinspect.md)
     * [F.29. pg\_overexplain — 允許 EXPLAIN 傾印更多細節 #](appendixes/contrib/pgoverexplain.md)

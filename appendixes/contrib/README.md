@@ -257,7 +257,7 @@
 - [F.26. pgcrypto — 加密函式](pgcrypto.md)
   - [F.26.1. 一般雜湊函式](pgcrypto.md#pgcrypto-general-hashing-funcs)
 
-  - [F.26.2. 密碼雜湊函式](pgcrypto.md#pgcrypto-password-hashing-funcs)
+  - [F.26.2. 密碼雜湊函式](pgcrypto/pgcrypto-password-hashing-funcs.md#pgcrypto-password-hashing-funcs)
 
   - [F.26.3. PGP 加密函式](pgcrypto.md#pgcrypto-pgp-enc-funcs)
 

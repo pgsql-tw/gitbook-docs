@@ -1203,8 +1203,8 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 
 ##### E.6.3.9.2. [pgcrypto](../contrib/pgcrypto.md) [#](#RELEASE-18-PGCRYPTO)
 
-* 新增 pgcrypto 演算法 [`sha256crypt`](../contrib/pgcrypto.md#PGCRYPTO-CRYPT-ALGORITHMS)
-  與 [`sha512crypt`](../contrib/pgcrypto.md#PGCRYPTO-CRYPT-ALGORITHMS)
+* 新增 pgcrypto 演算法 [`sha256crypt`](../contrib/pgcrypto/pgcrypto-password-hashing-funcs.md#pgcrypto-crypt-algorithms)
+  與 [`sha512crypt`](../contrib/pgcrypto/pgcrypto-password-hashing-funcs.md#pgcrypto-crypt-algorithms)
   (Bernd Helmle)
   [§](https://postgr.es/c/749a9e20c)
 * 在 pgcrypto 的加密與解密中新增 [CFB](../contrib/pgcrypto.md#pgcrypto-raw-enc-funcs) 模式
