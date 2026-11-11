@@ -13,7 +13,7 @@
 
   - [4.1.5. 註解](sql-syntax-lexical.md#sql-syntax-comments)
 
-  - [4.1.6. 運算子優先順序](sql-syntax-lexical.md#sql-precedence)
+  - [4.1.6. 運算子優先順序](sql-syntax-lexical/sql-precedence.md#sql-precedence)
 
 - [4.2. 值運算式](sql-expressions.md)
   - [4.2.1. 欄位參照](sql-expressions.md#sql-expressions-column-refs)

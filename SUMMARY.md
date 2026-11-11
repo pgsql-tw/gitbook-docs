@@ -34,6 +34,7 @@
 * [第二部分：SQL 語言](the-sql-language/README.md)
   * [第 4 章 SQL 語法](the-sql-language/sql-syntax/README.md)
     * [4.1. 詞彙結構 #](the-sql-language/sql-syntax/sql-syntax-lexical.md)
+      * [4.1.6. 運算子優先順序](the-sql-language/sql-syntax/sql-syntax-lexical/sql-precedence.md)
     * [4.2. 值運算式 #](the-sql-language/sql-syntax/sql-expressions.md)
     * [4.3. 呼叫函式 #](the-sql-language/sql-syntax/sql-syntax-calling-funcs.md)
   * [第 5 章 資料定義](the-sql-language/ddl/README.md)
