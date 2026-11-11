@@ -215,7 +215,7 @@ CREATE TYPE name
 :   一個現有資料型別的名稱，新型別將具有與其相同的表示形式。*`internallength`*、*`passedbyvalue`*、*`alignment`* 與 *`storage`* 的值會從該型別複製而來，除非在此 `CREATE TYPE` 命令的其他地方以明確指定的方式覆寫。
 
 *`category`*
-:   此型別的類別代碼（單一 ASCII 字元）。預設為 `'U'`，表示「使用者自訂型別」。其他標準類別代碼可在[表 52.65](../../internals/catalogs/catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE)中找到。你也可以選擇其他 ASCII 字元來建立自訂類別。
+:   此型別的類別代碼（單一 ASCII 字元）。預設為 `'U'`，表示「使用者自訂型別」。其他標準類別代碼可在[表 52.65](../../internals/catalogs/catalog-pg-type.md#catalog-typcategory-table)中找到。你也可以選擇其他 ASCII 字元來建立自訂類別。
 
 *`preferred`*
 :   若此型別是其型別類別中的偏好型別則為真，否則為假。預設為假。在現有的型別類別中建立新的偏好型別時要非常小心，因為這可能導致令人意外的行為變化。

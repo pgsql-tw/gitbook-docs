@@ -36,7 +36,7 @@ SELECT text 'Origin' AS "label", point '(0,0)' AS "value";
 
 <a id="id-1.5.9.6.6"></a>
 
-剖析器還提供了一種額外的經驗法則，能在具有隱含轉換的型別群組之間，更準確地判定適當的轉換行為。資料型別被分成數個基本的*型別類別*（type category），包括 `boolean`、`numeric`、`string`、`bitstring`、`datetime`、`timespan`、`geometric`、`network`，以及使用者自訂類別。（完整清單請參閱[表 52.65](../../internals/catalogs/catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE)；但請注意，也可以建立自訂的型別類別。）每個類別中可以有一個或多個*優先型別*（preferred type），在有多種可能的型別可以選擇時會優先採用。只要謹慎選擇優先型別與可用的隱含轉換，就能確保有歧義的運算式（有多種候選剖析方式的運算式）以有用的方式解析。
+剖析器還提供了一種額外的經驗法則，能在具有隱含轉換的型別群組之間，更準確地判定適當的轉換行為。資料型別被分成數個基本的*型別類別*（type category），包括 `boolean`、`numeric`、`string`、`bitstring`、`datetime`、`timespan`、`geometric`、`network`，以及使用者自訂類別。（完整清單請參閱[表 52.65](../../internals/catalogs/catalog-pg-type.md#catalog-typcategory-table)；但請注意，也可以建立自訂的型別類別。）每個類別中可以有一個或多個*優先型別*（preferred type），在有多種可能的型別可以選擇時會優先採用。只要謹慎選擇優先型別與可用的隱含轉換，就能確保有歧義的運算式（有多種候選剖析方式的運算式）以有用的方式解析。
 
 所有型別轉換規則的設計都考量了以下幾項原則：
 

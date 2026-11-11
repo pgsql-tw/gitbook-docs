@@ -76,7 +76,7 @@
 <p>
 <code class="structfield">typcategory</code> 是資料型別的任意分類，
        剖析器用它來決定應<span class="quote">“<span class="quote">優先</span>”</span>採用哪些隱含型別轉換。
-       請參閱<a class="xref" href="catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE">表 52.65</a>。
+       請參閱<a class="xref" href="#catalog-typcategory-table">表 52.65</a>。
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">typispreferred</code> <code class="type">bool</code>
 </p>
@@ -267,11 +267,11 @@
 
 對於系統資料表中使用的固定寬度型別，`pg_type` 中定義的大小與對齊方式，必須與編譯器在表示資料表資料列的結構中配置該欄位的方式一致，這一點至關重要。
 
-[表 52.65](catalog-pg-type.md#CATALOG-TYPCATEGORY-TABLE) 列出 `typcategory` 的系統定義值。未來新增至此清單的任何值也都會是大寫 ASCII 字母。其他所有 ASCII 字元都保留給使用者定義的類別。
+[表 52.65](#catalog-typcategory-table) 列出 `typcategory` 的系統定義值。未來新增至此清單的任何值也都會是大寫 ASCII 字母。其他所有 ASCII 字元都保留給使用者定義的類別。
 
 <a id="CATALOG-TYPCATEGORY-TABLE"></a>
 
-**表 52.65. `typcategory` 代碼**
+### 表 52.65. `typcategory` 代碼 [#](#catalog-typcategory-table) <a href="#catalog-typcategory-table" id="catalog-typcategory-table"></a>
 
 <table border="1" class="table" summary="表 52.65. typcategory 代碼"><colgroup><col/><col/></colgroup><thead><tr><th>代碼</th><th>類別</th></tr></thead><tbody><tr><td><code class="literal">A</code></td><td>陣列型別</td></tr><tr><td><code class="literal">B</code></td><td>布林型別</td></tr><tr><td><code class="literal">C</code></td><td>複合型別</td></tr><tr><td><code class="literal">D</code></td><td>日期／時間型別</td></tr><tr><td><code class="literal">E</code></td><td>列舉型別</td></tr><tr><td><code class="literal">G</code></td><td>幾何型別</td></tr><tr><td><code class="literal">I</code></td><td>網路位址型別</td></tr><tr><td><code class="literal">N</code></td><td>數值型別</td></tr><tr><td><code class="literal">P</code></td><td>虛擬型別</td></tr><tr><td><code class="literal">R</code></td><td>範圍型別</td></tr><tr><td><code class="literal">S</code></td><td>字串型別</td></tr><tr><td><code class="literal">T</code></td><td>時間間隔型別</td></tr><tr><td><code class="literal">U</code></td><td>使用者定義型別</td></tr><tr><td><code class="literal">V</code></td><td>位元字串型別</td></tr><tr><td><code class="literal">X</code></td><td><code class="type">unknown</code> 型別</td></tr><tr><td><code class="literal">Z</code></td><td>內部使用型別</td></tr></tbody></table>
 

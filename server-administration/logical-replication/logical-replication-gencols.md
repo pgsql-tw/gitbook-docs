@@ -73,7 +73,7 @@
 
 <a id="LOGICAL-REPLICATION-GENCOLS-TABLE-SUMMARY"></a>
 
-**表 29.2. 複寫結果摘要**
+### 表 29.2. 複寫結果摘要 [#](#logical-replication-gencols-table-summary) <a href="#logical-replication-gencols-table-summary" id="logical-replication-gencols-table-summary"></a>
 
 <table border="1" class="table" summary="複寫結果摘要"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th>發佈產生欄位？</th><th>發佈者資料表欄位</th><th>訂閱者資料表欄位</th><th>結果</th></tr></thead><tbody><tr><td>否</td><td>GENERATED</td><td>GENERATED</td><td>發佈者資料表欄位不會被複寫。使用訂閱者資料表產生欄位的值。</td></tr><tr><td>否</td><td>GENERATED</td><td>一般欄位</td><td>發佈者資料表欄位不會被複寫。使用訂閱者資料表一般欄位的預設值。</td></tr><tr><td>否</td><td>GENERATED</td><td>--不存在--</td><td>發佈者資料表欄位不會被複寫。不會發生任何事。</td></tr><tr><td>是</td><td>GENERATED</td><td>GENERATED</td><td>錯誤（ERROR）。不支援。</td></tr><tr><td>是</td><td>GENERATED</td><td>一般欄位</td><td>發佈者資料表欄位的值會複寫到訂閱者資料表欄位。</td></tr><tr><td>是</td><td>GENERATED</td><td>--不存在--</td><td>錯誤（ERROR）。該欄位會被回報為訂閱者資料表中缺少的欄位。</td></tr></tbody></table>
 

@@ -961,11 +961,11 @@
 
 處理以度數量測之角度的另一種方式，是使用前面所列的單位轉換函式 `radians()` 與 `degrees()`。不過，建議使用以度數為基礎的三角函數，因為這樣可以避免在 `sind(30)` 這類特殊情況下的捨入誤差。
 
-[表 9.8](functions-math.md#FUNCTIONS-MATH-HYP-TABLE) 列出了可用的雙曲函數。
+[表 9.8](#functions-math-hyp-table) 列出了可用的雙曲函數。
 
 <a id="FUNCTIONS-MATH-HYP-TABLE"></a>
 
-**表 9.8. 雙曲函數**
+### 表 9.8. 雙曲函數 [#](#functions-math-hyp-table) <a href="#functions-math-hyp-table" id="functions-math-hyp-table"></a>
 
 <table border="1" class="table" summary="Hyperbolic Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

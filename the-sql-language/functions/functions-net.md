@@ -328,11 +328,11 @@ IP 網路位址型別 `cidr` 與 `inet`，支援[表 9.1](functions-comparison.m
 
 `abbrev`、`host` 與 `text` 函式的主要用途，是為 IP 位址提供其他的顯示格式。
 
-MAC 位址型別 `macaddr` 與 `macaddr8`，支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.41](functions-net.md#MACADDR-FUNCTIONS-TABLE) 所列的特殊函式。此外，就像上面 IP 位址所示範的一樣，它們也支援位元邏輯運算子 `~`、`&` 與 `|`（NOT、AND 與 OR）。
+MAC 位址型別 `macaddr` 與 `macaddr8`，支援[表 9.1](functions-comparison.md#functions-comparison-table) 所列的一般比較運算子，以及[表 9.41](#macaddr-functions-table) 所列的特殊函式。此外，就像上面 IP 位址所示範的一樣，它們也支援位元邏輯運算子 `~`、`&` 與 `|`（NOT、AND 與 OR）。
 
 <a id="MACADDR-FUNCTIONS-TABLE"></a>
 
-**表 9.41. MAC 位址函式**
+### 表 9.41. MAC 位址函式 [#](#macaddr-functions-table) <a href="#macaddr-functions-table" id="macaddr-functions-table"></a>
 
 <table border="1" class="table" summary="MAC Address Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

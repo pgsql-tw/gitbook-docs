@@ -125,7 +125,7 @@ SELECT b, char_length(b) FROM test2;
 <br>
 
 PostgreSQL 中還有另外兩種固定長度的字元型別，
-如[表 8.5](datatype-character.md#DATATYPE-CHARACTER-SPECIAL-TABLE)所示。
+如[表 8.5](#datatype-character-special-table)所示。
 這些型別並非設計供一般用途使用，只用於
 內部系統目錄中。
 `name` 型別用來儲存識別字。其
@@ -141,7 +141,7 @@ ASCII 字元。它在系統
 
 <a id="DATATYPE-CHARACTER-SPECIAL-TABLE"></a>
 
-**表 8.5. 特殊字元型別**
+### 表 8.5. 特殊字元型別 [#](#datatype-character-special-table) <a href="#datatype-character-special-table" id="datatype-character-special-table"></a>
 
 <table border="1" class="table" summary="Special Character Types"><colgroup><col/><col/><col/></colgroup><thead><tr><th>名稱</th><th>儲存大小</th><th>說明</th></tr></thead><tbody><tr><td><code class="type">"char"</code></td><td>1 位元組</td><td>單一位元組的內部型別</td></tr><tr><td><code class="type">name</code></td><td>64 位元組</td><td>用於物件名稱的內部型別</td></tr></tbody></table>
 

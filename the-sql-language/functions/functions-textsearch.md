@@ -4,7 +4,7 @@
 
 <a id="id-1.5.8.19.2"></a><a id="id-1.5.8.19.3"></a>
 
-[表 9.42](functions-textsearch.md#textsearch-operators-table)、[表 9.43](functions-textsearch.md#textsearch-functions-table) 與[表 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE) 彙整了為全文檢索所提供的函式與運算子。關於 PostgreSQL 文字搜尋功能的詳細說明，請參閱[第 12 章](../textsearch/README.md)。
+[表 9.42](functions-textsearch.md#textsearch-operators-table)、[表 9.43](functions-textsearch.md#textsearch-functions-table) 與[表 9.44](#textsearch-functions-debug-table) 彙整了為全文檢索所提供的函式與運算子。關於 PostgreSQL 文字搜尋功能的詳細說明，請參閱[第 12 章](../textsearch/README.md)。
 
 <a id="TEXTSEARCH-OPERATORS-TABLE"></a>
 
@@ -523,11 +523,11 @@
 
 所有接受選用 `regconfig` 引數的文字搜尋函式，在省略該引數時，都會使用 [default_text_search_config](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TEXT-SEARCH-CONFIG) 所指定的組態。
 
-[表 9.44](functions-textsearch.md#TEXTSEARCH-FUNCTIONS-DEBUG-TABLE) 中的函式之所以另外列出，是因為它們通常不會用在日常的文字搜尋操作中。它們主要有助於開發與除錯新的文字搜尋組態。
+[表 9.44](#textsearch-functions-debug-table) 中的函式之所以另外列出，是因為它們通常不會用在日常的文字搜尋操作中。它們主要有助於開發與除錯新的文字搜尋組態。
 
 <a id="TEXTSEARCH-FUNCTIONS-DEBUG-TABLE"></a>
 
-**表 9.44. 文字搜尋除錯函式**
+### 表 9.44. 文字搜尋除錯函式 [#](#textsearch-functions-debug-table) <a href="#textsearch-functions-debug-table" id="textsearch-functions-debug-table"></a>
 
 <table border="1" class="table" summary="Text Search Debugging Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
