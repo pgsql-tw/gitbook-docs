@@ -181,6 +181,7 @@
     * [13.1. 簡介 #](the-sql-language/mvcc/mvcc-intro.md)
     * [13.2. 交易隔離 #](the-sql-language/mvcc/transaction-iso.md)
     * [13.3. 明確鎖定 #](the-sql-language/mvcc/explicit-locking.md)
+      * [13.3.1. 資料表層級鎖定](the-sql-language/mvcc/explicit-locking/locking-tables.md)
       * [13.3.2. 資料列層級鎖定](the-sql-language/mvcc/explicit-locking/locking-rows.md)
     * [13.4. 應用程式層級的資料一致性檢查 #](the-sql-language/mvcc/applevel-consistency.md)
     * [13.5. 序列化失敗的處理 #](the-sql-language/mvcc/mvcc-serialization-failure-handling.md)

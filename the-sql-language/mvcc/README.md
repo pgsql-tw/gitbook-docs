@@ -12,7 +12,7 @@
   - [13.2.3. Serializable 隔離等級](transaction-iso.md#xact-serializable)
 
 - [13.3. 明確鎖定](explicit-locking.md)
-  - [13.3.1. 資料表層級鎖定](explicit-locking.md#locking-tables)
+  - [13.3.1. 資料表層級鎖定](explicit-locking/locking-tables.md#locking-tables)
 
   - [13.3.2. 資料列層級鎖定](explicit-locking/locking-rows.md#locking-rows)
 

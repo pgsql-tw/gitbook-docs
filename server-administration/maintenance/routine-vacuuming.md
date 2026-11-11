@@ -717,7 +717,7 @@ analyze threshold = analyze base threshold + analyze scale factor * number of tu
 Autovacuum 工作程序通常不會阻擋其他指令。如果有
 程序嘗試取得與 autovacuum 所持有的
 `SHARE UPDATE EXCLUSIVE` 鎖定衝突的鎖定，取得鎖定的動作就會中斷該
-autovacuum。關於會衝突的鎖定模式，請參閱[表 13.2](../../the-sql-language/mvcc/explicit-locking.md#TABLE-LOCK-COMPATIBILITY)。不過，如果該 autovacuum
+autovacuum。關於會衝突的鎖定模式，請參閱[表 13.2](../../the-sql-language/mvcc/explicit-locking/locking-tables.md#table-lock-compatibility)。不過，如果該 autovacuum
 是為了防止交易 ID 回捲而執行（也就是說，
 `pg_stat_activity` 檢視表中該 autovacuum 的查詢名稱
 以 `(to prevent wraparound)` 結尾），這個
