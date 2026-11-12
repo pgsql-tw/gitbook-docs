@@ -243,7 +243,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        擷取第一個符合 POSIX 正規表示式的子字串；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        擷取第一個符合 POSIX 正規表示式的子字串；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">substring('Thomas' from '...$')</code>
@@ -541,7 +541,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 在 <em class="parameter"><code>string</code></em> 中相符的次數；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 在 <em class="parameter"><code>string</code></em> 中相符的次數；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_count('123456789012', '\d\d\d', 2)</code>
@@ -557,7 +557,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">integer</code>
 </p>
 <p>
-        回傳在 <em class="parameter"><code>string</code></em> 中第 <em class="parameter"><code>N</code></em> 次與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符之處的位置；如果沒有這樣的相符則回傳零；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        回傳在 <em class="parameter"><code>string</code></em> 中第 <em class="parameter"><code>N</code></em> 次與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符之處的位置；如果沒有這樣的相符則回傳零；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_instr('ABCDEF', 'c(.)(..)', 1, 1, 0, 'i')</code>
@@ -573,7 +573,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        檢查 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 是否在 <em class="parameter"><code>string</code></em> 中有相符的項目；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        檢查 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 是否在 <em class="parameter"><code>string</code></em> 中有相符的項目；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_like('Hello World', 'world$', 'i')</code>
@@ -584,7 +584,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 與 <em class="parameter"><code>string</code></em> 第一次相符之內的子字串；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 與 <em class="parameter"><code>string</code></em> 第一次相符之內的子字串；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_match('foobarbequebaz', '(bar)(beque)')</code>
@@ -595,7 +595,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">setof text[]</code>
 </p>
 <p>
-        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 與 <em class="parameter"><code>string</code></em> 第一次相符之內的子字串；如果使用了 <code class="literal">g</code> 旗標，則回傳所有這類相符之內的子字串；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        回傳 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 與 <em class="parameter"><code>string</code></em> 第一次相符之內的子字串；如果使用了 <code class="literal">g</code> 旗標，則回傳所有這類相符之內的子字串；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_matches('foobarbequebaz', 'ba.', 'g')</code>
@@ -611,7 +611,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        替換與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 第一次相符的子字串；如果使用了 <code class="literal">g</code> 旗標，則替換所有這類相符；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        替換與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 第一次相符的子字串；如果使用了 <code class="literal">g</code> 旗標，則替換所有這類相符；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_replace('Thomas', '.[mN]a.', 'M')</code>
@@ -624,7 +624,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        替換第 <em class="parameter"><code>N</code></em> 次與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符的子字串；如果 <em class="parameter"><code>N</code></em> 為零，則替換所有這類相符；並從第 <em class="parameter"><code>start</code></em> 個字元開始搜尋 <em class="parameter"><code>string</code></em>。如果省略 <em class="parameter"><code>N</code></em>，預設為 1。請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        替換第 <em class="parameter"><code>N</code></em> 次與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符的子字串；如果 <em class="parameter"><code>N</code></em> 為零，則替換所有這類相符；並從第 <em class="parameter"><code>start</code></em> 個字元開始搜尋 <em class="parameter"><code>string</code></em>。如果省略 <em class="parameter"><code>N</code></em>，預設為 1。請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_replace('Thomas', '.', 'X', 3, 2)</code>
@@ -639,7 +639,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text[]</code>
 </p>
 <p>
-        使用 POSIX 正規表示式作為分隔符號來拆分 <em class="parameter"><code>string</code></em>，產生一個結果陣列；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        使用 POSIX 正規表示式作為分隔符號來拆分 <em class="parameter"><code>string</code></em>，產生一個結果陣列；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_split_to_array('hello world', '\s+')</code>
@@ -650,7 +650,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">setof text</code>
 </p>
 <p>
-        使用 POSIX 正規表示式作為分隔符號來拆分 <em class="parameter"><code>string</code></em>，產生一個結果集合；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        使用 POSIX 正規表示式作為分隔符號來拆分 <em class="parameter"><code>string</code></em>，產生一個結果集合；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_split_to_table('hello world', '\s+')</code>
@@ -669,7 +669,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        回傳 <em class="parameter"><code>string</code></em> 中第 <em class="parameter"><code>N</code></em> 個與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符的子字串；如果沒有這樣的相符，則回傳 <code class="literal">NULL</code>；請參閱<a class="xref" href="functions-matching.md#functions-posix-regexp">第 9.7.3 節</a>。
+        回傳 <em class="parameter"><code>string</code></em> 中第 <em class="parameter"><code>N</code></em> 個與 POSIX 正規表示式 <em class="parameter"><code>pattern</code></em> 相符的子字串；如果沒有這樣的相符，則回傳 <code class="literal">NULL</code>；請參閱<a class="xref" href="functions-matching/functions-posix-regexp.md#functions-posix-regexp">第 9.7.3 節</a>。
        </p>
 <p>
 <code class="literal">regexp_substr('ABCDEF', 'c(.)(..)', 1, 1, 'i')</code>

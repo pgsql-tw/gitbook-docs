@@ -22,7 +22,7 @@
 
   - [9.7.2. `SIMILAR TO` 正規表示式](functions-matching.md#functions-similarto-regexp)
 
-  - [9.7.3. POSIX 正規表示式](functions-matching.md#functions-posix-regexp)
+  - [9.7.3. POSIX 正規表示式](functions-matching/functions-posix-regexp.md#functions-posix-regexp)
 
 - [9.8. 資料型別格式化函式](functions-formatting.md)
 

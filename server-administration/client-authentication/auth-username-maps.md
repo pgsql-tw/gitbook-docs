@@ -83,7 +83,7 @@ SIGHUP<a id="id-1.6.7.9.6.3"></a>
 如果 *`system-username`* 欄位以斜線（`/`）開頭，
 該欄位其餘的部分就會被視為正規表示式。
 （PostgreSQL 正規表示式語法的細節，請參見
-[Section 9.7.3.1](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS)。）
+[Section 9.7.3.1](../../the-sql-language/functions/functions-matching/functions-posix-regexp.md#posix-syntax-details)。）
 該正規表示式可以包含一個擷取（capture），也就是括號括住的
 子表示式。系統使用者名稱中符合該擷取的部分，
 之後就可以在 *`database-username`*

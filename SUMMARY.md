@@ -103,6 +103,7 @@
     * [9.5. 二進位字串函式與運算子 #](the-sql-language/functions/functions-binarystring.md)
     * [9.6. 位元字串函式與運算子 #](the-sql-language/functions/functions-bitstring.md)
     * [9.7. 模式比對 #](the-sql-language/functions/functions-matching.md)
+      * [9.7.3. POSIX 正規表示式](the-sql-language/functions/functions-matching/functions-posix-regexp.md)
     * [9.8. 資料型別格式化函式 #](the-sql-language/functions/functions-formatting.md)
     * [9.9. 日期／時間函式與運算子 #](the-sql-language/functions/functions-datetime.md)
       * [9.9.4. AT TIME ZONE 與 AT LOCAL](the-sql-language/functions/functions-datetime/functions-datetime-zoneconvert.md)

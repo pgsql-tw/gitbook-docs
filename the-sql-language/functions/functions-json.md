@@ -1975,7 +1975,7 @@ $[*] ? (@ like_regex "^[aeiou]" flag "i")
 
 選用的 `flag` 字串可以包含下列一個或多個字元：`i` 表示不區分大小寫的比對，`m` 允許 `^` 與 `$` 在換行處比對，`s` 允許 `.` 比對換行字元，而 `q` 則將整個模式加上引號（使行為簡化為單純的子字串比對）。
 
-SQL/JSON 標準的正規表示式定義借用自 `LIKE_REGEX` 運算子，而該運算子又使用 XQuery 標準。PostgreSQL 目前並不支援 `LIKE_REGEX` 運算子。因此，`like_regex` 篩選是使用[第 9.7.3 節](functions-matching.md#functions-posix-regexp)所述的 POSIX 正規表示式引擎實作的。這導致了與標準 SQL/JSON 行為之間的各種細微差異，這些差異整理於[第 9.7.3.8 節](functions-matching.md#POSIX-VS-XQUERY)。不過請注意，該處所述的旗標字母不相容問題並不適用於 SQL/JSON，因為它會將 XQuery 的旗標字母轉換為 POSIX 引擎所預期的形式。
+SQL/JSON 標準的正規表示式定義借用自 `LIKE_REGEX` 運算子，而該運算子又使用 XQuery 標準。PostgreSQL 目前並不支援 `LIKE_REGEX` 運算子。因此，`like_regex` 篩選是使用[第 9.7.3 節](functions-matching/functions-posix-regexp.md#functions-posix-regexp)所述的 POSIX 正規表示式引擎實作的。這導致了與標準 SQL/JSON 行為之間的各種細微差異，這些差異整理於[第 9.7.3.8 節](functions-matching/functions-posix-regexp.md#posix-vs-xquery)。不過請注意，該處所述的旗標字母不相容問題並不適用於 SQL/JSON，因為它會將 XQuery 的旗標字母轉換為 POSIX 引擎所預期的形式。
 
 請記住，`like_regex` 的模式引數是一個 JSON 路徑字串字面值，依照[第 8.14.7 節](../datatype/datatype-json.md#datatype-jsonpath)所述的規則撰寫。這特別意味著，你想在正規表示式中使用的任何反斜線都必須重複兩次。例如，要比對根文件中只包含數字的字串值：
 

@@ -168,7 +168,7 @@ PostgreSQL 資料庫的名稱，或是一個正規表示式。
 若資料庫名稱以斜線（`/`）開頭，則該
 名稱其餘的部分會被視為正規表示式。
 （關於 PostgreSQL 正規表示式語法的詳情，請參閱
-[第 9.7.3.1 節](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS)。）
+[第 9.7.3.1 節](../../the-sql-language/functions/functions-matching/functions-posix-regexp.md#posix-syntax-details)。）
 
 也可以在檔名前加上 `@`，指定一個內含
 資料庫名稱及／或正規表示式的獨立檔案。
@@ -193,7 +193,7 @@ PostgreSQL 資料庫的名稱，或是一個正規表示式。
 若使用者名稱以斜線（`/`）開頭，則該
 名稱其餘的部分會被視為正規表示式。
 （關於 PostgreSQL 正規表示式語法的詳情，請參閱
-[第 9.7.3.1 節](../../the-sql-language/functions/functions-matching.md#POSIX-SYNTAX-DETAILS)。）
+[第 9.7.3.1 節](../../the-sql-language/functions/functions-matching/functions-posix-regexp.md#posix-syntax-details)。）
 
 也可以在檔名前加上 `@`，指定一個內含
 使用者名稱及／或正規表示式的獨立檔案。
