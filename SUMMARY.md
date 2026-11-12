@@ -135,6 +135,7 @@
       * [9.27.11. 版本資訊函式](the-sql-language/functions/functions-info/functions-info-version.md)
       * [9.27.12. WAL 摘要資訊函式](the-sql-language/functions/functions-info/functions-info-wal-summary.md)
     * [9.28. 系統管理函式 #](the-sql-language/functions/functions-admin.md)
+      * [9.28.7. 資料庫物件管理函式](the-sql-language/functions/functions-admin/functions-admin-dbobject.md)
       * [9.28.1. 組態設定函式](the-sql-language/functions/functions-admin/functions-admin-set.md)
       * [9.28.2. 伺服器訊號函式](the-sql-language/functions/functions-admin/functions-admin-signal.md)
       * [9.28.3. 備份控制函式](the-sql-language/functions/functions-admin/functions-admin-backup.md)

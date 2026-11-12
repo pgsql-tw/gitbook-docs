@@ -311,7 +311,7 @@ ICU 函式庫所提供的具名定序器（collator）。ICU 不支援
 區域設定，則可以使用
 [CREATE COLLATION](../../reference/sql-commands/sql-createcollation.md) 指令建立新的定序。
 也可以使用
-[`pg_import_system_collations()`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-COLLATION) 函式，一次匯入大量的新作業系統區域設定。
+[`pg_import_system_collations()`](../../the-sql-language/functions/functions-admin/functions-admin-dbobject.md#functions-admin-collation) 函式，一次匯入大量的新作業系統區域設定。
 
 在任何特定的資料庫中，只有使用該
 資料庫編碼的定序才有意義。`pg_collation` 中的
@@ -411,7 +411,7 @@ CREATE COLLATION german (provider = libc, locale = 'de_DE');
 可能的原因是想使用不同的命名系統（在此情況下
 另見[第 23.2.2.3.3 節](collation.md#COLLATION-COPY)），或是作業系統
 已升級並提供了新的區域設定定義（在此情況下另見
-[`pg_import_system_collations()`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-COLLATION)）。
+[`pg_import_system_collations()`](../../the-sql-language/functions/functions-admin/functions-admin-dbobject.md#functions-admin-collation)）。
 
 <a id="COLLATION-MANAGING-CREATE-ICU"></a>
 

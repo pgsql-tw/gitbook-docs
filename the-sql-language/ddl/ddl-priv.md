@@ -120,7 +120,7 @@ REVOKE ALL ON accounts FROM PUBLIC;
 <a id="DDL-PRIV-MAINTAIN"></a>
 
 `MAINTAIN` [#](#DDL-PRIV-MAINTAIN)
-:   允許對關聯執行 `VACUUM`、`ANALYZE`、`CLUSTER`、`REFRESH MATERIALIZED VIEW`、`REINDEX`、`LOCK TABLE`，以及資料庫物件統計資訊操作函式（請參閱[表 9.105](../functions/functions-admin.md#FUNCTIONS-ADMIN-STATSMOD)）。
+:   允許對關聯執行 `VACUUM`、`ANALYZE`、`CLUSTER`、`REFRESH MATERIALIZED VIEW`、`REINDEX`、`LOCK TABLE`，以及資料庫物件統計資訊操作函式（請參閱[表 9.105](../functions/functions-admin/functions-admin-dbobject.md#functions-admin-statsmod)）。
 
 其他命令所需的權限，列在各命令的參考頁面中。
 

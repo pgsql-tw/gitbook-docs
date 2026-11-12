@@ -149,7 +149,7 @@ WAL 紀錄*開始*的位置。然而，有些函式（例如
 ### 提示 [#](#pgwalinspect-pg-get-wal-block-info-tip) <a href="#pgwalinspect-pg-get-wal-block-info-tip" id="pgwalinspect-pg-get-wal-block-info-tip"></a>
 
 `pg_filenode_relation` 函式（請參閱
-[表 9.103](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-DBLOCATION)）可以協助你判斷原本執行期間修改的是哪個關聯。
+[表 9.103](../../the-sql-language/functions/functions-admin/functions-admin-dbobject.md#functions-admin-dblocation)）可以協助你判斷原本執行期間修改的是哪個關聯。
 
 用戶端可以避免具體化區塊資料的額外負擔，這可能使函式執行明顯加快。當
 *`show_data`* 設為 `false` 時，會省略 `block_data`

@@ -27,7 +27,7 @@ PostgreSQL 資料庫系統的磁碟用量。
 [第 66.1 節](../../internals/storage/storage-file-layout.md)。
 
 你可以透過三種方式監控磁碟空間：
-使用[表 9.102](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-DBSIZE)所列的 SQL 函式、
+使用[表 9.102](../../the-sql-language/functions/functions-admin/functions-admin-dbobject.md#functions-admin-dbsize)所列的 SQL 函式、
 使用 [oid2name](../../appendixes/contrib-prog/oid2name.md) 模組，或
 以手動方式檢查系統目錄。
 SQL 函式最容易使用，一般也建議使用它們。

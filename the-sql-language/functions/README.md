@@ -154,7 +154,7 @@
 
   - [9.28.6. 複寫管理函式](functions-admin.md#functions-replication)
 
-  - [9.28.7. 資料庫物件管理函式](functions-admin.md#functions-admin-dbobject)
+  - [9.28.7. 資料庫物件管理函式](functions-admin/functions-admin-dbobject.md#functions-admin-dbobject)
 
   - [9.28.8. 索引維護函式](functions-admin/functions-admin-index.md#functions-admin-index)
 

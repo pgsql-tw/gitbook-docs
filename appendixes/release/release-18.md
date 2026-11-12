@@ -571,7 +571,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/d32d14639)
   [§](https://postgr.es/c/650ab8aaf)
 
-  這些函式為 [`pg_restore_relation_stats()`](../../the-sql-language/functions/functions-admin.md#FUNCTIONS-ADMIN-STATSMOD)、
+  這些函式為 [`pg_restore_relation_stats()`](../../the-sql-language/functions/functions-admin/functions-admin-dbobject.md#functions-admin-statsmod)、
   `pg_restore_attribute_stats()`、
   `pg_clear_relation_stats()` 與
   `pg_clear_attribute_stats()`。
