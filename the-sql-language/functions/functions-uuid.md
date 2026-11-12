@@ -55,11 +55,11 @@
 
 [uuid-ossp](../../appendixes/contrib/uuid-ossp.md) 模組提供了額外的函式，實作其他產生 UUID 的標準演算法。
 
-[表 9.46](functions-uuid.md#FUNC_UUID_EXTRACT_TABLE) 列出了可用來從 UUID 擷取資訊的 PostgreSQL 函式。
+[表 9.46](functions-uuid.md#func_uuid_extract_table) 列出了可用來從 UUID 擷取資訊的 PostgreSQL 函式。
 
 <a id="FUNC_UUID_EXTRACT_TABLE"></a>
 
-**表 9.46. UUID 擷取函式**
+### 表 9.46. UUID 擷取函式 [#](#func_uuid_extract_table) <a href="#func_uuid_extract_table" id="func_uuid_extract_table"></a>
 
 <table border="1" class="table" summary="UUID Extraction Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

@@ -6,15 +6,15 @@
 
 本節說明用於檢查與操作字串值的函式與運算子。在這裡，字串包括 `character`、`character varying` 與 `text` 型別的值。除非另有註明，這些函式與運算子都宣告為接受並回傳 `text` 型別。它們也可以同樣地接受 `character varying` 引數。`character` 型別的值在套用函式或運算子之前，會先被轉換為 `text`，因而會去除 `character` 值中所有的尾端空白。
 
-SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。詳情請見[表 9.9](functions-string.md#FUNCTIONS-STRING-SQL)。PostgreSQL 也提供了這些函式使用一般函式呼叫語法的版本（請參閱[表 9.10](functions-string.md#FUNCTIONS-STRING-OTHER)）。
+SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。詳情請見[表 9.9](functions-string.md#functions-string-sql)。PostgreSQL 也提供了這些函式使用一般函式呼叫語法的版本（請參閱[表 9.10](functions-string.md#functions-string-other)）。
 
 ### 注意
 
-只要至少有一個輸入是字串型別，字串串接運算子（`||`）就會接受非字串的輸入，如[表 9.9](functions-string.md#FUNCTIONS-STRING-SQL) 所示。在其他情況下，可以插入明確轉換為 `text` 的強制轉換，讓非字串輸入被接受。
+只要至少有一個輸入是字串型別，字串串接運算子（`||`）就會接受非字串的輸入，如[表 9.9](functions-string.md#functions-string-sql) 所示。在其他情況下，可以插入明確轉換為 `text` 的強制轉換，讓非字串輸入被接受。
 
 <a id="FUNCTIONS-STRING-SQL"></a>
 
-**表 9.9. SQL 字串函式與運算子**
+### 表 9.9. SQL 字串函式與運算子 [#](#functions-string-sql) <a href="#functions-string-sql" id="functions-string-sql"></a>
 
 <table border="1" class="table" summary="SQL String Functions and Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式／運算子
@@ -309,11 +309,11 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
 
 <br>
 
-另外還有其他字串操作函式與運算子可用，列於[表 9.10](functions-string.md#FUNCTIONS-STRING-OTHER)。（其中有些在內部用來實作[表 9.9](functions-string.md#FUNCTIONS-STRING-SQL) 所列的 SQL 標準字串函式。）此外還有模式比對運算子，說明於[第 9.7 節](functions-matching.md)；以及用於全文檢索的運算子，說明於[第 12 章](../textsearch/README.md)。
+另外還有其他字串操作函式與運算子可用，列於[表 9.10](functions-string.md#functions-string-other)。（其中有些在內部用來實作[表 9.9](functions-string.md#functions-string-sql) 所列的 SQL 標準字串函式。）此外還有模式比對運算子，說明於[第 9.7 節](functions-matching.md)；以及用於全文檢索的運算子，說明於[第 12 章](../textsearch/README.md)。
 
 <a id="FUNCTIONS-STRING-OTHER"></a>
 
-**表 9.10. 其他字串函式與運算子**
+### 表 9.10. 其他字串函式與運算子 [#](#functions-string-other) <a href="#functions-string-other" id="functions-string-other"></a>
 
 <table border="1" class="table" summary="Other String Functions and Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式／運算子

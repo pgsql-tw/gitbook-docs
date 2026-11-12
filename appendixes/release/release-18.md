@@ -716,7 +716,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 * 新增函式 [`array_reverse()`](../../the-sql-language/functions/functions-array.md#array-functions-table)，
   用於反轉陣列的第一個維度 (Aleksander Alekseev)
   [§](https://postgr.es/c/49d6c7d8d)
-* 新增函式 [`reverse()`](../../the-sql-language/functions/functions-string.md#FUNCTIONS-STRING-OTHER)，
+* 新增函式 [`reverse()`](../../the-sql-language/functions/functions-string.md#functions-string-other)，
   用於反轉 bytea 的位元組 (Aleksander Alekseev)
   [§](https://postgr.es/c/0697b2390)
 * 允許在整數型別與 [`bytea`](../../the-sql-language/datatype/datatype-binary.md) 之間轉型 (Aleksander
@@ -740,7 +740,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 <a id="RELEASE-18-FUNCTIONS"></a>
 #### E.6.3.4. 函式 [#](#RELEASE-18-FUNCTIONS)
 
-* 新增函式 [`casefold()`](../../the-sql-language/functions/functions-string.md#FUNCTIONS-STRING-OTHER)，
+* 新增函式 [`casefold()`](../../the-sql-language/functions/functions-string.md#functions-string-other)，
   以支援更精細的不區分大小寫比對 (Jeff Davis)
   [§](https://postgr.es/c/bfc599206)
 
