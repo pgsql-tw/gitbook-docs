@@ -82,7 +82,7 @@ JSON Unicode 逸出序列在不支援所代表字元的資料庫編碼中，
 在將文字形式的 JSON 輸入轉換為 `jsonb` 時，RFC
 7159 所描述的基本型別會有效地對映到
 原生的 PostgreSQL 型別，如
-[表 8.23](datatype-json.md#JSON-TYPE-MAPPING-TABLE)所示。
+[表 8.23](datatype-json.md#json-type-mapping-table)所示。
 因此，對於構成有效 `jsonb` 資料而言，
 存在一些不適用於 `json` 型別、也不適用於抽象意義上 JSON 的
 額外次要限制，這些限制對應於底層資料型別所能表示範圍的限制。
@@ -102,7 +102,7 @@ PostgreSQL `numeric` 資料型別範圍的數字，
 
 <a id="JSON-TYPE-MAPPING-TABLE"></a>
 
-**表 8.23. JSON 基本型別與對應的 PostgreSQL 型別**
+### 表 8.23. JSON 基本型別與對應的 PostgreSQL 型別 [#](#json-type-mapping-table) <a href="#json-type-mapping-table" id="json-type-mapping-table"></a>
 
 <table border="1" class="table" summary="JSON 基本型別與對應的 PostgreSQL 型別"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/></colgroup><thead><tr><th>JSON 基本型別</th><th><span class="productname">PostgreSQL</span> 型別</th><th>備註</th></tr></thead><tbody><tr><td><code class="type">string</code></td><td><code class="type">text</code></td><td>不允許 <code class="literal">\u0000</code>，代表資料庫編碼中不存在
          之字元的 Unicode 逸出序列亦不允許</td></tr><tr><td><code class="type">number</code></td><td><code class="type">numeric</code></td><td>不允許 <code class="literal">NaN</code> 與 <code class="literal">infinity</code> 值</td></tr><tr><td><code class="type">boolean</code></td><td><code class="type">boolean</code></td><td>只接受小寫的 <code class="literal">true</code> 與 <code class="literal">false</code> 拼寫</td></tr><tr><td><code class="type">null</code></td><td>（無）</td><td>SQL 的 <code class="literal">NULL</code> 是不同的概念</td></tr></tbody></table>
