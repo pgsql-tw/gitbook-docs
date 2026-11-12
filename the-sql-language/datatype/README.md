@@ -23,7 +23,7 @@
   - [8.4.2. `bytea` 跳脫格式](datatype-binary/datatype-binary-bytea-escape-format.md#datatype-binary-bytea-escape-format)
 
 - [8.5. 日期／時間型別](datatype-datetime.md)
-  - [8.5.1. 日期／時間輸入](datatype-datetime.md#datatype-datetime-input)
+  - [8.5.1. 日期／時間輸入](datatype-datetime/datatype-datetime-input.md#datatype-datetime-input)
 
   - [8.5.2. 日期／時間輸出](datatype-datetime/datatype-datetime-output.md#datatype-datetime-output)
 

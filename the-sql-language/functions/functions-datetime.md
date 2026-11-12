@@ -1163,7 +1163,7 @@ SELECT TIMESTAMP 'now';  -- but see tip below
 
 ### 提示
 
-在指定之後才要評估的值時，例如在資料表欄位的 `DEFAULT` 子句中，不要使用第三種形式。系統在剖析常數時就會立即將 `now` 轉換為 `timestamp`，因此在需要預設值時，所使用的會是建立資料表的時間！前兩種形式因為是函式呼叫，所以要到實際使用預設值時才會被評估。因此，它們會產生預設為插入資料列時間的預期行為。（另請參閱[第 8.5.1.4 節](../datatype/datatype-datetime.md#DATATYPE-DATETIME-SPECIAL-VALUES)。）
+在指定之後才要評估的值時，例如在資料表欄位的 `DEFAULT` 子句中，不要使用第三種形式。系統在剖析常數時就會立即將 `now` 轉換為 `timestamp`，因此在需要預設值時，所使用的會是建立資料表的時間！前兩種形式因為是函式呼叫，所以要到實際使用預設值時才會被評估。因此，它們會產生預設為插入資料列時間的預期行為。（另請參閱[第 8.5.1.4 節](../datatype/datatype-datetime/datatype-datetime-input.md#datatype-datetime-special-values)。）
 
 <a id="FUNCTIONS-DATETIME-DELAY"></a>
 

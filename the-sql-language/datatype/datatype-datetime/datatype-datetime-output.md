@@ -43,7 +43,7 @@ ISO 8601 規定使用大寫字母 `T`，
 月之前，否則月會出現在
 日之前。
 （關於此設定如何同時影響輸入值的解讀方式，
-請參閱[8.5.1 節](../datatype-datetime.md#datatype-datetime-input)。）
+請參閱[8.5.1 節](datatype-datetime-input.md#datatype-datetime-input)。）
 [表 8.15](#datatype-datetime-output2-table) 展示了一些範例。
 
 <a id="DATATYPE-DATETIME-OUTPUT2-TABLE"></a>
