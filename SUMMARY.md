@@ -125,6 +125,7 @@
     * [9.25. 資料列與陣列比較 #](the-sql-language/functions/functions-comparisons.md)
     * [9.26. 集合回傳函式 #](the-sql-language/functions/functions-srf.md)
     * [9.27. 系統資訊函式與運算子 #](the-sql-language/functions/functions-info.md)
+      * [9.27.1. 工作階段資訊函式](the-sql-language/functions/functions-info/functions-info-session.md)
       * [9.27.2. 存取權限查詢函式](the-sql-language/functions/functions-info/functions-info-access.md)
       * [9.27.3. 綱要可見性查詢函式](the-sql-language/functions/functions-info/functions-info-schema.md)
       * [9.27.5. 物件資訊與定址函式](the-sql-language/functions/functions-info/functions-info-object.md)

@@ -1037,7 +1037,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/8cc139bec)
   [§](https://postgr.es/c/ba2a3c230)
 
-  函式 [`pg_numa_available()`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)
+  函式 [`pg_numa_available()`](../../the-sql-language/functions/functions-info/functions-info-session.md#functions-info-session-table)
   會回報 NUMA 感知的狀態，系統檢視表 [`pg_shmem_allocations_numa`](../../internals/views/view-pg-shmem-allocations-numa.md)
   與 [`pg_buffercache_numa`](../contrib/pgbuffercache/pgbuffercache-pg-buffercache-numa.md#pgbuffercache-pg-buffercache-numa)
   則會回報共享記憶體在各 NUMA 節點間的分布。
@@ -1078,7 +1078,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   讓擴充功能可以回報其名稱與版本 (Andrei Lepikhov)
   [§](https://postgr.es/c/9324c8c58)
 
-  可以透過新函式 [`pg_get_loaded_modules()`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE) 存取此資訊。
+  可以透過新函式 [`pg_get_loaded_modules()`](../../the-sql-language/functions/functions-info/functions-info-session.md#functions-info-session-table) 存取此資訊。
 * 在文件中說明 [`SPI_connect()`](../../server-programming/spi/spi-spi-connect.md)/[`SPI_connect_ext()`](../../server-programming/spi/spi-spi-connect.md)
   一律傳回成功（`SPI_OK_CONNECT`） (Stepan
   Neretin)

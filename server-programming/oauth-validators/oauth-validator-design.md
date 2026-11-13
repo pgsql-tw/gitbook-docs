@@ -43,7 +43,7 @@
 驗證終端使用者
 
 最後，驗證器應為該權杖判斷出一個使用者識別碼，方式可以是向提供者查詢該資訊，或是直接從權杖本身擷取，再將該識別碼回傳給伺服器（伺服器接著會使用 HBA 組態做出最終的授權決策）。此識別碼將可透過
-[`system_user`](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-SESSION-TABLE)
+[`system_user`](../../the-sql-language/functions/functions-info/functions-info-session.md#functions-info-session-table)
 在工作階段中取得，並且在啟用 [log_connections](../../server-administration/runtime-config/runtime-config-logging.md#GUC-LOG-CONNECTIONS) 時，記錄於伺服器日誌中。
 
 不同的提供者可能會為終端使用者記錄各種不同的驗證資訊，一般稱為

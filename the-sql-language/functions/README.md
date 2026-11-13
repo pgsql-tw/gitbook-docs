@@ -117,7 +117,7 @@
 - [9.26. 集合回傳函式](functions-srf.md)
 
 - [9.27. 系統資訊函式與運算子](functions-info.md)
-  - [9.27.1. 工作階段資訊函式](functions-info.md#functions-info-session)
+  - [9.27.1. 工作階段資訊函式](functions-info/functions-info-session.md#functions-info-session)
 
   - [9.27.2. 存取權限查詢函式](functions-info/functions-info-access.md#functions-info-access)
 
