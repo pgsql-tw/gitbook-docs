@@ -99,7 +99,7 @@
 
   - [8.14.6. 轉換](datatype-json.md#datatype-json-transforms)
 
-  - [8.14.7. jsonpath 型別](datatype-json.md#datatype-jsonpath)
+  - [8.14.7. jsonpath 型別](datatype-json/datatype-jsonpath.md#datatype-jsonpath)
 
 - [8.15. 陣列](arrays.md)
   - [8.15.1. 陣列型別的宣告](arrays.md#arrays-declaration)

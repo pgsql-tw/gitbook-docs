@@ -1134,13 +1134,13 @@ ERROR:  value too long for type character(2)
 
 <a id="id-1.5.8.22.9.2"></a>
 
-SQL/JSON 路徑運算式指定要從 JSON 值中取出的項目，類似於用來存取 XML 內容的 XPath 運算式。在 PostgreSQL 中，路徑運算式實作為 `jsonpath` 資料型別，並且可以使用[第 8.14.7 節](../datatype/datatype-json.md#datatype-jsonpath)所述的任何元素。
+SQL/JSON 路徑運算式指定要從 JSON 值中取出的項目，類似於用來存取 XML 內容的 XPath 運算式。在 PostgreSQL 中，路徑運算式實作為 `jsonpath` 資料型別，並且可以使用[第 8.14.7 節](../datatype/datatype-json/datatype-jsonpath.md#datatype-jsonpath)所述的任何元素。
 
 JSON 查詢函式與運算子會將所提供的路徑運算式傳遞給*路徑引擎*進行求值。如果運算式與所查詢的 JSON 資料相符，就會回傳對應的 JSON 項目或項目集合。如果沒有相符的結果，依函式的不同，結果會是 `NULL`、`false` 或錯誤。路徑運算式以 SQL/JSON 路徑語言撰寫，並且可以包含算術運算式與函式。
 
 路徑運算式由 `jsonpath` 資料型別所允許的一連串元素組成。路徑運算式通常由左至右求值，但你可以使用括號來改變運算的順序。如果求值成功，就會產生一個 JSON 項目的序列，並將求值結果回傳給完成指定計算的 JSON 查詢函式。
 
-若要參照正在查詢的 JSON 值（*內容項目*），請在路徑運算式中使用 `$` 變數。路徑的第一個元素一定是 `$`。其後可以接著一個或多個[存取子運算子](../datatype/datatype-json.md#TYPE-JSONPATH-ACCESSORS)，它們會逐層向下深入 JSON 結構，以取出內容項目的子項目。每個存取子運算子都作用於前一個求值步驟的結果，並從每個輸入項目產生零個、一個或多個輸出項目。
+若要參照正在查詢的 JSON 值（*內容項目*），請在路徑運算式中使用 `$` 變數。路徑的第一個元素一定是 `$`。其後可以接著一個或多個[存取子運算子](../datatype/datatype-json/datatype-jsonpath.md#type-jsonpath-accessors)，它們會逐層向下深入 JSON 結構，以取出內容項目的子項目。每個存取子運算子都作用於前一個求值步驟的結果，並從每個輸入項目產生零個、一個或多個輸出項目。
 
 例如，假設你有一些來自 GPS 追蹤器、想要剖析的 JSON 資料，例如：
 
@@ -1977,7 +1977,7 @@ $[*] ? (@ like_regex "^[aeiou]" flag "i")
 
 SQL/JSON 標準的正規表示式定義借用自 `LIKE_REGEX` 運算子，而該運算子又使用 XQuery 標準。PostgreSQL 目前並不支援 `LIKE_REGEX` 運算子。因此，`like_regex` 篩選是使用[第 9.7.3 節](functions-matching/functions-posix-regexp.md#functions-posix-regexp)所述的 POSIX 正規表示式引擎實作的。這導致了與標準 SQL/JSON 行為之間的各種細微差異，這些差異整理於[第 9.7.3.8 節](functions-matching/functions-posix-regexp.md#posix-vs-xquery)。不過請注意，該處所述的旗標字母不相容問題並不適用於 SQL/JSON，因為它會將 XQuery 的旗標字母轉換為 POSIX 引擎所預期的形式。
 
-請記住，`like_regex` 的模式引數是一個 JSON 路徑字串字面值，依照[第 8.14.7 節](../datatype/datatype-json.md#datatype-jsonpath)所述的規則撰寫。這特別意味著，你想在正規表示式中使用的任何反斜線都必須重複兩次。例如，要比對根文件中只包含數字的字串值：
+請記住，`like_regex` 的模式引數是一個 JSON 路徑字串字面值，依照[第 8.14.7 節](../datatype/datatype-json/datatype-jsonpath.md#datatype-jsonpath)所述的規則撰寫。這特別意味著，你想在正規表示式中使用的任何反斜線都必須重複兩次。例如，要比對根文件中只包含數字的字串值：
 
 ```
 
