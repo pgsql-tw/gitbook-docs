@@ -482,7 +482,7 @@ PostgreSQL 9.5 或更新版本，因為較早的版本不支援此功能。
 `postgres_fdw.application_name` 可以是任意長度的任何字串，甚至可以包含非 ASCII 字元。不過，當它被傳遞到外部伺服器並作為
 `application_name` 使用時，請注意它會被截斷為少於
 `NAMEDATALEN` 個字元。
-可列印 ASCII 字元以外的任何字元，都會被替換為 [C 語言風格的十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
+可列印 ASCII 字元以外的任何字元，都會被替換為 [C 語言風格的十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings-escape)。
 詳細資訊請參閱 [application_name](../../server-administration/runtime-config/runtime-config-logging.md#GUC-APPLICATION-NAME)。
 
 `%` 字元表示「逸出序列」的開始，這些序列會被替換為下文所述的狀態資訊。

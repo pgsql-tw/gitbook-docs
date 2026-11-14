@@ -517,7 +517,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
     `application_name` 值只能使用
     可列印的 ASCII 字元。
     其他字元會被替換為
-    [C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
+    [C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings-escape)。
 <a id="GUC-DEBUG-PRINT-PARSE"></a>
 
 `debug_print_parse` (`boolean`) <a id="id-1.6.6.11.5.3.2.1.3"></a> <br>`debug_print_rewritten` (`boolean`) <a id="id-1.6.6.11.5.3.2.2.3"></a> <br>`debug_print_plan` (`boolean`) <a id="id-1.6.6.11.5.3.2.3.3"></a> [#](#GUC-DEBUG-PRINT-PARSE)
@@ -1048,7 +1048,7 @@ COPY postgres_log FROM '/full/path/to/logfile.csv' WITH csv;
 `cluster_name` 值只能使用
 可列印的 ASCII 字元。
 其他字元會被替換為
-[C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)。
+[C 樣式十六進位逸出序列](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings-escape)。
 若此參數設為空字串
 `''`（此為預設值），則不會顯示任何名稱。
 此參數只能在伺服器啟動時設定。

@@ -82,7 +82,7 @@ CPU 週期來檢查長度之外。雖然
 `character(n)` 通常是這三者中最慢的，因為它有額外的儲存成本。在大多數情況下，應該改用
 `text` 或 `character varying`。
 
-關於字串常值語法的相關資訊，請參閱[4.1.2.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)；
+關於字串常值語法的相關資訊，請參閱[4.1.2.1 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)；
 關於可用運算子與函式的相關資訊，請參閱[第 9 章](../functions/README.md)。
 
 <a id="id-1.5.7.11.21"></a>

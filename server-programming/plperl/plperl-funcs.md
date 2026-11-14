@@ -49,11 +49,11 @@ perldiag 手冊頁中關於
 
 `CREATE FUNCTION` 指令的語法要求
 函式主體必須寫成字串常值。通常
-最方便的做法是對字串常值使用錢字符號引用（dollar quoting，請參閱[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）。
+最方便的做法是對字串常值使用錢字符號引用（dollar quoting，請參閱[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-dollar-quoting)）。
 若您選擇使用逸出字串語法 `E''`，
 則函式主體中使用的任何單引號（`'`）與反斜線
 （`\`）都必須加倍
-（請參閱[4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)）。
+（請參閱[4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)）。
 
 引數與結果的處理方式，與任何其他 Perl 子常式相同：
 引數是透過 `@_` 傳入的，結果值

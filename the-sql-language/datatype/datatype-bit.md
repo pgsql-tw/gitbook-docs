@@ -12,7 +12,7 @@
 
 如果明確地將位元字串值轉換為 `bit(n)`，它會在右邊被截斷或補零，使其正好為 *`n`* 個位元，而不會引發錯誤。同樣地，如果明確地將位元字串值轉換為 `bit varying(n)`，當它超過 *`n`* 個位元時會在右邊被截斷。
 
-關於位元字串常數的語法資訊，請參閱[第 4.1.2.5 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-BIT-STRINGS)。位元邏輯運算子與字串操作函式都可以使用；請參閱[第 9.6 節](../functions/functions-bitstring.md)。
+關於位元字串常數的語法資訊，請參閱[第 4.1.2.5 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-bit-strings)。位元邏輯運算子與字串操作函式都可以使用；請參閱[第 9.6 節](../functions/functions-bitstring.md)。
 
 <a id="id-1.5.7.18.7"></a>
 

@@ -24,7 +24,7 @@ PostgreSQL 比 SQL 標準要求的
 
 請記得，任何日期或時間常值輸入，
 都需要像文字字串一樣，用單引號括起來。詳情請參閱
-[4.1.2.7 節](../../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS-GENERIC)。
+[4.1.2.7 節](../../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-constants-generic)。
 SQL 要求使用以下語法
 
 ```

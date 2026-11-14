@@ -10,7 +10,7 @@ AS 'function body text'
 LANGUAGE plpgsql;
 ```
 
-就 `CREATE FUNCTION` 而言，函式主體只是一個字串常值。撰寫函式主體時，通常會使用錢字符引用（dollar quoting，見[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)），而非一般的單引號語法，這樣做通常很有幫助。若不使用錢字符引用，函式主體中任何單引號或反斜線都必須以重複兩次的方式加以逸出。本章幾乎所有範例都使用以錢字符括住的字串常值來撰寫函式主體。
+就 `CREATE FUNCTION` 而言，函式主體只是一個字串常值。撰寫函式主體時，通常會使用錢字符引用（dollar quoting，見[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-dollar-quoting)），而非一般的單引號語法，這樣做通常很有幫助。若不使用錢字符引用，函式主體中任何單引號或反斜線都必須以重複兩次的方式加以逸出。本章幾乎所有範例都使用以錢字符括住的字串常值來撰寫函式主體。
 
 PL/pgSQL 是一種以區塊為結構的語言。函式主體的完整文字必須是一個*區塊*。區塊的定義如下：
 

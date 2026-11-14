@@ -130,7 +130,7 @@ CREATE TABLE tictactoe (
 「NULL」，則必須在它外面加上雙引號。
 
 （這類陣列常值，實際上只是
-[4.1.2.7 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS-GENERIC)中所討論的
+[4.1.2.7 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-constants-generic)中所討論的
 通用型別常值的一個特例。該常值一開始，
 會被當作字串處理，並傳遞給陣列輸入轉換
 常式。可能需要明確的型別指定。）

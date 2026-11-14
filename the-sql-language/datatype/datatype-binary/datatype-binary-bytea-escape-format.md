@@ -20,7 +20,7 @@
 
 如同[表 8.7](#datatype-binary-sqlesc) 所示，單引號必須重複兩次的原因在於：這對 SQL 指令中的任何字串常數都成立。一般性的字串常數剖析器會消耗掉最外層的單引號，並把每一對單引號縮減成一個資料字元。`bytea` 輸入函式所看到的就只是一個單引號，而它會把那個單引號當成一般的資料字元。不過，`bytea` 輸入函式會把反斜線視為特殊字元，而[表 8.7](#datatype-binary-sqlesc) 中所示的其他行為都是由該函式所實作的。
 
-在某些情況下，反斜線必須比上面所示的再多重複一次，因為一般性的字串常數剖析器也會把每一對反斜線縮減成一個資料字元；請參閱[第 4.1.2.1 節](../../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)。
+在某些情況下，反斜線必須比上面所示的再多重複一次，因為一般性的字串常數剖析器也會把每一對反斜線縮減成一個資料字元；請參閱[第 4.1.2.1 節](../../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)。
 
 `Bytea` 的位元組預設會以 `hex` 格式輸出。如果你把 [bytea_output](../../../server-administration/runtime-config/runtime-config-client.md#GUC-BYTEA-OUTPUT) 改成 `escape`，「不可列印」的位元組會被轉換成等價的三位數八進位值，並在前面加上一個反斜線。大多數「可列印」的位元組則會以它們在用戶端字元集中的標準表示法輸出，例如：
 

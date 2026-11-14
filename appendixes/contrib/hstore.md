@@ -60,7 +60,7 @@ key => NULL
 
 ### 注意
 
-請記得，作為輸入使用時，`hstore` 文字格式會在任何必要的引號或逸出處理*之前*套用。若透過參數傳遞 `hstore` 字面值，則不需要額外處理。但若將它作為帶引號的字面常數傳遞，則任何單引號字元及（依 `standard_conforming_strings` 組態參數的設定而定）反斜線字元，都必須正確逸出。關於字串常數的處理，請參閱[第 4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)。
+請記得，作為輸入使用時，`hstore` 文字格式會在任何必要的引號或逸出處理*之前*套用。若透過參數傳遞 `hstore` 字面值，則不需要額外處理。但若將它作為帶引號的字面常數傳遞，則任何單引號字元及（依 `standard_conforming_strings` 組態參數的設定而定）反斜線字元，都必須正確逸出。關於字串常數的處理，請參閱[第 4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)。
 
 輸出時，鍵和值一律會以雙引號括住，即使嚴格而言並非必要。
 

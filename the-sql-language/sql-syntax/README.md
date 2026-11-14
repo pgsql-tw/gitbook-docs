@@ -5,7 +5,7 @@
 - [4.1. 詞彙結構](sql-syntax-lexical.md)
   - [4.1.1. 識別字與關鍵字](sql-syntax-lexical.md#sql-syntax-identifiers)
 
-  - [4.1.2. 常數](sql-syntax-lexical.md#sql-syntax-constants)
+  - [4.1.2. 常數](sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-constants)
 
   - [4.1.3. 運算子](sql-syntax-lexical.md#sql-syntax-operators)
 

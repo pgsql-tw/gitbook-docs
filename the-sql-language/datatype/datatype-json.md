@@ -697,7 +697,7 @@ SQL/JSON 路徑運算式中的數值字面量遵循 JavaScript 規則，
 SQL/JSON 路徑運算式通常會以 SQL 字元字串字面量的形式
 寫在 SQL 查詢中，因此必須以單引號括住，
 其中若需要單引號，則必須以雙倍表示
-（請參閱[4.1.2.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)）。
+（請參閱[4.1.2.1 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)）。
 某些形式的路徑運算式在其中需要字串字面量。
 這些內嵌的字串字面量遵循 JavaScript／ECMAScript 慣例：
 必須以雙引號括住，並可以在其中使用反斜線逸出序列

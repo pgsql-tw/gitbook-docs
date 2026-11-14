@@ -300,7 +300,7 @@ RE 不能以反斜線（`\`）結尾。
 
 ### 注意 [#](#zhu-yi-2) <a href="#zhu-yi-2" id="zhu-yi-2"></a>
 
-如果你關閉了 [standard_conforming_strings](../../../server-administration/runtime-config/runtime-config-compatible.md#GUC-STANDARD-CONFORMING-STRINGS)，你在字面字串常數中寫的所有反斜線都需要重複寫兩次。詳情請參閱[第 4.1.2.1 節](../../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)。
+如果你關閉了 [standard_conforming_strings](../../../server-administration/runtime-config/runtime-config-compatible.md#GUC-STANDARD-CONFORMING-STRINGS)，你在字面字串常數中寫的所有反斜線都需要重複寫兩次。詳情請參閱[第 4.1.2.1 節](../../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)。
 
 <a id="POSIX-QUANTIFIERS-TABLE"></a>
 

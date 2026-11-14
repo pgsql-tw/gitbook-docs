@@ -105,11 +105,11 @@ CALL clean_emp();
 
 `CREATE FUNCTION` 指令的語法要求
 函式主體必須以字串常值的形式撰寫。通常
-使用 dollar quoting（以美元符號 $ 定界的字串常值語法，請參閱[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）來表示這個字串常值是最方便的做法。
+使用 dollar quoting（以美元符號 $ 定界的字串常值語法，請參閱[4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-dollar-quoting)）來表示這個字串常值是最方便的做法。
 若你選擇使用一般的單引號字串常值語法，
 則必須在函式主體中將單引號（`'`）與反斜線
 （`\`）（假設使用逸出字串語法）各自重複一次
-（請參閱[4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)）。
+（請參閱[4.1.2.1 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)）。
 
 <a id="XFUNC-SQL-FUNCTION-ARGUMENTS"></a>
 

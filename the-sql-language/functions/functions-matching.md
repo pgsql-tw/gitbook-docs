@@ -77,7 +77,7 @@ string NOT LIKE pattern [ESCAPE escape-character]
 
 ### 注意
 
-如果你關閉了 [standard_conforming_strings](../../server-administration/runtime-config/runtime-config-compatible.md#GUC-STANDARD-CONFORMING-STRINGS)，你在字面字串常數中寫的所有反斜線都需要重複寫兩次。詳情請參閱[第 4.1.2.1 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS)。
+如果你關閉了 [standard_conforming_strings](../../server-administration/runtime-config/runtime-config-compatible.md#GUC-STANDARD-CONFORMING-STRINGS)，你在字面字串常數中寫的所有反斜線都需要重複寫兩次。詳情請參閱[第 4.1.2.1 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings)。
 
 也可以寫成 `ESCAPE ''` 來不選擇任何跳脫字元。這實際上會停用跳脫機制，使得無法關閉模式中底線與百分比符號的特殊意義。
 

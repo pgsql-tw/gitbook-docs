@@ -155,7 +155,7 @@ CREATE [ OR REPLACE ] FUNCTION
 
 定義函式的字串常數；其意義取決於語言。它可以是內部函式名稱、目的檔的路徑、SQL 命令，或以程序語言撰寫的文字。
 
-撰寫函式定義字串時，使用錢字號引用（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）通常比一般的單引號語法更有幫助。若不使用錢字號引用，函式定義中的任何單引號或反斜線都必須以重複兩次的方式跳脫。
+撰寫函式定義字串時，使用錢字號引用（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-dollar-quoting)）通常比一般的單引號語法更有幫助。若不使用錢字號引用，函式定義中的任何單引號或反斜線都必須以重複兩次的方式跳脫。
 
 `obj_file, link_symbol`
 

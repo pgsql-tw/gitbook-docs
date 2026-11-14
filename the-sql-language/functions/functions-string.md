@@ -909,7 +909,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         如果伺服器編碼不是 UTF-8，由這些跳脫序列之一所識別的 Unicode 碼位，會被轉換為實際的伺服器編碼；如果無法轉換，就會回報錯誤。
        </p>
 <p>
-        這個函式提供了一種（非標準的）替代方式，用來取代使用 Unicode 跳脫的字串常數（請參閱<a class="xref" href="../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-UESCAPE">第 4.1.2.3 節</a>）。
+        這個函式提供了一種（非標準的）替代方式，用來取代使用 Unicode 跳脫的字串常數（請參閱<a class="xref" href="../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings-uescape">第 4.1.2.3 節</a>）。
        </p>
 <p>
 <code class="literal">unistr('d\0061t\+000061')</code>

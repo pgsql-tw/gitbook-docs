@@ -51,7 +51,7 @@ SELECT * FROM test1 WHERE a;
 
 <br>
 
-在 SQL 查詢中撰寫布林常數時，關鍵字 `TRUE` 與 `FALSE` 是較建議（符合 SQL 標準）的方式。但你也可以依照[第 4.1.2.7 節](../sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-CONSTANTS-GENERIC)所述的通用字串常數語法來使用字串表示法，例如 `'yes'::boolean`。
+在 SQL 查詢中撰寫布林常數時，關鍵字 `TRUE` 與 `FALSE` 是較建議（符合 SQL 標準）的方式。但你也可以依照[第 4.1.2.7 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-constants-generic)所述的通用字串常數語法來使用字串表示法，例如 `'yes'::boolean`。
 
 請注意，剖析器會自動理解 `TRUE` 與 `FALSE` 屬於 `boolean` 型別，但 `NULL` 並非如此，因為它可以是任何型別。因此在某些情境下，你可能必須明確地將 `NULL` 轉換為 `boolean`，例如 `NULL::boolean`。反過來說，在剖析器能夠推斷出字面值必定為 `boolean` 型別的情境下，字串常數形式的布林值就可以省略型別轉換。
 

@@ -22,7 +22,7 @@
 
 <br>
 
-數值型別的常數語法說明於[第 4.1.2 節](../sql-syntax/sql-syntax-lexical.md#sql-syntax-constants)。數值型別具備一整套對應的算術運算子與函式。更多資訊請參閱[第 9 章](../functions/README.md)。以下各節會詳細說明這些型別。
+數值型別的常數語法說明於[第 4.1.2 節](../sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-constants)。數值型別具備一整套對應的算術運算子與函式。更多資訊請參閱[第 9 章](../functions/README.md)。以下各節會詳細說明這些型別。
 
 <a id="DATATYPE-INT"></a>
 

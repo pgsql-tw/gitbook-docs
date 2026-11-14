@@ -93,7 +93,7 @@ ASCII `\` 相同的多位元組字元。如果用戶端程式碼未正確處理�
     此參數的存在也可視為支援逸出字串語法
     （`E'...'`）的指標。
     如果應用程式希望將反斜線視為逸出字元，
-    則應使用逸出字串語法（[4.1.2.2 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)）。
+    則應使用逸出字串語法（[4.1.2.2 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings-escape)）。
 <a id="GUC-SYNCHRONIZE-SEQSCANS"></a>
 
 `synchronize_seqscans` (`boolean`) <a id="id-1.6.6.16.2.2.7.1.3"></a> [#](#GUC-SYNCHRONIZE-SEQSCANS)

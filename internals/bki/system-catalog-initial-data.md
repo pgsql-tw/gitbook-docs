@@ -67,7 +67,7 @@
   作為資料的反斜線可以（但不一定需要）重複寫兩次；這遵循 Perl 對簡單引號字面值的規則。
   請注意，作為資料出現的反斜線會被初始建置（bootstrap）掃描器視為跳脫字元，
   所依循的規則與跳脫字串常數相同
-  （請參閱[第 4.1.2.2 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-STRINGS-ESCAPE)）；
+  （請參閱[第 4.1.2.2 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-strings-escape)）；
   例如 `\t` 會轉換為定位字元。如果你確實想在最終的值中放入一個反斜線，
   就需要寫四個：Perl 會去掉兩個，留下 `\\` 給
   初始建置掃描器處理。

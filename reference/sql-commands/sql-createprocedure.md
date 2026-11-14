@@ -93,7 +93,7 @@ LOCAL` 命令一樣：除非目前交易被回復，否則此類命令的效果�
 
 定義程序的字串常數；其意義取決於語言。它可以是內部程序名稱、目的檔的路徑、SQL 命令，或以程序語言撰寫的文字。
 
-使用錢號引用（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）而不是一般的單引號語法來撰寫程序定義字串，通常會很有幫助。若不使用錢號引用，程序定義中的任何單引號或反斜線都必須以重複兩次的方式跳脫。
+使用錢號引用（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-dollar-quoting)）而不是一般的單引號語法來撰寫程序定義字串，通常會很有幫助。若不使用錢號引用，程序定義中的任何單引號或反斜線都必須以重複兩次的方式跳脫。
 
 `obj_file, link_symbol`
 

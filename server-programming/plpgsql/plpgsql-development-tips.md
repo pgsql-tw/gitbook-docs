@@ -30,7 +30,7 @@ $$ LANGUAGE plpgsql;
 
 ### 41.12.1. 引號的處理 [#](#plpgsql-quote-tips) <a href="#plpgsql-quote-tips" id="plpgsql-quote-tips"></a>
 
-PL/pgSQL 函式的程式碼在 `CREATE FUNCTION` 中是以字串常數的形式指定的。如果你以一般方式、用前後單引號來撰寫這個字串常數，那麼函式本體中的任何單引號都必須加倍；同樣地，任何反斜線也都必須加倍（假設使用的是跳脫字串語法）。把引號加倍充其量只是件麻煩事，但在比較複雜的情況下，程式碼會變得完全難以理解，因為你很容易就會發現自己需要連寫半打甚至更多的引號。建議你改以「錢字號引用（dollar-quoted）」的字串常數來撰寫函式本體（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical.md#SQL-SYNTAX-DOLLAR-QUOTING)）。在錢字號引用的做法中，你完全不需要把任何引號加倍，只要注意為每一層需要的巢狀結構選用不同的錢字號引用分隔字串即可。例如，你可以把 `CREATE FUNCTION` 指令寫成：
+PL/pgSQL 函式的程式碼在 `CREATE FUNCTION` 中是以字串常數的形式指定的。如果你以一般方式、用前後單引號來撰寫這個字串常數，那麼函式本體中的任何單引號都必須加倍；同樣地，任何反斜線也都必須加倍（假設使用的是跳脫字串語法）。把引號加倍充其量只是件麻煩事，但在比較複雜的情況下，程式碼會變得完全難以理解，因為你很容易就會發現自己需要連寫半打甚至更多的引號。建議你改以「錢字號引用（dollar-quoted）」的字串常數來撰寫函式本體（請參閱[第 4.1.2.4 節](../../the-sql-language/sql-syntax/sql-syntax-lexical/sql-syntax-constants.md#sql-syntax-dollar-quoting)）。在錢字號引用的做法中，你完全不需要把任何引號加倍，只要注意為每一層需要的巢狀結構選用不同的錢字號引用分隔字串即可。例如，你可以把 `CREATE FUNCTION` 指令寫成：
 
 ```
 
