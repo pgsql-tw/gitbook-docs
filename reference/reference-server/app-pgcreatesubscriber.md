@@ -96,7 +96,7 @@ pg_createsubscriber 接受下列命令列引數：
 
 ### 先決條件
 
-pg_createsubscriber 要將目標伺服器轉換為邏輯複本，有一些先決條件。若不符合這些條件，會回報錯誤。來源與目標伺服器的主要版本必須與 pg_createsubscriber 相同。指定的目標資料目錄必須與來源資料目錄具有相同的系統識別碼。目標資料目錄所指定的資料庫使用者，必須具有建立[訂閱](../sql-commands/sql-createsubscription.md)以及使用 [`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-ADVANCE) 的權限。
+pg_createsubscriber 要將目標伺服器轉換為邏輯複本，有一些先決條件。若不符合這些條件，會回報錯誤。來源與目標伺服器的主要版本必須與 pg_createsubscriber 相同。指定的目標資料目錄必須與來源資料目錄具有相同的系統識別碼。目標資料目錄所指定的資料庫使用者，必須具有建立[訂閱](../sql-commands/sql-createsubscription.md)以及使用 [`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 的權限。
 
 目標伺服器必須作為實體待命伺服器使用。目標伺服器的 [max_active_replication_origins](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-ACTIVE-REPLICATION-ORIGINS) 與 [max_logical_replication_workers](../../server-administration/runtime-config/runtime-config-replication.md#GUC-MAX-LOGICAL-REPLICATION-WORKERS) 必須設定為大於或等於指定資料庫數量的值。目標伺服器的 [max_worker_processes](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-WORKER-PROCESSES) 必須設定為大於指定資料庫數量的值。目標伺服器必須接受本機連線。若你打算使用 `--enable-two-phase` 選項，則還需要適當設定 [max_prepared_transactions](../../server-administration/runtime-config/runtime-config-resource.md#GUC-MAX-PREPARED-TRANSACTIONS)。
 
@@ -137,7 +137,7 @@ pg_createsubscriber 會使用 pg_resetwal 變更系統識別碼。這可以避�
 4. 將復原參數寫入目標資料目錄，並重新啟動目標伺服器。它會指定一個 LSN（[recovery_target_lsn](../../server-administration/runtime-config/runtime-config-wal.md#GUC-RECOVERY-TARGET-LSN)），即復原要進行到的預寫日誌位置。它也會指定 `promote` 作為到達復原目標後伺服器應採取的動作。另外還會加入其他[復原參數](../../server-administration/runtime-config/runtime-config-wal.md#runtime-config-wal-recovery-target)，以避免復原過程中出現非預期的行為，例如一達到一致狀態就結束復原（WAL 應該要套用到複寫起始位置為止），以及可能導致失敗的多個復原目標。當伺服器結束待命模式並開始接受讀寫交易時，此步驟即完成。若設定了 `--recovery-timeout` 選項，而復原未在指定的秒數內結束，pg_createsubscriber 會終止。
 5. 在目標伺服器上為每個指定的資料庫建立一個訂閱。若未指定 `--subscription` 選項，訂閱名稱採用下列模式：「`pg_createsubscriber_%u_%x`」（參數：資料庫 *`oid`*、隨機 *`int`*）。它不會從來源伺服器複製現有資料，也不會建立複寫插槽，而是使用在先前步驟中建立的複寫插槽。訂閱會被建立，但尚未啟用。原因是在開始複寫之前，必須先將複寫進度設定到複寫起點。
 6. 移除目標伺服器上那些因為建立於複寫起始位置之前而被複寫過來的發佈。它們在訂閱者上沒有用處。
-7. 為每個訂閱將複寫進度設定到複寫起點。當目標伺服器開始復原程序時，它會追上複寫起點。這正是每個訂閱要作為初始複寫位置使用的確切 LSN。由於訂閱已建立，可以取得複寫來源（replication origin）名稱。複寫來源名稱與複寫起點會用於 [`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-ADVANCE) 來設定初始複寫位置。
+7. 為每個訂閱將複寫進度設定到複寫起點。當目標伺服器開始復原程序時，它會追上複寫起點。這正是每個訂閱要作為初始複寫位置使用的確切 LSN。由於訂閱已建立，可以取得複寫來源（replication origin）名稱。複寫來源名稱與複寫起點會用於 [`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 來設定初始複寫位置。
 8. 在目標伺服器上為每個指定的資料庫啟用訂閱。訂閱會從複寫起點開始套用交易。
 9. 若待命伺服器原本使用 [primary_slot_name](../../server-administration/runtime-config/runtime-config-replication.md#GUC-PRIMARY-SLOT-NAME)，從此之後它已沒有用處，因此將其移除。
 10. 若待命伺服器包含[容錯移轉複寫插槽](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)，這些插槽無法再被同步，因此將其移除。

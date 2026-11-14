@@ -74,7 +74,7 @@ PostgreSQL 也有串流複寫插槽
 ### 47.2.3. 複寫插槽同步 [#](#logicaldecoding-replication-slots-synchronization) <a href="#logicaldecoding-replication-slots-synchronization" id="logicaldecoding-replication-slots-synchronization"></a>
 
 可以在建立插槽時，透過
-[`pg_create_logical_replication_slot`](../../the-sql-language/functions/functions-admin.md#PG-CREATE-LOGICAL-REPLICATION-SLOT) 的
+[`pg_create_logical_replication_slot`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 的
 `failover` 參數，或透過
 `CREATE SUBSCRIPTION` 的
 [`failover`](../../reference/sql-commands/sql-createsubscription-parameters.md#sql-createsubscription-params-with-failover) 選項，
@@ -107,7 +107,7 @@ PostgreSQL 也有串流複寫插槽
 雖然啟用
 [`sync_replication_slots`](../../server-administration/runtime-config/runtime-config-replication.md#GUC-SYNC-REPLICATION-SLOTS) 可讓
 容錯移轉插槽自動定期同步，但也可以在備援伺服器上使用
-[`pg_sync_replication_slots`](../../the-sql-language/functions/functions-admin.md#PG-SYNC-REPLICATION-SLOTS) 函式手動同步。
+[`pg_sync_replication_slots`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 函式手動同步。
 不過，此函式主要是為了測試與除錯而設計，應謹慎使用。與自動同步不同的是，它
 不具備週期性重試機制，因此更容易發生同步失敗，尤其是在初始同步情境下，此時插槽所需的 WAL 檔案
 或目錄資料列，可能已在備援伺服器上被移除，或有被移除的風險。相對地，透過
@@ -135,8 +135,8 @@ DETAIL:  Synchronization could lead to data loss, because the remote slot needs 
 人工介入；該插槽會自動前進，
 同步作業也會在下一個週期恢復。不過，若未設定任何
 消費者，則建議在主要伺服器上手動使用
-[`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-CHANGES) 或
-[`pg_logical_slot_get_binary_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-BINARY-CHANGES) 使插槽前進，
+[`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 或
+[`pg_logical_slot_get_binary_changes`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 使插槽前進，
 讓同步作業得以繼續進行。
 
 容錯移轉之後能否恢復邏輯複寫，取決於容錯移轉發生當時，

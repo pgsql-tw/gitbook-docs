@@ -161,7 +161,7 @@ CONTEXT:  processing remote data for replication origin "pg_16395" during "INSER
 （即 LSN 0/14C0378）來略過造成衝突的交易。結束 LSN 可以是該交易
 在發布端上提交或準備妥當（prepared）時所對應的 LSN。此外，
 也可以透過呼叫
-[`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-ORIGIN-ADVANCE)
+[`pg_replication_origin_advance()`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table)
 函式來略過該交易。在使用這個函式之前，需要先透過
 [`ALTER SUBSCRIPTION ... DISABLE`](../../reference/sql-commands/sql-altersubscription.md#SQL-ALTERSUBSCRIPTION-PARAMS-DISABLE)
 暫時停用該訂閱，或者該訂閱也可以搭配使用

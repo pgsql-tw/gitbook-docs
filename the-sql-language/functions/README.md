@@ -152,7 +152,7 @@
 
   - [9.28.5. 快照同步函式](functions-admin/functions-snapshot-synchronization.md#functions-snapshot-synchronization)
 
-  - [9.28.6. 複寫管理函式](functions-admin.md#functions-replication)
+  - [9.28.6. 複寫管理函式](functions-admin/functions-replication.md#functions-replication)
 
   - [9.28.7. 資料庫物件管理函式](functions-admin/functions-admin-dbobject.md#functions-admin-dbobject)
 

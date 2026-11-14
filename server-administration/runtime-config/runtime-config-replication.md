@@ -365,9 +365,9 @@ standby 為止。舉例來說，設為
 `synchronized_standby_slots` 中指定的插槽
 不存在或已失效，邏輯複寫將無法繼續進行。
 此外，複寫管理函式
-[`pg_replication_slot_advance`](../../the-sql-language/functions/functions-admin.md#PG-REPLICATION-SLOT-ADVANCE)、
-[`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-GET-CHANGES) 與
-[`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin.md#PG-LOGICAL-SLOT-PEEK-CHANGES)，
+[`pg_replication_slot_advance`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table)、
+[`pg_logical_slot_get_changes`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table) 與
+[`pg_logical_slot_peek_changes`](../../the-sql-language/functions/functions-admin/functions-replication.md#functions-replication-table)，
 在搭配邏輯容錯移轉插槽使用時，會阻塞，
 直到 `synchronized_standby_slots` 中指定的所有
 實體插槽都確認收到 WAL 為止。
