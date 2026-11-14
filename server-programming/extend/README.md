@@ -57,7 +57,7 @@
 - [36.10. C 語言函式](xfunc-c.md)
   - [36.10.1. 動態載入](xfunc-c.md#xfunc-c-dynload)
 
-  - [36.10.2. C 語言函式中的基礎型別](xfunc-c.md#xfunc-c-basetype)
+  - [36.10.2. C 語言函式中的基礎型別](xfunc-c/xfunc-c-basetype.md#xfunc-c-basetype)
 
   - [36.10.3. 第 1 版呼叫慣例](xfunc-c.md#xfunc-c-v1-call-conv)
 
