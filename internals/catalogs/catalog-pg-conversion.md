@@ -41,13 +41,13 @@
 <code class="structfield">conforencoding</code> <code class="type">int4</code>
 </p>
 <p>
-       來源編碼 ID（<a class="link" href="../../the-sql-language/functions/functions-info.md#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a>
+       來源編碼 ID（<a class="link" href="../../the-sql-language/functions/functions-info/functions-info-catalog.md#functions-info-catalog-table"><code class="function">pg_encoding_to_char()</code></a>
        可以將此數字轉換為編碼名稱）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">contoencoding</code> <code class="type">int4</code>
 </p>
 <p>
-       目的編碼 ID（<a class="link" href="../../the-sql-language/functions/functions-info.md#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a>
+       目的編碼 ID（<a class="link" href="../../the-sql-language/functions/functions-info/functions-info-catalog.md#functions-info-catalog-table"><code class="function">pg_encoding_to_char()</code></a>
        可以將此數字轉換為編碼名稱）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">conproc</code> <code class="type">regproc</code>

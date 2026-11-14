@@ -61,7 +61,7 @@ nextval('foo')              searches search path for foo
 nextval('foo'::text)      foo is looked up at runtime
 ```
 
-`to_regclass()` 函式及其同類函式也可以用來執行執行期的查詢。請參閱[表 9.76](../functions/functions-info.md#FUNCTIONS-INFO-CATALOG-TABLE)。
+`to_regclass()` 函式及其同類函式也可以用來執行執行期的查詢。請參閱[表 9.76](../functions/functions-info/functions-info-catalog.md#functions-info-catalog-table)。
 
 另一個使用 `regclass` 的實用例子，是查出列在 `information_schema` 檢視表中之資料表的 OID，因為這些檢視表並不會直接提供這類 OID。例如，你可能想呼叫需要資料表 OID 的 `pg_relation_size()` 函式。把上述規則納入考量後，正確的做法是
 

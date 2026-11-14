@@ -48,7 +48,7 @@
 在 PostgreSQL 9.6 之前，`pg_am`
 包含許多代表索引存取方法特性的額外欄位。這些資料現在只能在 C 程式碼層級直接看到。
 不過，已新增 `pg_index_column_has_property()` 及相關
-函式，讓 SQL 查詢可以檢視索引存取方法的特性；請參閱[表 9.76](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-CATALOG-TABLE)。
+函式，讓 SQL 查詢可以檢視索引存取方法的特性；請參閱[表 9.76](../../the-sql-language/functions/functions-info/functions-info-catalog.md#functions-info-catalog-table)。
 
 ---
 

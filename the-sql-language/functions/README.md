@@ -123,7 +123,7 @@
 
   - [9.27.3. 綱要可見性查詢函式](functions-info/functions-info-schema.md#functions-info-schema)
 
-  - [9.27.4. 系統目錄資訊函式](functions-info.md#functions-info-catalog)
+  - [9.27.4. 系統目錄資訊函式](functions-info/functions-info-catalog.md#functions-info-catalog)
 
   - [9.27.5. 物件資訊與定址函式](functions-info/functions-info-object.md#functions-info-object)
 

@@ -128,6 +128,7 @@
       * [9.27.1. 工作階段資訊函式](the-sql-language/functions/functions-info/functions-info-session.md)
       * [9.27.2. 存取權限查詢函式](the-sql-language/functions/functions-info/functions-info-access.md)
       * [9.27.3. 綱要可見性查詢函式](the-sql-language/functions/functions-info/functions-info-schema.md)
+      * [9.27.4. 系統目錄資訊函式](the-sql-language/functions/functions-info/functions-info-catalog.md)
       * [9.27.5. 物件資訊與定址函式](the-sql-language/functions/functions-info/functions-info-object.md)
       * [9.27.6. 註解資訊函式](the-sql-language/functions/functions-info/functions-info-comment.md)
       * [9.27.7. 資料有效性檢查函式](the-sql-language/functions/functions-info/functions-info-validity.md)

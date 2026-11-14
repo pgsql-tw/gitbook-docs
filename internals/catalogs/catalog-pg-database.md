@@ -37,7 +37,7 @@
 <code class="structfield">encoding</code> <code class="type">int4</code>
 </p>
 <p>
-       此資料庫的字元編碼（<a class="link" href="../../the-sql-language/functions/functions-info.md#PG-ENCODING-TO-CHAR"><code class="function">pg_encoding_to_char()</code></a> 可以將此數字轉換為編碼名稱）
+       此資料庫的字元編碼（<a class="link" href="../../the-sql-language/functions/functions-info/functions-info-catalog.md#functions-info-catalog-table"><code class="function">pg_encoding_to_char()</code></a> 可以將此數字轉換為編碼名稱）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">datlocprovider</code> <code class="type">char</code>
 </p>

@@ -84,7 +84,7 @@ SELECT spcname, spcowner::regrole, pg_tablespace_location(oid) FROM pg_tablespac
 ```
 
 你可以查詢哪些資料庫使用了哪些資料表空間；
-請見 [表 9.76](../../the-sql-language/functions/functions-info.md#FUNCTIONS-INFO-CATALOG-TABLE)。[psql](../../reference/reference-client/app-psql.md) 程式的 `\db` 中繼指令
+請見 [表 9.76](../../the-sql-language/functions/functions-info/functions-info-catalog.md#functions-info-catalog-table)。[psql](../../reference/reference-client/app-psql.md) 程式的 `\db` 中繼指令
 在列出現有資料表空間時也很有用。
 
 `$PGDATA/pg_tblspc` 目錄中包含了符號連結，分別
