@@ -77,7 +77,7 @@ $$ LANGUAGE plpgsql;
 `BEGIN`／`END`，與名稱相似、用於交易控制的 SQL 命令混淆。PL/pgSQL 的
 `BEGIN`／`END`
 僅用於分組；它們並不會開始或結束交易。關於在 PL/pgSQL 中管理交易的資訊，請見[41.8 節](plpgsql-transactions.md)。此外，含有
-`EXCEPTION` 子句的區塊，實際上會形成一個子交易，可在不影響外層交易的情況下回復（rollback）。詳情請見[41.6.8 節](plpgsql-control-structures.md#plpgsql-error-trapping)。
+`EXCEPTION` 子句的區塊，實際上會形成一個子交易，可在不影響外層交易的情況下回復（rollback）。詳情請見[41.6.8 節](plpgsql-control-structures/plpgsql-error-trapping.md#plpgsql-error-trapping)。
 
 ---
 

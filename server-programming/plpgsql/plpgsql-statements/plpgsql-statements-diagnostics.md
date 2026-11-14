@@ -11,7 +11,7 @@
 GET [ CURRENT ] DIAGNOSTICS variable { = | := } item [ , ... ];
 ```
 
-這個指令可以取得系統的狀態指標。`CURRENT` 是一個無作用的字詞（但另請參閱[第 41.6.8.1 節](../plpgsql-control-structures.md#PLPGSQL-EXCEPTION-DIAGNOSTICS)中的 `GET STACKED DIAGNOSTICS`）。每一個 *`item`* 都是一個關鍵字，用來標明要指派給指定之 *`variable`*（該變數的資料型別應該要能接收它）的狀態值。目前可用的狀態項目列於[表 41.1](#plpgsql-current-diagnostics-values)。冒號等號（`:=`）可以用來取代 SQL 標準的 `=` 語彙單元。一個例子：
+這個指令可以取得系統的狀態指標。`CURRENT` 是一個無作用的字詞（但另請參閱[第 41.6.8.1 節](../plpgsql-control-structures/plpgsql-error-trapping.md#plpgsql-exception-diagnostics)中的 `GET STACKED DIAGNOSTICS`）。每一個 *`item`* 都是一個關鍵字，用來標明要指派給指定之 *`variable`*（該變數的資料型別應該要能接收它）的狀態值。目前可用的狀態項目列於[表 41.1](#plpgsql-current-diagnostics-values)。冒號等號（`:=`）可以用來取代 SQL 標準的 `=` 語彙單元。一個例子：
 
 ```
 

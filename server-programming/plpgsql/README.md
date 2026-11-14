@@ -54,7 +54,7 @@
 
   - [41.6.7. 走訪陣列](plpgsql-control-structures.md#plpgsql-foreach-array)
 
-  - [41.6.8. 攔截錯誤](plpgsql-control-structures.md#plpgsql-error-trapping)
+  - [41.6.8. 攔截錯誤](plpgsql-control-structures/plpgsql-error-trapping.md#plpgsql-error-trapping)
 
   - [41.6.9. 取得執行位置資訊](plpgsql-control-structures.md#plpgsql-call-stack)
 

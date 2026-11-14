@@ -590,6 +590,7 @@
     * [41.5. 基本陳述式 #](server-programming/plpgsql/plpgsql-statements.md)
       * [41.5.5. 取得結果狀態](server-programming/plpgsql/plpgsql-statements/plpgsql-statements-diagnostics.md)
     * [41.6. 控制結構 #](server-programming/plpgsql/plpgsql-control-structures.md)
+      * [41.6.8. 捕捉錯誤](server-programming/plpgsql/plpgsql-control-structures/plpgsql-error-trapping.md)
     * [41.7. 游標 #](server-programming/plpgsql/plpgsql-cursors.md)
     * [41.8. 交易管理 #](server-programming/plpgsql/plpgsql-transactions.md)
     * [41.9. 錯誤與訊息 #](server-programming/plpgsql/plpgsql-errors-and-messages.md)
