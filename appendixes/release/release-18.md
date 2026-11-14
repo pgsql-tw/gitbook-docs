@@ -707,7 +707,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/a5579a90a)
 
   先前這類轉型會產生錯誤。
-* 為 [`json{b}_strip_nulls`](../../the-sql-language/functions/functions-json.md#FUNCTIONS-JSON-PROCESSING-TABLE) 新增選用參數，
+* 為 [`json{b}_strip_nulls`](../../the-sql-language/functions/functions-json/functions-json-processing.md#functions-json-processing-table) 新增選用參數，
   允許移除值為 null 的陣列元素 (Florents Tselai)
   [§](https://postgr.es/c/4603903d2)
 * 新增函式 [`array_sort()`](../../the-sql-language/functions/functions-array.md#array-functions-table)，

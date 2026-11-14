@@ -59,7 +59,7 @@
   - [9.15.4. 將資料表對應到 XML](functions-xml.md#functions-xml-mapping)
 
 - [9.16. JSON 函式與運算子](functions-json.md)
-  - [9.16.1. 處理與建立 JSON 資料](functions-json.md#functions-json-processing)
+  - [9.16.1. 處理與建立 JSON 資料](functions-json/functions-json-processing.md#functions-json-processing)
 
   - [9.16.2. SQL/JSON 路徑語言](functions-json.md#functions-sqljson-path)
 

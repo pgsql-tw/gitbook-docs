@@ -341,7 +341,7 @@ GIN 索引可以用來有效率地搜尋大量
 `@>`，以及 `jsonpath` 比對
 運算子 `@?` 與 `@@` 的查詢。
 （關於這些運算子所實作語意的細節，
-請參閱[表 9.48](../functions/functions-json.md#FUNCTIONS-JSONB-OP-TABLE)。）
+請參閱[表 9.48](../functions/functions-json/functions-json-processing.md#functions-jsonb-op-table)。）
 以此運算子類別建立索引的範例如下：
 
 ```
