@@ -63,7 +63,7 @@
 
   - [9.16.2. SQL/JSON 路徑語言](functions-json.md#functions-sqljson-path)
 
-  - [9.16.3. SQL/JSON 查詢函式](functions-json.md#sqljson-query-functions)
+  - [9.16.3. SQL/JSON 查詢函式](functions-json/sqljson-query-functions.md#sqljson-query-functions)
 
   - [9.16.4. JSON_TABLE](functions-json.md#functions-sqljson-table)
 
