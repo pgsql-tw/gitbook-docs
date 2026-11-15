@@ -117,6 +117,7 @@
     * [9.15. XML 函式 #](the-sql-language/functions/functions-xml.md)
     * [9.16. JSON 函式與運算子 #](the-sql-language/functions/functions-json.md)
       * [9.16.1. 處理與建立 JSON 資料](the-sql-language/functions/functions-json/functions-json-processing.md)
+      * [9.16.2. SQL/JSON 路徑語言](the-sql-language/functions/functions-json/functions-sqljson-path.md)
       * [9.16.3. SQL/JSON 查詢函式](the-sql-language/functions/functions-json/sqljson-query-functions.md)
     * [9.17. 序列操作函式 #](the-sql-language/functions/functions-sequence.md)
     * [9.18. 條件運算式 #](the-sql-language/functions/functions-conditional.md)

@@ -260,7 +260,7 @@
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        對於指定的 JSON 值，JSON 路徑是否回傳任何項目？（這只對符合 SQL 標準的 JSON 路徑運算式有用，對<a class="link" href="../functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>則沒有用處，因為後者一定會回傳一個值。）
+        對於指定的 JSON 值，JSON 路徑是否回傳任何項目？（這只對符合 SQL 標準的 JSON 路徑運算式有用，對<a class="link" href="functions-sqljson-path.md#functions-sqljson-check-expressions">述詞檢查運算式</a>則沒有用處，因為後者一定會回傳一個值。）
        </p>
 <p>
 <code class="literal">'{"a":[1,2,3,4,5]}'::jsonb @? '$.a[*] ? (@ &gt; 2)'</code>
@@ -270,7 +270,7 @@
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        回傳對指定的 JSON 值進行 JSON 路徑述詞檢查的結果。（這只對<a class="link" href="../functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>有用，對符合 SQL 標準的 JSON 路徑運算式則沒有用處，因為如果路徑結果不是單一的布林值，它會回傳 <code class="literal">NULL</code>。）
+        回傳對指定的 JSON 值進行 JSON 路徑述詞檢查的結果。（這只對<a class="link" href="functions-sqljson-path.md#functions-sqljson-check-expressions">述詞檢查運算式</a>有用，對符合 SQL 標準的 JSON 路徑運算式則沒有用處，因為如果路徑結果不是單一的布林值，它會回傳 <code class="literal">NULL</code>。）
        </p>
 <p>
 <code class="literal">'{"a":[1,2,3,4,5]}'::jsonb @@ '$.a[*] &gt; 2'</code>
@@ -965,7 +965,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        檢查對於指定的 JSON 值，JSON 路徑是否回傳任何項目。（這只對符合 SQL 標準的 JSON 路徑運算式有用，對<a class="link" href="../functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>則沒有用處，因為後者一定會回傳一個值。）如果指定了 <em class="parameter"><code>vars</code></em> 引數，它必須是一個 JSON 物件，其欄位提供要代入 <code class="type">jsonpath</code> 運算式中的具名值。如果指定了 <em class="parameter"><code>silent</code></em> 引數且其值為 <code class="literal">true</code>，函式會抑制與 <code class="literal">@?</code> 及 <code class="literal">@@</code> 運算子相同的錯誤。
+        檢查對於指定的 JSON 值，JSON 路徑是否回傳任何項目。（這只對符合 SQL 標準的 JSON 路徑運算式有用，對<a class="link" href="functions-sqljson-path.md#functions-sqljson-check-expressions">述詞檢查運算式</a>則沒有用處，因為後者一定會回傳一個值。）如果指定了 <em class="parameter"><code>vars</code></em> 引數，它必須是一個 JSON 物件，其欄位提供要代入 <code class="type">jsonpath</code> 運算式中的具名值。如果指定了 <em class="parameter"><code>silent</code></em> 引數且其值為 <code class="literal">true</code>，函式會抑制與 <code class="literal">@?</code> 及 <code class="literal">@@</code> 運算子相同的錯誤。
        </p>
 <p>
 <code class="literal">jsonb_path_exists('{"a":[1,2,3,4,5]}', '$.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max)', '{"min":2, "max":4}')</code>
@@ -976,7 +976,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">boolean</code>
 </p>
 <p>
-        回傳對指定的 JSON 值進行 JSON 路徑述詞檢查的 SQL 布林結果。（這只對<a class="link" href="../functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>有用，對符合 SQL 標準的 JSON 路徑運算式則沒有用處，因為如果路徑結果不是單一的布林值，它不是失敗就是回傳 <code class="literal">NULL</code>。）選用的 <em class="parameter"><code>vars</code></em> 與 <em class="parameter"><code>silent</code></em> 引數的作用與 <code class="function">jsonb_path_exists</code> 的相同。
+        回傳對指定的 JSON 值進行 JSON 路徑述詞檢查的 SQL 布林結果。（這只對<a class="link" href="functions-sqljson-path.md#functions-sqljson-check-expressions">述詞檢查運算式</a>有用，對符合 SQL 標準的 JSON 路徑運算式則沒有用處，因為如果路徑結果不是單一的布林值，它不是失敗就是回傳 <code class="literal">NULL</code>。）選用的 <em class="parameter"><code>vars</code></em> 與 <em class="parameter"><code>silent</code></em> 引數的作用與 <code class="function">jsonb_path_exists</code> 的相同。
        </p>
 <p>
 <code class="literal">jsonb_path_match('{"a":[1,2,3,4,5]}', 'exists($.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max))', '{"min":2, "max":4}')</code>
@@ -987,7 +987,7 @@ ERROR:  value too long for type character(2)
         → <code class="returnvalue">setof jsonb</code>
 </p>
 <p>
-        回傳對於指定的 JSON 值，JSON 路徑所回傳的所有 JSON 項目。對於符合 SQL 標準的 JSON 路徑運算式，它會回傳從 <em class="parameter"><code>target</code></em> 中選取的 JSON 值。對於<a class="link" href="../functions-json.md#FUNCTIONS-SQLJSON-CHECK-EXPRESSIONS">述詞檢查運算式</a>，它會回傳述詞檢查的結果：<code class="literal">true</code>、<code class="literal">false</code> 或 <code class="literal">null</code>。選用的 <em class="parameter"><code>vars</code></em> 與 <em class="parameter"><code>silent</code></em> 引數的作用與 <code class="function">jsonb_path_exists</code> 的相同。
+        回傳對於指定的 JSON 值，JSON 路徑所回傳的所有 JSON 項目。對於符合 SQL 標準的 JSON 路徑運算式，它會回傳從 <em class="parameter"><code>target</code></em> 中選取的 JSON 值。對於<a class="link" href="functions-sqljson-path.md#functions-sqljson-check-expressions">述詞檢查運算式</a>，它會回傳述詞檢查的結果：<code class="literal">true</code>、<code class="literal">false</code> 或 <code class="literal">null</code>。選用的 <em class="parameter"><code>vars</code></em> 與 <em class="parameter"><code>silent</code></em> 引數的作用與 <code class="function">jsonb_path_exists</code> 的相同。
        </p>
 <p>
 <code class="literal">select * from jsonb_path_query('{"a":[1,2,3,4,5]}', '$.a[*] ? (@ &gt;= $min &amp;&amp; @ &lt;= $max)', '{"min":2, "max":4}')</code>

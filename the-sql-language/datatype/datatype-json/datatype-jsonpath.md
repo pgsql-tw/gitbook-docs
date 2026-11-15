@@ -64,13 +64,13 @@ SQL/JSON 路徑運算式通常會以 SQL 字元字串字面量的形式
   Unicode 文字、數字、true、false 或 null。
 * [表 8.24](#type-jsonpath-variables)中所列的路徑變數。
 * [表 8.25](#type-jsonpath-accessors)中所列的存取器運算子。
-* [9.16.2.3 節](../../functions/functions-json.md#FUNCTIONS-SQLJSON-PATH-OPERATORS)中所列的
+* [9.16.2.3 節](../../functions/functions-json/functions-sqljson-path.md#functions-sqljson-path-operators)中所列的
   `jsonpath` 運算子與方法。
 * 括號，可用於提供篩選運算式
   或定義路徑求值的順序。
 
 關於在 SQL/JSON 查詢函式中使用 `jsonpath` 運算式的
-詳情，請參閱[9.16.2 節](../../functions/functions-json.md#functions-sqljson-path)。
+詳情，請參閱[9.16.2 節](../../functions/functions-json/functions-sqljson-path.md#functions-sqljson-path)。
 
 <a id="TYPE-JSONPATH-VARIABLES"></a>
 

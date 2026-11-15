@@ -61,7 +61,7 @@
 - [9.16. JSON 函式與運算子](functions-json.md)
   - [9.16.1. 處理與建立 JSON 資料](functions-json/functions-json-processing.md#functions-json-processing)
 
-  - [9.16.2. SQL/JSON 路徑語言](functions-json.md#functions-sqljson-path)
+  - [9.16.2. SQL/JSON 路徑語言](functions-json/functions-sqljson-path.md#functions-sqljson-path)
 
   - [9.16.3. SQL/JSON 查詢函式](functions-json/sqljson-query-functions.md#sqljson-query-functions)
 

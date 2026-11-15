@@ -4,7 +4,7 @@
 
 ## 9.16.3. SQL/JSON 查詢函式 [#](#sqljson-query-functions) <a href="#sqljson-query-functions" id="sqljson-query-functions"></a>
 
-[表 9.54](#functions-sqljson-querying) 所述的 SQL/JSON 函式 `JSON_EXISTS()`、`JSON_QUERY()` 與 `JSON_VALUE()` 可用來查詢 JSON 文件。這些函式都會將 *`path_expression`*（SQL/JSON 路徑查詢）套用到 *`context_item`*（文件）上。關於 *`path_expression`* 可以包含哪些內容的詳細資訊，請參閱[第 9.16.2 節](../functions-json.md#functions-sqljson-path)。*`path_expression`* 也可以參照變數，變數的值是透過每個函式都支援的 `PASSING` 子句，以其各自的名稱來指定。*`context_item`* 可以是 `jsonb` 值，或是可以成功轉換為 `jsonb` 的字元字串。
+[表 9.54](#functions-sqljson-querying) 所述的 SQL/JSON 函式 `JSON_EXISTS()`、`JSON_QUERY()` 與 `JSON_VALUE()` 可用來查詢 JSON 文件。這些函式都會將 *`path_expression`*（SQL/JSON 路徑查詢）套用到 *`context_item`*（文件）上。關於 *`path_expression`* 可以包含哪些內容的詳細資訊，請參閱[第 9.16.2 節](functions-sqljson-path.md#functions-sqljson-path)。*`path_expression`* 也可以參照變數，變數的值是透過每個函式都支援的 `PASSING` 子句，以其各自的名稱來指定。*`context_item`* 可以是 `jsonb` 值，或是可以成功轉換為 `jsonb` 的字元字串。
 
 <a id="FUNCTIONS-SQLJSON-QUERYING"></a>
 
