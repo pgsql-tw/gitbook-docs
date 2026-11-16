@@ -36,7 +36,7 @@
        <code class="literal">userlock</code>、
        <code class="literal">advisory</code> 或
        <code class="literal">applytransaction</code>。
-       （另請參閱<a class="xref" href="../../server-administration/monitoring/monitoring-stats.md#WAIT-EVENT-LOCK-TABLE">表 27.11</a>。）
+       （另請參閱<a class="xref" href="../../server-administration/monitoring/monitoring-stats.md#wait-event-lock-table">表 27.11</a>。）
       </p></td></tr><tr><td class="catalog_table_entry"><p class="column_definition">
 <code class="structfield">database</code> <code class="type">oid</code>
        （參照 <a class="link" href="../catalogs/catalog-pg-database.md"><code class="structname">pg_database</code></a>.<code class="structfield">oid</code>）
