@@ -328,7 +328,7 @@ syslog 的方式。當此設定為 on（預設值）時，
 <a id="GUC-LOG-MIN-MESSAGES"></a>
 
 `log_min_messages` (`enum`) <a id="id-1.6.6.11.4.2.1.1.3"></a> [#](#GUC-LOG-MIN-MESSAGES)
-:   控制哪些[訊息層級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+:   控制哪些[訊息層級](runtime-config-logging.md#runtime-config-severity-levels)
     會被寫入伺服器日誌。
     有效值為 `DEBUG5`、`DEBUG4`、
     `DEBUG3`、`DEBUG2`、`DEBUG1`、
@@ -346,7 +346,7 @@ syslog 的方式。當此設定為 on（預設值）時，
 `log_min_error_statement` (`enum`) <a id="id-1.6.6.11.4.2.2.1.3"></a> [#](#GUC-LOG-MIN-ERROR-STATEMENT)
 :   控制哪些導致錯誤情況的 SQL 陳述式，會被記錄在
     伺服器日誌中。對於達到指定
-    [嚴重性](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+    [嚴重性](runtime-config-logging.md#runtime-config-severity-levels)
     或更高層級的任何訊息，目前的
     SQL 陳述式都會被包含在該日誌項目中。
     有效值為 `DEBUG5`、
@@ -478,14 +478,14 @@ SQL 陳述式都會被納入取樣考量。當流量過高、
 以及進行 20 秒後，各會記錄一則訊息，
 但重設未記錄（unlogged）的關聯則不會記錄任何訊息。
 
-[表 19.2](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS) 說明了
+[表 19.2](runtime-config-logging.md#runtime-config-severity-levels) 說明了
 PostgreSQL 所使用的訊息嚴重性層級。若日誌輸出
 被送往 syslog 或 Windows 的
 eventlog，嚴重性層級會依表中所示進行轉換。
 
 <a id="RUNTIME-CONFIG-SEVERITY-LEVELS"></a>
 
-**表 19.2. 訊息嚴重性層級**
+### 表 19.2. 訊息嚴重性層級 [#](#runtime-config-severity-levels) <a href="#runtime-config-severity-levels" id="runtime-config-severity-levels"></a>
 
 <table border="1" class="table" summary="訊息嚴重性層級"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>嚴重性</th><th>用途</th><th><span class="systemitem">syslog</span></th><th><span class="systemitem">eventlog</span></th></tr></thead><tbody><tr><td><code class="literal">DEBUG1 .. DEBUG5</code></td><td>提供逐漸更詳細的資訊，供開發人員使用。</td><td><code class="literal">DEBUG</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">INFO</code></td><td>提供使用者隱含要求的資訊，
          例如 <code class="command">VACUUM VERBOSE</code> 的輸出。</td><td><code class="literal">INFO</code></td><td><code class="literal">INFORMATION</code></td></tr><tr><td><code class="literal">NOTICE</code></td><td>提供可能對使用者有幫助的資訊，

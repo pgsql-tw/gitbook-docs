@@ -19,7 +19,7 @@
 `client_min_messages` (`enum`) <a id="id-1.6.6.14.2.2.1.1.3"></a> [#](#GUC-CLIENT-MIN-MESSAGES)
 
 控制哪些
-[訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)
+[訊息等級](runtime-config-logging.md#runtime-config-severity-levels)
 會被傳送到用戶端。
 合法的值有 `DEBUG5`、
 `DEBUG4`、`DEBUG3`、`DEBUG2`、
@@ -662,7 +662,7 @@ PostgreSQL 12 有所變更；
 `icu_validation_level` (`enum`) <a id="id-1.6.6.14.3.2.11.1.3"></a> [#](#GUC-ICU-VALIDATION-LEVEL)
 
 當遇到 ICU 地區設定驗證問題時，控制用來
-回報此問題的[訊息等級](runtime-config-logging.md#RUNTIME-CONFIG-SEVERITY-LEVELS)。
+回報此問題的[訊息等級](runtime-config-logging.md#runtime-config-severity-levels)。
 合法的值有
 `DISABLED`、`DEBUG5`、
 `DEBUG4`、`DEBUG3`、
