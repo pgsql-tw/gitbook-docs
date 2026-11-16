@@ -413,11 +413,11 @@ pgbench 支援執行自訂的效能基準情境，方法是以從檔案讀取的
 
 pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時，用戶端到達腳本結尾時尚未完成最後一個交易區塊，該用戶端會被中止。
 
-腳本檔有一個簡單的變數替換機制。變數名稱必須由字母（包括非拉丁字母）、數字與底線組成，且第一個字元不能是數字。變數可以由上文說明的命令列 `-D` 選項設定，或由下文說明的中繼命令設定。除了由 `-D` 命令列選項預先設定的任何變數之外，還有一些會自動預先設定的變數，列於[表 301](pgbench.md#PGBENCH-AUTOMATIC-VARIABLES)。使用 `-D` 為這些變數指定的值，優先於自動預設值。變數一旦設定，就可以在 SQL 命令中寫入 `:`*`variablename`*，將變數的值插入其中。執行超過一個用戶端工作階段時，每個工作階段都有自己的一組變數。pgbench 在單一陳述式中最多支援 255 次變數使用。
+腳本檔有一個簡單的變數替換機制。變數名稱必須由字母（包括非拉丁字母）、數字與底線組成，且第一個字元不能是數字。變數可以由上文說明的命令列 `-D` 選項設定，或由下文說明的中繼命令設定。除了由 `-D` 命令列選項預先設定的任何變數之外，還有一些會自動預先設定的變數，列於[表 301](pgbench.md#pgbench-automatic-variables)。使用 `-D` 為這些變數指定的值，優先於自動預設值。變數一旦設定，就可以在 SQL 命令中寫入 `:`*`variablename`*，將變數的值插入其中。執行超過一個用戶端工作階段時，每個工作階段都有自己的一組變數。pgbench 在單一陳述式中最多支援 255 次變數使用。
 
 <a id="PGBENCH-AUTOMATIC-VARIABLES"></a>
 
-**表 301. pgbench 自動變數**
+### 表 301. pgbench 自動變數 [#](#pgbench-automatic-variables) <a href="#pgbench-automatic-variables" id="pgbench-automatic-variables"></a>
 
 <table border="1" class="table" summary="pgbench Automatic Variables"><colgroup><col class="col1"/><col class="col2"/></colgroup><thead><tr><th>變數</th><th>說明</th></tr></thead><tbody><tr><td> <code class="literal">client_id</code> </td><td>識別用戶端工作階段的唯一編號（從零開始）</td></tr><tr><td> <code class="literal">default_seed</code> </td><td>雜湊函式與偽隨機排列函式預設使用的種子</td></tr><tr><td> <code class="literal">random_seed</code> </td><td>亂數產生器種子（除非以 <code class="option">-D</code> 覆寫）</td></tr><tr><td> <code class="literal">scale</code> </td><td>目前的縮放因子</td></tr></tbody></table>
 
@@ -524,11 +524,11 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 
 ### 內建運算子
 
-[表 302](pgbench.md#PGBENCH-OPERATORS) 所列的算術、位元、比較與邏輯運算子內建於 pgbench 中，可用於出現在 [`\set`](pgbench.md#PGBENCH-METACOMMAND-SET) 中的運算式。這些運算子依優先順序由低到高列出。除非另有註明，接受兩個數值輸入的運算子，若任一輸入為倍精度，會產生倍精度值，否則會產生整數結果。
+[表 302](pgbench.md#pgbench-operators) 所列的算術、位元、比較與邏輯運算子內建於 pgbench 中，可用於出現在 [`\set`](pgbench.md#PGBENCH-METACOMMAND-SET) 中的運算式。這些運算子依優先順序由低到高列出。除非另有註明，接受兩個數值輸入的運算子，若任一輸入為倍精度，會產生倍精度值，否則會產生整數結果。
 
 <a id="PGBENCH-OPERATORS"></a>
 
-**表 302. pgbench 運算子**
+### 表 302. pgbench 運算子 [#](#pgbench-operators) <a href="#pgbench-operators" id="pgbench-operators"></a>
 
 <table border="1" class="table" summary="pgbench Operators"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         運算子
@@ -786,13 +786,13 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 
 ### 內建函式
 
-[表 303](pgbench.md#PGBENCH-FUNCTIONS) 所列的函式內建於 pgbench 中，可用於出現在 [`\set`](pgbench.md#PGBENCH-METACOMMAND-SET) 中的運算式。
+[表 303](pgbench.md#pgbench-functions) 所列的函式內建於 pgbench 中，可用於出現在 [`\set`](pgbench.md#PGBENCH-METACOMMAND-SET) 中的運算式。
 
 下表「範例」欄中以程式碼格式呈現的「an integer between 1 and 10」與「an integer between 0 and 3」，分別表示「介於 1 與 10 之間的整數」與「介於 0 與 3 之間的整數」。
 
 <a id="PGBENCH-FUNCTIONS"></a>
 
-**表 303. pgbench 函式**
+### 表 303. pgbench 函式 [#](#pgbench-functions) <a href="#pgbench-functions" id="pgbench-functions"></a>
 
 <table border="1" class="table" summary="pgbench Functions"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
