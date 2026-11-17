@@ -76,7 +76,7 @@ pg_basebackup 不僅可以從主要伺服器製作基礎備份，也可以從待
 <a id="id-1.9.4.10.6.2.1.4.3.1.2"></a>
 檔案，並將連線設定附加到 `postgresql.auto.conf` 檔案。這讓使用備份結果來設置待命伺服器變得更容易。
 
-`postgresql.auto.conf` 檔案會記錄連線設定，以及（若有指定）pg_basebackup 正在使用的複寫插槽，讓串流複寫與[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)之後會使用相同的設定。只有在連線字串或[環境變數](../../client-interfaces/libpq/libpq-envars.md)中明確指定了 dbname 時，才會記錄 dbname。
+`postgresql.auto.conf` 檔案會記錄連線設定，以及（若有指定）pg_basebackup 正在使用的複寫插槽，讓串流複寫與[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)之後會使用相同的設定。只有在連線字串或[環境變數](../../client-interfaces/libpq/libpq-envars.md)中明確指定了 dbname 時，才會記錄 dbname。
 
 `-t target`<br>`--target=target`
 
@@ -227,7 +227,7 @@ stream` 一起使用。它使 WAL 串流使用指定的複寫插槽。若基礎�
 
 指定用來連線到伺服器的參數，形式為[連線字串](../../client-interfaces/libpq/libpq-connstring.md#libpq-connstring)；這些參數會覆寫任何相衝突的命令列選項。
 
-為了與其他用戶端應用程式保持一致，此選項命名為 `--dbname`，但由於 pg_basebackup 不會連線到叢集中的任何特定資料庫，連線字串中包含的任何資料庫名稱都會被伺服器忽略。不過，以這種方式提供的資料庫名稱，在 `~/.pgpass` 中查找複寫連線的密碼時，會覆寫預設的資料庫名稱（`replication`）。同樣地，連線到 PostgreSQL 時所使用的中介軟體或代理伺服器，可能會將此名稱用於連線路由等目的。此資料庫名稱也可以由[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)使用。
+為了與其他用戶端應用程式保持一致，此選項命名為 `--dbname`，但由於 pg_basebackup 不會連線到叢集中的任何特定資料庫，連線字串中包含的任何資料庫名稱都會被伺服器忽略。不過，以這種方式提供的資料庫名稱，在 `~/.pgpass` 中查找複寫連線的密碼時，會覆寫預設的資料庫名稱（`replication`）。同樣地，連線到 PostgreSQL 時所使用的中介軟體或代理伺服器，可能會將此名稱用於連線路由等目的。此資料庫名稱也可以由[邏輯複寫插槽同步](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)使用。
 
 `-h host`<br>`--host=host`
 :   指定執行伺服器之機器的主機名稱。若值以斜線開頭，它會被用作 Unix 網域通訊端的目錄。預設值取自 `PGHOST` 環境變數（若有設定），否則會嘗試以 Unix 網域通訊端連線。

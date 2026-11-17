@@ -35,7 +35,7 @@ WAL 傳送（Write-Ahead Log Shipping）
 
 待命伺服器可以透過檔案式日誌傳送
 （[第 26.2 節](warm-standby.md)）或串流複寫（見
-[第 26.2.5 節](warm-standby.md#STREAMING-REPLICATION)）來實作，也可以兩者
+[第 26.2.5 節](warm-standby.md#streaming-replication)）來實作，也可以兩者
 合併使用。關於熱備援的相關資訊，請見 [第 26.4 節](hot-standby.md)。
 
 邏輯複寫（Logical Replication）

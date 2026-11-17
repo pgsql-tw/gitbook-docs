@@ -40,7 +40,7 @@ syslog。在 Windows 上，
 若 `log_destination` 中包含 csvlog，
 日誌項目會以「逗號分隔值」（CSV）格式輸出，
 方便匯入其他程式使用。
-詳情請參閱 [第 19.8.4 節](runtime-config-logging.md#RUNTIME-CONFIG-LOGGING-CSVLOG)。
+詳情請參閱 [第 19.8.4 節](runtime-config-logging.md#runtime-config-logging-csvlog)。
 必須啟用 [logging_collector](runtime-config-logging.md#GUC-LOGGING-COLLECTOR)
 才能產生 CSV 格式的日誌輸出。
 
@@ -721,7 +721,7 @@ eventlog，嚴重性層級會依表中所示進行轉換。
                  否則此欄位會為零。</td><td>是</td></tr><tr><td><code class="literal">%%</code></td><td>字面值 <code class="literal">%</code></td><td>否</td></tr></tbody></table>
 
 後端類型對應於
-[`pg_stat_activity`](../monitoring/monitoring-stats.md#MONITORING-PG-STAT-ACTIVITY-VIEW)
+[`pg_stat_activity`](../monitoring/monitoring-stats.md#monitoring-pg-stat-activity-view)
 檢視表中的 `backend_type` 欄，
 但日誌中可能會出現該檢視表未顯示的其他類型。
 

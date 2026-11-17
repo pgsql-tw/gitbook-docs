@@ -13,7 +13,7 @@
 因此此選項的預設值為
 `'insert, update, delete, truncate'`。
 
-此參數只影響 DML 操作。特別是，邏輯複寫的初始資料同步（請參閱[第 29.9.1 節](../../server-administration/logical-replication/logical-replication-architecture.md#LOGICAL-REPLICATION-SNAPSHOT)）
+此參數只影響 DML 操作。特別是，邏輯複寫的初始資料同步（請參閱[第 29.9.1 節](../../server-administration/logical-replication/logical-replication-architecture.md#logical-replication-snapshot)）
 在複製現有的資料表資料時，不會考慮此參數。
 <a id="SQL-CREATEPUBLICATION-PARAMS-WITH-PUBLISH-GENERATED-COLUMNS"></a>
 

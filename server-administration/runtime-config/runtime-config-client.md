@@ -581,7 +581,7 @@ with designators）」的時間間隔輸出。
 以及幾何資料型別）文字輸出所使用的位數。
 
 若此值為 1（預設值）或以上，浮點數值會以
-最短精確格式輸出；參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
+最短精確格式輸出；參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#datatype-float)。
 實際產生的位數，僅取決於被輸出的值，
 而非此參數的值。`float8` 值最多需要
 17 位數，`float4`
@@ -604,7 +604,7 @@ with designators）」的時間間隔輸出。
 
 此參數的意義及其預設值，在
 PostgreSQL 12 有所變更；
-詳情請參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#DATATYPE-FLOAT)。
+詳情請參閱[8.1.3 節](../../the-sql-language/datatype/datatype-numeric.md#datatype-float)。
 <a id="GUC-CLIENT-ENCODING"></a>
 
 `client_encoding` (`string`) <a id="id-1.6.6.14.3.2.6.1.3"></a> <a id="id-1.6.6.14.3.2.6.1.4"></a> [#](#GUC-CLIENT-ENCODING)

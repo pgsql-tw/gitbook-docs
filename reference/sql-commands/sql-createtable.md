@@ -127,7 +127,7 @@ myschema.mytable ...`），資料表就會建立在指定的綱要中；否則�
 
 若有指定，資料表會建立為暫存資料表。暫存資料表會在工作階段結束時自動移除，或者也可選擇在目前交易結束時移除（請參閱下方的 `ON COMMIT`）。預設的 search_path 會先包含暫存綱要，因此當暫存資料表存在時，同名的現有永久資料表不會被新的查詢計畫選用，除非以綱要限定的名稱參照它們。在暫存資料表上建立的任何索引也會自動成為暫存的。
 
-[autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)無法存取暫存資料表，因此也無法對其執行 vacuum 或 analyze。基於這個原因，應該透過工作階段中的 SQL 命令執行適當的 vacuum 與 analyze 操作。例如，若暫存資料表將用於複雜的查詢，明智的做法是在填入資料後對該暫存資料表執行 `ANALYZE`。
+[autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)無法存取暫存資料表，因此也無法對其執行 vacuum 或 analyze。基於這個原因，應該透過工作階段中的 SQL 命令執行適當的 vacuum 與 analyze 操作。例如，若暫存資料表將用於複雜的查詢，明智的做法是在填入資料後對該暫存資料表執行 `ANALYZE`。
 
 可以選擇在 `TEMPORARY` 或 `TEMP` 之前寫上 `GLOBAL` 或 `LOCAL`。這在 PostgreSQL 中目前沒有任何差別，且已不建議使用；請參閱下方的[相容性](sql-createtable.md#SQL-CREATETABLE-COMPATIBILITY)。
 <a id="SQL-CREATETABLE-UNLOGGED"></a>
@@ -212,7 +212,7 @@ myschema.mytable ...`），資料表就會建立在指定的綱要中；否則�
 
 建立清單分割區時，可以指定 `NULL`，表示該分割區允許分割鍵欄位為 null。不過，對於給定的父資料表，這樣的清單分割區不能超過一個。範圍分割區不能指定 `NULL`。
 
-建立範圍分割區時，以 `FROM` 指定的下界是包含性界限，而以 `TO` 指定的上界是排除性界限。也就是說，`FROM` 清單中指定的值是此分割區對應分割鍵欄位的有效值，而 `TO` 清單中的值則不是。請注意，這段敘述必須依照逐列比較的規則（[第 9.25.5 節](../../the-sql-language/functions/functions-comparisons.md#ROW-WISE-COMPARISON)）來理解。例如，給定 `PARTITION BY RANGE (x,y)`，分割區界限 `FROM (1, 2) TO (3, 4)` 允許 `x=1` 搭配任何 `y>=2`、`x=2` 搭配任何非 null 的 `y`，以及 `x=3` 搭配任何 `y<4`。
+建立範圍分割區時，以 `FROM` 指定的下界是包含性界限，而以 `TO` 指定的上界是排除性界限。也就是說，`FROM` 清單中指定的值是此分割區對應分割鍵欄位的有效值，而 `TO` 清單中的值則不是。請注意，這段敘述必須依照逐列比較的規則（[第 9.25.5 節](../../the-sql-language/functions/functions-comparisons.md#row-wise-comparison)）來理解。例如，給定 `PARTITION BY RANGE (x,y)`，分割區界限 `FROM (1, 2) TO (3, 4)` 允許 `x=1` 搭配任何 `y>=2`、`x=2` 搭配任何非 null 的 `y`，以及 `x=3` 搭配任何 `y<4`。
 
 建立範圍分割區時，可以使用特殊值 `MINVALUE` 與 `MAXVALUE`，表示該欄位的值沒有下界或上界。例如，使用 `FROM (MINVALUE) TO (10)` 定義的分割區允許任何小於 10 的值，而使用 `FROM (10) TO (MAXVALUE)` 定義的分割區允許任何大於或等於 10 的值。
 
@@ -276,7 +276,7 @@ TABLE ATTACH/DETACH PARTITION`](sql-altertable.md) 以較弱的鎖定來執行�
 
 `CHECK` 子句指定一個產生布林結果的運算式，新增或更新的資料列必須滿足它，插入或更新操作才能成功。求值結果為 TRUE 或 UNKNOWN 的運算式即為成功。若插入或更新操作的任何資料列產生 FALSE 結果，就會引發錯誤例外，而該插入或更新不會變更資料庫。指定為欄位限制條件的檢查限制條件應該只參照該欄位的值，而出現在資料表限制條件中的運算式則可以參照多個欄位。
 
-目前，`CHECK` 運算式不能包含子查詢，也不能參照目前資料列欄位以外的變數（請參閱[第 5.5.1 節](../../the-sql-language/ddl/ddl-constraints.md#DDL-CONSTRAINTS-CHECK-CONSTRAINTS)）。可以參照系統欄位 `tableoid`，但不能參照任何其他系統欄位。
+目前，`CHECK` 運算式不能包含子查詢，也不能參照目前資料列欄位以外的變數（請參閱[第 5.5.1 節](../../the-sql-language/ddl/ddl-constraints.md#ddl-constraints-check-constraints)）。可以參照系統欄位 `tableoid`，但不能參照任何其他系統欄位。
 
 標記為 `NO INHERIT` 的限制條件不會傳遞到子資料表。
 

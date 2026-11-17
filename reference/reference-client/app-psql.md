@@ -395,7 +395,7 @@ name`。
 這也適用於 `\g` 以外的查詢執行命令，例如 `\gx` 與
 `\gset`。
 
-此命令會使用延伸查詢協定（請參閱[第 54.1.2 節](../../internals/protocol/protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。（即使查詢沒有參數，而此命令指定了零個參數，仍會使用延伸查詢協定。）此命令只影響下一個執行的查詢；之後的所有查詢預設都會使用簡單查詢協定。
+此命令會使用延伸查詢協定（請參閱[第 54.1.2 節](../../internals/protocol/protocol-overview.md#protocol-query-concepts)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。（即使查詢沒有參數，而此命令指定了零個參數，仍會使用延伸查詢協定。）此命令只影響下一個執行的查詢；之後的所有查詢預設都會使用簡單查詢協定。
 <a id="APP-PSQL-META-COMMAND-BIND-NAMED"></a>
 
 `\bind_named` *`statement_name`* [ *`parameter`* ] ... [#](#APP-PSQL-META-COMMAND-BIND-NAMED)
@@ -412,7 +412,7 @@ name`。
 ```
 
 此命令會使用延伸查詢協定（請參閱
-[第 54.1.2 節](../../internals/protocol/protocol-overview.md#PROTOCOL-QUERY-CONCEPTS)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。
+[第 54.1.2 節](../../internals/protocol/protocol-overview.md#protocol-query-concepts)），這與一般 psql 運作所使用的簡單查詢協定不同。因此，此命令可用於從 psql 測試延伸查詢協定。
 <a id="APP-PSQL-META-COMMAND-C-LC"></a>
 
 `\c` 或 `\connect [ -reuse-previous=on|off ] [ dbname [ username ] [ host ] [ port ] | conninfo ]` [#](#APP-PSQL-META-COMMAND-C-LC)

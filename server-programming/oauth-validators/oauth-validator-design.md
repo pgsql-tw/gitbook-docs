@@ -50,7 +50,7 @@
 *宣告項目（claims）*。提供者通常會記載這些宣告項目中，哪些足以信任、可用於做出授權決策，哪些則不行。（舉例來說，將終端使用者的全名用作驗證身分識別碼，可能並不明智，因為許多提供者都允許使用者任意變更其顯示名稱。）最終，究竟該使用哪一個（或哪些）宣告項目，取決於提供者的實作方式與應用程式的需求。
 
 請注意，透過啟用使用者對應委派，也可以實現匿名／假名登入；請見
-[第 50.1.3 節](oauth-validator-design.md#OAUTH-VALIDATOR-DESIGN-USERMAP-DELEGATION)。
+[第 50.1.3 節](oauth-validator-design.md#oauth-validator-design-usermap-delegation)。
 
 <a id="OAUTH-VALIDATOR-DESIGN-GUIDELINES"></a>
 

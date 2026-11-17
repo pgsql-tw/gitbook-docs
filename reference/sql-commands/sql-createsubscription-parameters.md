@@ -10,7 +10,7 @@
 
 指定 `CREATE SUBSCRIPTION` 命令究竟是否應該連線到發佈者。預設為 `true`。將此參數設為 `false` 會強制將 `create_slot`、`enabled` 與 `copy_data` 的值設為 `false`。（你不能在將 `connect` 設為 `false` 的同時，將 `create_slot`、`enabled` 或 `copy_data` 設為 `true`。）
 
-由於此選項為 `false` 時不會建立任何連線，因此不會訂閱任何資料表。要開始複寫，你必須手動建立複寫插槽、視需要啟用失效切換、啟用訂閱，並重新整理訂閱。範例請參閱[第 29.2.3 節](../../server-administration/logical-replication/logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT)。
+由於此選項為 `false` 時不會建立任何連線，因此不會訂閱任何資料表。要開始複寫，你必須手動建立複寫插槽、視需要啟用失效切換、啟用訂閱，並重新整理訂閱。範例請參閱[第 29.2.3 節](../../server-administration/logical-replication/logical-replication-subscription.md#logical-replication-subscription-examples-deferred-slot)。
 
 <a id="SQL-CREATESUBSCRIPTION-PARAMS-WITH-CREATE-SLOT"></a>
 
@@ -18,7 +18,7 @@
 
 指定此命令是否應該在發佈者上建立複寫插槽。預設為 `true`。
 
-若設為 `false`，你就必須負責以其他方式建立發佈者上的插槽。範例請參閱[第 29.2.3 節](../../server-administration/logical-replication/logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT)。
+若設為 `false`，你就必須負責以其他方式建立發佈者上的插槽。範例請參閱[第 29.2.3 節](../../server-administration/logical-replication/logical-replication-subscription.md#logical-replication-subscription-examples-deferred-slot)。
 
 <a id="SQL-CREATESUBSCRIPTION-PARAMS-WITH-ENABLED"></a>
 
@@ -32,7 +32,7 @@
 
 要使用的發佈者複寫插槽名稱。預設是使用訂閱的名稱作為插槽名稱。
 
-將 `slot_name` 設為 `NONE` 表示不會有任何複寫插槽與此訂閱相關聯。這類訂閱也必須將 `enabled` 與 `create_slot` 都設為 `false`。當你之後將手動建立複寫插槽時，請使用此設定。範例請參閱[第 29.2.3 節](../../server-administration/logical-replication/logical-replication-subscription.md#LOGICAL-REPLICATION-SUBSCRIPTION-EXAMPLES-DEFERRED-SLOT)。
+將 `slot_name` 設為 `NONE` 表示不會有任何複寫插槽與此訂閱相關聯。這類訂閱也必須將 `enabled` 與 `create_slot` 都設為 `false`。當你之後將手動建立複寫插槽時，請使用此設定。範例請參閱[第 29.2.3 節](../../server-administration/logical-replication/logical-replication-subscription.md#logical-replication-subscription-examples-deferred-slot)。
 
 當 `slot_name` 設為有效的名稱且 `create_slot` 設為 `false` 時，所指名插槽的 `failover` 屬性值，可能與訂閱中所指定的對應 `failover` 參數不同。務必確保插槽屬性 `failover` 與訂閱的對應參數相符，反之亦然。否則，發佈者上的插槽行為可能與這些訂閱選項所述的不同：例如，即使訂閱的 `failover` 選項已停用，發佈者上的插槽仍可能被同步到備用伺服器；或者即使訂閱的 `failover` 選項已啟用，發佈者上的插槽也可能被停用同步。
 

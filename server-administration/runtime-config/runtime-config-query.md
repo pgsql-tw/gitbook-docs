@@ -515,7 +515,7 @@ random_page_cost 值來建模。相對地，如果你的資料
 [enable_partition_pruning](runtime-config-query.md#GUC-ENABLE-PARTITION-PRUNING) 控制的。）
 
 有關使用限制條件排除實作分割的更多資訊，
-請參閱[5.12.5 節](../../the-sql-language/ddl/ddl-partitioning.md#DDL-PARTITIONING-CONSTRAINT-EXCLUSION)。
+請參閱[5.12.5 節](../../the-sql-language/ddl/ddl-partitioning.md#ddl-partitioning-constraint-exclusion)。
 <a id="GUC-CURSOR-TUPLE-FRACTION"></a>
 
 `cursor_tuple_fraction` (`floating point`) <a id="id-1.6.6.10.5.2.3.1.3"></a> [#](#GUC-CURSOR-TUPLE-FRACTION)
@@ -540,7 +540,7 @@ random_page_cost 值來建模。相對地，如果你的資料
 
 將此值設為 [geqo_threshold](runtime-config-query.md#GUC-GEQO-THRESHOLD) 或更大，
 可能觸發使用 GEQO 規劃器，導致產生非最佳的
-計畫。參閱[19.7.3 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)。
+計畫。參閱[19.7.3 節](runtime-config-query.md#runtime-config-query-geqo)。
 <a id="GUC-JIT"></a>
 
 `jit` (`boolean`) <a id="id-1.6.6.10.5.2.5.1.3"></a> [#](#GUC-JIT)
@@ -568,7 +568,7 @@ random_page_cost 值來建模。相對地，如果你的資料
 
 將此值設為 [geqo_threshold](runtime-config-query.md#GUC-GEQO-THRESHOLD) 或更大，
 可能觸發使用 GEQO 規劃器，導致產生非最佳的
-計畫。參閱[19.7.3 節](runtime-config-query.md#RUNTIME-CONFIG-QUERY-GEQO)。
+計畫。參閱[19.7.3 節](runtime-config-query.md#runtime-config-query-geqo)。
 <a id="GUC-PLAN-CACHE-MODE"></a>
 
 `plan_cache_mode` (`enum`) <a id="id-1.6.6.10.5.2.7.1.3"></a> [#](#GUC-PLAN-CACHE-MODE)

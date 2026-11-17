@@ -37,7 +37,7 @@ autovacuum 才能正常運作。
 針對個別資料表停用 autovacuum。
 
 請注意，即使此參數已停用，系統在必要時仍會啟動
-autovacuum 程序，以防止交易 ID 回捲。詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+autovacuum 程序，以防止交易 ID 回捲。詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#vacuum-for-wraparound)。
 <a id="GUC-AUTOVACUUM-WORKER-SLOTS"></a>
 
 `autovacuum_worker_slots` (`integer`) <a id="id-1.6.6.13.4.3.2.1.3"></a> [#](#GUC-AUTOVACUUM-WORKER-SLOTS)
@@ -167,7 +167,7 @@ Vacuum 也可以移除
 相對較低，為兩億筆交易。
 此參數只能在伺服器啟動時設定，但可以
 透過變更資料表儲存參數，針對個別資料表調降此設定。
-詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+詳情請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#vacuum-for-wraparound)。
 <a id="GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE"></a>
 
 `autovacuum_multixact_freeze_max_age` (`integer`) <a id="id-1.6.6.13.4.3.13.1.3"></a> [#](#GUC-AUTOVACUUM-MULTIXACT-FREEZE-MAX-AGE)
@@ -458,7 +458,7 @@ autovacuum 已經執行了一段時間時，通常就會觸發
 [對應的資料表儲存參數](../../reference/sql-commands/sql-createtable.md#RELOPTION-VACUUM-MAX-EAGER-FREEZE-FAILURE-RATE)，
 針對個別資料表覆寫此設定。
 有關調校 vacuum 凍結行為的更多資訊，
-請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)。
+請參閱[24.1.5 節](../maintenance/routine-vacuuming.md#vacuum-for-wraparound)。
 
 ---
 

@@ -112,7 +112,7 @@ PostgreSQL 用來存取資料表與索引中資料的介面。
 *自動清理工作程序*（autovacuum workers）。
 
 更多資訊請參閱
-[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#AUTOVACUUM)。
+[第 24.1.6 節](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)。
 <a id="GLOSSARY-AUXILIARY-PROC"></a>
 
 ### 輔助程序（Auxiliary process） [#](#glossary-auxiliary-proc) <a href="#glossary-auxiliary-proc" id="glossary-auxiliary-proc"></a>
@@ -172,7 +172,7 @@ PostgreSQL 用來存取資料表與索引中資料的介面。
 避免產生較大的 I/O 尖峰而阻擋其他程序。
 
 更多資訊請參閱
-[第 19.4.4 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-BACKGROUND-WRITER)。
+[第 19.4.4 節](../../server-administration/runtime-config/runtime-config-resource.md#runtime-config-resource-background-writer)。
 <a id="GLOSSARY-BASEBACKUP"></a>
 
 ### 基礎備份（Base Backup） [#](#glossary-basebackup) <a href="#glossary-basebackup" id="glossary-basebackup"></a>
@@ -710,7 +710,7 @@ PostgreSQL 術語中稱為
 [*資料庫叢集*](README.md#glossary-db-cluster)達到
 一致的狀態。
 
-更多資訊請參閱[第 25.3.3 節](../../server-administration/backup/continuous-archiving.md#BACKUP-INCREMENTAL-BACKUP)。
+更多資訊請參閱[第 25.3.3 節](../../server-administration/backup/continuous-archiving.md#backup-incremental-backup)。
 <a id="GLOSSARY-IO"></a>
 
 ### 輸入／輸出（Input/Output，I/O） [#](#glossary-io) <a href="#glossary-io" id="glossary-io"></a>
@@ -1268,7 +1268,7 @@ SQL 命令完成時，從[*後端程序*](README.md#glossary-backend)
 都稱為髒頁面。
 
 更多資訊請參閱
-[第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#RUNTIME-CONFIG-RESOURCE-MEMORY)。
+[第 19.4.1 節](../../server-administration/runtime-config/runtime-config-resource.md#runtime-config-resource-memory)。
 <a id="GLOSSARY-SQL-OBJECT"></a>
 
 ### SQL 物件（SQL object） [#](#glossary-sql-object) <a href="#glossary-sql-object" id="glossary-sql-object"></a>
@@ -1681,7 +1681,7 @@ WAL 記錄使用不可列印的二進位格式。
 負責為[*增量備份*](README.md#glossary-incremental-backup)
 彙整 WAL 資料的摘要。
 
-更多資訊請參閱[第 19.5.7 節](../../server-administration/runtime-config/runtime-config-wal.md#RUNTIME-CONFIG-WAL-SUMMARIZATION)。
+更多資訊請參閱[第 19.5.7 節](../../server-administration/runtime-config/runtime-config-wal.md#runtime-config-wal-summarization)。
 <a id="GLOSSARY-WAL-WRITER"></a>
 
 ### WAL 寫入程序（WAL writer） [#](#glossary-wal-writer) <a href="#glossary-wal-writer" id="glossary-wal-writer"></a>

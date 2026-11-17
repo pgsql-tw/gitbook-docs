@@ -38,7 +38,7 @@
 `minimal` 層級會產生最少量的 WAL。對於在交易中建立或
 重寫的永久性關聯，它不會為其記錄任何資料列資訊。
 這能讓作業快上許多（請參閱
-[14.4.7 節](../../the-sql-language/performance-tips/populate.md#POPULATE-PITR)）。
+[14.4.7 節](../../the-sql-language/performance-tips/populate.md#populate-pitr)）。
 會啟用此最佳化的作業包括：
 
 <table border="0" class="simplelist" summary="簡易清單"><tr><td><code class="command">ALTER ... SET TABLESPACE</code></td></tr><tr><td><code class="command">CLUSTER</code></td></tr><tr><td><code class="command">CREATE TABLE</code></td></tr><tr><td><code class="command">REFRESH MATERIALIZED VIEW</code>
@@ -743,7 +743,7 @@ WAL 檔案名稱或歷史檔案中擷取而來），
 你通常只有在複雜的重複復原情境中，
 才需要設定此參數——也就是當你需要回到某個
 自身也是透過時間點復原才抵達的狀態時。
-請參閱 [25.3.6 節](../backup/continuous-archiving.md#BACKUP-TIMELINES)
+請參閱 [25.3.6 節](../backup/continuous-archiving.md#backup-timelines)
 進行討論。
 <a id="GUC-RECOVERY-TARGET-ACTION"></a>
 

@@ -147,7 +147,7 @@ SET [ SESSION | LOCAL ] TIME ZONE { value | 'value' | LOCAL | DEFAULT }
 回報 `<-07>+07`。
 
 `SET` 不支援時區縮寫；關於時區的更多資訊，
-請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#DATATYPE-TIMEZONES)。
+請參閱[8.5.3 節](../../the-sql-language/datatype/datatype-datetime.md#datatype-timezones)。
 
 <a id="id-1.9.3.174.7"></a>
 

@@ -411,7 +411,7 @@ primary 接收邏輯容錯移轉插槽的變更。
 `replication`）。
 
 對於複寫插槽同步（參閱
-[47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#LOGICALDECODING-REPLICATION-SLOTS-SYNCHRONIZATION)），
+[47.2.3 節](../../server-programming/logicaldecoding/logicaldecoding-explanation.md#logicaldecoding-replication-slots-synchronization)），
 也需要在 `primary_conninfo` 字串中指定
 合法的 `dbname`。此值僅用於
 插槽同步，串流時會被忽略。

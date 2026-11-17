@@ -137,7 +137,7 @@ PostgreSQL（其標準行為即是如此）維持向後相容性
 *一律*略過索引清理，即使資料表中有許多死亡資料列
 也一樣。當有必要讓 `VACUUM` 盡可能快速執行，
 以避免即將發生的交易 ID 回捲時，這可能會很有用
-（參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#VACUUM-FOR-WRAPAROUND)）。
+（參閱[第 24.1.5 節](../../server-administration/maintenance/routine-vacuuming.md#vacuum-for-wraparound)）。
 不過，由
 [vacuum_failsafe_age](../../server-administration/runtime-config/runtime-config-vacuum.md#GUC-VACUUM-FAILSAFE-AGE)
 所控制的回捲失效保護機制，一般會自動觸發，以避免交易 ID

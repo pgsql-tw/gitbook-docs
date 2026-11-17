@@ -71,7 +71,7 @@ RAM，以便為作業系統保留足夠的空間。
 
 使用巨型分頁可以縮小頁面表，並減少用於記憶體管理的
 CPU 時間，藉此提升效能。有關在 Linux 上使用巨型分頁的
-更多細節，請參閱[18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
+更多細節，請參閱[18.4.5 節](../runtime/kernel-resources.md#linux-huge-pages)。
 
 在 Windows 上，巨型分頁被稱為大分頁（large page）。若要使用它們，
 你需要為執行 PostgreSQL 的 Windows 使用者帳戶
@@ -109,7 +109,7 @@ PostgreSQL 造成效能下降，因此目前不建議
 `2MB` 與 `1GB`（Intel 與 AMD）、`16MB` 與
 `16GB`（IBM POWER），以及 `64kB`、`2MB`、
 `32MB` 與 `1GB`（ARM）。有關使用方式與支援情形的
-更多資訊，請參閱[18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
+更多資訊，請參閱[18.4.5 節](../runtime/kernel-resources.md#linux-huge-pages)。
 
 目前僅在 Linux 上支援非預設設定。
 <a id="GUC-TEMP-BUFFERS"></a>

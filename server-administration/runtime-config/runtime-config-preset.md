@@ -136,7 +136,7 @@ PostgreSQL 時就已決定。
 此設定僅在 Linux 上受支援。在
 其他平台上，此值永遠為 `-1`。有關在 Linux 上使用
 巨型分頁的更多細節，請參閱
-[18.4.5 節](../runtime/kernel-resources.md#LINUX-HUGE-PAGES)。
+[18.4.5 節](../runtime/kernel-resources.md#linux-huge-pages)。
 <a id="GUC-SSL-LIBRARY"></a>
 
 `ssl_library` (`string`) <a id="id-1.6.6.18.3.18.1.3"></a> [#](#GUC-SSL-LIBRARY)
