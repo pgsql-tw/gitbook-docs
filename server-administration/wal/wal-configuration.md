@@ -275,7 +275,7 @@ WAL 區段檔案。重新啟動點的執行頻率，
 `XLogWrite` 寫入與 `issue_xlog_fsync`
 同步 WAL 資料至磁碟所耗費的總時間，
 會分別以 `write_time` 與 `fsync_time`，
-計入 [pg_stat_io](../monitoring/monitoring-stats.md#PG-STAT-IO-VIEW)
+計入 [pg_stat_io](../monitoring/monitoring-stats.md#pg-stat-io-view)
 中 `object` 為 `wal` 的項目。
 `XLogWrite` 通常由 `XLogInsertRecord`
 （當 WAL 緩衝區中沒有空間容納新紀錄時）、

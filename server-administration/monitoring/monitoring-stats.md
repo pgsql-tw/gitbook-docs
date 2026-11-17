@@ -664,7 +664,7 @@ WAL 傳送程序都會有一筆資料列，顯示有關該
 
 <a id="PG-STAT-IO-VIEW"></a>
 
-**表 27.23. `pg_stat_io` 檢視表**
+### 表 27.23. `pg_stat_io` 檢視表 [#](#pg-stat-io-view) <a href="#pg-stat-io-view" id="pg-stat-io-view"></a>
 
 <table border="1" class="table" summary="pg_stat_io 檢視表"><colgroup><col/></colgroup><thead><tr><th class="catalog_table_entry">
 <p class="column_definition">
@@ -1120,11 +1120,11 @@ value2 ...` 結構的查詢，
 資料表、索引與函式。
 
 有關累計統計系統的其他函式，列於
-[表 27.36](monitoring-stats.md#MONITORING-STATS-FUNCS-TABLE)中。
+[表 27.36](monitoring-stats.md#monitoring-stats-funcs-table)中。
 
 <a id="MONITORING-STATS-FUNCS-TABLE"></a>
 
-**表 27.36. 其他統計函式**
+### 表 27.36. 其他統計函式 [#](#monitoring-stats-funcs-table) <a href="#monitoring-stats-funcs-table" id="monitoring-stats-funcs-table"></a>
 
 <table border="1" class="table" summary="其他統計函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -1369,7 +1369,7 @@ value2 ...` 結構的查詢，
 包含每個後端程序所有可用資訊的記錄。
 有時候，僅取得這些資訊的一部分可能較為方便。
 在這種情況下，可以使用另一組逐後端統計資訊
-存取函式；這些函式列於[表 27.37](monitoring-stats.md#MONITORING-STATS-BACKEND-FUNCS-TABLE)中。
+存取函式；這些函式列於[表 27.37](monitoring-stats.md#monitoring-stats-backend-funcs-table)中。
 這些存取函式使用的是工作階段的後端 ID 編號，這是一個
 小型整數（>= 0），與任何並行工作階段的後端 ID 不同，
 不過某個工作階段結束後，其 ID 可能會立即被回收再利用。
@@ -1389,7 +1389,7 @@ FROM pg_stat_get_backend_idset() AS backendid;
 
 <a id="MONITORING-STATS-BACKEND-FUNCS-TABLE"></a>
 
-**表 27.37. 逐後端統計函式**
+### 表 27.37. 逐後端統計函式 [#](#monitoring-stats-backend-funcs-table) <a href="#monitoring-stats-backend-funcs-table" id="monitoring-stats-backend-funcs-table"></a>
 
 <table border="1" class="table" summary="逐後端統計函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式

@@ -331,7 +331,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/3f1db99bf)
 
   可以透過 [`pg_stat_get_backend_io()`](../../server-administration/monitoring/monitoring-stats.md#PG-STAT-GET-BACKEND-IO) 存取這些統計資訊。
-  可以透過 [`pg_stat_reset_backend_stats()`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-FUNCS-TABLE) 清除個別後端的 I/O 統計資訊。
+  可以透過 [`pg_stat_reset_backend_stats()`](../../server-administration/monitoring/monitoring-stats.md#monitoring-stats-funcs-table) 清除個別後端的 I/O 統計資訊。
 * 新增 [`pg_stat_io`](../../server-administration/monitoring/monitoring-stats.md#monitoring-pg-stat-io-view)
   欄位，以位元組為單位回報 I/O 活動 (Nazir Bilal Yavuz)
   [§](https://postgr.es/c/f92c854cf)
@@ -367,7 +367,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   Drouvot)
   [§](https://postgr.es/c/76def4cdd)
 
-  可以透過 [`pg_stat_reset_backend_stats()`](../../server-administration/monitoring/monitoring-stats.md#MONITORING-STATS-FUNCS-TABLE) 清除個別後端的 WAL 統計資訊。
+  可以透過 [`pg_stat_reset_backend_stats()`](../../server-administration/monitoring/monitoring-stats.md#monitoring-stats-funcs-table) 清除個別後端的 WAL 統計資訊。
 * 新增函式 [`pg_ls_summariesdir()`](../../the-sql-language/functions/functions-admin/functions-admin-genfile.md#functions-admin-genfile-table)，
   專門用於列出 [`PGDATA`](../../internals/storage/storage-file-layout.md)/[`pg_wal/summaries`](../../server-administration/runtime-config/runtime-config-wal.md#GUC-WAL-SUMMARY-KEEP-TIME) 的內容
   (Yushi Ogiwara)
