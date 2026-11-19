@@ -536,10 +536,10 @@ SELECT 'w;x*y-z' = 'wxyz' COLLATE num_ignore_punct; -- true
 
 ICU 中兩個字串的比較（定序）是由一套
 多層級（multi-level）流程所決定，其中文字特徵會被分組為
-「層級（level）」。每個層級的處理方式，由[定序設定](collation.md#ICU-COLLATION-SETTINGS-TABLE)所控制。層級
+「層級（level）」。每個層級的處理方式，由[定序設定](collation.md#icu-collation-settings-table)所控制。層級
 越高，代表越精細的文字特徵。
 
-[表格 23.1](collation.md#ICU-COLLATION-LEVELS) 顯示了在判定
+[表格 23.1](collation.md#icu-collation-levels) 顯示了在判定
 給定層級的相等性時，哪些文字特徵差異會被視為
 顯著。Unicode 字元 `U+2063` 是一個
 隱形分隔符號，如表中所示，在
@@ -547,10 +547,10 @@ ICU 中兩個字串的比較（定序）是由一套
 
 <a id="ICU-COLLATION-LEVELS"></a>
 
-**表格 23.1. ICU 定序層級**
+### 表格 23.1. ICU 定序層級 [#](#icu-collation-levels) <a href="#icu-collation-levels" id="icu-collation-levels"></a>
 
 <table border="1" class="table" summary="ICU Collation Levels"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/><col class="col5"/><col class="col6"/><col class="col7"/><col class="col8"/></colgroup><thead><tr><th>層級</th><th>說明</th><th><code class="literal">'f' = 'f'</code></th><th><code class="literal">'ab' = U&amp;'a\2063b'</code></th><th><code class="literal">'x-y' = 'x_y'</code></th><th><code class="literal">'g' = 'G'</code></th><th><code class="literal">'n' = 'ñ'</code></th><th><code class="literal">'y' = 'z'</code></th></tr></thead><tbody><tr><td>level1</td><td>基本字元（Base Character）</td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">false</code></td></tr><tr><td>level2</td><td>重音（Accents）</td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td></tr><tr><td>level3</td><td>大小寫／變體（Case/Variants）</td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td></tr><tr><td>level4</td><td>標點符號（Punctuation）<a class="footnote" href="#ftn.id-1.6.10.4.6.3.4.2.10.4.2.1"><sup class="footnote" id="id-1.6.10.4.6.3.4.2.10.4.2.1">[a]</sup></a></td><td><code class="literal">true</code></td><td><code class="literal">true</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td></tr><tr><td>identic</td><td>全部（All）</td><td><code class="literal">true</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td><td><code class="literal">false</code></td></tr></tbody><tbody class="footnotes"><tr><td colspan="8"><div class="footnote" id="ftn.id-1.6.10.4.6.3.4.2.10.4.2.1"><p><a class="para" href="#id-1.6.10.4.6.3.4.2.10.4.2.1"><sup class="para">[a] </sup></a>僅適用於
-         <code class="literal">ka-shifted</code>；見 <a class="xref" href="collation.md#ICU-COLLATION-SETTINGS-TABLE">表格 23.2</a></p></div></td></tr></tbody></table>
+         <code class="literal">ka-shifted</code>；見 <a class="xref" href="collation.md#icu-collation-settings-table">表格 23.2</a></p></div></td></tr></tbody></table>
 
 <br>
 
@@ -586,13 +586,13 @@ SELECT 'x-y' = 'x_y' COLLATE level4; -- false
 
 #### 23.2.3.2. ICU 區域設定的定序設定 [#](#ICU-COLLATION-SETTINGS)
 
-[表格 23.2](collation.md#ICU-COLLATION-SETTINGS-TABLE) 顯示了可用的
+[表格 23.2](collation.md#icu-collation-settings-table) 顯示了可用的
 定序設定，這些設定可以作為語言標籤的一部分，用來
 自訂定序。
 
 <a id="ICU-COLLATION-SETTINGS-TABLE"></a>
 
-**表格 23.2. ICU 定序設定**
+### 表格 23.2. ICU 定序設定 [#](#icu-collation-settings-table) <a href="#icu-collation-settings-table" id="icu-collation-settings-table"></a>
 
 <table border="1" class="table" summary="ICU Collation Settings"><colgroup><col class="col1"/><col class="col2"/><col class="col3"/><col class="col4"/></colgroup><thead><tr><th>鍵</th><th>值</th><th>預設值</th><th>說明</th></tr></thead><tbody><tr><td><code class="literal">co</code></td><td><code class="literal">emoji</code>, <code class="literal">phonebk</code>, <code class="literal">standard</code>, <em class="replaceable"><code>...</code></em></td><td><code class="literal">standard</code></td><td>
           定序類型。額外選項與詳情見 <a class="xref" href="collation.md#ICU-EXTERNAL-REFERENCES">第 23.2.3.5 節</a>。
@@ -667,7 +667,7 @@ SELECT 'x-y' = 'x_y' COLLATE level4; -- false
           判定相等性時的敏感度（或稱「強度」），
           <code class="literal">level1</code> 對差異最不敏感，
           <code class="literal">identic</code> 對差異最敏感。詳見
-          <a class="xref" href="collation.md#ICU-COLLATION-LEVELS">表格 23.1</a>。
+          <a class="xref" href="collation.md#icu-collation-levels">表格 23.1</a>。
          </td></tr><tr><td><code class="literal">kv</code></td><td>
 <code class="literal">space</code>, <code class="literal">punct</code>,
           <code class="literal">symbol</code>, <code class="literal">currency</code>
@@ -692,7 +692,7 @@ SELECT 'x-y' = 'x_y' COLLATE level4; -- false
 `deterministic` 設為 `false`，
 該設定才會產生預期效果（見[第 23.2.2.4 節](collation.md#COLLATION-NONDETERMINISTIC)）。此外，某些
 設定只有在鍵 `ka` 設為
-`shifted` 時才會生效（見[表格 23.2](collation.md#ICU-COLLATION-SETTINGS-TABLE)）。
+`shifted` 時才會生效（見[表格 23.2](collation.md#icu-collation-settings-table)）。
 
 <a id="ICU-LOCALE-EXAMPLES"></a>
 

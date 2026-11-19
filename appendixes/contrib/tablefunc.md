@@ -16,11 +16,11 @@
 
 ### F.43.1. 提供的函式 [#](#tablefunc-functions-sect) <a href="#tablefunc-functions-sect" id="tablefunc-functions-sect"></a>
 
-[表 F.33](tablefunc.md#TABLEFUNC-FUNCTIONS) 摘要列出 `tablefunc` 模組提供的函式。
+[表 F.33](tablefunc.md#tablefunc-functions) 摘要列出 `tablefunc` 模組提供的函式。
 
 <a id="TABLEFUNC-FUNCTIONS"></a>
 
-**表 F.33. `tablefunc` 函式**
+### 表 F.33. `tablefunc` 函式 [#](#tablefunc-functions) <a href="#tablefunc-functions" id="tablefunc-functions"></a>
 
 <table border="1" class="table" summary="tablefunc 函式"><colgroup><col/></colgroup><thead><tr><th class="func_table_entry"><p class="func_signature">
         函式
@@ -455,11 +455,11 @@ connectby(text relname, text keyid_fld, text parent_keyid_fld
 
 `connectby` 函式會將儲存於資料表中的階層式資料顯示出來。該資料表必須有一個可唯一識別資料列的鍵欄位，以及一個參照各資料列之父資料列（若有的話）的父鍵欄位。`connectby` 可以顯示從任一資料列往下延伸的子樹。
 
-[表 F.34](tablefunc.md#TABLEFUNC-CONNECTBY-PARAMETERS) 說明各參數。
+[表 F.34](tablefunc.md#tablefunc-connectby-parameters) 說明各參數。
 
 <a id="TABLEFUNC-CONNECTBY-PARAMETERS"></a>
 
-**表 F.34. `connectby` 參數**
+### 表 F.34. `connectby` 參數 [#](#tablefunc-connectby-parameters) <a href="#tablefunc-connectby-parameters" id="tablefunc-connectby-parameters"></a>
 
 <table border="1" class="table" summary="connectby 參數"><colgroup><col/><col/></colgroup><thead><tr><th>參數</th><th>說明</th></tr></thead><tbody><tr><td><em class="parameter"><code>relname</code></em></td><td>來源關聯的名稱</td></tr><tr><td><em class="parameter"><code>keyid_fld</code></em></td><td>鍵欄位的名稱</td></tr><tr><td><em class="parameter"><code>parent_keyid_fld</code></em></td><td>父鍵欄位的名稱</td></tr><tr><td><em class="parameter"><code>orderby_fld</code></em></td><td>用來排序同層節點的欄位名稱（選用）</td></tr><tr><td><em class="parameter"><code>start_with</code></em></td><td>作為起點之資料列的鍵值</td></tr><tr><td><em class="parameter"><code>max_depth</code></em></td><td>向下展開的最大深度；零表示不限深度</td></tr><tr><td><em class="parameter"><code>branch_delim</code></em></td><td>在分支輸出中用來分隔各鍵的字串（選用）</td></tr></tbody></table>
 
