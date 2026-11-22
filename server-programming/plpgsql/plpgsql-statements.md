@@ -236,7 +236,7 @@ PL/pgSQL 的 `EXECUTE` 陳述式與 PostgreSQL 伺服器所支援的 [`EXECUTE`]
 
 <a id="PLPGSQL-QUOTE-LITERAL-EXAMPLE"></a>
 
-**範例 41.1. 為動態查詢中的值加上引號**
+### 範例 41.1. 為動態查詢中的值加上引號 [#](#plpgsql-quote-literal-example) <a href="#plpgsql-quote-literal-example" id="plpgsql-quote-literal-example"></a>
 
 <a id="id-1.8.8.7.6.13.2"></a><a id="id-1.8.8.7.6.13.3"></a><a id="id-1.8.8.7.6.13.4"></a><a id="id-1.8.8.7.6.13.5"></a>
 
@@ -328,7 +328,7 @@ EXECUTE format('UPDATE tbl SET %I = $1 WHERE key = $2', colname)
 
 <br>
 
-一個規模大得多的動態指令與 `EXECUTE` 例子，可以在[範例 41.10](plpgsql-porting.md#PLPGSQL-PORTING-EX2) 中看到，它會組建並執行一個 `CREATE FUNCTION` 指令來定義一個新的函式。
+一個規模大得多的動態指令與 `EXECUTE` 例子，可以在[範例 41.10](plpgsql-porting.md#plpgsql-porting-ex2) 中看到，它會組建並執行一個 `CREATE FUNCTION` 指令來定義一個新的函式。
 
 ### 41.5.5. 取得結果狀態 [#](#plpgsql-statements-diagnostics) <a href="#plpgsql-statements-diagnostics" id="plpgsql-statements-diagnostics"></a>
 

@@ -486,7 +486,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作識別符號的給定字串。只有在必要時（也就是字串包含非識別符號字元，或會被大小寫摺疊時）才會加上引號。內嵌的引號會被正確地重複。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">範例 41.1</a>。
+        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作識別符號的給定字串。只有在必要時（也就是字串包含非識別符號字元，或會被大小寫摺疊時）才會加上引號。內嵌的引號會被正確地重複。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#plpgsql-quote-literal-example">範例 41.1</a>。
        </p>
 <p>
 <code class="literal">quote_ident('Foo bar')</code>
@@ -497,7 +497,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作字串字面值的給定字串。內嵌的單引號與反斜線會被正確地重複。請注意，<code class="function">quote_literal</code> 在輸入為 null 時會回傳 null；如果引數可能為 null，<code class="function">quote_nullable</code> 通常更合適。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">範例 41.1</a>。
+        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作字串字面值的給定字串。內嵌的單引號與反斜線會被正確地重複。請注意，<code class="function">quote_literal</code> 在輸入為 null 時會回傳 null；如果引數可能為 null，<code class="function">quote_nullable</code> 通常更合適。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#plpgsql-quote-literal-example">範例 41.1</a>。
        </p>
 <p>
 <code class="literal">quote_literal(E'O\'Reilly')</code>
@@ -518,7 +518,7 @@ SQL 定義了一些使用關鍵字而非逗號來分隔引數的字串函式。�
         → <code class="returnvalue">text</code>
 </p>
 <p>
-        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作字串字面值的給定字串；或者，如果引數為 null，則回傳 <code class="literal">NULL</code>。內嵌的單引號與反斜線會被正確地重複。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE">範例 41.1</a>。
+        回傳適當加上引號、可在 <acronym class="acronym">SQL</acronym> 陳述式字串中用作字串字面值的給定字串；或者，如果引數為 null，則回傳 <code class="literal">NULL</code>。內嵌的單引號與反斜線會被正確地重複。另請參閱<a class="xref" href="../../server-programming/plpgsql/plpgsql-statements.md#plpgsql-quote-literal-example">範例 41.1</a>。
        </p>
 <p>
 <code class="literal">quote_nullable(NULL)</code>
@@ -1034,7 +1034,7 @@ SELECT format('Testing %3$s, %2$s, %s', 'one', 'two', 'three');
 Result: Testing three, two, three
 ```
 
-`%I` 與 `%L` 格式規範對於安全地建構動態 SQL 陳述式特別有用。請參閱[範例 41.1](../../server-programming/plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE)。
+`%I` 與 `%L` 格式規範對於安全地建構動態 SQL 陳述式特別有用。請參閱[範例 41.1](../../server-programming/plpgsql/plpgsql-statements.md#plpgsql-quote-literal-example)。
 
 ---
 

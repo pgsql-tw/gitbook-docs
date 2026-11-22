@@ -27,11 +27,11 @@ PL/pgSQL 在許多方面都與 PL/SQL 相似。它是一種區塊結構式的命
 
 ### 41.13.1. 移植範例 [#](#plpgsql-porting-examples) <a href="#plpgsql-porting-examples" id="plpgsql-porting-examples"></a>
 
-[範例 41.9](plpgsql-porting.md#PGSQL-PORTING-EX1) 展示如何把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL。
+[範例 41.9](plpgsql-porting.md#pgsql-porting-ex1) 展示如何把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL。
 
 <a id="PGSQL-PORTING-EX1"></a>
 
-**範例 41.9. 把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL**
+### 範例 41.9. 把一個簡單的函式從 PL/SQL 移植到 PL/pgSQL [#](#pgsql-porting-ex1) <a href="#pgsql-porting-ex1" id="pgsql-porting-ex1"></a>
 
 以下是一個 Oracle PL/SQL 函式：
 
@@ -75,11 +75,11 @@ $$ LANGUAGE plpgsql;
 
 <br>
 
-[範例 41.10](plpgsql-porting.md#PLPGSQL-PORTING-EX2) 展示如何移植一個會建立另一個函式的函式，以及如何處理隨之而來的引號問題。
+[範例 41.10](plpgsql-porting.md#plpgsql-porting-ex2) 展示如何移植一個會建立另一個函式的函式，以及如何處理隨之而來的引號問題。
 
 <a id="PLPGSQL-PORTING-EX2"></a>
 
-**範例 41.10. 把一個會建立另一個函式的函式從 PL/SQL 移植到 PL/pgSQL**
+### 範例 41.10. 把一個會建立另一個函式的函式從 PL/SQL 移植到 PL/pgSQL [#](#plpgsql-porting-ex2) <a href="#plpgsql-porting-ex2" id="plpgsql-porting-ex2"></a>
 
 為了效率起見，以下這個程序會從一個 `SELECT` 陳述式取出資料列，並用其結果在 `IF` 陳述式中建構出一個龐大的函式。
 
@@ -153,11 +153,11 @@ $func$ LANGUAGE plpgsql;
 
 <br>
 
-[範例 41.11](plpgsql-porting.md#PLPGSQL-PORTING-EX3) 展示如何移植一個帶有 `OUT` 參數並進行字串處理的函式。PostgreSQL 沒有內建的 `instr` 函式，但你可以結合其他函式自行建立一個。在[第 41.13.3 節](plpgsql-porting.md#plpgsql-porting-appendix)中有一份 `instr` 的 PL/pgSQL 實作，你可以拿來讓移植工作更輕鬆。
+[範例 41.11](plpgsql-porting.md#plpgsql-porting-ex3) 展示如何移植一個帶有 `OUT` 參數並進行字串處理的函式。PostgreSQL 沒有內建的 `instr` 函式，但你可以結合其他函式自行建立一個。在[第 41.13.3 節](plpgsql-porting.md#plpgsql-porting-appendix)中有一份 `instr` 的 PL/pgSQL 實作，你可以拿來讓移植工作更輕鬆。
 
 <a id="PLPGSQL-PORTING-EX3"></a>
 
-**範例 41.11. 把一個帶有字串處理與 `OUT` 參數的程序從 PL/SQL 移植到 PL/pgSQL**
+### 範例 41.11. 把一個帶有字串處理與 `OUT` 參數的程序從 PL/SQL 移植到 PL/pgSQL [#](#plpgsql-porting-ex3) <a href="#plpgsql-porting-ex3" id="plpgsql-porting-ex3"></a>
 
 以下這個 Oracle PL/SQL 程序用來剖析一個 URL，並回傳數個元素（host、path 與 query）。
 
@@ -256,11 +256,11 @@ SELECT * FROM cs_parse_url('http://foobar.com/query.cgi?baz');
 
 <br>
 
-[範例 41.12](plpgsql-porting.md#PLPGSQL-PORTING-EX4) 展示如何移植一個使用了許多 Oracle 特有功能的程序。
+[範例 41.12](plpgsql-porting.md#plpgsql-porting-ex4) 展示如何移植一個使用了許多 Oracle 特有功能的程序。
 
 <a id="PLPGSQL-PORTING-EX4"></a>
 
-**範例 41.12. 把一個程序從 PL/SQL 移植到 PL/pgSQL**
+### 範例 41.12. 把一個程序從 PL/SQL 移植到 PL/pgSQL [#](#plpgsql-porting-ex4) <a href="#plpgsql-porting-ex4" id="plpgsql-porting-ex4"></a>
 
 Oracle 版本：
 

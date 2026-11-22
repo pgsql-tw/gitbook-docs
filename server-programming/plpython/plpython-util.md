@@ -35,7 +35,7 @@ CONTEXT:  Traceback (most recent call last):
 PL/Python function "raise_custom_exception"
 ```
 
-另一組公用函式是 `plpy.quote_literal(string)`、`plpy.quote_nullable(string)` 與 `plpy.quote_ident(string)`。它們等同於[第 9.4 節](../../the-sql-language/functions/functions-string.md)所描述的內建引號處理函式，在組建臨時查詢時相當有用。[範例 41.1](../plpgsql/plpgsql-statements.md#PLPGSQL-QUOTE-LITERAL-EXAMPLE) 中的動態 SQL 若改寫成 PL/Python 版本，會是：
+另一組公用函式是 `plpy.quote_literal(string)`、`plpy.quote_nullable(string)` 與 `plpy.quote_ident(string)`。它們等同於[第 9.4 節](../../the-sql-language/functions/functions-string.md)所描述的內建引號處理函式，在組建臨時查詢時相當有用。[範例 41.1](../plpgsql/plpgsql-statements.md#plpgsql-quote-literal-example) 中的動態 SQL 若改寫成 PL/Python 版本，會是：
 
 ```
 
