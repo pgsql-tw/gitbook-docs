@@ -71,34 +71,34 @@ TABLE [ ONLY ] table_name [ * ]
    暫存資料表。在 `FROM` 中被參照超過一次的
    `WITH` 查詢，只會被計算一次，
    除非以 `NOT MATERIALIZED` 另行指定。
-   （詳見下文[WITH 子句](sql-select.md#SQL-WITH)。）
+   （詳見下文[WITH 子句](sql-select.md#with-zi-ju)。）
 2. `FROM` 清單中的所有元素都會被計算。
    （`FROM` 清單中的每個元素，都是一個實際或
    虛擬的資料表。）若 `FROM` 清單中指定了超過一個
    元素，它們會互相進行交叉連接（cross join）。
-   （詳見下文[FROM 子句](sql-select.md#SQL-FROM)。）
+   （詳見下文[FROM 子句](sql-select.md#from-zi-ju)。）
 3. 若指定了 `WHERE` 子句，所有不滿足
    該條件的資料列都會從輸出中剔除。（詳見下文
-   [WHERE 子句](sql-select.md#SQL-WHERE)。）
+   [WHERE 子句](sql-select.md#where-zi-ju)。）
 4. 若指定了 `GROUP BY` 子句，
    或存在彙總函式呼叫，
    輸出會依一個或多個值相符的資料列合併為群組，
    並計算彙總函式的結果。
    若存在 `HAVING` 子句，它會剔除不滿足
    給定條件的群組。（詳見下文
-   [GROUP BY 子句](sql-select.md#SQL-GROUPBY)與
-   [HAVING 子句](sql-select.md#SQL-HAVING)。）
+   [GROUP BY 子句](sql-select.md#group-by-zi-ju)與
+   [HAVING 子句](sql-select.md#having-zi-ju)。）
    雖然查詢輸出欄位名義上是在下一個步驟才計算，
    但它們仍可以（以名稱或序號）在
    `GROUP BY` 子句中被參照。
 5. 針對每個被選取的資料列或資料列群組，
    使用 `SELECT` 輸出運算式計算出實際的輸出資料列。
-   （詳見下文[SELECT 清單](sql-select.md#SQL-SELECT-LIST)。）
+   （詳見下文[SELECT 清單](sql-select.md#select-qing-dan)。）
 6. `SELECT DISTINCT` 會從結果中剔除重複的資料列。
    `SELECT DISTINCT ON` 會剔除彼此在所有指定運算式上
    都相符的重複資料列。`SELECT ALL`
    （預設值）會傳回所有候選資料列，包含重複者在內。
-   （詳見下文[DISTINCT 子句](sql-select.md#SQL-DISTINCT)。）
+   （詳見下文[DISTINCT 子句](sql-select.md#distinct-zi-ju)。）
 7. 使用 `UNION`、
    `INTERSECT` 與 `EXCEPT` 運算子，
    可以將超過一個 `SELECT` 陳述式的輸出
@@ -114,20 +114,20 @@ TABLE [ ONLY ] table_name [ * ]
    請注意，此處 `DISTINCT` 是預設行為，
    即便 `ALL` 才是 `SELECT`
    本身的預設值。（詳見下文
-   [UNION 子句](sql-select.md#SQL-UNION)、[INTERSECT 子句](sql-select.md#SQL-INTERSECT)與
-   [EXCEPT 子句](sql-select.md#SQL-EXCEPT)。）
+   [UNION 子句](sql-select.md#union-zi-ju)、[INTERSECT 子句](sql-select.md#intersect-zi-ju)與
+   [EXCEPT 子句](sql-select.md#except-zi-ju)。）
 8. 若指定了 `ORDER BY` 子句，傳回的資料列
    會依所指定的順序排序。若未給定
    `ORDER BY`，資料列會以系統認為
    產生速度最快的順序傳回。（詳見下文
-   [ORDER BY 子句](sql-select.md#SQL-ORDERBY)。）
+   [ORDER BY 子句](sql-select.md#order-by-zi-ju)。）
 9. 若指定了 `LIMIT`（或 `FETCH FIRST`）或 `OFFSET`
    子句，`SELECT` 陳述式只會傳回
-   結果資料列的一個子集。（詳見下文[LIMIT 子句](sql-select.md#SQL-LIMIT)。）
+   結果資料列的一個子集。（詳見下文[LIMIT 子句](sql-select.md#limit-zi-ju)。）
 10. 若指定了 `FOR UPDATE`、`FOR NO KEY UPDATE`、`FOR SHARE`
     或 `FOR KEY SHARE`，
     `SELECT` 陳述式會鎖定所選取的資料列，
-    以防止並行的更新。（詳見下文[鎖定子句](sql-select.md#SQL-FOR-UPDATE-SHARE)。）
+    以防止並行的更新。（詳見下文[鎖定子句](sql-select.md#suo-ding-zi-ju)。）
 
 你必須對 `SELECT` 命令中所用到的每個欄位都具有
 `SELECT` 權限。使用 `FOR NO KEY UPDATE`、
@@ -142,7 +142,7 @@ TABLE [ ONLY ] table_name [ * ]
 
 <a id="SQL-WITH"></a>
 
-### `WITH` 子句
+### `WITH` 子句 [#](#with-zi-ju) <a href="#with-zi-ju" id="with-zi-ju"></a>
 
 `WITH` 子句可讓你指定一個或多個子查詢，並可在主查詢中以名稱參照它們。
 在主查詢執行期間，這些子查詢實際上會作為暫存資料表或檢視表運作。
@@ -259,7 +259,7 @@ v12 之前的 PostgreSQL 版本從不進行
 
 <a id="SQL-FROM"></a>
 
-### `FROM` 子句
+### `FROM` 子句 [#](#from-zi-ju) <a href="#from-zi-ju" id="from-zi-ju"></a>
 
 `FROM` 子句為 `SELECT` 指定一個或多個來源資料表。
 若指定了多個來源，結果就是所有來源的笛卡兒積（交叉連接）。
@@ -502,7 +502,7 @@ LATERAL Y` 這樣的結構在語法上是有效的，
 
 <a id="SQL-WHERE"></a>
 
-### `WHERE` 子句
+### `WHERE` 子句 [#](#where-zi-ju) <a href="#where-zi-ju" id="where-zi-ju"></a>
 
 
 選擇性的 `WHERE` 子句，其一般形式為
@@ -519,7 +519,7 @@ WHERE condition
 
 <a id="SQL-GROUPBY"></a>
 
-### `GROUP BY` 子句
+### `GROUP BY` 子句 [#](#group-by-zi-ju) <a href="#group-by-zi-ju" id="group-by-zi-ju"></a>
 
 選擇性的 `GROUP BY` 子句，其一般形式為
 
@@ -576,7 +576,7 @@ GROUP BY [ ALL | DISTINCT ] grouping_element [, ...]
 
 <a id="SQL-HAVING"></a>
 
-### `HAVING` 子句
+### `HAVING` 子句 [#](#having-zi-ju) <a href="#having-zi-ju" id="having-zi-ju"></a>
 
 選擇性的 `HAVING` 子句，其一般形式為
 
@@ -642,14 +642,14 @@ WINDOW window_name AS ( window_definition ) [, ...]
 被複製的視窗則不得指定框架子句。
 
 `PARTITION BY` 清單中的元素，解讀方式與
-[`GROUP BY`](sql-select.md#SQL-GROUPBY) 子句中的元素大致相同，
+[`GROUP BY`](sql-select.md#group-by-zi-ju) 子句中的元素大致相同，
 差別在於它們一律是單純的運算式，絕不會是輸出欄位的
 名稱或序號。另一個差異是，這些運算式可以包含彙總函式呼叫，
 這在一般的 `GROUP BY` 子句中是不允許的。之所以在此允許，
 是因為視窗化是在分組與彙總之後才進行的。
 
 同樣地，`ORDER BY` 清單中的元素，解讀方式
-與陳述式層級 [`ORDER BY`](sql-select.md#SQL-ORDERBY) 子句中的元素
+與陳述式層級 [`ORDER BY`](sql-select.md#order-by-zi-ju) 子句中的元素
 大致相同，差別在於這些運算式一律被視為單純的運算式，
 絕不會是輸出欄位的名稱或序號。
 
@@ -752,8 +752,8 @@ CURRENT ROW` 相同；它會將框架設為從該分割的開頭，
 所有資料列，要嘛全部都在框架內，要嘛全部都被排除在框架外。
 
 `WINDOW` 子句的目的，是為查詢的
-[`SELECT` 清單](sql-select.md#SQL-SELECT-LIST)或
-[`ORDER BY`](sql-select.md#SQL-ORDERBY) 子句中出現的
+[`SELECT` 清單](sql-select.md#select-qing-dan)或
+[`ORDER BY`](sql-select.md#order-by-zi-ju) 子句中出現的
 *視窗函式*指定行為。這些函式可以在其
 `OVER` 子句中以名稱參照 `WINDOW` 子句項目。
 不過，`WINDOW` 子句項目不一定要在任何地方被參照；
@@ -774,7 +774,7 @@ CURRENT ROW` 相同；它會將框架設為從該分割的開頭，
 
 <a id="SQL-SELECT-LIST"></a>
 
-### `SELECT` 清單
+### `SELECT` 清單 [#](#select-qing-dan) <a href="#select-qing-dan" id="select-qing-dan"></a>
 
 
 `SELECT` 清單（位於 `SELECT` 與 `FROM`
@@ -838,7 +838,7 @@ f(x) FROM tab ORDER BY 1` 顯然必須在排序之前
 
 <a id="SQL-DISTINCT"></a>
 
-### `DISTINCT` 子句
+### `DISTINCT` 子句 [#](#distinct-zi-ju) <a href="#distinct-zi-ju" id="distinct-zi-ju"></a>
 
 
 若指定了 `SELECT DISTINCT`，結果集中所有重複的資料列
@@ -876,7 +876,7 @@ SELECT DISTINCT ON (location) location, time, report
 
 <a id="SQL-UNION"></a>
 
-### `UNION` 子句
+### `UNION` 子句 [#](#union-zi-ju) <a href="#union-zi-ju" id="union-zi-ju"></a>
 
 `UNION` 子句的一般形式如下：
 
@@ -919,7 +919,7 @@ BY`、`LIMIT`、`FOR NO KEY UPDATE`、`FOR UPDATE`、
 
 <a id="SQL-INTERSECT"></a>
 
-### `INTERSECT` 子句
+### `INTERSECT` 子句 [#](#intersect-zi-ju) <a href="#intersect-zi-ju" id="intersect-zi-ju"></a>
 
 
 `INTERSECT` 子句的一般形式如下：
@@ -960,7 +960,7 @@ C)`。
 
 <a id="SQL-EXCEPT"></a>
 
-### `EXCEPT` 子句
+### `EXCEPT` 子句 [#](#except-zi-ju) <a href="#except-zi-ju" id="except-zi-ju"></a>
 
 `EXCEPT` 子句的一般形式如下：
 
@@ -996,7 +996,7 @@ BY`、`LIMIT`、`FOR NO KEY UPDATE`、`FOR UPDATE`、
 
 <a id="SQL-ORDERBY"></a>
 
-### `ORDER BY` 子句
+### `ORDER BY` 子句 [#](#order-by-zi-ju) <a href="#order-by-zi-ju" id="order-by-zi-ju"></a>
 
 
 選擇性的 `ORDER BY` 子句，其一般形式如下：
@@ -1072,7 +1072,7 @@ SELECT name FROM distributors ORDER BY code;
 
 <a id="SQL-LIMIT"></a>
 
-### `LIMIT` 子句
+### `LIMIT` 子句 [#](#limit-zi-ju) <a href="#limit-zi-ju" id="limit-zi-ju"></a>
 
 
 `LIMIT` 子句由兩個各自獨立的子句組成：
@@ -1142,7 +1142,7 @@ PostgreSQL 較為寬鬆，允許任一順序。
 
 <a id="SQL-FOR-UPDATE-SHARE"></a>
 
-### 鎖定子句
+### 鎖定子句 [#](#suo-ding-zi-ju) <a href="#suo-ding-zi-ju" id="suo-ding-zi-ju"></a>
 
 
 `FOR UPDATE`、`FOR NO KEY UPDATE`、`FOR SHARE`
@@ -1288,7 +1288,7 @@ SELECT * FROM (SELECT * FROM mytable FOR UPDATE) ss ORDER BY column1;
 
 <a id="SQL-TABLE"></a>
 
-### `TABLE` 命令
+### `TABLE` 命令 [#](#table-ming-ling) <a href="#table-ming-ling" id="table-ming-ling"></a>
 
 命令
 
@@ -1666,7 +1666,7 @@ PostgreSQL 特有的語法，MySQL
 也使用相同語法。SQL:2008 標準引進了
 `OFFSET ... FETCH {FIRST|NEXT}
 ...` 子句以達成相同的功能，如前文
-[LIMIT 子句](sql-select.md#SQL-LIMIT)所示。
+[LIMIT 子句](sql-select.md#limit-zi-ju)所示。
 IBM DB2 也使用此語法。
 （為 Oracle 撰寫的應用程式，
 經常使用一種涉及自動產生之 `rownum` 欄位的

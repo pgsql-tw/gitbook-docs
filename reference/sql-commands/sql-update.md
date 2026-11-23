@@ -98,7 +98,7 @@ UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
 :   一個資料表運算式，讓其他資料表的欄位得以出現在
     `WHERE` 條件及更新運算式中。這使用的語法
     與 `SELECT` 陳述式的
-    [`FROM`](sql-select.md#SQL-FROM) 子句相同；
+    [`FROM`](sql-select.md#from-zi-ju) 子句相同；
     舉例來說，可以為資料表名稱指定別名。除非你想進行自我聯結
     （在這種情況下，該表必須以別名出現在
     *`from_item`* 中），否則不要在

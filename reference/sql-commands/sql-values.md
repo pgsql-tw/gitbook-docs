@@ -53,22 +53,22 @@ VALUES ( expression [, ...] ) [, ...]
     此運算式可以用 `column1`、`column2`
     等方式參照 `VALUES` 結果的欄位。詳情請參閱
     [SELECT](sql-select.md) 文件中的
-    [ORDER BY 子句](sql-select.md#SQL-ORDERBY)。
+    [ORDER BY 子句](sql-select.md#order-by-zi-ju)。
 
 *`operator`*
 :   排序運算子。詳情請參閱
     [SELECT](sql-select.md) 文件中的
-    [ORDER BY 子句](sql-select.md#SQL-ORDERBY)。
+    [ORDER BY 子句](sql-select.md#order-by-zi-ju)。
 
 *`count`*
 :   要傳回的資料列的最大數量。詳情請參閱
     [SELECT](sql-select.md) 文件中的
-    [LIMIT 子句](sql-select.md#SQL-LIMIT)。
+    [LIMIT 子句](sql-select.md#limit-zi-ju)。
 
 *`start`*
 :   在開始傳回資料列之前要略過的資料列數。
     詳情請參閱 [SELECT](sql-select.md) 文件中的
-    [LIMIT 子句](sql-select.md#SQL-LIMIT)。
+    [LIMIT 子句](sql-select.md#limit-zi-ju)。
 
 <a id="id-1.9.3.185.7"></a>
 

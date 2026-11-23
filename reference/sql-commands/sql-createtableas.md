@@ -82,7 +82,7 @@ CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXI
 :   *`tablespace_name`* 是要在其中建立新資料表的資料表空間名稱。若未指定，會參考 [default_tablespace](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLESPACE)；若資料表是暫存的，則參考 [temp_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#GUC-TEMP-TABLESPACES)。
 
 *`query`*
-:   一個 [`SELECT`](sql-select.md)、[`TABLE`](sql-select.md#SQL-TABLE) 或 [`VALUES`](sql-values.md) 命令，或是執行預備之 `SELECT`、`TABLE` 或 `VALUES` 查詢的 [`EXECUTE`](sql-execute.md) 命令。
+:   一個 [`SELECT`](sql-select.md)、[`TABLE`](sql-select.md#table-ming-ling) 或 [`VALUES`](sql-values.md) 命令，或是執行預備之 `SELECT`、`TABLE` 或 `VALUES` 查詢的 [`EXECUTE`](sql-execute.md) 命令。
 
 `WITH [ NO ] DATA`
 :   此子句指定查詢所產生的資料是否應該複製到新資料表中。若否，則只複製資料表結構。預設是複製資料。

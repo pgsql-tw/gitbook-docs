@@ -54,7 +54,7 @@ CREATE MATERIALIZED VIEW [ IF NOT EXISTS ] table_name
 :   *`tablespace_name`* 是要在其中建立新具體化檢視表的資料表空間名稱。若未指定，則會參考 [default_tablespace](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLESPACE)。
 
 *`query`*
-:   一個 [`SELECT`](sql-select.md)、[`TABLE`](sql-select.md#SQL-TABLE) 或 [`VALUES`](sql-values.md) 命令。此查詢會在安全限制操作（security-restricted operation）中執行；特別是，呼叫本身會建立暫存資料表的函式將會失敗。此外，在查詢執行期間，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog, pg_temp`。
+:   一個 [`SELECT`](sql-select.md)、[`TABLE`](sql-select.md#table-ming-ling) 或 [`VALUES`](sql-values.md) 命令。此查詢會在安全限制操作（security-restricted operation）中執行；特別是，呼叫本身會建立暫存資料表的函式將會失敗。此外，在查詢執行期間，[search_path](../../server-administration/runtime-config/runtime-config-client.md#GUC-SEARCH-PATH) 會暫時變更為 `pg_catalog, pg_temp`。
 
 `WITH [ NO ] DATA`
 :   此子句指定具體化檢視表是否應該在建立時填入資料。若否，該具體化檢視表會被標記為不可掃描，並且在使用 `REFRESH

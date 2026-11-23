@@ -22,7 +22,7 @@
 
 ### 7.2.1. `FROM` 子句 [#](#queries-from) <a href="#queries-from" id="queries-from"></a>
 
-[`FROM`](../../reference/sql-commands/sql-select.md#SQL-FROM) 子句會從以逗號分隔的資料表參照清單中所給定的一個或多個其他資料表，衍生出一個資料表。
+[`FROM`](../../reference/sql-commands/sql-select.md#from-zi-ju) 子句會從以逗號分隔的資料表參照清單中所給定的一個或多個其他資料表，衍生出一個資料表。
 
 ```
 
@@ -504,7 +504,7 @@ WHERE pname IS NULL;
 
 <a id="id-1.5.6.6.6.2"></a>
 
-[`WHERE`](../../reference/sql-commands/sql-select.md#SQL-WHERE) 子句的語法是
+[`WHERE`](../../reference/sql-commands/sql-select.md#where-zi-ju) 子句的語法是
 
 ```
 
@@ -575,7 +575,7 @@ SELECT select_list
     GROUP BY grouping_column_reference [, grouping_column_reference]...
 ```
 
-[`GROUP BY`](../../reference/sql-commands/sql-select.md#SQL-GROUPBY) 子句用來將資料表中在所有列出的欄位上都具有相同值的資料列分組在一起。欄位列出的順序並不重要。其效果是將每一組具有共同值的資料列合併為一筆群組資料列，代表該群組中的所有資料列。這麼做是為了排除輸出中的冗餘，或計算套用在這些群組上的彙總函式。例如：
+[`GROUP BY`](../../reference/sql-commands/sql-select.md#group-by-zi-ju) 子句用來將資料表中在所有列出的欄位上都具有相同值的資料列分組在一起。欄位列出的順序並不重要。其效果是將每一組具有共同值的資料列合併為一筆群組資料列，代表該群組中的所有資料列。這麼做是為了排除輸出中的冗餘，或計算套用在這些群組上的彙總函式。例如：
 
 ```
 

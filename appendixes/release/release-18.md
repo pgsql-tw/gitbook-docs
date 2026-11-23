@@ -147,20 +147,20 @@ PostgreSQL 18 包含許多新功能與改進，包括：
 * 允許將 [`OR`](../../the-sql-language/functions/functions-logical.md) 子句轉換為陣列，以加快索引處理 (Alexander Korotkov, Andrey
   Lepikhov)
   [§](https://postgr.es/c/ae4569161)
-* 加快 [`INTERSECT`](../../reference/sql-commands/sql-select.md#SQL-INTERSECT)、
-  [`EXCEPT`](../../reference/sql-commands/sql-select.md#SQL-EXCEPT)、[視窗彙總函式](../../tutorial/tutorial-advanced/tutorial-window.md)與[檢視表欄位別名](../../reference/sql-commands/sql-createview.md)的處理速度 (Tom Lane,
+* 加快 [`INTERSECT`](../../reference/sql-commands/sql-select.md#intersect-zi-ju)、
+  [`EXCEPT`](../../reference/sql-commands/sql-select.md#except-zi-ju)、[視窗彙總函式](../../tutorial/tutorial-advanced/tutorial-window.md)與[檢視表欄位別名](../../reference/sql-commands/sql-createview.md)的處理速度 (Tom Lane,
   David Rowley)
   [§](https://postgr.es/c/52c707483)
   [§](https://postgr.es/c/276279295)
   [§](https://postgr.es/c/8d96f57d5)
   [§](https://postgr.es/c/908a96861)
 * 允許在內部重新排列 [`SELECT
-  DISTINCT`](../../reference/sql-commands/sql-select.md#SQL-DISTINCT) 的鍵順序以避免排序
+  DISTINCT`](../../reference/sql-commands/sql-select.md#distinct-zi-ju) 的鍵順序以避免排序
   (Richard Guo)
   [§](https://postgr.es/c/a8ccf4e93)
 
   可以使用 [enable_distinct_reordering](../../server-administration/runtime-config/runtime-config-query.md#GUC-ENABLE-DISTINCT-REORDERING) 停用此最佳化。
-* 忽略函數相依於其他欄位的 [`GROUP BY`](../../reference/sql-commands/sql-select.md#SQL-GROUPBY)
+* 忽略函數相依於其他欄位的 [`GROUP BY`](../../reference/sql-commands/sql-select.md#group-by-zi-ju)
   欄位 (Zhang
   Mingli, Jian He, David Rowley)
   [§](https://postgr.es/c/bd10ec529)
@@ -168,7 +168,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   若 `GROUP BY` 子句包含某個唯一值索引的所有欄位，以及同一資料表的其他欄位，那些其他欄位就是多餘的，可以從分組中捨去。
   對於非延遲的主鍵，原本就已如此。
 * 允許將 [`GROUPING
-  SETS`](../../the-sql-language/queries/queries-table-expressions.md#queries-grouping-sets) 上的某些 [`HAVING`](../../reference/sql-commands/sql-select.md#SQL-HAVING) 子句下推為 [`WHERE`](../../reference/sql-commands/sql-select.md#SQL-WHERE) 子句
+  SETS`](../../the-sql-language/queries/queries-table-expressions.md#queries-grouping-sets) 上的某些 [`HAVING`](../../reference/sql-commands/sql-select.md#having-zi-ju) 子句下推為 [`WHERE`](../../reference/sql-commands/sql-select.md#where-zi-ju) 子句
   (Richard Guo)
   [§](https://postgr.es/c/67a54b9e8)
   [§](https://postgr.es/c/247dea89f)
@@ -257,7 +257,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   (Tomas Vondra)
   [§](https://postgr.es/c/c4d5cb71d)
 * 改進雜湊連接與
-  [`GROUP BY`](../../reference/sql-commands/sql-select.md#SQL-GROUPBY) 的效能並減少記憶體用量
+  [`GROUP BY`](../../reference/sql-commands/sql-select.md#group-by-zi-ju) 的效能並減少記憶體用量
   (David Rowley, Jeff Davis)
   [§](https://postgr.es/c/adf97c156)
   [§](https://postgr.es/c/0f5738202)
@@ -265,7 +265,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/a0942f441)
   [§](https://postgr.es/c/626df47ad)
 
-  這也改進了 [`EXCEPT`](../../reference/sql-commands/sql-select.md#SQL-EXCEPT) 使用的雜湊集合運算，以及子計畫值的雜湊查找。
+  這也改進了 [`EXCEPT`](../../reference/sql-commands/sql-select.md#except-zi-ju) 使用的雜湊集合運算，以及子計畫值的雜湊查找。
 * 允許一般清理凍結某些頁面，即使這些頁面已全部可見 (Melanie Plageman)
   [§](https://postgr.es/c/052026c9b)
   [§](https://postgr.es/c/06eae9e62)
@@ -300,7 +300,7 @@ PostgreSQL 18 包含許多新功能與改進，包括：
   [§](https://postgr.es/c/73bdcfab3)
 
   具體來說，它會回報 [`SELECT
-  ... NOWAIT`](../../reference/sql-commands/sql-select.md#SQL-FOR-UPDATE-SHARE) 的鎖定失敗。
+  ... NOWAIT`](../../reference/sql-commands/sql-select.md#suo-ding-zi-ju) 的鎖定失敗。
 * 修改 [`pg_stat_all_tables`](../../server-administration/monitoring/monitoring-stats/monitoring-pg-stat-all-tables-view.md#monitoring-pg-stat-all-tables-view)
   及其變體，以回報花費在 [VACUUM](../../reference/sql-commands/sql-vacuum.md)、[ANALYZE](../../reference/sql-commands/sql-analyze.md) 及其
   [自動](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)版本上的時間 (Sami Imseih)

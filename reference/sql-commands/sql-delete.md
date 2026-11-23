@@ -48,7 +48,7 @@ DELETE FROM [ ONLY ] table_name [ * ] [ [ AS ] alias ]
 :   目標資料表的替代名稱。若提供了別名，就會完全隱藏該資料表的實際名稱。例如，給定 `DELETE FROM foo AS f` 時，`DELETE` 陳述式的其餘部分必須以 `f` 而非 `foo` 來參照此資料表。
 
 *`from_item`*
-:   一個資料表運算式，讓其他資料表的欄位得以出現在 `WHERE` 條件中。這使用的語法與 `SELECT` 陳述式的 [`FROM`](sql-select.md#SQL-FROM) 子句相同；例如，可以為資料表名稱指定別名。除非您想建立自我連接（在這種情況下，目標資料表必須以別名出現在 *`from_item`* 中），否則不要將目標資料表重複列為 *`from_item`*。
+:   一個資料表運算式，讓其他資料表的欄位得以出現在 `WHERE` 條件中。這使用的語法與 `SELECT` 陳述式的 [`FROM`](sql-select.md#from-zi-ju) 子句相同；例如，可以為資料表名稱指定別名。除非您想建立自我連接（在這種情況下，目標資料表必須以別名出現在 *`from_item`* 中），否則不要將目標資料表重複列為 *`from_item`*。
 
 *`condition`*
 :   傳回 `boolean` 型別值的運算式。只有這個運算式傳回 `true` 的資料列才會被刪除。

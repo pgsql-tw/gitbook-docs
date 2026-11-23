@@ -41,7 +41,7 @@ initial connection time = 45.758 ms
 tps = 896.967014 (without initial connection time)
 ```
 
-前七行回報了一些最重要的參數設定。第六行回報在發生序列化錯誤或死結錯誤時，交易的最大嘗試次數（詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)）。第八行回報已完成與預期的交易數（後者就是用戶端數乘以每個用戶端的交易數）；除非執行在完成前失敗，或有 SQL 命令失敗，否則這兩個數字會相等。（在 `-T` 模式下，只會印出實際的交易數。）下一行回報因序列化錯誤或死結錯誤而失敗的交易數（詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)）。最後一行回報每秒交易數。
+前七行回報了一些最重要的參數設定。第六行回報在發生序列化錯誤或死結錯誤時，交易的最大嘗試次數（詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)）。第八行回報已完成與預期的交易數（後者就是用戶端數乘以每個用戶端的交易數）；除非執行在完成前失敗，或有 SQL 命令失敗，否則這兩個數字會相等。（在 `-T` 模式下，只會印出實際的交易數。）下一行回報因序列化錯誤或死結錯誤而失敗的交易數（詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)）。最後一行回報每秒交易數。
 
 預設的類 TPC-B 交易測試需要事先建立特定的資料表。應該以 `-i`（初始化）選項呼叫 pgbench 來建立這些資料表並填入資料。（測試自訂腳本時不需要這個步驟，但你需要改為進行測試所需的任何設定。）初始化看起來像這樣：
 
@@ -204,7 +204,7 @@ pgbench 接受下列命令列效能基準測試引數：
 
 使用節流（`--rate=...`）時，落後排程超過 *`limit`* 毫秒、因而不可能符合延遲限制的交易，完全不會被送到伺服器。這些交易會被計數，並以 *skipped*（略過）另外回報。
 
-使用 `--max-tries` 選項時，因序列化異常或死結而失敗的交易，若其所有嘗試的總時間大於 *`limit`* 毫秒，就不會再重試。若只要限制嘗試的時間而不限制嘗試次數，請使用 `--max-tries=0`。預設情況下，選項 `--max-tries` 設為 1，發生序列化／死結錯誤的交易不會重試。關於重試這類交易的詳細資訊，請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+使用 `--max-tries` 選項時，因序列化異常或死結而失敗的交易，若其所有嘗試的總時間大於 *`limit`* 毫秒，就不會再重試。若只要限制嘗試的時間而不限制嘗試次數，請使用 `--max-tries=0`。預設情況下，選項 `--max-tries` 設為 1，發生序列化／死結錯誤的交易不會重試。關於重試這類交易的詳細資訊，請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
 <a id="PGBENCH-OPTION-PROTOCOL"></a>
 
 `-M` *`querymode`*<br>`--protocol=`*`querymode`* [#](#PGBENCH-OPTION-PROTOCOL)
@@ -277,7 +277,7 @@ pgbench 接受下列命令列效能基準測試引數：
 
 當有任何用戶端因某個錯誤而中止時，立即結束。若不使用此選項，即使有用戶端中止，其他用戶端仍可能依 `-t` 或 `-T` 選項的指定繼續執行，而在這種情況下 pgbench 會印出不完整的結果。
 
-請注意，序列化失敗或死結失敗不會中止用戶端，因此不受此選項影響。詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+請注意，序列化失敗或死結失敗不會中止用戶端，因此不受此選項影響。詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
 <a id="PGBENCH-OPTION-FAILURES-DETAILED"></a>
 
 `--failures-detailed` [#](#PGBENCH-OPTION-FAILURES-DETAILED)
@@ -287,7 +287,7 @@ pgbench 接受下列命令列效能基準測試引數：
 * 序列化失敗；
 * 死結失敗；
 
-詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
 <a id="PGBENCH-OPTION-LOG-PREFIX"></a>
 
 `--log-prefix=prefix` [#](#PGBENCH-OPTION-LOG-PREFIX)
@@ -295,7 +295,7 @@ pgbench 接受下列命令列效能基準測試引數：
 <a id="PGBENCH-OPTION-MAX-TRIES"></a>
 
 `--max-tries=number_of_tries` [#](#PGBENCH-OPTION-MAX-TRIES)
-:   啟用發生序列化／死結錯誤之交易的重試，並設定這類嘗試的最大次數。此選項可以與 `--latency-limit` 選項合併使用，後者會限制所有交易嘗試的總時間；此外，若沒有 `--latency-limit` 或 `--time`，就不能使用無限次的嘗試（`--max-tries=0`）。預設值為 1，發生序列化／死結錯誤的交易不會重試。關於重試這類交易的詳細資訊，請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+:   啟用發生序列化／死結錯誤之交易的重試，並設定這類嘗試的最大次數。此選項可以與 `--latency-limit` 選項合併使用，後者會限制所有交易嘗試的總時間；此外，若沒有 `--latency-limit` 或 `--time`，就不能使用無限次的嘗試（`--max-tries=0`）。預設值為 1，發生序列化／死結錯誤的交易不會重試。關於重試這類交易的詳細資訊，請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
 <a id="PGBENCH-OPTION-PROGRESS-TIMESTAMP"></a>
 
 `--progress-timestamp` [#](#PGBENCH-OPTION-PROGRESS-TIMESTAMP)
@@ -321,7 +321,7 @@ pgbench 接受下列命令列效能基準測試引數：
 <a id="PGBENCH-OPTION-VERBOSE-ERRORS"></a>
 
 `--verbose-errors` [#](#PGBENCH-OPTION-VERBOSE-ERRORS)
-:   印出所有錯誤與失敗（未重試的錯誤）的相關訊息，對於序列化／死結失敗，還包括超過了哪一個重試限制，以及超過了多少。（請注意，在這種情況下，輸出量可能大幅增加。）詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+:   印出所有錯誤與失敗（未重試的錯誤）的相關訊息，對於序列化／死結失敗，還包括超過了哪一個重試限制，以及超過了多少。（請注意，在這種情況下，輸出量可能大幅增加。）詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
 
 <a id="PGBENCH-COMMON-OPTIONS"></a>
 
@@ -379,7 +379,7 @@ pgbench 也接受下列用於連線參數與其他通用設定的通用命令列
 
 <a id="TRANSACTIONS-AND-SCRIPTS"></a>
 
-### pgbench 中實際執行的「交易」是什麼？
+### pgbench 中實際執行的「交易」是什麼？ [#](#pgbench-zhong-shi-ji-zhi-xing-de-jiao-yi-shi-shen-mo) <a href="#pgbench-zhong-shi-ji-zhi-xing-de-jiao-yi-shi-shen-mo" id="pgbench-zhong-shi-ji-zhi-xing-de-jiao-yi-shi-shen-mo"></a>
 
 pgbench 會執行從指定清單中隨機選出的測試腳本。這些腳本可能包括以 `-b` 指定的內建腳本，以及以 `-f` 指定的使用者提供腳本。每個腳本都可以在 `@` 之後指定一個相對權重，以改變其被選中的機率。預設權重為 `1`。權重為 `0` 的腳本會被忽略。
 
@@ -458,7 +458,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 
 `\set varname expression` [#](#PGBENCH-METACOMMAND-SET)
 
-將變數 *`varname`* 設為由 *`expression`* 計算出的值。運算式可以包含 `NULL` 常數、布林常數 `TRUE` 與 `FALSE`、整數常數（例如 `5432`）、倍精度常數（例如 `3.14159`）、對變數的參照 `:`*`variablename`*、具有一般 SQL 優先順序與結合性的[運算子](pgbench.md#PGBENCH-BUILTIN-OPERATORS)、[函式呼叫](pgbench.md#PGBENCH-BUILTIN-FUNCTIONS)、SQL [`CASE` 通用條件運算式](../../the-sql-language/functions/functions-conditional.md#functions-case)以及括號。
+將變數 *`varname`* 設為由 *`expression`* 計算出的值。運算式可以包含 `NULL` 常數、布林常數 `TRUE` 與 `FALSE`、整數常數（例如 `5432`）、倍精度常數（例如 `3.14159`）、對變數的參照 `:`*`variablename`*、具有一般 SQL 優先順序與結合性的[運算子](pgbench.md#nei-jian-yun-suan-zi)、[函式呼叫](pgbench.md#nei-jian-han-shi)、SQL [`CASE` 通用條件運算式](../../the-sql-language/functions/functions-conditional.md#functions-case)以及括號。
 
 函式與大多數運算子在輸入為 `NULL` 時會傳回 `NULL`。
 
@@ -522,7 +522,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 
 <a id="PGBENCH-BUILTIN-OPERATORS"></a>
 
-### 內建運算子
+### 內建運算子 [#](#nei-jian-yun-suan-zi) <a href="#nei-jian-yun-suan-zi" id="nei-jian-yun-suan-zi"></a>
 
 [表 302](pgbench.md#pgbench-operators) 所列的算術、位元、比較與邏輯運算子內建於 pgbench 中，可用於出現在 [`\set`](pgbench.md#PGBENCH-METACOMMAND-SET) 中的運算式。這些運算子依優先順序由低到高列出。除非另有註明，接受兩個數值輸入的運算子，若任一輸入為倍精度，會產生倍精度值，否則會產生整數結果。
 
@@ -784,7 +784,7 @@ pgbench 腳本被假定不包含不完整的 SQL 交易區塊。若在執行時�
 
 <a id="PGBENCH-BUILTIN-FUNCTIONS"></a>
 
-### 內建函式
+### 內建函式 [#](#nei-jian-han-shi) <a href="#nei-jian-han-shi" id="nei-jian-han-shi"></a>
 
 [表 303](pgbench.md#pgbench-functions) 所列的函式內建於 pgbench 中，可用於出現在 [`\set`](pgbench.md#PGBENCH-METACOMMAND-SET) 中的運算式。
 
@@ -1128,7 +1128,7 @@ END;
 *`retries`*
 :   交易期間因序列化錯誤或死結錯誤而重試的次數（只有在 `--max-tries` 不等於 1 時才會出現）
 
-同時使用 `--rate` 與 `--latency-limit` 時，被略過之交易的 *`time`* 會回報為 `skipped`。若交易以失敗告終，其 *`time`* 會回報為 `failed`。若你使用 `--failures-detailed` 選項，失敗交易的 *`time`* 會依失敗類型回報為 `serialization` 或 `deadlock`（詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)）。
+同時使用 `--rate` 與 `--latency-limit` 時，被略過之交易的 *`time`* 會回報為 `skipped`。若交易以失敗告終，其 *`time`* 會回報為 `failed`。若你使用 `--failures-detailed` 選項，失敗交易的 *`time`* 會依失敗類型回報為 `serialization` 或 `deadlock`（詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)）。
 
 以下是單一用戶端執行所產生之日誌檔的片段：
 
@@ -1259,8 +1259,8 @@ pgbench --aggregate-interval=10 --time=20 --client=10 --log --rate=1000 --latenc
 使用 `-r` 選項時，pgbench 會為每個陳述式收集下列統計資料：
 
 * `latency`——每個陳述式所經過的交易時間。pgbench 回報該陳述式所有成功執行的平均值。
-* 此陳述式中的失敗次數。詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
-* 此陳述式中因序列化錯誤或死結錯誤而重試的次數。詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#FAILURES-AND-RETRIES)。
+* 此陳述式中的失敗次數。詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
+* 此陳述式中因序列化錯誤或死結錯誤而重試的次數。詳細資訊請參閱[失敗與序列化／死結重試](pgbench.md#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi)。
 
 只有在 `--max-tries` 選項不等於 1 時，報告才會顯示重試統計資料。
 
@@ -1341,7 +1341,7 @@ statement latencies in milliseconds, failures and retries:
 
 <a id="FAILURES-AND-RETRIES"></a>
 
-### 失敗與序列化／死結重試
+### 失敗與序列化／死結重試 [#](#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi) <a href="#shi-bai-yu-xu-lie-hua-si-jie-zhong-shi" id="shi-bai-yu-xu-lie-hua-si-jie-zhong-shi"></a>
 
 執行 pgbench 時，主要有三種類型的錯誤：
 
@@ -1354,7 +1354,7 @@ statement latencies in milliseconds, failures and retries:
 * 執行緒管理其用戶端時的錯誤（例如用戶端無法啟動與資料庫伺服器的連線／用於將用戶端連線到資料庫伺服器的 socket 已變得無效）。在這類情況下，此執行緒的所有用戶端都會停止，而其他執行緒則繼續運作。不過，若指定了 `--exit-on-abort`，在這種情況下所有執行緒都會立即停止。
 * 用戶端的直接錯誤。在 pgbench 內部錯誤（理應永遠不會發生……）的情況下，或指定了 `--exit-on-abort` 時，這類錯誤會導致 pgbench 立即結束並顯示對應的錯誤訊息。否則，在最壞的情況下，這類錯誤只會導致失敗的用戶端中止，而其他用戶端繼續執行（但有些用戶端錯誤的處理方式不會中止用戶端，並會另外回報，請參閱下文）。在本節後續內容中，假定所討論的錯誤只有用戶端的直接錯誤，而且不是 pgbench 的內部錯誤。
 
-發生嚴重錯誤時，用戶端的執行會被中止；例如，與資料庫伺服器的連線中斷，或在未完成最後一筆交易的情況下到達腳本結尾。此外，若 SQL 命令或中繼命令的執行因序列化錯誤或死結錯誤以外的原因而失敗，用戶端會被中止。否則，若 SQL 命令因序列化錯誤或死結錯誤而失敗，用戶端不會被中止。在這類情況下，目前的交易會被復原，這也包括將用戶端變數設回執行此交易之前的狀態（這裡假定一個交易腳本只包含一筆交易；詳細資訊請參閱[pgbench 中實際執行的「交易」是什麼？](pgbench.md#TRANSACTIONS-AND-SCRIPTS)）。發生序列化錯誤或死結錯誤的交易，會在復原之後重複執行，直到成功完成，或達到最大嘗試次數（由 `--max-tries` 選項指定）／重試的最長時間（由 `--latency-limit` 選項指定）／效能基準測試的結束（由 `--time` 選項指定）為止。若最後一次嘗試執行失敗，此交易會被回報為失敗，但用戶端不會被中止，並繼續運作。
+發生嚴重錯誤時，用戶端的執行會被中止；例如，與資料庫伺服器的連線中斷，或在未完成最後一筆交易的情況下到達腳本結尾。此外，若 SQL 命令或中繼命令的執行因序列化錯誤或死結錯誤以外的原因而失敗，用戶端會被中止。否則，若 SQL 命令因序列化錯誤或死結錯誤而失敗，用戶端不會被中止。在這類情況下，目前的交易會被復原，這也包括將用戶端變數設回執行此交易之前的狀態（這裡假定一個交易腳本只包含一筆交易；詳細資訊請參閱[pgbench 中實際執行的「交易」是什麼？](pgbench.md#pgbench-zhong-shi-ji-zhi-xing-de-jiao-yi-shi-shen-mo)）。發生序列化錯誤或死結錯誤的交易，會在復原之後重複執行，直到成功完成，或達到最大嘗試次數（由 `--max-tries` 選項指定）／重試的最長時間（由 `--latency-limit` 選項指定）／效能基準測試的結束（由 `--time` 選項指定）為止。若最後一次嘗試執行失敗，此交易會被回報為失敗，但用戶端不會被中止，並繼續運作。
 
 <a id="FAILURES-AND-RETRIES-NOTE"></a>
 
