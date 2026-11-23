@@ -808,11 +808,11 @@ table2-mapping
 
 其中綱要對應如上所述。
 
-作為使用這些函式所產生之輸出的範例，[範例 9.1](functions-xml.md#XSLT-XML-HTML) 展示了一份 XSLT 樣式表，它會將 `table_to_xml_and_xmlschema` 的輸出轉換為一份以表格呈現資料表資料的 HTML 文件。以類似的方式，這些函式的結果也可以轉換為其他以 XML 為基礎的格式。
+作為使用這些函式所產生之輸出的範例，[範例 9.1](functions-xml.md#xslt-xml-html) 展示了一份 XSLT 樣式表，它會將 `table_to_xml_and_xmlschema` 的輸出轉換為一份以表格呈現資料表資料的 HTML 文件。以類似的方式，這些函式的結果也可以轉換為其他以 XML 為基礎的格式。
 
 <a id="XSLT-XML-HTML"></a>
 
-**範例 9.1. 將 SQL/XML 輸出轉換為 HTML 的 XSLT 樣式表**
+### 範例 9.1. 將 SQL/XML 輸出轉換為 HTML 的 XSLT 樣式表 [#](#xslt-xml-html) <a href="#xslt-xml-html" id="xslt-xml-html"></a>
 
 ```
 

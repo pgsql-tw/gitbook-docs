@@ -2,7 +2,7 @@
 
 ## 33.5. 範例程式 [#](#lo-examplesect) <a href="#lo-examplesect" id="lo-examplesect"></a>
 
-[範例 33.1](lo-examplesect.md#LO-EXAMPLE) 是一個範例程式，示範如何使用
+[範例 33.1](lo-examplesect.md#lo-example) 是一個範例程式，示範如何使用
 libpq 中的大型物件
 介面。程式中有部分內容被註解掉，
 但為了方便讀者參考而保留在原始碼中。
@@ -11,7 +11,7 @@ libpq 中的大型物件
 
 <a id="LO-EXAMPLE"></a>
 
-**範例 33.1. 使用 libpq 的大型物件範例程式**
+### 範例 33.1. 使用 libpq 的大型物件範例程式 [#](#lo-example) <a href="#lo-example" id="lo-example"></a>
 
 ```
 

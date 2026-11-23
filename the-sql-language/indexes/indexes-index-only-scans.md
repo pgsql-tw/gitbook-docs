@@ -86,7 +86,7 @@ CREATE INDEX tab_f_x ON tab (f(x)) INCLUDE (x);
 
 如果目標是避免重新計算 `f(x)`，還有一個額外的注意事項：規劃器不一定會將不在可索引 `WHERE` 子句中的 `f(x)` 用法對應到該索引欄位。在像上面這樣的簡單查詢中，它通常能處理正確，但在涉及聯結的查詢中則不然。這些不足之處可能會在 PostgreSQL 的未來版本中改善。
 
-部分索引與僅索引掃描之間也有一些有趣的交互作用。考慮[範例 11.3](indexes-partial.md#INDEXES-PARTIAL-EX3) 中的部分索引：
+部分索引與僅索引掃描之間也有一些有趣的交互作用。考慮[範例 11.3](indexes-partial.md#indexes-partial-ex3) 中的部分索引：
 
 ```
 

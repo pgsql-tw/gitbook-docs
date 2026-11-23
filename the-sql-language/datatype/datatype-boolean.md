@@ -26,11 +26,11 @@ PostgreSQL 提供標準 SQL 的 `boolean` 型別；請參閱[表 8.19](datatype-
 
 這些字串的唯一前綴也同樣被接受，例如 `t` 或 `n`。開頭或結尾的空白會被忽略，而且不區分大小寫。
 
-`boolean` 型別的資料型別輸出函式一律只輸出 `t` 或 `f`，如[範例 8.2](datatype-boolean.md#DATATYPE-BOOLEAN-EXAMPLE)所示。
+`boolean` 型別的資料型別輸出函式一律只輸出 `t` 或 `f`，如[範例 8.2](datatype-boolean.md#datatype-boolean-example)所示。
 
 <a id="DATATYPE-BOOLEAN-EXAMPLE"></a>
 
-**範例 8.2. 使用 `boolean` 型別**
+### 範例 8.2. 使用 `boolean` 型別 [#](#datatype-boolean-example) <a href="#datatype-boolean-example" id="datatype-boolean-example"></a>
 
 ```
 

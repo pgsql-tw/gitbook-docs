@@ -40,11 +40,11 @@
 
 最後一個區段是「特殊區段」，可以包含存取方法想要儲存的任何內容。例如，b-tree 索引會儲存指向頁面左右相鄰頁面的連結，以及一些與索引結構相關的其他資料。一般資料表完全不使用特殊區段（藉由將 `pd_special` 設定為等於頁面大小來表示）。
 
-[圖 66.1](storage-page-layout.md#STORAGE-PAGE-LAYOUT-FIGURE) 說明這些部分在頁面中的配置方式。
+[圖 66.1](storage-page-layout.md#storage-page-layout-figure) 說明這些部分在頁面中的配置方式。
 
 <a id="STORAGE-PAGE-LAYOUT-FIGURE"></a>
 
-**圖 66.1. 頁面配置**
+### 圖 66.1. 頁面配置 [#](#storage-page-layout-figure) <a href="#storage-page-layout-figure" id="storage-page-layout-figure"></a>
 
 <figure><img src="../../.gitbook/assets/68.6.pagelayout.png" alt="圖 66.1. 頁面配置"><figcaption></figcaption></figure>
 

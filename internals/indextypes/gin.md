@@ -108,7 +108,7 @@ GIN 的運算子類別可以選擇性地提供下列方法：
 
 ### 65.4.4. 實作 [#](#gin-implementation) <a href="#gin-implementation" id="gin-implementation"></a>
 
-在內部，GIN 索引包含一個建構在鍵上的 B-tree 索引，其中每個鍵是一個或多個被索引項目的元素（例如陣列的成員），而葉節點頁面中的每個 tuple 所包含的，要麼是指向由堆積指標組成之 B-tree（「posting tree」）的指標，要麼是在清單小到足以與鍵值一起放進單一索引 tuple 時，由堆積指標組成的簡單清單（「posting list」）。[圖 65.1](gin.md#GIN-INTERNALS-FIGURE) 說明了 GIN 索引的這些組成部分。
+在內部，GIN 索引包含一個建構在鍵上的 B-tree 索引，其中每個鍵是一個或多個被索引項目的元素（例如陣列的成員），而葉節點頁面中的每個 tuple 所包含的，要麼是指向由堆積指標組成之 B-tree（「posting tree」）的指標，要麼是在清單小到足以與鍵值一起放進單一索引 tuple 時，由堆積指標組成的簡單清單（「posting list」）。[圖 65.1](gin.md#gin-internals-figure) 說明了 GIN 索引的這些組成部分。
 
 從 PostgreSQL 9.1 開始，null 鍵值可以包含在索引中。此外，對於本身為 null，或依 `extractValue` 判定不含任何鍵的被索引項目，索引中也會包含作為預留位置的 null。這讓應該找到空項目的搜尋能夠找到它們。
 
@@ -116,7 +116,7 @@ GIN 的運算子類別可以選擇性地提供下列方法：
 
 <a id="GIN-INTERNALS-FIGURE"></a>
 
-**圖 65.1. GIN 內部結構**
+### 圖 65.1. GIN 內部結構 [#](#gin-internals-figure) <a href="#gin-internals-figure" id="gin-internals-figure"></a>
 
 <figure><img src="../../.gitbook/assets/gin.png" alt="圖 65.1. GIN 內部結構"><figcaption></figcaption></figure>
 

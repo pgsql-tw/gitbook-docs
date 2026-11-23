@@ -54,11 +54,11 @@
 
    選用的關鍵字 `TRUSTED` 表示該語言不會授予使用者原本無法取得的資料存取權。受信任的語言是為一般資料庫使用者（沒有超級使用者權限的使用者）設計的，讓他們能夠安全地建立函式與程序。由於 PL 函式是在資料庫伺服器內部執行的，`TRUSTED` 旗標只應該給予那些不允許存取資料庫伺服器內部或檔案系統的語言。PL/pgSQL、PL/Tcl 與 PL/Perl 這些語言被視為受信任的；而 PL/TclU、PL/PerlU 與 PL/PythonU 這些語言則是設計來提供不受限制的功能，因此*不*應該被標記為受信任。
 
-[範例 40.1](xplang-install.md#XPLANG-INSTALL-EXAMPLE) 示範了手動安裝程序如何套用在 PL/Perl 語言上。
+[範例 40.1](xplang-install.md#xplang-install-example) 示範了手動安裝程序如何套用在 PL/Perl 語言上。
 
 <a id="XPLANG-INSTALL-EXAMPLE"></a>
 
-**範例 40.1. 手動安裝 PL/Perl**
+### 範例 40.1. 手動安裝 PL/Perl [#](#xplang-install-example) <a href="#xplang-install-example" id="xplang-install-example"></a>
 
 以下指令告訴資料庫伺服器到哪裡去找 PL/Perl 語言之呼叫處理常式函式的共用物件：
 
