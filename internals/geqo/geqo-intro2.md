@@ -12,7 +12,7 @@
 
 ### 圖 61.1. 遺傳演算法的結構 [#](#geqo-figure) <a href="#geqo-figure" id="geqo-figure"></a>
 
-<br>
+<figure><img src="../../.gitbook/assets/genetic-algorithm.svg" alt="圖 61.1. 遺傳演算法的結構"><figcaption></figcaption></figure>
 
 如 comp.ai.genetic FAQ 所強調，GA 並非純粹隨機搜尋問題解答。GA 使用隨機程序，但結果明顯並非隨機（優於隨機）。
 
