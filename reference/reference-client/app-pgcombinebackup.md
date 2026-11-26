@@ -90,7 +90,7 @@ pg_combinebackup 會嘗試驗證你所指定的備份是否構成合法的備份
 
 <a id="APP-PGCOMBINEBACKUP-LIMITATIONS"></a>
 
-## 限制
+## 限制 [#](#xian-zhi) <a href="#xian-zhi" id="xian-zhi"></a>
 
 `pg_combinebackup` 在寫入輸出目錄時，不會重新計算頁面檢查碼。因此，如果用於重建的任何備份是在停用檢查碼時取得的，而最終備份是在啟用檢查碼時取得的，產生的目錄可能會包含檢查碼無效的頁面。
 

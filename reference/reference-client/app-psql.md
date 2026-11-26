@@ -1033,7 +1033,7 @@ psql 會假設它是行號，而不是檔案名稱。
 
 ### 提示 [#](#app-psql-restored-note-6) <a href="#app-psql-restored-note-6" id="app-psql-restored-note-6"></a>
 
-關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#APP-PSQL-ENVIRONMENT)。
+關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#huan-jing)。
 <a id="APP-PSQL-META-COMMAND-ECHO"></a>
 
 `\echo text [ ... ]` [#](#APP-PSQL-META-COMMAND-ECHO)
@@ -1081,7 +1081,7 @@ psql 會假設它是行號，而不是檔案名稱。
 
 ### 提示 [#](#app-psql-restored-note-7) <a href="#app-psql-restored-note-7" id="app-psql-restored-note-7"></a>
 
-關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#APP-PSQL-ENVIRONMENT)。
+關於如何設定與自訂你的編輯器，請參閱下方的[環境](app-psql.md#huan-jing)。
 <a id="APP-PSQL-META-COMMAND-ENCODING"></a>
 
 `\encoding [ encoding ]` [#](#APP-PSQL-META-COMMAND-ENCODING)
@@ -2133,7 +2133,7 @@ Readline。這會停用 Tab 鍵補全、命令列歷史的使用或記錄，以�
 
 <a id="APP-PSQL-ENVIRONMENT"></a>
 
-## 環境
+## 環境 [#](#huan-jing) <a href="#huan-jing" id="huan-jing"></a>
 
 <a id="APP-PSQL-ENVIRONMENT-COLUMNS"></a>
 

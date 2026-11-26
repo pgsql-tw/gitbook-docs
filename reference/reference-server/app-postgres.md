@@ -136,7 +136,7 @@ postgres — PostgreSQL 資料庫伺服器
 
 <a id="id-1.9.5.16.6.5.2"></a>
 
-下列選項只適用於單一使用者模式（請參閱下文的[單一使用者模式](app-postgres.md#APP-POSTGRES-SINGLE-USER)）。
+下列選項只適用於單一使用者模式（請參閱下文的[單一使用者模式](app-postgres.md#dan-yi-shi-yong-zhe-mo-shi)）。
 
 `--single`
 :   選擇單一使用者模式。這必須是命令列上的第一個引數。
@@ -217,7 +217,7 @@ $ ps -ef | grep postgres
 
 <a id="APP-POSTGRES-SINGLE-USER"></a>
 
-## 單一使用者模式
+## 單一使用者模式 [#](#dan-yi-shi-yong-zhe-mo-shi) <a href="#dan-yi-shi-yong-zhe-mo-shi" id="dan-yi-shi-yong-zhe-mo-shi"></a>
 
 若要以單一使用者模式啟動伺服器，請使用類似下列的命令
 

@@ -57,7 +57,7 @@
 
 <a id="LOGICAL-REPLICATION-COL-LIST-COMBINING"></a>
 
-### 警告：合併來自多個發佈的欄位清單
+### 警告：合併來自多個發佈的欄位清單 [#](#jing-gao-he-bing-lai-zi-duo-ge-fa-bu-de-lan-wei-qing-dan) <a href="#jing-gao-he-bing-lai-zi-duo-ge-fa-bu-de-lan-wei-qing-dan" id="jing-gao-he-bing-lai-zi-duo-ge-fa-bu-de-lan-wei-qing-dan"></a>
 
 目前不支援由多個發佈組成、且同一個資料表
 在這些發佈中以不同欄位清單發佈的訂閱。

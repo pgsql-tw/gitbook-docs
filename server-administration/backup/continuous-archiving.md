@@ -363,7 +363,7 @@ LSN，到目前備份起始 LSN 之間的所有 LSN。由於伺服器是在
 checksum 狀態已變更時，使用
 `pg_combinebackup` 會受到限制；詳見
 [pg_combinebackup
-的限制](../../reference/reference-client/app-pgcombinebackup.md#APP-PGCOMBINEBACKUP-LIMITATIONS)。
+的限制](../../reference/reference-client/app-pgcombinebackup.md#xian-zhi)。
 
 請注意，使用完整備份所需的所有要求，同樣也
 適用於增量備份。舉例來說，你仍然需要檔案系統備份

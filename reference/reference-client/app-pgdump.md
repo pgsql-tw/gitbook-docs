@@ -122,7 +122,7 @@ pg_dump 會開啟 *`njobs`* + 1 個資料庫連線，因此請確認你的 [max_
 
 `-n pattern`<br>`--schema=pattern`
 
-只傾印符合 *`pattern`* 的綱要；這會同時選擇綱要本身及其包含的所有物件。未指定此選項時，會傾印目標資料庫中所有的非系統綱要。可以寫多個 `-n` 選項來選擇多個綱要。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個綱要。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。
+只傾印符合 *`pattern`* 的綱要；這會同時選擇綱要本身及其包含的所有物件。未指定此選項時，會傾印目標資料庫中所有的非系統綱要。可以寫多個 `-n` 選項來選擇多個綱要。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個綱要。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。
 
 <a id="id-1.9.4.14.6.3.12.2.2"></a>
 
@@ -166,7 +166,7 @@ pg_dump 會開啟 *`njobs`* + 1 個資料庫連線，因此請確認你的 [max_
 
 `-t pattern`<br>`--table=pattern`
 
-只傾印名稱符合 *`pattern`* 的資料表。可以寫多個 `-t` 選項來選擇多個資料表。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個資料表。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。
+只傾印名稱符合 *`pattern`* 的資料表。可以寫多個 `-t` 選項來選擇多個資料表。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個資料表。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。
 
 除了資料表之外，此選項也可以用來傾印符合之檢視表、具體化檢視表、外部資料表與序列的定義。它不會傾印檢視表或具體化檢視表的內容，而外部資料表的內容只有在以 `--include-foreign-data` 指定了對應的外部伺服器時才會被傾印。
 
@@ -273,14 +273,14 @@ tar 封存格式目前完全不支援壓縮。
 
 以 `#` 開頭的行會被視為註解而忽略。註解也可以放在物件模式那一列的後面。空白行同樣會被忽略。關於如何在模式中使用引號，請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)。
 
-範例檔案列於下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)一節。
+範例檔案列於下文的[範例](app-pgdump.md#fan-li)一節。
 
 `--if-exists`
 :   在 `--clean` 模式中使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。
 
 `--include-foreign-data=foreignserver`
 
-傾印外部伺服器符合 *`foreignserver`* 模式之任何外部資料表的資料。可以寫多個 `--include-foreign-data` 選項來選擇多個外部伺服器。此外，*`foreignserver`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個外部伺服器。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#PG-DUMP-EXAMPLES)。唯一的例外是不允許空的模式。
+傾印外部伺服器符合 *`foreignserver`* 模式之任何外部資料表的資料。可以寫多個 `--include-foreign-data` 選項來選擇多個外部伺服器。此外，*`foreignserver`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個外部伺服器。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。唯一的例外是不允許空的模式。
 
 <a id="id-1.9.4.14.6.3.36.2.2"></a>
 
@@ -489,7 +489,7 @@ SUBSCRIPTION` 命令，如此還原訂閱時就不會為了建立複寫槽或進
 
 <a id="PG-DUMP-EXAMPLES"></a>
 
-## 範例
+## 範例 [#](#fan-li) <a href="#fan-li" id="fan-li"></a>
 
 將名為 `mydb` 的資料庫傾印到 SQL 腳本檔案：
 
