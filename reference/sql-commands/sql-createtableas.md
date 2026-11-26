@@ -56,7 +56,7 @@ CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXI
 :   此選用子句指定用來儲存新資料表內容的資料表存取方法；該方法必須是 `TABLE` 類型的存取方法。更多資訊請參閱[第 62 章](../../internals/tableam/README.md)。若未指定此選項，新資料表會使用預設的資料表存取方法。更多資訊請參閱 [default_table_access_method](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLE-ACCESS-METHOD)。
 
 `WITH ( storage_parameter [= value] [, ... ] )`
-:   此子句為新資料表指定選用的儲存參數；更多資訊請參閱 [CREATE TABLE](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。為了向後相容性，資料表的 `WITH` 子句也可以包含 `OIDS=FALSE`，以指定新資料表的資料列不應包含 OID（物件識別碼）；`OIDS=TRUE` 已不再支援。
+:   此子句為新資料表指定選用的儲存參數；更多資訊請參閱 [CREATE TABLE](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#chu-cun-can-shu)。為了向後相容性，資料表的 `WITH` 子句也可以包含 `OIDS=FALSE`，以指定新資料表的資料列不應包含 OID（物件識別碼）；`OIDS=TRUE` 已不再支援。
 
 `WITHOUT OIDS`
 :   這是用來宣告資料表 `WITHOUT OIDS` 的向後相容語法；建立 `WITH

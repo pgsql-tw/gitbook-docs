@@ -77,7 +77,7 @@ ALTER DATABASE name RESET ALL
 此形式的命令不能在交易區塊內執行。
 
 `REFRESH COLLATION VERSION`
-:   更新資料庫的定序版本。背景說明請參閱[注意事項](sql-altercollation.md#SQL-ALTERCOLLATION-NOTES)。
+:   更新資料庫的定序版本。背景說明請參閱[注意事項](sql-altercollation.md#zhu-yi-shi-xiang)。
 
 *`configuration_parameter`*<br>*`value`*
 

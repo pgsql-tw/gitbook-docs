@@ -134,7 +134,7 @@ CREATE VIEW vista AS SELECT text 'Hello World' AS hello;
 
 <a id="SQL-CREATEVIEW-UPDATABLE-VIEWS"></a>
 
-### 可更新的檢視表
+### 可更新的檢視表 [#](#ke-geng-xin-de-jian-shi-biao) <a href="#ke-geng-xin-de-jian-shi-biao" id="ke-geng-xin-de-jian-shi-biao"></a>
 
 <a id="id-1.9.3.97.7.11.2"></a>
 

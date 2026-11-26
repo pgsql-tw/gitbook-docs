@@ -54,9 +54,9 @@
 
 指定在複寫開始時，是否要複製所訂閱之發佈中既有的資料。預設為 `true`。
 
-若發佈包含 `WHERE` 子句，將會影響要複製哪些資料。詳情請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
+若發佈包含 `WHERE` 子句，將會影響要複製哪些資料。詳情請參閱[注意事項](sql-createsubscription.md#zhu-yi-shi-xiang)。
 
-關於 `copy_data = true` 可能如何與 `origin` 參數交互作用的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
+關於 `copy_data = true` 可能如何與 `origin` 參數交互作用的細節，請參閱[注意事項](sql-createsubscription.md#zhu-yi-shi-xiang)。
 
 <a id="SQL-CREATESUBSCRIPTION-PARAMS-WITH-STREAMING"></a>
 
@@ -120,7 +120,7 @@
 
 指定訂閱是要請求發佈者只傳送沒有來源（origin）的變更，還是不論來源都傳送變更。將 `origin` 設為 `none` 表示訂閱將請求發佈者只傳送沒有來源的變更。將 `origin` 設為 `any` 表示發佈者不論變更的來源為何都會傳送。預設為 `any`。
 
-關於 `copy_data = true` 可能如何與 `origin` 參數交互作用的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
+關於 `copy_data = true` 可能如何與 `origin` 參數交互作用的細節，請參閱[注意事項](sql-createsubscription.md#zhu-yi-shi-xiang)。
 
 <a id="SQL-CREATESUBSCRIPTION-PARAMS-WITH-FAILOVER"></a>
 

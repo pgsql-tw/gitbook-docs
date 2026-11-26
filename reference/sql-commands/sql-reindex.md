@@ -74,7 +74,7 @@ where option can be one of:
 
 使用此選項時，PostgreSQL 會在不持有會阻擋資料表上並行插入、更新或刪除之鎖定的情況下重建索引；相對地，標準的索引重建則會鎖定資料表的寫入（但不鎖定讀取），直到重建完成為止。
 使用此選項時有幾點需要注意
-——請參閱下方的[並行重建索引](sql-reindex.md#SQL-REINDEX-CONCURRENTLY)。
+——請參閱下方的[並行重建索引](sql-reindex.md#bing-xing-chong-jian-suo-yin)。
 
 對於暫存資料表，`REINDEX` 一律採非並行方式進行，因為其他工作階段無法存取它們，而非並行的重新建立索引成本較低。
 
@@ -158,7 +158,7 @@ TOAST 資料表上的索引會被重建，但不會被搬移到新的資料表�
 
 <a id="SQL-REINDEX-CONCURRENTLY"></a>
 
-### 並行重建索引
+### 並行重建索引 [#](#bing-xing-chong-jian-suo-yin) <a href="#bing-xing-chong-jian-suo-yin" id="bing-xing-chong-jian-suo-yin"></a>
 
 <a id="id-1.9.3.163.7.12.2"></a>
 

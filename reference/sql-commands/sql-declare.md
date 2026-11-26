@@ -41,7 +41,7 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 同時指定 `INSENSITIVE` 與 `FOR UPDATE` 或 `FOR SHARE` 是錯誤的。
 
 `SCROLL`<br>`NO SCROLL`
-:   `SCROLL` 指定游標可以用非循序的方式（例如向後）擷取資料列。視查詢執行計畫的複雜度而定，指定 `SCROLL` 可能會對查詢的執行時間造成效能損失。`NO SCROLL` 指定游標不能用非循序的方式擷取資料列。預設是在某些情況下允許捲動；這與指定 `SCROLL` 並不相同。詳細資訊請參閱下方的[注意事項](sql-declare.md#SQL-DECLARE-NOTES)。
+:   `SCROLL` 指定游標可以用非循序的方式（例如向後）擷取資料列。視查詢執行計畫的複雜度而定，指定 `SCROLL` 可能會對查詢的執行時間造成效能損失。`NO SCROLL` 指定游標不能用非循序的方式擷取資料列。預設是在某些情況下允許捲動；這與指定 `SCROLL` 並不相同。詳細資訊請參閱下方的[注意事項](sql-declare.md#zhu-yi-shi-xiang)。
 
 `WITH HOLD`<br>`WITHOUT HOLD`
 :   `WITH HOLD` 指定在建立游標的交易成功提交之後，該游標仍可以繼續使用。`WITHOUT HOLD` 指定游標不能在建立它的交易之外使用。若既未指定 `WITHOUT HOLD`，也未指定 `WITH HOLD`，則預設為 `WITHOUT HOLD`。
@@ -53,7 +53,7 @@ DECLARE name [ BINARY ] [ ASENSITIVE | INSENSITIVE ] [ [ NO ] SCROLL ]
 
 <a id="SQL-DECLARE-NOTES"></a>
 
-## 注意事項
+## 注意事項 [#](#zhu-yi-shi-xiang) <a href="#zhu-yi-shi-xiang" id="zhu-yi-shi-xiang"></a>
 
 一般游標以文字格式傳回資料，與 `SELECT` 所產生的相同。`BINARY` 選項指定游標應該以二進位格式傳回資料。這可以減少伺服器與用戶端雙方的轉換工作，代價是程式設計師需要花更多心力處理與平台相依的二進位資料格式。舉例來說，若查詢從整數欄位傳回一個為 1 的值，使用預設游標時您會得到字串 `1`，而使用二進位游標時，您會得到一個 4 位元組的欄位，內含該值的內部表示法（採用 big-endian 位元組順序）。
 

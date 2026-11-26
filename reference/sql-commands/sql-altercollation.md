@@ -42,11 +42,11 @@ ALTER COLLATION name SET SCHEMA new_schema
 :   定序的新綱要。
 
 `REFRESH VERSION`
-:   更新定序的版本。請參閱下方的[注意事項](sql-altercollation.md#SQL-ALTERCOLLATION-NOTES)。
+:   更新定序的版本。請參閱下方的[注意事項](sql-altercollation.md#zhu-yi-shi-xiang)。
 
 <a id="SQL-ALTERCOLLATION-NOTES"></a>
 
-## 注意事項
+## 注意事項 [#](#zhu-yi-shi-xiang) <a href="#zhu-yi-shi-xiang" id="zhu-yi-shi-xiang"></a>
 
 建立定序物件時，定序的提供者特定版本會記錄在系統目錄中。使用該定序時，會將目前版本與記錄的版本相比對，若不一致就會發出警告，例如：
 

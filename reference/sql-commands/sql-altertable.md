@@ -222,7 +222,7 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 
 此形式會在資料表中新增限制條件，使用與 [`CREATE TABLE`](sql-createtable.md) 相同的限制條件語法，外加 `NOT VALID` 選項；此選項目前只允許用於外鍵、`CHECK` 與非空值限制條件。
 
-通常，此形式會掃描資料表，以驗證資料表中所有既有資料列都滿足新的限制條件。但若使用了 `NOT VALID` 選項，就會略過這個可能很耗時的掃描。該限制條件仍會套用於後續的插入或更新（也就是說，就外鍵而言，除非被參照的資料表中有相符的資料列，否則這些操作會失敗；或者，除非新資料列符合所指定的檢查條件，否則這些操作會失敗）。但在使用 `VALIDATE CONSTRAINT` 選項驗證之前，資料庫不會假定該限制條件對資料表中的所有資料列都成立。關於使用 `NOT VALID` 選項的詳細資訊，請參閱下方的[注意事項](sql-altertable.md#SQL-ALTERTABLE-NOTES)。
+通常，此形式會掃描資料表，以驗證資料表中所有既有資料列都滿足新的限制條件。但若使用了 `NOT VALID` 選項，就會略過這個可能很耗時的掃描。該限制條件仍會套用於後續的插入或更新（也就是說，就外鍵而言，除非被參照的資料表中有相符的資料列，否則這些操作會失敗；或者，除非新資料列符合所指定的檢查條件，否則這些操作會失敗）。但在使用 `VALIDATE CONSTRAINT` 選項驗證之前，資料庫不會假定該限制條件對資料表中的所有資料列都成立。關於使用 `NOT VALID` 選項的詳細資訊，請參閱下方的[注意事項](sql-altertable.md#zhu-yi-shi-xiang)。
 
 雖然大多數形式的 `ADD table_constraint` 都需要 `ACCESS EXCLUSIVE` 鎖定，但 `ADD FOREIGN KEY` 只需要 `SHARE ROW EXCLUSIVE` 鎖定。請注意，除了在宣告該限制條件的資料表上取得的鎖定之外，`ADD FOREIGN KEY` 也會在被參照的資料表上取得 `SHARE ROW EXCLUSIVE` 鎖定。
 
@@ -260,7 +260,7 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 
 `VALIDATE CONSTRAINT` [#](#SQL-ALTERTABLE-DESC-VALIDATE-CONSTRAINT)
 
-此形式會驗證先前以 `NOT VALID` 建立的外鍵、檢查或非空值限制條件，做法是掃描資料表，確保沒有任何不滿足該限制條件的資料列。若該限制條件被設為 `NOT ENFORCED`，則會擲出錯誤。若限制條件已標記為有效，則不會發生任何事。（關於此命令的用處，請參閱下方[注意事項](sql-altertable.md#SQL-ALTERTABLE-NOTES)中的說明。）
+此形式會驗證先前以 `NOT VALID` 建立的外鍵、檢查或非空值限制條件，做法是掃描資料表，確保沒有任何不滿足該限制條件的資料列。若該限制條件被設為 `NOT ENFORCED`，則會擲出錯誤。若限制條件已標記為有效，則不會發生任何事。（關於此命令的用處，請參閱下方[注意事項](sql-altertable.md#zhu-yi-shi-xiang)中的說明。）
 
 此命令會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-DROP-CONSTRAINT"></a>
@@ -340,7 +340,7 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 
 `SET ( storage_parameter [= value] [, ... ] )` [#](#SQL-ALTERTABLE-DESC-SET-STORAGE-PARAMETER)
 
-此形式會變更資料表的一個或多個儲存參數。可用參數的詳細資訊，請參閱 [`CREATE TABLE`](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。請注意，此命令不會立即修改資料表內容；視參數而定，你可能需要重寫資料表才能得到想要的效果。這可以透過 [`VACUUM FULL`](sql-vacuum.md)、[`CLUSTER`](sql-cluster.md)，或某一種會強制重寫資料表的 `ALTER TABLE` 形式來完成。對於與規劃器相關的參數，變更會從下一次鎖定該資料表時開始生效，因此目前正在執行的查詢不會受到影響。
+此形式會變更資料表的一個或多個儲存參數。可用參數的詳細資訊，請參閱 [`CREATE TABLE`](sql-createtable.md) 文件中的[儲存參數](sql-createtable.md#chu-cun-can-shu)。請注意，此命令不會立即修改資料表內容；視參數而定，你可能需要重寫資料表才能得到想要的效果。這可以透過 [`VACUUM FULL`](sql-vacuum.md)、[`CLUSTER`](sql-cluster.md)，或某一種會強制重寫資料表的 `ALTER TABLE` 形式來完成。對於與規劃器相關的參數，變更會從下一次鎖定該資料表時開始生效，因此目前正在執行的查詢不會受到影響。
 
 對於 fillfactor、TOAST 與 autovacuum 儲存參數，以及規劃器參數 `parallel_workers`，會取得 `SHARE UPDATE EXCLUSIVE` 鎖定。
 <a id="SQL-ALTERTABLE-DESC-RESET-STORAGE-PARAMETER"></a>
@@ -517,7 +517,7 @@ referential_action in a FOREIGN KEY/REFERENCES constraint is:
 
 <a id="SQL-ALTERTABLE-NOTES"></a>
 
-## 注意事項
+## 注意事項 [#](#zhu-yi-shi-xiang) <a href="#zhu-yi-shi-xiang" id="zhu-yi-shi-xiang"></a>
 
 關鍵字 `COLUMN` 是贅字，可以省略。
 

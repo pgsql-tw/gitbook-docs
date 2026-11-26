@@ -168,7 +168,7 @@ SELECT col FROM tab ORDER BY col USING sortop LIMIT 1;
 若指定了 `FINALFUNC_EXTRA`，則除了最終狀態值與任何直接引數之外，最終函式還會接收與彙總函式一般（彙總）引數相對應的額外 NULL 值。這主要用於在定義多型彙總函式時，讓彙總函式的結果型別能夠被正確解析。
 
 `FINALFUNC_MODIFY` = { `READ_ONLY` | `SHAREABLE` | `READ_WRITE` }
-:   此選項指定最終函式是否為不修改其引數的純函式。`READ_ONLY` 表示它不會修改；另外兩個值則表示它可能會變更轉換狀態值。更多細節請參閱下文的[注意事項](sql-createaggregate.md#SQL-CREATEAGGREGATE-NOTES)。預設為 `READ_ONLY`，但有序集合彙總函式除外，其預設為 `READ_WRITE`。
+:   此選項指定最終函式是否為不修改其引數的純函式。`READ_ONLY` 表示它不會修改；另外兩個值則表示它可能會變更轉換狀態值。更多細節請參閱下文的[注意事項](sql-createaggregate.md#zhu-yi-shi-xiang)。預設為 `READ_ONLY`，但有序集合彙總函式除外，其預設為 `READ_WRITE`。
 
 *`combinefunc`*
 
@@ -221,7 +221,7 @@ SELECT col FROM tab ORDER BY col USING sortop LIMIT 1;
 
 <a id="SQL-CREATEAGGREGATE-NOTES"></a>
 
-## 注意事項
+## 注意事項 [#](#zhu-yi-shi-xiang) <a href="#zhu-yi-shi-xiang" id="zhu-yi-shi-xiang"></a>
 
 在指定支援函式名稱的參數中，你可以視需要寫出綱要名稱，例如 `SFUNC = public.sum`。不過，不要在那裡寫出引數型別——支援函式的引數型別是由其他參數決定的。
 

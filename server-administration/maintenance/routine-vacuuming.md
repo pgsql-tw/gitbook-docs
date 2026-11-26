@@ -701,7 +701,7 @@ analyze threshold = analyze base threshold + analyze scale factor * number of tu
 預設的閾值與比例因子取自
 `postgresql.conf`，但也可以在個別資料表層級覆寫這些值
 （以及許多其他 autovacuum 控制參數）；詳情請參閱
-[儲存參數](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。
+[儲存參數](../../reference/sql-commands/sql-createtable.md#chu-cun-can-shu)。
 如果某項設定已透過資料表的儲存參數變更，處理該資料表時
 就會使用該值；否則就會使用全域設定。關於全域設定的更多細節，請參閱
 [第 19.10.1 節](../runtime-config/runtime-config-vacuum.md#runtime-config-autovacuum)。

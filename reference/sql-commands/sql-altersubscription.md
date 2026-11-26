@@ -108,7 +108,7 @@ ALTER SUBSCRIPTION name RENAME TO new_name
 
   關於 `copy_data = true` 如何與
   [`origin`](sql-createsubscription-parameters.md#sql-createsubscription-params-with-origin)
-  參數互動的細節，請參閱[注意事項](sql-createsubscription.md#SQL-CREATESUBSCRIPTION-NOTES)。
+  參數互動的細節，請參閱[注意事項](sql-createsubscription.md#zhu-yi-shi-xiang)。
 
   關於以二進位格式複製既有資料的細節，請參閱
   `CREATE SUBSCRIPTION` 的

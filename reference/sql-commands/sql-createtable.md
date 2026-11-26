@@ -129,7 +129,7 @@ myschema.mytable ...`），資料表就會建立在指定的綱要中；否則�
 
 [autovacuum 常駐程式](../../server-administration/maintenance/routine-vacuuming.md#autovacuum)無法存取暫存資料表，因此也無法對其執行 vacuum 或 analyze。基於這個原因，應該透過工作階段中的 SQL 命令執行適當的 vacuum 與 analyze 操作。例如，若暫存資料表將用於複雜的查詢，明智的做法是在填入資料後對該暫存資料表執行 `ANALYZE`。
 
-可以選擇在 `TEMPORARY` 或 `TEMP` 之前寫上 `GLOBAL` 或 `LOCAL`。這在 PostgreSQL 中目前沒有任何差別，且已不建議使用；請參閱下方的[相容性](sql-createtable.md#SQL-CREATETABLE-COMPATIBILITY)。
+可以選擇在 `TEMPORARY` 或 `TEMP` 之前寫上 `GLOBAL` 或 `LOCAL`。這在 PostgreSQL 中目前沒有任何差別，且已不建議使用；請參閱下方的[相容性](sql-createtable.md#xiang-rong-xing)。
 <a id="SQL-CREATETABLE-UNLOGGED"></a>
 
 `UNLOGGED` [#](#SQL-CREATETABLE-UNLOGGED)
@@ -412,7 +412,7 @@ FULL` 不允許多欄位外鍵的其中一個欄位為 null，除非所有外鍵
 <a id="SQL-CREATETABLE-PARMS-WITH"></a>
 
 `WITH ( storage_parameter [= value] [, ... ] )` [#](#SQL-CREATETABLE-PARMS-WITH)
-:   此子句為資料表或索引指定選用的儲存參數；更多資訊請參閱下方的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。為了向後相容性，資料表的 `WITH` 子句也可以包含 `OIDS=FALSE`，以指定新資料表的資料列不應包含 OID（物件識別碼），`OIDS=TRUE` 已不再支援。
+:   此子句為資料表或索引指定選用的儲存參數；更多資訊請參閱下方的[儲存參數](sql-createtable.md#chu-cun-can-shu)。為了向後相容性，資料表的 `WITH` 子句也可以包含 `OIDS=FALSE`，以指定新資料表的資料列不應包含 OID（物件識別碼），`OIDS=TRUE` 已不再支援。
 <a id="SQL-CREATETABLE-PARMS-WITHOUT-OIDS"></a>
 
 `WITHOUT OIDS` [#](#SQL-CREATETABLE-PARMS-WITHOUT-OIDS)
@@ -438,7 +438,7 @@ FULL` 不允許多欄位外鍵的其中一個欄位為 null，除非所有外鍵
 
 <a id="SQL-CREATETABLE-STORAGE-PARAMETERS"></a>
 
-### 儲存參數
+### 儲存參數 [#](#chu-cun-can-shu) <a href="#chu-cun-can-shu" id="chu-cun-can-shu"></a>
 
 <a id="id-1.9.3.85.6.3.2"></a>
 
@@ -859,7 +859,7 @@ CREATE TABLE cities_partdef
 
 <a id="SQL-CREATETABLE-COMPATIBILITY"></a>
 
-## 相容性
+## 相容性 [#](#xiang-rong-xing) <a href="#xiang-rong-xing" id="xiang-rong-xing"></a>
 
 `CREATE TABLE` 命令符合 SQL 標準，但有下列例外。
 

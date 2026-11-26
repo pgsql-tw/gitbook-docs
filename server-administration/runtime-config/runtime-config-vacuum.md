@@ -22,7 +22,7 @@
 這些設定控制 *autovacuum* 功能的行為。
 詳情請參閱[24.1.6 節](../maintenance/routine-vacuuming.md#autovacuum)。
 請注意，這些設定中有許多可以逐資料表覆寫；
-請參閱[儲存參數](../../reference/sql-commands/sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。
+請參閱[儲存參數](../../reference/sql-commands/sql-createtable.md#chu-cun-can-shu)。
 
 <a id="GUC-AUTOVACUUM"></a>
 

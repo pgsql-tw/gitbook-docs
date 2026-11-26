@@ -59,7 +59,7 @@ UPDATE products SET price = price * 1.10
 
 在這個範例中，寫 `new.price` 和直接寫 `price` 是一樣的，但前者讓意義更清楚。
 
-這種回傳舊值與新值的語法，可以用在 `INSERT`、`UPDATE`、`DELETE` 與 `MERGE` 命令中，但通常 `INSERT` 的舊值會是 `NULL`，而 `DELETE` 的新值會是 `NULL`。不過，在某些情況下，它對這些命令仍然可能有用。例如，在帶有 [`ON CONFLICT DO UPDATE`](../../reference/sql-commands/sql-insert.md#SQL-ON-CONFLICT) 子句的 `INSERT` 中，發生衝突之資料列的舊值會是非 `NULL` 的。同樣地，如果 `DELETE` 被[改寫規則](../../reference/sql-commands/sql-createrule.md)轉換成 `UPDATE`，新值可能會是非 `NULL` 的。
+這種回傳舊值與新值的語法，可以用在 `INSERT`、`UPDATE`、`DELETE` 與 `MERGE` 命令中，但通常 `INSERT` 的舊值會是 `NULL`，而 `DELETE` 的新值會是 `NULL`。不過，在某些情況下，它對這些命令仍然可能有用。例如，在帶有 [`ON CONFLICT DO UPDATE`](../../reference/sql-commands/sql-insert.md#on-conflict-zi-ju) 子句的 `INSERT` 中，發生衝突之資料列的舊值會是非 `NULL` 的。同樣地，如果 `DELETE` 被[改寫規則](../../reference/sql-commands/sql-createrule.md)轉換成 `UPDATE`，新值可能會是非 `NULL` 的。
 
 如果目標資料表上有觸發程序（[第 37 章](../../server-programming/triggers/README.md)），`RETURNING` 可用的資料就是經過觸發程序修改之後的資料列。因此，檢視由觸發程序計算出的欄位，是 `RETURNING` 的另一個常見用途。
 

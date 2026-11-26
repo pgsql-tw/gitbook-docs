@@ -46,7 +46,7 @@ CREATE MATERIALIZED VIEW [ IF NOT EXISTS ] table_name
 :   這個選擇性的子句指定用來儲存新具體化檢視表內容的資料表存取方法；該方法必須是 `TABLE` 類型的存取方法。詳細資訊請參閱[第 62 章](../../internals/tableam/README.md)。若未指定此選項，則會為新的具體化檢視表選用預設的資料表存取方法。詳細資訊請參閱 [default_table_access_method](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLE-ACCESS-METHOD)。
 
 `WITH ( storage_parameter [= value] [, ... ] )`
-:   此子句為新的具體化檢視表指定選擇性的儲存參數；詳細資訊請參閱 [CREATE TABLE](sql-createtable.md) 說明文件中的[儲存參數](sql-createtable.md#SQL-CREATETABLE-STORAGE-PARAMETERS)。`CREATE
+:   此子句為新的具體化檢視表指定選擇性的儲存參數；詳細資訊請參閱 [CREATE TABLE](sql-createtable.md) 說明文件中的[儲存參數](sql-createtable.md#chu-cun-can-shu)。`CREATE
     TABLE` 支援的所有參數，`CREATE MATERIALIZED
     VIEW` 也都支援。詳細資訊請參閱 [CREATE TABLE](sql-createtable.md)。
 

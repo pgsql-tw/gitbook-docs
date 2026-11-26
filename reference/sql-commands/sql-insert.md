@@ -45,7 +45,7 @@ and conflict_action is one of:
 
 若任一欄位的運算式資料型別不正確，系統會嘗試自動進行型別轉換。
 
-對缺少唯一值索引的資料表執行 `INSERT`，不會被並行活動所阻擋。對具有唯一值索引的資料表執行 INSERT，則可能在並行工作階段對與所插入唯一值索引值相符的資料列執行鎖定或修改動作時被阻擋；詳情請參閱[第 63.5 節](../../internals/indexam/index-unique-checks.md)。可以使用 `ON CONFLICT` 來指定替代動作，取代擲出唯一性限制條件或互斥限制條件違反錯誤。（請參閱下方的 [ON CONFLICT 子句](sql-insert.md#SQL-ON-CONFLICT)。）
+對缺少唯一值索引的資料表執行 `INSERT`，不會被並行活動所阻擋。對具有唯一值索引的資料表執行 INSERT，則可能在並行工作階段對與所插入唯一值索引值相符的資料列執行鎖定或修改動作時被阻擋；詳情請參閱[第 63.5 節](../../internals/indexam/index-unique-checks.md)。可以使用 `ON CONFLICT` 來指定替代動作，取代擲出唯一性限制條件或互斥限制條件違反錯誤。（請參閱下方的 [ON CONFLICT 子句](sql-insert.md#on-conflict-zi-ju)。）
 
 選用的 `RETURNING` 子句，會讓 `INSERT` 根據每一列實際插入（或若使用了 `ON CONFLICT DO UPDATE` 子句，則為更新）的資料列，計算並傳回值。這主要適用於取得由預設值所提供的值，例如序列產生的流水號。不過，任何使用該資料表欄位的運算式都可以使用。`RETURNING` 清單的語法與 `SELECT` 的輸出清單語法相同。只有成功插入或更新的資料列才會被傳回。舉例來說，若某資料列已被鎖定，但因 `ON CONFLICT DO UPDATE ... WHERE` 子句的 *`condition`* 不成立而未更新，該資料列就不會被傳回。
 
@@ -123,7 +123,7 @@ and conflict_action is one of:
 
 <a id="SQL-ON-CONFLICT"></a>
 
-### `ON CONFLICT` 子句
+### `ON CONFLICT` 子句 [#](#on-conflict-zi-ju) <a href="#on-conflict-zi-ju" id="on-conflict-zi-ju"></a>
 
 <a id="id-1.9.3.152.6.3.2"></a><a id="id-1.9.3.152.6.3.3"></a>
 

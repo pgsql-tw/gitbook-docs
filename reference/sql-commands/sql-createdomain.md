@@ -75,7 +75,7 @@ myschema.mydomain ...`），網域就會建立在指定的綱要中；否則會�
 
 <a id="SQL-CREATEDOMAIN-NOTES"></a>
 
-## 注意事項
+## 注意事項 [#](#zhu-yi-shi-xiang) <a href="#zhu-yi-shi-xiang" id="zhu-yi-shi-xiang"></a>
 
 網域限制條件，特別是 `NOT NULL`，會在將值轉換為網域型別時進行檢查。名義上屬於網域型別的欄位，即使有這類限制條件，仍有可能讀出 null。例如，在外部連接查詢中，若網域欄位位於外部連接中可為 null 的一側，就可能發生這種情況。一個更微妙的例子是
 
@@ -126,7 +126,7 @@ CREATE TABLE us_snail_addy (
 `CREATE DOMAIN` 命令符合 SQL 標準。
 
 此命令中的 `NOT NULL` 語法是 PostgreSQL 的擴充語法。（對於非複合資料型別，符合標準的同等寫法是 `CHECK (VALUE IS NOT
-NULL)`。不過，依據[「注意事項」一節](sql-createdomain.md#SQL-CREATEDOMAIN-NOTES)，實務上無論如何最好避免使用這類限制條件。）`NULL`「限制條件」是 PostgreSQL 的擴充語法（另請參閱[相容性](sql-createtable.md#SQL-CREATETABLE-COMPATIBILITY)）。
+NULL)`。不過，依據[「注意事項」一節](sql-createdomain.md#zhu-yi-shi-xiang)，實務上無論如何最好避免使用這類限制條件。）`NULL`「限制條件」是 PostgreSQL 的擴充語法（另請參閱[相容性](sql-createtable.md#xiang-rong-xing)）。
 
 <a id="SQL-CREATEDOMAIN-SEE-ALSO"></a>
 

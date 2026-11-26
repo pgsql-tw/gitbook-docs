@@ -49,7 +49,7 @@ PostgreSQL 提供 B-tree、hash、GiST、SP-GiST、GIN 與 BRIN 等索引方法�
 
 `CONCURRENTLY`
 
-使用此選項時，PostgreSQL 建立索引時不會取得任何會阻止資料表上並行插入、更新或刪除的鎖定；而標準的索引建立則會鎖定資料表的寫入（但不鎖定讀取），直到完成為止。使用此選項時有幾項需要注意的事項——請參閱下方的[並行建立索引](sql-createindex.md#SQL-CREATEINDEX-CONCURRENTLY)。
+使用此選項時，PostgreSQL 建立索引時不會取得任何會阻止資料表上並行插入、更新或刪除的鎖定；而標準的索引建立則會鎖定資料表的寫入（但不鎖定讀取），直到完成為止。使用此選項時有幾項需要注意的事項——請參閱下方的[並行建立索引](sql-createindex.md#bing-xing-jian-li-suo-yin)。
 
 對於暫存資料表，`CREATE INDEX` 一律以非並行方式執行，因為其他工作階段都無法存取暫存資料表，而且非並行的索引建立成本較低。
 
@@ -111,7 +111,7 @@ PostgreSQL 提供 B-tree、hash、GiST、SP-GiST、GIN 與 BRIN 等索引方法�
 :   指定對於唯一值索引，null 值是否應視為相異（不相等）。預設為相異，因此唯一值索引可以在一個欄位中包含多個 null 值。
 
 *`storage_parameter`*
-:   索引方法特有之儲存參數的名稱。詳情請參閱下方的[索引儲存參數](sql-createindex.md#SQL-CREATEINDEX-STORAGE-PARAMETERS)。
+:   索引方法特有之儲存參數的名稱。詳情請參閱下方的[索引儲存參數](sql-createindex.md#suo-yin-chu-cun-can-shu)。
 
 *`tablespace_name`*
 :   要在其中建立索引的資料表空間。若未指定，會參考 [default_tablespace](../../server-administration/runtime-config/runtime-config-client.md#GUC-DEFAULT-TABLESPACE)；若為暫存資料表上的索引，則參考 [temp_tablespaces](../../server-administration/runtime-config/runtime-config-client.md#GUC-TEMP-TABLESPACES)。
@@ -121,7 +121,7 @@ PostgreSQL 提供 B-tree、hash、GiST、SP-GiST、GIN 與 BRIN 等索引方法�
 
 <a id="SQL-CREATEINDEX-STORAGE-PARAMETERS"></a>
 
-### 索引儲存參數
+### 索引儲存參數 [#](#suo-yin-chu-cun-can-shu) <a href="#suo-yin-chu-cun-can-shu" id="suo-yin-chu-cun-can-shu"></a>
 
 選擇性的 `WITH` 子句為索引指定*儲存參數*。每種索引方法都有自己一組允許的儲存參數。
 
@@ -192,7 +192,7 @@ BRIN 索引接受這些參數：
 
 <a id="SQL-CREATEINDEX-CONCURRENTLY"></a>
 
-### 並行建立索引
+### 並行建立索引 [#](#bing-xing-jian-li-suo-yin) <a href="#bing-xing-jian-li-suo-yin" id="bing-xing-jian-li-suo-yin"></a>
 
 <a id="id-1.9.3.69.6.4.2"></a>
 

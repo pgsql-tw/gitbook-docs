@@ -43,7 +43,7 @@ EXECUTE name [ ( parameter [, ...] ) ]
 
 ## 範例
 
-範例收錄於 [PREPARE](sql-prepare.md) 文件的[範例](sql-prepare.md#SQL-PREPARE-EXAMPLES)一節中。
+範例收錄於 [PREPARE](sql-prepare.md) 文件的[範例](sql-prepare.md#fan-li)一節中。
 
 <a id="id-1.9.3.147.10"></a>
 

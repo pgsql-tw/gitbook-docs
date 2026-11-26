@@ -649,7 +649,7 @@ EXTENSION` 能夠自動依循更新鏈。
 而非建立時進行的。
 
 [`CREATE
-FUNCTION`](../../reference/sql-commands/sql-createfunction.md#SQL-CREATEFUNCTION-SECURITY) 參考頁面，
+FUNCTION`](../../reference/sql-commands/sql-createfunction.md#an-quan-di-zhuan-xie-security-definer-han-shi) 參考頁面，
 包含了關於如何安全地撰寫 `SECURITY DEFINER`
 函式的建議。對於擴充功能所提供的任何函式，
 都適合套用這些技巧，因為該函式，

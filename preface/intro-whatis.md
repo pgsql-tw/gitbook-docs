@@ -9,7 +9,7 @@ PostgreSQL 是這份柏克萊原始程式碼的開放原始碼後裔。它支援
 * [複雜查詢](../the-sql-language/README.md)
 * [外鍵](../the-sql-language/ddl/ddl-constraints.md#ddl-constraints-fk)
 * [觸發程序](../server-programming/triggers/README.md)
-* [可更新的檢視表](../reference/sql-commands/sql-createview.md#SQL-CREATEVIEW-UPDATABLE-VIEWS)
+* [可更新的檢視表](../reference/sql-commands/sql-createview.md#ke-geng-xin-de-jian-shi-biao)
 * [交易完整性](../the-sql-language/mvcc/transaction-iso.md)
 * [多版本並行控制](../the-sql-language/mvcc/README.md)
 

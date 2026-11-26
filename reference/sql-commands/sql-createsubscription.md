@@ -58,7 +58,7 @@ CREATE SUBSCRIPTION subscription_name
 
 <a id="SQL-CREATESUBSCRIPTION-NOTES"></a>
 
-## 注意事項
+## 注意事項 [#](#zhu-yi-shi-xiang) <a href="#zhu-yi-shi-xiang" id="zhu-yi-shi-xiang"></a>
 
 關於如何設定訂閱與發佈執行個體之間的存取控制，詳情請參閱[第 29.11 節](../../server-administration/logical-replication/logical-replication-security.md)。
 

@@ -56,7 +56,7 @@ comparison-value operator indexed-column
 
 那麼只要原本的 *`operator`* 有一個屬於該索引之運算子類別成員的交換運算子（commutator），就可以把它翻轉成可索引的形式。
 
-在大型資料表上建立索引可能需要很長的時間。預設情況下，PostgreSQL 允許在建立索引的同時，對該資料表進行讀取（`SELECT` 陳述式），但寫入（`INSERT`、`UPDATE`、`DELETE`）會被阻擋，直到索引建置完成為止。在正式環境中，這通常是無法接受的。可以讓寫入與索引建立同時進行，但有幾項需要注意的事項——更多資訊請參閱[並行建立索引](../../reference/sql-commands/sql-createindex.md#SQL-CREATEINDEX-CONCURRENTLY)。
+在大型資料表上建立索引可能需要很長的時間。預設情況下，PostgreSQL 允許在建立索引的同時，對該資料表進行讀取（`SELECT` 陳述式），但寫入（`INSERT`、`UPDATE`、`DELETE`）會被阻擋，直到索引建置完成為止。在正式環境中，這通常是無法接受的。可以讓寫入與索引建立同時進行，但有幾項需要注意的事項——更多資訊請參閱[並行建立索引](../../reference/sql-commands/sql-createindex.md#bing-xing-jian-li-suo-yin)。
 
 索引建立之後，系統必須讓它與資料表保持同步。這會為資料操作帶來額外負擔。索引也可能妨礙[僅存於 heap 的 tuple](../../internals/storage/storage-hot.md)（heap-only tuple，HOT）的建立。因此，在查詢中很少使用或從未使用的索引應該移除。
 

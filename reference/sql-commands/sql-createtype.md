@@ -108,7 +108,7 @@ CREATE TYPE name
 
 選用的 *`analyze_function`* 會為該資料型別的欄位執行特定於型別的統計資料收集。預設情況下，若該型別有預設的 b-tree 運算子類別，`ANALYZE` 會嘗試使用該型別的「等於」與「小於」運算子來收集統計資料。對於非純量型別，這種行為很可能不適用，因此可以指定自訂的分析函式來覆寫它。分析函式必須宣告為接受單一個 `internal` 型別的引數，並回傳 `boolean` 結果。分析函式的詳細 API 請見 `src/include/commands/vacuum.h`。
 
-選用的 *`subscript_function`* 允許在 SQL 命令中對該資料型別使用下標。指定此函式並不會使該型別被視為「真正的」陣列型別；例如，它不會成為 `ARRAY[]` 建構式結果型別的候選。但若對該型別的值使用下標，是從中擷取資料的自然表示法，就可以撰寫 *`subscript_function`* 來定義其意義。下標函式必須宣告為接受單一個 `internal` 型別的引數，並回傳 `internal` 結果，該結果是一個指向方法（函式）結構的指標，這些方法實作了下標操作。下標函式的詳細 API 請見 `src/include/nodes/subscripting.h`。閱讀 `src/backend/utils/adt/arraysubs.c` 中的陣列實作，或 `contrib/hstore/hstore_subs.c` 中較簡單的程式碼，也可能有所幫助。更多資訊請見下方的[陣列型別](sql-createtype.md#SQL-CREATETYPE-ARRAY)。
+選用的 *`subscript_function`* 允許在 SQL 命令中對該資料型別使用下標。指定此函式並不會使該型別被視為「真正的」陣列型別；例如，它不會成為 `ARRAY[]` 建構式結果型別的候選。但若對該型別的值使用下標，是從中擷取資料的自然表示法，就可以撰寫 *`subscript_function`* 來定義其意義。下標函式必須宣告為接受單一個 `internal` 型別的引數，並回傳 `internal` 結果，該結果是一個指向方法（函式）結構的指標，這些方法實作了下標操作。下標函式的詳細 API 請見 `src/include/nodes/subscripting.h`。閱讀 `src/backend/utils/adt/arraysubs.c` 中的陣列實作，或 `contrib/hstore/hstore_subs.c` 中較簡單的程式碼，也可能有所幫助。更多資訊請見下方的[陣列型別](sql-createtype.md#zhen-lie-xing-bie)。
 
 雖然新型別內部表示形式的細節只有輸入／輸出函式以及你為處理該型別而建立的其他函式知道，但內部表示形式有幾項屬性必須向 PostgreSQL 宣告。其中最重要的是 *`internallength`*。基礎資料型別可以是固定長度，此時 *`internallength`* 為正整數；也可以是變動長度，以將 *`internallength`* 設為 `VARIABLE` 來表示。（在內部，這是以將 `typlen` 設為 -1 來表示。）所有變動長度型別的內部表示形式，都必須以一個 4 位元組整數開頭，表示該型別這個值的總長度。（請注意，長度欄位經常經過編碼，如[第 66.2 節](../../internals/storage/storage-toast.md)所述；直接存取它並不明智。）
 
@@ -126,7 +126,7 @@ CREATE TYPE name
 
 若使用者希望該資料型別的欄位預設為 null 值以外的其他值，可以指定預設值。使用 `DEFAULT` 關鍵字指定預設值。（這種預設值可以被附加在特定欄位上的明確 `DEFAULT` 子句覆寫。）
 
-若要表示某個型別是固定長度的陣列型別，請使用 `ELEMENT` 關鍵字指定陣列元素的型別。例如，若要定義 4 位元組整數（`int4`）的陣列，請指定 `ELEMENT = int4`。更多細節請參閱下方的[陣列型別](sql-createtype.md#SQL-CREATETYPE-ARRAY)。
+若要表示某個型別是固定長度的陣列型別，請使用 `ELEMENT` 關鍵字指定陣列元素的型別。例如，若要定義 4 位元組整數（`int4`）的陣列，請指定 `ELEMENT = int4`。更多細節請參閱下方的[陣列型別](sql-createtype.md#zhen-lie-xing-bie)。
 
 若要指定此型別之陣列的外部表示形式中，值與值之間所使用的分隔符號，可以將 *`delimiter`* 設定為特定字元。預設的分隔符號是逗號（`,`）。請注意，分隔符號是與陣列元素型別相關聯，而不是與陣列型別本身相關聯。
 
@@ -134,7 +134,7 @@ CREATE TYPE name
 
 <a id="SQL-CREATETYPE-ARRAY"></a>
 
-### 陣列型別
+### 陣列型別 [#](#zhen-lie-xing-bie) <a href="#zhen-lie-xing-bie" id="zhen-lie-xing-bie"></a>
 
 每當建立使用者自訂型別時，PostgreSQL 都會自動建立一個相關聯的陣列型別，其名稱由元素型別的名稱前面加上底線構成，並在必要時截斷，使其長度小於 `NAMEDATALEN` 個位元組。（若如此產生的名稱與現有的型別名稱衝突，則會重複此過程，直到找到不衝突的名稱為止。）這個隱含建立的陣列型別是變動長度，並使用內建的輸入與輸出函式 `array_in` 與 `array_out`。此外，系統在處理該使用者自訂型別上的 `ARRAY[]` 等建構式時，所使用的就是這個型別。陣列型別會追蹤其元素型別之擁有者或綱要的任何變更，且若元素型別被移除，陣列型別也會被移除。
 

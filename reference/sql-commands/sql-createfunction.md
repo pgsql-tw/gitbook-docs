@@ -124,7 +124,7 @@ CREATE [ OR REPLACE ] FUNCTION
 
 `[EXTERNAL] SECURITY INVOKER`<br>`[EXTERNAL] SECURITY DEFINER`
 
-`SECURITY INVOKER` 表示函式要以呼叫它之使用者的權限執行。這是預設值。`SECURITY DEFINER` 指定函式要以擁有它之使用者的權限執行。關於如何安全地撰寫 `SECURITY DEFINER` 函式，[請參閱下文](sql-createfunction.md#SQL-CREATEFUNCTION-SECURITY)。
+`SECURITY INVOKER` 表示函式要以呼叫它之使用者的權限執行。這是預設值。`SECURITY DEFINER` 指定函式要以擁有它之使用者的權限執行。關於如何安全地撰寫 `SECURITY DEFINER` 函式，[請參閱下文](sql-createfunction.md#an-quan-di-zhuan-xie-security-definer-han-shi)。
 
 關鍵字 `EXTERNAL` 是為了符合 SQL 而允許使用，但它是選擇性的，因為與 SQL 不同，此功能適用於所有函式，而不只是外部函式。
 
@@ -296,7 +296,7 @@ SELECT * FROM dup(42);
 
 <a id="SQL-CREATEFUNCTION-SECURITY"></a>
 
-## 安全地撰寫 `SECURITY DEFINER` 函式
+## 安全地撰寫 `SECURITY DEFINER` 函式 [#](#an-quan-di-zhuan-xie-security-definer-han-shi) <a href="#an-quan-di-zhuan-xie-security-definer-han-shi" id="an-quan-di-zhuan-xie-security-definer-han-shi"></a>
 
 <a id="id-1.9.3.67.10.2"></a><a id="id-1.9.3.67.10.3"></a>
 

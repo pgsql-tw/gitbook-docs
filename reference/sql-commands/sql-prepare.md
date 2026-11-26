@@ -67,7 +67,7 @@ EXPLAIN EXECUTE name(parameter_values);
 
 <a id="SQL-PREPARE-EXAMPLES"></a>
 
-## 範例
+## 範例 [#](#fan-li) <a href="#fan-li" id="fan-li"></a>
 
 為 `INSERT` 陳述式建立一個預備陳述式，然後執行它：
 

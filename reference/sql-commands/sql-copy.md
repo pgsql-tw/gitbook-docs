@@ -145,7 +145,7 @@ PostgreSQL 使用者執行。指定
     `csv`（逗號分隔值，Comma Separated Values）
     或 `binary`。
     預設為 `text`。
-    詳情請參閱下方的[檔案格式](sql-copy.md#SQL-COPY-FILE-FORMATS)。
+    詳情請參閱下方的[檔案格式](sql-copy.md#dang-an-ge-shi)。
 
 `FREEZE`
 
@@ -447,7 +447,7 @@ PostgreSQL 安裝，
 
 <a id="SQL-COPY-FILE-FORMATS"></a>
 
-## 檔案格式
+## 檔案格式 [#](#dang-an-ge-shi) <a href="#dang-an-ge-shi" id="dang-an-ge-shi"></a>
 
 <a id="SQL-COPY-TEXT-FORMAT"></a>
 
