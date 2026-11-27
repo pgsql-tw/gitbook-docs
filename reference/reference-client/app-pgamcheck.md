@@ -34,38 +34,38 @@ pg_amcheck 支援對一個或多個資料庫執行 [amcheck](../../appendixes/co
 :   檢查所有資料庫，但透過 `--exclude-database` 排除的資料庫除外。
 
 `-d pattern`<br>`--database=pattern`
-:   檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料庫，但被 `--exclude-database` 排除的資料庫除外。此選項可以指定超過一次。
+:   檢查符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的資料庫，但被 `--exclude-database` 排除的資料庫除外。此選項可以指定超過一次。
 
 `-D pattern`<br>`--exclude-database=pattern`
-:   排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料庫。此選項可以指定超過一次。
+:   排除符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的資料庫。此選項可以指定超過一次。
 
 `-i pattern`<br>`--index=pattern`
 
-檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的索引，除非它們以其他方式被排除。此選項可以指定超過一次。
+檢查符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的索引，除非它們以其他方式被排除。此選項可以指定超過一次。
 
 這類似於 `--relation` 選項，差別在於它只適用於索引，而不適用於其他關聯類型。
 
 `-I pattern`<br>`--exclude-index=pattern`
 
-排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的索引。此選項可以指定超過一次。
+排除符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的索引。此選項可以指定超過一次。
 
 這類似於 `--exclude-relation` 選項，差別在於它只適用於索引，而不適用於其他關聯類型。
 
 `-r pattern`<br>`--relation=pattern`
 
-檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的關聯，除非它們以其他方式被排除。此選項可以指定超過一次。
+檢查符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的關聯，除非它們以其他方式被排除。此選項可以指定超過一次。
 
 樣式可以不加限定，例如 `myrel*`；也可以以綱要限定，例如 `myschema*.myrel*`；或同時以資料庫與綱要限定，例如 `mydb*.myschema*.myrel*`。以資料庫限定的樣式會將符合的資料庫加入要檢查的資料庫清單中。
 
 `-R pattern`<br>`--exclude-relation=pattern`
 
-排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的關聯。此選項可以指定超過一次。
+排除符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的關聯。此選項可以指定超過一次。
 
-與 `--relation` 一樣，[*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 可以不加限定、以綱要限定，或同時以資料庫與綱要限定。
+與 `--relation` 一樣，[*`pattern`*](app-psql-patterns.md#app-psql-patterns) 可以不加限定、以綱要限定，或同時以資料庫與綱要限定。
 
 `-s pattern`<br>`--schema=pattern`
 
-檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 之綱要中的資料表與索引，除非它們以其他方式被排除。此選項可以指定超過一次。
+檢查符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 之綱要中的資料表與索引，除非它們以其他方式被排除。此選項可以指定超過一次。
 
 若只要選擇符合特定樣式之綱要中的資料表，可以考慮使用類似 `--table=SCHEMAPAT.* --no-dependent-indexes` 的寫法。若只要選擇索引，可以考慮使用類似 `--index=SCHEMAPAT.*` 的寫法。
 
@@ -73,19 +73,19 @@ pg_amcheck 支援對一個或多個資料庫執行 [amcheck](../../appendixes/co
 
 `-S pattern`<br>`--exclude-schema=pattern`
 
-排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 之綱要中的資料表與索引。此選項可以指定超過一次。
+排除符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 之綱要中的資料表與索引。此選項可以指定超過一次。
 
 與 `--schema` 一樣，此樣式可以用資料庫限定。
 
 `-t pattern`<br>`--table=pattern`
 
-檢查符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料表，除非它們以其他方式被排除。此選項可以指定超過一次。
+檢查符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的資料表，除非它們以其他方式被排除。此選項可以指定超過一次。
 
 這類似於 `--relation` 選項，差別在於它只適用於資料表、具體化檢視表與序列，而不適用於索引。
 
 `-T pattern`<br>`--exclude-table=pattern`
 
-排除符合指定 [*`pattern`*](app-psql.md#APP-PSQL-PATTERNS) 的資料表。此選項可以指定超過一次。
+排除符合指定 [*`pattern`*](app-psql-patterns.md#app-psql-patterns) 的資料表。此選項可以指定超過一次。
 
 這類似於 `--exclude-relation` 選項，差別在於它只適用於資料表、具體化檢視表與序列，而不適用於索引。
 

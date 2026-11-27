@@ -94,7 +94,7 @@ pg_dumpall 需要多次連線到 PostgreSQL 伺服器（每個資料庫一次）
 目前，為 `--disable-triggers` 所發出的命令必須以超級使用者身分執行。因此，你也應該使用 `-S` 指定超級使用者名稱，或者最好小心地以超級使用者身分啟動產生的腳本。
 
 `--exclude-database=pattern`
-:   不傾印名稱符合 *`pattern`* 的資料庫。可以寫多個 `--exclude-database` 開關來排除多個樣式。*`pattern`* 參數會依照與 psql 的 `\d` 命令相同的規則解讀為樣式（請參閱[樣式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在樣式中寫入萬用字元來排除多個資料庫。使用萬用字元時，若有需要，請小心為樣式加上引號，以防止 shell 展開萬用字元。
+:   不傾印名稱符合 *`pattern`* 的資料庫。可以寫多個 `--exclude-database` 開關來排除多個樣式。*`pattern`* 參數會依照與 psql 的 `\d` 命令相同的規則解讀為樣式（請參閱[樣式](app-psql-patterns.md#app-psql-patterns)），因此也可以在樣式中寫入萬用字元來排除多個資料庫。使用萬用字元時，若有需要，請小心為樣式加上引號，以防止 shell 展開萬用字元。
 
 `--extra-float-digits=ndigits`
 :   傾印浮點數資料時，使用指定的 extra_float_digits 值，而不是可用的最大精確度。為備份目的而進行的例行傾印不應該使用此選項。
@@ -110,7 +110,7 @@ pg_dumpall 需要多次連線到 PostgreSQL 伺服器（每個資料庫一次）
     exclude database PATTERN
 ```
 
-以 `#` 開頭的行會被視為註解並忽略。註解也可以放在物件樣式行之後。空白行也會被忽略。關於如何在樣式中加上引號，請參閱[樣式](app-psql.md#APP-PSQL-PATTERNS)。
+以 `#` 開頭的行會被視為註解並忽略。註解也可以放在物件樣式行之後。空白行也會被忽略。關於如何在樣式中加上引號，請參閱[樣式](app-psql-patterns.md#app-psql-patterns)。
 
 `--if-exists`
 :   在 `--clean` 模式中使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。

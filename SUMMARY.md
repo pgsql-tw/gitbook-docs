@@ -740,6 +740,7 @@
     * [pg\_verifybackup](reference/reference-client/app-pgverifybackup.md)
     * [psql](reference/reference-client/app-psql.md)
       * [psql：\pset 列印選項](reference/reference-client/app-psql-print-options.md)
+      * [psql：模式](reference/reference-client/app-psql-patterns.md)
     * [reindexdb](reference/reference-client/app-reindexdb.md)
     * [vacuumdb](reference/reference-client/app-vacuumdb.md)
     * [pgbench](reference/reference-client/pgbench.md)

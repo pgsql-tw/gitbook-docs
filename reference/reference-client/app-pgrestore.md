@@ -198,7 +198,7 @@ pg_restore 接受下列命令列引數。
 * `table`：資料表，作用如同 `-t`/`--table` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
 * `trigger`：觸發程序，作用如同 `-T`/`--trigger` 選項。此關鍵字只能與 `include` 關鍵字一起使用。
 
-以 `#` 開頭的行會被視為註解並被忽略。註解也可以放在物件模式行之後。空白行也會被忽略。關於如何在模式中進行引用，請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)。
+以 `#` 開頭的行會被視為註解並被忽略。註解也可以放在物件模式行之後。空白行也會被忽略。關於如何在模式中進行引用，請參閱[模式](app-psql-patterns.md#app-psql-patterns)。
 
 `--if-exists`
 :   在 `--clean` 模式下，使用 `DROP ... IF EXISTS` 命令移除物件。這會抑制原本可能回報的「does not exist」錯誤。除非同時指定了 `--clean`，否則此選項無效。

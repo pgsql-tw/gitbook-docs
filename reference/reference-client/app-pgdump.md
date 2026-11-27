@@ -74,7 +74,7 @@ pg_dump 只會傾印單一資料庫。若要匯出整個叢集，或匯出叢集
 
 `-e pattern`<br>`--extension=pattern`
 
-只傾印符合 *`pattern`* 的擴充功能。未指定此選項時，會傾印目標資料庫中所有的非系統擴充功能。可以寫多個 `-e` 選項來選擇多個擴充功能。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個擴充功能。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元。
+只傾印符合 *`pattern`* 的擴充功能。未指定此選項時，會傾印目標資料庫中所有的非系統擴充功能。可以寫多個 `-e` 選項來選擇多個擴充功能。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql-patterns.md#app-psql-patterns)），因此也可以在模式中寫入萬用字元來選擇多個擴充功能。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元。
 
 若某個擴充功能經由 `--extension` 指定，則由 `pg_extension_config_dump` 註冊的任何該擴充功能之組態關聯都會包含在傾印中。
 
@@ -122,7 +122,7 @@ pg_dump 會開啟 *`njobs`* + 1 個資料庫連線，因此請確認你的 [max_
 
 `-n pattern`<br>`--schema=pattern`
 
-只傾印符合 *`pattern`* 的綱要；這會同時選擇綱要本身及其包含的所有物件。未指定此選項時，會傾印目標資料庫中所有的非系統綱要。可以寫多個 `-n` 選項來選擇多個綱要。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個綱要。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。
+只傾印符合 *`pattern`* 的綱要；這會同時選擇綱要本身及其包含的所有物件。未指定此選項時，會傾印目標資料庫中所有的非系統綱要。可以寫多個 `-n` 選項來選擇多個綱要。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql-patterns.md#app-psql-patterns)），因此也可以在模式中寫入萬用字元來選擇多個綱要。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。
 
 <a id="id-1.9.4.14.6.3.12.2.2"></a>
 
@@ -166,7 +166,7 @@ pg_dump 會開啟 *`njobs`* + 1 個資料庫連線，因此請確認你的 [max_
 
 `-t pattern`<br>`--table=pattern`
 
-只傾印名稱符合 *`pattern`* 的資料表。可以寫多個 `-t` 選項來選擇多個資料表。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個資料表。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。
+只傾印名稱符合 *`pattern`* 的資料表。可以寫多個 `-t` 選項來選擇多個資料表。*`pattern`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql-patterns.md#app-psql-patterns)），因此也可以在模式中寫入萬用字元來選擇多個資料表。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。
 
 除了資料表之外，此選項也可以用來傾印符合之檢視表、具體化檢視表、外部資料表與序列的定義。它不會傾印檢視表或具體化檢視表的內容，而外部資料表的內容只有在以 `--include-foreign-data` 指定了對應的外部伺服器時才會被傾印。
 
@@ -271,7 +271,7 @@ tar 封存格式目前完全不支援壓縮。
 * `table_data_and_children`：符合 *`pattern`* 之任何資料表的資料表資料，以及這些資料表之任何分割區或繼承子資料表的資料表資料。作用如同 `--exclude-table-data-and-children` 選項。此關鍵字只能與 `exclude` 關鍵字一起使用。
 * `schema`：綱要。作用如同 `-n`/`--schema` 或 `-N`/`--exclude-schema` 選項。
 
-以 `#` 開頭的行會被視為註解而忽略。註解也可以放在物件模式那一列的後面。空白行同樣會被忽略。關於如何在模式中使用引號，請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)。
+以 `#` 開頭的行會被視為註解而忽略。註解也可以放在物件模式那一列的後面。空白行同樣會被忽略。關於如何在模式中使用引號，請參閱[模式](app-psql-patterns.md#app-psql-patterns)。
 
 範例檔案列於下文的[範例](app-pgdump.md#fan-li)一節。
 
@@ -280,7 +280,7 @@ tar 封存格式目前完全不支援壓縮。
 
 `--include-foreign-data=foreignserver`
 
-傾印外部伺服器符合 *`foreignserver`* 模式之任何外部資料表的資料。可以寫多個 `--include-foreign-data` 選項來選擇多個外部伺服器。此外，*`foreignserver`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)），因此也可以在模式中寫入萬用字元來選擇多個外部伺服器。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。唯一的例外是不允許空的模式。
+傾印外部伺服器符合 *`foreignserver`* 模式之任何外部資料表的資料。可以寫多個 `--include-foreign-data` 選項來選擇多個外部伺服器。此外，*`foreignserver`* 參數會依照 psql 的 `\d` 命令所使用的相同規則解譯為模式（請參閱[模式](app-psql-patterns.md#app-psql-patterns)），因此也可以在模式中寫入萬用字元來選擇多個外部伺服器。使用萬用字元時，必要時請小心為模式加上引號，以免 shell 展開萬用字元；請參閱下文的[範例](app-pgdump.md#fan-li)。唯一的例外是不允許空的模式。
 
 <a id="id-1.9.4.14.6.3.36.2.2"></a>
 
@@ -575,7 +575,7 @@ $ pg_dump -n '(east|west)*gsm' -N '*test*' mydb > db.sql
 $ pg_dump -T 'ts_*' mydb > db.sql
 ```
 
-若要在 `-t` 及相關選項中指定大寫或大小寫混合的名稱，你需要為名稱加上雙引號；否則名稱會被轉為小寫（請參閱[模式](app-psql.md#APP-PSQL-PATTERNS)）。但雙引號對 shell 而言是特殊字元，因此它們本身也必須加上引號。因此，若要傾印名稱大小寫混合的單一資料表，你需要類似這樣的寫法：
+若要在 `-t` 及相關選項中指定大寫或大小寫混合的名稱，你需要為名稱加上雙引號；否則名稱會被轉為小寫（請參閱[模式](app-psql-patterns.md#app-psql-patterns)）。但雙引號對 shell 而言是特殊字元，因此它們本身也必須加上引號。因此，若要傾印名稱大小寫混合的單一資料表，你需要類似這樣的寫法：
 
 ```
 

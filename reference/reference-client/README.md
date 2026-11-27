@@ -52,7 +52,7 @@
 
 [psql](app-psql.md) — PostgreSQL 互動式終端機
 
-相關子頁：[psql：\pset 列印選項](app-psql-print-options.md)。
+相關子頁：[psql：\pset 列印選項](app-psql-print-options.md)、[psql：模式](app-psql-patterns.md)。
 
 [reindexdb](app-reindexdb.md) — 重建 PostgreSQL 資料庫的索引
 
